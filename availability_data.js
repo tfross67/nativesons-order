@@ -46,7 +46,8 @@ window.AVAILABILITY = {
       "flower_time": "Summer - Fall",
       "origin": "Garden hybrid",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/abelia-x-grandiflora-kaleidoscope"
     },
     {
       "botanical": "Abelia x grandiflora 'Radiance'",
@@ -68,7 +69,8 @@ window.AVAILABILITY = {
       "flower_time": "Summer - Fall",
       "origin": "Garden hybrid",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/abelia-x-grandiflora-radiance"
     },
     {
       "botanical": "Acacia vestita",
@@ -86,7 +88,8 @@ window.AVAILABILITY = {
       "flower_time": "Spring",
       "origin": "Australia",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/acacia-vestita"
     },
     {
       "botanical": "Acanthus 'Whitewater'",
@@ -104,7 +107,8 @@ window.AVAILABILITY = {
       "flower_time": "Summer",
       "origin": "Mediterranean",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/acanthus-whitewater"
     },
     {
       "botanical": "Achillea 'Moonshine'",
@@ -123,6 +127,8 @@ window.AVAILABILITY = {
       "origin": "Garden hybrid",
       "bloom": false,
       "bud": true
+    ,
+      "nativeson_url": "https://www.nativeson.com/product/achillea-moonshine"
     },
     {
       "botanical": "Achillea millefolium 'Alba'",
@@ -140,7 +146,8 @@ window.AVAILABILITY = {
       "flower_time": "Summer - Fall",
       "origin": "Garden hybrid",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/achillea-millefolium-alba"
     },
     {
       "botanical": "Achillea millefolium 'Pomegranate'",
@@ -159,6 +166,8 @@ window.AVAILABILITY = {
       "origin": "Garden hybrid",
       "bloom": false,
       "bud": true
+    ,
+      "nativeson_url": "https://www.nativeson.com/product/achillea-millefolium-pomegranate"
     },
     {
       "botanical": "Achillea millefolium 'Rosa Maria'",
@@ -177,6 +186,8 @@ window.AVAILABILITY = {
       "origin": "Garden hybrid",
       "bloom": false,
       "bud": true
+    ,
+      "nativeson_url": "https://www.nativeson.com/product/achillea-millefolium-rosa-maria"
     },
     {
       "botanical": "Achillea millefolium 'Sonoma Coast'",
@@ -194,7 +205,8 @@ window.AVAILABILITY = {
       "flower_time": "Summer - Fall",
       "origin": "California",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/achillea-millefolium-sonoma-coast"
     },
     {
       "botanical": "Achillea millefolium Milly Rock™ 'Red'",
@@ -212,7 +224,8 @@ window.AVAILABILITY = {
       "flower_time": "Spring - Summer - Fall",
       "origin": "Garden hybrid",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/achillea-millefolium-milly-rocktm-red"
     },
     {
       "botanical": "Achillea millefolium ‘Island Pink’",
@@ -230,7 +243,8 @@ window.AVAILABILITY = {
       "flower_time": "Spring - Summer - Fall",
       "origin": "California (Channel Islands)",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/achillea-millefolium-calistoga"
     },
     {
       "botanical": "Achillea millefolium ‘Paprika’",
@@ -248,7 +262,8 @@ window.AVAILABILITY = {
       "flower_time": "Spring - Summer",
       "origin": "Galaxy Series hybrid",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/achillea-millefolium-calistoga"
     },
     {
       "botanical": "Adenanthos 'Silver Haze'",
@@ -302,7 +317,8 @@ window.AVAILABILITY = {
       "flower_time": "Summer",
       "origin": "Garden hybrid",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/agastache-kudostm-silver-blue"
     },
     {
       "botanical": "Agastache ‘Blue Fortune’",
@@ -320,7 +336,8 @@ window.AVAILABILITY = {
       "flower_time": "Spring - Summer",
       "origin": "North America, China, Japan",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/agastache-blue-fortune"
     },
     {
       "botanical": "Agave 'Blue Glow'",
@@ -342,7 +359,8 @@ window.AVAILABILITY = {
       "flower_time": "N/A",
       "origin": "Mexico",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/agave-blue-ember"
     },
     {
       "botanical": "Agave 'Blue Waves'",
@@ -360,7 +378,8 @@ window.AVAILABILITY = {
       "flower_time": "N/A",
       "origin": "Garden hybrid",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/agave-blue-ember"
     },
     {
       "botanical": "Agave 'Little Penguins'",
@@ -414,7 +433,8 @@ window.AVAILABILITY = {
       "flower_time": "",
       "origin": "",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/agave-shawii"
     },
     {
       "botanical": "Ajuga reptans ‘Burgundy Glow’",
@@ -434,6 +454,8 @@ window.AVAILABILITY = {
       "bloom": false,
       "bud": false,
       "native": false
+    ,
+      "nativeson_url": "https://www.nativeson.com/product/ajuga-reptans-silver-queen"
     },
     {
       "botanical": "Ajuga reptans ‘Rainbow’",
@@ -453,6 +475,8 @@ window.AVAILABILITY = {
       "bloom": false,
       "bud": false,
       "native": false
+    ,
+      "nativeson_url": "https://www.nativeson.com/product/ajuga-reptans-silver-queen"
     },
     {
       "botanical": "Ajuga ‘Black Scallop’",
@@ -548,7 +572,8 @@ window.AVAILABILITY = {
       "flower_time": "Spring - Summer - Fall - Winter",
       "origin": "Garden hybrid",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/anisodontea-elegant-lady"
     },
     {
       "botanical": "Arabis ferdinandi-coburgi ‘Old Gold’",
@@ -585,7 +610,8 @@ window.AVAILABILITY = {
       "flower_time": "Fall - Winter",
       "origin": "Garden hybrid",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/arctostaphylos-glauca"
     },
     {
       "botanical": "Arctostaphylos manzanita 'Sebastopol White'",
@@ -607,7 +633,8 @@ window.AVAILABILITY = {
       "flower_time": "Winter",
       "origin": "California",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/arctostaphylos-manzanita-sebastopol-white"
     },
     {
       "botanical": "Arctostaphylos x media 'Peter Ehrlich'",
@@ -625,7 +652,8 @@ window.AVAILABILITY = {
       "flower_time": "Winter - Spring",
       "origin": "California",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/arctostaphylos-x-media-peter-ehrlich"
     },
     {
       "botanical": "Arctostaphylos ‘Emerald Carpet’",
@@ -789,7 +817,8 @@ window.AVAILABILITY = {
       "flower_time": "Spring - Summer - Fall",
       "origin": "Australia",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/callistemon-viminalis-slim"
     },
     {
       "botanical": "Calocedrus decurrens",
@@ -844,6 +873,8 @@ window.AVAILABILITY = {
       "origin": "Northwestern Mexico, Texas",
       "bloom": false,
       "bud": true
+    ,
+      "nativeson_url": "https://www.nativeson.com/product/calylophus-drummondii"
     },
     {
       "botanical": "Campanula garganica ‘Dickson’s Gold’",
@@ -861,7 +892,8 @@ window.AVAILABILITY = {
       "flower_time": "Summer",
       "origin": "Italy",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/campanula-garganica-dicksons-gold"
     },
     {
       "botanical": "Campanula garganica ‘Dickson’s Gold’",
@@ -881,6 +913,8 @@ window.AVAILABILITY = {
       "bloom": false,
       "bud": false,
       "native": false
+    ,
+      "nativeson_url": "https://www.nativeson.com/product/campanula-garganica-dicksons-gold"
     },
     {
       "botanical": "Campanula poscharskyana ‘Blue Gown’",
@@ -900,6 +934,8 @@ window.AVAILABILITY = {
       "bloom": true,
       "bud": false,
       "native": false
+    ,
+      "nativeson_url": "https://www.nativeson.com/product/campanula-poscharskyana-blue-waterfall"
     },
     {
       "botanical": "Campanula x ‘Birch Hybrid’",
@@ -919,6 +955,8 @@ window.AVAILABILITY = {
       "bloom": true,
       "bud": false,
       "native": false
+    ,
+      "nativeson_url": "https://www.nativeson.com/product/campanula-x-birch-hybrid"
     },
     {
       "botanical": "Carex divulsa 'Westfield'",
@@ -936,7 +974,8 @@ window.AVAILABILITY = {
       "flower_time": "Summer",
       "origin": "Europe",
       "bloom": false,
-      "bud": false
+      "bud": false,
+      "nativeson_url": "https://www.nativeson.com/product/carex-divulsa-westfield"
     },
     {
       "botanical": "Carex divulsa ‘Westfield’",
@@ -975,6 +1014,8 @@ window.AVAILABILITY = {
       "bloom": false,
       "bud": false,
       "native": false
+    ,
+      "nativeson_url": "https://www.nativeson.com/product/carex-flacca-blue-zinger"
     },
     {
       "botanical": "Carex praegracilis",
@@ -4904,5 +4945,6 @@ window.AVAILABILITY = {
       "bloom": false,
       "bud": false
     }
+  
   ]
 };

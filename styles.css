@@ -809,6 +809,21 @@ body { padding-bottom: 80px; }
 }
 .detail-badges { margin-top: 10px; }
 
+/* External link to native-sons.com plant page (when matched) */
+.detail-nativeson-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--c-clay);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--c-clay);
+  transition: color 0.15s, border-color 0.15s;
+}
+.detail-nativeson-link:hover {
+  color: var(--c-sage-deep);
+  border-bottom-color: var(--c-sage-deep);
+}
+
 .detail-specs {
   display: grid;
   grid-template-columns: max-content 1fr;

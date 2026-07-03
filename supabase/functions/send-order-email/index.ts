@@ -214,15 +214,18 @@ Deno.serve(async (req: Request) => {
 
   const results: { to: string; ok: boolean; error?: string }[] = [];
 
+  // TEMPORARY: allow browser to override office email for deliverability debug.
+  const officeRecipient = payload.debugOfficeEmail || OFFICE_EMAIL;
+
   // 1. Office email
   try {
     const office = buildEmail(order, items, false);
-    await sendEmail(OFFICE_EMAIL, office.subject, office.html, office.text);
-    results.push({ to: OFFICE_EMAIL, ok: true });
+    await sendEmail(officeRecipient, office.subject, office.html, office.text);
+    results.push({ to: officeRecipient, ok: true });
   } catch (err) {
     const msg = String(err);
     console.error(`Office email failed:`, msg);
-    results.push({ to: OFFICE_EMAIL, ok: false, error: msg });
+    results.push({ to: officeRecipient, ok: false, error: msg });
   }
 
   // 2. Customer email

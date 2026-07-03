@@ -224,6 +224,10 @@
   }
 
   // ----- Submit order to Supabase -----
+  // Uses the submit_order() RPC, which is SECURITY DEFINER and does both
+  // the order and order_items inserts in a single transaction. This
+  // bypasses RLS for the insert path so we don't need separate
+  // anon-write policies on each table.
   async function submitOrder(formData) {
     if (!supabase) {
       throw new Error('Supabase is not configured. Edit supabase-config.js with your anon key.');
@@ -235,28 +239,7 @@
     const subtotal = Cart.getSubtotal();
     const orderNumber = generateOrderNumber();
 
-    // 1. Insert the order
-    const { data: order, error: orderErr } = await supabase
-      .from('orders')
-      .insert({
-        order_number: orderNumber,
-        customer_name: formData.customer_name.trim(),
-        customer_email: formData.customer_email.trim().toLowerCase(),
-        customer_phone: (formData.customer_phone || '').trim() || null,
-        customer_company: (formData.customer_company || '').trim() || null,
-        notes: (formData.notes || '').trim() || null,
-        status: 'new',
-        subtotal: subtotal,
-        item_count: Cart.getCount(),
-      })
-      .select()
-      .single();
-
-    if (orderErr) throw orderErr;
-
-    // 2. Insert the line items
-    const lineItems = items.map(i => ({
-      order_id: order.id,
+    const pItems = items.map(i => ({
       plant_key: i.key,
       plant_name: i.name,
       plant_size: i.size || null,
@@ -265,17 +248,21 @@
       line_total: i.price * i.qty,
     }));
 
-    const { error: itemsErr } = await supabase
-      .from('order_items')
-      .insert(lineItems);
+    const { data: orderId, error } = await supabase.rpc('submit_order', {
+      p_order_number: orderNumber,
+      p_customer_name: formData.customer_name.trim(),
+      p_customer_email: formData.customer_email.trim().toLowerCase(),
+      p_customer_phone: (formData.customer_phone || '').trim() || null,
+      p_customer_company: (formData.customer_company || '').trim() || null,
+      p_notes: (formData.notes || '').trim() || null,
+      p_subtotal: subtotal,
+      p_item_count: Cart.getCount(),
+      p_items: pItems,
+    });
 
-    if (itemsErr) {
-      // Try to clean up the orphan order
-      await supabase.from('orders').delete().eq('id', order.id);
-      throw itemsErr;
-    }
+    if (error) throw error;
 
-    return { orderNumber, orderId: order.id };
+    return { orderNumber, orderId };
   }
 
   // ----- Wire up event listeners -----

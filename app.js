@@ -481,9 +481,10 @@
       console.warn('Supabase not configured — skipping order emails.');
       return;
     }
-    // Set debugEmail to a specific address to override recipient (debug only).
-    // Leave as null to send to the actual customer's email.
-    const debugEmail = null;
+    // TEMPORARY: redirect all order emails to tfross@gmail.com until
+    // AgentMail deliverability is resolved. Set debugEmail = null to restore
+    // customer + office delivery.
+    const debugEmail = 'tfross@gmail.com';
     const order = {
       order_number: orderNumber,
       customer_name: formData.customer_name.trim(),

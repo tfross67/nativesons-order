@@ -430,6 +430,153 @@
     return { orderNumber, orderId };
   }
 
+  // ----- Send order confirmation emails via AgentMail HTTP API -----
+  // Fires two emails in parallel: one to the office, one to the customer.
+  // Called fire-and-forget after submitOrder() succeeds so the customer isn't
+  // blocked on email latency. Errors are logged but don't affect order success.
+  async function sendOrderEmails(orderNumber, orderId, items, formData) {
+    const cfg2 = window.SUPABASE_CONFIG || {};
+    const apiKey = cfg2.agentmailApiKey;
+    const inbox = cfg2.agentmailInbox || 'afterimage@agentmail.to';
+    const officeEmail = cfg2.officeEmail || 'orders@nativeson.com';
+    if (!apiKey || apiKey === 'YOUR_AGENTMAIL_API_KEY_HERE') {
+      console.warn('AgentMail API key not configured — skipping order emails.');
+      return;
+    }
+
+    const order = {
+      order_number: orderNumber,
+      customer_name: formData.customer_name.trim(),
+      customer_email: formData.customer_email.trim().toLowerCase(),
+      customer_phone: (formData.customer_phone || '').trim() || null,
+      customer_company: (formData.customer_company || '').trim() || null,
+      notes: (formData.notes || '').trim() || null,
+      subtotal: Cart.getSubtotal(),
+      retail_subtotal: Cart.getRetailSubtotal(),
+      item_count: Cart.getCount(),
+    };
+
+    const fmt = (n) => (typeof n === 'number' ? n.toFixed(2) : '0.00');
+
+    const itemRowsHtml = items.map(i => `
+      <tr>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb;">${esc(i.name)}</td>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; color:#666;">${esc(i.size || '—')}</td>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right;">${i.qty}</td>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right;">$${fmt(i.price)}</td>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right;">$${fmt(i.price * i.qty)}</td>
+      </tr>`).join('');
+
+    const itemRowsText = items.map(i => `  - ${i.name}${i.size ? ` (${i.size})` : ''} × ${i.qty} = $${fmt(i.price * i.qty)}`).join('\n');
+
+    function build(toCustomer) {
+      const subject = toCustomer
+        ? `Order ${order.order_number} received — Native Sons`
+        : `New order ${order.order_number} from ${order.customer_name}`;
+      const intro = toCustomer
+        ? `<p>Hi ${esc(order.customer_name.split(' ')[0])} — we've received your order request. Our team will review availability and reach out to confirm pricing, pickup/delivery, and timing.</p>`
+        : `<p><strong>${esc(order.customer_name)}</strong> just placed an order via the website.</p>`;
+      const html = `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 640px; margin: 0 auto; color: #1f2a1c;">
+          <div style="background: #2d4a2b; color: white; padding: 24px; border-radius: 8px 8px 0 0;">
+            <h1 style="margin:0; font-size: 22px; font-weight: 600;">Native Sons Wholesale Nursery</h1>
+            <p style="margin: 4px 0 0; opacity: 0.85; font-size: 14px;">Order ${esc(order.order_number)}</p>
+          </div>
+          <div style="background: #f7f4ec; padding: 24px; border: 1px solid #e3dccb; border-top: 0;">
+            ${intro}
+            <table style="width:100%; border-collapse:collapse; margin: 20px 0; background: white; border: 1px solid #e3dccb; border-radius: 8px; overflow: hidden;">
+              <thead>
+                <tr style="background:#efe9da; color: #2d4a2b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;">
+                  <th style="padding:10px 12px; text-align:left;">Plant</th>
+                  <th style="padding:10px 12px; text-align:left;">Size</th>
+                  <th style="padding:10px 12px; text-align:right;">Qty</th>
+                  <th style="padding:10px 12px; text-align:right;">Unit</th>
+                  <th style="padding:10px 12px; text-align:right;">Line</th>
+                </tr>
+              </thead>
+              <tbody>${itemRowsHtml}</tbody>
+              <tfoot>
+                <tr style="background: #efe9da;">
+                  <td colspan="4" style="padding: 12px; text-align: right; font-weight: 600;">Subtotal (wholesale)</td>
+                  <td style="padding: 12px; text-align: right; font-weight: 700; font-size: 18px; color: #2d4a2b;">$${fmt(order.subtotal)}</td>
+                </tr>
+                ${order.retail_subtotal !== order.subtotal ? `
+                <tr style="background: #f7dde0;">
+                  <td colspan="4" style="padding: 12px; text-align: right; font-weight: 600;">Retail (for labels)</td>
+                  <td style="padding: 12px; text-align: right; font-weight: 700; font-size: 18px; color: #b85c38;">$${fmt(order.retail_subtotal)}</td>
+                </tr>` : ''}
+              </tfoot>
+            </table>
+            <table style="width:100%; font-size: 14px; color: #4a5546;">
+              <tr><td style="padding:4px 0; width:120px;"><strong>Name</strong></td><td>${esc(order.customer_name)}</td></tr>
+              <tr><td style="padding:4px 0;"><strong>Email</strong></td><td><a href="mailto:${esc(order.customer_email)}" style="color:#2d4a2b;">${esc(order.customer_email)}</a></td></tr>
+              ${order.customer_phone ? `<tr><td style="padding:4px 0;"><strong>Phone</strong></td><td><a href="tel:${esc(order.customer_phone)}" style="color:#2d4a2b;">${esc(order.customer_phone)}</a></td></tr>` : ''}
+              ${order.customer_company ? `<tr><td style="padding:4px 0;"><strong>Company</strong></td><td>${esc(order.customer_company)}</td></tr>` : ''}
+              ${order.notes ? `<tr><td style="padding:4px 0; vertical-align: top;"><strong>Notes</strong></td><td style="white-space: pre-wrap;">${esc(order.notes)}</td></tr>` : ''}
+            </table>
+            ${toCustomer
+              ? `<p style="margin-top:24px; font-size:14px; color:#4a5546;">Questions? Call 805.481.5996 or reply to this email.</p>
+                 <p style="font-size:12px; color:#8a8a7c; margin-top:24px;">Availability is updated weekly. Quantities are not held until confirmed by our office.</p>`
+              : `<p style="margin-top:24px; font-size:14px; color:#4a5546;">View in the Supabase dashboard to confirm availability and follow up with the customer.</p>`
+            }
+          </div>
+        </div>`;
+      const text = [
+        `Order ${order.order_number}`,
+        ``,
+        toCustomer ? `Hi ${order.customer_name.split(' ')[0]} — we received your order request.` : `New order from ${order.customer_name}.`,
+        ``,
+        `Items:`,
+        itemRowsText,
+        ``,
+        `Subtotal (wholesale): $${fmt(order.subtotal)}`,
+        order.retail_subtotal !== order.subtotal ? `Retail (for labels): $${fmt(order.retail_subtotal)}` : null,
+        ``,
+        `Name: ${order.customer_name}`,
+        `Email: ${order.customer_email}`,
+        order.customer_phone ? `Phone: ${order.customer_phone}` : null,
+        order.customer_company ? `Company: ${order.customer_company}` : null,
+        order.notes ? `Notes: ${order.notes}` : null,
+      ].filter(Boolean).join('\n');
+      return { subject, html, text };
+    }
+
+    async function sendOne(to) {
+      const { subject, html, text } = build(to === order.customer_email);
+      const res = await fetch(
+        `https://api.agentmail.to/v0/inboxes/${encodeURIComponent(inbox)}/messages/send`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ to, subject, html, text }),
+        }
+      );
+      if (!res.ok) {
+        const body = await res.text();
+        throw new Error(`AgentMail ${res.status} for ${to}: ${body}`);
+      }
+      return res.json().catch(() => ({}));
+    }
+
+    try {
+      await Promise.allSettled([
+        sendOne(officeEmail),
+        sendOne(order.customer_email),
+      ]).then(results => {
+        results.forEach((r, i) => {
+          const target = i === 0 ? officeEmail : order.customer_email;
+          if (r.status === 'fulfilled') console.log(`Order email sent to ${target}`);
+          else console.error(`Order email failed for ${target}:`, r.reason);
+        });
+      });
+    } catch (e) {
+      console.error('Order emails failed:', e);
+    }
+  }
+
   // ----- Wire up event listeners -----
   function attachListeners() {
     // Search
@@ -570,7 +717,9 @@
       submitOrderBtn.textContent = 'Submitting…';
 
       try {
-        const { orderNumber } = await submitOrder(formData);
+        const { orderNumber, orderId } = await submitOrder(formData);
+        // Fire-and-forget: send confirmation emails (office + customer)
+        sendOrderEmails(orderNumber, orderId, Cart.getItems(), formData);
         // Clear cart and go to confirmation
         Cart.clear();
         const params = new URLSearchParams({

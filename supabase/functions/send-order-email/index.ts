@@ -214,19 +214,15 @@ Deno.serve(async (req: Request) => {
 
   const results: { to: string; ok: boolean; error?: string }[] = [];
 
-  // TEMPORARY: office email disabled during AgentMail deliverability debug.
-  // To re-enable, remove the `if (false)` block and remove the surrounding guard.
-  if (false) {
-    // 1. Office email
-    try {
-      const office = buildEmail(order, items, false);
-      await sendEmail(OFFICE_EMAIL, office.subject, office.html, office.text);
-      results.push({ to: OFFICE_EMAIL, ok: true });
-    } catch (err) {
-      const msg = String(err);
-      console.error(`Office email failed:`, msg);
-      results.push({ to: OFFICE_EMAIL, ok: false, error: msg });
-    }
+  // 1. Office email
+  try {
+    const office = buildEmail(order, items, false);
+    await sendEmail(OFFICE_EMAIL, office.subject, office.html, office.text);
+    results.push({ to: OFFICE_EMAIL, ok: true });
+  } catch (err) {
+    const msg = String(err);
+    console.error(`Office email failed:`, msg);
+    results.push({ to: OFFICE_EMAIL, ok: false, error: msg });
   }
 
   // 2. Customer email

@@ -512,12 +512,14 @@
         body: fnPayload,
       });
       if (error) {
-        console.error('Edge function error:', error);
-        return;
+        console.error('[DIAG] Edge function invoke error:', error);
+        return { ok: false, error: 'invoke error: ' + (error.message || JSON.stringify(error)) };
       }
-      console.log('Order emails:', data);
+      console.log('[DIAG] Order emails response:', data);
+      return data || { ok: false, error: 'no data returned from function' };
     } catch (e) {
-      console.error('Order emails failed:', e);
+      console.error('[DIAG] Order emails threw:', e);
+      return { ok: false, error: 'exception: ' + (e && e.message ? e.message : String(e)) };
     }
   }
 

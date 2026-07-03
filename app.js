@@ -135,9 +135,9 @@
       if (p.bloom) badges.push('<span class="badge badge-bloom"><span class="dot"></span>In Bloom</span>');
       if (p.bud) badges.push('<span class="badge badge-bud"><span class="dot"></span>Budding</span>');
 
-      // Display name: botanical first, common name underneath (when present)
+      // Display name: botanical first (upright, sans), common name underneath (italic, serif)
       const displayName = p.botanical
-        ? `<span class="botanical" style="font-style:italic; font-family: var(--font-serif); font-weight: 500;">${esc(p.botanical)}</span>${p.common ? `<br><span class="common" style="font-size:14px; color:var(--c-ink-soft); font-style:normal; font-family: var(--font-sans); font-weight: 400; display: inline-block; margin-top: 2px;">${esc(p.common)}</span>` : ''}`
+        ? `<span class="plant-botanical">${esc(p.botanical)}</span>${p.common ? `<br><span class="plant-common">${esc(p.common)}</span>` : ''}`
         : esc(p.common);
 
       // Build the compact specs line. Only include fields that have values.

@@ -198,15 +198,29 @@ body { padding-bottom: 80px; }
 }
 
 .plant-name {
-  font-family: var(--font-serif);
-  font-size: 19px;
+  font-family: var(--font-sans);
+  font-size: 17px;
   font-weight: 600;
   line-height: 1.25;
-  color: var(--c-sage-deep);
+  color: var(--c-ink);
   margin: 0;
   letter-spacing: -0.005em;
 }
-.plant-name .genus { font-style: italic; }
+.plant-botanical {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.plant-common {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--c-sage-deep);
+  display: inline-block;
+  margin-top: 2px;
+}
 
 .badges { display: flex; gap: 6px; flex-wrap: wrap; }
 .badge {
@@ -795,16 +809,20 @@ body { padding-bottom: 80px; }
 .plant-detail-body { padding: 20px 22px 22px; }
 .detail-hero { margin-bottom: 16px; }
 .detail-botanical {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 500;
-  font-size: 22px;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
   color: var(--c-ink);
-  line-height: 1.2;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
 }
 .detail-common {
-  font-size: 15px;
-  color: var(--c-ink-soft);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 17px;
+  color: var(--c-sage-deep);
   margin-top: 4px;
 }
 .detail-badges { margin-top: 10px; }
@@ -968,4 +986,3 @@ body { padding-bottom: 80px; }
     transition-duration: 0.01ms !important;
   }
 }
-/* CSS cache-bust 1783114929 */

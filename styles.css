@@ -250,7 +250,7 @@ body { padding-bottom: 80px; }
   margin-right: 2px;
 }
 .spec-flower {
-  font-style: italic;
+  font-style: normal;
   color: var(--c-sage-deep);
 }
 

@@ -71,7 +71,15 @@ body { padding-bottom: 80px; }
 }
 
 .brand { display: flex; align-items: center; gap: 14px; }
-.brand-mark { color: var(--c-sage-deep); }
+.brand-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--c-paper);
+  box-shadow: 0 1px 3px rgba(31, 42, 28, 0.15);
+  flex-shrink: 0;
+}
 .brand-text h1 {
   font-family: var(--font-serif);
   font-size: 28px;

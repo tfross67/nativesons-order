@@ -136,9 +136,8 @@
     // The service role key is embedded in admin.html only (not in
     // the public-facing index.html). The anon key still gates the
     // login form below as a basic first-line check.
-    // ============================================================
+    const SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1d3lmZXNibG1hdXJmdWlhb2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MzAzNjI2OSwiZXhwIjoyMDk4NjEyMjY5fQ.MU0lqySTPZ0AHpdthOgyZfYJyj_2vF0cj-TyHWw8Pxs';
 
-    const SERVICE_KEY = 'YOUR_SUPABASE_SERVICE_ROLE_KEY_HERE';  // <-- paste service role key here
     // Password the user types — checked client-side. Set this in
     // admin-config.js (kept separate from the service key for hygiene).
     // The service role key is what actually controls DB access.

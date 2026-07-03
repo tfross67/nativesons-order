@@ -127,13 +127,22 @@
       const sizeText = r.container || '';
       const price = r.price;
 
+      // Build the compact specs line. Only include fields that have values.
+      // `· H 3-4' · W 3-4' · Pale pink`
+      const specsParts = [];
+      if (sizeText) specsParts.push(esc(sizeText));
+      if (r.height) specsParts.push(`<span class="spec-label">H</span> ${esc(r.height)}`);
+      if (r.width) specsParts.push(`<span class="spec-label">W</span> ${esc(r.width)}`);
+      if (r.flower_color) specsParts.push(`<span class="spec-flower">${esc(r.flower_color)}</span>`);
+      const specsLine = specsParts.length
+        ? `<div class="plant-specs">${specsParts.join(' · ')}</div>`
+        : '';
+
       return `
         <article class="plant-card">
           <h3 class="plant-name">${displayName}</h3>
           ${badges.length ? `<div class="badges">${badges.join('')}</div>` : ''}
-          <div class="plant-meta">
-            <span class="plant-size">${esc(sizeText || '—')}</span>
-          </div>
+          ${specsLine}
           <div class="plant-price">$${fmtPrice(price)}<span class="unit">/ea</span></div>
           <div class="add-to-cart">
             <input type="number" min="0" step="1" placeholder="0" aria-label="Quantity for ${esc(r.common || r.botanical)}" data-key="${esc(r.key)}">

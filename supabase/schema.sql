@@ -151,5 +151,15 @@ grant execute on function public.submit_order to anon;
 
 -- ============================================================
 -- Realtime: enable for orders so admin.html could (later) live-update
+-- DO block skips if already added (avoids "already member of publication" error).
 -- ============================================================
-alter publication supabase_realtime add table public.orders;
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and tablename = 'orders'
+  ) then
+    alter publication supabase_realtime add table public.orders;
+  end if;
+end
+$$;

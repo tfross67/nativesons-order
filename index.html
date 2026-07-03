@@ -74,6 +74,22 @@
       <p class="cart-empty">Cart is empty. Browse plants and add quantities to get started.</p>
     </div>
     <div class="cart-summary" id="cartSummary" hidden>
+      <div class="cart-default-markup" id="cartDefaultMarkup">
+        <label class="cart-default-markup-label" for="defaultMarkupInput">
+          <span>Default markup</span>
+          <span class="cart-default-markup-hint">applied to all wholesale items</span>
+        </label>
+        <div class="pricing-input-wrap cart-default-markup-input">
+          <input type="number" id="defaultMarkupInput" min="0" step="0.05" placeholder="2.0"
+            aria-label="Default markup multiplier" autocomplete="off">
+          <span class="pricing-input-suffix">×</span>
+          <button type="button" class="cart-default-markup-apply" id="applyDefaultMarkupBtn" aria-label="Apply markup">Apply</button>
+        </div>
+        <div class="cart-default-markup-saved" id="cartDefaultMarkupSaved" hidden>
+          <span class="cart-default-markup-saved-icon">✓</span>
+          <span class="cart-default-markup-saved-text"></span>
+        </div>
+      </div>
       <div class="cart-summary-row">
         <span>Subtotal (wholesale)</span>
         <span>$<span id="cartSummaryTotal">0.00</span></span>

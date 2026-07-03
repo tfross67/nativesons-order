@@ -226,3 +226,6 @@ curl -X POST https://api.agentmail.to/v0/inboxes/afterimage@agentmail.to/message
 - [ ] Inventory sync — decrement on confirmed orders, alert on low stock
 - [ ] Recurring orders — let repeat customers reorder with one click
 - [ ] Custom domain (orders.nativeson.com via Cloudflare)
+
+
+<!-- build-retried 2026-07-03 00:19:47 UTC -->

@@ -33,6 +33,9 @@
 
 * { box-sizing: border-box; }
 
+/* The HTML [hidden] attribute should always win over our display: flex rules. */
+[hidden] { display: none !important; }
+
 html, body {
   margin: 0;
   padding: 0;

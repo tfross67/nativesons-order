@@ -330,6 +330,11 @@
       ? `<div class="detail-botanical">${esc(p.botanical)}</div>${p.common ? `<div class="detail-common">${esc(p.common)}</div>` : ''}`
       : `<div class="detail-botanical">${esc(p.common)}</div>`;
 
+    // Link to native-sons.com plant page when matched (approach C — link only, no thumbnail)
+    const nativesonLink = p.nativeson_url
+      ? `<a class="detail-nativeson-link" href="${esc(p.nativeson_url)}" target="_blank" rel="noopener noreferrer">↗ View on nativeson.com</a>`
+      : '';
+
     // Spec table — only show rows with values
     const specRows = [];
     if (p.height) specRows.push(['Height', esc(p.height)]);
@@ -368,6 +373,7 @@
     plantDetailBody.innerHTML = `
       <div class="detail-hero">
         ${heroName}
+        ${nativesonLink}
         ${badges.length ? `<div class="badges detail-badges">${badges.join('')}</div>` : ''}
       </div>
       ${specsHtml}

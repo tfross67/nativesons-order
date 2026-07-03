@@ -593,7 +593,14 @@
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ to, subject, html, text }),
+          body: JSON.stringify({
+            to,
+            from: `Native Sons Wholesale Nursery <${inbox}>`,
+            reply_to: officeEmail,
+            subject,
+            html,
+            text,
+          }),
         }
       );
       if (!res.ok) {
@@ -604,16 +611,30 @@
     }
 
     try {
-      await Promise.allSettled([
+      const results = await Promise.allSettled([
         sendOne(officeEmail),
         sendOne(order.customer_email),
-      ]).then(results => {
-        results.forEach((r, i) => {
-          const target = i === 0 ? officeEmail : order.customer_email;
-          if (r.status === 'fulfilled') console.log(`Order email sent to ${target}`);
-          else console.error(`Order email failed for ${target}:`, r.reason);
-        });
-      });
+      ]);
+      for (let i = 0; i < results.length; i++) {
+        const target = i === 0 ? officeEmail : order.customer_email;
+        const result = results[i];
+        if (result.status === 'fulfilled') {
+          const { message_id } = result.value || {};
+          console.log(`Order email sent to ${target}${message_id ? ` (id ${message_id})` : ''}`);
+          // Persist a delivery log so we can see what was sent and when.
+          // Fire-and-forget — don't block navigation if this fails.
+          if (supabase && orderId && message_id) {
+            supabase.rpc('log_order_email', {
+              p_order_id: orderId,
+              p_recipient: target,
+              p_message_id: message_id,
+              p_kind: i === 0 ? 'office' : 'customer',
+            }).then(() => {}, (err) => console.warn('email log write failed:', err));
+          }
+        } else {
+          console.error(`Order email failed for ${target}:`, result.reason);
+        }
+      }
     } catch (e) {
       console.error('Order emails failed:', e);
     }

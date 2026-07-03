@@ -100,6 +100,24 @@ window.Cart = (() => {
     save();
   }
 
+  // Apply a markup multiplier to every item currently in 'wholesale' mode.
+  // Items already on 'markup' or 'manual' are left untouched. Returns the
+  // number of items affected.
+  function applyDefaultMarkup(multiplier) {
+    const mult = parseFloat(multiplier);
+    if (isNaN(mult) || mult < 0) return 0;
+    let changed = 0;
+    items.forEach(item => {
+      if (item.retailMode === 'wholesale') {
+        item.retailMode = 'markup';
+        item.retailPrice = Math.round(item.price * mult * 100) / 100;
+        changed++;
+      }
+    });
+    if (changed > 0) save();
+    return changed;
+  }
+
   function remove(key) {
     items = items.filter(i => i.key !== key);
     save();
@@ -116,5 +134,5 @@ window.Cart = (() => {
   function getRetailSubtotal() { return items.reduce((sum, i) => sum + (i.retailPrice * i.qty), 0); }
 
   load();
-  return { add, setQty, setRetail, remove, clear, getItems, getCount, getSubtotal, getRetailSubtotal, onChange };
+  return { add, setQty, setRetail, applyDefaultMarkup, remove, clear, getItems, getCount, getSubtotal, getRetailSubtotal, onChange };
 })();

@@ -30,7 +30,24 @@ update public.orders o
 
 -- ============================================================
 -- Update submit_order RPC to accept retail pricing
+-- Drop any existing overloads of submit_order (the function may exist
+-- with the old signature from a prior schema run). Then re-create.
 -- ============================================================
+do $$
+declare
+  fn record;
+begin
+  for fn in
+    select p.oid::regprocedure::text as sig
+    from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+    where n.nspname = 'public' and p.proname = 'submit_order'
+  loop
+    execute format('drop function if exists %s', fn.sig);
+  end loop;
+end
+$$;
+
 create or replace function public.submit_order(
   p_order_number text,
   p_customer_name text,

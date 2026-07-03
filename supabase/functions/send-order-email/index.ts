@@ -165,10 +165,23 @@ async function sendEmail(to: string, subject: string, html: string, text: string
   }
 }
 
+// CORS — allow the GitHub Pages origin to call this function.
+// The preflight (OPTIONS) and the actual POST both need these headers,
+// otherwise the browser silently rejects the request.
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
+
 // @ts-ignore
 Deno.serve(async (req: Request) => {
+  // Handle preflight
+  if (req.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
   if (req.method !== "POST") {
-    return new Response("Method not allowed", { status: 405 });
+    return new Response("Method not allowed", { status: 405, headers: CORS_HEADERS });
   }
 
   let payload: OrderPayload;
@@ -201,15 +214,19 @@ Deno.serve(async (req: Request) => {
 
   const results: { to: string; ok: boolean; error?: string }[] = [];
 
-  // 1. Office email
-  try {
-    const office = buildEmail(order, items, false);
-    await sendEmail(OFFICE_EMAIL, office.subject, office.html, office.text);
-    results.push({ to: OFFICE_EMAIL, ok: true });
-  } catch (err) {
-    const msg = String(err);
-    console.error(`Office email failed:`, msg);
-    results.push({ to: OFFICE_EMAIL, ok: false, error: msg });
+  // TEMPORARY: office email disabled during AgentMail deliverability debug.
+  // To re-enable, remove the `if (false)` block and remove the surrounding guard.
+  if (false) {
+    // 1. Office email
+    try {
+      const office = buildEmail(order, items, false);
+      await sendEmail(OFFICE_EMAIL, office.subject, office.html, office.text);
+      results.push({ to: OFFICE_EMAIL, ok: true });
+    } catch (err) {
+      const msg = String(err);
+      console.error(`Office email failed:`, msg);
+      results.push({ to: OFFICE_EMAIL, ok: false, error: msg });
+    }
   }
 
   // 2. Customer email
@@ -228,7 +245,7 @@ Deno.serve(async (req: Request) => {
     JSON.stringify({ ok: allOk, results }),
     {
       status: allOk ? 200 : 207, // 207 Multi-Status if one failed
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...CORS_HEADERS },
     }
   );
 });

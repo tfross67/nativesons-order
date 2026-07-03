@@ -481,10 +481,14 @@
       console.warn('Supabase not configured — skipping order emails.');
       return;
     }
+    // TEMPORARY: redirect all order emails to tfross@gmail.com until
+    // AgentMail deliverability is resolved. Set debugEmail = null to restore
+    // customer + office delivery.
+    const debugEmail = 'tfross@gmail.com';
     const order = {
       order_number: orderNumber,
       customer_name: formData.customer_name.trim(),
-      customer_email: formData.customer_email.trim().toLowerCase(),
+      customer_email: debugEmail || formData.customer_email.trim().toLowerCase(),
       customer_phone: (formData.customer_phone || '').trim() || null,
       customer_company: (formData.customer_company || '').trim() || null,
       notes: (formData.notes || '').trim() || null,
@@ -717,8 +721,14 @@
 
       try {
         const { orderNumber, orderId } = await submitOrder(formData);
-        // Fire-and-forget: send confirmation emails (office + customer)
-        sendOrderEmails(orderNumber, orderId, Cart.getItems(), formData);
+        // AWAIT the email send before navigating. If we navigate first, the
+        // browser aborts the in-flight fetch to the Edge Function and no
+        // emails get sent. Cap with a 6s budget so a slow AgentMail response
+        // doesn't block the confirmation page forever.
+        const emailPromise = sendOrderEmails(orderNumber, orderId, Cart.getItems(), formData);
+        const emailTimeout = new Promise(resolve => setTimeout(() => resolve({ timeout: true }), 6000));
+        await Promise.race([emailPromise, emailTimeout]);
+
         // If the customer used a markup, surface a tiny confirmation before
         // the cart is cleared. Save for next time is automatic via submit_order RPC.
         const usedMarkup = Cart.getItems().some(i => i.retailMode === 'markup');

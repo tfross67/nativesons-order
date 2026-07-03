@@ -742,22 +742,39 @@
         const emailResult = await Promise.race([emailPromise, emailTimeout]);
         const emailMs = Date.now() - emailStart;
 
+        let statusKind = 'unknown';
         if (emailResult && emailResult.ok) {
           diag.style.background = '#e6f4d9';
           diag.style.borderColor = '#7aa84a';
           diag.textContent = `✓ Email sent (${emailMs}ms). Going to confirmation…`;
+          statusKind = 'ok';
         } else if (emailResult && emailResult.timeout) {
           diag.style.background = '#fff0d6';
           diag.style.borderColor = '#d8a87a';
           diag.textContent = `⚠ Email still sending after 6s — proceeding anyway. Order saved.`;
+          statusKind = 'timeout';
         } else {
           diag.style.background = '#ffe0e0';
           diag.style.borderColor = '#d87a7a';
           const errMsg = emailResult && emailResult.error ? emailResult.error : JSON.stringify(emailResult);
           diag.textContent = `✗ Email failed: ${errMsg}. Order ${orderNumber} still saved.`;
+          statusKind = 'error';
+          console.error('[DIAG] Full email result:', emailResult);
+          console.error('[DIAG] Full error message:', errMsg);
         }
-        // Brief pause so user can see the status
-        await new Promise(r => setTimeout(r, 1200));
+        // Sticky banner on error so user can read it
+        if (statusKind === 'error' || statusKind === 'timeout') {
+          diag.style.cursor = 'pointer';
+          diag.title = 'Click to dismiss';
+          diag.textContent += '  (click to dismiss)';
+          await new Promise((resolve) => {
+            const dismiss = () => { diag.removeEventListener('click', dismiss); diag.remove(); resolve(); };
+            diag.addEventListener('click', dismiss);
+          });
+        } else {
+          // Brief pause so user can see the status
+          await new Promise(r => setTimeout(r, 1200));
+        }
 
         // If the customer used a markup, surface a tiny confirmation before
         // the cart is cleared. Save for next time is automatic via submit_order RPC.

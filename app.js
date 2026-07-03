@@ -340,6 +340,7 @@
     if (p.height) specRows.push(['Height', esc(p.height)]);
     if (p.width) specRows.push(['Width', esc(p.width)]);
     if (p.flower_color) specRows.push(['Flower color', `<span class="spec-flower">${esc(p.flower_color)}</span>`]);
+    if (p.origin) specRows.push(['Origin', esc(p.origin)]);
     if (p.section) specRows.push(['Category', esc(p.section)]);
     const specsHtml = specRows.length
       ? `<dl class="detail-specs">${specRows.map(([k, v]) =>

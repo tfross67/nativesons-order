@@ -43,6 +43,10 @@
   const closeCartBtn = $('closeCart');
   const proceedBtn = $('proceedToCheckout');
 
+  const defaultMarkupInput = $('defaultMarkupInput');
+  const applyDefaultMarkupBtn = $('applyDefaultMarkupBtn');
+  const cartDefaultMarkupSaved = $('cartDefaultMarkupSaved');
+
   const checkoutOverlay = $('checkoutOverlay');
   const checkoutModal = $('checkoutModal');
   const closeCheckoutBtn = $('closeCheckout');
@@ -253,6 +257,19 @@
       cartSummary.hidden = false;
       cartSummaryTotal.textContent = fmtPrice(subtotal);
 
+      // Prefill the default-markup input with the most common markup
+      // multiplier used by markup-mode items in the cart (if any).
+      if (defaultMarkupInput) {
+        const markupItems = items.filter(i => i.retailMode === 'markup' && i.price > 0);
+        if (markupItems.length > 0) {
+          // Pick the first one's multiplier as a sensible default
+          const first = markupItems[0];
+          const mult = Math.round((first.retailPrice / first.price) * 100) / 100;
+          defaultMarkupInput.value = mult;
+        }
+        // Don't clear it if empty — keep whatever user typed
+      }
+
       // Show retail subtotal line in summary if any line has an override
       const summaryRetailEl = document.getElementById('cartSummaryRetail');
       if (summaryRetailEl) {
@@ -381,6 +398,31 @@
     // Random 4-digit suffix; collision chance is negligible at our volume
     const suffix = Math.floor(1000 + Math.random() * 9000);
     return `NS-${year}-${suffix}`;
+  }
+
+  // ----- Customer preference lookup -----
+  // Look up the saved default markup for an email. Returns null if none.
+  async function fetchCustomerMarkup(email) {
+    if (!supabase || !email) return null;
+    try {
+      const { data, error } = await supabase.rpc('get_customer_markup', { p_email: email });
+      if (error) { console.warn('get_customer_markup error:', error); return null; }
+      if (data == null) return null;
+      const m = parseFloat(data);
+      return (isNaN(m) || m <= 0) ? null : m;
+    } catch (e) {
+      console.warn('get_customer_markup failed:', e);
+      return null;
+    }
+  }
+
+  function flashSavedMarkup(markup) {
+    // Briefly show a "saved" confirmation in the default-markup card.
+    if (!cartDefaultMarkupSaved) return;
+    const textEl = cartDefaultMarkupSaved.querySelector('.cart-default-markup-saved-text');
+    if (textEl) textEl.textContent = `We'll use your ${markup}× markup on future orders.`;
+    cartDefaultMarkupSaved.hidden = false;
+    setTimeout(() => { cartDefaultMarkupSaved.hidden = true; }, 4000);
   }
 
   // ----- Submit order to Supabase -----
@@ -639,6 +681,28 @@
     closeCartBtn.addEventListener('click', closeCart);
     cartOverlay.addEventListener('click', closeCart);
 
+    // Default markup — apply to all wholesale items in the cart
+    function applyMarkupFromInput() {
+      const mult = parseFloat(defaultMarkupInput.value);
+      if (isNaN(mult) || mult < 0) return;
+      const changed = Cart.applyDefaultMarkup(mult);
+      if (changed === 0) {
+        // Nothing to apply — give a subtle visual cue
+        defaultMarkupInput.focus();
+      }
+    }
+    if (applyDefaultMarkupBtn) {
+      applyDefaultMarkupBtn.addEventListener('click', applyMarkupFromInput);
+    }
+    if (defaultMarkupInput) {
+      defaultMarkupInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          applyMarkupFromInput();
+        }
+      });
+    }
+
     // Cart items
     cartItems.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-action]');
@@ -651,11 +715,14 @@
         let val = '';
         if (mode === 'markup' && item && item.price > 0) {
           // If the item was previously on a non-default markup, preserve that ratio.
-          // Otherwise (fresh wholesale→markup) default to a 2.0× multiplier.
+          // Otherwise default to the cart-level default markup if set, else 2.0×.
           if (item.retailMode === 'markup' && item.retailPrice > 0) {
             val = Math.round((item.retailPrice / item.price) * 100) / 100;
           } else {
-            val = 2.0;
+            const globalDefault = defaultMarkupInput && defaultMarkupInput.value
+              ? parseFloat(defaultMarkupInput.value)
+              : NaN;
+            val = (!isNaN(globalDefault) && globalDefault > 0) ? globalDefault : 2.0;
           }
         } else if (mode === 'manual' && item) {
           val = item.retailPrice;
@@ -702,6 +769,40 @@
     cancelCheckoutBtn.addEventListener('click', closeCheckout);
     checkoutOverlay.addEventListener('click', closeCheckout);
 
+    // When the customer enters their email, look up their saved markup.
+    const emailInput = checkoutForm.querySelector('input[name="customer_email"]');
+    if (emailInput) {
+      let lookupTimer = null;
+      let lookedUp = false;
+      const tryApply = async () => {
+        const email = (emailInput.value || '').trim().toLowerCase();
+        if (!email || !email.includes('@')) return;
+        const saved = await fetchCustomerMarkup(email);
+        lookedUp = true;
+        if (saved == null) return; // No saved preference — silent
+        // Only offer if the cart has at least one wholesale item
+        const items = Cart.getItems();
+        const hasWholesale = items.some(i => i.retailMode === 'wholesale');
+        if (!hasWholesale) return;
+        const confirmed = confirm(
+          `Welcome back. Your saved default markup is ${saved}×.\n\nApply it to the wholesale items in your cart?`
+        );
+        if (confirmed) {
+          Cart.applyDefaultMarkup(saved);
+          if (defaultMarkupInput) defaultMarkupInput.value = saved;
+        }
+      };
+      emailInput.addEventListener('blur', () => {
+        if (lookedUp) return;
+        clearTimeout(lookupTimer);
+        lookupTimer = setTimeout(tryApply, 200);
+      });
+      emailInput.addEventListener('input', () => {
+        // Reset so re-typing the email triggers another lookup attempt
+        lookedUp = false;
+      });
+    }
+
     // Submit order
     checkoutForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -720,6 +821,17 @@
         const { orderNumber, orderId } = await submitOrder(formData);
         // Fire-and-forget: send confirmation emails (office + customer)
         sendOrderEmails(orderNumber, orderId, Cart.getItems(), formData);
+        // If the customer used a markup, surface a tiny confirmation before
+        // the cart is cleared. Save for next time is automatic via submit_order RPC.
+        const usedMarkup = Cart.getItems().some(i => i.retailMode === 'markup');
+        if (usedMarkup) {
+          const multInput = defaultMarkupInput && defaultMarkupInput.value;
+          if (multInput) {
+            // flashSavedMarkup relies on the cart still being mounted, so do it
+            // synchronously before clearing. It'll be a no-op once we navigate.
+            flashSavedMarkup(parseFloat(multInput));
+          }
+        }
         // Clear cart and go to confirmation
         Cart.clear();
         const params = new URLSearchParams({

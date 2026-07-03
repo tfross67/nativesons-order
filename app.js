@@ -179,8 +179,10 @@
     const items = Cart.getItems();
     const count = Cart.getCount();
     const subtotal = Cart.getSubtotal();
+    const retailSubtotal = Cart.getRetailSubtotal();
+    const hasRetailOverride = items.some(i => i.retailMode !== 'wholesale');
 
-    // Floating bar
+    // Floating bar (always shows wholesale subtotal)
     if (count > 0) {
       cartBar.hidden = false;
       cartCount.textContent = count;
@@ -194,23 +196,77 @@
       cartItems.innerHTML = '<p class="cart-empty">Cart is empty. Browse plants and add quantities to get started.</p>';
       cartSummary.hidden = true;
     } else {
-      cartItems.innerHTML = items.map(i => `
+      cartItems.innerHTML = items.map(i => {
+        const retailLineTotal = i.retailPrice * i.qty;
+        const mode = i.retailMode || 'wholesale';
+        const isMarkup = mode === 'markup';
+        const isManual = mode === 'manual';
+        // Pre-fill markup multiplier from current retailPrice (so editing keeps existing relationship).
+        const markupValue = isMarkup && i.price > 0
+          ? (Math.round((i.retailPrice / i.price) * 100) / 100)
+          : '';
+        const manualValue = isManual ? i.retailPrice : '';
+
+        return `
         <div class="cart-item">
-          <div>
-            <div class="cart-item-name">${esc(i.name)}</div>
-            <div class="cart-item-meta">${esc(i.size || '')} · $${fmtPrice(i.price)}/ea</div>
+          <div class="cart-item-row">
+            <div class="cart-item-info">
+              <div class="cart-item-name">${esc(i.name)}</div>
+              <div class="cart-item-meta">${esc(i.size || '')} · wholesale $${fmtPrice(i.price)}/ea</div>
+            </div>
+            <div class="cart-item-qty">
+              <button class="qty-btn" data-action="dec" data-key="${esc(i.key)}" aria-label="Decrease">−</button>
+              <input type="number" min="0" value="${i.qty}" data-action="set" data-key="${esc(i.key)}" aria-label="Quantity">
+              <button class="qty-btn" data-action="inc" data-key="${esc(i.key)}" aria-label="Increase">+</button>
+            </div>
+            <div class="cart-item-total">
+              <div class="cart-item-total-wholesale">$${fmtPrice(i.price * i.qty)}</div>
+              ${hasRetailOverride ? `<div class="cart-item-total-retail">retail $${fmtPrice(retailLineTotal)}</div>` : ''}
+            </div>
+            <button class="cart-item-remove" data-action="remove" data-key="${esc(i.key)}" aria-label="Remove">✕</button>
           </div>
-          <div class="cart-item-qty">
-            <button class="qty-btn" data-action="dec" data-key="${esc(i.key)}" aria-label="Decrease">−</button>
-            <input type="number" min="0" value="${i.qty}" data-action="set" data-key="${esc(i.key)}" aria-label="Quantity">
-            <button class="qty-btn" data-action="inc" data-key="${esc(i.key)}" aria-label="Increase">+</button>
+          <div class="cart-item-pricing">
+            <span class="cart-item-pricing-label">Retail pricing</span>
+            <div class="pricing-mode" role="group" aria-label="Pricing mode">
+              <button type="button" class="pricing-mode-btn ${mode === 'wholesale' ? 'active' : ''}" data-action="retail-mode" data-mode="wholesale" data-key="${esc(i.key)}">Wholesale</button>
+              <button type="button" class="pricing-mode-btn ${mode === 'markup' ? 'active' : ''}" data-action="retail-mode" data-mode="markup" data-key="${esc(i.key)}">Markup ×</button>
+              <button type="button" class="pricing-mode-btn ${mode === 'manual' ? 'active' : ''}" data-action="retail-mode" data-mode="manual" data-key="${esc(i.key)}">Manual $</button>
+            </div>
+            ${isMarkup ? `
+              <div class="pricing-input-wrap" title="Multiplier applied to wholesale">
+                <input type="number" min="0" step="0.05" placeholder="2.0" aria-label="Markup multiplier"
+                  data-action="retail-input" data-mode="markup" data-key="${esc(i.key)}" value="${markupValue}">
+                <span class="pricing-input-suffix">×</span>
+                <span class="pricing-input-result">= $${fmtPrice(i.retailPrice)}/ea</span>
+              </div>` : ''}
+            ${isManual ? `
+              <div class="pricing-input-wrap" title="Retail price per unit">
+                <span class="pricing-input-prefix">$</span>
+                <input type="number" min="0" step="0.01" placeholder="0.00" aria-label="Retail price"
+                  data-action="retail-input" data-mode="manual" data-key="${esc(i.key)}" value="${manualValue}">
+                <span class="pricing-input-suffix">/ea</span>
+              </div>` : ''}
           </div>
-          <div class="cart-item-total">$${fmtPrice(i.price * i.qty)}</div>
-          <button class="cart-item-remove" data-action="remove" data-key="${esc(i.key)}" aria-label="Remove">✕</button>
         </div>
-      `).join('');
+      `;
+      }).join('');
       cartSummary.hidden = false;
       cartSummaryTotal.textContent = fmtPrice(subtotal);
+
+      // Show retail subtotal line in summary if any line has an override
+      const summaryRetailEl = document.getElementById('cartSummaryRetail');
+      if (summaryRetailEl) {
+        if (hasRetailOverride) {
+          summaryRetailEl.hidden = false;
+          summaryRetailEl.innerHTML = `
+            <span class="cart-summary-row">
+              <span>Retail (for labels)</span>
+              <span>$<span id="cartSummaryRetailTotal">${fmtPrice(retailSubtotal)}</span></span>
+            </span>`;
+        } else {
+          summaryRetailEl.hidden = true;
+        }
+      }
     }
   }
 
@@ -341,6 +397,7 @@
     if (items.length === 0) throw new Error('Cart is empty.');
 
     const subtotal = Cart.getSubtotal();
+    const retailSubtotal = Cart.getRetailSubtotal();
     const orderNumber = generateOrderNumber();
 
     const pItems = items.map(i => ({
@@ -350,6 +407,9 @@
       unit_price: i.price,
       qty: i.qty,
       line_total: i.price * i.qty,
+      retail_mode: i.retailMode || 'wholesale',
+      retail_price: i.retailPrice,
+      retail_line_total: (i.retailPrice || 0) * i.qty,
     }));
 
     const { data: orderId, error } = await supabase.rpc('submit_order', {
@@ -360,6 +420,7 @@
       p_customer_company: (formData.customer_company || '').trim() || null,
       p_notes: (formData.notes || '').trim() || null,
       p_subtotal: subtotal,
+      p_retail_subtotal: retailSubtotal,
       p_item_count: Cart.getCount(),
       p_items: pItems,
     });
@@ -437,6 +498,24 @@
       if (!btn) return;
       const key = btn.dataset.key;
       const action = btn.dataset.action;
+      if (action === 'retail-mode') {
+        const mode = btn.dataset.mode;
+        const item = Cart.getItems().find(i => i.key === key);
+        let val = '';
+        if (mode === 'markup' && item && item.price > 0) {
+          // If the item was previously on a non-default markup, preserve that ratio.
+          // Otherwise (fresh wholesale→markup) default to a 2.0× multiplier.
+          if (item.retailMode === 'markup' && item.retailPrice > 0) {
+            val = Math.round((item.retailPrice / item.price) * 100) / 100;
+          } else {
+            val = 2.0;
+          }
+        } else if (mode === 'manual' && item) {
+          val = item.retailPrice;
+        }
+        Cart.setRetail(key, mode, val);
+        return;
+      }
       const item = Cart.getItems().find(i => i.key === key);
       if (!item) return;
       if (action === 'inc') Cart.setQty(key, item.qty + 1);
@@ -444,11 +523,30 @@
       else if (action === 'remove') Cart.remove(key);
     });
     cartItems.addEventListener('change', (e) => {
-      const input = e.target.closest('input[data-action="set"]');
-      if (!input) return;
-      const key = input.dataset.key;
-      const qty = parseInt(input.value, 10) || 0;
-      Cart.setQty(key, qty);
+      // Quantity input
+      const setInput = e.target.closest('input[data-action="set"]');
+      if (setInput) {
+        const key = setInput.dataset.key;
+        const qty = parseInt(setInput.value, 10) || 0;
+        Cart.setQty(key, qty);
+        return;
+      }
+      // Retail markup or manual input
+      const retailInput = e.target.closest('input[data-action="retail-input"]');
+      if (retailInput) {
+        const key = retailInput.dataset.key;
+        const mode = retailInput.dataset.mode;
+        Cart.setRetail(key, mode, retailInput.value);
+        return;
+      }
+    });
+    // Live-update retail on each keystroke (so user sees price recompute as they type)
+    cartItems.addEventListener('input', (e) => {
+      const retailInput = e.target.closest('input[data-action="retail-input"]');
+      if (!retailInput) return;
+      const key = retailInput.dataset.key;
+      const mode = retailInput.dataset.mode;
+      Cart.setRetail(key, mode, retailInput.value);
     });
 
     // Proceed to checkout

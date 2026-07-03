@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2d4a2b">
+  <title>Native Sons — Order Availability</title>
+  <meta name="description" content="Browse and order current availability from Native Sons Wholesale Nursery. Search, filter, and place your order online.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://ruwyfesblmaurfuiaofw.supabase.co">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="36" height="36">
+            <circle cx="20" cy="20" r="19" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M20 30 C 20 20, 14 16, 12 12 M20 30 C 20 22, 24 18, 28 14 M20 30 C 20 24, 18 22, 16 20 M20 30 V 14 M20 30 C 20 26, 22 24, 24 22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <circle cx="20" cy="11" r="2" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>Native Sons</h1>
+          <p class="tagline">Wholesale Nursery — Order Portal</p>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span class="week-label" id="weekLabel">This week</span>
+        <span class="counts" id="counts"></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <!-- Search & filter bar -->
+    <section class="filter-bar" aria-label="Search and filter plants">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input type="search" id="searchInput" placeholder="Search plants, varieties, sizes…" autocomplete="off" aria-label="Search plants">
+      </div>
+
+      <div class="filter-chips" id="filterChips" role="group" aria-label="Filter by status">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="bloom">In Bloom</button>
+        <button class="chip" data-filter="bud">Budding</button>
+      </div>
+    </section>
+
+    <!-- Plant grid -->
+    <section class="plant-grid" id="plantGrid" aria-label="Available plants">
+      <p class="loading">Loading availability…</p>
+    </section>
+
+    <p class="no-results" id="noResults" hidden>No plants match your search.</p>
+  </main>
+
+  <!-- Floating cart bar -->
+  <button class="cart-bar" id="cartBar" hidden aria-label="View cart">
+    <div class="cart-bar-inner">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <path d="M3 4h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.5L21 8H6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="10" cy="20" r="1.4" fill="currentColor"/>
+        <circle cx="17" cy="20" r="1.4" fill="currentColor"/>
+      </svg>
+      <span class="cart-bar-text">
+        <span class="cart-bar-count"><span id="cartCount">0</span> items</span>
+        <span class="cart-bar-total">$<span id="cartTotal">0.00</span></span>
+      </span>
+    </div>
+  </button>
+
+  <!-- Cart slide-out -->
+  <div class="cart-overlay" id="cartOverlay" hidden></div>
+  <aside class="cart-panel" id="cartPanel" hidden aria-label="Shopping cart" role="dialog">
+    <header class="cart-header">
+      <h2>Your Order</h2>
+      <button class="icon-btn" id="closeCart" aria-label="Close cart">✕</button>
+    </header>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">Cart is empty. Browse plants and add quantities to get started.</p>
+    </div>
+    <div class="cart-summary" id="cartSummary" hidden>
+      <div class="cart-summary-row">
+        <span>Subtotal</span>
+        <span>$<span id="cartSummaryTotal">0.00</span></span>
+      </div>
+      <p class="cart-note">Final invoice comes from the office. Tax &amp; delivery calculated there.</p>
+      <button class="btn btn-primary btn-block" id="proceedToCheckout">Place Order Request</button>
+    </div>
+  </aside>
+
+  <!-- Checkout modal -->
+  <div class="modal-overlay" id="checkoutOverlay" hidden></div>
+  <div class="modal" id="checkoutModal" hidden role="dialog" aria-labelledby="checkoutTitle">
+    <header class="modal-header">
+      <h2 id="checkoutTitle">Your Information</h2>
+      <button class="icon-btn" id="closeCheckout" aria-label="Close">✕</button>
+    </header>
+    <form id="checkoutForm" class="modal-body">
+      <p class="modal-intro">We'll send a confirmation to your email and follow up with availability and totals.</p>
+      <label class="form-field">
+        <span>Name <em>*</em></span>
+        <input type="text" name="customer_name" required autocomplete="name">
+      </label>
+      <label class="form-field">
+        <span>Email <em>*</em></span>
+        <input type="email" name="customer_email" required autocomplete="email">
+      </label>
+      <label class="form-field">
+        <span>Phone</span>
+        <input type="tel" name="customer_phone" autocomplete="tel">
+      </label>
+      <label class="form-field">
+        <span>Company</span>
+        <input type="text" name="customer_company" autocomplete="organization">
+      </label>
+      <label class="form-field">
+        <span>Notes (delivery, substitutions, etc.)</span>
+        <textarea name="notes" rows="3"></textarea>
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="cancelCheckout">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="submitOrder">Submit Order</button>
+      </div>
+    </form>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Native Sons Wholesale Nursery · 805.481.5996 · <a href="mailto:orders@nativeson.com">orders@nativeson.com</a></p>
+      <p class="footer-fine">Availability is updated weekly. Quantities are not held until confirmed by our office.</p>
+    </div>
+  </footer>
+
+  <!-- Supabase JS client + config + app -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="availability_data.js"></script>
+  <script src="cart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

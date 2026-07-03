@@ -227,16 +227,32 @@ body { padding-bottom: 80px; }
   background: currentColor;
 }
 
-.plant-meta {
+.plant-specs {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: baseline;
+  gap: 4px 8px;
   font-size: 13px;
-  color: var(--c-muted);
+  color: var(--c-ink-soft);
   font-variant-numeric: tabular-nums;
+  line-height: 1.4;
 }
-.plant-size { font-weight: 500; color: var(--c-ink-soft); }
-.plant-qty { font-size: 12px; }
+.plant-specs > *:first-child {
+  font-weight: 500;
+  color: var(--c-ink);
+}
+.spec-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--c-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-right: 2px;
+}
+.spec-flower {
+  font-style: italic;
+  color: var(--c-sage-deep);
+}
 
 .plant-price {
   font-family: var(--font-serif);
@@ -601,8 +617,3 @@ body { padding-bottom: 80px; }
     transition-duration: 0.01ms !important;
   }
 }
-
-
-/* touch 2026-07-03 14:16:03 UTC */
-
-/* retry 2026-07-03 14:23:22 UTC */

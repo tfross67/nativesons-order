@@ -119,10 +119,10 @@
       if (r.bloom) badges.push('<span class="badge badge-bloom"><span class="dot"></span>In Bloom</span>');
       if (r.bud) badges.push('<span class="badge badge-bud"><span class="dot"></span>Budding</span>');
 
-      // Display name: prefer common name + botanical for context
-      const displayName = r.common
-        ? `<span class="common">${esc(r.common)}</span><br><span class="botanical" style="font-size:13px; color:var(--c-muted); font-style:italic; font-family: var(--font-serif); font-weight: 400;">${esc(r.botanical)}</span>`
-        : esc(r.botanical);
+      // Display name: botanical first, common name underneath (when present)
+      const displayName = r.botanical
+        ? `<span class="botanical" style="font-style:italic; font-family: var(--font-serif); font-weight: 500;">${esc(r.botanical)}</span>${r.common ? `<br><span class="common" style="font-size:14px; color:var(--c-ink-soft); font-style:normal; font-family: var(--font-sans); font-weight: 400; display: inline-block; margin-top: 2px;">${esc(r.common)}</span>` : ''}`
+        : esc(r.common);
 
       const sizeText = r.container || '';
       const price = r.price;
@@ -137,7 +137,7 @@
           <div class="plant-price">$${fmtPrice(price)}<span class="unit">/ea</span></div>
           <div class="add-to-cart">
             <input type="number" min="0" step="1" placeholder="0" aria-label="Quantity for ${esc(r.common || r.botanical)}" data-key="${esc(r.key)}">
-            <button class="btn btn-primary" data-action="add" data-key="${esc(r.key)}" data-name="${esc((r.common || r.botanical) + (r.container ? ' (' + r.container + ')' : ''))}" data-size="${esc(sizeText)}" data-price="${price}">Add</button>
+            <button class="btn btn-primary" data-action="add" data-key="${esc(r.key)}" data-name="${esc((r.botanical || r.common) + (r.container ? ' (' + r.container + ')' : ''))}" data-size="${esc(sizeText)}" data-price="${price}">Add</button>
           </div>
         </article>
       `;

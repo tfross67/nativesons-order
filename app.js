@@ -719,15 +719,45 @@
       submitOrderBtn.disabled = true;
       submitOrderBtn.textContent = 'Submitting…';
 
+      // Diagnostic banner — shows email status on-screen without DevTools.
+      const diag = document.createElement('div');
+      diag.id = 'submitDiag';
+      diag.style.cssText = 'position:fixed;left:16px;right:16px;bottom:16px;padding:12px 16px;border-radius:8px;font:14px -apple-system,sans-serif;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.2);background:#fffbe6;border:1px solid #f0c000;color:#333;';
+      diag.textContent = 'Submitting order…';
+      document.body.appendChild(diag);
+
       try {
         const { orderNumber, orderId } = await submitOrder(formData);
+        diag.style.background = '#e3f0ff';
+        diag.style.borderColor = '#7aa8d8';
+        diag.textContent = `Order ${orderNumber} saved. Sending email…`;
+
         // AWAIT the email send before navigating. If we navigate first, the
         // browser aborts the in-flight fetch to the Edge Function and no
         // emails get sent. Cap with a 6s budget so a slow AgentMail response
         // doesn't block the confirmation page forever.
+        const emailStart = Date.now();
         const emailPromise = sendOrderEmails(orderNumber, orderId, Cart.getItems(), formData);
         const emailTimeout = new Promise(resolve => setTimeout(() => resolve({ timeout: true }), 6000));
-        await Promise.race([emailPromise, emailTimeout]);
+        const emailResult = await Promise.race([emailPromise, emailTimeout]);
+        const emailMs = Date.now() - emailStart;
+
+        if (emailResult && emailResult.ok) {
+          diag.style.background = '#e6f4d9';
+          diag.style.borderColor = '#7aa84a';
+          diag.textContent = `✓ Email sent (${emailMs}ms). Going to confirmation…`;
+        } else if (emailResult && emailResult.timeout) {
+          diag.style.background = '#fff0d6';
+          diag.style.borderColor = '#d8a87a';
+          diag.textContent = `⚠ Email still sending after 6s — proceeding anyway. Order saved.`;
+        } else {
+          diag.style.background = '#ffe0e0';
+          diag.style.borderColor = '#d87a7a';
+          const errMsg = emailResult && emailResult.error ? emailResult.error : JSON.stringify(emailResult);
+          diag.textContent = `✗ Email failed: ${errMsg}. Order ${orderNumber} still saved.`;
+        }
+        // Brief pause so user can see the status
+        await new Promise(r => setTimeout(r, 1200));
 
         // If the customer used a markup, surface a tiny confirmation before
         // the cart is cleared. Save for next time is automatic via submit_order RPC.
@@ -748,6 +778,9 @@
         });
         window.location.href = `confirmation.html?${params.toString()}`;
       } catch (err) {
+        diag.style.background = '#ffe0e0';
+        diag.style.borderColor = '#d87a7a';
+        diag.textContent = `✗ Order submit failed: ${err.message || err}`;
         console.error('Order submit failed:', err);
         alert(`Sorry, we couldn't submit your order. ${err.message || err}\n\nPlease try again or call 805.481.5996.`);
         submitOrderBtn.disabled = false;

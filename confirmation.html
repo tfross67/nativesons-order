@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2d4a2b">
+  <title>Order received — Native Sons</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .confirmation {
+      max-width: 560px;
+      margin: 60px auto;
+      padding: 40px 32px;
+      background: var(--c-paper);
+      border: 1px solid var(--c-line);
+      border-radius: var(--r-xl);
+      box-shadow: var(--c-shadow);
+      text-align: center;
+    }
+    .check-circle {
+      width: 72px; height: 72px;
+      margin: 0 auto 20px;
+      background: var(--c-sage-soft);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--c-sage-deep);
+    }
+    .check-circle svg { width: 36px; height: 36px; }
+    .confirmation h1 {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      color: var(--c-sage-deep);
+      margin: 0 0 8px;
+    }
+    .order-number {
+      display: inline-block;
+      background: var(--c-sage-soft);
+      color: var(--c-sage-deep);
+      font-family: 'SF Mono', Menlo, monospace;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--r-md);
+      margin: 12px 0 24px;
+      letter-spacing: 0.04em;
+    }
+    .confirmation p {
+      color: var(--c-ink-soft);
+      line-height: 1.6;
+      margin: 0 0 12px;
+    }
+    .email-note {
+      font-size: 14px;
+      color: var(--c-muted);
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--c-line);
+    }
+    .actions {
+      margin-top: 28px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="confirmation">
+    <div class="check-circle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <h1>Order received</h1>
+    <p>Thanks — we've got your request.</p>
+    <div class="order-number" id="orderNumber">NS-2026-XXXX</div>
+    <p>Our team will review availability and reach out to confirm pricing, pickup or delivery options, and timing.</p>
+    <p class="email-note">
+      A confirmation has been sent to <strong id="email"></strong>.<br>
+      Questions? Call 805.481.5996 or reply to the email.
+    </p>
+    <div class="actions">
+      <a class="btn btn-ghost" href="index.html">Back to availability</a>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById('orderNumber').textContent = params.get('n') || '—';
+    document.getElementById('email').textContent = params.get('e') || 'your email';
+    // Clear any leftover cart state
+    try { localStorage.removeItem('nativesons_cart_v1'); } catch (_) {}
+  </script>
+</body>
+</html>

@@ -1,7 +1,6 @@
 // Supabase project configuration
-// Replace these placeholders with the values from your Supabase project dashboard:
-//   https://supabase.com/dashboard/project/ruwyfesblmaurfuiaofw/settings/api
+// Anon key — safe to expose in browser. Only has INSERT permission on orders/order_items (per RLS).
 window.SUPABASE_CONFIG = {
   url: 'https://ruwyfesblmaurfuiaofw.supabase.co',
-  anonKey: 'YOUR_SUPABASE_ANON_KEY_HERE'  // <-- paste anon key here
+  anonKey: '***REMOVED-CREDENTIAL***'
 };

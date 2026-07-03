@@ -83,6 +83,18 @@
     </div>
   </aside>
 
+  <!-- Plant detail modal -->
+  <div class="modal-overlay" id="plantDetailOverlay" hidden></div>
+  <div class="modal plant-detail-modal" id="plantDetailModal" hidden role="dialog" aria-labelledby="plantDetailTitle">
+    <header class="modal-header">
+      <h2 id="plantDetailTitle">Plant details</h2>
+      <button class="icon-btn" id="closePlantDetail" aria-label="Close">✕</button>
+    </header>
+    <div class="modal-body plant-detail-body" id="plantDetailBody">
+      <!-- populated by app.js -->
+    </div>
+  </div>
+
   <!-- Checkout modal -->
   <div class="modal-overlay" id="checkoutOverlay" hidden></div>
   <div class="modal" id="checkoutModal" hidden role="dialog" aria-labelledby="checkoutTitle">

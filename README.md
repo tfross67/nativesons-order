@@ -123,9 +123,8 @@ GitHub Pages will rebuild in ~30 seconds.
 ```
 Browse availability → add to cart (localStorage) → slide-out cart panel
   → checkout modal (name/email/phone/notes)
-  → INSERT into orders + INSERT into order_items (atomic via RPC)
-  → Edge Function fires via DB webhook
-  → Sends 2 emails via AgentMail SMTP (office + customer)
+  → submit_order() RPC writes to Supabase atomically
+  → app.js fires two emails via AgentMail HTTP API (office + customer)
   → Redirect to confirmation.html with order number
 ```
 
@@ -226,15 +225,3 @@ curl -X POST https://api.agentmail.to/v0/inboxes/afterimage@agentmail.to/message
 - [ ] Inventory sync — decrement on confirmed orders, alert on low stock
 - [ ] Recurring orders — let repeat customers reorder with one click
 - [ ] Custom domain (orders.nativeson.com via Cloudflare)
-
-
-<!-- build-retried 2026-07-03 00:19:47 UTC -->
-
-
-<!-- build-retried 2026-07-03 01:29:38 UTC -->
-
-
-<!-- build-retried 2026-07-03 01:30:45 UTC -->
-
-
-<!-- retry 2026-07-03 02:16:15 UTC -->

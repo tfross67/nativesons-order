@@ -1,8 +1,10 @@
 // ============================================================
 // cart.js — localStorage-backed cart for the order portal
+// Exposed as window.Cart so app.js (loaded via separate <script>)
+// can reach it. (const/let at top of a script tag don't go on window.)
 // ============================================================
 
-const Cart = (() => {
+window.Cart = (() => {
   const STORAGE_KEY = 'nativesons_cart_v1';
 
   // In-memory state

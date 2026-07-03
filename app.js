@@ -755,9 +755,22 @@
           diag.style.borderColor = '#d87a7a';
           const errMsg = emailResult && emailResult.error ? emailResult.error : JSON.stringify(emailResult);
           diag.textContent = `✗ Email failed: ${errMsg}. Order ${orderNumber} still saved.`;
+          console.error('[DIAG] Full email result:', emailResult);
+          console.error('[DIAG] Full error message:', errMsg);
+          // Sticky banner on error so user can read it
+          diag.style.cursor = 'pointer';
+          diag.title = 'Click to dismiss';
+          diag.textContent += '  (click to dismiss)';
+          await new Promise((resolve) => {
+            const dismiss = () => { diag.removeEventListener('click', dismiss); diag.remove(); resolve(); };
+            diag.addEventListener('click', dismiss);
+          });
         }
-        // Brief pause so user can see the status
-        await new Promise(r => setTimeout(r, 1200));
+        if (!diag.isConnected) {
+          // already dismissed, skip pause
+        } else if (emailResult && emailResult.ok) {
+          await new Promise(r => setTimeout(r, 1200));
+        }
 
         // If the customer used a markup, surface a tiny confirmation before
         // the cart is cleared. Save for next time is automatic via submit_order RPC.

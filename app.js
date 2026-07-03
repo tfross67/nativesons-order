@@ -50,6 +50,11 @@
   const checkoutForm = $('checkoutForm');
   const submitOrderBtn = $('submitOrder');
 
+  const plantDetailOverlay = $('plantDetailOverlay');
+  const plantDetailModal = $('plantDetailModal');
+  const plantDetailBody = $('plantDetailBody');
+  const closePlantDetailBtn = $('closePlantDetail');
+
   // ----- State -----
   let currentFilter = 'all';
   let currentQuery = '';
@@ -60,32 +65,38 @@
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
-  // Each plant has a `sizes` array of { container, price }. Flatten to one row per size
-  // so the customer can pick a specific container/price combo.
-  function expandPlant(p) {
-    const sizes = (p.sizes && p.sizes.length > 0) ? p.sizes : [{ container: '', price: 0 }];
-    return sizes.map((s, idx) => ({
-      key: `${p.botanical || p.common || 'plant'}|${s.container || ''}|${idx}`,
-      botanical: p.botanical || '',
-      common: p.common || '',
-      section: p.section || '',
-      container: s.container || '',
-      price: typeof s.price === 'number' ? s.price : 0,
-      bloom: p.bloom === true,
-      bud: p.bud === true,
-      height: p.height || '',
-      width: p.width || '',
-      flower_color: p.flower_color || '',
-    }));
+  // ----- Plant shape -----
+  // Each plant has a `sizes` array of { container, price }. We render ONE card per plant.
+  // Multi-size plants open a detail modal with a size picker before adding to cart.
+  function getPlantKey(p) {
+    return p.botanical || p.common || 'unknown';
   }
 
-  // Build the flat row list once
-  const ROWS = PLANTS.flatMap(expandPlant);
+  function getRowKey(plantKey, container) {
+    return `${plantKey}|${container || ''}`;
+  }
 
-  function plantMatchesQuery(row, q) {
+  function getSizes(p) {
+    return (p.sizes && p.sizes.length > 0) ? p.sizes : [];
+  }
+
+  function minPrice(p) {
+    const sizes = getSizes(p);
+    if (sizes.length === 0) return 0;
+    return Math.min(...sizes.map(s => typeof s.price === 'number' ? s.price : Infinity));
+  }
+
+  function plantIsInBloom(p) {
+    return p.bloom === true || p.bud === true;
+  }
+
+  function plantMatchesQuery(p, q) {
     if (!q) return true;
-    const haystack = [row.botanical, row.common, row.section, row.container, row.flower_color]
-      .filter(Boolean).join(' ').toLowerCase();
+    const haystack = [
+      p.botanical, p.common, p.section,
+      p.flower_color,
+      ...getSizes(p).map(s => s.container)
+    ].filter(Boolean).join(' ').toLowerCase();
     return haystack.includes(q);
   }
 
@@ -97,11 +108,12 @@
   }
 
   // ----- Render plant grid -----
+  // One card per plant. Multi-size plants open the detail modal to pick a size.
   function renderPlants() {
     const q = currentQuery.trim().toLowerCase();
-    const filtered = ROWS.filter(r => plantMatchesQuery(r, q) && plantMatchesFilter(r));
+    const filtered = PLANTS.filter(p => plantMatchesQuery(p, q) && plantMatchesFilter(p));
 
-    if (ROWS.length === 0) {
+    if (PLANTS.length === 0) {
       plantGrid.innerHTML = '<p class="loading">No plants loaded. Check that availability_data.js is present.</p>';
       noResults.hidden = true;
       return;
@@ -114,39 +126,46 @@
     }
     noResults.hidden = true;
 
-    const html = filtered.map(r => {
+    const html = filtered.map(p => {
       const badges = [];
-      if (r.bloom) badges.push('<span class="badge badge-bloom"><span class="dot"></span>In Bloom</span>');
-      if (r.bud) badges.push('<span class="badge badge-bud"><span class="dot"></span>Budding</span>');
+      if (p.bloom) badges.push('<span class="badge badge-bloom"><span class="dot"></span>In Bloom</span>');
+      if (p.bud) badges.push('<span class="badge badge-bud"><span class="dot"></span>Budding</span>');
 
       // Display name: botanical first, common name underneath (when present)
-      const displayName = r.botanical
-        ? `<span class="botanical" style="font-style:italic; font-family: var(--font-serif); font-weight: 500;">${esc(r.botanical)}</span>${r.common ? `<br><span class="common" style="font-size:14px; color:var(--c-ink-soft); font-style:normal; font-family: var(--font-sans); font-weight: 400; display: inline-block; margin-top: 2px;">${esc(r.common)}</span>` : ''}`
-        : esc(r.common);
-
-      const sizeText = r.container || '';
-      const price = r.price;
+      const displayName = p.botanical
+        ? `<span class="botanical" style="font-style:italic; font-family: var(--font-serif); font-weight: 500;">${esc(p.botanical)}</span>${p.common ? `<br><span class="common" style="font-size:14px; color:var(--c-ink-soft); font-style:normal; font-family: var(--font-sans); font-weight: 400; display: inline-block; margin-top: 2px;">${esc(p.common)}</span>` : ''}`
+        : esc(p.common);
 
       // Build the compact specs line. Only include fields that have values.
-      // `· H 3-4' · W 3-4' · Pale pink`
+      // Container sizes + H + W + flower color.
+      const sizes = getSizes(p);
+      const sizeLabels = sizes.map(s => esc(s.container)).filter(Boolean);
       const specsParts = [];
-      if (sizeText) specsParts.push(esc(sizeText));
-      if (r.height) specsParts.push(`<span class="spec-label">H</span> ${esc(r.height)}`);
-      if (r.width) specsParts.push(`<span class="spec-label">W</span> ${esc(r.width)}`);
-      if (r.flower_color) specsParts.push(`<span class="spec-flower">${esc(r.flower_color)}</span>`);
+      if (sizeLabels.length) specsParts.push(sizeLabels.join(' / '));
+      if (p.height) specsParts.push(`<span class="spec-label">H</span> ${esc(p.height)}`);
+      if (p.width) specsParts.push(`<span class="spec-label">W</span> ${esc(p.width)}`);
+      if (p.flower_color) specsParts.push(`<span class="spec-flower">${esc(p.flower_color)}</span>`);
       const specsLine = specsParts.length
         ? `<div class="plant-specs">${specsParts.join(' · ')}</div>`
         : '';
 
+      const fromPrice = minPrice(p);
+      const sizeCount = sizes.length;
+      const plantKey = getPlantKey(p);
+
       return `
-        <article class="plant-card">
+        <article class="plant-card" data-plant-key="${esc(plantKey)}">
           <h3 class="plant-name">${displayName}</h3>
           ${badges.length ? `<div class="badges">${badges.join('')}</div>` : ''}
           ${specsLine}
-          <div class="plant-price">$${fmtPrice(price)}<span class="unit">/ea</span></div>
+          <div class="plant-price">
+            ${sizeCount > 1 ? '<span class="price-from">from</span> ' : ''}$${fmtPrice(fromPrice)}<span class="unit">/ea</span>
+            ${sizeCount > 1 ? `<span class="size-count">${sizeCount} sizes</span>` : ''}
+          </div>
           <div class="add-to-cart">
-            <input type="number" min="0" step="1" placeholder="0" aria-label="Quantity for ${esc(r.common || r.botanical)}" data-key="${esc(r.key)}">
-            <button class="btn btn-primary" data-action="add" data-key="${esc(r.key)}" data-name="${esc((r.botanical || r.common) + (r.container ? ' (' + r.container + ')' : ''))}" data-size="${esc(sizeText)}" data-price="${price}">Add</button>
+            <button class="btn btn-primary btn-block" data-action="open-detail" data-plant-key="${esc(plantKey)}">
+              ${sizeCount > 1 ? 'Choose size' : 'Add to order'}
+            </button>
           </div>
         </article>
       `;
@@ -224,6 +243,82 @@
     document.body.style.overflow = '';
   }
 
+  // ----- Plant detail modal -----
+  // Renders full info for a plant, with a size picker that adds (plant, size, qty) to cart.
+  function renderPlantDetail(p) {
+    const sizes = getSizes(p);
+
+    const badges = [];
+    if (p.bloom) badges.push('<span class="badge badge-bloom"><span class="dot"></span>In Bloom</span>');
+    if (p.bud) badges.push('<span class="badge badge-bud"><span class="dot"></span>Budding</span>');
+
+    // Hero — botanical (italic) + common under, like the card
+    const heroName = p.botanical
+      ? `<div class="detail-botanical">${esc(p.botanical)}</div>${p.common ? `<div class="detail-common">${esc(p.common)}</div>` : ''}`
+      : `<div class="detail-botanical">${esc(p.common)}</div>`;
+
+    // Spec table — only show rows with values
+    const specRows = [];
+    if (p.height) specRows.push(['Height', esc(p.height)]);
+    if (p.width) specRows.push(['Width', esc(p.width)]);
+    if (p.flower_color) specRows.push(['Flower color', `<span class="spec-flower">${esc(p.flower_color)}</span>`]);
+    if (p.section) specRows.push(['Category', esc(p.section)]);
+    const specsHtml = specRows.length
+      ? `<dl class="detail-specs">${specRows.map(([k, v]) =>
+          `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>`
+      : '';
+
+    // Size picker — one row per size with its own qty input + Add button.
+    const plantKey = getPlantKey(p);
+    const sizesHtml = sizes.map((s, idx) => {
+      const rowKey = getRowKey(plantKey, s.container);
+      return `
+        <div class="detail-size-row" data-row-key="${esc(rowKey)}">
+          <div class="detail-size-info">
+            <div class="detail-size-container">${esc(s.container || 'Default')}</div>
+            <div class="detail-size-price">$${fmtPrice(s.price)}<span class="unit">/ea</span></div>
+          </div>
+          <div class="detail-size-controls">
+            <input type="number" min="0" step="1" placeholder="0"
+              aria-label="Quantity for ${esc(p.common || p.botanical)} (${esc(s.container)})"
+              data-action="detail-qty" data-row-key="${esc(rowKey)}">
+            <button class="btn btn-primary" data-action="detail-add"
+              data-row-key="${esc(rowKey)}"
+              data-name="${esc(p.botanical || p.common)}"
+              data-size="${esc(s.container)}"
+              data-price="${s.price}">Add</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    plantDetailBody.innerHTML = `
+      <div class="detail-hero">
+        ${heroName}
+        ${badges.length ? `<div class="badges detail-badges">${badges.join('')}</div>` : ''}
+      </div>
+      ${specsHtml}
+      <div class="detail-section-title">Available sizes</div>
+      <div class="detail-sizes">${sizesHtml}</div>
+      <p class="detail-footnote">Quantities are not held until confirmed by our office.</p>
+    `;
+  }
+
+  function openPlantDetail(plantKey) {
+    const p = PLANTS.find(pl => getPlantKey(pl) === plantKey);
+    if (!p) return;
+    renderPlantDetail(p);
+    plantDetailModal.hidden = false;
+    plantDetailOverlay.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePlantDetail() {
+    plantDetailModal.hidden = true;
+    plantDetailOverlay.hidden = true;
+    document.body.style.overflow = '';
+  }
+
   // ----- Order number generator -----
   function generateOrderNumber() {
     const year = new Date().getFullYear();
@@ -292,20 +387,27 @@
       renderPlants();
     });
 
-    // Plant grid — qty inputs and Add buttons
+    // Plant grid — "Add to order" / "Choose size" buttons open the detail modal
     plantGrid.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-action="add"]');
+      const btn = e.target.closest('[data-action="open-detail"]');
       if (!btn) return;
-      const key = btn.dataset.key;
-      const card = btn.closest('.plant-card');
-      const qtyInput = card.querySelector('input[type="number"]');
+      const plantKey = btn.dataset.plantKey;
+      openPlantDetail(plantKey);
+    });
+
+    // Plant detail modal — size row "Add" buttons + close
+    plantDetailBody.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action="detail-add"]');
+      if (!btn) return;
+      const row = btn.closest('.detail-size-row');
+      const qtyInput = row.querySelector('input[type="number"]');
       const qty = parseInt(qtyInput.value, 10) || 0;
       if (qty <= 0) {
         qtyInput.focus();
         return;
       }
       Cart.add({
-        key,
+        key: btn.dataset.rowKey,
         name: btn.dataset.name,
         size: btn.dataset.size,
         price: parseFloat(btn.dataset.price) || 0,
@@ -321,6 +423,8 @@
         btn.classList.remove('btn-added');
       }, 900);
     });
+    closePlantDetailBtn.addEventListener('click', closePlantDetail);
+    plantDetailOverlay.addEventListener('click', closePlantDetail);
 
     // Cart bar
     cartBar.addEventListener('click', openCart);
@@ -390,7 +494,8 @@
     // Esc to close panels
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (!checkoutModal.hidden) closeCheckout();
+        if (!plantDetailModal.hidden) closePlantDetail();
+        else if (!checkoutModal.hidden) closeCheckout();
         else if (!cartPanel.hidden) closeCart();
       }
     });
@@ -398,10 +503,9 @@
 
   // ----- Header counts -----
   function renderHeaderCounts() {
-    const inBloom = ROWS.filter(r => r.bloom).length;
-    const budding = ROWS.filter(r => r.bud).length;
-    const uniquePlants = PLANTS.length;
-    countsEl.textContent = `${uniquePlants} plants · ${inBloom} in bloom · ${budding} budding`;
+    const inBloom = PLANTS.filter(p => p.bloom === true).length;
+    const budding = PLANTS.filter(p => p.bud === true).length;
+    countsEl.textContent = `${PLANTS.length} plants · ${inBloom} in bloom · ${budding} budding`;
 
     if (DATA.generated || DATA.week) {
       const dateStr = DATA.generated || DATA.week;

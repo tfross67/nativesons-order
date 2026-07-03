@@ -481,10 +481,10 @@
       console.warn('Supabase not configured — skipping order emails.');
       return;
     }
-    // TEMPORARY: redirect all order emails to tfross@gmail.com until
-    // AgentMail deliverability is resolved. Set debugEmail = null to restore
-    // customer + office delivery.
-    const debugEmail = 'tfross@gmail.com';
+    // TEMPORARY: redirect office email to tfross@gmail.com until
+    // AgentMail deliverability is resolved. Customer email still goes to
+    // whatever was entered in the form.
+    const debugOfficeEmail = 'tfross@gmail.com';
     const order = {
       order_number: orderNumber,
       customer_name: formData.customer_name.trim(),
@@ -506,6 +506,7 @@
         qty: i.qty,
         line_total: i.price * i.qty,
       })),
+      debugOfficeEmail: debugOfficeEmail || undefined,
     };
     try {
       const { data, error } = await supabase.functions.invoke('send-order-email', {

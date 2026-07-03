@@ -72,13 +72,13 @@ body { padding-bottom: 80px; }
 
 .brand { display: flex; align-items: center; gap: 14px; }
 .brand-logo {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: var(--c-paper);
-  box-shadow: 0 1px 3px rgba(31, 42, 28, 0.15);
-  flex-shrink: 0;
+  /* Logo is 586x143 (~4.1:1 horizontal wordmark).
+     height: 56px → width ~230px naturally */
+  height: 56px;
+  width: auto;
+  max-width: 320px;
+  display: block;
+  object-fit: contain;
 }
 .brand-text h1 {
   font-family: var(--font-serif);
@@ -95,7 +95,6 @@ body { padding-bottom: 80px; }
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-
 .header-meta {
   display: flex;
   flex-direction: column;
@@ -586,8 +585,7 @@ body { padding-bottom: 80px; }
 /* ---- Mobile tweaks ---- */
 @media (max-width: 640px) {
   .container { padding: 0 14px; }
-  .brand-text h1 { font-size: 22px; }
-  .tagline { font-size: 11px; }
+  .brand-logo { height: 44px; }
   .header-meta { font-size: 12px; }
   .plant-grid { grid-template-columns: 1fr; gap: 14px; }
   .plant-card { padding: 16px; }

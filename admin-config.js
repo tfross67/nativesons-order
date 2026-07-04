@@ -5,5 +5,5 @@
 
 window.ADMIN_CONFIG = {
   // CHANGE THIS to a real password before going live.
-  password: 'nativesons2026'
+  password: 'XNoEpdzEqd1hEZwH'
 };

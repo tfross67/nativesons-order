@@ -141,7 +141,7 @@
     // Password the user types — checked client-side. Set this in
     // admin-config.js (kept separate from the service key for hygiene).
     // The service role key is what actually controls DB access.
-    const ADMIN_PASSWORD = 'change-me-in-admin-config-js';  // <-- set a real password in admin-config.js (overrides this default)
+    let ADMIN_PASSWORD = 'change-me-in-admin-config-js';  // <-- set a real password in admin-config.js (overrides this default)
 
     const cfg = window.SUPABASE_CONFIG || {};
     const supabaseAdmin = (cfg.url && SERVICE_KEY !== 'YOUR_SUPABASE_SERVICE_ROLE_KEY_HERE')

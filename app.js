@@ -495,7 +495,7 @@
     const order = {
       order_number: orderNumber,
       customer_name: formData.customer_name.trim(),
-      customer_email: debugEmail || formData.customer_email.trim().toLowerCase(),
+      customer_email: formData.customer_email.trim().toLowerCase(),
       customer_phone: (formData.customer_phone || '').trim() || null,
       customer_company: (formData.customer_company || '').trim() || null,
       notes: (formData.notes || '').trim() || null,

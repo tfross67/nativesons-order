@@ -319,15 +319,15 @@
           <td style="font-family:monospace; font-size:12px;">${i.upc ? esc(i.upc) : '<span style="color:var(--c-muted)">—</span>'}</td>
           <td class="num">$${fmt(i.unit_price)}</td>
           <td class="num">$${fmt(i.line_total)}</td>
-          <td class="num retail">${i.retail_unit_price != null ? `$${fmt(i.retail_unit_price)}` : '—'}</td>
-          <td class="num retail">${i.retail_line_total != null ? `$${fmt(i.retail_line_total)}` : '—'}</td>
+          <td class="num retail">${(i.retail_unit_price ?? i.retail_price) != null ? `$${fmt(i.retail_unit_price ?? i.retail_price)}` : '—'}</td>
+          <td class="num retail">${(i.retail_line_total ?? null) != null ? `$${fmt(i.retail_line_total)}` : '—'}</td>
         </tr>
       `).join('');
 
       const totalQty = (items || []).reduce((s, i) => s + (i.qty || 0), 0);
       const totalWholesale = (items || []).reduce((s, i) => s + Number(i.line_total || 0), 0);
       const totalRetail = (items || []).reduce((s, i) => s + Number(i.retail_line_total || 0), 0);
-      const hasRetail = (items || []).some(i => i.retail_unit_price != null);
+      const hasRetail = (items || []).some(i => i.retail_unit_price != null || i.retail_price != null);
 
       const totalsRow = hasRetail ? `
         <tfoot><tr>
@@ -431,12 +431,12 @@
         const itemHeaders = ['Plant', 'Qty', 'Size', 'Item#', 'UPC', 'W Unit', 'W Line', 'R Unit', 'Special'];
         lines.push(itemHeaders.map(csvEscape).join(','));
 
-        const hasRetail = (items || []).some(i => i.retail_unit_price != null);
+        const hasRetail = (items || []).some(i => i.retail_unit_price != null || i.retail_price != null);
         for (const i of (items || [])) {
           const wsUnit = i.unit_price != null ? `$${Number(i.unit_price).toFixed(2)}` : '';
           const wsLine = `$${Number(i.line_total || 0).toFixed(2)}`;
-          const rtUnit = hasRetail && i.retail_unit_price != null
-            ? `$${Number(i.retail_unit_price).toFixed(2)}` : '';
+          const rtUnit = hasRetail && (i.retail_unit_price ?? i.retail_price) != null
+            ? `$${Number(i.retail_unit_price ?? i.retail_price).toFixed(2)}` : '';
           lines.push([
             i.plant_name, i.qty, i.plant_size || '',
             i.item_code || '', i.upc || '',

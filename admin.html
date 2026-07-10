@@ -104,6 +104,7 @@
     <div class="toolbar">
       <input type="search" id="searchInput" placeholder="Search by order #, name, email, item…">
       <select id="statusFilter">
+        <option value="active" selected>Active (hide cancelled)</option>
         <option value="all">All statuses</option>
         <option value="new">New</option>
         <option value="confirmed">Confirmed</option>
@@ -252,7 +253,12 @@
       const q = searchInput.value.trim().toLowerCase();
       const status = statusFilter.value;
       const filtered = allOrders.filter(o => {
-        if (status !== 'all' && o.status !== status) return false;
+        if (status === 'active') {
+          // Hide cancelled orders (the common case while testing).
+          if (o.status === 'cancelled') return false;
+        } else if (status !== 'all' && o.status !== status) {
+          return false;
+        }
         if (!q) return true;
         return [o.order_number, o.customer_name, o.customer_email, o.customer_company]
           .filter(Boolean).join(' ').toLowerCase().includes(q);

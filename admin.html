@@ -373,7 +373,7 @@
         });
       });
 
-      // ----- CSV builder (compact format) -----
+      // ----- CSV builder (single-table layout, normal column widths) -----
       function buildOrderCsv() {
         const o = allOrders.find(x => x.id === id);
         const lines = [];
@@ -384,63 +384,59 @@
           return `"${v}"`;
         }
 
-        // ----- Summary block (1 row, key=value layout keeps auto-fit narrow) -----
+        // ----- Top block: order summary in a single wide table -----
+        // Headers are short (1-2 words) so column widths stay narrow.
         const totalQty = (items || []).reduce((s, i) => s + (i.qty || 0), 0);
         const totalWhsl = (items || []).reduce((s, i) => s + Number(i.line_total || 0), 0);
         const totalRetl = (items || []).reduce((s, i) => s + Number(i.retail_line_total || 0), 0);
         const orderDate = o.created_at ? new Date(o.created_at) : null;
         const dateStr = orderDate ? orderDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
 
-        lines.push(csvEscape('Native Sons — Order Detail'));
-        lines.push('');
-        lines.push([csvEscape('Order #'), csvEscape(o.order_number)].join(','));
-        lines.push([csvEscape('Date'), csvEscape(dateStr)].join(','));
-        lines.push([csvEscape('Status'), csvEscape(o.status)].join(','));
-        lines.push([csvEscape('Customer'), csvEscape(o.customer_name)].join(','));
-        lines.push([csvEscape('Email'), csvEscape(o.customer_email)].join(','));
-        if (o.customer_phone) lines.push([csvEscape('Phone'), csvEscape(o.customer_phone)].join(','));
-        if (o.customer_company) lines.push([csvEscape('Company'), csvEscape(o.customer_company)].join(','));
-        lines.push([csvEscape('Plants'), csvEscape((items || []).length)].join(','));
-        lines.push([csvEscape('Units'), csvEscape(totalQty)].join(','));
-        lines.push([csvEscape('Whsl $'), csvEscape(totalWhsl.toFixed(2))].join(','));
-        lines.push([csvEscape('Retail $'), csvEscape(totalRetl.toFixed(2))].join(','));
-        if (o.notes) lines.push([csvEscape('Notes'), csvEscape(o.notes.replace(/\n/g, ' '))].join(','));
+        // One header row, one data row — same 12 columns everywhere so Excel lays it out cleanly.
+        const metaHeaders = [
+          'Order', 'Date', 'Status', 'Customer', 'Email', 'Phone', 'Company',
+          'Plants', 'Units', 'Wholesale', 'Retail', 'Notes'
+        ];
+        const metaRow = [
+          o.order_number, dateStr, o.status, o.customer_name, o.customer_email,
+          o.customer_phone || '', o.customer_company || '',
+          (items || []).length, totalQty,
+          totalWhsl.toFixed(2), totalRetl.toFixed(2),
+          (o.notes || '').replace(/\n/g, ' ')
+        ];
+        lines.push(metaHeaders.map(csvEscape).join(','));
+        lines.push(metaRow.map(csvEscape).join(','));
 
-        // ----- Line items table (tighter headers, blank divider row) -----
+        // ----- Line items (same column count where possible) -----
         lines.push('');
-        // Use compact labels; right-aligned numerics; tabs preserved by CSV renderer auto-fit
-        const itemHeaders = ['Plant', 'Size', 'Qty', 'W $', 'W Total', 'R $', 'R Total'];
+        const itemHeaders = [
+          'Plant', 'Size', 'Qty', 'W Unit', 'W Line', 'R Unit', 'R Line'
+        ];
         lines.push(itemHeaders.map(csvEscape).join(','));
 
         const hasRetail = (items || []).some(i => i.retail_unit_price != null);
         for (const i of (items || [])) {
-          const wsTotal = (Number(i.line_total) || 0).toFixed(2);
-          const rtTotal = hasRetail && i.retail_line_total != null
-            ? Number(i.retail_line_total).toFixed(2)
-            : '';
           const wsUnit = i.unit_price != null ? Number(i.unit_price).toFixed(2) : '';
+          const wsLine = (Number(i.line_total) || 0).toFixed(2);
           const rtUnit = hasRetail && i.retail_unit_price != null
-            ? Number(i.retail_unit_price).toFixed(2)
-            : '';
+            ? Number(i.retail_unit_price).toFixed(2) : '';
+          const rtLine = hasRetail && i.retail_line_total != null
+            ? Number(i.retail_line_total).toFixed(2) : '';
           lines.push([
-            i.plant_name,
-            i.plant_size || '',
-            i.qty,
-            wsUnit,
-            wsTotal,
-            rtUnit,
-            rtTotal,
+            i.plant_name, i.plant_size || '',
+            i.qty, wsUnit, wsLine, rtUnit, rtLine,
           ].map(csvEscape).join(','));
         }
 
-        // Optional totals footer (only when retail columns are present)
-        if (hasRetail) {
-          const wTotal = (items || []).reduce((s, i) => s + Number(i.line_total || 0), 0).toFixed(2);
-          const rTotal = (items || []).reduce((s, i) => s + Number(i.retail_line_total || 0), 0).toFixed(2);
-          lines.push([
-            'TOTAL', '', totalQty, '', wTotal, '', rTotal,
-          ].map(csvEscape).join(','));
-        }
+        // Totals footer: 7 items columns, 7 totals columns. No trailing empties.
+        lines.push([
+          'TOTAL', '',
+          totalQty,
+          totalWhsl.toFixed(2),
+          totalWhsl.toFixed(2),
+          hasRetail ? totalRetl.toFixed(2) : '',
+          hasRetail ? totalRetl.toFixed(2) : '',
+        ].map(csvEscape).join(','));
 
         return lines.join('\n');
       }

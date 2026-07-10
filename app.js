@@ -311,6 +311,25 @@
   function openCheckout() {
     if (Cart.getCount() === 0) return;
     closeCart();
+    // Pre-fill from a per-browser "remember me" entry the prior customer saved.
+    // Stored locally — never sent to the server beyond what's typed into the
+    // form. The portal never reads the customers table from the browser.
+    try {
+      const raw = localStorage.getItem('nsLastCustomer');
+      if (raw) {
+        const c = JSON.parse(raw);
+        const setIfEmpty = (name, val) => {
+          if (!val) return;
+          const el = checkoutForm.querySelector(`[name="${name}"]`);
+          if (el && !el.value) el.value = val;
+        };
+        setIfEmpty('customer_name', c.name);
+        setIfEmpty('customer_email', c.email);
+        setIfEmpty('customer_phone', c.phone);
+        setIfEmpty('customer_company', c.company);
+      }
+    } catch (_) { /* localStorage unavailable — ignore */ }
+
     checkoutModal.hidden = false;
     checkoutOverlay.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -780,6 +799,20 @@
         alert('Please provide your name and email.');
         return;
       }
+
+      // Save to localStorage so the next order pre-fills these fields.
+      // Browser-local only — never sent to the server beyond what's typed
+      // into the form. Customers can clear it via DevTools / browser
+      // settings if they share a computer.
+      try {
+        localStorage.setItem('nsLastCustomer', JSON.stringify({
+          name: formData.customer_name,
+          email: formData.customer_email,
+          phone: formData.customer_phone || '',
+          company: formData.customer_company || '',
+          saved_at: new Date().toISOString(),
+        }));
+      } catch (_) { /* localStorage unavailable — ignore */ }
 
       submitOrderBtn.disabled = true;
       submitOrderBtn.textContent = 'Submitting…';

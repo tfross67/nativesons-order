@@ -135,6 +135,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
+  <script src="masteritem_data.js"></script>
   <script>
     // ============================================================
     // Admin dashboard. Uses the service role key to bypass RLS.
@@ -309,6 +310,8 @@
           <td>${esc(i.plant_name)}</td>
           <td>${esc(i.plant_size || '—')}</td>
           <td class="num">${i.qty}</td>
+          <td style="font-family:monospace; font-size:12px;">${i.item_code ? esc(i.item_code) : '<span style="color:var(--c-muted)">—</span>'}</td>
+          <td style="font-family:monospace; font-size:12px;">${i.upc ? esc(i.upc) : '<span style="color:var(--c-muted)">—</span>'}</td>
           <td class="num">$${fmt(i.unit_price)}</td>
           <td class="num">$${fmt(i.line_total)}</td>
           <td class="num retail">${i.retail_unit_price != null ? `$${fmt(i.retail_unit_price)}` : '—'}</td>
@@ -323,9 +326,8 @@
 
       const totalsRow = hasRetail ? `
         <tfoot><tr>
-          <td><strong>Totals</strong></td>
-          <td></td>
-          <td class="num">${totalQty}</td>
+          <td colspan="3"><strong>Totals</strong> <span class="num" style="margin-left:8px;">${totalQty} plants</span></td>
+          <td colspan="2"></td>
           <td></td>
           <td class="num">$${fmt(totalWholesale)}</td>
           <td></td>
@@ -347,7 +349,7 @@
         </dl>
         ${o.notes ? `<p><strong>Notes:</strong> ${esc(o.notes)}</p>` : ''}
         <table class="line-items">
-          <thead><tr><th>Plant</th><th>Size</th><th class="num">Qty</th><th class="num">Wholesale</th><th class="num">Whsl $</th><th class="num">Retail</th><th class="num">Retail $</th></tr></thead>
+          <thead><tr><th>Plant</th><th>Size</th><th class="num">Qty</th><th>Item#</th><th>UPC</th><th class="num">Wholesale</th><th class="num">Whsl $</th><th class="num">Retail</th><th class="num">Retail $</th></tr></thead>
           <tbody>${lineRows}</tbody>
           ${totalsRow}
         </table>
@@ -414,14 +416,14 @@
         lines.push(metaHeaders.map(csvEscape).join(','));
         lines.push(metaRow.map(csvEscape).join(','));
 
-        // ----- Detail rows: Plant | Qty | Size | W Unit | W Line | R Unit -----
+        // ----- Detail rows: Plant | Qty | Size | Item# | UPC | W Unit | W Line | R Unit -----
         // Numeric columns (W Unit, W Line, R Unit) are formatted as "$8.00" so the
         // dollar sign travels with the value (no spreadsheet dependency needed) and
         // are quoted so the value travels intact when the file is opened in
         // Excel/Numbers/Sheets — those apps will still auto-format the cell as
         // currency on import thanks to the leading "$".
         lines.push('');
-        const itemHeaders = ['Plant', 'Qty', 'Size', 'W Unit', 'W Line', 'R Unit'];
+        const itemHeaders = ['Plant', 'Qty', 'Size', 'Item#', 'UPC', 'W Unit', 'W Line', 'R Unit'];
         lines.push(itemHeaders.map(csvEscape).join(','));
 
         const hasRetail = (items || []).some(i => i.retail_unit_price != null);
@@ -432,15 +434,14 @@
             ? `$${Number(i.retail_unit_price).toFixed(2)}` : '';
           lines.push([
             i.plant_name, i.qty, i.plant_size || '',
+            i.item_code || '', i.upc || '',
             wsUnit, wsLine, rtUnit,
           ].map(csvEscape).join(','));
         }
 
-        // Totals footer: TOTAL | Qty | Size blank | $W Total | $W Total | $R Total
-        // Wholesale total fills both W Unit and W Line columns (echo) — this keeps the
-        // footer cleanly readable. R Unit column gets the retail total.
+        // Totals footer: 8 columns. Plant | Qty | Size | Item# | UPC | W Unit | W Line | R Unit
         lines.push([
-          'TOTAL', totalQty, '',
+          'TOTAL', totalQty, '', '', '',
           `$${totalWhsl.toFixed(2)}`,
           `$${totalWhsl.toFixed(2)}`,
           hasRetail ? `$${totalRetl.toFixed(2)}` : '',

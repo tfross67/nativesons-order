@@ -873,6 +873,17 @@ body { padding-bottom: 80px; }
   font-weight: 600;
   margin: 6px 0 10px;
 }
+.detail-notes {
+  font-size: 13.5px;
+  color: var(--c-muted);
+  line-height: 1.5;
+  padding: 12px 14px;
+  background: var(--c-paper);
+  border: 1px dashed var(--c-line);
+  border-radius: 10px;
+  margin: 0 0 18px;
+}
+.detail-notes strong { color: var(--c-ink); font-weight: 600; margin-right: 6px; }
 .detail-sizes { display: flex; flex-direction: column; gap: 10px; }
 .detail-size-row {
   display: flex;

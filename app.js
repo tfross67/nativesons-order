@@ -98,7 +98,8 @@
     if (!q) return true;
     const haystack = [
       p.botanical, p.common, p.section,
-      p.flower_color,
+      p.origin, p.plant_type, p.flower_color, p.flower_time,
+      p.foliage, p.special_uses,
       ...getSizes(p).map(s => s.container)
     ].filter(Boolean).join(' ').toLowerCase();
     return haystack.includes(q);
@@ -347,12 +348,25 @@
     const specRows = [];
     if (p.height) specRows.push(['Height', esc(p.height)]);
     if (p.width) specRows.push(['Width', esc(p.width)]);
+    if (p.exposure) specRows.push(['Exposure', esc(p.exposure)]);
+    if (p.plant_type) specRows.push(['Plant type', esc(p.plant_type)]);
     if (p.flower_color) specRows.push(['Flower color', `<span class="spec-flower">${esc(p.flower_color)}</span>`]);
+    if (p.flower_time) specRows.push(['Flower time', esc(p.flower_time)]);
+    if (p.foliage) specRows.push(['Foliage', esc(p.foliage)]);
+    if (p.water) specRows.push(['Water', esc(p.water)]);
+    if (p.hardiness) specRows.push(['Hardiness', esc(p.hardiness)]);
+    if (p.soil) specRows.push(['Soil', esc(p.soil)]);
     if (p.origin) specRows.push(['Origin', esc(p.origin)]);
     if (p.section) specRows.push(['Category', esc(p.section)]);
+    if (p.special_uses) specRows.push(['Special uses', esc(p.special_uses).replace(/\n/g, ', ')]);
     const specsHtml = specRows.length
       ? `<dl class="detail-specs">${specRows.map(([k, v]) =>
           `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>`
+      : '';
+
+    // Notes / additional info (longer prose)
+    const notesHtml = p.additional_info
+      ? `<div class="detail-notes"><strong>Notes:</strong> ${esc(p.additional_info)}</div>`
       : '';
 
     // Size picker — one row per size with its own qty input + Add button.
@@ -386,6 +400,7 @@
         ${badges.length ? `<div class="badges detail-badges">${badges.join('')}</div>` : ''}
       </div>
       ${specsHtml}
+      ${notesHtml}
       <div class="detail-section-title">Available sizes</div>
       <div class="detail-sizes">${sizesHtml}</div>
       <p class="detail-footnote">Quantities are not held until confirmed by our office.</p>

@@ -54,8 +54,19 @@ const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") || "";
 const fmt = (n: number) => (typeof n === "number" ? n.toFixed(2) : "0.00");
 
 function buildSlackBlocks(o: OrderRecord, items: OrderItem[]) {
+  // Only count retail toward totals when there's an actual markup on that line.
+  // (Some lines have retail_unit_price set equal to wholesale — no markup — and
+  // those should NOT inflate the retail total.)
+  const hasMarkup = (i: OrderItem) => {
+    const ru = i.retail_unit_price ?? i.retail_price;
+    return ru != null && Number(ru) > Number(i.unit_price);
+  };
   const totalWholesale = items.reduce((s, i) => s + Number(i.line_total || 0), 0);
-  const totalRetail = items.reduce((s, i) => s + Number(i.retail_line_total || 0), 0);
+  const totalRetail = items.reduce(
+    (s, i) => s + (hasMarkup(i) ? Number(i.retail_line_total || 0) : 0),
+    0
+  );
+  const hasAnyMarkup = items.some(hasMarkup);
   const totalUnits = items.reduce((s, i) => s + (i.qty || 0), 0);
   const specialCount = items.filter(i => i.special_order).length;
 
@@ -64,7 +75,7 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[]) {
   const text = [
     `*New order ${o.order_number}* — ${o.customer_name}`,
     `Items: ${items.length} plants, ${totalUnits} units` +
-      (totalRetail > 0 ? `, retail $${fmt(totalRetail)}` : `, wholesale $${fmt(totalWholesale)}`),
+      (hasAnyMarkup ? `, retail $${fmt(totalRetail)}` : `, wholesale $${fmt(totalWholesale)}`),
     o.notes ? `Notes: ${o.notes}` : null,
   ].filter(Boolean).join("\n");
 
@@ -92,9 +103,11 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[]) {
     const soFlag = i.special_order ? " :star: *SPECIAL ORDER*" : "";
     const sz = i.plant_size ? ` _(${i.plant_size})_` : "";
     const wholesale = `$${fmt(i.unit_price)} each = $${fmt(i.line_total)}`;
-    const retail = (i.retail_unit_price ?? i.retail_price) != null
-      ? ` retail $${fmt(Number(i.retail_unit_price ?? i.retail_price))}`
-      : "";
+    const retailUnit = i.retail_unit_price ?? i.retail_price;
+    // Only show "retail $X" when the customer actually marked it up.
+    // Skip when retail equals wholesale (no markup) or is unset.
+    const hasMarkup = retailUnit != null && Number(retailUnit) > Number(i.unit_price);
+    const retail = hasMarkup ? ` retail $${fmt(Number(retailUnit))}` : "";
     return `${idx + 1}. ${i.plant_name}${sz}${soFlag}\n     Qty ${i.qty} • ${wholesale}${retail}`;
   }).join("\n\n");
 
@@ -127,7 +140,7 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[]) {
   // Totals footer
   const totalLines = [
     `*Subtotal (wholesale):* $${fmt(totalWholesale)}`,
-    totalRetail > 0 ? `*Total (retail):* $${fmt(totalRetail)}` : null,
+    hasAnyMarkup ? `*Total (retail):* $${fmt(totalRetail)}` : null,
     specialCount > 0 ? `:star: *${specialCount} special order item${specialCount > 1 ? "s" : ""}*` : null,
   ].filter(Boolean).join("\n");
 

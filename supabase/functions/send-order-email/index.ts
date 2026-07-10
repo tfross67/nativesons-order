@@ -49,6 +49,8 @@ const AGENTMAIL_API_KEY = Deno.env.get("AGENTMAIL_API_KEY") || "";
 const AGENTMAIL_INBOX = Deno.env.get("AGENTMAIL_INBOX") || "afterimage@agentmail.to";
 const OFFICE_EMAIL = Deno.env.get("OFFICE_EMAIL") || "orders@nativeson.com";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "https://ruwyfesblmaurfuiaofw.supabase.co";
+// Where "View in admin" button points. Set via supabase secrets: `supabase secrets set ADMIN_URL=...`
+const ADMIN_URL = Deno.env.get("ADMIN_URL") || "https://tfross67.github.io/nativesons-order/admin.html";
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
 
 const fmt = (n: number) => (typeof n === "number" ? n.toFixed(2) : "0.00");
@@ -111,7 +113,7 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
         ${toCustomer
           ? `<p style="margin-top:24px; font-size:14px; color:#4a5546;">Questions? Call 805.481.5996 or reply to this email.</p>
              <p style="font-size:12px; color:#8a8a7c; margin-top:24px;">Availability is updated weekly. Quantities are not held until confirmed by our office.</p>`
-          : `<p style="margin-top:24px;"><a href="${SUPABASE_URL}/editor" style="background:#2d4a2b; color:white; padding:10px 20px; border-radius:6px; text-decoration:none; font-weight:600;">View in admin →</a></p>`
+          : `<p style="margin-top:24px;"><a href="${ADMIN_URL}" style="background:#2d4a2b; color:white; padding:10px 20px; border-radius:6px; text-decoration:none; font-weight:600;">View in admin →</a></p>`
         }
       </div>
     </div>

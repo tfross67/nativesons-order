@@ -364,6 +364,7 @@
           <button class="btn btn-ghost" data-action="copy-csv">Copy CSV</button>
           <button class="btn btn-ghost" data-action="download-csv">Download CSV</button>
           <button class="btn btn-ghost" data-action="email-office">Email office</button>
+          <button class="btn btn-ghost" data-action="send-slack">Send to Slack</button>
           <a class="btn btn-ghost" href="mailto:${esc(o.customer_email)}?subject=Re: Order ${encodeURIComponent(o.order_number)}">Email customer</a>
         </div>
       `;
@@ -506,6 +507,45 @@
         const officeEmail = (window.PORTAL_CONFIG && window.PORTAL_CONFIG.office_email) || 'orders@nativeson.com';
         window.location.href =
           `mailto:${encodeURIComponent(officeEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      });
+
+      // Send order to Slack via the send-order-slack Edge Function.
+      orderDetail.querySelector('[data-action="send-slack"]')?.addEventListener('click', async () => {
+        const btn = orderDetail.querySelector('[data-action="send-slack"]');
+        const o = allOrders.find(x => x.id === id);
+        if (!o || !items) return;
+        const originalText = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        try {
+          const url = `${window.SUPABASE_CONFIG.url}/functions/v1/send-order-slack`;
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': window.SUPABASE_CONFIG.anonKey,
+              'authorization': `Bearer ${window.SUPABASE_CONFIG.anonKey}`,
+            },
+            body: JSON.stringify({ record: o, items }),
+          });
+          const body = await res.json();
+          if (!res.ok || !body.ok) {
+            throw new Error(body.error || `HTTP ${res.status}`);
+          }
+          btn.textContent = '✓ Sent to Slack';
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          }, 3000);
+        } catch (err) {
+          console.error('Slack send failed:', err);
+          btn.textContent = `✗ ${(err && err.message) || 'Failed'}`;
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          }, 5000);
+          alert(`Failed to send to Slack: ${err && err.message ? err.message : err}`);
+        }
       });
 
       orderDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });

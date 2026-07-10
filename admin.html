@@ -336,7 +336,6 @@
           <td class="num">$${fmt(totalWholesale)}</td>
           <td></td>
           <td class="num">$${fmt(totalRetail)}</td>
-          <td></td>
         </tr></tfoot>` : '';
 
       orderDetail.innerHTML = `
@@ -354,7 +353,7 @@
         </dl>
         ${o.notes ? `<p><strong>Notes:</strong> ${esc(o.notes)}</p>` : ''}
         <table class="line-items">
-          <thead><tr><th>Plant</th><th>Size</th><th class="num">Qty</th><th>Item#</th><th>UPC</th><th class="num">Wholesale</th><th class="num">Whsl $</th><th class="num">Retail</th><th class="num">Retail $</th><th>SO</th></tr></thead>
+          <thead><tr><th>Plant</th><th>Size</th><th class="num">Qty</th><th>Item#</th><th>UPC</th><th class="num">Wholesale</th><th class="num">Whsl $</th><th class="num">Retail</th><th class="num">Retail $</th></tr></thead>
           <tbody>${lineRows}</tbody>
           ${totalsRow}
         </table>
@@ -428,7 +427,7 @@
         // Excel/Numbers/Sheets — those apps will still auto-format the cell as
         // currency on import thanks to the leading "$".
         lines.push('');
-        const itemHeaders = ['Plant', 'Qty', 'Size', 'Item#', 'UPC', 'W Unit', 'W Line', 'R Unit', 'Special'];
+        const itemHeaders = ['Plant', 'Qty', 'Size', 'Item#', 'UPC', 'W Unit', 'W Line', 'R Unit'];
         lines.push(itemHeaders.map(csvEscape).join(','));
 
         const hasRetail = (items || []).some(i => i.retail_unit_price != null || i.retail_price != null);
@@ -438,20 +437,18 @@
           const rtUnit = hasRetail && (i.retail_unit_price ?? i.retail_price) != null
             ? `$${Number(i.retail_unit_price ?? i.retail_price).toFixed(2)}` : '';
           lines.push([
-            i.plant_name, i.qty, i.plant_size || '',
+            (i.special_order ? '[SO] ' : '') + i.plant_name, i.qty, i.plant_size || '',
             i.item_code || '', i.upc || '',
             wsUnit, wsLine, rtUnit,
-            i.special_order ? 'SO' : '',
           ].map(csvEscape).join(','));
         }
 
-        // Totals footer: 9 columns. Plant | Qty | Size | Item# | UPC | W Unit | W Line | R Unit | Special
+        // Totals footer: 8 columns. Plant | Qty | Size | Item# | UPC | W Unit | W Line | R Unit
         lines.push([
           'TOTAL', totalQty, '', '', '',
           `$${totalWhsl.toFixed(2)}`,
           `$${totalWhsl.toFixed(2)}`,
           hasRetail ? `$${totalRetl.toFixed(2)}` : '',
-          '',
         ].map(csvEscape).join(','));
 
         return lines.join('\n');

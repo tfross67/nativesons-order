@@ -349,6 +349,9 @@
           ${o.status === 'new' ? `<button class="btn btn-primary" data-set-status="confirmed">Mark confirmed</button>` : ''}
           ${o.status !== 'fulfilled' && o.status !== 'cancelled' ? `<button class="btn btn-primary" data-set-status="fulfilled">Mark fulfilled</button>` : ''}
           ${o.status !== 'cancelled' ? `<button class="btn btn-ghost" data-set-status="cancelled">Cancel order</button>` : ''}
+          <button class="btn btn-ghost" data-action="copy-csv">Copy CSV</button>
+          <button class="btn btn-ghost" data-action="download-csv">Download CSV</button>
+          <button class="btn btn-ghost" data-action="email-office">Email office</button>
           <a class="btn btn-ghost" href="mailto:${esc(o.customer_email)}?subject=Re: Order ${encodeURIComponent(o.order_number)}">Email customer</a>
         </div>
       `;
@@ -368,6 +371,101 @@
             if (updated) showOrderDetail(id);
           }
         });
+      });
+
+      // ----- CSV builders -----
+      function buildOrderCsv() {
+        const o = allOrders.find(x => x.id === id);
+        const orderHeaders = [
+          'Order #', 'Date', 'Status', 'Customer', 'Email', 'Phone', 'Company',
+          'Plants', 'Units', 'Wholesale Subtotal', 'Retail Subtotal', 'Notes'
+        ];
+        const totalQty = (items || []).reduce((s, i) => s + (i.qty || 0), 0);
+        const totalWhsl = (items || []).reduce((s, i) => s + Number(i.line_total || 0), 0);
+        const totalRetl = (items || []).reduce((s, i) => s + Number(i.retail_line_total || 0), 0);
+        const orderRow = [
+          o.order_number, o.created_at, o.status, o.customer_name, o.customer_email,
+          o.customer_phone || '', o.customer_company || '',
+          (items || []).length, totalQty, totalWhsl.toFixed(2), totalRetl.toFixed(2),
+          (o.notes || '').replace(/\n/g, ' ')
+        ];
+        function csvEscape(v) {
+          if (v == null) v = '';
+          v = String(v).replace(/"/g, '""');
+          return `"${v}"`;
+        }
+        const lines = [];
+        // Order header rows
+        lines.push(orderHeaders.map(csvEscape).join(','));
+        lines.push(orderRow.map(csvEscape).join(','));
+        // Line items section
+        const itemHeaders = ['Plant', 'Size', 'Qty', 'Wholesale', 'Whsl $', 'Retail', 'Retail $'];
+        lines.push('');
+        lines.push(itemHeaders.map(csvEscape).join(','));
+        for (const i of (items || [])) {
+          lines.push([
+            i.plant_name, i.plant_size || '',
+            i.qty,
+            i.unit_price, i.line_total,
+            i.retail_unit_price != null ? i.retail_unit_price : '',
+            i.retail_line_total != null ? i.retail_line_total : ''
+          ].map(csvEscape).join(','));
+        }
+        return lines.join('\n');
+      }
+
+      async function flashCopied(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          const banner = document.createElement('div');
+          banner.textContent = '✓ Copied to clipboard';
+          Object.assign(banner.style, {
+            position: 'fixed', left: '16px', right: '16px', bottom: '16px',
+            padding: '12px 16px', borderRadius: '8px',
+            background: '#e6f4d9', border: '1px solid #7aa84a',
+            font: '14px -apple-system, sans-serif', zIndex: '9999',
+            textAlign: 'center', fontWeight: '600'
+          });
+          document.body.appendChild(banner);
+          setTimeout(() => banner.remove(), 1800);
+        } catch (e) {
+          alert('Copy failed: ' + e.message + ' — try Download CSV instead.');
+        }
+      }
+
+      orderDetail.querySelector('[data-action="copy-csv"]')?.addEventListener('click', () => {
+        flashCopied(buildOrderCsv());
+      });
+      orderDetail.querySelector('[data-action="download-csv"]')?.addEventListener('click', () => {
+        const o = allOrders.find(x => x.id === id);
+        const csv = buildOrderCsv();
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${o.order_number}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+      orderDetail.querySelector('[data-action="email-office"]')?.addEventListener('click', () => {
+        const o = allOrders.find(x => x.id === id);
+        const subject = `Order ${o.order_number} — ${o.customer_name}`;
+        const body = `Attached is the order detail for ${o.order_number}.\n\n` +
+          `Order #:\t${o.order_number}\n` +
+          `Customer:\t${o.customer_name}\n` +
+          `Email:\t${o.customer_email}\n` +
+          `Phone:\t${o.customer_phone || ''}\n` +
+          `Company:\t${o.customer_company || ''}\n` +
+          `Status:\t${o.status}\n` +
+          `Plants:\t${(items || []).length}\n` +
+          `Units:\t${(items || []).reduce((s, i) => s + (i.qty || 0), 0)}\n` +
+          `Wholesale:\t$${(items || []).reduce((s, i) => s + Number(i.line_total || 0), 0).toFixed(2)}\n` +
+          `Retail:\t$${(items || []).reduce((s, i) => s + Number(i.retail_line_total || 0), 0).toFixed(2)}\n\n` +
+          `To attach the CSV, click "Copy CSV" or "Download CSV" above and paste/attach.\n`;
+        // Open mailto with a pre-filled body. Office inbox from window.PORTAL_CONFIG or fall back to orders@nativeson.com.
+        const officeEmail = (window.PORTAL_CONFIG && window.PORTAL_CONFIG.office_email) || 'orders@nativeson.com';
+        window.location.href =
+          `mailto:${encodeURIComponent(officeEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       });
 
       orderDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });

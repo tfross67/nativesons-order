@@ -58,6 +58,10 @@
     .line-items th, .line-items td { padding: 8px 10px; font-size: 14px; text-align: left; border-bottom: 1px solid var(--c-line); }
     .line-items th { font-size: 11px; text-transform: uppercase; color: var(--c-muted); font-weight: 600; }
     .line-items td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .line-items th.num { text-align: right; }
+    .line-items .retail { color: var(--c-muted); }
+    .line-items tfoot td { border-top: 2px solid var(--c-line); border-bottom: none; font-weight: 600; padding-top: 12px; }
+    .line-items tfoot td.num { font-variant-numeric: tabular-nums; }
 
     .login-card {
       max-width: 360px; margin: 80px auto; padding: 32px;
@@ -301,8 +305,26 @@
           <td class="num">${i.qty}</td>
           <td class="num">$${fmt(i.unit_price)}</td>
           <td class="num">$${fmt(i.line_total)}</td>
+          <td class="num retail">${i.retail_unit_price != null ? `$${fmt(i.retail_unit_price)}` : '—'}</td>
+          <td class="num retail">${i.retail_line_total != null ? `$${fmt(i.retail_line_total)}` : '—'}</td>
         </tr>
       `).join('');
+
+      const totalQty = (items || []).reduce((s, i) => s + (i.qty || 0), 0);
+      const totalWholesale = (items || []).reduce((s, i) => s + Number(i.line_total || 0), 0);
+      const totalRetail = (items || []).reduce((s, i) => s + Number(i.retail_line_total || 0), 0);
+      const hasRetail = (items || []).some(i => i.retail_unit_price != null);
+
+      const totalsRow = hasRetail ? `
+        <tfoot><tr>
+          <td><strong>Totals</strong></td>
+          <td></td>
+          <td class="num">${totalQty}</td>
+          <td></td>
+          <td class="num">$${fmt(totalWholesale)}</td>
+          <td></td>
+          <td class="num">$${fmt(totalRetail)}</td>
+        </tr></tfoot>` : '';
 
       orderDetail.innerHTML = `
         <h2>${esc(o.order_number)}</h2>
@@ -319,8 +341,9 @@
         </dl>
         ${o.notes ? `<p><strong>Notes:</strong> ${esc(o.notes)}</p>` : ''}
         <table class="line-items">
-          <thead><tr><th>Plant</th><th>Size</th><th class="num">Qty</th><th class="num">Unit</th><th class="num">Line</th></tr></thead>
+          <thead><tr><th>Plant</th><th>Size</th><th class="num">Qty</th><th class="num">Wholesale</th><th class="num">Whsl $</th><th class="num">Retail</th><th class="num">Retail $</th></tr></thead>
           <tbody>${lineRows}</tbody>
+          ${totalsRow}
         </table>
         <div style="display:flex; gap:8px; margin-top:16px; flex-wrap:wrap;">
           ${o.status === 'new' ? `<button class="btn btn-primary" data-set-status="confirmed">Mark confirmed</button>` : ''}

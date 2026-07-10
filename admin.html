@@ -61,6 +61,9 @@
     .line-items th.num { text-align: right; }
     .line-items .retail { color: var(--c-muted); }
     .line-items tfoot td { border-top: 2px solid var(--c-line); border-bottom: none; font-weight: 600; padding-top: 12px; }
+    .line-items tr.line-special { background: #fff8e1; }
+    .line-items tr.line-special:hover { background: #fff3cd; }
+    .so-badge { display: inline-block; margin-left: 6px; padding: 1px 7px; background: #f0d97a; color: #6b4f00; border-radius: 9px; font-size: 9px; font-weight: 700; letter-spacing: 0.05em; vertical-align: middle; }
     .line-items tfoot td.num { font-variant-numeric: tabular-nums; }
 
     .login-card {
@@ -308,8 +311,8 @@
       }
 
       const lineRows = (items || []).map(i => `
-        <tr>
-          <td>${esc(i.plant_name)}</td>
+        <tr${i.special_order ? ' class="line-special"' : ''}>
+          <td>${esc(i.plant_name)}${i.special_order ? '<span class="so-badge">SO</span>' : ''}</td>
           <td>${esc(i.plant_size || '—')}</td>
           <td class="num">${i.qty}</td>
           <td style="font-family:monospace; font-size:12px;">${i.item_code ? esc(i.item_code) : '<span style="color:var(--c-muted)">—</span>'}</td>
@@ -329,11 +332,11 @@
       const totalsRow = hasRetail ? `
         <tfoot><tr>
           <td colspan="3"><strong>Totals</strong> <span class="num" style="margin-left:8px;">${totalQty} plants</span></td>
-          <td colspan="2"></td>
-          <td></td>
+          <td colspan="3"></td>
           <td class="num">$${fmt(totalWholesale)}</td>
           <td></td>
           <td class="num">$${fmt(totalRetail)}</td>
+          <td></td>
         </tr></tfoot>` : '';
 
       orderDetail.innerHTML = `
@@ -351,7 +354,7 @@
         </dl>
         ${o.notes ? `<p><strong>Notes:</strong> ${esc(o.notes)}</p>` : ''}
         <table class="line-items">
-          <thead><tr><th>Plant</th><th>Size</th><th class="num">Qty</th><th>Item#</th><th>UPC</th><th class="num">Wholesale</th><th class="num">Whsl $</th><th class="num">Retail</th><th class="num">Retail $</th></tr></thead>
+          <thead><tr><th>Plant</th><th>Size</th><th class="num">Qty</th><th>Item#</th><th>UPC</th><th class="num">Wholesale</th><th class="num">Whsl $</th><th class="num">Retail</th><th class="num">Retail $</th><th>SO</th></tr></thead>
           <tbody>${lineRows}</tbody>
           ${totalsRow}
         </table>
@@ -425,7 +428,7 @@
         // Excel/Numbers/Sheets — those apps will still auto-format the cell as
         // currency on import thanks to the leading "$".
         lines.push('');
-        const itemHeaders = ['Plant', 'Qty', 'Size', 'Item#', 'UPC', 'W Unit', 'W Line', 'R Unit'];
+        const itemHeaders = ['Plant', 'Qty', 'Size', 'Item#', 'UPC', 'W Unit', 'W Line', 'R Unit', 'Special'];
         lines.push(itemHeaders.map(csvEscape).join(','));
 
         const hasRetail = (items || []).some(i => i.retail_unit_price != null);
@@ -438,15 +441,17 @@
             i.plant_name, i.qty, i.plant_size || '',
             i.item_code || '', i.upc || '',
             wsUnit, wsLine, rtUnit,
+            i.special_order ? 'SO' : '',
           ].map(csvEscape).join(','));
         }
 
-        // Totals footer: 8 columns. Plant | Qty | Size | Item# | UPC | W Unit | W Line | R Unit
+        // Totals footer: 9 columns. Plant | Qty | Size | Item# | UPC | W Unit | W Line | R Unit | Special
         lines.push([
           'TOTAL', totalQty, '', '', '',
           `$${totalWhsl.toFixed(2)}`,
           `$${totalWhsl.toFixed(2)}`,
           hasRetail ? `$${totalRetl.toFixed(2)}` : '',
+          '',
         ].map(csvEscape).join(','));
 
         return lines.join('\n');

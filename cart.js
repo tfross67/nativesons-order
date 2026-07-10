@@ -25,7 +25,7 @@ window.Cart = (() => {
       if (!Array.isArray(parsed)) { items = []; return; }
       // Backfill retail fields on legacy items.
       items = parsed.map(i => Object.assign(
-        { retailMode: 'wholesale', retailPrice: i.price || 0 },
+        { retailMode: 'wholesale', retailPrice: i.price || 0, specialOrder: false },
         i
       ));
       // If item is wholesale mode but retailPrice drifted, snap it back to wholesale.
@@ -74,6 +74,7 @@ window.Cart = (() => {
         qty: plant.qty,
         retailMode: 'wholesale',
         retailPrice: plant.price,
+        specialOrder: false,
       });
     }
     save();
@@ -151,6 +152,15 @@ window.Cart = (() => {
     save();
   }
 
+  // Mark a cart line as a special-order item (not in general stock).
+  // The flag is persisted with the order so the office knows to source it.
+  function setSpecial(key, isSpecial) {
+    const item = items.find(i => i.key === key);
+    if (!item) return;
+    item.specialOrder = !!isSpecial;
+    save();
+  }
+
   function clear() {
     items = [];
     save();
@@ -162,5 +172,5 @@ window.Cart = (() => {
   function getRetailSubtotal() { return items.reduce((sum, i) => sum + (i.retailPrice * i.qty), 0); }
 
   load();
-  return { add, setQty, setRetail, applyDefaultMarkup, remove, clear, getItems, getCount, getSubtotal, getRetailSubtotal, onChange };
+  return { add, setQty, setRetail, setSpecial, applyDefaultMarkup, remove, clear, getItems, getCount, getSubtotal, getRetailSubtotal, onChange };
 })();

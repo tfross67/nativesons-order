@@ -254,6 +254,10 @@
                   data-action="retail-input" data-mode="manual" data-key="${esc(i.key)}" value="${manualValue}">
                 <span class="pricing-input-suffix">/ea</span>
               </div>` : ''}
+            <label class="special-order-toggle" title="Mark this line as a special-order item — not in general stock, sourced-to-order">
+              <input type="checkbox" data-action="special-toggle" data-key="${esc(i.key)}" ${i.specialOrder ? 'checked' : ''}>
+              <span class="special-order-badge ${i.specialOrder ? 'on' : ''}">Special order</span>
+            </label>
           </div>
         </div>
       `;
@@ -463,6 +467,7 @@
       retail_mode: i.retailMode || 'wholesale',
       retail_price: i.retailPrice,
       retail_line_total: (i.retailPrice || 0) * i.qty,
+      special_order: !!i.specialOrder,
     }));
 
     const { data: orderId, error } = await supabase.rpc('submit_order', {
@@ -516,6 +521,7 @@
         unit_price: i.price,
         qty: i.qty,
         line_total: i.price * i.qty,
+        special_order: !!i.specialOrder,
       })),
       debugOfficeEmail: debugOfficeEmail || undefined,
     };
@@ -653,6 +659,16 @@
       else if (action === 'remove') Cart.remove(key);
     });
     cartItems.addEventListener('change', (e) => {
+      // Special-order toggle (separate from retail input handling)
+      const specialToggle = e.target.closest('input[data-action="special-toggle"]');
+      if (specialToggle) {
+        const key = specialToggle.dataset.key;
+        Cart.setSpecial(key, specialToggle.checked);
+        // Update the badge color in-place without re-render
+        const badge = specialToggle.parentElement.querySelector('.special-order-badge');
+        if (badge) badge.classList.toggle('on', specialToggle.checked);
+        return;
+      }
       // Quantity input
       const setInput = e.target.closest('input[data-action="set"]');
       if (setInput) {

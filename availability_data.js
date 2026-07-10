@@ -15,7 +15,9 @@ window.AVAILABILITY = {
         "price": 22.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Abelia x grandiflora 'Kaleidoscope'",
@@ -32,6 +34,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Kaleidoscope Abelia",
     "height": "2-3'",
     "width": "3-4'",
@@ -55,6 +59,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Radiance Abelia",
     "height": "2-3'",
     "width": "3-4'",
@@ -72,7 +78,9 @@ window.AVAILABILITY = {
         "price": 26.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Acacia iteaphylla",
@@ -83,7 +91,9 @@ window.AVAILABILITY = {
         "price": 24.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Acacia vestita",
@@ -95,6 +105,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Hairy Wattle",
     "height": "12-16'",
     "width": "15-20'",
@@ -113,6 +125,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Bear's Breeches",
     "height": "2-3'",
     "width": "2-3'",
@@ -131,6 +145,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": true,
     "common": "Yarrow",
     "height": "2-3'",
     "width": "18-24\"",
@@ -149,6 +165,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Yarrow",
     "height": "18-24\"",
     "width": "18-24\"",
@@ -166,7 +184,9 @@ window.AVAILABILITY = {
         "price": 6.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Achillea millefolium 'Pomegranate'",
@@ -178,6 +198,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": true,
     "common": "Yarrow",
     "height": "2-3'",
     "width": "2-3'",
@@ -196,6 +218,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": true,
     "common": "Yarrow",
     "height": "12-18\"",
     "width": "18-24\"",
@@ -214,6 +238,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Yarrow",
     "height": "18-24\"",
     "width": "18-24\"",
@@ -231,7 +257,9 @@ window.AVAILABILITY = {
         "price": 6.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Adenanthos 'Silver Haze'",
@@ -248,6 +276,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Silver Haze Woolly Bush",
     "height": "4-6'",
     "width": "4-6'",
@@ -265,6 +295,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Giant hyssop",
     "height": "2-3'",
     "width": "18-24\"",
@@ -283,6 +315,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Agave",
     "height": "2-3'",
     "width": "18-24\"",
@@ -301,6 +335,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Agave",
     "height": "12-18\"",
     "width": "1-2'",
@@ -319,6 +355,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Little Penguins agave",
     "height": "8-12\"",
     "width": "6-8\"",
@@ -336,6 +374,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Century plant",
     "height": "6-10'",
     "width": "8-12'",
@@ -352,7 +392,9 @@ window.AVAILABILITY = {
         "price": 12.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Alyogyne huegelii 'White Swan'",
@@ -363,7 +405,9 @@ window.AVAILABILITY = {
         "price": 22.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Anemone 'Dawn Breaker'",
@@ -375,6 +419,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Japanese anemone",
     "height": "12-18\"",
     "width": "12-18\"",
@@ -391,7 +437,9 @@ window.AVAILABILITY = {
         "price": 7.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Anemone x hybrida Fantasy™ 'Red Riding Hood'",
@@ -402,7 +450,9 @@ window.AVAILABILITY = {
         "price": 7.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Anisodontea 'Elegant Lady'",
@@ -419,6 +469,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Cape mallow",
     "height": "2-3'",
     "width": "2-3'",
@@ -436,7 +488,15 @@ window.AVAILABILITY = {
         "price": 7.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "common": "Manzanita",
+    "height": "18-24\"",
+    "width": "4-6'",
+    "flower_color": "White",
+    "flower_time": "Winter",
+    "origin": "California"
   },
   {
     "botanical": "Arctostaphylos glauca ‘Canyon Blush'",
@@ -448,6 +508,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Manzanita",
     "height": "3-4'",
     "width": "8-10'",
@@ -471,6 +533,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Manzanita",
     "height": "8-10'",
     "width": "4-6'",
@@ -489,6 +553,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Peter Ehrlich manzanita",
     "height": "2-3'",
     "width": "6-8'",
@@ -506,7 +572,9 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Baccharis pilularis 'San Bruno Lady'",
@@ -517,7 +585,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Bidens ferulifolia 'Yellow Sunshine'",
@@ -529,6 +599,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Tickseed",
     "height": "8-12\"",
     "width": "12-18\"",
@@ -546,6 +618,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Mexican Caesalpinia",
     "height": "10-15'",
     "width": "4-6'",
@@ -563,6 +637,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": true,
     "common": "Bottlebrush",
     "height": "4-6'",
     "width": "4-6'",
@@ -580,6 +656,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Slim bottlebrush",
     "height": "6-8'",
     "width": "3-4'",
@@ -598,11 +676,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Incense cedar",
-    "height": "40-50'",
-    "width": "20'+",
-    "flower_color": "Red brown cones",
-    "flower_time": "Fall",
+    "bloom": false,
+    "bud": false,
     "origin": "California"
   },
   {
@@ -614,7 +689,10 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "nativeson_url": "https://www.nativeson.com/product/campanula-garganica-dicksons-gold"
   },
   {
     "botanical": "Campanula poscharskyana 'Alba'",
@@ -625,7 +703,9 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Carpenteria californica 'Elizabeth'",
@@ -636,7 +716,9 @@ window.AVAILABILITY = {
         "price": 24.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Caryopteris x clandonensis 'Gold Crest'",
@@ -648,6 +730,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Bluebeard",
     "height": "2-3'",
     "width": "2-3'",
@@ -665,6 +749,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Prostrate swamp oak",
     "height": "3-6\"",
     "width": "6-8'",
@@ -681,7 +767,15 @@ window.AVAILABILITY = {
         "price": 6.35,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "common": "California lilac",
+    "height": "4-6'",
+    "width": "4-6'",
+    "flower_color": "Rich blue",
+    "flower_time": "Spring - Summer - Fall",
+    "origin": "Garden hybrid"
   },
   {
     "botanical": "Ceanothus 'Blue Ray'",
@@ -693,6 +787,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Blue Ray ceanothus",
     "height": "8-10'",
     "width": "10-15'",
@@ -709,7 +805,15 @@ window.AVAILABILITY = {
         "price": 6.35,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "common": "Island mountain lilac",
+    "height": "10-15'",
+    "width": "8-10'",
+    "flower_color": "Blue",
+    "flower_time": "Spring",
+    "origin": "California"
   },
   {
     "botanical": "Ceanothus arboreus 'Campo Grande'",
@@ -721,6 +825,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Ceanothus",
     "height": "10-15'",
     "flower_color": "Medium blue",
@@ -735,7 +841,9 @@ window.AVAILABILITY = {
         "price": 6.35,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Ceanothus hearstiorum",
@@ -746,7 +854,9 @@ window.AVAILABILITY = {
         "price": 6.35,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Ceanothus thyr. var. griseus 'Louis Edmunds’",
@@ -757,7 +867,9 @@ window.AVAILABILITY = {
         "price": 6.35,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Ceanothus thyr. var. repens 'Taylor's Blue'",
@@ -768,7 +880,9 @@ window.AVAILABILITY = {
         "price": 6.35,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Ceanothus thyrsiflorus 'Oregon Mist'",
@@ -780,6 +894,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Blueblossom, California Lilac",
     "height": "10-15'",
     "width": "10-15'",
@@ -802,6 +918,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Carmel creeper",
     "height": "2-3'",
     "width": "4-6'",
@@ -819,6 +937,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Ceanothus",
     "height": "3-4'",
     "width": "4-6'",
@@ -835,7 +955,15 @@ window.AVAILABILITY = {
         "price": 18.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "common": "Rockrose",
+    "height": "3-4'",
+    "width": "3-4'",
+    "flower_color": "Hot pink",
+    "flower_time": "Spring - Summer",
+    "origin": "Garden hybrid"
   },
   {
     "botanical": "Cistus ladanifer 'Blanche'",
@@ -851,7 +979,15 @@ window.AVAILABILITY = {
         "price": 18.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "common": "Rockrose",
+    "height": "8-10'",
+    "width": "8-10'",
+    "flower_color": "White",
+    "flower_time": "Summer",
+    "origin": "Garden hybrid"
   },
   {
     "botanical": "Coleonema album",
@@ -863,6 +999,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Breath of heaven",
     "height": "3-4'",
     "width": "3-4'",
@@ -885,6 +1023,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Breath of heaven",
     "height": "3-4'",
     "width": "6-8'",
@@ -902,6 +1042,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Bush morning glory",
     "height": "18-24\"",
     "width": "2-3'",
@@ -919,6 +1061,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Bush morning glory",
     "height": "1-2'",
     "width": "1-2'",
@@ -936,6 +1080,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Ground morning glory",
     "height": "8-12\"",
     "width": "2-3'",
@@ -953,6 +1099,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Prime White convolvulus",
     "height": "12-18\"",
     "width": "8-12\"",
@@ -970,6 +1118,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Mirror bush",
     "height": "3-4'",
     "width": "3-4'",
@@ -986,7 +1136,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Coprosma repens 'Pacific Night'",
@@ -998,6 +1150,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Mirror plant",
     "height": "3-4'",
     "width": "4-6'",
@@ -1015,6 +1169,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Mirror plant",
     "height": "4-6'",
     "width": "3-4'",
@@ -1032,6 +1188,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": true,
     "common": "Tickseed",
     "height": "12-18\"",
     "width": "12-18\"",
@@ -1048,7 +1206,15 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": true,
+    "common": "Australian fuchsia",
+    "height": "4-6'",
+    "width": "4-6'",
+    "flower_color": "Cream to white",
+    "flower_time": "Fall - Winter",
+    "origin": "Australia"
   },
   {
     "botanical": "Correa pulchella 'Pink Flamingo'",
@@ -1060,6 +1226,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Australian fuchsia",
     "height": "2-3'",
     "width": "2-3'",
@@ -1077,6 +1245,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Kangaroo Island fuchsia",
     "height": "3-4'",
     "flower_color": "Red",
@@ -1091,7 +1261,9 @@ window.AVAILABILITY = {
         "price": 90.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Cuphea 'Blackberry Sparkler'",
@@ -1102,7 +1274,9 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Cuphea hyssopifolia 'Alba'",
@@ -1113,7 +1287,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": true,
+    "bud": false
   },
   {
     "botanical": "Cuphea hyssopifolia 'Pink'",
@@ -1124,7 +1300,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Dorycnium hirsutum",
@@ -1135,7 +1313,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Dymondia margaretae",
@@ -1147,6 +1327,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "South Africa"
   },
   {
@@ -1159,6 +1341,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "California fuchsia",
     "height": "18-24\"",
     "width": "18-24\"",
@@ -1176,6 +1360,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "California fuchsia",
     "height": "3-6\"",
     "width": "18-24\"",
@@ -1193,6 +1379,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "California fuchsia",
     "height": "12-18\"",
     "width": "3-4'",
@@ -1210,6 +1398,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "fuchsia",
     "height": "6-8\"",
     "width": "12-18\"",
@@ -1227,6 +1417,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Seaside daisy",
     "height": "3-6\"",
     "width": "12-18\"",
@@ -1243,7 +1435,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Erigeron karvinskianus",
@@ -1255,11 +1449,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Santa Barbara daisy",
-    "height": "1-2'",
-    "width": "2-3'",
-    "flower_color": "White, maturing to pink Bloom",
-    "flower_time": "Spring - Summer",
+    "bloom": true,
+    "bud": false,
     "origin": "Mexico to Panama"
   },
   {
@@ -1271,7 +1462,9 @@ window.AVAILABILITY = {
         "price": 6.85,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Eriogonum grande var. rubescens",
@@ -1283,6 +1476,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Red buckwheat",
     "height": "8-12\"",
     "width": "2-3'",
@@ -1299,7 +1494,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Escallonia 'Compacta'",
@@ -1310,7 +1507,15 @@ window.AVAILABILITY = {
         "price": 20.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "common": "Escallonia",
+    "height": "2-3'",
+    "width": "2-3'",
+    "flower_color": "Carmine red Bloom",
+    "flower_time": "Summer - Fall",
+    "origin": "Garden hybrid"
   },
   {
     "botanical": "Escallonia bifida 'Compact White'",
@@ -1322,6 +1527,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Escallonia",
     "height": "4-6'",
     "width": "4-6'",
@@ -1339,6 +1546,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Spurge",
     "height": "8-12\"",
     "width": "8-12\"",
@@ -1361,6 +1570,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Spurge",
     "height": "18-24\"",
     "width": "12-18\"",
@@ -1378,6 +1589,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Spurge",
     "height": "1-2'",
     "width": "1-2'",
@@ -1395,6 +1608,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Wood spurge",
     "height": "18-24\"",
     "width": "12-18\"",
@@ -1412,6 +1627,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Spurge",
     "height": "18-24\"",
     "width": "18-24\"",
@@ -1429,6 +1646,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Spurge",
     "height": "8-12\"",
     "width": "12-18\"",
@@ -1445,7 +1664,9 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Fuchsia hatschbachii",
@@ -1456,7 +1677,9 @@ window.AVAILABILITY = {
         "price": 16.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Fuchsia magellanica 'Versicolor'",
@@ -1467,7 +1690,9 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Garrya elliptica 'Evie'",
@@ -1478,7 +1703,9 @@ window.AVAILABILITY = {
         "price": 24.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Geranium ‘Rozanne’",
@@ -1490,6 +1717,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Cranesbill",
     "height": "18-24\"",
     "width": "18-24\"",
@@ -1507,6 +1736,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Avens",
     "height": "8-12\"",
     "width": "12-18\"",
@@ -1524,6 +1755,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Spider flower",
     "height": "8-10'",
     "width": "6-8'",
@@ -1546,6 +1779,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Spider flower",
     "height": "3-4'",
     "width": "4-6'",
@@ -1562,7 +1797,9 @@ window.AVAILABILITY = {
         "price": 22.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Halimiocistus 'Merrist Wood Cream'",
@@ -1574,6 +1811,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Halimiocistus",
     "height": "2-3'",
     "flower_color": "Pale yellow w/wine red petal",
@@ -1588,7 +1827,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Halimium lasianthum 'Sandling'",
@@ -1599,7 +1840,9 @@ window.AVAILABILITY = {
         "price": 7.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Hebe diosimifolia 'Aute Wainie Falls'",
@@ -1610,7 +1853,9 @@ window.AVAILABILITY = {
         "price": 16.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Hebe vernicosa",
@@ -1621,7 +1866,9 @@ window.AVAILABILITY = {
         "price": 6.35,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Helianthemum ‘Belgravia Rose’",
@@ -1632,7 +1879,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Helianthemum ‘The Bride’",
@@ -1644,6 +1893,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Sunrose",
     "height": "6-8\"",
     "width": "2-3'",
@@ -1661,12 +1912,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Sunrose",
-    "height": "6-8\"",
-    "width": "12-18\"",
-    "flower_color": "Bright yellow Bloom",
-    "flower_time": "Spring - Summer",
-    "origin": "Garden hybrid"
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Helleborus argutifolius 'Pacific Frost'",
@@ -1678,6 +1925,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Corsican hellebore",
     "height": "18-24\"",
     "width": "18-24\"",
@@ -1695,6 +1944,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Wilma Goldcrest Monterey",
     "height": "6-8'",
     "width": "1-2'",
@@ -1712,11 +1963,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "height": "12-18\"",
-    "width": "12-18\"",
-    "flower_color": "Soft orange, maturing bright pink",
-    "flower_time": "Summer",
-    "origin": "Hybrid"
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Iris 'Canyon Snow'",
@@ -1728,6 +1976,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Douglas Iris",
     "height": "18-24\"",
     "width": "3-4'",
@@ -1744,7 +1994,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Juniperus horizontalis 'Pancake'",
@@ -1756,6 +2008,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Creeping Juniper",
     "height": "3-6\"",
     "width": "3-4'",
@@ -1772,7 +2026,9 @@ window.AVAILABILITY = {
         "price": 20.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Lavandula 'Ghostly Princess'",
@@ -1784,6 +2040,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": true,
     "common": "Lavender",
     "height": "1-2'",
     "width": "12-18\"",
@@ -1800,7 +2058,9 @@ window.AVAILABILITY = {
         "price": 6.35,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Lavandula angustifolia 'Betty Blue'",
@@ -1811,7 +2071,9 @@ window.AVAILABILITY = {
         "price": 6.35,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Lavandula angustifolia 'Munstead'",
@@ -1822,7 +2084,9 @@ window.AVAILABILITY = {
         "price": 6.35,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Lavandula stoechas 'Double Anouk'",
@@ -1833,7 +2097,9 @@ window.AVAILABILITY = {
         "price": 20.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Lavandula stoechas 'La Diva Big Night'",
@@ -1845,6 +2111,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Spanish Lavender",
     "height": "12-18\"",
     "width": "18-24\"",
@@ -1861,7 +2129,9 @@ window.AVAILABILITY = {
         "price": 20.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Lavandula stoechas 'Primavera'",
@@ -1878,6 +2148,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Primavera Lavender",
     "height": "12-18\"",
     "width": "12-18\"",
@@ -1895,6 +2167,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Spanish Lavender",
     "height": "2-3'",
     "width": "2-3'",
@@ -1911,7 +2185,9 @@ window.AVAILABILITY = {
         "price": 20.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Lavandula x allardii 'Sweet Petite'",
@@ -1928,6 +2204,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Compact Sweet Lavender",
     "height": "2-3'",
     "width": "2-3'",
@@ -1945,6 +2223,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Lavender",
     "height": "2-3'",
     "width": "2-3'",
@@ -1962,6 +2242,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Lavender",
     "height": "2-3'",
     "width": "2-3'",
@@ -1979,6 +2261,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": true,
     "common": "Lion’s tail",
     "height": "4-6'",
     "width": "3-4'",
@@ -1996,6 +2280,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Pitcher sage",
     "height": "3-4'",
     "width": "3-4'",
@@ -2017,7 +2303,15 @@ window.AVAILABILITY = {
         "price": 90.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "common": "Dark Shadows tea tree",
+    "height": "10-15'",
+    "width": "15-20’",
+    "flower_color": "Cream white",
+    "flower_time": "Summer",
+    "origin": "Garden hybrid"
   },
   {
     "botanical": "Leptospermum rotundifolia ‘Manning’s Choice’",
@@ -2029,6 +2323,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Tea tree",
     "height": "4-6'",
     "flower_color": "Deep lavender pink"
@@ -2042,7 +2338,9 @@ window.AVAILABILITY = {
         "price": 30.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Leucadendron 'Pisa'",
@@ -2053,7 +2351,9 @@ window.AVAILABILITY = {
         "price": 90.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Leucadendron 'Red Gem'",
@@ -2064,7 +2364,9 @@ window.AVAILABILITY = {
         "price": 26.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Leucadendron salignum 'Winter Red'",
@@ -2080,7 +2382,9 @@ window.AVAILABILITY = {
         "price": 26.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Mimulus 'Alexandra'",
@@ -2091,7 +2395,9 @@ window.AVAILABILITY = {
         "price": 6.85,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Mimulus 'Burst Berry'",
@@ -2102,7 +2408,9 @@ window.AVAILABILITY = {
         "price": 6.85,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Myrica californica",
@@ -2118,7 +2426,9 @@ window.AVAILABILITY = {
         "price": 22.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Myrtus communis 'Compacta Variegata'",
@@ -2129,7 +2439,9 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Myrtus communis 'Variegata'",
@@ -2141,6 +2453,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Variegated myrtle",
     "height": "4-6'",
     "width": "3-4'",
@@ -2157,7 +2471,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Olea europaea 'Campo Dwarf'",
@@ -2174,6 +2490,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Evergreen olive tree",
     "height": "4-6'",
     "width": "4-6'",
@@ -2191,6 +2509,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Gold coin",
     "height": "8-12\"",
     "width": "3-4'",
@@ -2208,11 +2528,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "White Parahebe",
-    "height": "3-6\"",
-    "width": "6-8\"",
-    "flower_color": "White to pink Bloom",
-    "flower_time": "Spring - Summer - Fall",
+    "bloom": true,
+    "bud": false,
     "origin": "New Zealand"
   },
   {
@@ -2230,6 +2547,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Bronze Little Leaf Zonal",
     "height": "8-12\"",
     "width": "8-12\"",
@@ -2247,6 +2566,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Geranium",
     "height": "18-24\"",
     "width": "18-24\"",
@@ -2264,6 +2585,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Celery pelargonium",
     "height": "12-18\"",
     "width": "3-4'",
@@ -2280,7 +2603,9 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Penstemon 'Apple Blossom'",
@@ -2291,7 +2616,9 @@ window.AVAILABILITY = {
         "price": 20.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Penstemon 'Cathedral Pink'",
@@ -2302,7 +2629,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Penstemon 'Firebird'",
@@ -2318,7 +2647,15 @@ window.AVAILABILITY = {
         "price": 20.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "common": "Penstemon",
+    "height": "2-3'",
+    "width": "2-3'",
+    "flower_color": "Red",
+    "flower_time": "Summer - Fall",
+    "origin": "Garden hybrid"
   },
   {
     "botanical": "Penstemon 'Lavender Ruffles'",
@@ -2329,7 +2666,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Penstemon ‘Sour Grapes’",
@@ -2340,7 +2679,9 @@ window.AVAILABILITY = {
         "price": 20.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Penstemon heteroph. 'Catherine de la Mare'",
@@ -2352,6 +2693,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Penstemon",
     "height": "1-2'",
     "width": "2-3'",
@@ -2368,7 +2711,9 @@ window.AVAILABILITY = {
         "price": 20.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Phlomis fruticosa",
@@ -2379,7 +2724,9 @@ window.AVAILABILITY = {
         "price": 20.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Phlomis purpurea",
@@ -2390,7 +2737,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Phormium 'Platt's Black'",
@@ -2401,7 +2750,9 @@ window.AVAILABILITY = {
         "price": 26.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Phormium cookianum 'Black Adder'",
@@ -2413,6 +2764,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "New Zealand flax",
     "height": "2-3'",
     "width": "2-3'",
@@ -2429,7 +2782,9 @@ window.AVAILABILITY = {
         "price": 7.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Pittosporum 'Elfin'",
@@ -2441,6 +2796,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Tawhiwhi, Kohuhu",
     "height": "18-24\"",
     "width": "18-24\"",
@@ -2463,6 +2820,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Tawhiwhi, Kohuhu",
     "height": "15-20'",
     "width": "6-8'",
@@ -2480,6 +2839,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Lemonwood",
     "height": "7-12'",
     "width": "5-10'",
@@ -2497,6 +2858,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Beach Ball kohuhu",
     "height": "3-4'",
     "width": "3-4'",
@@ -2513,7 +2876,9 @@ window.AVAILABILITY = {
         "price": 24.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Pittosporum tenuifolium 'Harley Botanica'",
@@ -2530,6 +2895,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Tawhiwhi, Kohuhu",
     "height": "10-15'",
     "width": "4-6'",
@@ -2547,12 +2914,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Tawhiwhi, Kohuhu",
-    "height": "8-10'",
-    "width": "4-6'",
-    "flower_color": "Inconspicuous",
-    "flower_time": "Spring - Summer",
-    "origin": "New Zealand"
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Polygala myrtifolia 'Mariposa'",
@@ -2564,6 +2927,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Compact sweet pea bush",
     "height": "18-24\"",
     "width": "18-24\"",
@@ -2581,6 +2946,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Variegated Australian mint bush",
     "width": "4-6'",
     "flower_color": "Purple",
@@ -2597,6 +2964,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Australian Mint Bush",
     "height": "4-6'",
     "flower_color": "Light Purple",
@@ -2611,7 +2980,9 @@ window.AVAILABILITY = {
         "price": 24.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Rhamnus alaternus 'John Edwards'",
@@ -2622,7 +2993,9 @@ window.AVAILABILITY = {
         "price": 6.35,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Rhamnus californica 'Mound San Bruno'",
@@ -2638,7 +3011,9 @@ window.AVAILABILITY = {
         "price": 22.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Rhamnus californica 'Olema'",
@@ -2654,7 +3029,9 @@ window.AVAILABILITY = {
         "price": 24.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Romneya coulteri",
@@ -2670,7 +3047,9 @@ window.AVAILABILITY = {
         "price": 24.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Rosmarinus officinalis 'Barbeque'",
@@ -2682,6 +3061,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Rosemary",
     "height": "4-6'",
     "width": "3-4'",
@@ -2699,6 +3080,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Dwarf rosemary",
     "height": "10-12\"",
     "width": "2-3'",
@@ -2716,6 +3099,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Rosemary",
     "height": "18-24\"",
     "width": "18-24\"",
@@ -2733,6 +3118,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Rosemary",
     "height": "2-3'",
     "width": "4-6'",
@@ -2750,6 +3137,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Rosemary",
     "height": "2-3'",
     "width": "4-6'",
@@ -2767,6 +3156,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Rosemary",
     "height": "1-2'",
     "width": "6-8'",
@@ -2784,6 +3175,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Rosemary",
     "height": "1-2'",
     "width": "3-4'",
@@ -2806,6 +3199,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Rosemary",
     "height": "2-3'",
     "width": "1-2'",
@@ -2823,6 +3218,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Rosemary",
     "height": "2-3'",
     "width": "2-3'",
@@ -2840,6 +3237,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Rosemary",
     "height": "2-3'",
     "width": "1-2'",
@@ -2857,12 +3256,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Sage",
-    "height": "18-24\"",
-    "width": "18-24\"",
-    "flower_color": "White w/red Wps Bloom",
-    "flower_time": "Spring - Summer - Fall",
-    "origin": "Garden hybrid"
+    "bloom": true,
+    "bud": false
   },
   {
     "botanical": "Salvia 'Karla'",
@@ -2874,6 +3269,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": true,
     "common": "Karla's sage",
     "height": "2-3'",
     "width": "2-3'",
@@ -2890,7 +3287,9 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Salvia coahuilensis",
@@ -2902,6 +3301,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Coahuila Sage",
     "height": "2-3'",
     "width": "2-3'",
@@ -2918,7 +3319,9 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Salvia greggii 'Pina Colada'",
@@ -2930,12 +3333,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Pina Colada sage",
-    "height": "12-18\"",
-    "width": "12-18\"",
-    "flower_color": "Light yellow Bloom",
-    "flower_time": "Spring - Summer - Fall",
-    "origin": "Garden hybrid"
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Salvia greggii 'Rose Bicolor'",
@@ -2952,6 +3351,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Sage",
     "height": "12-18\"",
     "width": "12-18\"",
@@ -2969,6 +3370,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Autumn sage",
     "height": "1-2'",
     "width": "1-2'",
@@ -2986,6 +3389,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Mexican bush sage",
     "height": "3-4'",
     "width": "3-4'",
@@ -3003,6 +3408,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Dwarf Mexican bush sage",
     "height": "1-2'",
     "flower_color": "Purple, fuzzy Bloom"
@@ -3021,7 +3428,9 @@ window.AVAILABILITY = {
         "price": 18.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Salvia microphylla x 'Brilliance'",
@@ -3032,7 +3441,9 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Salvia muirii",
@@ -3043,7 +3454,9 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Santolina ‘Shades of Jade’",
@@ -3055,6 +3468,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Lavender cotton",
     "height": "1-2'",
     "width": "1-2'",
@@ -3072,6 +3487,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Pincushion Flower",
     "height": "12-18\"",
     "width": "8-12\"",
@@ -3088,7 +3505,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Scutellaria suffrutescens",
@@ -3100,11 +3519,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Cherry skullcap",
-    "height": "3-6\"",
-    "width": "12-18\"",
-    "flower_color": "Cherry red Bloom",
-    "flower_time": "Summer - Fall",
+    "bloom": false,
+    "bud": false,
     "origin": "Garden hybrid"
   },
   {
@@ -3117,6 +3533,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Wormwood cassia",
     "height": "4-6'",
     "width": "4-6'",
@@ -3134,6 +3552,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Silver leaf cassia",
     "height": "4-6'",
     "width": "4-5'",
@@ -3150,7 +3570,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Sisyrinchium californicum",
@@ -3162,6 +3584,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Golden-eyed grass",
     "height": "12-18\"",
     "width": "8-12\"",
@@ -3178,7 +3602,9 @@ window.AVAILABILITY = {
         "price": 6.35,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Stachys byzantina 'Big Ears'",
@@ -3190,6 +3616,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Big-leafed lamb's ears",
     "height": "8-12\"",
     "width": "2-3'",
@@ -3206,7 +3634,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Tanacetum camphoratum",
@@ -3218,6 +3648,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Dune tansy",
     "height": "12-18\"",
     "width": "12-18\"",
@@ -3235,6 +3667,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Wood germander",
     "height": "2-3'",
     "width": "3-4'",
@@ -3252,6 +3686,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": true,
     "common": "Pride of Georgia germander",
     "height": "8-12\"",
     "width": "3-4'",
@@ -3269,11 +3705,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Wall germander",
-    "height": "1-2'",
-    "width": "1-2'",
-    "flower_color": "Pink purple",
-    "flower_time": "Summer - Fall",
+    "bloom": false,
+    "bud": false,
     "origin": "Europe to Caucasus"
   },
   {
@@ -3290,7 +3723,15 @@ window.AVAILABILITY = {
         "price": 20.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "common": "Bush germander",
+    "height": "3-4'",
+    "width": "4-6'",
+    "flower_color": "Blue",
+    "flower_time": "Summer",
+    "origin": "Western Mediterranean (Iberia)"
   },
   {
     "botanical": "Thuja plicata 'Emerald Cone'",
@@ -3301,7 +3742,15 @@ window.AVAILABILITY = {
         "price": 90.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "common": "Western red cedar",
+    "height": "40-50'",
+    "width": "20'+",
+    "flower_color": "N/A (cone bearing)",
+    "flower_time": "N/A",
+    "origin": "California, Oregon"
   },
   {
     "botanical": "Tolmiea menziesii 'Cool Gold'",
@@ -3313,6 +3762,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Gold Piggyback Plant",
     "height": "12-18\"",
     "width": "12-18\"",
@@ -3330,6 +3781,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Midnight Magic blue curls",
     "height": "3-4'",
     "width": "3-4'",
@@ -3347,6 +3800,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Society garlic",
     "height": "12-18\"",
     "width": "12-18\"",
@@ -3364,6 +3819,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Golden Society garlic",
     "height": "1-2'",
     "width": "1-2'",
@@ -3381,6 +3838,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Purpleicious society garlic",
     "height": "1-2'",
     "flower_color": "Lavender",
@@ -3395,7 +3854,9 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Tulbaghia x 'Ashanti'",
@@ -3406,7 +3867,9 @@ window.AVAILABILITY = {
         "price": 6.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Ugni molinae",
@@ -3417,7 +3880,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Verbena bonariensis 'Lollipop'",
@@ -3428,7 +3893,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Verbena lilacina 'De La Mina'",
@@ -3439,7 +3906,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Viola ‘Etain’",
@@ -3450,7 +3919,9 @@ window.AVAILABILITY = {
         "price": 6.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Washingtonia filifera",
@@ -3462,6 +3933,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "California fan palm",
     "height": "50-65'",
     "width": "10-20'",
@@ -3484,6 +3957,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": true,
+    "bud": false,
     "common": "Coast rosemary",
     "height": "4-6'",
     "width": "2-3'",
@@ -3501,6 +3976,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Coast rosemary",
     "height": "3-4'",
     "width": "3-4'",
@@ -3517,7 +3994,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Westringia fruticosa 'Mundi'",
@@ -3528,7 +4007,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Westringia fruticosa 'Small Ball'",
@@ -3539,7 +4020,9 @@ window.AVAILABILITY = {
         "price": 6.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Yucca rostrata 'Sapphire Skies'",
@@ -3556,6 +4039,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Sapphire Skies Blue Beaked",
     "height": "10-15'",
     "width": "2-3'",
@@ -3573,6 +4058,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Sickle fern",
     "height": "12-18\"",
     "width": "1-2'",
@@ -3595,6 +4082,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Western sword fern",
     "height": "2- 4'",
     "width": "18-24\"",
@@ -3611,7 +4100,9 @@ window.AVAILABILITY = {
         "price": 7.25,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Calamagrostis nutkae. x fol. 'Little Nootka'",
@@ -3623,6 +4114,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Little Nootka reed grass",
     "height": "1-2'",
     "width": "1-2'",
@@ -3640,13 +4133,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Berkeley sedge",
-    "height": "12-18\"",
-    "width": "12-18\"",
-    "flower_color": "Inconspicuous",
-    "flower_time": "Summer",
-    "origin": "Europe",
-    "nativeson_url": "https://www.nativeson.com/product/carex-divulsa-westfield"
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Festuca amethystina 'Superba'",
@@ -3657,7 +4145,15 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "common": "Blue Sheep’s Fescue",
+    "height": "12-18\"",
+    "width": "8-12\"",
+    "flower_color": "Blue purple on burgundy stems",
+    "flower_time": "Summer",
+    "origin": "Central Europe"
   },
   {
     "botanical": "Festuca glauca 'Elijah Blue'",
@@ -3668,7 +4164,15 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "common": "Blue Fescue",
+    "height": "8-12\"",
+    "width": "6-8\"",
+    "flower_color": "Silver blue, maturing to wheat",
+    "flower_time": "Spring - Summer",
+    "origin": "France"
   },
   {
     "botanical": "Festuca idahoensis 'Tomales Bay'",
@@ -3680,11 +4184,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Tomales Bay Idaho Fescue",
-    "height": "8-12\"",
-    "width": "8-12\"",
-    "flower_color": "Blue, maturing to tan",
-    "flower_time": "Spring - Summer",
+    "bloom": false,
+    "bud": false,
     "origin": "California"
   },
   {
@@ -3696,7 +4197,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Juncus effusus ‘Carman’s Japanese’",
@@ -3708,6 +4211,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Rush",
     "height": "3-4'",
     "width": "3-4'",
@@ -3725,6 +4230,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "SoF rush",
     "height": "2-3'",
     "width": "1-2'",
@@ -3742,6 +4249,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "California Gray rush",
     "height": "2-3'",
     "width": "1-2'",
@@ -3759,11 +4268,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Rush",
-    "height": "1-2'",
-    "width": "2-3'",
-    "flower_color": "Chocolate brown",
-    "flower_time": "Summer - Fall",
+    "bloom": false,
+    "bud": false,
     "origin": "California"
   },
   {
@@ -3776,6 +4282,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Eulalia grass",
     "height": "2-3'",
     "width": "2-3'",
@@ -3792,7 +4300,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Pennisetum spathiolatum",
@@ -3803,7 +4313,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Sesleria caerulea",
@@ -3814,7 +4326,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Stenotaphrum secundatum 'Variegatum'",
@@ -3825,7 +4339,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Stipa ichu",
@@ -3836,7 +4352,9 @@ window.AVAILABILITY = {
         "price": 6.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Chondropetalum tectorum",
@@ -3853,6 +4371,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Weskaapse dakriet",
     "height": "3-4'",
     "width": "2-3'",
@@ -3870,23 +4390,14 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Weskaapse dakriet",
     "height": "2-3'",
     "width": "2-3'",
     "flower_color": "Rust brown",
     "flower_time": "Fall",
     "origin": "South Africa"
-  },
-  {
-    "botanical": "Ajuga",
-    "section": "Perennials (4\")",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ]
   },
   {
     "botanical": "Ajuga reptans ‘Burgundy Glow’",
@@ -3898,6 +4409,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "nativeson_url": "https://www.nativeson.com/product/ajuga-reptans-silver-queen"
   },
   {
@@ -3910,6 +4423,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "nativeson_url": "https://www.nativeson.com/product/ajuga-reptans-silver-queen"
   },
   {
@@ -3921,7 +4436,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": true,
+    "bud": false
   },
   {
     "botanical": "Arabis ferdinandi-coburgi ‘Old Gold’",
@@ -3932,7 +4449,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Armeria trojana",
@@ -3944,6 +4463,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "Turkey"
   },
   {
@@ -3955,18 +4476,10 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
-  },
-  {
-    "botanical": "Convolvulus",
-    "section": "Perennials (4\")",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "nativeson_url": "https://www.nativeson.com/product/campanula-garganica-dicksons-gold"
   },
   {
     "botanical": "Convolvulus sabatius",
@@ -3978,6 +4491,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "common": "Ground morning glory",
     "height": "8-12\"",
     "width": "2-3'",
@@ -3994,7 +4509,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Coprosma ‘Lemon and Lime’",
@@ -4005,7 +4522,15 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false,
+    "common": "Mirror bush",
+    "height": "3-4'",
+    "width": "3-4'",
+    "flower_color": "Inconspicuous",
+    "flower_time": "Spring",
+    "origin": "New Zealand"
   },
   {
     "botanical": "Coreopsis auriculata ‘Nana’",
@@ -4016,18 +4541,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
-  },
-  {
-    "botanical": "Cuphea",
-    "section": "Perennials (4\")",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ]
+    ],
+    "bloom": true,
+    "bud": false
   },
   {
     "botanical": "Cuphea hyssopifolia ‘Alba’",
@@ -4038,7 +4554,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": true,
+    "bud": false
   },
   {
     "botanical": "Cuphea hyssopifolia ‘Pink’",
@@ -4049,7 +4567,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Dymondia margaretae",
@@ -4061,18 +4581,9 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "South Africa"
-  },
-  {
-    "botanical": "Erigeron",
-    "section": "Perennials (4\")",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ]
   },
   {
     "botanical": "Erigeron karvinskianus",
@@ -4084,11 +4595,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Santa Barbara daisy",
-    "height": "1-2'",
-    "width": "2-3'",
-    "flower_color": "White, maturing to pink Bloom",
-    "flower_time": "Spring - Summer",
+    "bloom": true,
+    "bud": false,
     "origin": "Mexico to Panama"
   },
   {
@@ -4100,7 +4608,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": true,
+    "bud": false
   },
   {
     "botanical": "Erodium reichardii ‘Album’",
@@ -4111,7 +4621,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Eschscholzia californica var. maritima",
@@ -4122,7 +4634,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Gaura lindheimeri ‘White Dove’",
@@ -4133,7 +4647,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Hebe vernicosa",
@@ -4144,18 +4660,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
-  },
-  {
-    "botanical": "Helianthemum",
-    "section": "Perennials (4\")",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Helianthemum nummularium ‘Single Yellow’",
@@ -4166,7 +4673,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Helianthemum ‘Ben Hope’",
@@ -4177,7 +4686,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Phyla nodiflora (white)",
@@ -4189,6 +4700,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "Tropics and subtropics"
   },
   {
@@ -4201,18 +4714,9 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": true,
+    "bud": false,
     "origin": "Morocco"
-  },
-  {
-    "botanical": "Salvia",
-    "section": "Perennials (4\")",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ]
   },
   {
     "botanical": "Salvia greggii ‘Pina Colada'",
@@ -4223,7 +4727,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Salvia microphylla x ‘Glimmer’",
@@ -4234,7 +4740,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Saponaria 'Bressingham'",
@@ -4245,7 +4753,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Scabiosa ochroleuca ‘Moon Dance’",
@@ -4256,7 +4766,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Scutellaria suffrutescens",
@@ -4268,11 +4780,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Cherry skullcap",
-    "height": "3-6\"",
-    "width": "12-18\"",
-    "flower_color": "Cherry red Bloom",
-    "flower_time": "Summer - Fall",
+    "bloom": false,
+    "bud": false,
     "origin": "Garden hybrid"
   },
   {
@@ -4285,6 +4794,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "California"
   },
   {
@@ -4296,7 +4807,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": true,
+    "bud": false
   },
   {
     "botanical": "Erysimum ‘Bowles Mauve’",
@@ -4307,7 +4820,9 @@ window.AVAILABILITY = {
         "price": 3.5,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Hesperozygis x satureja ‘Sunrise Mojito’",
@@ -4318,7 +4833,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Lavandula angustifolia ‘Munstead’",
@@ -4330,12 +4847,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "English Lavender",
-    "height": "12-18\"",
-    "width": "18-24\"",
-    "flower_color": "Lavender blue",
-    "flower_time": "Spring - Summer",
-    "origin": "Mediterranean"
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Marrubium bourgaei ‘All Hallows Green’",
@@ -4346,7 +4859,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Nepeta ‘Snowflake’",
@@ -4357,7 +4872,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Origanum vulgare ‘Aureum’",
@@ -4368,7 +4885,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Salvia officinalis ‘Silver Scent’",
@@ -4379,18 +4898,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
-  },
-  {
-    "botanical": "Santolina",
-    "section": "Herbs (4\")",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Santolina virens ‘Lemon Fizz’",
@@ -4401,7 +4911,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Santolina ‘Little Nicky’",
@@ -4412,18 +4924,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
-  },
-  {
-    "botanical": "Thymus",
-    "section": "Herbs (4\")",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Thymus x citriodorus ‘Lime’",
@@ -4434,7 +4937,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Thymus doerfleri ‘Doone Valley’",
@@ -4445,7 +4950,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Thymus praecox ‘Albiflorus’",
@@ -4456,7 +4963,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": true,
+    "bud": false
   },
   {
     "botanical": "Thymus pseudolanuginosus",
@@ -4468,6 +4977,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "Eurasia"
   },
   {
@@ -4479,7 +4990,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Nepeta ‘Chartreuse on the Loose’",
@@ -4490,18 +5003,9 @@ window.AVAILABILITY = {
         "price": 3.5,
         "order": ""
       }
-    ]
-  },
-  {
-    "botanical": "Carex",
-    "section": "Grasses (4\")",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Carex flacca ‘Blue Zinger’",
@@ -4513,6 +5017,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "nativeson_url": "https://www.nativeson.com/product/carex-flacca-blue-zinger"
   },
   {
@@ -4525,6 +5031,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "California"
   },
   {
@@ -4537,6 +5045,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "California"
   },
   {
@@ -4549,6 +5059,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "California"
   },
   {
@@ -4561,11 +5073,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Rush",
-    "height": "1-2'",
-    "width": "2-3'",
-    "flower_color": "Chocolate brown",
-    "flower_time": "Summer - Fall",
+    "bloom": false,
+    "bud": false,
     "origin": "California"
   },
   {
@@ -4578,18 +5087,9 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "Asia"
-  },
-  {
-    "botanical": "Delosperma",
-    "section": "Succulents (4\")",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ]
   },
   {
     "botanical": "Delosperma cooperi ‘Mountain Dew’",
@@ -4600,7 +5100,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Delosperma ‘Fire Spinner’",
@@ -4611,7 +5113,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Kalanchoe pumila",
@@ -4623,6 +5127,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "Madagascar"
   },
   {
@@ -4634,7 +5140,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Ruschia lineolata",
@@ -4646,18 +5154,9 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "South Africa"
-  },
-  {
-    "botanical": "Sedum",
-    "section": "Succulents (4\")",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ]
   },
   {
     "botanical": "Sedum hispanicum ‘Purpureum’",
@@ -4668,7 +5167,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Sedum kamtschaticum ‘Little Miss Sunshine’",
@@ -4679,7 +5180,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Sedum lineare ‘Sea Urchin’",
@@ -4690,7 +5193,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Sedum rubrotinctum",
@@ -4702,6 +5207,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "Mexico"
   },
   {
@@ -4713,7 +5220,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Sedum spurium ‘Dragon's Blood’",
@@ -4724,7 +5233,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Sedum spurium ‘Variegatum’",
@@ -4735,7 +5246,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Sedum ‘Little Missy’",
@@ -4746,7 +5259,9 @@ window.AVAILABILITY = {
         "price": 3.15,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   },
   {
     "botanical": "Senecio serpens",
@@ -4758,6 +5273,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "origin": "South Africa"
   },
   {
@@ -4770,6 +5287,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
+    "bloom": false,
+    "bud": false,
     "nativeson_url": "https://www.nativeson.com/product/agave-shawii"
   },
   {
@@ -4782,11 +5301,8 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Incense cedar",
-    "height": "40-50'",
-    "width": "20'+",
-    "flower_color": "Red brown cones",
-    "flower_time": "Fall",
+    "bloom": false,
+    "bud": false,
     "origin": "California"
   },
   {
@@ -4798,7 +5314,9 @@ window.AVAILABILITY = {
         "price": 200.0,
         "order": ""
       }
-    ]
+    ],
+    "bloom": false,
+    "bud": false
   }
 ]
 };

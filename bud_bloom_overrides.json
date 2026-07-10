@@ -1,0 +1,38 @@
+{
+  "_comment": "Manually-maintained list of plants currently in bud or bloom. Edit when the weekly availability comes in. Plants not listed default to NOT in bud/bloom (false). Last updated: 2026-07-13. Matched from last week's list.",
+  "bloom": [
+    "Ajuga 'Chocolate Chip'",
+    "Armeria maritima 'Alba'",
+    "Campanula poscharskyana 'Blue Gown'",
+    "Campanula x 'Birch Hybrid'",
+    "Coreopsis auriculata 'Nana'",
+    "Cuphea hyssopifolia 'Alba'",
+    "Erigeron karvinskianus",
+    "Erigeron karvinskianus 'Spindrift'",
+    "Parahebe linifolia",
+    "Rhodanthemum hosmariense",
+    "Salvia lemmonii",
+    "Salvia microphylla x 'Syracuse'",
+    "Salvia 'Hot Lips'",
+    "Thymus praecox 'Albiflorus'",
+    "Veronica 'Waterperry Blue'",
+    "Westringia 'Naringa'"
+  ],
+  "bud": [
+    "Achillea 'Moonshine'",
+    "Achillea millefolium 'Pomegranate'",
+    "Achillea millefolium 'Rosa Maria'",
+    "Agapanthus praecox ssp. orientalis 'Twister'",
+    "Buddleja Buzz\u2122 'Midnight'",
+    "Callistemon 'Woodlander's Hardy Red'",
+    "Calylophus drummondii",
+    "Coreopsis 'Jethro Tull'",
+    "Correa 'Ivory Bells'",
+    "Lavandula 'Ghostly Princess'",
+    "Leonotis menthifolia 'Savannah Sunset'",
+    "Salvia 'Karla'",
+    "Salvia greggii 'Cherry Lips'",
+    "Teucrium cham. subsp. nuc. 'Pride of Georgia'",
+    "Teucrium chamaedrys 'Alba'"
+  ]
+}

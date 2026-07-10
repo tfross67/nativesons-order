@@ -79,6 +79,175 @@
       .orders-table { font-size: 12px; }
       .orders-table th, .orders-table td { padding: 8px; }
     }
+
+    /* Tab navigation */
+    .admin-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--c-line);
+    }
+    .admin-tab {
+      background: none;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--c-muted);
+      font-family: inherit;
+    }
+    .admin-tab:hover { color: var(--c-ink); }
+    .admin-tab.is-active {
+      color: var(--c-sage);
+      border-bottom-color: var(--c-sage);
+    }
+    .tab-count {
+      font-weight: 400;
+      color: var(--c-muted);
+      margin-left: 4px;
+      font-size: 12px;
+    }
+
+    /* Customer directory layout */
+    .customer-layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 16px;
+      margin-top: 12px;
+    }
+    @media (max-width: 900px) {
+      .customer-layout { grid-template-columns: 1fr; }
+    }
+    .customer-list {
+      background: white;
+      border: 1px solid var(--c-line);
+      border-radius: 8px;
+      max-height: calc(100vh - 240px);
+      overflow-y: auto;
+    }
+    .customer-row {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--c-line-soft, #efe9da);
+      cursor: pointer;
+      transition: background 0.1s ease;
+    }
+    .customer-row:last-child { border-bottom: 0; }
+    .customer-row:hover { background: var(--c-paper, #f7f4ec); }
+    .customer-row.is-selected {
+      background: var(--c-sage-soft, #e3efe1);
+      border-left: 3px solid var(--c-sage, #2d4a2b);
+      padding-left: 11px;
+    }
+    .customer-row-name {
+      font-weight: 600;
+      color: var(--c-ink);
+      font-size: 14px;
+      line-height: 1.3;
+      margin-bottom: 2px;
+    }
+    .customer-row-meta {
+      font-size: 12px;
+      color: var(--c-muted);
+    }
+    .customer-row-meta span { margin-right: 8px; }
+
+    .customer-panel {
+      background: white;
+      border: 1px solid var(--c-line);
+      border-radius: 8px;
+      padding: 20px 24px;
+      max-height: calc(100vh - 240px);
+      overflow-y: auto;
+    }
+    .empty-hint {
+      color: var(--c-muted);
+      text-align: center;
+      padding: 40px 16px;
+      font-size: 14px;
+    }
+    .cust-detail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--c-line);
+      margin-bottom: 16px;
+    }
+    .cust-detail-name { font-size: 20px; font-weight: 600; color: var(--c-ink); margin: 0; }
+    .cust-detail-code { font-size: 13px; color: var(--c-muted); }
+    .cust-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 600px) { .cust-grid { grid-template-columns: 1fr; } }
+    .cust-section h4 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--c-muted);
+      margin: 0 0 8px;
+      font-weight: 600;
+    }
+    .cust-field {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      font-size: 14px;
+      border-bottom: 1px dotted var(--c-line-soft, #efe9da);
+      gap: 8px;
+    }
+    .cust-field:last-child { border-bottom: 0; }
+    .cust-field-label {
+      color: var(--c-muted);
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .cust-field-value {
+      color: var(--c-ink);
+      font-weight: 500;
+      text-align: right;
+      font-size: 14px;
+      word-break: break-word;
+    }
+    .cust-field-link {
+      color: var(--c-sage, #2d4a2b);
+      text-decoration: none;
+    }
+    .cust-field-link:hover { text-decoration: underline; }
+    .cust-pill {
+      display: inline-block;
+      padding: 2px 10px;
+      background: var(--c-sage-soft, #e3efe1);
+      color: var(--c-sage, #2d4a2b);
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .cust-comment {
+      background: var(--c-paper, #f7f4ec);
+      border-left: 3px solid var(--c-clay, #d97757);
+      padding: 10px 14px;
+      font-size: 13.5px;
+      white-space: pre-wrap;
+      margin-top: 12px;
+    }
+    .cust-copy {
+      background: none;
+      border: 1px solid var(--c-line);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 11px;
+      color: var(--c-muted);
+      cursor: pointer;
+      margin-left: 4px;
+    }
+    .cust-copy:hover { color: var(--c-ink); border-color: var(--c-ink); }
   </style>
 </head>
 <body>
@@ -96,7 +265,7 @@
 
   <div id="adminView" class="admin-wrap" hidden>
     <div class="admin-header">
-      <h1>Orders</h1>
+      <h1 id="adminTitle">Orders</h1>
       <div>
         <button class="btn btn-ghost" id="refreshBtn">↻ Refresh</button>
         <button class="btn btn-ghost" id="exportBtn">⤓ Export CSV</button>
@@ -104,36 +273,65 @@
       </div>
     </div>
 
-    <div class="toolbar">
-      <input type="search" id="searchInput" placeholder="Search by order #, name, email, item…">
-      <select id="statusFilter">
-        <option value="active" selected>Active (hide cancelled)</option>
-        <option value="all">All statuses</option>
-        <option value="new">New</option>
-        <option value="confirmed">Confirmed</option>
-        <option value="fulfilled">Fulfilled</option>
-        <option value="cancelled">Cancelled</option>
-      </select>
-      <div class="stats" id="stats"></div>
+    <div class="admin-tabs">
+      <button class="admin-tab is-active" data-tab="orders">Orders</button>
+      <button class="admin-tab" data-tab="customers">Customers <span class="tab-count" id="customersCount">…</span></button>
     </div>
 
-    <table class="orders-table" id="ordersTable">
-      <thead>
-        <tr>
-          <th>Order #</th>
-          <th>Date</th>
-          <th>Customer</th>
-          <th>Items</th>
-          <th class="num">Subtotal</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="ordersBody">
-        <tr><td colspan="6" style="text-align:center; padding: 24px; color: var(--c-muted);">Loading…</td></tr>
-      </tbody>
-    </table>
+    <div class="admin-panel" data-panel="orders">
+      <div class="toolbar">
+        <input type="search" id="searchInput" placeholder="Search by order #, name, email, item…">
+        <select id="statusFilter">
+          <option value="active" selected>Active (hide cancelled)</option>
+          <option value="all">All statuses</option>
+          <option value="new">New</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="fulfilled">Fulfilled</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+        <div class="stats" id="stats"></div>
+      </div>
 
-    <div id="orderDetail" class="order-detail" hidden></div>
+      <table class="orders-table" id="ordersTable">
+        <thead>
+          <tr>
+            <th>Order #</th>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Items</th>
+            <th class="num">Subtotal</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="ordersBody">
+          <tr><td colspan="6" style="text-align:center; padding: 24px; color: var(--c-muted);">Loading…</td></tr>
+        </tbody>
+      </table>
+
+      <div id="orderDetail" class="order-detail" hidden></div>
+    </div>
+
+    <div class="admin-panel" data-panel="customers" hidden>
+      <div class="toolbar">
+        <input type="search" id="customerSearchInput" placeholder="Search by name, code, city, email, phone…" autocomplete="off">
+        <select id="customerTypeFilter">
+          <option value="">All types</option>
+        </select>
+        <select id="customerRoutingFilter">
+          <option value="">All routes</option>
+        </select>
+        <div class="stats" id="customerStats"></div>
+      </div>
+
+      <div class="customer-layout">
+        <div class="customer-list" id="customerList">
+          <p class="empty-hint">Loading customers…</p>
+        </div>
+        <div class="customer-panel" id="customerPanel">
+          <p class="empty-hint">Select a customer to see details</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -218,6 +416,244 @@
 
     if (sessionStorage.getItem('nativesons_admin') === '1') showAdmin();
     else showLogin();
+
+    // ----- Tab switching -----
+    document.querySelectorAll('.admin-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.admin-tab').forEach(t => t.classList.toggle('is-active', t === tab));
+        document.querySelectorAll('.admin-panel').forEach(p => {
+          p.hidden = p.dataset.panel !== target;
+        });
+        $('adminTitle').textContent = target === 'orders' ? 'Orders' : 'Customers';
+        if (target === 'customers' && allCustomers.length === 0) {
+          loadCustomers();
+        }
+      });
+    });
+
+    // ----- Customer directory -----
+    const customerList = $('customerList');
+    const customerPanel = $('customerPanel');
+    const customerSearchInput = $('customerSearchInput');
+    const customerTypeFilter = $('customerTypeFilter');
+    const customerRoutingFilter = $('customerRoutingFilter');
+    const customerStats = $('customerStats');
+    const customersCount = $('customersCount');
+
+    let allCustomers = [];
+    let selectedCustomerId = null;
+
+    async function loadCustomers() {
+      customerList.innerHTML = '<p class="empty-hint">Loading customers…</p>';
+      try {
+        // Page through all customers (REST caps at 1000)
+        const pageSize = 1000;
+        let offset = 0;
+        const rows = [];
+        while (true) {
+          const url = `${cfg.url}/rest/v1/customers?select=*&active=eq.true&order=name.asc&limit=${pageSize}&offset=${offset}`;
+          const res = await fetch(url, {
+            headers: { apikey: SERVICE_KEY, authorization: `Bearer ${SERVICE_KEY}` },
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const chunk = await res.json();
+          rows.push(...chunk);
+          if (chunk.length < pageSize) break;
+          offset += pageSize;
+        }
+        allCustomers = rows;
+        customersCount.textContent = `(${rows.length.toLocaleString()})`;
+        populateCustomerFilters();
+        renderCustomerList();
+      } catch (err) {
+        customerList.innerHTML = `<p class="empty-hint" style="color:var(--c-clay)">Failed to load customers: ${esc(err.message)}</p>`;
+      }
+    }
+
+    function populateCustomerFilters() {
+      const types = [...new Set(allCustomers.map(c => c.type).filter(Boolean))].sort();
+      const routes = [...new Set(allCustomers.map(c => c.routing).filter(Boolean))].sort();
+      customerTypeFilter.innerHTML = '<option value="">All types</option>' +
+        types.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
+      customerRoutingFilter.innerHTML = '<option value="">All routes</option>' +
+        routes.map(r => `<option value="${esc(r)}">${esc(r)}</option>`).join('');
+    }
+
+    function renderCustomerList() {
+      const q = (customerSearchInput.value || '').trim().toLowerCase();
+      const typeFilter = customerTypeFilter.value;
+      const routeFilter = customerRoutingFilter.value;
+
+      const filtered = allCustomers.filter(c => {
+        if (typeFilter && c.type !== typeFilter) return false;
+        if (routeFilter && c.routing !== routeFilter) return false;
+        if (q) {
+          const hay = (c.search_text || '').toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      customerStats.textContent = `${filtered.length.toLocaleString()} shown of ${allCustomers.length.toLocaleString()}`;
+
+      if (filtered.length === 0) {
+        customerList.innerHTML = '<p class="empty-hint">No customers match.</p>';
+        return;
+      }
+
+      // Render only first 100 to keep DOM light; "Show more" for the rest.
+      const SHOW = 100;
+      const slice = filtered.slice(0, SHOW);
+
+      customerList.innerHTML = slice.map(c => `
+        <div class="customer-row${selectedCustomerId === c.id ? ' is-selected' : ''}" data-id="${c.id}">
+          <div class="customer-row-name">${esc(c.name || '(no name)')}</div>
+          <div class="customer-row-meta">
+            ${c.city ? `<span>${esc(c.city)}, ${esc(c.state || '')}</span>` : ''}
+            ${c.type ? `<span class="cust-pill">${esc(c.type)}</span>` : ''}
+            ${c.terms ? `<span>${esc(c.terms)}</span>` : ''}
+          </div>
+        </div>
+      `).join('') + (filtered.length > SHOW
+        ? `<div class="empty-hint">Showing first ${SHOW} of ${filtered.length.toLocaleString()} — type to narrow the list.</div>`
+        : '');
+
+      customerList.querySelectorAll('.customer-row').forEach(row => {
+        row.addEventListener('click', () => {
+          selectedCustomerId = row.dataset.id;
+          renderCustomerList();
+          renderCustomerDetail(row.dataset.id);
+        });
+      });
+    }
+
+    function renderCustomerDetail(id) {
+      const c = allCustomers.find(x => x.id === id);
+      if (!c) {
+        customerPanel.innerHTML = '<p class="empty-hint">Customer not found.</p>';
+        return;
+      }
+
+      const fmtPct = n => (n == null ? '—' : `${(n * 100).toFixed(2)}%`);
+      const phoneLink = c.phone
+        ? `<a class="cust-field-link" href="tel:${esc(c.phone)}">${esc(c.phone)}</a>`
+        : '—';
+      const emailLink = c.email
+        ? `<a class="cust-field-link" href="mailto:${esc(c.email)}">${esc(c.email)}</a>`
+        : '—';
+      const mapLink = c.address
+        ? `<a class="cust-field-link" target="_blank" rel="noopener noreferrer"
+              href="https://maps.google.com/?q=${encodeURIComponent(`${c.address}, ${c.city || ''} ${c.state || ''} ${c.zip || ''}`)}">↗ map</a>`
+        : '';
+
+      const fieldRow = (label, value, opts={}) => {
+        if (value == null || value === '') return '';
+        const display = opts.raw === true ? value : esc(value);
+        return `<div class="cust-field">
+          <span class="cust-field-label">${esc(label)}</span>
+          <span class="cust-field-value">${display}</span>
+        </div>`;
+      };
+
+      const copyField = (label, value) => {
+        if (!value) return '';
+        return `<div class="cust-field">
+          <span class="cust-field-label">${esc(label)}</span>
+          <span class="cust-field-value">${esc(value)}
+            <button class="cust-copy" data-copy="${esc(value)}">copy</button>
+          </span>
+        </div>`;
+      };
+
+      customerPanel.innerHTML = `
+        <div class="cust-detail-header">
+          <div>
+            <h2 class="cust-detail-name">${esc(c.name)}</h2>
+            ${c.customer_code ? `<div class="cust-detail-code">Code: ${esc(c.customer_code)}</div>` : ''}
+          </div>
+          <div>
+            ${c.type ? `<span class="cust-pill">${esc(c.type)}</span>` : ''}
+            ${c.routing ? `<span class="cust-pill" style="margin-left:6px">${esc(c.routing)}</span>` : ''}
+          </div>
+        </div>
+
+        <div class="cust-grid">
+          <div class="cust-section">
+            <h4>Contact</h4>
+            ${fieldRow('Contact', c.contact_name)}
+            ${fieldRow('Email', emailLink, {raw: true})}
+            ${fieldRow('Phone', phoneLink, {raw: true})}
+            ${fieldRow('Website', c.website ? `<a class="cust-field-link" target="_blank" rel="noopener noreferrer" href="${esc(c.website)}">${esc(c.website)}</a>` : null, {raw: true})}
+          </div>
+
+          <div class="cust-section">
+            <h4>Billing</h4>
+            ${fieldRow('Address', c.address)}
+            ${fieldRow('City', c.city)}
+            ${fieldRow('State / Zip', c.state || c.zip ? `${esc(c.state || '')}${c.zip ? ' ' + esc(c.zip) : ''}` : null)}
+            ${fieldRow('Sales tax', fmtPct(c.sales_tax_pct))}
+            ${fieldRow('Terms', c.terms)}
+            ${fieldRow('Resale #', c.resale_no)}
+          </div>
+
+          <div class="cust-section">
+            <h4>Ship-to</h4>
+            ${fieldRow('Name', c.ship_to_name && c.ship_to_name !== c.name ? c.ship_to_name : null)}
+            ${fieldRow('Address', c.ship_to_address)}
+            ${fieldRow('City / State', c.ship_to_city || c.ship_to_state ? `${esc(c.ship_to_city || '')}${c.ship_to_state ? ', ' + esc(c.ship_to_state) : ''}` : null)}
+            ${fieldRow('Zip', c.ship_to_zip)}
+            ${fieldRow('Ship via', c.ship_via)}
+            ${fieldRow('Ship charge', c.shipping_charge != null ? `$${Number(c.shipping_charge).toFixed(2)}` : null)}
+          </div>
+
+          <div class="cust-section">
+            <h4>Pricing & routing</h4>
+            ${fieldRow('Default markup', c.default_markup_pct != null ? `${(c.default_markup_pct * 100).toFixed(2)}%` : c.discount || '—')}
+            ${fieldRow('Discount', c.discount)}
+            ${fieldRow('Routing', c.routing)}
+            ${fieldRow('Sales person', c.sales_person)}
+            ${copyField('Email', c.email)}
+            ${copyField('Phone', c.phone)}
+            ${copyField('Ship-to address', c.ship_to_address ? `${c.ship_to_address}, ${c.ship_to_city || ''} ${c.ship_to_state || ''} ${c.ship_to_zip || ''}`.trim().replace(/\s+/g, ' ') : null)}
+            ${copyField('Billing address', c.address ? `${c.address}, ${c.city || ''} ${c.state || ''} ${c.zip || ''}`.trim().replace(/\s+/g, ' ') : null)}
+            <div style="margin-top:6px;">${mapLink ? `<span class="cust-field-label">Map:</span> ${mapLink}` : ''}</div>
+          </div>
+        </div>
+
+        <div class="cust-section">
+          <h4>Customer since</h4>
+          ${fieldRow('Entry date', c.entry_date || (c.created_at ? new Date(c.created_at).toLocaleDateString() : '—'))}
+        </div>
+
+        ${c.comment ? `<div class="cust-comment"><strong>Comment:</strong> ${esc(c.comment)}</div>` : ''}
+      `;
+
+      // Wire copy buttons
+      customerPanel.querySelectorAll('.cust-copy').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const val = btn.dataset.copy;
+          try {
+            await navigator.clipboard.writeText(val);
+            const orig = btn.textContent;
+            btn.textContent = '✓ copied';
+            setTimeout(() => { btn.textContent = orig; }, 1200);
+          } catch (_) {
+            // Fallback: select-and-copy
+            const ta = document.createElement('textarea');
+            ta.value = val;
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); } catch (_) {}
+            document.body.removeChild(ta);
+          }
+        });
+      });
+    }
+
+    customerSearchInput.addEventListener('input', renderCustomerList);
+    customerTypeFilter.addEventListener('change', renderCustomerList);
+    customerRoutingFilter.addEventListener('change', renderCustomerList);
 
     // ----- Data load -----
     async function loadOrders() {

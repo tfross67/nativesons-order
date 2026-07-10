@@ -209,7 +209,11 @@
         const markupValue = isMarkup && i.price > 0
           ? (Math.round((i.retailPrice / i.price) * 100) / 100)
           : '';
-        const manualValue = isManual ? i.retailPrice : '';
+        // Manual mode: show empty placeholder when value is 0 (so user can type
+        // from scratch). Show formatted value when non-zero.
+        const manualValue = isManual
+          ? (i.retailPrice > 0 ? i.retailPrice.toFixed(2) : '')
+          : '';
 
         return `
         <div class="cart-item">
@@ -238,7 +242,7 @@
             </div>
             ${isMarkup ? `
               <div class="pricing-input-wrap" title="Multiplier applied to wholesale">
-                <input type="number" min="0" step="0.05" placeholder="2.0" aria-label="Markup multiplier"
+                <input type="number" step="0.01" placeholder="2.0" aria-label="Markup multiplier"
                   data-action="retail-input" data-mode="markup" data-key="${esc(i.key)}" value="${markupValue}">
                 <span class="pricing-input-suffix">×</span>
                 <span class="pricing-input-result">= $${fmtPrice(i.retailPrice)}/ea</span>
@@ -246,7 +250,7 @@
             ${isManual ? `
               <div class="pricing-input-wrap" title="Retail price per unit">
                 <span class="pricing-input-prefix">$</span>
-                <input type="number" min="0" step="0.01" placeholder="0.00" aria-label="Retail price"
+                <input type="number" step="0.01" placeholder="0.00" aria-label="Retail price"
                   data-action="retail-input" data-mode="manual" data-key="${esc(i.key)}" value="${manualValue}">
                 <span class="pricing-input-suffix">/ea</span>
               </div>` : ''}
@@ -657,7 +661,8 @@
         Cart.setQty(key, qty);
         return;
       }
-      // Retail markup or manual input
+      // Retail markup or manual input — change fires on commit (blur/enter).
+      // Re-render so the readonly result text snaps to the new saved value.
       const retailInput = e.target.closest('input[data-action="retail-input"]');
       if (retailInput) {
         const key = retailInput.dataset.key;
@@ -666,13 +671,32 @@
         return;
       }
     });
-    // Live-update retail on each keystroke (so user sees price recompute as they type)
+    // Live-update retail on each keystroke — silent so we don't tear down the
+    // input element mid-typing. The input itself displays the typed value; we
+    // also update the line-total preview in-place.
     cartItems.addEventListener('input', (e) => {
       const retailInput = e.target.closest('input[data-action="retail-input"]');
       if (!retailInput) return;
       const key = retailInput.dataset.key;
       const mode = retailInput.dataset.mode;
-      Cart.setRetail(key, mode, retailInput.value);
+      Cart.setRetail(key, mode, retailInput.value, { silent: true });
+      // Update the inline preview (line total / per-unit) without re-rendering
+      const item = Cart.getItems().find(i => i.key === key);
+      if (!item) return;
+      const card = retailInput.closest('.cart-item');
+      if (!card) return;
+      const result = card.querySelector('.pricing-input-result');
+      const lineRetail = card.querySelector('.cart-item-total-retail');
+      if (result) {
+        if (mode === 'markup') {
+          const mult = parseFloat(retailInput.value);
+          const m = (isNaN(mult) || mult < 0) ? 0 : mult;
+          result.textContent = `= $${fmtPrice(item.price * m)}/ea`;
+        }
+      }
+      if (lineRetail) {
+        lineRetail.textContent = `retail $${fmtPrice(item.retailPrice * item.qty)}`;
+      }
     });
 
     // Proceed to checkout

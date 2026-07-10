@@ -47,6 +47,16 @@ window.Cart = (() => {
     notify();
   }
 
+  // Save without notifying listeners — used for live retail-price edits where
+  // we don't want a full cart re-render destroying the in-progress input.
+  function saveSilent() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch (e) {
+      console.warn('Cart save failed', e);
+    }
+  }
+
   function onChange(fn) { listeners.push(fn); }
   function notify() { listeners.forEach(fn => { try { fn(); } catch (e) { console.error(e); } }); }
 
@@ -80,24 +90,42 @@ window.Cart = (() => {
     save();
   }
 
-  function setRetail(key, mode, value) {
+  function setRetail(key, mode, value, opts) {
     // mode: 'wholesale' | 'markup' | 'manual'
     // value: markup multiplier (e.g. 2.0) for 'markup', or $/ea for 'manual'.
     // Ignored for 'wholesale'.
+    // opts.silent: if true, persist without notifying listeners (avoids tearing
+    //   down the input element mid-keystroke for retail-price edits).
     const item = items.find(i => i.key === key);
     if (!item) return;
     item.retailMode = mode;
     if (mode === 'wholesale') {
       item.retailPrice = item.price;
     } else if (mode === 'markup') {
-      const mult = parseFloat(value);
+      const strVal = String(value).trim();
+      if (strVal === '' || strVal === '.' || strVal === '-') {
+        if (opts && opts.silent) { saveSilent(); }
+        else { save(); }
+        return;
+      }
+      const mult = parseFloat(strVal);
       const m = (isNaN(mult) || mult < 0) ? 0 : mult;
       item.retailPrice = Math.round(item.price * m * 100) / 100;
     } else if (mode === 'manual') {
-      const p = parseFloat(value);
+      // Accept partial input like "" or "1." without snapping to 0.
+      // Only commit a rounded value when the input is a complete number.
+      const strVal = String(value).trim();
+      if (strVal === '' || strVal === '.' || strVal === '-') {
+        // User is mid-typing — don't overwrite stored value with 0.
+        if (opts && opts.silent) { saveSilent(); }
+        else { save(); }
+        return;
+      }
+      const p = parseFloat(strVal);
       item.retailPrice = (isNaN(p) || p < 0) ? 0 : Math.round(p * 100) / 100;
     }
-    save();
+    if (opts && opts.silent) saveSilent();
+    else save();
   }
 
   // Apply a markup multiplier to every item currently in 'wholesale' mode.

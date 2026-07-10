@@ -373,44 +373,75 @@
         });
       });
 
-      // ----- CSV builders -----
+      // ----- CSV builder (compact format) -----
       function buildOrderCsv() {
         const o = allOrders.find(x => x.id === id);
-        const orderHeaders = [
-          'Order #', 'Date', 'Status', 'Customer', 'Email', 'Phone', 'Company',
-          'Plants', 'Units', 'Wholesale Subtotal', 'Retail Subtotal', 'Notes'
-        ];
-        const totalQty = (items || []).reduce((s, i) => s + (i.qty || 0), 0);
-        const totalWhsl = (items || []).reduce((s, i) => s + Number(i.line_total || 0), 0);
-        const totalRetl = (items || []).reduce((s, i) => s + Number(i.retail_line_total || 0), 0);
-        const orderRow = [
-          o.order_number, o.created_at, o.status, o.customer_name, o.customer_email,
-          o.customer_phone || '', o.customer_company || '',
-          (items || []).length, totalQty, totalWhsl.toFixed(2), totalRetl.toFixed(2),
-          (o.notes || '').replace(/\n/g, ' ')
-        ];
+        const lines = [];
+
         function csvEscape(v) {
           if (v == null) v = '';
           v = String(v).replace(/"/g, '""');
           return `"${v}"`;
         }
-        const lines = [];
-        // Order header rows
-        lines.push(orderHeaders.map(csvEscape).join(','));
-        lines.push(orderRow.map(csvEscape).join(','));
-        // Line items section
-        const itemHeaders = ['Plant', 'Size', 'Qty', 'Wholesale', 'Whsl $', 'Retail', 'Retail $'];
+
+        // ----- Summary block (1 row, key=value layout keeps auto-fit narrow) -----
+        const totalQty = (items || []).reduce((s, i) => s + (i.qty || 0), 0);
+        const totalWhsl = (items || []).reduce((s, i) => s + Number(i.line_total || 0), 0);
+        const totalRetl = (items || []).reduce((s, i) => s + Number(i.retail_line_total || 0), 0);
+        const orderDate = o.created_at ? new Date(o.created_at) : null;
+        const dateStr = orderDate ? orderDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+
+        lines.push(csvEscape('Native Sons — Order Detail'));
         lines.push('');
+        lines.push([csvEscape('Order #'), csvEscape(o.order_number)].join(','));
+        lines.push([csvEscape('Date'), csvEscape(dateStr)].join(','));
+        lines.push([csvEscape('Status'), csvEscape(o.status)].join(','));
+        lines.push([csvEscape('Customer'), csvEscape(o.customer_name)].join(','));
+        lines.push([csvEscape('Email'), csvEscape(o.customer_email)].join(','));
+        if (o.customer_phone) lines.push([csvEscape('Phone'), csvEscape(o.customer_phone)].join(','));
+        if (o.customer_company) lines.push([csvEscape('Company'), csvEscape(o.customer_company)].join(','));
+        lines.push([csvEscape('Plants'), csvEscape((items || []).length)].join(','));
+        lines.push([csvEscape('Units'), csvEscape(totalQty)].join(','));
+        lines.push([csvEscape('Whsl $'), csvEscape(totalWhsl.toFixed(2))].join(','));
+        lines.push([csvEscape('Retail $'), csvEscape(totalRetl.toFixed(2))].join(','));
+        if (o.notes) lines.push([csvEscape('Notes'), csvEscape(o.notes.replace(/\n/g, ' '))].join(','));
+
+        // ----- Line items table (tighter headers, blank divider row) -----
+        lines.push('');
+        // Use compact labels; right-aligned numerics; tabs preserved by CSV renderer auto-fit
+        const itemHeaders = ['Plant', 'Size', 'Qty', 'W $', 'W Total', 'R $', 'R Total'];
         lines.push(itemHeaders.map(csvEscape).join(','));
+
+        const hasRetail = (items || []).some(i => i.retail_unit_price != null);
         for (const i of (items || [])) {
+          const wsTotal = (Number(i.line_total) || 0).toFixed(2);
+          const rtTotal = hasRetail && i.retail_line_total != null
+            ? Number(i.retail_line_total).toFixed(2)
+            : '';
+          const wsUnit = i.unit_price != null ? Number(i.unit_price).toFixed(2) : '';
+          const rtUnit = hasRetail && i.retail_unit_price != null
+            ? Number(i.retail_unit_price).toFixed(2)
+            : '';
           lines.push([
-            i.plant_name, i.plant_size || '',
+            i.plant_name,
+            i.plant_size || '',
             i.qty,
-            i.unit_price, i.line_total,
-            i.retail_unit_price != null ? i.retail_unit_price : '',
-            i.retail_line_total != null ? i.retail_line_total : ''
+            wsUnit,
+            wsTotal,
+            rtUnit,
+            rtTotal,
           ].map(csvEscape).join(','));
         }
+
+        // Optional totals footer (only when retail columns are present)
+        if (hasRetail) {
+          const wTotal = (items || []).reduce((s, i) => s + Number(i.line_total || 0), 0).toFixed(2);
+          const rTotal = (items || []).reduce((s, i) => s + Number(i.retail_line_total || 0), 0).toFixed(2);
+          lines.push([
+            'TOTAL', '', totalQty, '', wTotal, '', rTotal,
+          ].map(csvEscape).join(','));
+        }
+
         return lines.join('\n');
       }
 

@@ -384,34 +384,33 @@
           return `"${v}"`;
         }
 
-        // ----- Top block: order summary in a single wide table -----
-        // Headers are short (1-2 words) so column widths stay narrow.
         const totalQty = (items || []).reduce((s, i) => s + (i.qty || 0), 0);
         const totalWhsl = (items || []).reduce((s, i) => s + Number(i.line_total || 0), 0);
         const totalRetl = (items || []).reduce((s, i) => s + Number(i.retail_line_total || 0), 0);
         const orderDate = o.created_at ? new Date(o.created_at) : null;
         const dateStr = orderDate ? orderDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
 
-        // One header row, one data row — same 12 columns everywhere so Excel lays it out cleanly.
+        // ----- Top: order summary -----
+        // Columns: Order | Date | Status | Customer | Email | Phone | Company | Qty | Plants | Wholesale | Retail | Notes
+        // Qty (total units) and Plants (line count) sit between contact info and totals so the
+        // office can scan "how much" without hunting.
         const metaHeaders = [
           'Order', 'Date', 'Status', 'Customer', 'Email', 'Phone', 'Company',
-          'Plants', 'Units', 'Wholesale', 'Retail', 'Notes'
+          'Qty', 'Plants', 'Wholesale', 'Retail', 'Notes'
         ];
         const metaRow = [
           o.order_number, dateStr, o.status, o.customer_name, o.customer_email,
           o.customer_phone || '', o.customer_company || '',
-          (items || []).length, totalQty,
+          totalQty, (items || []).length,
           totalWhsl.toFixed(2), totalRetl.toFixed(2),
           (o.notes || '').replace(/\n/g, ' ')
         ];
         lines.push(metaHeaders.map(csvEscape).join(','));
         lines.push(metaRow.map(csvEscape).join(','));
 
-        // ----- Line items (same column count where possible) -----
+        // ----- Detail rows: Plant | Qty | Size | W Unit | W Line | R Unit -----
         lines.push('');
-        const itemHeaders = [
-          'Plant', 'Size', 'Qty', 'W Unit', 'W Line', 'R Unit', 'R Line'
-        ];
+        const itemHeaders = ['Plant', 'Qty', 'Size', 'W Unit', 'W Line', 'R Unit'];
         lines.push(itemHeaders.map(csvEscape).join(','));
 
         const hasRetail = (items || []).some(i => i.retail_unit_price != null);
@@ -420,21 +419,21 @@
           const wsLine = (Number(i.line_total) || 0).toFixed(2);
           const rtUnit = hasRetail && i.retail_unit_price != null
             ? Number(i.retail_unit_price).toFixed(2) : '';
-          const rtLine = hasRetail && i.retail_line_total != null
-            ? Number(i.retail_line_total).toFixed(2) : '';
           lines.push([
-            i.plant_name, i.plant_size || '',
-            i.qty, wsUnit, wsLine, rtUnit, rtLine,
+            i.plant_name, i.qty, i.plant_size || '',
+            wsUnit, wsLine, rtUnit,
           ].map(csvEscape).join(','));
         }
 
-        // Totals footer: 7 items columns, 7 totals columns. No trailing empties.
+        // Totals footer mirrors the 6 columns above (drop R Line, keep R Unit echo? No.
+        // The retail-only summary in the meta row already covers retail total. Footer
+        // echoes Qty | wholesale total | retail total in their respective columns:
+        //   Plant | Qty | Size | W Unit | W Line | R Unit
+        //   'TOTAL' | totalQty | '' | totalWhsl | totalWhsl | totalRetl
         lines.push([
-          'TOTAL', '',
-          totalQty,
+          'TOTAL', totalQty, '',
           totalWhsl.toFixed(2),
           totalWhsl.toFixed(2),
-          hasRetail ? totalRetl.toFixed(2) : '',
           hasRetail ? totalRetl.toFixed(2) : '',
         ].map(csvEscape).join(','));
 

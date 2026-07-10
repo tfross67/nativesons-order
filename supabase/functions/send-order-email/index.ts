@@ -22,6 +22,7 @@ interface OrderItem {
   unit_price: number;
   qty: number;
   line_total: number;
+  special_order?: boolean;
 }
 
 interface OrderRecord {
@@ -59,15 +60,25 @@ const esc = (s: string) => String(s == null ? "" : s)
   .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 
 function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { subject: string; html: string; text: string } {
-  const itemRows = items.map(i =>
-    `<tr>
-      <td style="padding:8px 12px; border-bottom:1px solid #e3dccb;">${esc(i.plant_name)}</td>
-      <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; color:#666;">${esc(i.plant_size || "—")}</td>
-      <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right;">${i.qty}</td>
-      <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right;">$${fmt(i.unit_price)}</td>
-      <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right; font-weight:600;">$${fmt(i.line_total)}</td>
-    </tr>`
-  ).join("");
+  const itemRows = items.map(i => {
+    const specialBadge = i.special_order
+      ? `<span style="display:inline-block; margin-left:6px; padding:2px 8px; background:#fff3cd; color:#7a5d00; border:1px solid #f0d97a; border-radius:10px; font-size:10px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;">Special Order</span>`
+      : '';
+    const textSpecial = i.special_order ? '  [Special Order]' : '';
+    return {
+      html: `<tr>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb;">${esc(i.plant_name)}${specialBadge}</td>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; color:#666;">${esc(i.plant_size || "—")}</td>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right;">${i.qty}</td>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right;">$${fmt(i.unit_price)}</td>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right; font-weight:600;">$${fmt(i.line_total)}</td>
+      </tr>`,
+      text: `  - ${i.plant_name}${i.plant_size ? ` (${i.plant_size})` : ""} × ${i.qty} = $${fmt(i.line_total)}${textSpecial}`,
+    };
+  });
+
+  const itemRowsHtml = itemRows.map(r => r.html).join('');
+  const itemRowsText = itemRows.map(r => r.text);
 
   const subject = toCustomer
     ? `Order ${o.order_number} received — Native Sons`
@@ -95,7 +106,7 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
               <th style="padding:10px 12px; text-align:right;">Line</th>
             </tr>
           </thead>
-          <tbody>${itemRows}</tbody>
+          <tbody>${itemRowsHtml}</tbody>
           <tfoot>
             <tr style="background: #efe9da;">
               <td colspan="4" style="padding: 12px; text-align: right; font-weight: 600;">Subtotal</td>
@@ -125,7 +136,7 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
     toCustomer ? `Hi ${o.customer_name.split(" ")[0]} — we received your order request.` : `New order from ${o.customer_name}.`,
     ``,
     `Items:`,
-    ...items.map(i => `  - ${i.plant_name}${i.plant_size ? ` (${i.plant_size})` : ""} × ${i.qty} = $${fmt(i.line_total)}`),
+    ...itemRowsText,
     ``,
     `Subtotal: $${fmt(o.subtotal)}`,
     ``,

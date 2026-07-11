@@ -33,12 +33,37 @@ def clean(val):
     return s
 
 def phone_digits(val):
+    """Extract a usable 10-digit US phone number from a cell.
+
+    Some xlsx cells pack 2-3 phone numbers into a single field, with or
+    without separators. Examples:
+      "3232459849 / 3108467094"  → 3232459849
+      "(323) 245-9849"           → 3232459849
+      "3232459849310846709"      → 3232459849 (first 10 digits)
+      "323245984931084670943238198666" → 3232459849 (first 10 digits)
+
+    Heuristic: prefer the first 10-digit run if found, else first 7-digit
+    run, else strip leading 1 if 11 digits. Fall back to raw digits.
+    """
     if val is None: return None
-    s = re.sub(r'\D', '', str(val))
-    if not s: return None
-    if s.startswith('1') and len(s) == 11:
-        s = s[1:]
-    return s if 7 <= len(s) <= 10 else s
+    raw = str(val)
+    digits = re.sub(r'\D', '', raw)
+    if not digits:
+        return None
+    if digits.startswith('1') and len(digits) == 11:
+        digits = digits[1:]
+    if 7 <= len(digits) <= 10:
+        return digits
+    # Multiple numbers packed into one cell — take the FIRST 10 digits
+    # as the primary number. (Lossy but better than concatenating.)
+    for length in (10, 7):
+        chunk = digits[:length]
+        if length == 10 and chunk[0] in '01':
+            continue  # US area codes don't start with 0 or 1
+        if length <= len(digits):
+            return chunk
+    # Last resort — return raw digits
+    return digits if digits else None
 
 def parse_pct(val):
     if val is None: return None

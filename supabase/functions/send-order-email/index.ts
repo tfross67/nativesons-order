@@ -44,6 +44,11 @@ interface OrderPayload {
   table?: string;
   record?: OrderRecord;
   items?: OrderItem[];
+  // Optional: which recipients to skip. Defaults to sending both.
+  // skip: ['office']    → only customer email
+  // skip: ['customer']  → only office email
+  // skip: ['office', 'customer'] → no email at all
+  skip?: ('office' | 'customer')[];
 }
 
 const AGENTMAIL_API_KEY = Deno.env.get("AGENTMAIL_API_KEY") || "";
@@ -230,33 +235,48 @@ Deno.serve(async (req: Request) => {
   // TEMPORARY: allow browser to override office email for deliverability debug.
   const officeRecipient = payload.debugOfficeEmail || OFFICE_EMAIL;
 
+  // Allow caller to skip one or both recipients (set by office.html when
+  // user unchecks the "Email customer" / "Email Tim" checkboxes).
+  const skip = new Set(payload.skip || []);
+  const wantOffice   = !skip.has('office');
+  const wantCustomer = !skip.has('customer');
+
   // 1. Office email
-  try {
-    const office = buildEmail(order, items, false);
-    await sendEmail(officeRecipient, office.subject, office.html, office.text);
-    results.push({ to: officeRecipient, ok: true });
-  } catch (err) {
-    const msg = String(err);
-    console.error(`Office email failed:`, msg);
-    results.push({ to: officeRecipient, ok: false, error: msg });
+  if (wantOffice) {
+    try {
+      const office = buildEmail(order, items, false);
+      await sendEmail(officeRecipient, office.subject, office.html, office.text);
+      results.push({ to: officeRecipient, ok: true });
+    } catch (err) {
+      const msg = String(err);
+      console.error(`Office email failed:`, msg);
+      results.push({ to: officeRecipient, ok: false, error: msg });
+    }
   }
 
   // 2. Customer email
-  try {
-    const customer = buildEmail(order, items, true);
-    await sendEmail(order.customer_email, customer.subject, customer.html, customer.text);
-    results.push({ to: order.customer_email, ok: true });
-  } catch (err) {
-    const msg = String(err);
-    console.error(`Customer email failed:`, msg);
-    results.push({ to: order.customer_email, ok: false, error: msg });
+  if (wantCustomer) {
+    try {
+      const customer = buildEmail(order, items, true);
+      await sendEmail(order.customer_email, customer.subject, customer.html, customer.text);
+      results.push({ to: order.customer_email, ok: true });
+    } catch (err) {
+      const msg = String(err);
+      console.error(`Customer email failed:`, msg);
+      results.push({ to: order.customer_email, ok: false, error: msg });
+    }
   }
 
   const allOk = results.every(r => r.ok);
+  const sentAnything = results.length > 0;
   return new Response(
-    JSON.stringify({ ok: allOk, results }),
+    JSON.stringify({
+      ok: allOk,
+      skipped: Array.from(skip),
+      results,
+    }),
     {
-      status: allOk ? 200 : 207, // 207 Multi-Status if one failed
+      status: allOk ? 200 : (sentAnything ? 207 : 200),
       headers: { "Content-Type": "application/json", ...CORS_HEADERS },
     }
   );

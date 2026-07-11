@@ -29,11 +29,21 @@
     /* Office header */
     .office-header {
       display: flex; align-items: center; justify-content: space-between;
-      gap: 12px; padding: 16px 24px; background: var(--c-sage, #2d4a2b); color: white;
+      gap: 12px; padding: 12px 24px; background: var(--c-sage, #2d4a2b); color: white;
     }
-    .office-header h1 { margin: 0; font-size: 18px; font-weight: 600; }
+    .office-header h1 { margin: 0; font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
     .office-header .btn { background: rgba(255,255,255,.15); border-color: transparent; color: white; }
     .office-header .btn:hover { background: rgba(255,255,255,.25); }
+        /* Logo sizing — the logo is green-toned and the header is also green,
+       so we use a slight padding + soft white halo to keep it visible. */
+    .brand-logo { height: 36px; width: auto; display: block; padding: 2px 6px; background: rgba(255,255,255,.92); border-radius: 6px; }
+    .brand-logo-lg { height: 72px; width: auto; display: block; margin: 0 auto 14px; }
+    .login-card { text-align: center; }
+    .login-card .back-link { display: block; text-align: left; }
+    .login-card .form-field { text-align: left; }
+    .login-card .btn-block { text-align: center; }
+    .login-card h1 { margin-bottom: 4px; }
+    .login-card > p { text-align: center; }
 
     /* Layout */
     .office-body { display: grid; grid-template-columns: 380px 1fr 360px; gap: 0; min-height: calc(100vh - 56px); }
@@ -181,6 +191,7 @@
       <form id="loginForm" class="login-card"
             onsubmit="var pw=document.getElementById('passwordInput').value; if(pw==='OFC-NativeSons-2026'){try{sessionStorage.setItem('nativesons_admin','1');}catch(e){} document.getElementById('officeView').hidden=false; document.getElementById('loginView').hidden=true; try{init();}catch(e){} return false;} document.getElementById('loginError').textContent='Wrong password. Type the new one sent to you.'; document.getElementById('loginError').style.color='#d97757'; document.getElementById('passwordInput').select(); return false;">
       <a href="index.html" class="back-link">← Public catalog</a>
+      <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="brand-logo-lg">
       <h1>Office sign-in</h1>
       <p>Sign in to enter orders on behalf of customers.</p>
       <label class="form-field">
@@ -196,7 +207,10 @@
   <!-- Office workspace -->
   <div id="officeView" hidden>
     <div class="office-header">
-      <h1>🌿 Native Sons — Order Entry</h1>
+      <h1>
+        <img src="logo.jpg" alt="Native Sons" class="brand-logo">
+        Native Sons — Order Entry
+      </h1>
       <div>
         <a class="btn" href="admin.html">Admin</a>
         <button class="btn" id="logoutBtn">Sign out</button>

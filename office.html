@@ -474,18 +474,28 @@
   }
 
   // Always restore the session if we have it (no async deps needed).
-  // Wrap in try/catch so a TDZ error in init() surfaces on the page
-  // instead of being silently swallowed as an unhandled promise rejection.
-  if (sessionStorage.getItem('nativesons_admin') === '1') {
-    try {
-      showOffice();
-    } catch (e) {
-      const err = document.getElementById('loginError');
-      if (err) {
-        err.style.color = 'var(--c-clay, #d97757)';
-        err.innerHTML = `<b>Init failed:</b> ${(e && e.message || e).toString().replace(/</g, '&lt;')}`;
+  // Wrap in DOMContentLoaded so the parser has reached every `const`
+  // declaration below (notably officeCart/officeTotals/officeActions at
+  // line ~892) before init() runs. Without this wrap, init() → renderCart()
+  // hits the TDZ and throws "Cannot access 'officeCart' before
+  // initialization" because the inline-call happens at parse-time.
+  function tryRestoreSession() {
+    if (sessionStorage.getItem('nativesons_admin') === '1') {
+      try {
+        showOffice();
+      } catch (e) {
+        const err = document.getElementById('loginError');
+        if (err) {
+          err.style.color = 'var(--c-clay, #d97757)';
+          err.innerHTML = `<b>Init failed:</b> ${(e && e.message || e).toString().replace(/</g, '&lt;')}`;
+        }
       }
     }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryRestoreSession);
+  } else {
+    tryRestoreSession();
   }
 
   // Visible diagnostics — show what the page sees in the bottom-left corner.

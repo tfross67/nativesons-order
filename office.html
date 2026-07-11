@@ -335,12 +335,29 @@
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const pw = passwordInput.value;
-    if (window.ADMIN_CONFIG && pw === window.ADMIN_CONFIG.password) {
+
+    // Visible diagnostic — always show the comparison result, even on success.
+    // Helps debug if the user is getting rejected unexpectedly.
+    const cfg = window.ADMIN_CONFIG;
+    const expected = cfg && cfg.password;
+    const match = cfg && pw === expected;
+
+    if (cfg && match) {
       sessionStorage.setItem('nativesons_admin', '1');
       loginError.textContent = '';
-      showOffice();
+      loginError.style.color = 'green';
+      loginError.textContent = '✓ Login accepted — entering office…';
+      setTimeout(() => showOffice(), 200);
     } else {
-      loginError.textContent = 'Wrong password. Try again.';
+      loginError.style.color = 'var(--c-clay, #d97757)';
+      const debugInfo = [
+        'Password rejected.',
+        `Expected length: ${expected ? expected.length : '—'}`,
+        `You typed length: ${pw.length}`,
+        `ADMIN_CONFIG loaded: ${cfg ? 'yes' : 'no'}`,
+        `Match: ${match ? 'yes' : 'no'}`,
+      ].join('<br>');
+      loginError.innerHTML = debugInfo;
       passwordInput.select();
     }
   });

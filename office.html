@@ -255,7 +255,7 @@
       <!-- CENTER: Plant catalog -->
       <div class="office-catalog-col">
         <div class="container" style="padding-top:16px;">
-          <h2 class="col-section-title">Plants</h2>
+          <h2 class="col-section-title">Plants <span id="plantCount" style="font-weight:400;color:#888;font-size:11px;">(loading…)</span></h2>
           <div class="catalog-controls">
             <input type="search" id="plantSearchInput" placeholder="Search plants…" autocomplete="off">
             <div id="filterChips" class="filter-chips"></div>
@@ -263,6 +263,36 @@
           <div id="plantGrid" class="plant-grid"></div>
         </div>
       </div>
+
+      <script>
+        // Self-diagnostic for the catalog panel — shows the live count of
+        // plants available and what's currently rendered. Helps debug if
+        // "no plants" appears.
+        (function () {
+          function update() {
+            var all = (window.AVAILABILITY && window.AVAILABILITY.plants || []).length;
+            var grid = document.getElementById('plantGrid');
+            var count = document.getElementById('plantCount');
+            if (!count || !grid) return;
+            var rendered = grid.children.length;
+            if (all === 0) {
+              count.textContent = '(NO availability_data — refresh needed)';
+              count.style.color = '#d97757';
+            } else if (rendered === 0) {
+              count.textContent = '(' + all + ' plants loaded, 0 rendered — clear search)';
+              count.style.color = '#d97757';
+            } else {
+              count.textContent = '(' + rendered + ' of ' + all + ' shown)';
+              count.style.color = '#888';
+            }
+          }
+          // Run every second to track changes
+          setInterval(update, 1000);
+          // Also when renderPlants changes
+          var orig = window.renderPlants;
+          // (No need to monkey-patch — setInterval will pick it up.)
+        })();
+      </script>
 
       <!-- RIGHT: Cart -->
       <div class="office-cart-col">
@@ -386,10 +416,11 @@
       dbg.innerHTML = [
         'office.html diagnostics',
         `ADMIN_CONFIG: ${window.ADMIN_CONFIG ? '✓' : '✗ (undefined)'}`,
-        `password match: ${window.ADMIN_CONFIG ? (window.ADMIN_CONFIG.password === 'XNoEpdzEqd1hEZwH' ? '✓' : '✗') : '—'}`,
+        `password match: ${window.ADMIN_CONFIG ? (window.ADMIN_CONFIG.password === 'OFC-NativeSons-2026' ? '✓' : '✗') : '—'}`,
         `SUPABASE_CONFIG: ${window.SUPABASE_CONFIG ? '✓' : '✗'}`,
         `office_customers: ${window.OFFICE_CUSTOMERS ? window.OFFICE_CUSTOMERS.length.toLocaleString() : '✗'}`,
         `availability_data: ${window.AVAILABILITY ? window.AVAILABILITY.plants?.length : '✗'}`,
+        `plantGrid children: ${document.getElementById('plantGrid')?.children?.length || 0}`,
         `Cart: ${window.Cart ? '✓' : '✗'}`,
         `session: ${sessionStorage.getItem('nativesons_admin') || '—'}`,
       ].join('<br>');

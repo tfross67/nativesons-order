@@ -381,6 +381,27 @@
     }
   });
 
+  // DIAG: dump DOM readiness info to the global error panel so we can
+  // see what's missing when renderCart throws "officeCart is null".
+  (function () {
+    var ids = ['loginView', 'officeView', 'plantGrid', 'filterChips',
+               'plantSearchInput', 'officeCart', 'officeTotals',
+               'officeActions', 'modalOverlay', 'plantModal',
+               'modalTitle', 'modalBody', 'closeModal', 'custPickerInput',
+               'custPickerResults', 'submitOrderBtn', 'clearOrderBtn',
+               'logoutBtn', 'globalErrorPanel'];
+    var missing = ids.filter(function (id) { return !document.getElementById(id); });
+    if (missing.length) {
+      var panel = document.getElementById('globalErrorPanel');
+      if (panel) {
+        panel.innerHTML = '<b>DOM missing:</b><br>' + missing.join(', ') +
+          '<br><small>(' + (document.readyState) + ')</small>';
+        panel.style.display = 'block';
+      }
+      console.error('Missing DOM ids at script-start:', missing, 'readyState:', document.readyState);
+    }
+  })();
+
   /* -------------------------------------------------------------------
    *  OFFICE.HTML — internal order-entry for the Native Sons office.
    *  Reuses:
@@ -850,6 +871,17 @@
   const officeCart = $('officeCart');
   const officeTotals = $('officeTotals');
   const officeActions = $('officeActions');
+
+  if (!officeCart) {
+    // Surface the actual error in the global panel instead of letting it
+    // happen deep inside renderCart() at line 857.
+    const panel = $('globalErrorPanel');
+    if (panel) {
+      panel.innerHTML = '<b>DOM error:</b> #officeCart element not found in DOM. Page structure is broken.';
+      panel.style.display = 'block';
+    }
+    throw new Error('#officeCart element not found');
+  }
 
   function renderCart() {
     const items = Cart.getItems();

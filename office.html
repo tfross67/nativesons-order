@@ -1040,12 +1040,29 @@
 
   /* ---------------- Init ---------------- */
   async function init() {
-    renderFilterChips();
-    renderPlants();
-    renderCart();
-    loadCustomers();  // synchronous — fills from window.OFFICE_CUSTOMERS
-    // Re-render picker results if user is mid-search when customers land
-    if (currentQuery) renderPicker();
+    try {
+      renderFilterChips();
+    } catch (e) {
+      const err = document.getElementById('loginError');
+      if (err) err.innerHTML = `<b>renderFilterChips failed:</b> ${(e && e.stack || e).toString().slice(0, 800).replace(/</g, '&lt;')}`;
+      console.error('renderFilterChips', e);
+    }
+    try {
+      renderPlants();
+    } catch (e) {
+      const err = document.getElementById('loginError');
+      if (err) err.innerHTML = `<b>renderPlants failed:</b> ${(e && e.stack || e).toString().slice(0, 800).replace(/</g, '&lt;')}`;
+      console.error('renderPlants', e);
+    }
+    try {
+      renderCart();
+    } catch (e) { console.error('renderCart', e); }
+    try {
+      loadCustomers();
+    } catch (e) { console.error('loadCustomers', e); }
+    if (currentQuery) {
+      try { renderPicker(); } catch (e) { console.error('renderPicker', e); }
+    }
   }
 
   </script>

@@ -284,13 +284,31 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="admin-config.js?v=2026-07-13a"></script>
   <script src="supabase-config.js?v=2026-07-13a"></script>
-  <script src="masteritem_data.js"></script>
-  <script src="masteritem_full.js"></script>
   <script src="cart.js?v=2026-07-13a"></script>
   <script src="availability_data.js?v=2026-07-13"></script>
   <script src="office_customers.js?v=2026-07-13a"></script>
 
+  <!-- masteritem_data.js / masteritem_full.js intentionally omitted:
+       office.html doesn't need the auto-complete lookup. They were 2 MB
+       of unused downloads and may have been silently failing in some
+       network conditions, breaking the entire script-toplevel. -->
+
   <script>
+  // Wrap the entire inline script in try/catch so a syntax/runtime error
+  // inside the office module doesn't silently break login. We capture and
+  // surface the error right on the login screen so we don't need DevTools.
+  window.__officeScriptError = null;
+  window.addEventListener('error', (ev) => {
+    if (ev.filename && ev.filename.includes('office.html')) {
+      window.__officeScriptError = ev.error && (ev.error.stack || ev.error.message) || ev.message;
+      const err = document.getElementById('loginError');
+      if (err) {
+        err.style.color = 'var(--c-clay, #d97757)';
+        err.innerHTML = `<b>JS error:</b><br><small style="font-family:monospace;font-size:11px;text-align:left;display:block;max-height:140px;overflow:auto;">${(window.__officeScriptError || 'unknown').toString().replace(/</g, '&lt;')}</small>`;
+      }
+    }
+  });
+
   /* -------------------------------------------------------------------
    *  OFFICE.HTML — internal order-entry for the Native Sons office.
    *  Reuses:

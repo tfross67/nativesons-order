@@ -567,26 +567,40 @@
   }
 
   function renderPlants() {
-    const q = plantSearchInput.value.trim().toLowerCase();
-    const all = window.AVAILABILITY && window.AVAILABILITY.plants || [];
-    const filtered = all.filter(p => {
-      if (currentFilter === 'bloom' && !p.bloom) return false;
-      if (currentFilter === 'bud' && !p.bud) return false;
-      if (currentFilter !== 'all' && currentFilter !== 'bloom' && currentFilter !== 'bud') {
-        // Section filter
-        const section = p.section || '';
-        const secKey = section.toLowerCase().replace(/[^a-z]/g, '').slice(0, 6);
-        if (secKey !== currentFilter) return false;
-      }
-      return plantMatchesQuery(p, q);
-    });
-
-    if (!filtered.length) {
-      plantGrid.innerHTML = '<p style="color:var(--c-muted); padding:24px; text-align:center;">No plants match.</p>';
-      return;
+  const q = plantSearchInput.value.trim().toLowerCase();
+  const all = window.AVAILABILITY && window.AVAILABILITY.plants || [];
+  const filtered = all.filter(p => {
+    if (currentFilter === 'bloom' && !p.bloom) return false;
+    if (currentFilter === 'bud' && !p.bud) return false;
+    if (currentFilter !== 'all' && currentFilter !== 'bloom' && currentFilter !== 'bud') {
+      // Section filter
+      const section = p.section || '';
+      const secKey = section.toLowerCase().replace(/[^a-z]/g, '').slice(0, 6);
+      if (secKey !== currentFilter) return false;
     }
+    return plantMatchesQuery(p, q);
+  });
 
-    plantGrid.innerHTML = filtered.map(p => {
+  // Defensive: if filtered is empty but all is non-empty, surface WHY
+  let notice = '';
+  if (all.length === 0) {
+    notice = `<p style="background:#fff3cd;border:1px solid #f0c000;padding:12px;margin:0 0 12px;border-radius:6px;font-size:13px;">
+      ⚠ Availability data not loaded (<code>window.AVAILABILITY</code> is empty).
+      Hard refresh (Cmd+Shift+R) or open in a fresh incognito window.
+    </p>`;
+  } else if (filtered.length === 0) {
+    notice = `<p style="background:#fff3cd;border:1px solid #f0c000;padding:12px;margin:0 0 12px;border-radius:6px;font-size:13px;">
+      ⚠ No plants match the current search/filter. ${all.length} plants available —
+      clear the search box or click the "All" chip.
+    </p>`;
+  }
+
+  if (!filtered.length) {
+    plantGrid.innerHTML = notice + '<p style="color:var(--c-muted); padding:24px; text-align:center;">No plants match.</p>';
+    return;
+  }
+
+  plantGrid.innerHTML = notice + filtered.map(p => {
       const sizes = getSizes(p);
       const cheapest = sizes.reduce((m, s) => (s.price && (!m || s.price < m.price)) ? s : m, null);
       const heroName = p.botanical

@@ -905,6 +905,18 @@
   }
 
   function renderCart() {
+    // Defensive: if any required element is missing (or got hidden/replaced),
+    // surface a clear error instead of throwing "Cannot set innerHTML of null".
+    if (!officeCart) {
+      throw new Error('renderCart: #officeCart is null (DOM element missing)');
+    }
+    if (!officeTotals) {
+      throw new Error('renderCart: #officeTotals is null (DOM element missing)');
+    }
+    if (!officeActions) {
+      throw new Error('renderCart: #officeActions is null (DOM element missing)');
+    }
+
     const items = Cart.getItems();
     if (!items.length) {
       officeCart.innerHTML = '<p class="cart-empty">Add plants from the catalog to start an order.</p>';
@@ -912,7 +924,6 @@
       officeActions.hidden = true;
       return;
     }
-
     officeCart.innerHTML = items.map(i => `
       <div class="cart-line${i.specialOrder ? ' is-special' : ''}" data-key="${esc(i.key)}">
         <div class="cart-line-name">${esc(i.name)}</div>
@@ -1156,16 +1167,22 @@
   async function init() {
     const surfaceError = (where, e) => {
       // Surface the error in BOTH loginError (visible if loginView is
-      // visible) and a fixed corner panel (always visible).
+      // visible) and a fixed corner panel (always visible). Show the
+      // error MESSAGE + name + stack separately so we don't lose
+      // information when the stack is the only structured thing on the
+      // error object.
       const err = document.getElementById('loginError');
       const panel = document.getElementById('globalErrorPanel');
-      const msg = `<b>${where} failed:</b> ${(e && e.stack || e).toString().slice(0, 800).replace(/</g, '&lt;')}`;
+      const name = (e && (e.name || 'Error')).toString();
+      const msg = (e && e.message) ? e.message.toString() : '(no message)';
+      const stack = (e && e.stack) ? e.stack.toString() : '(no stack)';
+      const html = `<b>${where} failed:</b>\n<i>${name}:</i> ${msg.replace(/</g, '&lt;')}\n\n<u>Stack:</u>\n${stack.slice(0, 600).replace(/</g, '&lt;')}`;
       if (err) {
         err.style.color = 'var(--c-clay, #d97757)';
-        err.innerHTML = msg;
+        err.innerHTML = html;
       }
       if (panel) {
-        panel.innerHTML = msg;
+        panel.innerHTML = html.replace(/\n/g, '<br>');
         panel.style.display = 'block';
       }
       console.error(where, e);

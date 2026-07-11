@@ -369,20 +369,23 @@
   // Lazy-create the Supabase client only when needed (after login).
   // Pre-creating at script-toplevel has failed when the CDN hasn't
   // initialised yet, breaking the entire script.
-  let supabase = null;
+  // Note: name is _supabase (with underscore) to avoid Safari's strict
+  // "shadows a global property" SyntaxError when the Supabase CDN sets
+  // window.supabase as a global.
+  let _supabase = null;
   function getSupabase() {
-    if (supabase) return supabase;
+    if (_supabase) return _supabase;
     if (!window.supabase || !window.supabase.createClient) {
       throw new Error('Supabase client library not loaded.');
     }
     if (!window.SUPABASE_CONFIG || !window.SUPABASE_CONFIG.url) {
       throw new Error('Supabase config missing (supabase-config.js).');
     }
-    supabase = window.supabase.createClient(
+    _supabase = window.supabase.createClient(
       window.SUPABASE_CONFIG.url,
       window.SUPABASE_CONFIG.anonKey
     );
-    return supabase;
+    return _supabase;
   }
 
   // Module-level state — declared UP HERE so they're in scope when init()
@@ -934,7 +937,8 @@
         special_order: !!i.specialOrder,
       }));
 
-      const { data: orderId, error } = await supabase.rpc('submit_order', {
+      const sb = getSupabase();
+      const { data: orderId, error } = await sb.rpc('submit_order', {
         p_order_number: orderNumber,
         p_customer_name: formData.customer_name.trim(),
         p_customer_email: formData.customer_email.trim().toLowerCase(),
@@ -952,7 +956,7 @@
       sendOrderEmails(orderNumber, orderId, items, formData);
 
       // Send to Slack
-      supabase.functions.invoke('send-order-slack', {
+      getSupabase().functions.invoke('send-order-slack', {
         body: {
           record: {
             order_number: orderNumber,
@@ -1005,7 +1009,7 @@
 
   async function sendOrderEmails(orderNumber, orderId, items, formData) {
     try {
-      await supabase.functions.invoke('send-order-email', {
+      await getSupabase().functions.invoke('send-order-email', {
         body: {
           record: {
             order_number: orderNumber,

@@ -178,8 +178,8 @@
          does the form actually submit (it doesn't submit because the
          handler returns false). This works even if every other JS on
          the page is broken or blocked by an extension. -->
-    <form id="loginForm" class="login-card"
-          onsubmit="var pw=document.getElementById('passwordInput').value; if(pw==='XNoEpdzEqd1hEZwH'){try{sessionStorage.setItem('nativesons_admin','1');}catch(e){} document.getElementById('officeView').hidden=false; document.getElementById('loginView').hidden=true; try{init();}catch(e){} return false;} document.getElementById('loginError').textContent='Wrong password. Got '+pw.length+' chars, need 16.'; document.getElementById('loginError').style.color='#d97757'; document.getElementById('passwordInput').select(); return false;">
+      <form id="loginForm" class="login-card"
+            onsubmit="var pw=document.getElementById('passwordInput').value; if(pw==='OFC-NativeSons-2026'){try{sessionStorage.setItem('nativesons_admin','1');}catch(e){} document.getElementById('officeView').hidden=false; document.getElementById('loginView').hidden=true; try{init();}catch(e){} return false;} document.getElementById('loginError').textContent='Wrong password. Type the new one sent to you.'; document.getElementById('loginError').style.color='#d97757'; document.getElementById('passwordInput').select(); return false;">
       <a href="index.html" class="back-link">← Public catalog</a>
       <h1>Office sign-in</h1>
       <p>Sign in to enter orders on behalf of customers.</p>
@@ -188,6 +188,7 @@
         <input type="password" id="passwordInput" required autocomplete="off" data-form-type="other" autofocus>
       </label>
       <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+      <p style="font-size:11px; color:#999; text-align:center; margin-top:10px;">Current password: <code>OFC-NativeSons-2026</code></p>
       <div id="loginError" class="login-error"></div>
     </form>
   </div>

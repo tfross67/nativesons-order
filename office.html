@@ -188,8 +188,8 @@
          does the form actually submit (it doesn't submit because the
          handler returns false). This works even if every other JS on
          the page is broken or blocked by an extension. -->
-      <form id="loginForm" class="login-card"
-            onsubmit="var pw=document.getElementById('passwordInput').value; if(pw==='OFC-NativeSons-2026'){try{sessionStorage.setItem('nativesons_admin','1');}catch(e){} document.getElementById('officeView').hidden=false; document.getElementById('loginView').hidden=true; try{init();}catch(e){} return false;} document.getElementById('loginError').textContent='Wrong password. Type the new one sent to you.'; document.getElementById('loginError').style.color='#d97757'; document.getElementById('passwordInput').select(); return false;">
+    <form id="loginForm" class="login-card"
+          onsubmit="var pw=document.getElementById('passwordInput').value; if(pw==='OFC-NativeSons-2026'){try{sessionStorage.setItem('nativesons_admin','1');}catch(e){} document.getElementById('officeView').hidden=false; document.getElementById('loginView').hidden=true; try{init();}catch(e){} return false;} document.getElementById('loginError').textContent='Wrong password. Type the new one sent to you.'; document.getElementById('loginError').style.color='#d97757'; document.getElementById('passwordInput').select(); return false;">
       <a href="index.html" class="back-link">← Public catalog</a>
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="brand-logo-lg">
       <h1>Office sign-in</h1>
@@ -203,6 +203,11 @@
       <div id="loginError" class="login-error"></div>
     </form>
   </div>
+
+  <!-- Global error panel — always visible (fixed bottom-right). Shown
+       only when init()/render throws. Shows the ACTUAL error message so
+       silent failures become visible. -->
+  <div id="globalErrorPanel" style="display:none; position:fixed; bottom:16px; right:16px; z-index:10000; max-width:520px; max-height:300px; overflow:auto; background:#fff8f3; border:2px solid #d97757; padding:12px 14px; font:12px/1.4 ui-monospace,Menlo,monospace; color:#5b2418; border-radius:8px; box-shadow:0 4px 20px rgba(0,0,0,.18); white-space:pre-wrap;"></div>
 
   <!-- Office workspace -->
   <div id="officeView" hidden>
@@ -283,6 +288,13 @@
         // plants available and what's currently rendered. Helps debug if
         // "no plants" appears.
         (function () {
+          // Show static state immediately
+          setTimeout(function () {
+            var dbg = document.getElementById('plantCount');
+            if (!dbg) return;
+            dbg.textContent = '(diag: chip placeholder)';
+            dbg.style.color = '#888';
+          }, 0);
           function update() {
             var all = (window.AVAILABILITY && window.AVAILABILITY.plants || []).length;
             var grid = document.getElementById('plantGrid');
@@ -302,9 +314,7 @@
           }
           // Run every second to track changes
           setInterval(update, 1000);
-          // Also when renderPlants changes
-          var orig = window.renderPlants;
-          // (No need to monkey-patch — setInterval will pick it up.)
+          update();
         })();
       </script>
 
@@ -1091,28 +1101,36 @@
 
   /* ---------------- Init ---------------- */
   async function init() {
+    const surfaceError = (where, e) => {
+      // Surface the error in BOTH loginError (visible if loginView is
+      // visible) and a fixed corner panel (always visible).
+      const err = document.getElementById('loginError');
+      const panel = document.getElementById('globalErrorPanel');
+      const msg = `<b>${where} failed:</b> ${(e && e.stack || e).toString().slice(0, 800).replace(/</g, '&lt;')}`;
+      if (err) {
+        err.style.color = 'var(--c-clay, #d97757)';
+        err.innerHTML = msg;
+      }
+      if (panel) {
+        panel.innerHTML = msg;
+        panel.style.display = 'block';
+      }
+      console.error(where, e);
+    };
     try {
       renderFilterChips();
-    } catch (e) {
-      const err = document.getElementById('loginError');
-      if (err) err.innerHTML = `<b>renderFilterChips failed:</b> ${(e && e.stack || e).toString().slice(0, 800).replace(/</g, '&lt;')}`;
-      console.error('renderFilterChips', e);
-    }
+    } catch (e) { surfaceError('renderFilterChips', e); }
     try {
       renderPlants();
-    } catch (e) {
-      const err = document.getElementById('loginError');
-      if (err) err.innerHTML = `<b>renderPlants failed:</b> ${(e && e.stack || e).toString().slice(0, 800).replace(/</g, '&lt;')}`;
-      console.error('renderPlants', e);
-    }
+    } catch (e) { surfaceError('renderPlants', e); }
     try {
       renderCart();
-    } catch (e) { console.error('renderCart', e); }
+    } catch (e) { surfaceError('renderCart', e); }
     try {
       loadCustomers();
-    } catch (e) { console.error('loadCustomers', e); }
+    } catch (e) { surfaceError('loadCustomers', e); }
     if (currentQuery) {
-      try { renderPicker(); } catch (e) { console.error('renderPicker', e); }
+      try { renderPicker(); } catch (e) { surfaceError('renderPicker', e); }
     }
   }
 

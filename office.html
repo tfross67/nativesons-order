@@ -180,7 +180,7 @@
       <p>Sign in to enter orders on behalf of customers.</p>
       <label class="form-field">
         <span>Password</span>
-        <input type="password" id="passwordInput" required autocomplete="current-password" autofocus>
+        <input type="password" id="passwordInput" required autocomplete="off" data-form-type="other" autofocus>
       </label>
       <button type="submit" class="btn btn-primary btn-block">Sign in</button>
       <div id="loginError" class="login-error"></div>
@@ -311,10 +311,25 @@
   const loginForm = $('loginForm');
   const loginError = $('loginError');
   const passwordInput = $('passwordInput');
-  const supabase = window.supabase.createClient(
-    window.SUPABASE_CONFIG.url,
-    window.SUPABASE_CONFIG.anonKey
-  );
+
+  // Lazy-create the Supabase client only when needed (after login).
+  // Pre-creating at script-toplevel has failed when the CDN hasn't
+  // initialised yet, breaking the entire script.
+  let supabase = null;
+  function getSupabase() {
+    if (supabase) return supabase;
+    if (!window.supabase || !window.supabase.createClient) {
+      throw new Error('Supabase client library not loaded.');
+    }
+    if (!window.SUPABASE_CONFIG || !window.SUPABASE_CONFIG.url) {
+      throw new Error('Supabase config missing (supabase-config.js).');
+    }
+    supabase = window.supabase.createClient(
+      window.SUPABASE_CONFIG.url,
+      window.SUPABASE_CONFIG.anonKey
+    );
+    return supabase;
+  }
 
   /* ---------------- Login gate ---------------- */
   loginForm.addEventListener('submit', (e) => {
@@ -340,7 +355,42 @@
     officeView.hidden = false;
     init();
   }
+
+  // Always restore the session if we have it (no async deps needed).
   if (sessionStorage.getItem('nativesons_admin') === '1') showOffice();
+
+  // Visible diagnostics — show what the page sees in the bottom-left corner.
+  // Toggle with "?debug=1" in the URL.
+  if (location.search.includes('debug=1')) {
+    const dbg = document.createElement('div');
+    dbg.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:9999;background:#fffbe6;border:1px solid #f0c000;padding:10px 14px;font:12px/1.4 -apple-system,monospace;color:#333;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.1);max-width:480px;';
+    dbg.id = 'dbgDiag';
+    document.body.appendChild(dbg);
+    const refresh = () => {
+      dbg.innerHTML = [
+        'office.html diagnostics',
+        `ADMIN_CONFIG: ${window.ADMIN_CONFIG ? '✓' : '✗ (undefined)'}`,
+        `password match: ${window.ADMIN_CONFIG ? (window.ADMIN_CONFIG.password === 'XNoEpdzEqd1hEZwH' ? '✓' : '✗') : '—'}`,
+        `SUPABASE_CONFIG: ${window.SUPABASE_CONFIG ? '✓' : '✗'}`,
+        `office_customers: ${window.OFFICE_CUSTOMERS ? window.OFFICE_CUSTOMERS.length.toLocaleString() : '✗'}`,
+        `availability_data: ${window.AVAILABILITY ? window.AVAILABILITY.plants?.length : '✗'}`,
+        `Cart: ${window.Cart ? '✓' : '✗'}`,
+        `session: ${sessionStorage.getItem('nativesons_admin') || '—'}`,
+      ].join('<br>');
+    };
+    refresh();
+    setInterval(refresh, 1000);
+  }
+
+  // Make any uncaught error visible on the login screen so we can debug.
+  window.addEventListener('error', (ev) => {
+    const msg = ev.error && (ev.error.stack || ev.error.message) || ev.message;
+    loginError.innerHTML = `<small style="font-family:monospace;font-size:11px;text-align:left;display:block;max-height:140px;overflow:auto;">${(msg || 'unknown').toString().replace(/</g, '&lt;')}</small>`;
+  });
+  window.addEventListener('unhandledrejection', (ev) => {
+    const msg = (ev.reason && (ev.reason.message || ev.reason.toString())) || 'unknown rejection';
+    loginError.innerHTML = `<small style="font-family:monospace;font-size:11px;text-align:left;display:block;max-height:140px;overflow:auto;">${msg.replace(/</g, '&lt;')}</small>`;
+  });
 
   /* ---------------- Office state ---------------- */
   let allCustomers = [];

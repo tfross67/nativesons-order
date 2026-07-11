@@ -385,6 +385,17 @@
     return supabase;
   }
 
+  // Module-level state — declared UP HERE so they're in scope when init()
+  // runs from the sessionStorage restore path below (line ~406), before
+  // the rest of the script has finished parsing. Without hoisting them,
+  // `init()` would hit the temporal dead zone and silently fail.
+  let allCustomers = [];
+  let selectedCustomer = null;
+  let currentQuery = '';
+  let currentFilter = 'all';
+  let pickerFocusedIdx = -1;
+  let currentPickerResults = [];
+
   /* ---------------- Login gate ---------------- */
   // Note: the form's onsubmit attribute (in <form>) handles login.
   // We don't addEventListener here because the inline onsubmit is the
@@ -403,7 +414,19 @@
   }
 
   // Always restore the session if we have it (no async deps needed).
-  if (sessionStorage.getItem('nativesons_admin') === '1') showOffice();
+  // Wrap in try/catch so a TDZ error in init() surfaces on the page
+  // instead of being silently swallowed as an unhandled promise rejection.
+  if (sessionStorage.getItem('nativesons_admin') === '1') {
+    try {
+      showOffice();
+    } catch (e) {
+      const err = document.getElementById('loginError');
+      if (err) {
+        err.style.color = 'var(--c-clay, #d97757)';
+        err.innerHTML = `<b>Init failed:</b> ${(e && e.message || e).toString().replace(/</g, '&lt;')}`;
+      }
+    }
+  }
 
   // Visible diagnostics — show what the page sees in the bottom-left corner.
   // Toggle with "?debug=1" in the URL.
@@ -440,12 +463,8 @@
   });
 
   /* ---------------- Office state ---------------- */
-  let allCustomers = [];
-  let selectedCustomer = null;
-  let currentQuery = '';
-  let currentFilter = 'all';
-  let pickerFocusedIdx = -1;
-  let currentPickerResults = [];
+  // (let declarations moved to the top of the script so they're available
+  // when init() runs from the session-restore path below.)
 
   function esc(s) {
     return String(s == null ? '' : s)

@@ -300,6 +300,18 @@
         <div id="officeCart"></div>
         <div class="cart-totals" id="officeTotals" hidden></div>
         <div class="cart-actions" id="officeActions" hidden>
+          <fieldset class="submit-options" style="border:1px solid var(--c-line); border-radius:8px; padding:8px 10px; margin-bottom:8px;">
+            <legend style="font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--c-muted); padding:0 4px;">Notify</legend>
+            <label style="display:flex; align-items:center; gap:8px; padding:3px 0; font-size:13px; cursor:pointer;">
+              <input type="checkbox" id="optEmailCustomer" checked> Email customer
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; padding:3px 0; font-size:13px; cursor:pointer;">
+              <input type="checkbox" id="optEmailTim" checked> Email Tim (office copy)
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; padding:3px 0; font-size:13px; cursor:pointer;">
+              <input type="checkbox" id="optSlack"> Slack post
+            </label>
+          </fieldset>
           <button type="button" class="btn btn-ghost" id="clearOrderBtn">Clear order</button>
           <button type="button" class="btn btn-primary" id="submitOrderBtn">Submit order</button>
         </div>
@@ -952,46 +964,64 @@
       });
       if (error) throw error;
 
-      // Send emails (fire-and-forget)
-      sendOrderEmails(orderNumber, orderId, items, formData);
+      // Build the skip array based on which Notify checkboxes the user
+      // unchecked. The Edge Function defaults to sending both — we tell
+      // it to skip recipients the user opted out of.
+      const skip = [];
+      if (!$('optEmailCustomer').checked) skip.push('customer');
+      if (!$('optEmailTim').checked)      skip.push('office');
 
-      // Send to Slack
-      getSupabase().functions.invoke('send-order-slack', {
-        body: {
-          record: {
-            order_number: orderNumber,
-            customer_name: formData.customer_name,
-            customer_email: formData.customer_email,
-            customer_phone: formData.customer_phone || null,
-            customer_company: formData.customer_company || null,
-            notes: formData.notes || null,
-            status: 'new',
-            subtotal,
-            item_count: items.length,
-            created_at: new Date().toISOString(),
-            id: orderId,
+      // Send emails (fire-and-forget) — only if at least one is checked
+      if (skip.length < 2) {
+        sendOrderEmails(orderNumber, orderId, items, formData, skip);
+      }
+
+      // Send to Slack — only if the Slack checkbox is checked
+      if ($('optSlack').checked) {
+        getSupabase().functions.invoke('send-order-slack', {
+          body: {
+            record: {
+              order_number: orderNumber,
+              customer_name: formData.customer_name,
+              customer_email: formData.customer_email,
+              customer_phone: formData.customer_phone || null,
+              customer_company: formData.customer_company || null,
+              notes: formData.notes || null,
+              status: 'new',
+              subtotal,
+              item_count: items.length,
+              created_at: new Date().toISOString(),
+              id: orderId,
+            },
+            items: items.map(i => ({
+              plant_key: i.key,
+              plant_name: i.name,
+              plant_size: i.size,
+              unit_price: i.price,
+              qty: i.qty,
+              line_total: i.price * i.qty,
+              retail_unit_price: i.retailMode === 'markup' ? Number(i.retailPrice) : null,
+              retail_price: i.retailPrice,
+              retail_line_total: (i.retailPrice || 0) * i.qty,
+              special_order: !!i.specialOrder,
+            })),
           },
-          items: items.map(i => ({
-            plant_key: i.key,
-            plant_name: i.name,
-            plant_size: i.size,
-            unit_price: i.price,
-            qty: i.qty,
-            line_total: i.price * i.qty,
-            retail_unit_price: i.retailMode === 'markup' ? Number(i.retailPrice) : null,
-            retail_price: i.retailPrice,
-            retail_line_total: (i.retailPrice || 0) * i.qty,
-            special_order: !!i.specialOrder,
-          })),
-        },
-      }).catch(e => console.warn('Slack send failed:', e));
+        }).catch(e => console.warn('Slack send failed:', e));
+      }
+
+      // Build a friendly summary of what fired
+      const fired = [];
+      if ($('optEmailCustomer').checked) fired.push('email→customer');
+      if ($('optEmailTim').checked)      fired.push('email→Tim');
+      if ($('optSlack').checked)         fired.push('Slack');
+      const firedSummary = fired.length ? fired.join(', ') : 'no notifications sent';
 
       // Success banner
       $('submitSuccess').hidden = false;
       $('submitSuccess').innerHTML = `
         <div class="success-banner">
           ✓ Order ${esc(orderNumber)} saved.
-          <small>Email + Slack fired. <button type="button" class="btn btn-ghost" id="newOrderBtn" style="margin-left:8px; padding:2px 8px;">Start another</button></small>
+          <small>${esc(firedSummary)}. <button type="button" class="btn btn-ghost" id="newOrderBtn" style="margin-left:8px; padding:2px 8px;">Start another</button></small>
         </div>
       `;
       $('newOrderBtn').addEventListener('click', () => location.reload());
@@ -1007,10 +1037,12 @@
     }
   });
 
-  async function sendOrderEmails(orderNumber, orderId, items, formData) {
+  async function sendOrderEmails(orderNumber, orderId, items, formData, skip = []) {
+    if (!skip || skip.length >= 2) return;  // both skipped — nothing to do
     try {
       await getSupabase().functions.invoke('send-order-email', {
         body: {
+          skip,  // ['office'] or ['customer'] or both or neither
           record: {
             order_number: orderNumber,
             customer_name: formData.customer_name,

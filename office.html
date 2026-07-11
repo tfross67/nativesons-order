@@ -737,7 +737,7 @@
               ${sizes.length > 1 ? `${sizes.length} sizes` : esc(sizes[0].container || 'Default')}
               ${cheapest && cheapest.price ? `· from ${fmtPrice(cheapest.price)}` : ''}
             </div>
-            <button class="btn btn-primary" data-action="open-detail" data-plant-key="${esc(p.botanical || p.common)}">Choose size</button>
+            <button class="btn btn-primary" data-action="open-detail" data-plant-key="${esc(p.botanical || p.common)}">${sizes.length > 1 ? 'Choose size' : 'Add'}</button>
           </footer>
         </article>
       `;
@@ -803,6 +803,11 @@
     if (p.origin) specRows.push(['Origin', esc(p.origin)]);
 
     const plantKey = p.botanical || p.common;
+    // When there's only one size, skip the size-picker UI and go straight
+    // to qty. Header + container label still shown so staff know what
+    // they're adding.
+    const onlyOneSize = sizes.length <= 1;
+    const singleSize = onlyOneSize ? sizes[0] : null;
     modalBody.innerHTML = `
       <div class="detail-hero">
         <div class="detail-botanical">${esc(p.botanical || '')}</div>
@@ -810,19 +815,35 @@
         ${badges ? `<div class="badges detail-badges">${badges}</div>` : ''}
       </div>
       ${specRows.length ? `<dl class="detail-specs">${specRows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>` : ''}
-      <div class="detail-section-title">Choose size & qty</div>
-      <div class="detail-sizes">${sizes.map((s, idx) => `
-        <div class="detail-size-row" data-idx="${idx}">
-          <div class="detail-size-info">
-            <div class="detail-size-container">${esc(s.container || 'Default')}</div>
-            <div class="detail-size-price">${s.price ? fmtPrice(s.price) : '—'}<span class="unit">/ea</span></div>
-          </div>
-          <div class="detail-size-controls">
-            <input type="number" min="0" step="1" placeholder="0" class="qty-input" data-idx="${idx}">
-            <button class="btn btn-primary" data-add-idx="${idx}">Add</button>
+      ${onlyOneSize ? `
+        <div class="detail-section-title">Quantity</div>
+        <div class="detail-sizes">
+          <div class="detail-size-row" data-idx="0">
+            <div class="detail-size-info">
+              <div class="detail-size-container">${esc(singleSize.container || 'Default')}</div>
+              <div class="detail-size-price">${singleSize.price ? fmtPrice(singleSize.price) : '—'}<span class="unit">/ea</span></div>
+            </div>
+            <div class="detail-size-controls">
+              <input type="number" min="0" step="1" placeholder="0" class="qty-input" data-idx="0" autofocus>
+              <button class="btn btn-primary" data-add-idx="0">Add</button>
+            </div>
           </div>
         </div>
-      `).join('')}</div>
+      ` : `
+        <div class="detail-section-title">Choose size & qty</div>
+        <div class="detail-sizes">${sizes.map((s, idx) => `
+          <div class="detail-size-row" data-idx="${idx}">
+            <div class="detail-size-info">
+              <div class="detail-size-container">${esc(s.container || 'Default')}</div>
+              <div class="detail-size-price">${s.price ? fmtPrice(s.price) : '—'}<span class="unit">/ea</span></div>
+            </div>
+            <div class="detail-size-controls">
+              <input type="number" min="0" step="1" placeholder="0" class="qty-input" data-idx="${idx}">
+              <button class="btn btn-primary" data-add-idx="${idx}">Add</button>
+            </div>
+          </div>
+        `).join('')}</div>
+      `}
     `;
 
     modalBody.querySelectorAll('[data-add-idx]').forEach(btn => {

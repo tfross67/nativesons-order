@@ -909,16 +909,14 @@
 
   function renderTotals() {
     const subtotal = Cart.getSubtotal();
-    const retail = Cart.getRetailSubtotal();
     const items = Cart.getItems();
-    const markupTotal = Math.max(0, retail - subtotal);
     const count = Cart.getCount();
 
+    // Internal portal — staff don't need retail totals for orders they
+    // take on the phone. Just show the wholesale subtotal.
     officeTotals.innerHTML = `
       <div class="cart-total-row"><span>${items.length} lines, ${count} units</span></div>
-      <div class="cart-total-row"><span>Wholesale subtotal</span><span>${fmtPrice(subtotal)}</span></div>
-      <div class="cart-total-row"><span>Retail subtotal</span><span>${fmtPrice(retail)}</span></div>
-      <div class="cart-total-row"><span>Markup total</span><span>${fmtPrice(markupTotal)}</span></div>
+      <div class="cart-total-row"><span>Subtotal</span><span>${fmtPrice(subtotal)}</span></div>
     `;
   }
 
@@ -994,6 +992,9 @@
       if ($('optSlack').checked) {
         getSupabase().functions.invoke('send-order-slack', {
           body: {
+            // Tell the Edge Function this is an internal office order —
+            // suppress ALL retail math in the Slack message.
+            internal_order: true,
             record: {
               order_number: orderNumber,
               customer_name: formData.customer_name,

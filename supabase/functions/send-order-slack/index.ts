@@ -42,6 +42,11 @@ interface OrderRecord {
 interface OrderPayload {
   record?: OrderRecord;
   items?: OrderItem[];
+  // True when this order was entered through office.html (the internal
+  // portal). Slack messages for internal orders suppress retail totals —
+  // staff don't need to see retail math for orders they entered on the
+  // phone or in person.
+  internal_order?: boolean;
 }
 
 const SLACK_WEBHOOK_URL = Deno.env.get("SLACK_WEBHOOK_URL") || "";
@@ -53,7 +58,7 @@ const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") || "";
 
 const fmt = (n: number) => (typeof n === "number" ? n.toFixed(2) : "0.00");
 
-function buildSlackBlocks(o: OrderRecord, items: OrderItem[]) {
+function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = false) {
   // Only count retail toward totals when there's an actual markup on that line.
   // (Some lines have retail_unit_price set equal to wholesale — no markup — and
   // those should NOT inflate the retail total.)
@@ -61,6 +66,9 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[]) {
     const ru = i.retail_unit_price ?? i.retail_price;
     return ru != null && Number(ru) > Number(i.unit_price);
   };
+  // Internal orders entered via office.html suppress ALL retail math —
+  // staff don't need retail totals for orders they take on the phone.
+  const showRetail = !internalOrder;
   const totalWholesale = items.reduce((s, i) => s + Number(i.line_total || 0), 0);
   const totalRetail = items.reduce(
     (s, i) => s + (hasMarkup(i) ? Number(i.retail_line_total || 0) : 0),
@@ -106,8 +114,9 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[]) {
     const retailUnit = i.retail_unit_price ?? i.retail_price;
     // Only show "retail $X" when the customer actually marked it up.
     // Skip when retail equals wholesale (no markup) or is unset.
+    // Also skip entirely for internal orders (office.html).
     const hasMarkup = retailUnit != null && Number(retailUnit) > Number(i.unit_price);
-    const retail = hasMarkup ? ` retail $${fmt(Number(retailUnit))}` : "";
+    const retail = (showRetail && hasMarkup) ? ` retail $${fmt(Number(retailUnit))}` : "";
     return `${idx + 1}. ${i.plant_name}${sz}${soFlag}\n     Qty ${i.qty} • ${wholesale}${retail}`;
   }).join("\n\n");
 
@@ -140,7 +149,7 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[]) {
   // Totals footer
   const totalLines = [
     `*Subtotal (wholesale):* $${fmt(totalWholesale)}`,
-    hasAnyMarkup ? `*Total (retail):* $${fmt(totalRetail)}` : null,
+    (showRetail && hasAnyMarkup) ? `*Total (retail):* $${fmt(totalRetail)}` : null,
     specialCount > 0 ? `:star: *${specialCount} special order item${specialCount > 1 ? "s" : ""}*` : null,
   ].filter(Boolean).join("\n");
 
@@ -270,7 +279,7 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    const msg = buildSlackBlocks(order, items);
+    const msg = buildSlackBlocks(order, items, !!payload.internal_order);
     await sendToSlack(SLACK_WEBHOOK_URL, msg);
     await logSend(order.id, order.order_number, true);
     return new Response(

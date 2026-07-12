@@ -209,19 +209,85 @@
       color: var(--c-clay, #6b6256);
     }
     .chat-test-root .filter-summary .pill {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       background: #e8e2cf;
-      border-radius: 4px;
-      padding: 2px 8px;
-      margin: 0 4px 4px 0;
+      border-radius: 999px;
+      padding: 2px 4px 2px 10px;
+      margin: 0 6px 4px 0;
       font-size: 12px;
       color: var(--c-bark, #2d4a2b);
+      transition: background 0.15s;
+    }
+    .chat-test-root .filter-summary .pill:hover {
+      background: #d8d2c2;
+    }
+    .chat-test-root .filter-summary .pill-x {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(45, 74, 43, 0.08);
+      color: var(--c-bark, #2d4a2b);
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.15s;
+    }
+    .chat-test-root .filter-summary .pill-x:hover {
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
     }
     .chat-test-root .results {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 18px;
       margin-top: 18px;
+    }
+    .chat-test-root .results-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 14px 0 4px;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      color: var(--c-clay, #6b6256);
+    }
+    .chat-test-root .results-toolbar-label {
+      font-weight: 500;
+    }
+    .chat-test-root .sort-tabs {
+      display: inline-flex;
+      background: #f4f1ea;
+      border: 1px solid #e8e2cf;
+      border-radius: 999px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .chat-test-root .sort-tab {
+      padding: 5px 14px;
+      border: none;
+      background: transparent;
+      color: var(--c-clay, #6b6256);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .chat-test-root .sort-tab:hover {
+      color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .sort-tab.active {
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+      box-shadow: 0 1px 3px rgba(45, 74, 43, 0.18);
     }
     .chat-test-root .result {
       background: #fff;
@@ -569,6 +635,67 @@
       font-size: 32px;
       font-family: Georgia, serif;
     }
+    .chat-test-root .result-expand {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      padding: 6px 12px;
+      background: transparent;
+      border: 1px solid #d8d2c2;
+      border-radius: 6px;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--c-bark, #2d4a2b);
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .chat-test-root .result-expand:hover {
+      background: #f4f1ea;
+      border-color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .result-expand[aria-expanded="true"] {
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+      border-color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .result-details {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #e8e2cf;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      color: var(--c-clay, #6b6256);
+      position: relative;
+      z-index: 2;
+      animation: details-expand 0.25s ease;
+    }
+    .chat-test-root .result-details[hidden] { display: none; }
+    @keyframes details-expand {
+      from { opacity: 0; max-height: 0; }
+      to { opacity: 1; max-height: 600px; }
+    }
+    .chat-test-root .result-details .detail-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+    .chat-test-root .result-details .detail-label {
+      flex-shrink: 0;
+      width: 76px;
+      font-weight: 500;
+      color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .result-details .detail-info {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #f0ece1;
+      font-style: italic;
+      line-height: 1.45;
+    }
     .chat-test-root .result-checkbox:hover {
       border-color: var(--c-bark, #2d4a2b);
     }
@@ -761,6 +888,16 @@
     </div>
 
     <div id="filterSummary" class="filter-summary" hidden></div>
+
+    <div class="results-toolbar" id="resultsToolbar" hidden>
+      <span class="results-toolbar-label">Sort by:</span>
+      <div class="sort-tabs" role="tablist">
+        <button type="button" class="sort-tab active" data-sort="relevance" role="tab" aria-selected="true">Relevance</button>
+        <button type="button" class="sort-tab" data-sort="alpha" role="tab" aria-selected="false">Botanical A–Z</button>
+        <button type="button" class="sort-tab" data-sort="price" role="tab" aria-selected="false">Cheapest first</button>
+      </div>
+    </div>
+
     <div id="results" class="results"></div>
     <div id="noResults" class="no-results" hidden>No plants match your search. Try fewer words or different terms.</div>
 
@@ -1433,6 +1570,35 @@
       return { filters: { ...p.filters }, freeText: [], active: true };
     }
 
+    // === Remove a single filter by its chip key ===
+    // Re-runs the search with the parsed query minus that filter.
+    function removeFilterByKey(key) {
+      if (!lastParsed) return;
+      const [category, value] = key.split(':');
+      const f = { ...lastParsed.filters };
+      if (category === 'freeText') {
+        // freeText has no value suffix; clear all of it
+        lastParsed = { filters: f, freeText: [], active: true };
+      } else if (category === 'bloom') {
+        f.inBloom = false;
+        lastParsed = { filters: f, freeText: lastParsed.freeText, active: true };
+      } else if (category === 'budding') {
+        f.budding = false;
+        lastParsed = { filters: f, freeText: lastParsed.freeText, active: true };
+      } else if (category === 'origin') {
+        f.origin = [];
+        lastParsed = { filters: f, freeText: lastParsed.freeText, active: true };
+      } else if (Array.isArray(f[category]) && value) {
+        f[category] = f[category].filter(v => v !== value);
+        lastParsed = { filters: f, freeText: lastParsed.freeText, active: true };
+      } else {
+        return;
+      }
+      // Reconstruct the visible input text from the new parsed query
+      input.value = describeParsed(lastParsed) || '';
+      run(true);
+    }
+
     // Build a readable description of a parsed query (for suggestion chips)
     function describeParsed(p) {
       const f = p.filters;
@@ -1471,24 +1637,49 @@
       resultsEl.innerHTML = '';
       noResultsEl.hidden = results.length > 0;
 
-      // === Filter summary ===
+      // === Wire up filter chip removal ===
+      // The chip click handler lives at the container level so we only attach it once.
+      // We rebuild the chips each render; the delegated listener handles any future chip.
+      if (!filterSummaryEl._pillWired) {
+        filterSummaryEl._pillWired = true;
+        filterSummaryEl.addEventListener('click', (e) => {
+          const x = e.target.closest('.pill-x');
+          if (!x) return;
+          const pill = x.closest('.pill');
+          const key = pill && pill.dataset.filter;
+          if (!key) return;
+          // Remove this filter from a copy of the parsed query, then re-run.
+          removeFilterByKey(key);
+        });
+      }
+
+      // === Build filter summary chips ===
+      // Each chip carries a data-filter key identifying which filter it represents.
+      // Clicking the chip removes that filter from the parsed query and re-runs.
       const f = parsed.filters;
-      const summary = [];
-      if (f.colors.length)    summary.push(`Color: ${f.colors.join(', ')}`);
-      if (f.exposures.length) summary.push(`Exposure: ${f.exposures.join(', ')}`);
-      if (f.water.length)     summary.push(`Water: ${f.water.join(', ')}`);
-      if (f.types.length)     summary.push(`Type: ${f.types.join(', ')}`);
-      if (f.container.length) summary.push(`Size: ${f.container.join(', ')}`);
-      if (f.inBloom)          summary.push('In bloom');
-      if (f.budding)          summary.push('Budding');
-      if (f.origin.length)    summary.push('Native/CA');
-      if (f.freeText.length)  summary.push(`"${f.freeText.join(' ')}"`);
-      filterSummaryEl.hidden = summary.length === 0;
-      if (summary.length) {
+      const chips = [];
+      const pushChip = (label, key) => chips.push(
+        `<span class="pill" data-filter="${key}">${escapeHTML(label)}<button type="button" class="pill-x" aria-label="Remove ${escapeHTML(label)} filter">×</button></span>`
+      );
+      if (f.colors.length)    { f.colors.forEach(c => pushChip('Color: ' + c, 'colors:' + c)); }
+      if (f.exposures.length) { f.exposures.forEach(e => pushChip('Exposure: ' + e, 'exposures:' + e)); }
+      if (f.water.length)     { f.water.forEach(w => pushChip('Water: ' + w, 'water:' + w)); }
+      if (f.types.length)     { f.types.forEach(t => pushChip('Type: ' + t, 'types:' + t)); }
+      if (f.container.length) { f.container.forEach(c => pushChip('Size: ' + c, 'container:' + c)); }
+      if (f.inBloom)          pushChip('In bloom', 'bloom');
+      if (f.budding)          pushChip('Budding', 'budding');
+      if (f.origin.length)    pushChip('Native/CA', 'origin');
+      if (parsed.freeText.length) pushChip(`"${parsed.freeText.join(' ')}"`, 'freeText');
+
+      filterSummaryEl.hidden = chips.length === 0;
+      if (chips.length) {
         filterSummaryEl.innerHTML =
           `<strong>${results.length}</strong> result${results.length === 1 ? '' : 's'} — ` +
-          summary.map(s => `<span class="pill">${escapeHTML(s)}</span>`).join('');
+          chips.join('');
       }
+      // Show sort toolbar when there are results
+      const sortToolbar = $('resultsToolbar');
+      if (sortToolbar) sortToolbar.hidden = results.length === 0;
 
       // === No-match suggestions ===
       if (results.length === 0 && parsed.active) {
@@ -1586,6 +1777,16 @@
                   <div class="result-meta">${meta.join('')}</div>
                   <div class="result-price">${escapeHTML(sizesHTML)}</div>
                   ${matchLine}
+                  <div class="result-details" hidden>
+                    <div class="result-details-inner">
+                      ${plant.hardiness ? `<div class="detail-row"><span class="detail-label">Hardiness</span><span>${escapeHTML(plant.hardiness)}</span></div>` : ''}
+                      ${plant.soil ? `<div class="detail-row"><span class="detail-label">Soil</span><span>${escapeHTML(plant.soil)}</span></div>` : ''}
+                      ${plant.special_uses ? `<div class="detail-row"><span class="detail-label">Uses</span><span>${escapeHTML(plant.special_uses.replace(/\n/g, ', '))}</span></div>` : ''}
+                      ${plant.foliage ? `<div class="detail-row"><span class="detail-label">Foliage</span><span>${escapeHTML(plant.foliage)}</span></div>` : ''}
+                      ${plant.additional_info ? `<div class="detail-info">${escapeHTML(plant.additional_info)}</div>` : ''}
+                    </div>
+                  </div>
+                  <button type="button" class="result-expand" aria-expanded="false" data-expand>Details</button>
                   <div class="result-footer">
                     <span class="result-link-text">More info on nativeson.com →</span>
                   </div>
@@ -1609,6 +1810,8 @@
         resultsEl.innerHTML = '';
         noResultsEl.hidden = true;
         filterSummaryEl.hidden = true;
+        const sortToolbar2 = $('resultsToolbar');
+        if (sortToolbar2) sortToolbar2.hidden = true;
         return;
       }
 
@@ -1617,10 +1820,36 @@
         const match = matchPlant(plant, parsed);
         if (match) results.push({ plant, match });
       }
-      results.sort((a, b) => b.match.score - a.match.score);
+      // Apply user-selected sort, default relevance
+      sortResults(results, currentSort);
       renderResults(parsed, results);
       // Set up lazy image loading for the new cards
       observeCardImages();
+    }
+
+    // === Sort results according to user selection ===
+    let currentSort = 'relevance';
+    function sortResults(results, mode) {
+      if (mode === 'alpha') {
+        results.sort((a, b) => String(a.plant.botanical || '').localeCompare(String(b.plant.botanical || '')));
+      } else if (mode === 'price') {
+        // Cheapest first: lowest "order" container, lowest price
+        const minPrice = (p) => {
+          const sizes = p.sizes || [];
+          if (!sizes.length) return Infinity;
+          // find cheapest price
+          let lo = Infinity;
+          for (const s of sizes) {
+            const v = Number(s.price);
+            if (Number.isFinite(v) && v > 0 && v < lo) lo = v;
+          }
+          return lo;
+        };
+        results.sort((a, b) => minPrice(a.plant) - minPrice(b.plant));
+      } else {
+        // relevance — already sorted by match.score, but apply to be safe
+        results.sort((a, b) => b.match.score - a.match.score);
+      }
     }
 
     // === Wire up ===
@@ -1634,6 +1863,8 @@
       resultsEl.innerHTML = '';
       noResultsEl.hidden = true;
       filterSummaryEl.hidden = true;
+      const sortToolbar3 = $('resultsToolbar');
+      if (sortToolbar3) sortToolbar3.hidden = true;
       input.focus();
     });
     document.querySelectorAll('.suggestion').forEach(btn => {
@@ -1646,6 +1877,20 @@
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') { e.preventDefault(); run(); }
     });
+
+    // === Sort tabs ===
+    const sortTabs = document.querySelectorAll('.sort-tab');
+    sortTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        if (tab.classList.contains('active')) return;
+        sortTabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        currentSort = tab.dataset.sort;
+        run(true);
+      });
+    });
+
     input.focus();
 
         // Populate the week label on initial load (it was only being set inside
@@ -1681,6 +1926,25 @@
     // Use event delegation on results container. Checkbox click is captured first
     // (z-index 3 > link overlay z-index 1), so it doesn't trigger the link.
     resultsEl.addEventListener('click', (e) => {
+      const expand = e.target.closest('[data-expand]');
+      if (expand) {
+        e.preventDefault();
+        e.stopPropagation();
+        const card = expand.closest('.result');
+        const details = card && card.querySelector('.result-details');
+        if (!details) return;
+        const isOpen = details.hidden === false;
+        if (isOpen) {
+          details.hidden = true;
+          expand.setAttribute('aria-expanded', 'false');
+          expand.textContent = 'Details';
+        } else {
+          details.hidden = false;
+          expand.setAttribute('aria-expanded', 'true');
+          expand.textContent = 'Hide details';
+        }
+        return;
+      }
       const cb = e.target.closest('[data-select]');
       if (!cb) return;
       e.preventDefault();

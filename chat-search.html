@@ -671,7 +671,49 @@
       border-color: var(--c-bark, #2d4a2b);
     }
     @media (max-width: 600px) {
-      .chat-test-root .results { grid-template-columns: 1fr; }
+      .chat-test-root { padding: 16px 12px 64px; }
+      .chat-test-root .results { grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
+      .chat-test-root .hero-headline { font-size: 22px; }
+      .chat-test-root .hero-band { padding: 16px 18px; }
+      .chat-test-root .hero-stats { width: 100%; }
+      .chat-test-root .hero-stat { flex: 1; min-width: 0; padding: 8px 6px; }
+      .chat-test-root .hero-stat-num { font-size: 18px; }
+      .chat-test-root .hero-stat-label { font-size: 9px; letter-spacing: 0.3px; }
+      .chat-test-root .search-shell { padding: 16px 16px 16px 22px; }
+      .chat-test-root .search-shell::after { height: 22px; }
+      .chat-test-root .suggested { font-size: 12px; }
+      .chat-test-root .suggestion { padding: 4px 10px; font-size: 12px; }
+      .chat-test-root .result { padding: 12px; }
+      .chat-test-root .result-image {
+        width: 72px; height: 72px;
+        top: -6px; right: -6px;
+        border-width: 2px;
+      }
+      .chat-test-root .result-checkbox { width: 22px; height: 22px; bottom: 10px; left: 10px; font-size: 14px; }
+      .chat-test-root .result-footer { padding-left: 32px; min-height: 22px; }
+      /* Match tooltip: anchor to bottom-right of card so it doesn't clip off-screen */
+      .chat-test-root .result-match-line::after {
+        top: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 200px;
+        white-space: normal;
+      }
+      .chat-test-root .result-match-line::before {
+        top: calc(100% + 2px);
+        left: 50%;
+        transform: translateX(-50%) rotate(-90deg);
+        border: 6px solid transparent;
+        border-right-color: var(--c-bark, #2d4a2b);
+      }
+      /* Selection bar: stack buttons vertically on narrow screens */
+      .chat-test-root .selection-bar { padding: 12px; gap: 8px; }
+      .chat-test-root .selection-summary { width: 100%; margin-bottom: 4px; }
+      .chat-test-root .action-btn { padding: 8px 12px; font-size: 13px; }
+      /* Back-to-top: smaller, centered on mobile to avoid covering card content */
+      .chat-test-root .back-to-top { bottom: 12px; right: 12px; padding: 8px 14px; font-size: 12px; }
+      /* Filter summary chips wrap */
+      .chat-test-root #filterSummary .pill { font-size: 11px; padding: 3px 8px; }
     }
   </style>
 </head>

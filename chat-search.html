@@ -190,7 +190,7 @@
 
   <main class="chat-test-root">
     <div class="test-banner">
-      <strong>🧪 Test page.</strong> Smart keyword search using natural language. This page is separate from the public catalog — no impact on <code>index.html</code>. Try queries like <em>"red flowers 1gal under $7"</em> or <em>"drought tolerant ceanothus"</em>.
+      <strong>🧪 Test page.</strong> Smart keyword search using natural language. This page is separate from the public catalog — no impact on <code>index.html</code>. Try queries like <em>"red flowers 1gal"</em> or <em>"drought tolerant ceanothus"</em>.
     </div>
 
     <h1>Find the right plant</h1>
@@ -199,7 +199,7 @@
     <div class="search-shell">
       <div class="search-input-row">
         <input type="search" id="chatSearch" class="search-input"
-               placeholder='e.g. "red flowers in 1gal under $7" or "drought tolerant ceanothus"'
+               placeholder='e.g. "red flowers in 1gal" or "drought tolerant ceanothus"'
                autocomplete="off" aria-label="Search plants with natural language">
         <button type="button" id="chatClear" class="clear-btn">Clear</button>
       </div>
@@ -208,11 +208,11 @@
         <button class="suggestion" data-q="red flowers 1gal">red flowers 1gal</button>
         <button class="suggestion" data-q="drought tolerant">drought tolerant</button>
         <button class="suggestion" data-q="white bloom 5gal">white bloom 5gal</button>
-        <button class="suggestion" data-q="under $7">under $7</button>
         <button class="suggestion" data-q="full sun natives">full sun natives</button>
         <button class="suggestion" data-q="shade fern">shade fern</button>
         <button class="suggestion" data-q="aromatic">aromatic</button>
-        <button class="suggestion" data-q="1gal $6">1gal $6</button>
+        <button class="suggestion" data-q="15gal tree">15gal tree</button>
+        <button class="suggestion" data-q="yellow flower">yellow flower</button>
       </div>
     </div>
 
@@ -295,8 +295,6 @@
         water:     [],   // list of canonical water keys
         types:     [],   // list of canonical plant type keys
         container: [],   // ['1gal','5gal','15gal','4in','2gal','7gal','20inch']
-        priceMax:  null, // number
-        priceMin:  null, // number
         inBloom:   false,
         budding:   false,
         origin:    [],   // ['California','Oregon', etc.]
@@ -305,20 +303,6 @@
 
       if (!q) return { filters, freeText: [], active: false };
 
-      // Price: "under $X", "less than $X", "below $X", "max $X", "X or less"
-      const priceMaxMatch = q.match(/(?:under|less than|below|max(?:imum)?)\s*\$?\s*(\d+(?:\.\d+)?)/);
-      if (priceMaxMatch) filters.priceMax = parseFloat(priceMaxMatch[1]);
-      // Price min: "over $X", "more than $X", "above $X", "at least $X"
-      const priceMinMatch = q.match(/(?:over|more than|above|at least|min(?:imum)?)\s*\$?\s*(\d+(?:\.\d+)?)/);
-      if (priceMinMatch) filters.priceMin = parseFloat(priceMinMatch[1]);
-      // Price exact: "$6", "6 dollars"
-      const priceExact = q.match(/\$\s*(\d+(?:\.\d+)?)/);
-      // "1gal $6" pattern
-      const galPriceMatch = q.match(/(\d+\s*(?:gal|inch|in))\s+\$(\d+(?:\.\d+)?)/);
-      if (galPriceMatch) {
-        filters.container.push(galPriceMatch[1].replace(/\s+/g, '').replace(/inch/g, 'in'));
-        if (!filters.priceMax) filters.priceMax = parseFloat(galPriceMatch[2]);
-      }
       // Container: "1gal", "5gal", "15gal", "4in", "4 inch", "2gal", "7gal", "20 inch box"
       const containerMatches = q.match(/(\d+\s*(?:gal|inch|in|inch box)\w*)/g);
       if (containerMatches) {
@@ -373,8 +357,8 @@
 
       // Decide if this is "active" (any structured or free-text signal)
       const active = filters.colors.length || filters.exposures.length || filters.water.length ||
-                     filters.types.length || filters.container.length || filters.priceMax != null ||
-                     filters.priceMin != null || filters.inBloom || filters.budding ||
+                     filters.types.length || filters.container.length ||
+                     filters.inBloom || filters.budding ||
                      filters.origin.length || filters.freeText.length;
 
       return { filters, freeText: filters.freeText, active };
@@ -389,7 +373,6 @@
       const matchedWater = [];
       const matchedTypes = [];
       const matchedContainer = [];
-      const matchedPrice = [];
       const matchedBloom = [];
 
       const fieldContains = (val, target) =>
@@ -468,23 +451,6 @@
         matchedFields.add('container');
       }
 
-      // === Price ===
-      let matchedPriceFlag = false;
-      const sizes = plant.sizes || [];
-      if (filters.priceMax != null) {
-        const minPrice = Math.min(...sizes.map(s => Number(s.price || 0)).filter(p => p > 0));
-        if (minPrice <= filters.priceMax) matchedPriceFlag = true;
-      }
-      if (filters.priceMin != null) {
-        const maxPrice = Math.max(...sizes.map(s => Number(s.price || 0)).filter(p => p > 0));
-        if (maxPrice >= filters.priceMin) matchedPriceFlag = true;
-      }
-      if ((filters.priceMax != null || filters.priceMin != null) && !matchedPriceFlag) return null;
-      if (matchedPriceFlag) {
-        matchedPrice.push(filters.priceMax || filters.priceMin);
-        matchedFields.add('price');
-      }
-
       // === Bloom / Budding ===
       if (filters.inBloom && !plant.bloom) return null;
       if (filters.inBloom) matchedBloom.push('in bloom');
@@ -510,8 +476,8 @@
       // If we have free-text tokens but no structured filters, require at least one match
       const hasStructured = filters.colors.length || filters.exposures.length ||
                             filters.water.length || filters.types.length ||
-                            filters.container.length || filters.priceMax != null ||
-                            filters.priceMin != null || filters.inBloom || filters.budding ||
+                            filters.container.length ||
+                            filters.inBloom || filters.budding ||
                             filters.origin.length;
       if (!hasStructured && freeText.length && !matchedFreeText.length) return null;
 
@@ -522,7 +488,6 @@
       score += matchedWater.length * 3;
       score += matchedTypes.length * 2;
       score += matchedContainer.length * 2;
-      score += matchedPriceFlag ? 2 : 0;
       score += matchedFreeText.length;
       score += (plant.bloom ? 1 : 0);
 
@@ -530,7 +495,7 @@
         score,
         matched: {
           colors: matchedColors, exposures: matchedExposures, water: matchedWater,
-          types: matchedTypes, container: matchedContainer, price: matchedPrice,
+          types: matchedTypes, container: matchedContainer,
           bloom: matchedBloom, freeText: matchedFreeText,
         }
       };
@@ -565,8 +530,6 @@
       if (f.water.length)     summary.push(`Water: ${f.water.join(', ')}`);
       if (f.types.length)     summary.push(`Type: ${f.types.join(', ')}`);
       if (f.container.length) summary.push(`Size: ${f.container.join(', ')}`);
-      if (f.priceMax != null) summary.push(`Under $${f.priceMax}`);
-      if (f.priceMin != null) summary.push(`Over $${f.priceMin}`);
       if (f.inBloom)          summary.push('In bloom');
       if (f.budding)          summary.push('Budding');
       if (f.origin.length)    summary.push('Native/CA');

@@ -1140,7 +1140,6 @@
         }
       }
       const deduped = Array.from(seen.values());
-      console.log('[chat-search] getCatalog:', { raw: raw.length, deduped: deduped.length, inBloom: deduped.filter(p => p.bloom).length });
       renderHero(deduped);
       return deduped;
     }
@@ -1148,6 +1147,8 @@
     // === Hero band renderer ===
     // Shows live counts: total plants, in bloom, CA natives.
     // Numbers animate from 0 to their final value on first render for visual polish.
+    // After that, only re-render the DOM if the numbers actually changed.
+    let lastHeroTotals = null;
     function renderHero(plants) {
       const headline = $('heroHeadline');
       const stats = $('heroStats');
@@ -1156,6 +1157,11 @@
       const natives = plants.filter(p => isNativeOrigin(p.origin)).length;
       const total = plants.length;
       headline.textContent = `${inBloom} plants in bloom this week`;
+
+      // Skip DOM update if values are unchanged
+      const sig = `${total}|${inBloom}|${natives}`;
+      if (sig === lastHeroTotals) return;
+      lastHeroTotals = sig;
 
       // Build the stat cards with 0, then animate to final values
       stats.innerHTML =

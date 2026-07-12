@@ -940,6 +940,11 @@
         !allKnown.some(k => k.replace(/\s+/g, '').includes(t)) &&
         t.length > 1
       );
+      // Drop any free-text token that's already represented by a container filter
+      // (e.g. "5gal" shouldn't appear in both freeText AND filters.container)
+      filters.freeText = filters.freeText.filter(t =>
+        !filters.container.some(c => c === t || c.includes(t) || t.includes(c))
+      );
 
       // Decide if this is "active" (any structured or free-text signal)
       const active = filters.colors.length || filters.exposures.length || filters.water.length ||

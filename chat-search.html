@@ -117,17 +117,18 @@
       box-shadow: 0 2px 6px rgba(45, 74, 43, 0.08);
     }
     .chat-test-root .result-botanical {
-      font-family: Georgia, "Times New Roman", serif;
-      font-style: italic !important;
+      font-family: Helvetica, Arial, sans-serif;
+      font-style: normal !important;
+      font-weight: 600;
       color: var(--c-bark, #2d4a2b);
       font-size: 15px;
       line-height: 1.3;
       margin-bottom: 2px;
     }
-    .chat-test-root .result-botanical em { font-style: italic; }
+    .chat-test-root .result-botanical em { font-style: normal; }
     .chat-test-root .result-common {
-      font-family: Helvetica, Arial, sans-serif;
-      font-style: normal !important;
+      font-family: Georgia, "Times New Roman", serif;
+      font-style: italic !important;
       font-size: 13px;
       color: var(--c-clay, #6b6256);
       margin-bottom: 8px;
@@ -549,7 +550,11 @@
     }
 
     function pill(text, isMatch = false) {
-      return `<span class="meta-pill${isMatch ? ' match' : ''}">${escapeHTML(text)}</span>`;
+      // text may already contain <span class="match-hl">...</span> from highlight().
+      // If it does, trust it (highlight already escaped safely). Otherwise escape.
+      const isHtml = /<[a-z][^>]*>/i.test(text);
+      const inner = isHtml ? text : escapeHTML(text);
+      return `<span class="meta-pill${isMatch ? ' match' : ''}">${inner}</span>`;
     }
 
     // === No-match suggestions ===
@@ -783,7 +788,7 @@
           : '';
 
         card.innerHTML = `
-          <div class="result-botanical"><em>${highlight(plant.botanical, highlightTerms)}</em></div>
+          <div class="result-botanical">${highlight(plant.botanical, highlightTerms)}</div>
           <div class="result-common">${highlight(plant.common || '', highlightTerms)}</div>
           <div class="result-meta">${meta.join('')}</div>
           <div class="result-price">${escapeHTML(sizesHTML)}</div>

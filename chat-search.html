@@ -1037,7 +1037,7 @@
 
     // Load image_map.json — pre-built static map of all plant images
     let imageMapPromise = null;
-    async function loadImageMap() {
+    function loadImageMap() {
       if (imageMapPromise) return imageMapPromise;
       imageMapPromise = (async () => {
         try {
@@ -1077,32 +1077,26 @@
       });
     }, { rootMargin: '200px' }) : null;
 
+    // Eagerly load images on render. IntersectionObserver was unreliable (it
+    // depends on scroll, and images in the first viewport weren't loading in
+    // some cases). Now we always try to load via the map. Cards that aren't
+    // visible will still get the <img> tag, and the browser handles lazy loading.
     function observeCardImages() {
-      const setSrc = (img) => {
+      document.querySelectorAll('.result-image:not([data-loaded])').forEach(img => {
         const botanical = img.dataset.botanical;
         if (!botanical) return;
-        img.dataset.loaded = '1';
-        // If map is already loaded, set src immediately
-        if (imageCache._map && Object.keys(imageCache._map).length) {
-          const found = imageCache._map[botanical];
-          if (found) img.src = found;
+        // If the map is already loaded, set src synchronously
+        if (imageCache._map && imageCache._map[botanical]) {
+          img.src = imageCache._map[botanical];
+          img.dataset.loaded = '1';
           return;
         }
-        // Otherwise wait for fetch, then set
+        // If not loaded yet, fetch and update
         loadImageMap().then(map => {
           imageCache._map = map;
-          const found = map[botanical];
-          if (found) img.src = found;
+          if (map[botanical]) img.src = map[botanical];
+          img.dataset.loaded = '1';
         });
-      };
-
-      if (!imageObserver) {
-        // No IntersectionObserver: load all eagerly
-        document.querySelectorAll('.result-image:not([data-loaded])').forEach(setSrc);
-        return;
-      }
-      document.querySelectorAll('.result-image:not([data-loaded])').forEach(img => {
-        imageObserver.observe(img);
       });
     }
 
@@ -1879,9 +1873,18 @@
     // === Main: parse + match + render ===
     let lastParsed = null;  // reused when alt-suggestion chip is clicked
 
-    function run(useExisting) {
+    async function run(useExisting) {
       const q = input.value;
       const catalog = getCatalog();
+      // Wait for image_map.json so the first render can use real images.
+      // The fetch is memoized; this is fast on subsequent calls.
+      try {
+        const map = await loadImageMap();
+        if (map && Object.keys(map).length && !imageCache._map) {
+          imageCache._map = map;
+          saveImageCache();
+        }
+      } catch (e) { /* fall back to placeholder */ }
       const parsed = useExisting && lastParsed ? lastParsed : parseQuery(q);
       lastParsed = parsed;
 

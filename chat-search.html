@@ -13,6 +13,8 @@
       max-width: 900px;
       margin: 0 auto;
       padding: 24px 16px 64px;
+      background: linear-gradient(180deg, #fafaf5 0%, #f0ece1 100%);
+      min-height: 100vh;
     }
     .chat-test-root .header-tagline {
       font-family: Georgia, "Times New Roman", serif;
@@ -32,10 +34,10 @@
     }
     .chat-test-root .search-shell {
       background: #fff;
-      border: 1px solid #d8d2c2;
-      border-radius: 12px;
-      padding: 18px;
-      box-shadow: 0 1px 2px rgba(45, 74, 43, 0.06);
+      border: none;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(45, 74, 43, 0.06), 0 8px 24px rgba(45, 74, 43, 0.06);
     }
     .chat-test-root .search-input-row {
       display: flex;
@@ -111,14 +113,19 @@
     }
     .chat-test-root .result {
       background: #fff;
-      border: 1px solid #d8d2c2;
-      border-radius: 10px;
+      border: none;
+      border-radius: 12px;
       padding: 14px;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      box-shadow: 0 1px 3px rgba(45, 74, 43, 0.06), 0 4px 12px rgba(45, 74, 43, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .chat-test-root .result:hover {
-      border-color: var(--c-bark, #2d4a2b);
-      box-shadow: 0 2px 6px rgba(45, 74, 43, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 2px 6px rgba(45, 74, 43, 0.10), 0 12px 24px rgba(45, 74, 43, 0.10);
+    }
+    .chat-test-root .result.selected {
+      box-shadow: 0 2px 6px rgba(45, 107, 31, 0.18), 0 12px 24px rgba(45, 107, 31, 0.14);
+      background: linear-gradient(180deg, #f6f8f1 0%, #ffffff 60%);
     }
     .chat-test-root .result-botanical {
       font-family: Helvetica, Arial, sans-serif;
@@ -206,9 +213,36 @@
       padding: 2px 6px;
       color: var(--c-bark, #2d4a2b);
     }
+    .chat-test-root .meta-pill.cat-flower {
+      background: #fdf2e6;
+      border-color: #f0d5a8;
+      color: #8a5a1f;
+    }
+    .chat-test-root .meta-pill.cat-exposure {
+      background: #fdf8e3;
+      border-color: #e8d870;
+      color: #7a6418;
+    }
+    .chat-test-root .meta-pill.cat-water {
+      background: #e6f0fa;
+      border-color: #b0cce4;
+      color: #2a5a8a;
+    }
+    .chat-test-root .meta-pill.cat-size {
+      background: #f0eaf5;
+      border-color: #d2c0e0;
+      color: #5a2a7a;
+    }
+    .chat-test-root .meta-pill.cat-bloom {
+      background: #f9e9d4;
+      border-color: #e8b870;
+      color: #7a4818;
+    }
     .chat-test-root .meta-pill.match {
       background: #d4e2c1;
       border-color: #b8d09c;
+      color: var(--c-bark, #2d4a2b);
+      font-weight: 600;
     }
     .chat-test-root .result-price {
       font-size: 13px;
@@ -321,12 +355,12 @@
     .chat-test-root .selection-bar {
       position: sticky;
       bottom: 16px;
-      background: #fff;
-      border: 2px solid var(--c-bark, #2d4a2b);
-      border-radius: 12px;
-      padding: 14px 18px;
+      background: linear-gradient(135deg, #ffffff 0%, #f8faf3 100%);
+      border: none;
+      border-radius: 14px;
+      padding: 16px 20px;
       margin-top: 24px;
-      box-shadow: 0 4px 16px rgba(45, 74, 43, 0.12);
+      box-shadow: 0 2px 4px rgba(45, 74, 43, 0.08), 0 8px 24px rgba(45, 74, 43, 0.16);
       display: flex;
       align-items: center;
       flex-wrap: wrap;
@@ -831,12 +865,13 @@
       return /california|baja|oregon|washington|alaska|montana|arizona|new mexico|channel islands|british columbia|pacific northwest/.test(o);
     }
 
-    function pill(text, isMatch = false) {
+    function pill(text, isMatch = false, category = '') {
       // text may already contain <span class="match-hl">...</span> from highlight().
       // If it does, trust it (highlight already escaped safely). Otherwise escape.
       const isHtml = /<[a-z][^>]*>/i.test(text);
       const inner = isHtml ? text : escapeHTML(text);
-      return `<span class="meta-pill${isMatch ? ' match' : ''}">${inner}</span>`;
+      const cls = `meta-pill${isMatch ? ' match' : ''}${category ? ' cat-' + category : ''}`;
+      return `<span class="${cls}">${inner}</span>`;
     }
 
     // === No-match suggestions ===
@@ -1053,22 +1088,22 @@
 
                 // Build meta pills (color, exposure, water, height, width — type/origin are above)
                 let meta = [];
-                if (plant.bloom) meta.push(pill('🌸 in bloom', matched.bloom.includes('in bloom')));
-                else if (plant.bud) meta.push(pill('🌿 budding', matched.bloom.includes('budding')));
+                if (plant.bloom) meta.push(pill('🌸 in bloom', matched.bloom.includes('in bloom'), 'bloom'));
+                else if (plant.bud) meta.push(pill('🌿 budding', matched.bloom.includes('budding'), 'bloom'));
                 if (plant.flower_color) {
                   const fcFirst = String(plant.flower_color).toLowerCase().split(/[ ,\(]/)[0];
                   const isColorMatch = matched.colors.some(c => plant.flower_color.toLowerCase().includes(c));
-                  meta.push(pill(highlight(plant.flower_color, highlightTerms), isColorMatch));
+                  meta.push(pill(highlight(plant.flower_color, highlightTerms), isColorMatch, 'flower'));
                 }
                 if (plant.exposure) {
                   const isExpMatch = matched.exposures.some(e => plant.exposure.toLowerCase().includes(e));
-                  meta.push(pill(highlight(plant.exposure, highlightTerms), isExpMatch));
+                  meta.push(pill(highlight(plant.exposure, highlightTerms), isExpMatch, 'exposure'));
                 }
                 if (plant.water) {
-                  meta.push(pill(highlight(plant.water, highlightTerms), matched.water.length > 0));
+                  meta.push(pill(highlight(plant.water, highlightTerms), matched.water.length > 0, 'water'));
                 }
-                if (plant.height) meta.push(pill(plant.height));
-                if (plant.width)  meta.push(pill(plant.width));
+                if (plant.height) meta.push(pill(plant.height, false, 'size'));
+                if (plant.width)  meta.push(pill(plant.width, false, 'size'));
 
                 const sizesHTML = sizes.length
                   ? sizes.map(s => `${escapeHTML(fmtSize(s))}`).join(', ')

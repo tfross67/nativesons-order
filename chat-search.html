@@ -1066,30 +1066,39 @@
         const img = entry.target;
         const botanical = img.dataset.botanical;
         if (!botanical || img.dataset.loaded) return;
-        img.dataset.loaded = '1';
         imageObserver.unobserve(img);
         // Wait for image_map.json to load (if still in flight), then look up.
         loadImageMap().then(map => {
           imageCache._map = map;
           const found = map[botanical];
+          img.dataset.loaded = '1';
           if (found) img.src = found;
         });
       });
     }, { rootMargin: '200px' }) : null;
 
     function observeCardImages() {
-      if (!imageObserver) {
-        // Fallback: no IntersectionObserver, just load eagerly
-        document.querySelectorAll('.result-image:not([data-loaded])').forEach(img => {
-          const botanical = img.dataset.botanical;
-          if (!botanical) return;
-          img.dataset.loaded = '1';
-          loadImageMap().then(map => {
-            imageCache._map = map;
-            const found = map[botanical];
-            if (found) img.src = found;
-          });
+      const setSrc = (img) => {
+        const botanical = img.dataset.botanical;
+        if (!botanical) return;
+        img.dataset.loaded = '1';
+        // If map is already loaded, set src immediately
+        if (imageCache._map && Object.keys(imageCache._map).length) {
+          const found = imageCache._map[botanical];
+          if (found) img.src = found;
+          return;
+        }
+        // Otherwise wait for fetch, then set
+        loadImageMap().then(map => {
+          imageCache._map = map;
+          const found = map[botanical];
+          if (found) img.src = found;
         });
+      };
+
+      if (!imageObserver) {
+        // No IntersectionObserver: load all eagerly
+        document.querySelectorAll('.result-image:not([data-loaded])').forEach(setSrc);
         return;
       }
       document.querySelectorAll('.result-image:not([data-loaded])').forEach(img => {

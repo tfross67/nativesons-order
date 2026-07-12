@@ -799,13 +799,24 @@
     }
     @media (max-width: 600px) {
       .chat-test-root { padding: 16px 12px 64px; }
+      /* Header tagline: external styles.css has a .header-meta { font-size: 12px } rule
+         that wins the cascade for descendant .header-tagline. Force the bigger size here. */
+      .chat-test-root .header-meta { font-size: 14px; }
+      .chat-test-root .header-meta .header-tagline {
+        font-size: 14px;
+        max-width: 200px;
+        text-align: right;
+        font-style: italic;
+      }
+      /* Let the tagline column shrink inside the flex header so logo + tagline can wrap nicely */
+      .chat-test-root .header-meta { flex: 1 1 auto; min-width: 0; }
       .chat-test-root .results { grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
       .chat-test-root .hero-headline { font-size: 22px; }
       .chat-test-root .hero-band { padding: 16px 18px; }
       .chat-test-root .hero-stats { width: 100%; }
       .chat-test-root .hero-stat { flex: 1; min-width: 0; padding: 8px 6px; }
       .chat-test-root .hero-stat-num { font-size: 18px; }
-      .chat-test-root .hero-stat-label { font-size: 9px; letter-spacing: 0.3px; }
+      .chat-test-root .hero-stat-label { font-size: 10px; letter-spacing: 0.3px; }
       .chat-test-root .search-shell { padding: 16px 16px 16px 22px; }
       .chat-test-root .search-shell::after { height: 22px; }
       .chat-test-root .suggested { font-size: 12px; }

@@ -14,17 +14,20 @@
       margin: 0 auto;
       padding: 24px 16px 64px;
     }
-    .chat-test-root h1 {
+    .chat-test-root .header-tagline {
       font-family: Georgia, "Times New Roman", serif;
-      font-weight: normal;
+      font-style: italic;
+      font-size: 15px;
       color: var(--c-bark, #2d4a2b);
-      margin: 16px 0 4px;
-      font-size: 28px;
+      text-align: right;
+      max-width: 360px;
+      line-height: 1.35;
     }
-    .chat-test-root .subtitle {
-      color: var(--c-clay, #6b6256);
-      margin: 0 0 24px;
-      font-size: 14px;
+    @media (max-width: 600px) {
+      .chat-test-root .header-tagline {
+        font-size: 13px;
+        max-width: 220px;
+      }
     }
     .chat-test-root .search-shell {
       background: #fff;
@@ -397,6 +400,7 @@
         <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="brand-logo" height="56">
       </div>
       <div class="header-meta">
+        <span class="header-tagline">We grow plants that thrive in California's Mediterranean climate.</span>
         <span class="week-label" id="weekLabel">This week</span>
       </div>
     </div>
@@ -406,9 +410,6 @@
     <div class="test-banner">
       <strong>🧪 Test page.</strong> Smart keyword search using natural language. This page is separate from the public catalog — no impact on <code>index.html</code>. Try queries like <em>"red flowers 1gal"</em> or <em>"drought tolerant ceanothus"</em>.
     </div>
-
-    <h1>Find the right plant</h1>
-    <p class="subtitle">Type a description in plain English. The search understands colors, sizes, prices, water needs, sun exposure, and more.</p>
 
     <div class="search-shell">
       <div class="search-input-row">

@@ -168,6 +168,7 @@
     .chat-test-root .search-input:focus {
       border-color: var(--c-bark, #2d4a2b);
       background: #fff;
+      box-shadow: 0 0 0 4px rgba(74, 122, 42, 0.15), 0 1px 3px rgba(45, 74, 43, 0.06);
     }
     .chat-test-root .clear-btn {
       padding: 10px 14px;
@@ -219,8 +220,8 @@
     .chat-test-root .results {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 12px;
-      margin-top: 12px;
+      gap: 18px;
+      margin-top: 18px;
     }
     .chat-test-root .result {
       background: #fff;
@@ -231,8 +232,8 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .chat-test-root .result:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 2px 6px rgba(45, 74, 43, 0.10), 0 12px 24px rgba(45, 74, 43, 0.10);
+      transform: translateY(-3px);
+      box-shadow: 0 2px 6px rgba(45, 74, 43, 0.10), 0 16px 32px rgba(45, 74, 43, 0.14), 0 0 0 1px rgba(74, 122, 42, 0.18);
     }
     .chat-test-root .result.selected {
       box-shadow: 0 2px 6px rgba(45, 107, 31, 0.18), 0 12px 24px rgba(45, 107, 31, 0.14);
@@ -410,10 +411,74 @@
       border-color: var(--c-bark, #2d4a2b);
     }
     .chat-test-root .result-match-line {
-      margin-top: 6px;
-      font-size: 11px;
-      color: var(--c-clay, #6b6256);
-      font-style: italic;
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      z-index: 3;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #d4e2c1;
+      color: var(--c-bark, #2d4a2b);
+      font-size: 12px;
+      font-weight: 700;
+      font-style: normal;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: help;
+      box-shadow: 0 2px 6px rgba(45, 74, 43, 0.18);
+      border: 2px solid #fff;
+      opacity: 0;
+      transform: scale(0.7);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .chat-test-root .result:hover .result-match-line,
+    .chat-test-root .result:focus-within .result-match-line {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .chat-test-root .result-match-line::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      top: 50%;
+      left: calc(100% + 10px);
+      transform: translateY(-50%);
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      padding: 8px 12px;
+      border-radius: 6px;
+      white-space: normal;
+      width: max-content;
+      max-width: 240px;
+      text-align: left;
+      line-height: 1.4;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease 0.05s;
+      z-index: 10;
+    }
+    .chat-test-root .result-match-line::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: calc(100% + 4px);
+      transform: translateY(-50%);
+      border: 6px solid transparent;
+      border-right-color: var(--c-bark, #2d4a2b);
+      opacity: 0;
+      transition: opacity 0.15s ease 0.05s;
+      z-index: 10;
+    }
+    .chat-test-root .result:hover .result-match-line::after,
+    .chat-test-root .result:hover .result-match-line::before,
+    .chat-test-root .result:focus-within .result-match-line::after,
+    .chat-test-root .result:focus-within .result-match-line::before {
+      opacity: 1;
     }
     .chat-test-root .result {
       position: relative;
@@ -575,6 +640,36 @@
       background: #a04040;
       color: #fff;
     }
+    .chat-test-root .back-to-top {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      z-index: 60;
+      background: linear-gradient(135deg, #ffffff 0%, #f8faf3 100%);
+      color: var(--c-bark, #2d4a2b);
+      border: 1px solid #d8d2c2;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(45, 74, 43, 0.10), 0 8px 20px rgba(45, 74, 43, 0.10);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+    }
+    .chat-test-root .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .chat-test-root .back-to-top:hover {
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+      border-color: var(--c-bark, #2d4a2b);
+    }
     @media (max-width: 600px) {
       .chat-test-root .results { grid-template-columns: 1fr; }
     }
@@ -641,6 +736,8 @@
         <button type="button" class="action-btn danger" id="selClear">Clear</button>
       </div>
     </div>
+
+    <button type="button" id="backToTop" class="back-to-top" aria-label="Back to top" hidden>↑ Top</button>
   </main>
 
   <script src="availability_data.js"></script>
@@ -822,6 +919,7 @@
 
     // === Hero band renderer ===
     // Shows live counts: total plants, in bloom, CA natives.
+    // Numbers animate from 0 to their final value on first render for visual polish.
     function renderHero(plants) {
       const headline = $('heroHeadline');
       const stats = $('heroStats');
@@ -830,10 +928,35 @@
       const natives = plants.filter(p => isNativeOrigin(p.origin)).length;
       const total = plants.length;
       headline.textContent = `${inBloom} plants in bloom this week`;
+
+      // Build the stat cards with 0, then animate to final values
       stats.innerHTML =
-        `<div class="hero-stat"><div class="hero-stat-num">${total}</div><div class="hero-stat-label">total</div></div>` +
-        `<div class="hero-stat"><div class="hero-stat-num">${inBloom}</div><div class="hero-stat-label">in bloom</div></div>` +
-        `<div class="hero-stat"><div class="hero-stat-num">${natives}</div><div class="hero-stat-label">CA native</div></div>`;
+        `<div class="hero-stat"><div class="hero-stat-num" data-target="${total}">0</div><div class="hero-stat-label">total</div></div>` +
+        `<div class="hero-stat"><div class="hero-stat-num" data-target="${inBloom}">0</div><div class="hero-stat-label">in bloom</div></div>` +
+        `<div class="hero-stat"><div class="hero-stat-num" data-target="${natives}">0</div><div class="hero-stat-label">CA native</div></div>`;
+
+      // Animate from 0 to target over ~700ms with ease-out cubic
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) {
+        stats.querySelectorAll('.hero-stat-num').forEach(el => {
+          el.textContent = el.dataset.target;
+        });
+        return;
+      }
+      const duration = 700;
+      const startTime = performance.now();
+      function tick(now) {
+        const elapsed = now - startTime;
+        const t = Math.min(elapsed / duration, 1);
+        // ease-out cubic
+        const eased = 1 - Math.pow(1 - t, 3);
+        stats.querySelectorAll('.hero-stat-num').forEach(el => {
+          const target = Number(el.dataset.target) || 0;
+          el.textContent = String(Math.round(target * eased));
+        });
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
     }
 
     // === Synonyms / canonicalisation maps ===
@@ -1406,8 +1529,8 @@
                   : '—';
 
                 const matchLine = matchReasons.length
-                  ? `<div class="result-match-line">matched on: ${matchReasons.map(r => escapeHTML(r)).join(' · ')}</div>`
-                  : '';
+                          ? `<div class="result-match-line" data-tooltip="matched on: ${escapeHTML(matchReasons.join(' · '))}" aria-label="Matched on: ${escapeHTML(matchReasons.join(', '))}">ⓘ</div>`
+                          : '';
 
                 const isSel = isSelected(plant.botanical);
 
@@ -1483,13 +1606,34 @@
     });
     input.focus();
 
-    // Populate the week label on initial load (it was only being set inside
-    // getCatalog(), which is invoked by run() — i.e. only after a search).
-    getCatalog();
+        // Populate the week label on initial load (it was only being set inside
+        // getCatalog(), which is invoked by run() — i.e. only after a search).
+        getCatalog();
 
-    // Pre-fill the input and run a default search so the page has tiles on first load.
-    input.value = 'in bloom';
-    run();
+        // Pre-fill the search and run a default query so the page has tiles on first load.
+        input.value = 'in bloom';
+        run();
+
+        // === Back-to-top button: appears after scrolling 600px ===
+        const backToTop = $('backToTop');
+        if (backToTop) {
+          backToTop.hidden = false;  // make it available to scroll listeners
+          let ticking = false;
+          window.addEventListener('scroll', () => {
+            if (!ticking) {
+              requestAnimationFrame(() => {
+                if (window.scrollY > 600) backToTop.classList.add('visible');
+                else backToTop.classList.remove('visible');
+                ticking = false;
+              });
+              ticking = true;
+            }
+          });
+          backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            input.focus();
+          });
+        }
 
     // === Selection: click checkbox or card area to toggle ===
     // Use event delegation on results container. Checkbox click is captured first

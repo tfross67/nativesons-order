@@ -585,7 +585,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "White Australian hibiscus",
     "origin": "Australia",
@@ -1562,7 +1562,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Bush morning glory",
     "height": "18-24\"",
@@ -1589,7 +1589,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Bush morning glory",
     "height": "1-2'",
@@ -1950,7 +1950,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "False Heather",
     "origin": "Hybrid",
@@ -2289,7 +2289,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Escallonia",
     "height": "2-3'",
@@ -2341,7 +2341,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Spurge",
     "height": "8-12\"",
@@ -3000,7 +3000,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "origin": "Hybrid",
     "plant_type": "Perennial",
@@ -3102,7 +3102,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Lavender",
     "origin": "Mediterranean",
@@ -3129,7 +3129,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": true,
     "common": "Lavender",
     "height": "1-2'",
@@ -3285,7 +3285,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Spanish Lavender",
     "origin": "Mediterranean",
@@ -3369,7 +3369,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Spanish Lavender",
     "origin": "Hybrid",
@@ -3398,7 +3398,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Compact Sweet Lavender",
     "height": "2-3'",
@@ -3916,7 +3916,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": true,
+    "bloom": false,
     "bud": false,
     "origin": "New Zealand",
     "common": "White Parahebe",
@@ -4111,7 +4111,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Penstemon",
     "height": "2-3'",
@@ -4164,7 +4164,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Beardtongue",
     "origin": "Garden hybrid",
@@ -5058,7 +5058,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": true,
+    "bloom": false,
     "bud": false,
     "common": "Sage",
     "origin": "Garden hybrid",
@@ -5189,7 +5189,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Pina Colada sage",
     "origin": "Garden hybrid",
@@ -5296,7 +5296,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Dwarf Mexican bush sage",
     "height": "1-2'",
@@ -5481,7 +5481,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "origin": "Garden hybrid",
     "common": "Cherry skullcap",
@@ -7082,7 +7082,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Compact ground morning glory",
     "origin": "Southern Europe to North Africa",
@@ -7187,7 +7187,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "False Heather",
     "origin": "Hybrid",
@@ -7292,7 +7292,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Heron’s bill",
     "origin": "Majorca, Corsica",
@@ -7343,7 +7343,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Wand Flower",
     "origin": "Hybrid",
@@ -7443,7 +7443,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "origin": "Tropics and subtropics",
     "common": "Frogfruit",
@@ -7493,7 +7493,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Pina Colada sage",
     "origin": "Garden hybrid",
@@ -7519,7 +7519,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Heatwave sage",
     "origin": "Garden hybrid",
@@ -7597,7 +7597,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "origin": "Garden hybrid",
     "common": "Cherry skullcap",
@@ -7700,7 +7700,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "origin": "Hybrid",
     "plant_type": "Perennial",
@@ -7932,7 +7932,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "common": "Thyme",
     "origin": "Northeast Albania",

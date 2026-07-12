@@ -196,6 +196,35 @@
       color: var(--c-clay, #6b6256);
       font-style: italic;
     }
+    .chat-test-root .result {
+      position: relative;
+    }
+    .chat-test-root .result-link {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 1;
+      text-decoration: none;
+      background: transparent;
+    }
+    .chat-test-root .result-link:focus {
+      outline: 2px solid var(--c-bark, #2d4a2b);
+      outline-offset: -2px;
+      border-radius: 10px;
+    }
+    .chat-test-root .result-footer {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #e8e2cf;
+      text-align: right;
+      font-size: 12px;
+      color: var(--c-bark, #2d4a2b);
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .chat-test-root .result-link-text {
+      font-weight: 500;
+    }
     .chat-test-root .test-banner {
       background: #fff8e6;
       border: 1px solid #e8d59a;
@@ -788,11 +817,15 @@
           : '';
 
         card.innerHTML = `
+          <a class="result-link" href="https://www.nativeson.com" target="_blank" rel="noopener" aria-label="More info on ${escapeHTML(plant.botanical)}"></a>
           <div class="result-botanical">${highlight(plant.botanical, highlightTerms)}</div>
           <div class="result-common">${highlight(plant.common || '', highlightTerms)}</div>
           <div class="result-meta">${meta.join('')}</div>
           <div class="result-price">${escapeHTML(sizesHTML)}</div>
           ${matchLine}
+          <div class="result-footer">
+            <span class="result-link-text">More info →</span>
+          </div>
         `;
         resultsEl.appendChild(card);
       });

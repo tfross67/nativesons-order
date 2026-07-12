@@ -39,6 +39,87 @@
         max-width: 200px;
       }
     }
+    .chat-test-root .hero-band {
+      background:
+        linear-gradient(135deg, rgba(45, 107, 31, 0.05) 0%, transparent 60%),
+        linear-gradient(180deg, #fafaf5 0%, #f4f1ea 100%);
+      border-radius: 14px;
+      padding: 22px 26px;
+      margin-bottom: 18px;
+      box-shadow: 0 1px 3px rgba(45, 74, 43, 0.04), 0 6px 18px rgba(45, 74, 43, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .chat-test-root .hero-band::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, #2d6b1f 0%, #4a7a2a 50%, #f4a83a 100%);
+    }
+    .chat-test-root .hero-content { flex: 1; min-width: 0; }
+    .chat-test-root .hero-eyebrow {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #4a7a2a;
+      margin-bottom: 4px;
+    }
+    .chat-test-root .hero-headline {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--c-bark, #2d4a2b);
+      margin: 0 0 6px;
+      line-height: 1.2;
+    }
+    .chat-test-root .hero-sub {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      color: var(--c-clay, #6b6256);
+      margin: 0;
+    }
+    .chat-test-root .hero-stats {
+      display: flex;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    .chat-test-root .hero-stat {
+      background: #fff;
+      border: 1px solid #e8e2cf;
+      border-radius: 10px;
+      padding: 10px 14px;
+      text-align: center;
+      min-width: 72px;
+    }
+    .chat-test-root .hero-stat-num {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--c-bark, #2d4a2b);
+      line-height: 1;
+    }
+    .chat-test-root .hero-stat-label {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--c-clay, #6b6256);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+    @media (max-width: 600px) {
+      .chat-test-root .hero-band { flex-direction: column; align-items: flex-start; padding: 16px 18px; }
+      .chat-test-root .hero-headline { font-size: 22px; }
+      .chat-test-root .hero-stats { width: 100%; }
+      .chat-test-root .hero-stat { flex: 1; min-width: 0; padding: 8px 6px; }
+      .chat-test-root .hero-stat-num { font-size: 18px; }
+    }
     .chat-test-root .search-shell {
       background: #fff;
       border: none;
@@ -437,6 +518,15 @@
   </header>
 
   <main class="chat-test-root">
+    <div class="hero-band">
+      <div class="hero-content">
+        <div class="hero-eyebrow">This week's availability</div>
+        <h2 class="hero-headline" id="heroHeadline">50+ plants in bloom</h2>
+        <p class="hero-sub">Browse by color, size, water needs, or just describe what you're looking for.</p>
+      </div>
+      <div class="hero-stats" id="heroStats"></div>
+    </div>
+
     <div class="search-shell">
       <div class="search-input-row">
         <input type="search" id="chatSearch" class="search-input"
@@ -581,7 +671,25 @@
       if (window.AVAILABILITY && window.AVAILABILITY.week && weekLabel) {
         weekLabel.textContent = window.AVAILABILITY.week;
       }
+      // Populate hero band with real numbers from the catalog
+      renderHero(av);
       return av;
+    }
+
+    // === Hero band renderer ===
+    // Shows live counts: total plants, in bloom, CA natives.
+    function renderHero(plants) {
+      const headline = $('heroHeadline');
+      const stats = $('heroStats');
+      if (!plants || !plants.length || !headline || !stats) return;
+      const inBloom = plants.filter(p => p.bloom).length;
+      const natives = plants.filter(p => isNativeOrigin(p.origin)).length;
+      const total = plants.length;
+      headline.textContent = `${inBloom} plants in bloom this week`;
+      stats.innerHTML =
+        `<div class="hero-stat"><div class="hero-stat-num">${total}</div><div class="hero-stat-label">total</div></div>` +
+        `<div class="hero-stat"><div class="hero-stat-num">${inBloom}</div><div class="hero-stat-label">in bloom</div></div>` +
+        `<div class="hero-stat"><div class="hero-stat-num">${natives}</div><div class="hero-stat-label">CA native</div></div>`;
     }
 
     // === Synonyms / canonicalisation maps ===

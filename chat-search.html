@@ -1155,6 +1155,10 @@
     // getCatalog(), which is invoked by run() — i.e. only after a search).
     getCatalog();
 
+    // Pre-fill the input and run a default search so the page has tiles on first load.
+    input.value = 'in bloom';
+    run();
+
     // === Selection: click checkbox or card area to toggle ===
     // Use event delegation on results container. Checkbox click is captured first
     // (z-index 3 > link overlay z-index 1), so it doesn't trigger the link.

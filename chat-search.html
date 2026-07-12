@@ -1140,6 +1140,7 @@
         }
       }
       const deduped = Array.from(seen.values());
+      console.log('[chat-search] getCatalog:', { raw: raw.length, deduped: deduped.length, inBloom: deduped.filter(p => p.bloom).length });
       renderHero(deduped);
       return deduped;
     }

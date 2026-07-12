@@ -17,16 +17,17 @@
     .chat-test-root .header-tagline {
       font-family: Georgia, "Times New Roman", serif;
       font-style: italic;
-      font-size: 15px;
+      font-size: 19px;
       color: var(--c-bark, #2d4a2b);
       text-align: right;
-      max-width: 360px;
-      line-height: 1.35;
+      max-width: 420px;
+      line-height: 1.3;
+      font-weight: 400;
     }
     @media (max-width: 600px) {
       .chat-test-root .header-tagline {
-        font-size: 13px;
-        max-width: 220px;
+        font-size: 14px;
+        max-width: 200px;
       }
     }
     .chat-test-root .search-shell {
@@ -1163,6 +1164,10 @@
       if (e.key === 'Enter') { e.preventDefault(); run(); }
     });
     input.focus();
+
+    // Populate the week label on initial load (it was only being set inside
+    // getCatalog(), which is invoked by run() — i.e. only after a search).
+    getCatalog();
 
     // === Selection: click checkbox or card area to toggle ===
     // Use event delegation on results container. Checkbox click is captured first

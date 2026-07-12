@@ -268,6 +268,18 @@
       border-radius: 999px;
       padding: 3px;
       gap: 2px;
+      flex-wrap: wrap;
+      max-width: 100%;
+    }
+    @media (max-width: 600px) {
+      .chat-test-root .sort-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        border-radius: 999px;
+        scrollbar-width: none;
+      }
+      .chat-test-root .sort-tabs::-webkit-scrollbar { display: none; }
+      .chat-test-root .sort-tab { white-space: nowrap; }
     }
     .chat-test-root .sort-tab {
       padding: 5px 14px;
@@ -901,11 +913,14 @@
     <div id="filterSummary" class="filter-summary" hidden></div>
 
     <div class="results-toolbar" id="resultsToolbar" hidden>
-      <span class="results-toolbar-label">Sort by:</span>
+      <span class="results-toolbar-label">Filter by type:</span>
       <div class="sort-tabs" role="tablist">
-        <button type="button" class="sort-tab active" data-sort="relevance" role="tab" aria-selected="true">Relevance</button>
-        <button type="button" class="sort-tab" data-sort="alpha" role="tab" aria-selected="false">Botanical A–Z</button>
-        <button type="button" class="sort-tab" data-sort="price" role="tab" aria-selected="false">Cheapest first</button>
+        <button type="button" class="sort-tab active" data-sort="relevance" role="tab" aria-selected="true">All</button>
+        <button type="button" class="sort-tab" data-sort="type:perennial" role="tab" aria-selected="false">Perennials</button>
+        <button type="button" class="sort-tab" data-sort="type:shrub" role="tab" aria-selected="false">Shrubs</button>
+        <button type="button" class="sort-tab" data-sort="type:grass" role="tab" aria-selected="false">Grasses</button>
+        <button type="button" class="sort-tab" data-sort="type:succulent" role="tab" aria-selected="false">Succulents</button>
+        <button type="button" class="sort-tab" data-sort="type:tree" role="tab" aria-selected="false">Trees</button>
       </div>
     </div>
 
@@ -1841,27 +1856,33 @@
     // === Sort results according to user selection ===
     let currentSort = 'relevance';
     function sortResults(results, mode) {
-      if (mode === 'alpha') {
-        results.sort((a, b) => String(a.plant.botanical || '').localeCompare(String(b.plant.botanical || '')));
-      } else if (mode === 'price') {
-        // Cheapest first: lowest "order" container, lowest price
-        const minPrice = (p) => {
-          const sizes = p.sizes || [];
-          if (!sizes.length) return Infinity;
-          // find cheapest price
-          let lo = Infinity;
-          for (const s of sizes) {
-            const v = Number(s.price);
-            if (Number.isFinite(v) && v > 0 && v < lo) lo = v;
+      // mode can be 'relevance' (default) or 'type:<category>' for category filter.
+      // The category filter NARROWS the results to that plant type; within it, sort by relevance.
+      if (mode && mode.startsWith('type:')) {
+        const category = mode.slice(5);  // 'perennial' | 'shrub' | 'grass' | 'succulent' | 'tree'
+        const patterns = TYPE_PATTERNS[category] || [];
+        for (let i = results.length - 1; i >= 0; i--) {
+          const t = String(results[i].plant.plant_type || '').toLowerCase();
+          if (!patterns.some(p => t.includes(p))) {
+            results.splice(i, 1);
           }
-          return lo;
-        };
-        results.sort((a, b) => minPrice(a.plant) - minPrice(b.plant));
+        }
+        // Within category, sort by relevance
+        results.sort((a, b) => b.match.score - a.match.score);
       } else {
-        // relevance — already sorted by match.score, but apply to be safe
+        // relevance — by match.score
         results.sort((a, b) => b.match.score - a.match.score);
       }
     }
+
+    // Substring patterns to match against plant.plant_type for each category tab.
+    const TYPE_PATTERNS = {
+      perennial: ['perennial'],
+      shrub: ['shrub'],
+      grass:    ['grass', 'restio'],
+      succulent:['succulent'],
+      tree:     ['tree'],
+    };
 
     // === Wire up ===
     let typingTimer = null;

@@ -225,6 +225,97 @@
     .chat-test-root .result-link-text {
       font-weight: 500;
     }
+    .chat-test-root .result-checkbox {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 3;
+      width: 24px;
+      height: 24px;
+      border: 2px solid #d8d2c2;
+      border-radius: 4px;
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      line-height: 1;
+      color: var(--c-bark, #2d4a2b);
+      user-select: none;
+      transition: all 0.15s;
+    }
+    .chat-test-root .result-checkbox:hover {
+      border-color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .result-checkbox.checked {
+      background: var(--c-bark, #2d4a2b);
+      border-color: var(--c-bark, #2d4a2b);
+      color: #fff;
+    }
+    .chat-test-root .result.selected {
+      border-color: var(--c-bark, #2d4a2b);
+      background: #f6f8f1;
+    }
+    .chat-test-root .selection-bar {
+      position: sticky;
+      bottom: 16px;
+      background: #fff;
+      border: 2px solid var(--c-bark, #2d4a2b);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-top: 24px;
+      box-shadow: 0 4px 16px rgba(45, 74, 43, 0.12);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      z-index: 50;
+    }
+    .chat-test-root .selection-bar[hidden] { display: none; }
+    .chat-test-root .selection-summary {
+      flex: 1;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .selection-summary strong { font-size: 16px; }
+    .chat-test-root .selection-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .chat-test-root .action-btn {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      padding: 8px 14px;
+      border: 1px solid var(--c-bark, #2d4a2b);
+      background: #fff;
+      color: var(--c-bark, #2d4a2b);
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .chat-test-root .action-btn:hover {
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+    }
+    .chat-test-root .action-btn.primary {
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+    }
+    .chat-test-root .action-btn.primary:hover {
+      background: #1d3a0e;
+    }
+    .chat-test-root .action-btn.danger {
+      border-color: #a04040;
+      color: #a04040;
+    }
+    .chat-test-root .action-btn.danger:hover {
+      background: #a04040;
+      color: #fff;
+    }
     .chat-test-root .test-banner {
       background: #fff8e6;
       border: 1px solid #e8d59a;
@@ -283,6 +374,21 @@
     <div id="filterSummary" class="filter-summary" hidden></div>
     <div id="results" class="results"></div>
     <div id="noResults" class="no-results" hidden>No plants match your search. Try fewer words or different terms.</div>
+
+    <div id="selectionBar" class="selection-bar" hidden>
+      <div class="selection-summary">
+        <strong id="selCount">0</strong> selected ·
+        <span id="selTotal"></span>
+      </div>
+      <div class="selection-actions">
+        <button type="button" class="action-btn" id="selSelectAll">Select all visible</button>
+        <button type="button" class="action-btn" id="selExportCsv">Export CSV</button>
+        <button type="button" class="action-btn" id="selExportText">Copy as text</button>
+        <button type="button" class="action-btn primary" id="selEmail">Email list</button>
+        <button type="button" class="action-btn" id="selPrint">Print</button>
+        <button type="button" class="action-btn danger" id="selClear">Clear</button>
+      </div>
+    </div>
   </main>
 
   <script src="availability_data.js"></script>
@@ -303,6 +409,84 @@
     const noResultsEl = $('noResults');
     const filterSummaryEl = $('filterSummary');
     const weekLabel = $('weekLabel');
+    const selectionBar = $('selectionBar');
+    const selCount = $('selCount');
+    const selTotal = $('selTotal');
+
+    // === Selection state (persisted to localStorage) ===
+    const SEL_KEY = 'ns_chat_selection_v1';
+    let selection = loadSelection();
+
+    function loadSelection() {
+      try {
+        const raw = localStorage.getItem(SEL_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) { return {}; }
+    }
+    function saveSelection() {
+      try { localStorage.setItem(SEL_KEY, JSON.stringify(selection)); } catch (e) {}
+    }
+    function isSelected(botanical) { return !!selection[botanical]; }
+    function toggleSelection(botanical, plant) {
+      if (selection[botanical]) {
+        delete selection[botanical];
+      } else {
+        selection[botanical] = plant;
+      }
+      saveSelection();
+      renderSelectionBar();
+    }
+    function clearSelection() {
+      selection = {};
+      saveSelection();
+      renderSelectionBar();
+      // Refresh any visible checkboxes
+      document.querySelectorAll('.result-checkbox').forEach(c => {
+        c.classList.remove('checked');
+        c.textContent = '';
+      });
+      document.querySelectorAll('.result.selected').forEach(c => c.classList.remove('selected'));
+    }
+    function selectAllVisible() {
+      document.querySelectorAll('.result[data-botanical]').forEach(card => {
+        const b = card.dataset.botanical;
+        if (!selection[b]) {
+          // Find the plant object from the catalog
+          const plant = getCatalog().find(p => p.botanical === b);
+          if (plant) selection[b] = plant;
+        }
+      });
+      saveSelection();
+      renderSelectionBar();
+      // Update visible checkboxes
+      document.querySelectorAll('.result[data-botanical]').forEach(card => {
+        card.classList.add('selected');
+        const cb = card.querySelector('.result-checkbox');
+        if (cb) { cb.classList.add('checked'); cb.textContent = '✓'; }
+      });
+    }
+    function getSelectedPlants() {
+      return Object.values(selection);
+    }
+    function renderSelectionBar() {
+      const plants = getSelectedPlants();
+      const n = plants.length;
+      selCount.textContent = String(n);
+      if (n === 0) {
+        selectionBar.hidden = true;
+        selTotal.textContent = '';
+        return;
+      }
+      selectionBar.hidden = false;
+      // Compute min wholesale total (sum of lowest available size's price per plant)
+      const total = plants.reduce((sum, p) => {
+        const prices = (p.sizes || []).map(s => Number(s.price || 0)).filter(x => x > 0);
+        return sum + (prices.length ? Math.min(...prices) : 0);
+      }, 0);
+      selTotal.textContent = total > 0 ? `wholesale from $${total.toFixed(2)}` : '';
+    }
+    // Init bar on load (in case there are saved selections)
+    renderSelectionBar();
 
     // === Load the catalog (already provided via <script src="availability_data.js">) ===
     function getCatalog() {
@@ -833,8 +1017,11 @@
           ? `<div class="result-match-line">matched on: ${matchReasons.map(r => escapeHTML(r)).join(' · ')}</div>`
           : '';
 
+        const isSel = isSelected(plant.botanical);
+
         card.innerHTML = `
           <a class="result-link" href="${plantUrl(plant.botanical)}" target="_blank" rel="noopener" aria-label="More info on ${escapeHTML(plant.botanical)} on nativeson.com"></a>
+          <div class="result-checkbox${isSel ? ' checked' : ''}" role="checkbox" aria-checked="${isSel}" aria-label="Select ${escapeHTML(plant.botanical)}" data-select>${isSel ? '✓' : ''}</div>
           <div class="result-botanical">${highlight(plant.botanical, highlightTerms)}</div>
           <div class="result-common">${highlight(plant.common || '', highlightTerms)}</div>
           <div class="result-meta">${meta.join('')}</div>
@@ -844,6 +1031,8 @@
             <span class="result-link-text">More info on nativeson.com →</span>
           </div>
         `;
+        card.dataset.botanical = plant.botanical;
+        if (isSel) card.classList.add('selected');
         resultsEl.appendChild(card);
       });
     }
@@ -898,10 +1087,200 @@
     });
     input.focus();
 
+    // === Selection: click checkbox or card area to toggle ===
+    // Use event delegation on results container. Checkbox click is captured first
+    // (z-index 3 > link overlay z-index 1), so it doesn't trigger the link.
+    resultsEl.addEventListener('click', (e) => {
+      const cb = e.target.closest('[data-select]');
+      if (!cb) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const card = cb.closest('.result');
+      if (!card) return;
+      const botanical = card.dataset.botanical;
+      const plant = getCatalog().find(p => p.botanical === botanical);
+      if (!plant) return;
+      toggleSelection(botanical, plant);
+      // Update this card's UI
+      const nowSelected = isSelected(botanical);
+      cb.classList.toggle('checked', nowSelected);
+      cb.textContent = nowSelected ? '✓' : '';
+      cb.setAttribute('aria-checked', String(nowSelected));
+      card.classList.toggle('selected', nowSelected);
+    });
+
+    // === Export functions ===
+    function buildCsv(plants) {
+      const rows = [['Botanical', 'Common name', 'Origin', 'Available sizes & prices', 'URL']];
+      for (const p of plants) {
+        const sizes = (p.sizes || []).map(s => {
+          const c = s.container || '';
+          const pr = Number(s.price || 0);
+          return pr ? `${c} $${pr.toFixed(2)}` : c;
+        }).join('; ');
+        rows.push([
+          p.botanical || '',
+          p.common || '',
+          p.origin || '',
+          sizes,
+          plantUrl(p.botanical),
+        ]);
+      }
+      return rows.map(row => row.map(cell => {
+        const s = String(cell == null ? '' : cell);
+        return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+      }).join(',')).join('\n');
+    }
+
+    function buildTextList(plants) {
+      return plants.map(p => {
+        const sizes = (p.sizes || []).map(s => {
+          const c = s.container || '';
+          const pr = Number(s.price || 0);
+          return pr ? `${c} $${pr.toFixed(2)}` : c;
+        }).join(', ');
+        const origin = p.origin ? ` (${p.origin})` : '';
+        return `${p.botanical} — ${p.common || ''}${origin}\n   ${sizes}\n   ${plantUrl(p.botanical)}`;
+      }).join('\n\n');
+    }
+
+    function downloadFile(filename, content, mime) {
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 100);
+    }
+
+    function copyToClipboard(text) {
+      // Fallback path: use execCommand if clipboard API blocked
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text);
+      }
+      return new Promise((resolve, reject) => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          resolve();
+        } catch (e) {
+          document.body.removeChild(ta);
+          reject(e);
+        }
+      });
+    }
+
+    function flashButton(btn, label, ms) {
+      const orig = btn.textContent;
+      btn.textContent = label;
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.disabled = false;
+      }, ms || 1200);
+    }
+
+    // === Wire up selection-bar buttons ===
+    $('selExportCsv').addEventListener('click', () => {
+      const plants = getSelectedPlants();
+      if (!plants.length) return;
+      const csv = buildCsv(plants);
+      const stamp = new Date().toISOString().slice(0, 10);
+      downloadFile(`native-sons-selection-${stamp}.csv`, csv, 'text/csv');
+      flashButton($('selExportCsv'), 'Downloaded ✓');
+    });
+
+    $('selExportText').addEventListener('click', async () => {
+      const plants = getSelectedPlants();
+      if (!plants.length) return;
+      const text = buildTextList(plants);
+      try {
+        await copyToClipboard(text);
+        flashButton($('selExportText'), 'Copied ✓');
+      } catch (e) {
+        flashButton($('selExportText'), 'Copy failed');
+      }
+    });
+
+    $('selEmail').addEventListener('click', () => {
+      const plants = getSelectedPlants();
+      if (!plants.length) return;
+      const text = buildTextList(plants);
+      const subject = `Plant availability inquiry — ${plants.length} item${plants.length === 1 ? '' : 's'}`;
+      const body = `Hi Native Sons,\n\nI'd like to inquire about the following ${plants.length} plant${plants.length === 1 ? '' : 's'}:\n\n${text}\n\nThanks,\n`;
+      const mailto = `mailto:orders@nativeson.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+    });
+
+    $('selPrint').addEventListener('click', () => {
+      const plants = getSelectedPlants();
+      if (!plants.length) return;
+      const w = window.open('', '_blank', 'width=900,height=700');
+      if (!w) { alert('Pop-up blocked — allow pop-ups to print.'); return; }
+      const rowsHtml = plants.map(p => {
+        const sizes = (p.sizes || []).map(s => {
+          const c = s.container || '';
+          const pr = Number(s.price || 0);
+          return pr ? `${c} $${pr.toFixed(2)}` : c;
+        }).join(', ');
+        return `<tr>
+          <td><em>${escapeHTML(p.botanical)}</em></td>
+          <td>${escapeHTML(p.common || '')}</td>
+          <td>${escapeHTML(p.origin || '')}</td>
+          <td>${escapeHTML(sizes)}</td>
+          <td><a href="${plantUrl(p.botanical)}">${escapeHTML(plantUrl(p.botanical))}</a></td>
+        </tr>`;
+      }).join('');
+      const total = plants.reduce((sum, p) => {
+        const prices = (p.sizes || []).map(s => Number(s.price || 0)).filter(x => x > 0);
+        return sum + (prices.length ? Math.min(...prices) : 0);
+      }, 0);
+      w.document.write(`<!DOCTYPE html><html><head><title>Native Sons selection</title>
+<style>
+  body{font-family:Helvetica,Arial,sans-serif;margin:24px;color:#2d4a2b;}
+  h1{font-family:Georgia,serif;font-weight:normal;margin:0 0 4px;}
+  table{width:100%;border-collapse:collapse;margin-top:12px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid #d4cfbe;font-size:13px;vertical-align:top;}
+  th{background:#f4f1ea;font-size:11px;text-transform:uppercase;letter-spacing:.5px;}
+  .total{margin-top:16px;font-size:14px;}
+  @media print { a { color: inherit; text-decoration: none; } }
+</style></head><body>
+<h1>Native Sons — Plant Selection</h1>
+<p>${plants.length} plant${plants.length === 1 ? '' : 's'} · printed ${new Date().toLocaleDateString()}</p>
+<table>
+  <thead><tr><th>Botanical</th><th>Common</th><th>Origin</th><th>Sizes / Prices</th><th>Link</th></tr></thead>
+  <tbody>${rowsHtml}</tbody>
+</table>
+<p class="total">Wholesale total (lowest size per plant): <strong>$${total.toFixed(2)}</strong></p>
+<p style="font-size:11px;color:#666;margin-top:24px;">379 W El Campo Rd · Arroyo Grande, CA 93420 · 805.481.5996 · orders@nativeson.com</p>
+</body></html>`);
+      w.document.close();
+      w.focus();
+      setTimeout(() => { try { w.print(); } catch (e) {} }, 250);
+    });
+
+    $('selSelectAll').addEventListener('click', selectAllVisible);
+
+    $('selClear').addEventListener('click', () => {
+      if (getSelectedPlants().length === 0) return;
+      if (!confirm('Clear all selections?')) return;
+      clearSelection();
+    });
+
     // Diagnostic — useful if you're testing
     window.chatTestRun = run;
     window.chatTestParse = parseQuery;
-    console.log('chat-test.html ready. Try: chatTestParse("red flowers 1gal under $7")');
+    window.chatTestSelection = () => Object.values(selection);
+    console.log('chat-test.html ready. Try: chatTestParse("red flowers 1gal")');
   })();
   </script>
 </body>

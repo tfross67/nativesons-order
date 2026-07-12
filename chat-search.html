@@ -578,6 +578,23 @@
       return p ? `${c} $${p.toFixed(2)}` : c;
     }
 
+    // Build nativeson.com product URL from botanical name.
+    // Slug format: lowercase, dashes for spaces, no punctuation, no cultivar quotes.
+    // Most matches Drupal's auto-path generation. A few edge cases may 404 — those
+    // are the nursery's own URL slugs we'll need to override manually if they matter.
+    function plantUrl(botanical) {
+      if (!botanical) return 'https://www.nativeson.com';
+      const slug = String(botanical)
+        .toLowerCase()
+        .replace(/[®™©]/g, '')         // strip registered marks
+        .replace(/[''‛`]/g, '')        // strip smart/straight quotes around cultivar
+        .replace(/[^\w\s-]/g, '')      // drop remaining punctuation
+        .replace(/\s+/g, '-')          // spaces -> dashes
+        .replace(/-+/g, '-')           // collapse multiple dashes
+        .replace(/^-|-$/g, '');        // trim leading/trailing dashes
+      return `https://www.nativeson.com/product/${slug}`;
+    }
+
     function pill(text, isMatch = false) {
       // text may already contain <span class="match-hl">...</span> from highlight().
       // If it does, trust it (highlight already escaped safely). Otherwise escape.
@@ -817,14 +834,14 @@
           : '';
 
         card.innerHTML = `
-          <a class="result-link" href="https://www.nativeson.com" target="_blank" rel="noopener" aria-label="More info on ${escapeHTML(plant.botanical)}"></a>
+          <a class="result-link" href="${plantUrl(plant.botanical)}" target="_blank" rel="noopener" aria-label="More info on ${escapeHTML(plant.botanical)} on nativeson.com"></a>
           <div class="result-botanical">${highlight(plant.botanical, highlightTerms)}</div>
           <div class="result-common">${highlight(plant.common || '', highlightTerms)}</div>
           <div class="result-meta">${meta.join('')}</div>
           <div class="result-price">${escapeHTML(sizesHTML)}</div>
           ${matchLine}
           <div class="result-footer">
-            <span class="result-link-text">More info →</span>
+            <span class="result-link-text">More info on nativeson.com →</span>
           </div>
         `;
         resultsEl.appendChild(card);

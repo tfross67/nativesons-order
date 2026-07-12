@@ -478,10 +478,17 @@
       border: 3px solid #fff;
       box-shadow: 0 2px 6px rgba(45, 74, 43, 0.10), 0 8px 20px rgba(45, 74, 43, 0.10);
       object-fit: cover;
+      object-position: center 45%;
       opacity: 0;
       transform: scale(0.7) translateY(-12px);
       transition: opacity 0.25s ease, transform 0.25s ease;
       pointer-events: none;
+    }
+    /* For plant images, show the full image; for the logo placeholder, scale to fit */
+    .chat-test-root .result-image[src$="logo.jpg"] {
+      object-fit: contain;
+      padding: 10px;
+      background: #f4f1ea;
     }
     .chat-test-root .result:hover .result-image {
       opacity: 1;
@@ -1127,8 +1134,10 @@
       return `https://www.nativeson.com/sites/default/files/styles/grid_thumbnail_custom_user_wide_1x/public/product_images/${slug}.jpg`;
     }
 
-    // SVG placeholder for plants whose image can't be loaded (404, missing, etc.)
-    const PLACEHOLDER_SVG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23e8e2cf'/><g fill='%234a7a2a' opacity='0.5'><path d='M100 40c-8 18-22 22-32 26 6-4 14-14 10-26 6 12 18 16 28 14-8 6-16 18-14 30 4-8 14-12 22-10-12 4-20 16-18 28 8-4 18 0 22 8-2-12 4-22 16-26-4 8 2 18 12 22-2-10 6-18 16-20 4 8 14 12 22 8-10-2-14-12-12-22 10 0 18-8 18-18-8 4-18 0-22-10z'/></g></svg>`;
+    // Fallback image for plants whose real image can't be loaded (404, missing, etc.).
+    // Uses the Native Sons logo cropped to a circle via CSS. Browsers that can't
+    // load this (e.g. file:// origin) will show broken-image glyph — fine for now.
+    const PLACEHOLDER_IMG = 'logo.jpg';
 
     // Pre-load an image and resolve when it loads (or fails)
     function loadImage(url) {
@@ -1400,7 +1409,7 @@
                 card.innerHTML = `
                   <a class="result-link" href="${plantUrl(plant.botanical)}" target="_blank" rel="noopener" aria-label="More info on ${escapeHTML(plant.botanical)} on nativeson.com"></a>
                   <div class="result-checkbox${isSel ? ' checked' : ''}" role="checkbox" aria-checked="${isSel}" aria-label="Select ${escapeHTML(plant.botanical)}" data-select>${isSel ? '✓' : ''}</div>
-                  <img class="result-image" data-botanical="${escapeHTML(plant.botanical)}" src="${PLACEHOLDER_SVG}" alt="" loading="lazy">
+                  <img class="result-image" data-botanical="${escapeHTML(plant.botanical)}" src="${PLACEHOLDER_IMG}" alt="" loading="lazy">
                   <div class="result-botanical">${highlight(plant.botanical, highlightTerms)}</div>
                   <div class="result-common">${highlight(plant.common || '', highlightTerms)}</div>
                   ${typeOriginHTML}

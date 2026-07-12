@@ -135,7 +135,7 @@
     }
     .chat-test-root .result-type {
       font-family: Helvetica, Arial, sans-serif;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       color: var(--c-bark, #2d4a2b);
       margin-bottom: 2px;
@@ -148,9 +148,10 @@
     }
     .chat-test-root .result-origin {
       font-family: Helvetica, Arial, sans-serif;
-      font-size: 11px;
+      font-size: 13px;
       color: var(--c-clay, #6b6256);
       margin-bottom: 8px;
+      display: inline-block;
     }
     .chat-test-root .result-origin.native {
       color: #4a7a2a;
@@ -158,6 +159,19 @@
     }
     .chat-test-root .result-origin.native::before {
       content: "🌿 ";
+    }
+    .chat-test-root .result-type-origin {
+      font-family: Helvetica, Arial, sans-serif;
+      margin-bottom: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.35;
+    }
+    .chat-test-root .result-type-origin .sep {
+      color: #c5bda9;
+      font-size: 12px;
     }
     .chat-test-root .result-meta {
       display: flex;
@@ -1020,12 +1034,17 @@
         if (matched.freeText.length) matchReasons.push(`text: ${matched.freeText.join(', ')}`);
 
         // === Prominent type + origin line (immediately after common name) ===
-                const typeHTML = plant.plant_type
-                  ? `<div class="result-type${matched.types.length > 0 ? ' match' : ''}">${highlight(plant.plant_type, highlightTerms)}</div>`
-                  : '';
-                const originHTML = plant.origin
-                  ? `<div class="result-origin${isNativeOrigin(plant.origin) ? ' native' : ''}">${highlight(plant.origin, highlightTerms)}</div>`
-                  : '';
+        // If both exist, render inline as "Type · Origin" so they sit together.
+        const typeSpan = plant.plant_type
+          ? `<span class="result-type${matched.types.length > 0 ? ' match' : ''}">${highlight(plant.plant_type, highlightTerms)}</span>`
+          : '';
+        const originSpan = plant.origin
+          ? `<span class="result-origin${isNativeOrigin(plant.origin) ? ' native' : ''}">${highlight(plant.origin, highlightTerms)}</span>`
+          : '';
+        const sep = (typeSpan && originSpan) ? '<span class="sep">·</span>' : '';
+        const typeOriginHTML = (typeSpan || originSpan)
+          ? `<div class="result-type-origin">${typeSpan}${sep}${originSpan}</div>`
+          : '';
 
                 // Build meta pills (color, exposure, water, height, width — type/origin are above)
                 let meta = [];
@@ -1061,7 +1080,7 @@
                   <div class="result-checkbox${isSel ? ' checked' : ''}" role="checkbox" aria-checked="${isSel}" aria-label="Select ${escapeHTML(plant.botanical)}" data-select>${isSel ? '✓' : ''}</div>
                   <div class="result-botanical">${highlight(plant.botanical, highlightTerms)}</div>
                   <div class="result-common">${highlight(plant.common || '', highlightTerms)}</div>
-                  ${typeHTML}${originHTML}
+                  ${typeOriginHTML}
                   <div class="result-meta">${meta.join('')}</div>
                   <div class="result-price">${escapeHTML(sizesHTML)}</div>
                   ${matchLine}

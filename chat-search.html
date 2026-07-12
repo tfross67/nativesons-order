@@ -143,21 +143,22 @@
       font-weight: 600;
       color: var(--c-bark, #2d4a2b);
       margin-bottom: 2px;
+      display: inline;
+      vertical-align: baseline;
     }
     .chat-test-root .result-type.match {
       background: #d4e2c1;
       padding: 1px 6px;
       border-radius: 3px;
-      display: inline-block;
     }
     .chat-test-root .result-origin {
       font-family: Helvetica, Arial, sans-serif;
       font-size: 13px;
+      font-weight: 400;
       color: var(--c-clay, #6b6256);
       margin-bottom: 8px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
+      display: inline;
+      vertical-align: baseline;
     }
     .chat-test-root .result-origin.native {
       color: #4a7a2a;
@@ -174,27 +175,22 @@
       padding: 1px 5px;
       border-radius: 3px;
       line-height: 1.4;
+      vertical-align: baseline;
+      margin-right: 3px;
     }
     .chat-test-root .result-type-origin {
       font-family: Helvetica, Arial, sans-serif;
-      margin-bottom: 8px;
-      display: flex;
-      flex-wrap: nowrap;
-      align-items: center;
-      gap: 6px;
+      font-size: 14px;
       line-height: 1.4;
-      overflow: hidden;
-    }
-    .chat-test-root .result-type-origin > * { flex-shrink: 0; }
-    .chat-test-root .result-type-origin .result-origin {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      min-width: 0;
+      margin-bottom: 8px;
+      color: var(--c-bark, #2d4a2b);
     }
     .chat-test-root .result-type-origin .sep {
       color: #c5bda9;
-      font-size: 12px;
+      font-size: 14px;
+      font-weight: 400;
+      margin: 0 6px;
+      vertical-align: baseline;
     }
     .chat-test-root .result-meta {
       display: flex;

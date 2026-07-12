@@ -715,10 +715,10 @@
     }
 
     // === Image loading (lazy + fallback) ===
-    // Drupal stores images at random content-hash filenames (img_0273.jpeg, etc.)
-    // so we can't derive the URL from the plant name. Instead, fetch the product
-    // page once, parse the og:image or first <img> from product_images, cache it.
-    const IMAGE_CACHE_KEY = 'ns_chat_image_cache_v1';
+    // Strategy: load a static image_map.json (built server-side by scraping nativeson.com
+    // product pages) that maps botanical name → og:image URL. The map is fetched once
+    // and cached in localStorage. Plants missing from the map show the placeholder.
+    const IMAGE_CACHE_KEY = 'ns_chat_image_cache_v2';
     const imageCache = (() => {
       try { return JSON.parse(localStorage.getItem(IMAGE_CACHE_KEY) || '{}'); }
       catch (e) { return {}; }
@@ -727,65 +727,28 @@
       try { localStorage.setItem(IMAGE_CACHE_KEY, JSON.stringify(imageCache)); } catch (e) {}
     }
 
-    // In-flight requests, deduped so we don't refetch the same plant
-    const imageInflight = {};
-
-    // Look at one specific image path and return it on success, null on failure.
-    function probeImage(url) {
-      return new Promise(resolve => {
-        const img = new Image();
-        img.onload = () => resolve(url);
-        img.onerror = () => resolve(null);
-        img.src = url;
-      });
+    // Load image_map.json — pre-built static map of all plant images
+    let imageMapPromise = null;
+    async function loadImageMap() {
+      if (imageMapPromise) return imageMapPromise;
+      imageMapPromise = (async () => {
+        try {
+          const resp = await fetch('image_map.json', { cache: 'force-cache' });
+          if (!resp.ok) return {};
+          return await resp.json();
+        } catch (e) {
+          return {};
+        }
+      })();
+      return imageMapPromise;
     }
 
-    // Find a working image URL for a plant.
-    // Strategy: try a list of plausible slug-based URLs. If none work, fetch the
-    // product page HTML and extract og:image.
-    async function resolvePlantImage(botanical, productUrl) {
-      const cached = imageCache[botanical];
-      if (cached === null) return null;          // known missing
-      if (cached) return cached;                  // known good URL
-
-      // Try the simple slug approach first (cheap, no network page fetch)
-      const slug = String(botanical)
-        .toLowerCase()
-        .replace(/[®™©]/g, '')
-        .replace(/[''‛`]/g, '')
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '');
-      const slugCandidates = [
-        `https://www.nativeson.com/sites/default/files/styles/grid_thumbnail_custom_user_wide_1x/public/product_images/${slug}.jpg`,
-        `https://www.nativeson.com/sites/default/files/styles/plant_detail_custom_user_wide_1x/public/product_images/${slug}.jpg`,
-      ];
-      for (const url of slugCandidates) {
-        const ok = await probeImage(url);
-        if (ok) {
-          imageCache[botanical] = ok;
-          saveImageCache();
-          return ok;
-        }
+    // Find a working image URL for a plant from the static map
+    function findPlantImage(botanical) {
+      // Static map from JSON takes priority
+      if (imageCache._map && imageCache._map[botanical]) {
+        return imageCache._map[botanical];
       }
-
-      // Last resort: fetch the product page HTML and pull og:image
-      try {
-        const resp = await fetch(productUrl, { mode: 'cors' });
-        if (!resp.ok) throw new Error('http ' + resp.status);
-        const html = await resp.text();
-        const m = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i)
-               || html.match(/<img[^>]+src=["']([^"']*product_images[^"']+)["']/i);
-        if (m) {
-          const imgUrl = m[1];
-          imageCache[botanical] = imgUrl;
-          saveImageCache();
-          return imgUrl;
-        }
-      } catch (e) {
-        // CORS or network error — give up silently, cache as missing
-      }
-      imageCache[botanical] = null;
-      saveImageCache();
       return null;
     }
 
@@ -797,13 +760,10 @@
         if (!botanical || img.dataset.loaded) return;
         img.dataset.loaded = '1';
         imageObserver.unobserve(img);
-        // Dedup in-flight requests for the same plant
-        if (!imageInflight[botanical]) {
-          imageInflight[botanical] = resolvePlantImage(botanical, plantUrl(botanical));
-        }
-        imageInflight[botanical].then(found => {
-          if (found) img.src = found;
-        });
+        // Static map is already loaded synchronously-ish by the time user
+        // hovers; if not yet, fall back to placeholder
+        const found = findPlantImage(botanical);
+        if (found) img.src = found;
       });
     }, { rootMargin: '200px' }) : null;
 
@@ -813,6 +773,14 @@
         imageObserver.observe(img);
       });
     }
+
+    // Initialize: fetch image_map.json on load and warm the cache
+    loadImageMap().then(map => {
+      if (Object.keys(map).length > 0) {
+        imageCache._map = map;
+        saveImageCache();
+      }
+    });
     function renderSelectionBar() {
       const plants = getSelectedPlants();
       const n = plants.length;

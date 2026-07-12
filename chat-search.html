@@ -161,6 +161,37 @@
       border-radius: 10px;
       margin-top: 16px;
     }
+    .chat-test-root .no-results h3 {
+      margin: 0 0 8px;
+      color: var(--c-bark, #2d4a2b);
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: normal;
+      font-size: 18px;
+    }
+    .chat-test-root .no-results .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 14px;
+    }
+    .chat-test-root .no-results .suggestions .suggestion { font-size: 12px; }
+    .chat-test-root .match-hl {
+      background: #d4e2c1;
+      border-radius: 3px;
+      padding: 0 2px;
+      font-weight: 600;
+      color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .result.match-reason {
+      border-color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .result-match-line {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--c-clay, #6b6256);
+      font-style: italic;
+    }
     .chat-test-root .test-banner {
       background: #fff8e6;
       border: 1px solid #e8d59a;
@@ -518,11 +549,143 @@
       return `<span class="meta-pill${isMatch ? ' match' : ''}">${escapeHTML(text)}</span>`;
     }
 
+    // === No-match suggestions ===
+    // When the query returns zero results, suggest similar queries that DO have results.
+    // Strategy: try stripping one filter at a time (color, water, type, container, etc.)
+    // and run again. Pick the smallest set of suggestions that returned > 0 results.
+    function suggestAlternatives(catalog, parsed) {
+      const candidates = [];
+      const f = parsed.filters;
+
+      // Build candidate queries by selectively dropping each filter
+      const drops = [
+        { name: 'colors',    q: (orig) => dropColors(orig) },
+        { name: 'exposures', q: (orig) => dropExposures(orig) },
+        { name: 'water',     q: (orig) => dropWater(orig) },
+        { name: 'types',     q: (orig) => dropTypes(orig) },
+        { name: 'container', q: (orig) => dropContainer(orig) },
+        { name: 'origin',    q: (orig) => dropOrigin(orig) },
+        { name: 'bloom',     q: (orig) => dropBloom(orig) },
+        { name: 'freeText',  q: (orig) => dropFreeText(orig) },
+      ];
+
+      // Helper to count results for a candidate query
+      const countFor = (candidateParsed) => {
+        let n = 0;
+        for (const plant of catalog) {
+          if (matchPlant(plant, candidateParsed)) n++;
+          if (n > 0) break; // we only need > 0 for ranking
+        }
+        return n;
+      };
+
+      for (const drop of drops) {
+        const newParsed = drop.q(parsed);
+        if (!newParsed) continue;
+        const count = countFor(newParsed);
+        if (count > 0) {
+          const label = describeParsed(newParsed);
+          candidates.push({ label, parsed: newParsed, count });
+        }
+      }
+
+      // De-dupe by label, sort by count desc, take top 4
+      const seen = new Set();
+      const unique = [];
+      candidates.sort((a, b) => b.count - a.count);
+      for (const c of candidates) {
+        if (seen.has(c.label)) continue;
+        seen.add(c.label);
+        unique.push(c);
+        if (unique.length >= 4) break;
+      }
+      return unique;
+    }
+
+    function dropColors(p) {
+      if (!p.filters.colors.length) return null;
+      const f = { ...p.filters, colors: [] };
+      const freeText = [...p.freeText, ...p.filters.colors];
+      return { filters: f, freeText, active: true };
+    }
+    function dropExposures(p) {
+      if (!p.filters.exposures.length) return null;
+      const f = { ...p.filters, exposures: [] };
+      const freeText = [...p.freeText, ...p.filters.exposures];
+      return { filters: f, freeText, active: true };
+    }
+    function dropWater(p) {
+      if (!p.filters.water.length) return null;
+      const f = { ...p.filters, water: [] };
+      const freeText = [...p.freeText, ...p.filters.water];
+      return { filters: f, freeText, active: true };
+    }
+    function dropTypes(p) {
+      if (!p.filters.types.length) return null;
+      const f = { ...p.filters, types: [] };
+      const freeText = [...p.freeText, ...p.filters.types];
+      return { filters: f, freeText, active: true };
+    }
+    function dropContainer(p) {
+      if (!p.filters.container.length) return null;
+      const f = { ...p.filters, container: [] };
+      const freeText = [...p.freeText, ...p.filters.container];
+      return { filters: f, freeText, active: true };
+    }
+    function dropOrigin(p) {
+      if (!p.filters.origin.length) return null;
+      const f = { ...p.filters, origin: [] };
+      return { filters: f, freeText: p.freeText, active: true };
+    }
+    function dropBloom(p) {
+      if (!p.filters.inBloom && !p.filters.budding) return null;
+      const f = { ...p.filters, inBloom: false, budding: false };
+      return { filters: f, freeText: p.freeText, active: true };
+    }
+    function dropFreeText(p) {
+      if (!p.freeText.length) return null;
+      return { filters: { ...p.filters }, freeText: [], active: true };
+    }
+
+    // Build a readable description of a parsed query (for suggestion chips)
+    function describeParsed(p) {
+      const f = p.filters;
+      const parts = [];
+      if (f.colors.length)    parts.push(f.colors.join(' '));
+      if (f.types.length)     parts.push(f.types.join(' '));
+      if (f.water.length)     parts.push(WATER_SYNONYMS[f.water[0]]?.[0] || f.water[0]);
+      if (f.exposures.length) parts.push(EXPOSURE_SYNONYMS[f.exposures[0]]?.[0] || f.exposures[0]);
+      if (f.container.length) parts.push(f.container.join(' '));
+      if (f.inBloom)          parts.push('in bloom');
+      if (f.budding)          parts.push('budding');
+      if (f.origin.length)    parts.push('native');
+      if (p.freeText.length)  parts.push(p.freeText.join(' '));
+      return parts.join(' ') || 'all plants';
+    }
+
+    // === Highlight matched terms in a string ===
+    function highlight(text, terms) {
+      if (!text) return '';
+      if (!terms || !terms.length) return escapeHTML(text);
+      // Escape first, then wrap matches
+      let out = escapeHTML(text);
+      const seen = new Set();
+      for (const raw of terms) {
+        const t = String(raw).toLowerCase().trim();
+        if (!t || t.length < 2 || seen.has(t)) continue;
+        seen.add(t);
+        // Match the term anywhere — case-insensitive
+        const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+        out = out.replace(re, '<span class="match-hl">$1</span>');
+      }
+      return out;
+    }
+
     function renderResults(parsed, results) {
       resultsEl.innerHTML = '';
       noResultsEl.hidden = results.length > 0;
 
-      // Filter summary
+      // === Filter summary ===
       const f = parsed.filters;
       const summary = [];
       if (f.colors.length)    summary.push(`Color: ${f.colors.join(', ')}`);
@@ -541,57 +704,100 @@
           summary.map(s => `<span class="pill">${escapeHTML(s)}</span>`).join('');
       }
 
-      // Cards
+      // === No-match suggestions ===
+      if (results.length === 0 && parsed.active) {
+        const alts = suggestAlternatives(getCatalog(), parsed);
+        const altChips = alts.map(a =>
+          `<button class="suggestion" data-alt='${escapeHTML(JSON.stringify(a.parsed))}'>${escapeHTML(a.label)} <small style="color:#9a8c7a">(${a.count})</small></button>`
+        ).join('');
+        noResultsEl.innerHTML = `
+          <h3>No plants match <em>"${escapeHTML(input.value)}"</em></h3>
+          <p>${alts.length ? 'Try one of these instead:' : 'Try different words or fewer filters.'}</p>
+          <div class="suggestions">${altChips}</div>
+        `;
+        // Wire up the suggestion chips (they emit a custom event the main listener handles)
+        noResultsEl.querySelectorAll('[data-alt]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const altParsed = JSON.parse(btn.dataset.alt);
+            // Reconstruct the input value from the parsed query
+            const reconstructed = describeParsed(altParsed);
+            input.value = reconstructed;
+            // Save the parsed result so run() can skip parsing
+            lastParsed = altParsed;
+            run(true);
+          });
+        });
+      }
+
+      // === Highlight terms (color + free-text tokens) ===
+      const highlightTerms = [...(parsed.filters.colors||[]), ...(parsed.freeText||[])];
+
+      // === Cards ===
       results.forEach(({ plant, match }) => {
         const card = document.createElement('article');
         card.className = 'result';
         const sizes = plant.sizes || [];
-        const minPrice = Math.min(...sizes.map(s => Number(s.price || 0)).filter(p => p > 0));
-        const priceStr = isFinite(minPrice) && minPrice > 0
-          ? `from $${minPrice.toFixed(2)}`
-          : '';
 
         const matched = match.matched;
-        const matchSet = new Set([
-          ...(matched.colors||[]),
-          ...(matched.exposures||[]),
-          ...(matched.water||[]),
-          ...(matched.types||[]),
-          ...(matched.container||[]),
-          ...(matched.bloom||[]),
-        ]);
+        const matchReasons = [];
+        if (matched.colors.length) matchReasons.push(`color: ${matched.colors.join(', ')}`);
+        if (matched.exposures.length) matchReasons.push(`exposure: ${matched.exposures.join(', ')}`);
+        if (matched.water.length) matchReasons.push(`water: ${matched.water.join(', ')}`);
+        if (matched.types.length) matchReasons.push(`type: ${matched.types.join(', ')}`);
+        if (matched.container.length) matchReasons.push(`size: ${matched.container.join(', ')}`);
+        if (matched.bloom.length) matchReasons.push(matched.bloom.join(', '));
+        if (matched.freeText.length) matchReasons.push(`text: ${matched.freeText.join(', ')}`);
 
-        // Build meta pills: bloom badge, color, exposure, water, type
+        // Build meta pills
         let meta = [];
-        if (plant.bloom) meta.push(pill('🌸 in bloom', matchSet.has('in bloom')));
-        else if (plant.bud) meta.push(pill('🌿 budding', matchSet.has('budding')));
-        if (plant.flower_color) meta.push(pill(plant.flower_color, match.matched.colors.includes(String(plant.flower_color).toLowerCase().split(/[ ,\/]/)[0])));
-        if (plant.exposure)     meta.push(pill(plant.exposure, match.matched.exposures.some(e => plant.exposure.toLowerCase().includes(e))));
-        if (plant.water)        meta.push(pill(plant.water, match.matched.water.length > 0));
-        if (plant.plant_type)   meta.push(pill(plant.plant_type, match.matched.types.length > 0));
-        if (plant.height)       meta.push(pill(plant.height));
-        if (plant.width)        meta.push(pill(plant.width));
-        if (plant.origin)       meta.push(pill(plant.origin));
+        if (plant.bloom) meta.push(pill('🌸 in bloom', matched.bloom.includes('in bloom')));
+        else if (plant.bud) meta.push(pill('🌿 budding', matched.bloom.includes('budding')));
+        if (plant.flower_color) {
+          const fcFirst = String(plant.flower_color).toLowerCase().split(/[ ,\(/]/)[0];
+          const isColorMatch = matched.colors.some(c => plant.flower_color.toLowerCase().includes(c));
+          meta.push(pill(highlight(plant.flower_color, highlightTerms), isColorMatch));
+        }
+        if (plant.exposure) {
+          const isExpMatch = matched.exposures.some(e => plant.exposure.toLowerCase().includes(e));
+          meta.push(pill(highlight(plant.exposure, highlightTerms), isExpMatch));
+        }
+        if (plant.water) {
+          meta.push(pill(highlight(plant.water, highlightTerms), matched.water.length > 0));
+        }
+        if (plant.plant_type) {
+          meta.push(pill(highlight(plant.plant_type, highlightTerms), matched.types.length > 0));
+        }
+        if (plant.height) meta.push(pill(plant.height));
+        if (plant.width)  meta.push(pill(plant.width));
+        if (plant.origin) meta.push(pill(highlight(plant.origin, highlightTerms)));
 
         const sizesHTML = sizes.length
           ? sizes.map(s => `${escapeHTML(fmtSize(s))}`).join(', ')
           : '—';
 
+        const matchLine = matchReasons.length
+          ? `<div class="result-match-line">matched on: ${matchReasons.map(r => escapeHTML(r)).join(' · ')}</div>`
+          : '';
+
         card.innerHTML = `
-          <div class="result-botanical"><em>${escapeHTML(plant.botanical)}</em></div>
-          <div class="result-common">${escapeHTML(plant.common || '')}</div>
+          <div class="result-botanical"><em>${highlight(plant.botanical, highlightTerms)}</em></div>
+          <div class="result-common">${highlight(plant.common || '', highlightTerms)}</div>
           <div class="result-meta">${meta.join('')}</div>
           <div class="result-price">${escapeHTML(sizesHTML)}</div>
+          ${matchLine}
         `;
         resultsEl.appendChild(card);
       });
     }
 
     // === Main: parse + match + render ===
-    function run() {
+    let lastParsed = null;  // reused when alt-suggestion chip is clicked
+
+    function run(useExisting) {
       const q = input.value;
       const catalog = getCatalog();
-      const parsed = parseQuery(q);
+      const parsed = useExisting && lastParsed ? lastParsed : parseQuery(q);
+      lastParsed = parsed;
 
       if (!parsed.active) {
         resultsEl.innerHTML = '';

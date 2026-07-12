@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2d4a2b">
+  <title>Native Sons — Smart Plant Search (test)</title>
+  <meta name="description" content="Test page: smart keyword search across the Native Sons availability list. Natural-language parsing of color, size, price, and growing conditions.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* === Test-page-only styles. Scoped via .chat-test-root. === */
+    .chat-test-root {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 16px 64px;
+    }
+    .chat-test-root h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: normal;
+      color: var(--c-bark, #2d4a2b);
+      margin: 16px 0 4px;
+      font-size: 28px;
+    }
+    .chat-test-root .subtitle {
+      color: var(--c-clay, #6b6256);
+      margin: 0 0 24px;
+      font-size: 14px;
+    }
+    .chat-test-root .search-shell {
+      background: #fff;
+      border: 1px solid #d8d2c2;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 1px 2px rgba(45, 74, 43, 0.06);
+    }
+    .chat-test-root .search-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .chat-test-root .search-input {
+      flex: 1;
+      font-size: 16px;
+      padding: 12px 14px;
+      border: 1px solid #d8d2c2;
+      border-radius: 8px;
+      background: #fafaf5;
+      font-family: inherit;
+      outline: none;
+    }
+    .chat-test-root .search-input:focus {
+      border-color: var(--c-bark, #2d4a2b);
+      background: #fff;
+    }
+    .chat-test-root .clear-btn {
+      padding: 10px 14px;
+      background: transparent;
+      border: 1px solid #d8d2c2;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--c-clay, #6b6256);
+    }
+    .chat-test-root .clear-btn:hover { background: #f4f1ea; }
+    .chat-test-root .suggested {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+    .chat-test-root .suggested-label {
+      font-size: 12px;
+      color: var(--c-clay, #6b6256);
+      align-self: center;
+      margin-right: 4px;
+    }
+    .chat-test-root .suggestion {
+      background: #f4f1ea;
+      border: 1px solid #d8d2c2;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      color: var(--c-bark, #2d4a2b);
+      transition: background 0.15s;
+    }
+    .chat-test-root .suggestion:hover { background: #e8e2cf; }
+    .chat-test-root .filter-summary {
+      margin: 16px 0 12px;
+      font-size: 13px;
+      color: var(--c-clay, #6b6256);
+    }
+    .chat-test-root .filter-summary .pill {
+      display: inline-block;
+      background: #e8e2cf;
+      border-radius: 4px;
+      padding: 2px 8px;
+      margin: 0 4px 4px 0;
+      font-size: 12px;
+      color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .results {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .chat-test-root .result {
+      background: #fff;
+      border: 1px solid #d8d2c2;
+      border-radius: 10px;
+      padding: 14px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .chat-test-root .result:hover {
+      border-color: var(--c-bark, #2d4a2b);
+      box-shadow: 0 2px 6px rgba(45, 74, 43, 0.08);
+    }
+    .chat-test-root .result-botanical {
+      font-family: Georgia, "Times New Roman", serif;
+      font-style: italic;
+      color: var(--c-bark, #2d4a2b);
+      font-size: 15px;
+      line-height: 1.3;
+      margin-bottom: 2px;
+    }
+    .chat-test-root .result-common {
+      font-size: 13px;
+      color: var(--c-clay, #6b6256);
+      margin-bottom: 8px;
+    }
+    .chat-test-root .result-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .chat-test-root .meta-pill {
+      font-size: 11px;
+      background: #f4f1ea;
+      border: 1px solid #e8e2cf;
+      border-radius: 4px;
+      padding: 2px 6px;
+      color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .meta-pill.match {
+      background: #d4e2c1;
+      border-color: #b8d09c;
+    }
+    .chat-test-root .result-price {
+      font-size: 13px;
+      color: var(--c-bark, #2d4a2b);
+      font-weight: bold;
+    }
+    .chat-test-root .no-results {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--c-clay, #6b6256);
+      background: #fafaf5;
+      border: 1px dashed #d8d2c2;
+      border-radius: 10px;
+      margin-top: 16px;
+    }
+    .chat-test-root .test-banner {
+      background: #fff8e6;
+      border: 1px solid #e8d59a;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 18px;
+      font-size: 13px;
+      color: #6b5816;
+    }
+    .chat-test-root .test-banner a { color: #6b5816; }
+    @media (max-width: 600px) {
+      .chat-test-root .results { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="brand-logo" height="56">
+      </div>
+      <div class="header-meta">
+        <span class="week-label" id="weekLabel">This week</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="chat-test-root">
+    <div class="test-banner">
+      <strong>🧪 Test page.</strong> Smart keyword search using natural language. This page is separate from the public catalog — no impact on <code>index.html</code>. Try queries like <em>"red flowers 1gal under $7"</em> or <em>"drought tolerant ceanothus"</em>.
+    </div>
+
+    <h1>Find the right plant</h1>
+    <p class="subtitle">Type a description in plain English. The search understands colors, sizes, prices, water needs, sun exposure, and more.</p>
+
+    <div class="search-shell">
+      <div class="search-input-row">
+        <input type="search" id="chatSearch" class="search-input"
+               placeholder='e.g. "red flowers in 1gal under $7" or "drought tolerant ceanothus"'
+               autocomplete="off" aria-label="Search plants with natural language">
+        <button type="button" id="chatClear" class="clear-btn">Clear</button>
+      </div>
+      <div class="suggested">
+        <span class="suggested-label">Try:</span>
+        <button class="suggestion" data-q="red flowers 1gal">red flowers 1gal</button>
+        <button class="suggestion" data-q="drought tolerant">drought tolerant</button>
+        <button class="suggestion" data-q="white bloom 5gal">white bloom 5gal</button>
+        <button class="suggestion" data-q="under $7">under $7</button>
+        <button class="suggestion" data-q="full sun natives">full sun natives</button>
+        <button class="suggestion" data-q="shade fern">shade fern</button>
+        <button class="suggestion" data-q="aromatic">aromatic</button>
+        <button class="suggestion" data-q="1gal $6">1gal $6</button>
+      </div>
+    </div>
+
+    <div id="filterSummary" class="filter-summary" hidden></div>
+    <div id="results" class="results"></div>
+    <div id="noResults" class="no-results" hidden>No plants match your search. Try fewer words or different terms.</div>
+  </main>
+
+  <script src="availability_data.js"></script>
+  <script>
+  /* ========================================================================
+   * Native Sons — Smart Plant Search (chat-test.html)
+   *
+   * Loads availability_data.js (existing catalog), parses the user's natural-
+   * language query into structured filters, and renders matching plants as
+   * cards. No LLM, no API calls — pure client-side keyword + synonym matching.
+   * ====================================================================== */
+
+  (function () {
+    const $ = (id) => document.getElementById(id);
+    const input = $('chatSearch');
+    const clearBtn = $('chatClear');
+    const resultsEl = $('results');
+    const noResultsEl = $('noResults');
+    const filterSummaryEl = $('filterSummary');
+    const weekLabel = $('weekLabel');
+
+    // === Load the catalog (already provided via <script src="availability_data.js">) ===
+    function getCatalog() {
+      const av = window.AVAILABILITY && window.AVAILABILITY.plants || [];
+      // Show week label if available
+      if (window.AVAILABILITY && window.AVAILABILITY.week && weekLabel) {
+        weekLabel.textContent = window.AVAILABILITY.week;
+      }
+      return av;
+    }
+
+    // === Synonyms / canonicalisation maps ===
+    // Maps user-friendly terms to canonical keys and values used in the catalog.
+    const COLOR_SYNONYMS = {
+      red:    ['red', 'scarlet', 'crimson', 'burgundy', 'rose', 'magenta', 'pink-red'],
+      pink:   ['pink', 'rose-pink', 'blush'],
+      white:  ['white', 'cream', 'ivory', 'pale'],
+      yellow: ['yellow', 'gold', 'golden'],
+      blue:   ['blue', 'sky blue', 'powder blue', 'cobalt'],
+      purple: ['purple', 'violet', 'lavender', 'lilac'],
+      orange: ['orange', 'tangerine', 'apricot'],
+      green:  ['green', 'chartreuse'],
+    };
+    const EXPOSURE_SYNONYMS = {
+      'full sun':       ['full sun', 'sun', 'sunny'],
+      'partial shade':  ['partial shade', 'part shade', 'part sun', 'half shade'],
+      'shade':          ['shade', 'shaded', 'full shade'],
+    };
+    const WATER_SYNONYMS = {
+      low:    ['drought tolerant', 'drought', 'low water', 'xeric', 'dry'],
+      moderate:['moderate water', 'regular water', 'medium water'],
+      high:   ['high water', 'moist', 'wet'],
+    };
+    const TYPE_SYNONYMS = {
+      shrub:    ['shrub', 'bush', 'bushes'],
+      grass:    ['grass', 'grasses', 'sedge', 'sedges', 'ornamental grass'],
+      fern:     ['fern', 'ferns'],
+      palm:     ['palm', 'palms'],
+      succulent:['succulent', 'agave', 'yucca'],
+      perennial:['perennial', 'perennials', 'flower'],
+      tree:     ['tree', 'trees'],
+    };
+
+    // === Parse query into structured filters ===
+    /*
+     * Returns { filters: {field: value[]}, matchedPlants: [...], score: fn(p) }
+     * The filter is applied; scoring decides rank.
+     */
+    function parseQuery(rawQuery) {
+      const q = (rawQuery || '').toLowerCase().trim();
+      const filters = {
+        colors:    [],   // list of canonical color keys
+        exposures: [],   // list of canonical exposure keys
+        water:     [],   // list of canonical water keys
+        types:     [],   // list of canonical plant type keys
+        container: [],   // ['1gal','5gal','15gal','4in','2gal','7gal','20inch']
+        priceMax:  null, // number
+        priceMin:  null, // number
+        inBloom:   false,
+        budding:   false,
+        origin:    [],   // ['California','Oregon', etc.]
+        freeText:  [],   // tokens to match anywhere
+      };
+
+      if (!q) return { filters, freeText: [], active: false };
+
+      // Price: "under $X", "less than $X", "below $X", "max $X", "X or less"
+      const priceMaxMatch = q.match(/(?:under|less than|below|max(?:imum)?)\s*\$?\s*(\d+(?:\.\d+)?)/);
+      if (priceMaxMatch) filters.priceMax = parseFloat(priceMaxMatch[1]);
+      // Price min: "over $X", "more than $X", "above $X", "at least $X"
+      const priceMinMatch = q.match(/(?:over|more than|above|at least|min(?:imum)?)\s*\$?\s*(\d+(?:\.\d+)?)/);
+      if (priceMinMatch) filters.priceMin = parseFloat(priceMinMatch[1]);
+      // Price exact: "$6", "6 dollars"
+      const priceExact = q.match(/\$\s*(\d+(?:\.\d+)?)/);
+      // "1gal $6" pattern
+      const galPriceMatch = q.match(/(\d+\s*(?:gal|inch|in))\s+\$(\d+(?:\.\d+)?)/);
+      if (galPriceMatch) {
+        filters.container.push(galPriceMatch[1].replace(/\s+/g, '').replace(/inch/g, 'in'));
+        if (!filters.priceMax) filters.priceMax = parseFloat(galPriceMatch[2]);
+      }
+      // Container: "1gal", "5gal", "15gal", "4in", "4 inch", "2gal", "7gal", "20 inch box"
+      const containerMatches = q.match(/(\d+\s*(?:gal|inch|in|inch box)\w*)/g);
+      if (containerMatches) {
+        containerMatches.forEach(c => {
+          const norm = c.replace(/\s+/g, '').replace(/inch/g, 'in');
+          if (!filters.container.includes(norm)) filters.container.push(norm);
+        });
+      }
+
+      // In bloom / budding
+      if (/\b(?:bloom|blooming|in bloom|in flower|flowering)\b/.test(q)) filters.inBloom = true;
+      if (/\b(?:bud|budding)\b/.test(q)) filters.budding = true;
+
+      // Colors
+      for (const [canon, synonyms] of Object.entries(COLOR_SYNONYMS)) {
+        if (synonyms.some(s => q.includes(s))) filters.colors.push(canon);
+      }
+      // Exposures
+      for (const [canon, synonyms] of Object.entries(EXPOSURE_SYNONYMS)) {
+        if (synonyms.some(s => q.includes(s))) filters.exposures.push(canon);
+      }
+      // Water
+      for (const [canon, synonyms] of Object.entries(WATER_SYNONYMS)) {
+        if (synonyms.some(s => q.includes(s))) filters.water.push(canon);
+      }
+      // Plant types
+      for (const [canon, synonyms] of Object.entries(TYPE_SYNONYMS)) {
+        if (synonyms.some(s => q.includes(s))) filters.types.push(canon);
+      }
+
+      // Origin keywords
+      if (/\bnative|california\b/.test(q)) filters.origin.push('California', 'California, Oregon', 'California to Washington', 'California to Alaska and Montana', 'Baja California to Oregon', 'Coastal California', 'Coastal Central California', 'Coastal Southern California', 'California (Channel Islands)', 'Western British Columbia to Southern California', 'British Columbia to California', 'Southern Oregon', 'Southern Oregon to San Luis Obispo County, California', 'San Miguel and Santa Cruz Islands', 'Cedros Island, Baja California');
+      if (/\boregon\b/.test(q)) filters.origin.push('Oregon', 'California, Oregon', 'Southern Oregon');
+
+      // Free-text tokens: anything left after we strip the structured terms
+      const stopwords = new Set([
+        'a','an','the','for','with','in','on','at','of','to','and','or','is','are','show','me','what','any','have','do','you','got','find','i','want','need','plant','plants','flower','flowers','color','size','price','priced',
+      ]);
+      const allKnown = [
+        ...Object.values(COLOR_SYNONYMS).flat(),
+        ...Object.values(EXPOSURE_SYNONYMS).flat(),
+        ...Object.values(WATER_SYNONYMS).flat(),
+        ...Object.values(TYPE_SYNONYMS).flat(),
+        'gal','inch','under','over','less','more','than','below','above','max','min','native','natives','california','oregon','red','white','bloom','blooming','budding','in','at','$',
+      ];
+      const tokens = q.split(/[^a-z0-9]+/).filter(Boolean);
+      filters.freeText = tokens.filter(t =>
+        !stopwords.has(t) &&
+        !allKnown.some(k => k.replace(/\s+/g, '').includes(t)) &&
+        t.length > 1
+      );
+
+      // Decide if this is "active" (any structured or free-text signal)
+      const active = filters.colors.length || filters.exposures.length || filters.water.length ||
+                     filters.types.length || filters.container.length || filters.priceMax != null ||
+                     filters.priceMin != null || filters.inBloom || filters.budding ||
+                     filters.origin.length || filters.freeText.length;
+
+      return { filters, freeText: filters.freeText, active };
+    }
+
+    // === Match a plant against parsed filters ===
+    function matchPlant(plant, parsed) {
+      const { filters, freeText } = parsed;
+      const matchedFields = new Set();
+      const matchedColors = [];
+      const matchedExposures = [];
+      const matchedWater = [];
+      const matchedTypes = [];
+      const matchedContainer = [];
+      const matchedPrice = [];
+      const matchedBloom = [];
+
+      const fieldContains = (val, target) =>
+        String(val || '').toLowerCase().includes(target.toLowerCase());
+
+      // === Colors ===
+      if (filters.colors.length) {
+        const fc = (plant.flower_color || '').toLowerCase();
+        for (const c of filters.colors) {
+          if (fc.includes(c)) {
+            matchedColors.push(c);
+            matchedFields.add('flower_color');
+          }
+        }
+        if (!matchedColors.length) return null;
+      }
+
+      // === Exposure ===
+      if (filters.exposures.length) {
+        const exp = (plant.exposure || '').toLowerCase();
+        for (const e of filters.exposures) {
+          if (exp.includes(e)) {
+            matchedExposures.push(e);
+            matchedFields.add('exposure');
+          }
+        }
+        if (!matchedExposures.length) return null;
+      }
+
+      // === Water ===
+      if (filters.water.length) {
+        const w = (plant.water || '').toLowerCase();
+        for (const ww of filters.water) {
+          if (w.includes(ww) || (ww === 'low' && w.includes('low')) || (ww === 'moderate' && w.includes('moderate')) || (ww === 'high' && (w.includes('high') || w.includes('moist')))) {
+            matchedWater.push(ww);
+            matchedFields.add('water');
+          }
+        }
+        if (!matchedWater.length) return null;
+      }
+
+      // === Plant type ===
+      if (filters.types.length) {
+        const pt = (plant.plant_type || '').toLowerCase();
+        const bot = (plant.botanical || '').toLowerCase();
+        const matchedType = filters.types.some(t => {
+          if (t === 'grass' && (pt.includes('grass') || pt.includes('sedge') || pt.includes('rush'))) return true;
+          if (t === 'fern'  && (pt.includes('fern') || /fern/.test(bot))) return true;
+          if (t === 'palm'  && (pt.includes('palm') || /palm/.test(bot))) return true;
+          if (t === 'succulent' && (pt.includes('succulent') || /agave|yucca|sedum|dudleya/.test(bot))) return true;
+          if (t === 'shrub' && pt.includes('shrub')) return true;
+          if (t === 'tree' && pt.includes('tree')) return true;
+          if (t === 'perennial' && pt.includes('perennial')) return true;
+          return false;
+        });
+        if (!matchedType) return null;
+        matchedTypes.push(...filters.types);
+        matchedFields.add('plant_type');
+      }
+
+      // === Container / size ===
+      let matchedSomeContainer = false;
+      if (filters.container.length) {
+        const sizes = plant.sizes || [];
+        for (const c of filters.container) {
+          const hit = sizes.some(s => {
+            const sc = String(s.container || '').toLowerCase().replace(/\s+/g, '');
+            return sc === c || sc.includes(c);
+          });
+          if (hit) {
+            matchedContainer.push(c);
+            matchedSomeContainer = true;
+          }
+        }
+        if (!matchedSomeContainer) return null;
+        matchedFields.add('container');
+      }
+
+      // === Price ===
+      let matchedPriceFlag = false;
+      const sizes = plant.sizes || [];
+      if (filters.priceMax != null) {
+        const minPrice = Math.min(...sizes.map(s => Number(s.price || 0)).filter(p => p > 0));
+        if (minPrice <= filters.priceMax) matchedPriceFlag = true;
+      }
+      if (filters.priceMin != null) {
+        const maxPrice = Math.max(...sizes.map(s => Number(s.price || 0)).filter(p => p > 0));
+        if (maxPrice >= filters.priceMin) matchedPriceFlag = true;
+      }
+      if ((filters.priceMax != null || filters.priceMin != null) && !matchedPriceFlag) return null;
+      if (matchedPriceFlag) {
+        matchedPrice.push(filters.priceMax || filters.priceMin);
+        matchedFields.add('price');
+      }
+
+      // === Bloom / Budding ===
+      if (filters.inBloom && !plant.bloom) return null;
+      if (filters.inBloom) matchedBloom.push('in bloom');
+      if (filters.budding && !plant.bud) return null;
+      if (filters.budding) matchedBloom.push('budding');
+
+      // === Origin ===
+      if (filters.origin.length) {
+        const o = (plant.origin || '').toLowerCase();
+        if (!filters.origin.some(x => o.includes(x.toLowerCase()))) return null;
+      }
+
+      // === Free-text token matching ===
+      const allText = [
+        plant.botanical, plant.common, plant.section, plant.flower_color,
+        plant.flower_time, plant.foliage, plant.plant_type, plant.exposure,
+        plant.height, plant.width, plant.origin, plant.water,
+      ].filter(Boolean).join(' ').toLowerCase();
+      const matchedFreeText = [];
+      for (const tok of freeText) {
+        if (allText.includes(tok)) matchedFreeText.push(tok);
+      }
+      // If we have free-text tokens but no structured filters, require at least one match
+      const hasStructured = filters.colors.length || filters.exposures.length ||
+                            filters.water.length || filters.types.length ||
+                            filters.container.length || filters.priceMax != null ||
+                            filters.priceMin != null || filters.inBloom || filters.budding ||
+                            filters.origin.length;
+      if (!hasStructured && freeText.length && !matchedFreeText.length) return null;
+
+      // === Score ===
+      let score = 0;
+      score += matchedColors.length * 4;
+      score += matchedExposures.length * 2;
+      score += matchedWater.length * 3;
+      score += matchedTypes.length * 2;
+      score += matchedContainer.length * 2;
+      score += matchedPriceFlag ? 2 : 0;
+      score += matchedFreeText.length;
+      score += (plant.bloom ? 1 : 0);
+
+      return {
+        score,
+        matched: {
+          colors: matchedColors, exposures: matchedExposures, water: matchedWater,
+          types: matchedTypes, container: matchedContainer, price: matchedPrice,
+          bloom: matchedBloom, freeText: matchedFreeText,
+        }
+      };
+    }
+
+    // === Render ===
+    function escapeHTML(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    function fmtSize(s) {
+      const c = s.container || '?';
+      const p = Number(s.price || 0);
+      return p ? `${c} $${p.toFixed(2)}` : c;
+    }
+
+    function pill(text, isMatch = false) {
+      return `<span class="meta-pill${isMatch ? ' match' : ''}">${escapeHTML(text)}</span>`;
+    }
+
+    function renderResults(parsed, results) {
+      resultsEl.innerHTML = '';
+      noResultsEl.hidden = results.length > 0;
+
+      // Filter summary
+      const f = parsed.filters;
+      const summary = [];
+      if (f.colors.length)    summary.push(`Color: ${f.colors.join(', ')}`);
+      if (f.exposures.length) summary.push(`Exposure: ${f.exposures.join(', ')}`);
+      if (f.water.length)     summary.push(`Water: ${f.water.join(', ')}`);
+      if (f.types.length)     summary.push(`Type: ${f.types.join(', ')}`);
+      if (f.container.length) summary.push(`Size: ${f.container.join(', ')}`);
+      if (f.priceMax != null) summary.push(`Under $${f.priceMax}`);
+      if (f.priceMin != null) summary.push(`Over $${f.priceMin}`);
+      if (f.inBloom)          summary.push('In bloom');
+      if (f.budding)          summary.push('Budding');
+      if (f.origin.length)    summary.push('Native/CA');
+      if (f.freeText.length)  summary.push(`"${f.freeText.join(' ')}"`);
+      filterSummaryEl.hidden = summary.length === 0;
+      if (summary.length) {
+        filterSummaryEl.innerHTML =
+          `<strong>${results.length}</strong> result${results.length === 1 ? '' : 's'} — ` +
+          summary.map(s => `<span class="pill">${escapeHTML(s)}</span>`).join('');
+      }
+
+      // Cards
+      results.forEach(({ plant, match }) => {
+        const card = document.createElement('article');
+        card.className = 'result';
+        const sizes = plant.sizes || [];
+        const minPrice = Math.min(...sizes.map(s => Number(s.price || 0)).filter(p => p > 0));
+        const priceStr = isFinite(minPrice) && minPrice > 0
+          ? `from $${minPrice.toFixed(2)}`
+          : '';
+
+        const matched = match.matched;
+        const matchSet = new Set([
+          ...(matched.colors||[]),
+          ...(matched.exposures||[]),
+          ...(matched.water||[]),
+          ...(matched.types||[]),
+          ...(matched.container||[]),
+          ...(matched.bloom||[]),
+        ]);
+
+        // Build meta pills: bloom badge, color, exposure, water, type
+        let meta = [];
+        if (plant.bloom) meta.push(pill('🌸 in bloom', matchSet.has('in bloom')));
+        else if (plant.bud) meta.push(pill('🌿 budding', matchSet.has('budding')));
+        if (plant.flower_color) meta.push(pill(plant.flower_color, match.matched.colors.includes(String(plant.flower_color).toLowerCase().split(/[ ,\/]/)[0])));
+        if (plant.exposure)     meta.push(pill(plant.exposure, match.matched.exposures.some(e => plant.exposure.toLowerCase().includes(e))));
+        if (plant.water)        meta.push(pill(plant.water, match.matched.water.length > 0));
+        if (plant.plant_type)   meta.push(pill(plant.plant_type, match.matched.types.length > 0));
+        if (plant.height)       meta.push(pill(plant.height));
+        if (plant.width)        meta.push(pill(plant.width));
+        if (plant.origin)       meta.push(pill(plant.origin));
+
+        const sizesHTML = sizes.length
+          ? sizes.map(s => `${escapeHTML(fmtSize(s))}`).join(', ')
+          : '—';
+
+        card.innerHTML = `
+          <div class="result-botanical"><em>${escapeHTML(plant.botanical)}</em></div>
+          <div class="result-common">${escapeHTML(plant.common || '')}</div>
+          <div class="result-meta">${meta.join('')}</div>
+          <div class="result-price">${escapeHTML(sizesHTML)}</div>
+        `;
+        resultsEl.appendChild(card);
+      });
+    }
+
+    // === Main: parse + match + render ===
+    function run() {
+      const q = input.value;
+      const catalog = getCatalog();
+      const parsed = parseQuery(q);
+
+      if (!parsed.active) {
+        resultsEl.innerHTML = '';
+        noResultsEl.hidden = true;
+        filterSummaryEl.hidden = true;
+        return;
+      }
+
+      const results = [];
+      for (const plant of catalog) {
+        const match = matchPlant(plant, parsed);
+        if (match) results.push({ plant, match });
+      }
+      results.sort((a, b) => b.match.score - a.match.score);
+      renderResults(parsed, results);
+    }
+
+    // === Wire up ===
+    let typingTimer = null;
+    input.addEventListener('input', () => {
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(run, 120);
+    });
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      resultsEl.innerHTML = '';
+      noResultsEl.hidden = true;
+      filterSummaryEl.hidden = true;
+      input.focus();
+    });
+    document.querySelectorAll('.suggestion').forEach(btn => {
+      btn.addEventListener('click', () => {
+        input.value = btn.dataset.q;
+        run();
+        input.focus();
+      });
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); run(); }
+    });
+    input.focus();
+
+    // Diagnostic — useful if you're testing
+    window.chatTestRun = run;
+    window.chatTestParse = parseQuery;
+    console.log('chat-test.html ready. Try: chatTestParse("red flowers 1gal under $7")');
+  })();
+  </script>
+</body>
+</html>

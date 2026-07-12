@@ -151,31 +151,42 @@
       font-size: 13px;
       color: var(--c-clay, #6b6256);
       margin-bottom: 8px;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
     .chat-test-root .result-origin.native {
       color: #4a7a2a;
       font-weight: 500;
     }
-    .chat-test-root .result-origin.native::before {
-      content: "";
+    .chat-test-root .result-origin .ca-badge {
       display: inline-block;
-      width: 14px;
-      height: 14px;
-      margin-right: 4px;
-      vertical-align: -2px;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='9' r='6' fill='%23f4a83a'/><circle cx='23' cy='16' r='6' fill='%23f4a83a'/><circle cx='16' cy='23' r='6' fill='%23f4a83a'/><circle cx='9' cy='16' r='6' fill='%23f4a83a'/><circle cx='16' cy='16' r='2.5' fill='%237a3a0a'/></svg>");
-      background-size: contain;
-      background-repeat: no-repeat;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      background: #2d6b1f;
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 3px;
+      line-height: 1.4;
     }
     .chat-test-root .result-type-origin {
       font-family: Helvetica, Arial, sans-serif;
       margin-bottom: 8px;
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       align-items: center;
       gap: 6px;
-      line-height: 1.35;
+      line-height: 1.4;
+      overflow: hidden;
+    }
+    .chat-test-root .result-type-origin > * { flex-shrink: 0; }
+    .chat-test-root .result-type-origin .result-origin {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
     }
     .chat-test-root .result-type-origin .sep {
       color: #c5bda9;
@@ -1047,7 +1058,7 @@
           ? `<span class="result-type${matched.types.length > 0 ? ' match' : ''}">${highlight(plant.plant_type, highlightTerms)}</span>`
           : '';
         const originSpan = plant.origin
-          ? `<span class="result-origin${isNativeOrigin(plant.origin) ? ' native' : ''}">${highlight(plant.origin, highlightTerms)}</span>`
+          ? `<span class="result-origin${isNativeOrigin(plant.origin) ? ' native' : ''}">${isNativeOrigin(plant.origin) ? '<span class="ca-badge">CA</span>' : ''}${highlight(plant.origin, highlightTerms)}</span>`
           : '';
         const sep = (typeSpan && originSpan) ? '<span class="sep">·</span>' : '';
         const typeOriginHTML = (typeSpan || originSpan)

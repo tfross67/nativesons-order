@@ -1110,15 +1110,38 @@
     renderSelectionBar();
 
     // === Load the catalog (already provided via <script src="availability_data.js">) ===
+    // Catalog contains both General Nursery and 4-inch sections, so the same plant
+    // appears twice (e.g. "Cuphea hyssopifolia 'Alba'" appears in both). Dedupe
+    // by normalized botanical name, preferring General Nursery entries.
     function getCatalog() {
-      const av = window.AVAILABILITY && window.AVAILABILITY.plants || [];
+      const raw = (window.AVAILABILITY && window.AVAILABILITY.plants) || [];
       // Show week label if available
       if (window.AVAILABILITY && window.AVAILABILITY.week && weekLabel) {
         weekLabel.textContent = window.AVAILABILITY.week;
       }
-      // Populate hero band with real numbers from the catalog
-      renderHero(av);
-      return av;
+      const norm = (s) => String(s || '').toLowerCase()
+        .replace(/[‘’'"]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+      // Prefer non-4-inch entries
+      const seen = new Map();
+      for (const p of raw) {
+        const k = norm(p.botanical);
+        if (!seen.has(k)) {
+          seen.set(k, p);
+          continue;
+        }
+        // Replace if current is non-4-inch and stored is 4-inch
+        const cur = seen.get(k);
+        const curIsFour = /\(4"\)/.test(cur.section || '');
+        const newIsFour = /\(4"\)/.test(p.section || '');
+        if (curIsFour && !newIsFour) {
+          seen.set(k, p);
+        }
+      }
+      const deduped = Array.from(seen.values());
+      renderHero(deduped);
+      return deduped;
     }
 
     // === Hero band renderer ===

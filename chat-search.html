@@ -2607,9 +2607,11 @@
   <script src="cart.js"></script>
   <script src="availability_data.js"></script>
   <script src="masteritem_full.js"></script>
-  <!-- Note: office_customers.js is loaded dynamically by loadStaffCustomerData()
-       ONLY when staff mode is active. NEVER included as a static script tag —
-       that would expose customer PII to public visitors. -->
+  <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
+       ONLY when staff mode is active. NEVER included as a static asset —
+       that would expose customer PII to public visitors. The JSON parse
+       happens lazily on first picker input to avoid blocking the main
+       thread on sign-in. -->
   <script>
   /* ========================================================================
    * Native Sons — Smart Plant Search (chat-test.html)

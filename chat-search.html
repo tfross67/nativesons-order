@@ -2579,15 +2579,15 @@
       <fieldset class="notify-fieldset staff-only">
         <legend>Notify</legend>
         <label>
-          <input type="checkbox" id="optEmailCustomer" checked>
+          <input type="checkbox" id="optEmailCustomer">
           Email customer
         </label>
         <label>
-          <input type="checkbox" id="optEmailTim" checked>
+          <input type="checkbox" id="optEmailTim">
           Email Tim (office copy)
         </label>
         <label>
-          <input type="checkbox" id="optSlack">
+          <input type="checkbox" id="optSlack" checked>
           Slack post
         </label>
       </fieldset>
@@ -4715,9 +4715,9 @@
           const custCb = $('optEmailCustomer');
           const timCb = $('optEmailTim');
           const slackCb = $('optSlack');
-          emailCustomer = custCb ? custCb.checked : true;
-          emailTim = timCb ? timCb.checked : true;
-          slackPost = slackCb ? slackCb.checked : false;
+          emailCustomer = custCb ? custCb.checked : false;
+          emailTim = timCb ? timCb.checked : false;
+          slackPost = slackCb ? slackCb.checked : true;
         }
 
         submitOrderBtn.disabled = true;

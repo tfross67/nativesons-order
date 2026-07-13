@@ -1283,6 +1283,51 @@
     .chat-test-root .cart-item.is-special {
       background: linear-gradient(180deg, #fdf6ee 0%, #ffffff 60%);
     }
+    .chat-test-root .cart-item-retail {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+    }
+    .chat-test-root .cart-item-retail label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--c-clay, #6b6256);
+      cursor: text;
+    }
+    .chat-test-root .cart-item-retail input[type="number"] {
+      width: 70px;
+      padding: 3px 6px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      color: var(--c-bark, #2d4a2b);
+      border: 1px solid #d9d2b8;
+      border-radius: 4px;
+      background: #fff;
+      text-align: right;
+    }
+    .chat-test-root .cart-item-retail input[type="number"]:focus {
+      outline: none;
+      border-color: #6b8a4a;
+      box-shadow: 0 0 0 2px rgba(107, 138, 74, 0.2);
+    }
+    .chat-test-root .cart-item-retail-reset {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--c-clay, #6b6256);
+      font-size: 14px;
+      padding: 0 2px;
+      line-height: 1;
+    }
+    .chat-test-root .cart-item-retail-reset:hover {
+      color: #c14e2e;
+    }
     .chat-test-root .cart-summary {
       padding: 18px 22px;
       border-top: 1px solid #e8e2cf;
@@ -3928,6 +3973,7 @@
         const items = Cart.getItems();
         const count = Cart.getCount();
         const subtotal = Cart.getSubtotal();
+        const retailSubtotal = Cart.getRetailSubtotal();
 
         if (count === 0) {
           cartBar.hidden = true;
@@ -3936,10 +3982,10 @@
           return;
         }
 
-        // Update bar
+        // Update bar (use retail subtotal — that's what the customer pays)
         cartBar.hidden = false;
         cartCount.textContent = String(count);
-        cartTotal.textContent = fmtPrice(subtotal);
+        cartTotal.textContent = '$' + fmtPrice(retailSubtotal);
 
         // Render items
         if (items.length === 0) {
@@ -3949,7 +3995,17 @@
         }
 
         const html = items.map(it => {
-          const sizeLine = it.size ? `<div class="cart-item-meta">${esc(it.size)} · $${fmtPrice(it.price)} ea</div>` : '';
+          const sizeLine = it.size ? `<div class="cart-item-meta">${esc(it.size)} · $${fmtPrice(it.price)} wholesale</div>` : '';
+          const isCustomRetail = it.retailMode && it.retailMode !== 'wholesale';
+          const retailVal = isCustomRetail ? it.retailPrice : it.price;
+          const retailRow = `
+            <div class="cart-item-retail">
+              <label>
+                <span>Retail $</span>
+                <input type="number" min="0" step="0.01" value="${retailVal}" data-cart-retail-input>
+              </label>
+              ${isCustomRetail ? '<button type="button" class="cart-item-retail-reset" data-cart-retail-reset aria-label="Reset to wholesale">↺</button>' : ''}
+            </div>`;
           const specialCb = `<label class="cart-item-special${it.specialOrder ? ' is-checked' : ''}" data-cart-special-label>
             <input type="checkbox" data-cart-special ${it.specialOrder ? 'checked' : ''}>
             <span>Special order</span>
@@ -3965,8 +4021,9 @@
                     <input type="number" min="0" step="1" value="${it.qty}" data-qty-input>
                     <button type="button" data-qty-step="1" aria-label="Increase quantity">+</button>
                   </div>
-                  <span class="cart-item-line">$${fmtPrice(it.price * it.qty)}</span>
+                  <span class="cart-item-line">$${fmtPrice(retailVal * it.qty)}</span>
                 </div>
+                ${retailRow}
                 ${specialCb}
               </div>
               <button type="button" class="cart-item-remove" data-cart-remove aria-label="Remove">✕</button>
@@ -4362,6 +4419,53 @@
         Cart.setSpecial(key, !!cb.checked);
       });
 
+      // Per-item retail price input. Updates retailPrice + retailMode='manual'.
+      // Use input (not change) so the live line total updates as the user types.
+      cartItems.addEventListener('input', (e) => {
+        const input = e.target.closest('[data-cart-retail-input]');
+        if (!input) return;
+        const item = input.closest('.cart-item');
+        const key = item && item.dataset.key;
+        if (!key) return;
+        Cart.setRetail(key, 'manual', input.value, { silent: true });
+        // Update only this line's display total + cart totals — don't re-render
+        // the whole cart (would tear down the input mid-keystroke).
+        const it = Cart.getItems().find(i => i.key === key);
+        if (it) {
+          const lineEl = item.querySelector('.cart-item-line');
+          if (lineEl) lineEl.textContent = '$' + fmtPrice(it.retailPrice * it.qty);
+          // Show the reset button once the value diverges from wholesale
+          const existingReset = item.querySelector('.cart-item-retail-reset');
+          if (it.retailMode !== 'wholesale' && !existingReset) {
+            const wrap = item.querySelector('.cart-item-retail');
+            if (wrap) {
+              const btn = document.createElement('button');
+              btn.type = 'button';
+              btn.className = 'cart-item-retail-reset';
+              btn.dataset.cartRetailReset = '';
+              btn.setAttribute('aria-label', 'Reset to wholesale');
+              btn.textContent = '↺';
+              wrap.appendChild(btn);
+            }
+          } else if (it.retailMode === 'wholesale' && existingReset) {
+            existingReset.remove();
+          }
+        }
+        // Update the cart totals
+        cartTotal.textContent = '$' + fmtPrice(Cart.getRetailSubtotal());
+        cartSummaryTotal.textContent = '$' + fmtPrice(Cart.getRetailSubtotal());
+      });
+
+      // Reset retail price back to wholesale
+      cartItems.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-cart-retail-reset]');
+        if (!btn) return;
+        const item = btn.closest('.cart-item');
+        const key = item && item.dataset.key;
+        if (!key) return;
+        Cart.setRetail(key, 'wholesale');
+      });
+
       // --- Checkout
       function openCheckout() {
         closeCart();
@@ -4392,6 +4496,7 @@
         const items = Cart.getItems();
         if (items.length === 0) throw new Error('Cart is empty.');
         const subtotal = Cart.getSubtotal();
+        const retailSubtotal = Cart.getRetailSubtotal();
         const orderNumber = generateOrderNumber();
         const pItems = items.map(i => ({
           plant_key: i.key,
@@ -4415,7 +4520,7 @@
           p_customer_company: (formData.customer_company || '').trim() || null,
           p_notes: (formData.notes || '').trim() || null,
           p_subtotal: subtotal,
-          p_retail_subtotal: subtotal,
+          p_retail_subtotal: retailSubtotal,
           p_item_count: Cart.getCount(),
           p_items: pItems,
         });
@@ -4483,6 +4588,7 @@
                   customer_company: formData.customer_company,
                   notes: formData.notes,
                   subtotal: Cart.getSubtotal(),
+                  retail_subtotal: Cart.getRetailSubtotal(),
                   item_count: Cart.getCount(),
                 },
                 items: orderItems,
@@ -4503,6 +4609,7 @@
                   customer_company: formData.customer_company,
                   notes: formData.notes,
                   subtotal: Cart.getSubtotal(),
+                  retail_subtotal: Cart.getRetailSubtotal(),
                   item_count: Cart.getCount(),
                 },
                 items: orderItems,

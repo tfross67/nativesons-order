@@ -1351,6 +1351,43 @@
       border-top: 1px solid #e8e2cf;
       background: #fafaf5;
     }
+    body .cart-markup-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 12px;
+      margin: -4px -22px 14px;
+      background: #e8f0e0;
+      border-bottom: 1px solid #b8d09a;
+      font-family: var(--font-sans);
+      font-size: 13px;
+    }
+    body .cart-markup-pill {
+      display: inline-block;
+      padding: 3px 10px;
+      background: #2d4a2b;
+      color: white;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+    }
+    body .cart-markup-clear {
+      background: none;
+      border: 1px solid #2d4a2b;
+      color: #2d4a2b;
+      cursor: pointer;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+    }
+    body .cart-markup-clear:hover {
+      background: #2d4a2b;
+      color: white;
+    }
     body .cart-summary[hidden] { display: none; }
     body .cart-summary-row {
       display: flex;
@@ -2478,8 +2515,16 @@
       <p class="cart-empty">Cart is empty. Add plants from the search results to get started.</p>
     </div>
     <div class="cart-summary" id="cartSummary" hidden>
+      <div class="cart-markup-banner" id="cartMarkupBanner" hidden>
+        <span class="cart-markup-pill">×<span id="cartMarkupMultiplier">1.00</span> customer markup</span>
+        <button type="button" class="cart-markup-clear" id="cartMarkupClear" hidden aria-label="Remove customer markup from all items">Clear markup</button>
+      </div>
       <div class="cart-summary-row">
-        <span>Subtotal</span>
+        <span>Wholesale</span>
+        <span class="amt" id="cartSummaryWholesale">$0.00</span>
+      </div>
+      <div class="cart-summary-row total-row">
+        <span>Subtotal (retail)</span>
         <span class="amt">$<span id="cartSummaryTotal">0.00</span></span>
       </div>
       <p class="cart-note">Final invoice comes from the office. Tax &amp; delivery calculated there.</p>
@@ -3940,6 +3985,10 @@
       const cartItems = $('cartItems');
       const cartSummary = $('cartSummary');
       const cartSummaryTotal = $('cartSummaryTotal');
+      const cartSummaryWholesale = $('cartSummaryWholesale');
+      const cartMarkupBanner = $('cartMarkupBanner');
+      const cartMarkupMultiplierEl = $('cartMarkupMultiplier');
+      const cartMarkupClear = $('cartMarkupClear');
       const closeCartBtn = $('closeCart');
       const proceedBtn = $('proceedToCheckout');
       const sizePickerOverlay = $('sizePickerOverlay');
@@ -4004,6 +4053,14 @@
         cartBar.hidden = false;
         cartCount.textContent = String(count);
         cartTotal.textContent = '$' + fmtPrice(retailSubtotal);
+        if (cartSummaryWholesale) {
+          if (Math.abs(retailSubtotal - subtotal) < 0.005) {
+            cartSummaryWholesale.parentElement.hidden = true;
+          } else {
+            cartSummaryWholesale.parentElement.hidden = false;
+            cartSummaryWholesale.textContent = '$' + fmtPrice(subtotal);
+          }
+        }
 
         // Render items
         if (items.length === 0) {
@@ -4054,7 +4111,25 @@
         }).join('');
         cartItems.innerHTML = html;
         cartSummary.hidden = false;
-        cartSummaryTotal.textContent = fmtPrice(subtotal);
+        cartSummaryTotal.textContent = '$' + fmtPrice(retailSubtotal);
+        if (cartSummaryWholesale) {
+          // Hide the wholesale row when retail matches (no markup applied)
+          if (Math.abs(retailSubtotal - subtotal) < 0.005) {
+            cartSummaryWholesale.parentElement.hidden = true;
+          } else {
+            cartSummaryWholesale.parentElement.hidden = false;
+            cartSummaryWholesale.textContent = '$' + fmtPrice(subtotal);
+          }
+        }
+        // Show markup banner when an active multiplier > 1 is set
+        if (cartMarkupBanner) {
+          if (defaultMarkupMultiplier > 1) {
+            cartMarkupBanner.hidden = false;
+            cartMarkupMultiplierEl.textContent = defaultMarkupMultiplier.toFixed(2);
+          } else {
+            cartMarkupBanner.hidden = true;
+          }
+        }
       }
 
       Cart.onChange(renderCart);
@@ -4116,6 +4191,11 @@
         return null;
       }
 
+      // Track the active customer's default markup multiplier so it auto-
+      // applies to every item added to the cart (and re-applies to existing
+      // items when the customer changes). 1.0 = no markup (wholesale).
+      let defaultMarkupMultiplier = 1.0;
+
       function addPlantToCart(plant, size, qty) {
         const key = `${plant.botanical}|${size.container || ''}`;
         const codeInfo = lookupItemCode(plant.botanical, size.container || '');
@@ -4127,6 +4207,7 @@
           qty: qty || 1,
           item_code: codeInfo?.code || null,
           upc: codeInfo?.upc || null,
+          defaultMarkup: defaultMarkupMultiplier > 1 ? defaultMarkupMultiplier : undefined,
         });
         const qtyLabel = qty && qty > 1 ? ` × ${qty}` : '';
         showToast(`Added ${plant.botanical}${qtyLabel} (${size.container || 'ea'}) to order`);
@@ -4488,8 +4569,18 @@
           }
         }
         // Update the cart totals
-        cartTotal.textContent = '$' + fmtPrice(Cart.getRetailSubtotal());
-        cartSummaryTotal.textContent = '$' + fmtPrice(Cart.getRetailSubtotal());
+        const newSubtotal = Cart.getSubtotal();
+        const newRetail = Cart.getRetailSubtotal();
+        cartTotal.textContent = '$' + fmtPrice(newRetail);
+        cartSummaryTotal.textContent = '$' + fmtPrice(newRetail);
+        if (cartSummaryWholesale) {
+          if (Math.abs(newRetail - newSubtotal) < 0.005) {
+            cartSummaryWholesale.parentElement.hidden = true;
+          } else {
+            cartSummaryWholesale.parentElement.hidden = false;
+            cartSummaryWholesale.textContent = '$' + fmtPrice(newSubtotal);
+          }
+        }
       });
 
       // Toggle retail price input between $ (manual) and × (markup multiplier)
@@ -4528,6 +4619,19 @@
         if (it) it.retailMultiplier = undefined;
         Cart.setRetail(key, 'wholesale');
       });
+
+      // Clear customer markup from all items at once (resets to wholesale)
+      const cartMarkupClearBtn = $('cartMarkupClear');
+      if (cartMarkupClearBtn) {
+        cartMarkupClearBtn.addEventListener('click', () => {
+          defaultMarkupMultiplier = 1.0;
+          Cart.getItems().forEach(it => {
+            if (it.retailMode === 'markup') {
+              Cart.setRetail(it.key, 'wholesale');
+            }
+          });
+        });
+      }
 
       // --- Checkout
       function openCheckout() {
@@ -4833,15 +4937,21 @@
         if (input) { input.value = ''; }
         if (results) { results.classList.remove('is-open'); }
         // Apply default markup to cart
-        if (c.default_markup_pct && Cart.getCount() > 0) {
+        if (c.default_markup_pct && c.default_markup_pct > 0) {
           const mult = 1 + c.default_markup_pct;
+          defaultMarkupMultiplier = mult;
+          // Apply to existing items that are still at wholesale (don't
+          // override items the staff has manually customized).
           Cart.applyDefaultMarkup(mult);
-          renderCart();
+        } else {
+          defaultMarkupMultiplier = 1.0;
         }
+        renderCart();
       }
 
       function clearSelectedCustomer() {
         selectedCustomer = null;
+        defaultMarkupMultiplier = 1.0;
         const card = $('selectedCust');
         const markupEl = $('selCustMarkup');
         if (card) card.hidden = true;

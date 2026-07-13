@@ -61,20 +61,35 @@ window.Cart = (() => {
   function notify() { listeners.forEach(fn => { try { fn(); } catch (e) { console.error(e); } }); }
 
   function add(plant) {
-    // plant: { key, name, size, price, qty }
+    // plant: { key, name, size, price, qty, item_code, upc, defaultMarkup? }
+    // When defaultMarkup is set (e.g. 1.30 for a +30% customer), new items
+    // are added in markup mode with that multiplier applied. Existing items
+    // already in wholesale mode also get marked up — see applyDefaultMarkup.
     const existing = items.find(i => i.key === plant.key);
     if (existing) {
       existing.qty += plant.qty;
+      // If the existing item is still wholesale and a default markup is now
+      // active, promote it so the customer's markup applies on quantity bumps too.
+      if (plant.defaultMarkup && plant.defaultMarkup > 1 && existing.retailMode === 'wholesale') {
+        const m = plant.defaultMarkup;
+        existing.retailMode = 'markup';
+        existing.retailPrice = Math.round(existing.price * m * 100) / 100;
+        existing.retailMultiplier = m;
+      }
     } else {
+      const m = plant.defaultMarkup && plant.defaultMarkup > 1 ? plant.defaultMarkup : null;
       items.push({
         key: plant.key,
         name: plant.name,
         size: plant.size,
         price: plant.price,
         qty: plant.qty,
-        retailMode: 'wholesale',
-        retailPrice: plant.price,
+        retailMode: m ? 'markup' : 'wholesale',
+        retailPrice: m ? Math.round(plant.price * m * 100) / 100 : plant.price,
+        retailMultiplier: m,
         specialOrder: false,
+        item_code: plant.item_code || null,
+        upc: plant.upc || null,
       });
     }
     save();

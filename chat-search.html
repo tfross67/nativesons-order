@@ -981,6 +981,483 @@
       /* Filter summary chips wrap */
       .chat-test-root #filterSummary .pill { font-size: 11px; padding: 3px 8px; }
     }
+
+    /* ============================================================ */
+    /* === Cart bar / slide-out / size picker / checkout modal    === */
+    /* ============================================================ */
+
+    /* Add-to-order button on each card */
+    .chat-test-root .add-to-order-btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 5px 10px;
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--c-bark, #2d4a2b);
+      background: #fff;
+      border: 1px solid var(--c-bark, #2d4a2b);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      position: relative;
+      z-index: 2;
+    }
+    .chat-test-root .add-to-order-btn:hover {
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+    }
+    .chat-test-root .add-to-order-btn.added {
+      background: #2d6b1f;
+      color: #fff;
+      border-color: #2d6b1f;
+    }
+
+    /* Floating cart bar */
+    .chat-test-root .cart-bar {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 90;
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 22px;
+      box-shadow: 0 6px 24px rgba(45, 74, 43, 0.28);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .chat-test-root .cart-bar:hover {
+      transform: translateX(-50%) translateY(-2px);
+      box-shadow: 0 8px 28px rgba(45, 74, 43, 0.35);
+    }
+    .chat-test-root .cart-bar[hidden] { display: none; }
+    .chat-test-root .cart-bar-count {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "kern" 1;
+      background: rgba(255, 255, 255, 0.18);
+      padding: 2px 10px;
+      border-radius: 999px;
+      letter-spacing: 0;
+    }
+    .chat-test-root .cart-bar-total {
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "kern" 1;
+      letter-spacing: 0.01em;
+    }
+    .chat-test-root .cart-bar-icon { display: inline-flex; }
+
+    /* Cart overlay */
+    .chat-test-root .cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 95;
+    }
+    .chat-test-root .cart-overlay[hidden] { display: none; }
+
+    /* Slide-out cart panel */
+    .chat-test-root .cart-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 380px;
+      max-width: 100%;
+      background: #fff;
+      box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font-sans);
+    }
+    .chat-test-root .cart-panel[hidden] { display: none; }
+    .chat-test-root .cart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      border-bottom: 1px solid #e8e2cf;
+      background: #fafaf5;
+    }
+    .chat-test-root .cart-header h2 {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--c-bark, #2d4a2b);
+      margin: 0;
+      letter-spacing: var(--ls-tight);
+    }
+    .chat-test-root .icon-btn {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--c-clay, #6b6256);
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 6px;
+      line-height: 1;
+    }
+    .chat-test-root .icon-btn:hover {
+      background: #f4f1ea;
+      color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .chat-test-root .cart-empty {
+      padding: 36px 24px;
+      text-align: center;
+      color: var(--c-clay, #6b6256);
+      font-style: italic;
+      font-family: var(--font-serif);
+      font-size: 15px;
+      line-height: var(--lh-snug);
+    }
+    .chat-test-root .cart-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 22px;
+      border-bottom: 1px solid #f0ece1;
+    }
+    .chat-test-root .cart-item-info { flex: 1; min-width: 0; }
+    .chat-test-root .cart-item-name {
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--c-bark, #2d4a2b);
+      margin-bottom: 2px;
+      line-height: var(--lh-snug);
+    }
+    .chat-test-root .cart-item-meta {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--c-clay, #6b6256);
+      margin-bottom: 8px;
+    }
+    .chat-test-root .cart-item-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chat-test-root .qty-stepper {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #d8d2c2;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .chat-test-root .qty-stepper button {
+      background: none;
+      border: none;
+      width: 28px;
+      height: 28px;
+      font-size: 16px;
+      color: var(--c-bark, #2d4a2b);
+      cursor: pointer;
+      line-height: 1;
+    }
+    .chat-test-root .qty-stepper button:hover { background: #f4f1ea; }
+    .chat-test-root .qty-stepper input {
+      width: 40px;
+      border: none;
+      text-align: center;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--c-bark, #2d4a2b);
+      background: transparent;
+      font-variant-numeric: tabular-nums;
+      -moz-appearance: textfield;
+    }
+    .chat-test-root .qty-stepper input::-webkit-outer-spin-button,
+    .chat-test-root .qty-stepper input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .chat-test-root .cart-item-line {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--c-bark, #2d4a2b);
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "kern" 1;
+      white-space: nowrap;
+    }
+    .chat-test-root .cart-item-remove {
+      background: none;
+      border: none;
+      color: var(--c-clay, #6b6256);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .chat-test-root .cart-item-remove:hover {
+      background: rgba(217, 119, 87, 0.12);
+      color: #c14e2e;
+    }
+    .chat-test-root .cart-summary {
+      padding: 18px 22px;
+      border-top: 1px solid #e8e2cf;
+      background: #fafaf5;
+    }
+    .chat-test-root .cart-summary[hidden] { display: none; }
+    .chat-test-root .cart-summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--c-bark, #2d4a2b);
+      padding: 4px 0;
+    }
+    .chat-test-root .cart-summary-row.total-row {
+      border-top: 1px solid #d8d2c2;
+      margin-top: 8px;
+      padding-top: 10px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .chat-test-root .cart-summary-row .amt {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "kern" 1;
+    }
+    .chat-test-root .cart-note {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 12.5px;
+      color: var(--c-clay, #6b6256);
+      margin: 10px 0 14px;
+      line-height: var(--lh-snug);
+    }
+
+    /* Buttons */
+    .chat-test-root .btn {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 11px 18px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .chat-test-root .btn-primary {
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+      border-color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .btn-primary:hover {
+      background: #1e3a1d;
+      border-color: #1e3a1d;
+    }
+    .chat-test-root .btn-block {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Size picker modal */
+    .chat-test-root .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 110;
+    }
+    .chat-test-root .modal-overlay[hidden] { display: none; }
+    .chat-test-root .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 92%;
+      max-width: 420px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
+      z-index: 115;
+      font-family: var(--font-sans);
+    }
+    .chat-test-root .modal[hidden] { display: none; }
+    .chat-test-root .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 22px;
+      border-bottom: 1px solid #e8e2cf;
+      background: #fafaf5;
+      border-radius: 12px 12px 0 0;
+    }
+    .chat-test-root .modal-header h2 {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--c-bark, #2d4a2b);
+      margin: 0;
+    }
+    .chat-test-root .modal-body { padding: 20px 22px; }
+    .chat-test-root .modal-intro {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 14px;
+      color: var(--c-clay, #6b6256);
+      margin: 0 0 14px;
+      line-height: var(--lh-snug);
+    }
+    .chat-test-root .size-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border: 1px solid #e8e2cf;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .chat-test-root .size-option:hover {
+      border-color: var(--c-bark, #2d4a2b);
+      background: #f8faf3;
+    }
+    .chat-test-root .size-option-name {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .size-option-price {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--c-bark, #2d4a2b);
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "kern" 1;
+    }
+    .chat-test-root .form-field {
+      display: block;
+      margin-bottom: 14px;
+    }
+    .chat-test-root .form-field > span {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: var(--fs-eyebrow);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--ls-xwide);
+      color: var(--c-bark, #2d4a2b);
+      margin-bottom: 5px;
+    }
+    .chat-test-root .form-field > span em {
+      color: #c14e2e;
+      font-style: normal;
+      margin-left: 2px;
+    }
+    .chat-test-root .form-field input,
+    .chat-test-root .form-field textarea {
+      width: 100%;
+      padding: 9px 12px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--c-bark, #2d4a2b);
+      background: #fafaf5;
+      border: 1px solid #d8d2c2;
+      border-radius: 6px;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .chat-test-root .form-field input:focus,
+    .chat-test-root .form-field textarea:focus {
+      border-color: var(--c-bark, #2d4a2b);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(74, 122, 42, 0.15);
+    }
+    .chat-test-root .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .chat-test-root .btn-ghost {
+      background: transparent;
+      color: var(--c-clay, #6b6256);
+      border-color: #d8d2c2;
+    }
+    .chat-test-root .btn-ghost:hover {
+      background: #f4f1ea;
+      color: var(--c-bark, #2d4a2b);
+    }
+
+    /* Toast confirmation */
+    .chat-test-root .cart-toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 6px 18px rgba(45, 74, 43, 0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s, transform 0.25s;
+      z-index: 200;
+    }
+    .chat-test-root .cart-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Staff link in header (visible only with ?staff=1) */
+    .site-header .staff-link {
+      display: inline-block;
+      margin-top: 4px;
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--c-bark, #2d4a2b);
+      text-decoration: none;
+      padding: 4px 10px;
+      border: 1px solid #d8d2c2;
+      border-radius: 999px;
+      background: #fff;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .site-header .staff-link:hover {
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+      border-color: var(--c-bark, #2d4a2b);
+    }
+    .site-header .staff-link[hidden] { display: none; }
   </style>
 </head>
 <body>
@@ -992,6 +1469,7 @@
       <div class="header-meta">
         <span class="header-tagline">We grow plants that thrive in California's Mediterranean climate.</span>
         <span class="week-label" id="weekLabel">This week</span>
+        <a href="office.html" class="staff-link" id="staffLink" hidden>Staff: Office Form →</a>
       </div>
     </div>
   </header>
@@ -1060,6 +1538,93 @@
     <button type="button" id="backToTop" class="back-to-top" aria-label="Back to top" hidden>↑ Top</button>
   </main>
 
+  <!-- Floating cart bar (visible when cart has items) -->
+  <button type="button" class="cart-bar" id="cartBar" hidden aria-label="View cart">
+    <span class="cart-bar-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20">
+        <path d="M3 4h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.5L21 8H6"
+              stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="10" cy="20" r="1.4" fill="currentColor"/>
+        <circle cx="17" cy="20" r="1.4" fill="currentColor"/>
+      </svg>
+    </span>
+    <span class="cart-bar-count"><span id="cartCount">0</span> items</span>
+    <span class="cart-bar-total">$<span id="cartTotal">0.00</span></span>
+  </button>
+
+  <!-- Cart slide-out -->
+  <div class="cart-overlay" id="cartOverlay" hidden></div>
+  <aside class="cart-panel" id="cartPanel" hidden aria-label="Shopping cart" role="dialog">
+    <header class="cart-header">
+      <h2>Your Order</h2>
+      <button type="button" class="icon-btn" id="closeCart" aria-label="Close cart">✕</button>
+    </header>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">Cart is empty. Add plants from the search results to get started.</p>
+    </div>
+    <div class="cart-summary" id="cartSummary" hidden>
+      <div class="cart-summary-row">
+        <span>Subtotal</span>
+        <span class="amt">$<span id="cartSummaryTotal">0.00</span></span>
+      </div>
+      <p class="cart-note">Final invoice comes from the office. Tax &amp; delivery calculated there.</p>
+      <button type="button" class="btn btn-primary btn-block" id="proceedToCheckout">Place Order Request</button>
+    </div>
+  </aside>
+
+  <!-- Size picker modal -->
+  <div class="modal-overlay" id="sizePickerOverlay" hidden></div>
+  <div class="modal" id="sizePickerModal" hidden role="dialog" aria-labelledby="sizePickerTitle">
+    <header class="modal-header">
+      <h2 id="sizePickerTitle">Pick a size</h2>
+      <button type="button" class="icon-btn" id="closeSizePicker" aria-label="Close">✕</button>
+    </header>
+    <div class="modal-body" id="sizePickerBody"></div>
+  </div>
+
+  <!-- Checkout modal -->
+  <div class="modal-overlay" id="checkoutOverlay" hidden></div>
+  <div class="modal" id="checkoutModal" hidden role="dialog" aria-labelledby="checkoutTitle">
+    <header class="modal-header">
+      <h2 id="checkoutTitle">Your Information</h2>
+      <button type="button" class="icon-btn" id="closeCheckout" aria-label="Close">✕</button>
+    </header>
+    <form id="checkoutForm" class="modal-body">
+      <p class="modal-intro">We'll send a confirmation to your email and follow up with availability and totals.</p>
+      <label class="form-field">
+        <span>Name <em>*</em></span>
+        <input type="text" name="customer_name" required autocomplete="name">
+      </label>
+      <label class="form-field">
+        <span>Email <em>*</em></span>
+        <input type="email" name="customer_email" required autocomplete="email">
+      </label>
+      <label class="form-field">
+        <span>Phone</span>
+        <input type="tel" name="customer_phone" autocomplete="tel">
+      </label>
+      <label class="form-field">
+        <span>Company</span>
+        <input type="text" name="customer_company" autocomplete="organization">
+      </label>
+      <label class="form-field">
+        <span>Notes (delivery, substitutions, etc.)</span>
+        <textarea name="notes" rows="3"></textarea>
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="cancelCheckout">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="submitOrder">Submit Order</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Order confirmation toast -->
+  <div class="cart-toast" id="cartToast" role="status" aria-live="polite"></div>
+
+  <!-- Order cart + Supabase config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="cart.js"></script>
   <script src="availability_data.js"></script>
   <script>
   /* ========================================================================
@@ -1967,6 +2532,7 @@
                   ${typeOriginHTML}
                   <div class="result-meta">${meta.join('')}</div>
                   <div class="result-price">${escapeHTML(sizesHTML)}</div>
+                  <button type="button" class="add-to-order-btn" data-add-to-order aria-label="Add ${escapeHTML(plant.botanical)} to your order">+ Add to Order</button>
                   ${matchLine}
                   <div class="result-details" hidden>
                     <div class="result-details-inner">
@@ -2341,6 +2907,386 @@
     window.chatTestParse = parseQuery;
     window.chatTestSelection = () => Object.values(selection);
     console.log('chat-test.html ready. Try: chatTestParse("red flowers 1gal")');
+
+    // Show staff link when ?staff=1 or ?staff=true in URL
+    (function maybeShowStaffLink() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('staff') === '1' || params.get('staff') === 'true') {
+          const link = document.getElementById('staffLink');
+          if (link) link.hidden = false;
+        }
+      } catch (e) { /* ignore */ }
+    })();
+
+    /* ============================================================
+     * Ordering / cart integration
+     * Wires up:
+     *   - "Add to Order" button on each card
+     *   - Floating cart bar with item count + total
+     *   - Slide-out cart panel with quantity controls
+     *   - Checkout modal (name, email, etc.) → Supabase submit_order RPC
+     *   - Confirmation toast
+     * Uses window.Cart (from cart.js) and window.supabase (from supabase-config.js).
+     * ============================================================ */
+    (function initCart() {
+      if (typeof window.Cart === 'undefined') {
+        console.warn('Cart not loaded — ordering disabled.');
+        return;
+      }
+
+      // --- DOM refs
+      const cartBar = $('cartBar');
+      const cartCount = $('cartCount');
+      const cartTotal = $('cartTotal');
+      const cartOverlay = $('cartOverlay');
+      const cartPanel = $('cartPanel');
+      const cartItems = $('cartItems');
+      const cartSummary = $('cartSummary');
+      const cartSummaryTotal = $('cartSummaryTotal');
+      const closeCartBtn = $('closeCart');
+      const proceedBtn = $('proceedToCheckout');
+      const sizePickerOverlay = $('sizePickerOverlay');
+      const sizePickerModal = $('sizePickerModal');
+      const sizePickerBody = $('sizePickerBody');
+      const sizePickerTitle = $('sizePickerTitle');
+      const closeSizePickerBtn = $('closeSizePicker');
+      const checkoutOverlay = $('checkoutOverlay');
+      const checkoutModal = $('checkoutModal');
+      const closeCheckoutBtn = $('closeCheckout');
+      const cancelCheckoutBtn = $('cancelCheckout');
+      const checkoutForm = $('checkoutForm');
+      const submitOrderBtn = $('submitOrder');
+      const cartToast = $('cartToast');
+
+      // --- Supabase client (matches app.js pattern)
+      const cfg = window.SUPABASE_CONFIG || {};
+      let supabase = null;
+      if (cfg.url && cfg.anonKey && cfg.anonKey !== 'YOUR_SUPABASE_ANON_KEY_HERE') {
+        try { supabase = window.supabase.createClient(cfg.url, cfg.anonKey); }
+        catch (e) { console.error('Supabase init failed:', e); }
+      }
+
+      // --- Helpers
+      const fmtPrice = (n) => (typeof n === 'number' ? n.toFixed(2) : '0.00');
+      const esc = (s) => String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+      // Find plant in catalog (deduped)
+      function findPlant(botanical) {
+        const catalog = getCatalog();
+        return catalog.find(p => p.botanical === botanical);
+      }
+
+      function getSizes(p) {
+        return (p.sizes && p.sizes.length > 0) ? p.sizes : [];
+      }
+
+      function showToast(text) {
+        cartToast.textContent = text;
+        cartToast.classList.add('show');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => cartToast.classList.remove('show'), 2400);
+      }
+
+      // --- Render cart UI
+      function renderCart() {
+        const items = Cart.getItems();
+        const count = Cart.getCount();
+        const subtotal = Cart.getSubtotal();
+
+        if (count === 0) {
+          cartBar.hidden = true;
+          cartPanel.hidden = true;
+          cartOverlay.hidden = true;
+          return;
+        }
+
+        // Update bar
+        cartBar.hidden = false;
+        cartCount.textContent = String(count);
+        cartTotal.textContent = fmtPrice(subtotal);
+
+        // Render items
+        if (items.length === 0) {
+          cartItems.innerHTML = '<p class="cart-empty">Cart is empty.</p>';
+          cartSummary.hidden = true;
+          return;
+        }
+
+        const html = items.map(it => {
+          const sizeLine = it.size ? `<div class="cart-item-meta">${esc(it.size)} · $${fmtPrice(it.price)} ea</div>` : '';
+          return `
+            <div class="cart-item" data-key="${esc(it.key)}">
+              <div class="cart-item-info">
+                <div class="cart-item-name">${esc(it.name)}</div>
+                ${sizeLine}
+                <div class="cart-item-controls">
+                  <div class="qty-stepper">
+                    <button type="button" data-qty-step="-1" aria-label="Decrease quantity">−</button>
+                    <input type="number" min="0" step="1" value="${it.qty}" data-qty-input>
+                    <button type="button" data-qty-step="1" aria-label="Increase quantity">+</button>
+                  </div>
+                  <span class="cart-item-line">$${fmtPrice(it.price * it.qty)}</span>
+                </div>
+              </div>
+              <button type="button" class="cart-item-remove" data-cart-remove aria-label="Remove">✕</button>
+            </div>`;
+        }).join('');
+        cartItems.innerHTML = html;
+        cartSummary.hidden = false;
+        cartSummaryTotal.textContent = fmtPrice(subtotal);
+      }
+
+      Cart.onChange(renderCart);
+      renderCart();
+
+      // --- "Add to Order" button handler
+      // For plants with one size, add directly. For multi-size, open picker.
+      function handleAddToOrder(botanical) {
+        const plant = findPlant(botanical);
+        if (!plant) return;
+        const sizes = getSizes(plant);
+        if (sizes.length === 0) {
+          showToast(`No sizes available for ${plant.botanical}`);
+          return;
+        }
+        if (sizes.length === 1) {
+          addPlantToCart(plant, sizes[0]);
+          return;
+        }
+        // Multi-size → open picker
+        openSizePicker(plant);
+      }
+
+      function addPlantToCart(plant, size) {
+        const key = `${plant.botanical}|${size.container || ''}`;
+        Cart.add({
+          key,
+          name: plant.botanical,
+          size: size.container || '',
+          price: size.price || 0,
+          qty: 1,
+        });
+        showToast(`Added ${plant.botanical} (${size.container || 'ea'}) to order`);
+      }
+
+      function openSizePicker(plant) {
+        sizePickerTitle.textContent = `Pick a size — ${plant.botanical}`;
+        const sizes = getSizes(plant);
+        sizePickerBody.innerHTML = sizes.map(s => `
+          <div class="size-option" data-pick-size="${esc(s.container || '')}" data-pick-price="${s.price}">
+            <span class="size-option-name">${esc(s.container || 'Standard')}</span>
+            <span class="size-option-price">$${fmtPrice(s.price)}</span>
+          </div>
+        `).join('');
+        // Stash the current plant on the modal so the click handler knows
+        sizePickerModal._plant = plant;
+        sizePickerOverlay.hidden = false;
+        sizePickerModal.hidden = false;
+      }
+      function closeSizePicker() {
+        sizePickerOverlay.hidden = true;
+        sizePickerModal.hidden = true;
+        sizePickerModal._plant = null;
+      }
+
+      // Delegated click handler for Add-to-Order buttons + size picker
+      document.addEventListener('click', (e) => {
+        const addBtn = e.target.closest('[data-add-to-order]');
+        if (addBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          // Walk up to find the card and read its botanical from the image
+          const card = addBtn.closest('.result');
+          const img = card ? card.querySelector('.result-image') : null;
+          if (img && img.dataset.botanical) {
+            handleAddToOrder(img.dataset.botanical);
+          }
+          return;
+        }
+        // Size picker selection
+        const sizeOpt = e.target.closest('[data-pick-size]');
+        if (sizeOpt && !sizePickerModal.hidden) {
+          const plant = sizePickerModal._plant;
+          if (!plant) return;
+          const container = sizeOpt.dataset.pickSize;
+          const size = getSizes(plant).find(s => (s.container || '') === container);
+          if (size) {
+            addPlantToCart(plant, size);
+            closeSizePicker();
+          }
+        }
+      });
+
+      closeSizePickerBtn.addEventListener('click', closeSizePicker);
+      sizePickerOverlay.addEventListener('click', closeSizePicker);
+
+      // --- Cart bar / slide-out panel
+      function openCart() {
+        if (Cart.getCount() === 0) return;
+        cartOverlay.hidden = false;
+        cartPanel.hidden = false;
+      }
+      function closeCart() {
+        cartOverlay.hidden = true;
+        cartPanel.hidden = true;
+      }
+      cartBar.addEventListener('click', openCart);
+      closeCartBtn.addEventListener('click', closeCart);
+      cartOverlay.addEventListener('click', closeCart);
+
+      // Quantity stepper inside cart
+      cartItems.addEventListener('click', (e) => {
+        const stepBtn = e.target.closest('[data-qty-step]');
+        if (stepBtn) {
+          const item = stepBtn.closest('.cart-item');
+          const key = item && item.dataset.key;
+          if (!key) return;
+          const delta = parseInt(stepBtn.dataset.qtyStep, 10) || 0;
+          const cur = Cart.getItems().find(i => i.key === key);
+          if (!cur) return;
+          Cart.setQty(key, cur.qty + delta);
+          return;
+        }
+        const removeBtn = e.target.closest('[data-cart-remove]');
+        if (removeBtn) {
+          const item = removeBtn.closest('.cart-item');
+          const key = item && item.dataset.key;
+          if (key) Cart.remove(key);
+        }
+      });
+      cartItems.addEventListener('change', (e) => {
+        const input = e.target.closest('[data-qty-input]');
+        if (input) {
+          const item = input.closest('.cart-item');
+          const key = item && item.dataset.key;
+          const qty = parseInt(input.value, 10);
+          if (key && !isNaN(qty)) Cart.setQty(key, Math.max(0, qty));
+        }
+      });
+
+      // --- Checkout
+      function openCheckout() {
+        closeCart();
+        checkoutOverlay.hidden = false;
+        checkoutModal.hidden = false;
+        setTimeout(() => checkoutForm.querySelector('[name="customer_name"]').focus(), 100);
+      }
+      function closeCheckout() {
+        checkoutOverlay.hidden = true;
+        checkoutModal.hidden = true;
+      }
+      proceedBtn.addEventListener('click', () => {
+        if (Cart.getCount() === 0) return;
+        openCheckout();
+      });
+      closeCheckoutBtn.addEventListener('click', closeCheckout);
+      cancelCheckoutBtn.addEventListener('click', closeCheckout);
+      checkoutOverlay.addEventListener('click', closeCheckout);
+
+      function generateOrderNumber() {
+        const year = new Date().getFullYear();
+        const suffix = Math.floor(1000 + Math.random() * 9000);
+        return `NS-${year}-${suffix}`;
+      }
+
+      async function submitOrder(formData) {
+        if (!supabase) throw new Error('Ordering is not configured.');
+        const items = Cart.getItems();
+        if (items.length === 0) throw new Error('Cart is empty.');
+        const subtotal = Cart.getSubtotal();
+        const orderNumber = generateOrderNumber();
+        const pItems = items.map(i => ({
+          plant_key: i.key,
+          plant_name: i.name,
+          plant_size: i.size || null,
+          unit_price: i.price,
+          qty: i.qty,
+          line_total: i.price * i.qty,
+          retail_mode: i.retailMode || 'wholesale',
+          retail_price: i.retailPrice || i.price,
+          retail_line_total: (i.retailPrice || i.price) * i.qty,
+          special_order: !!i.specialOrder,
+        }));
+        const { data: orderId, error } = await supabase.rpc('submit_order', {
+          p_order_number: orderNumber,
+          p_customer_name: formData.customer_name.trim(),
+          p_customer_email: formData.customer_email.trim().toLowerCase(),
+          p_customer_phone: (formData.customer_phone || '').trim() || null,
+          p_customer_company: (formData.customer_company || '').trim() || null,
+          p_notes: (formData.notes || '').trim() || null,
+          p_subtotal: subtotal,
+          p_retail_subtotal: subtotal,
+          p_item_count: Cart.getCount(),
+          p_items: pItems,
+        });
+        if (error) throw error;
+        return { orderNumber, orderId };
+      }
+
+      checkoutForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!supabase) {
+          showToast('Ordering is not configured on this page.');
+          return;
+        }
+        const fd = new FormData(checkoutForm);
+        const formData = Object.fromEntries(fd.entries());
+        submitOrderBtn.disabled = true;
+        const origText = submitOrderBtn.textContent;
+        submitOrderBtn.textContent = 'Submitting…';
+        try {
+          const { orderNumber } = await submitOrder(formData);
+          // Fire-and-forget the email (don't block the UI on it)
+          if (supabase.functions) {
+            supabase.functions.invoke('send-order-email', {
+              body: {
+                record: {
+                  order_number: orderNumber,
+                  customer_name: formData.customer_name,
+                  customer_email: formData.customer_email,
+                  customer_phone: formData.customer_phone,
+                  customer_company: formData.customer_company,
+                  notes: formData.notes,
+                  subtotal: Cart.getSubtotal(),
+                  item_count: Cart.getCount(),
+                },
+                items: Cart.getItems().map(i => ({
+                  plant_key: i.key,
+                  plant_name: i.name,
+                  plant_size: i.size,
+                  unit_price: i.price,
+                  qty: i.qty,
+                  line_total: i.price * i.qty,
+                  special_order: !!i.specialOrder,
+                })),
+              },
+            }).catch(err => console.warn('Order email failed (non-blocking):', err));
+          }
+          Cart.clear();
+          closeCheckout();
+          checkoutForm.reset();
+          showToast(`Order ${orderNumber} placed! We'll be in touch soon.`);
+        } catch (err) {
+          console.error('Order submission failed:', err);
+          showToast(`Order failed: ${err.message || 'please try again.'}`);
+        } finally {
+          submitOrderBtn.disabled = false;
+          submitOrderBtn.textContent = origText;
+        }
+      });
+
+      // Esc closes any open panel/modal
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (!checkoutModal.hidden) closeCheckout();
+          else if (!cartPanel.hidden) closeCart();
+          else if (!sizePickerModal.hidden) closeSizePicker();
+        }
+      });
+    })();
   })();
   </script>
 </body>

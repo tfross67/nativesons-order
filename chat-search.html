@@ -1530,6 +1530,58 @@
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
     }
+    /* Flat-pricing helper for 4in / 3in / liner plants (sold by the flat) */
+    .chat-test-root .picker-flat-helper {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: #fafaf5;
+      border: 1px solid #e8e2cf;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .chat-test-root .picker-flat-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--c-clay, #6b6256);
+    }
+    .chat-test-root .picker-flat-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .chat-test-root .picker-flat-line strong {
+      color: var(--c-bark, #2d4a2b);
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "kern" 1;
+      font-weight: 600;
+    }
+    .chat-test-root .picker-flat-chips {
+      display: flex;
+      gap: 8px;
+    }
+    .chat-test-root .picker-flat-chip {
+      flex: 1 1 0;
+      padding: 8px 10px;
+      background: #fff;
+      border: 1px solid var(--c-bark, #2d4a2b);
+      border-radius: 6px;
+      color: var(--c-bark, #2d4a2b);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      text-align: center;
+    }
+    .chat-test-root .picker-flat-chip:hover {
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+    }
     .chat-test-root .form-field {
       display: block;
       margin-bottom: 14px;
@@ -3866,10 +3918,21 @@
       // Track sizes added during this picker session so we can show a tally
       let pickerSessionAdds = [];  // [{size, qty, total}]
 
+      // Flat-pricing helper: 4in plants come in flats of 16 and can be split
+      // into 8.  Detect "is this a flat-priced container?" from the size label.
+      const FLAT_SIZES = { '4in': 16, '4inch': 16, '3in': 18, '3inch': 18, 'liner': 50 };
+      function flatInfo(size) {
+        const k = (size?.container || '').toLowerCase().replace(/\s+/g, '');
+        const units = FLAT_SIZES[k];
+        if (!units) return null;
+        return { units, half: units / 2, sizeLabel: size.container };
+      }
+
       function openSizePicker(plant) {
         pickerSessionAdds = [];
         sizePickerTitle.textContent = `Add Sizes — ${plant.botanical}`;
         const sizes = getSizes(plant);
+        const firstFlat = flatInfo(sizes[0]);
         const sizesHtml = `
           <div class="picker-section-label">Size</div>
           <div class="size-options-list">
@@ -3881,8 +3944,23 @@
               </label>
             `).join('')}
           </div>`;
+        // Flat helper — only render when the first size is a flat-priced container.
+        // Helper stays in sync with the selected size via JS (flatInfo on change).
+        const flatHelperHtml = `
+          <div class="picker-flat-helper" id="pickerFlatHelper" ${firstFlat ? '' : 'hidden'}>
+            <div class="picker-flat-info">
+              <span class="picker-flat-line">Each plant <strong>$${firstFlat ? fmtPrice(sizes[0].price) : ''}</strong></span>
+              ${firstFlat ? `<span class="picker-flat-line">Full flat (<strong>${firstFlat.units}</strong> plants) <strong>$${fmtPrice(firstFlat.units * sizes[0].price)}</strong></span>
+              <span class="picker-flat-line">½ flat (<strong>${firstFlat.half}</strong> plants) <strong>$${fmtPrice(firstFlat.half * sizes[0].price)}</strong></span>` : ''}
+            </div>
+            <div class="picker-flat-chips">
+              ${firstFlat ? `<button type="button" class="picker-flat-chip" data-flat-qty="${firstFlat.half}">+ ${firstFlat.half} (½ flat)</button>
+              <button type="button" class="picker-flat-chip" data-flat-qty="${firstFlat.units}">+ ${firstFlat.units} (full flat)</button>` : ''}
+            </div>
+          </div>`;
         sizePickerBody.innerHTML = `
           ${sizesHtml}
+          ${flatHelperHtml}
           <div class="picker-section-label" style="margin-top:16px;">Quantity</div>
           <div class="picker-qty-row">
             <div class="qty-stepper picker-qty">
@@ -3904,11 +3982,31 @@
         sizePickerOverlay.hidden = false;
         sizePickerModal.hidden = false;
         updatePickerAddBtn();
+        updateFlatHelper();
         // Focus the qty input for fast keyboard entry
         setTimeout(() => {
           const qi = $('pickerQtyInput');
           if (qi) { qi.focus(); qi.select(); }
         }, 50);
+      }
+
+      // Refresh the flat helper info to match the currently-selected size
+      // (so flipping between 1gal and 4in updates both the lines and chips).
+      function updateFlatHelper() {
+        const sel = getPickerSelection();
+        const helper = $('pickerFlatHelper');
+        if (!helper) return;
+        const fi = sel ? flatInfo(sel.size) : null;
+        if (!fi || !sel) { helper.hidden = true; return; }
+        helper.hidden = false;
+        const unitPrice = sel.size.price || 0;
+        helper.querySelector('.picker-flat-info').innerHTML = `
+          <span class="picker-flat-line">Each plant <strong>$${fmtPrice(unitPrice)}</strong></span>
+          <span class="picker-flat-line">Full flat (<strong>${fi.units}</strong> plants) <strong>$${fmtPrice(fi.units * unitPrice)}</strong></span>
+          <span class="picker-flat-line">½ flat (<strong>${fi.half}</strong> plants) <strong>$${fmtPrice(fi.half * unitPrice)}</strong></span>`;
+        helper.querySelector('.picker-flat-chips').innerHTML = `
+          <button type="button" class="picker-flat-chip" data-flat-qty="${fi.half}">+ ${fi.half} (½ flat)</button>
+          <button type="button" class="picker-flat-chip" data-flat-qty="${fi.units}">+ ${fi.units} (full flat)</button>`;
       }
 
       function getPickerSelection() {
@@ -3929,6 +4027,7 @@
         const totalEl = $('pickerLineTotal');
         if (sel && totalEl) totalEl.textContent = `$${fmtPrice(sel.size.price * sel.qty)}`;
         updatePickerAddBtn();
+        updateFlatHelper();
       }
 
       function updatePickerAddBtn() {
@@ -4006,6 +4105,18 @@
         const doneBtn = e.target.closest('#pickerDoneBtn');
         if (doneBtn) {
           closeSizePicker();
+          return;
+        }
+      });
+
+      // Picker flat chips — quick-set qty to ½ flat or full flat
+      sizePickerBody.addEventListener('click', (e) => {
+        const chip = e.target.closest('.picker-flat-chip');
+        if (chip) {
+          const qty = parseInt(chip.dataset.flatQty, 10) || 1;
+          const qi = $('pickerQtyInput');
+          if (qi) { qi.value = String(qty); qi.focus(); qi.select(); }
+          updatePickerLineTotal();
           return;
         }
       });

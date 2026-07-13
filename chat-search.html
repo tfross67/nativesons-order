@@ -4158,11 +4158,17 @@
           if (slackPost && supabase.functions) {
             supabase.functions.invoke('send-order-slack', {
               body: {
-                order_number: orderNumber,
-                customer_name: formData.customer_name,
-                customer_email: formData.customer_email,
+                record: {
+                  order_number: orderNumber,
+                  customer_name: formData.customer_name,
+                  customer_email: formData.customer_email,
+                  customer_phone: formData.customer_phone,
+                  customer_company: formData.customer_company,
+                  notes: formData.notes,
+                  subtotal: Cart.getSubtotal(),
+                  item_count: Cart.getCount(),
+                },
                 items: orderItems,
-                subtotal: Cart.getSubtotal(),
               },
             }).catch(err => console.warn('Order Slack post failed (non-blocking):', err));
           }

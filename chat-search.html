@@ -1216,26 +1216,35 @@
       color: #c14e2e;
     }
     .chat-test-root .cart-item-special {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       margin-top: 8px;
-      padding: 3px 10px;
+      padding: 4px 10px 4px 8px;
       font-family: var(--font-sans);
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      letter-spacing: 0.02em;
       color: var(--c-clay, #6b6256);
       background: #fafaf5;
       border: 1px solid #d8d2c2;
       border-radius: 999px;
       cursor: pointer;
       transition: background 0.15s, color 0.15s, border-color 0.15s;
+      user-select: none;
+    }
+    .chat-test-root .cart-item-special input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      margin: 0;
+      accent-color: #c14e2e;
+      cursor: pointer;
     }
     .chat-test-root .cart-item-special:hover {
       border-color: #c14e2e;
       color: #c14e2e;
     }
-    .chat-test-root .cart-item-special.is-active {
+    .chat-test-root .cart-item-special.is-checked {
       background: #c14e2e;
       color: #fff;
       border-color: #c14e2e;
@@ -3095,7 +3104,10 @@
 
         const html = items.map(it => {
           const sizeLine = it.size ? `<div class="cart-item-meta">${esc(it.size)} · $${fmtPrice(it.price)} ea</div>` : '';
-          const specialBtn = `<button type="button" class="cart-item-special${it.specialOrder ? ' is-active' : ''}" data-cart-special aria-pressed="${!!it.specialOrder}" aria-label="Mark as special order">★ Special order</button>`;
+          const specialCb = `<label class="cart-item-special${it.specialOrder ? ' is-checked' : ''}" data-cart-special-label>
+            <input type="checkbox" data-cart-special ${it.specialOrder ? 'checked' : ''}>
+            <span>Special order</span>
+          </label>`;
           return `
             <div class="cart-item${it.specialOrder ? ' is-special' : ''}" data-key="${esc(it.key)}">
               <div class="cart-item-info">
@@ -3109,7 +3121,7 @@
                   </div>
                   <span class="cart-item-line">$${fmtPrice(it.price * it.qty)}</span>
                 </div>
-                ${specialBtn}
+                ${specialCb}
               </div>
               <button type="button" class="cart-item-remove" data-cart-remove aria-label="Remove">✕</button>
             </div>`;
@@ -3247,16 +3259,14 @@
         }
       });
 
-      // Special-order toggle on a cart line
-      cartItems.addEventListener('click', (e) => {
-        const specialBtn = e.target.closest('[data-cart-special]');
-        if (!specialBtn) return;
-        const item = specialBtn.closest('.cart-item');
+      // Special-order checkbox on a cart line
+      cartItems.addEventListener('change', (e) => {
+        const cb = e.target.closest('[data-cart-special]');
+        if (!cb) return;
+        const item = cb.closest('.cart-item');
         const key = item && item.dataset.key;
         if (!key) return;
-        const cur = Cart.getItems().find(i => i.key === key);
-        if (!cur) return;
-        Cart.setSpecial(key, !cur.specialOrder);
+        Cart.setSpecial(key, !!cb.checked);
       });
 
       // --- Checkout

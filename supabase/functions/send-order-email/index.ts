@@ -25,6 +25,14 @@ interface OrderItem {
   item_code: string | null;
   upc: string | null;
   special_order?: boolean;
+  // Retail pricing — only present when the customer has a default markup or
+  // the staff overrode it on a specific line. retail_unit_price defaults to
+  // retail_price (which equals unit_price for wholesale lines).
+  retail_mode?: string;
+  retail_unit_price?: number | null;
+  retail_price?: number | null;
+  retail_line_total?: number | null;
+  retail_multiplier?: number | null;
 }
 
 interface OrderRecord {
@@ -37,6 +45,7 @@ interface OrderRecord {
   notes: string | null;
   status: string;
   subtotal: number;
+  retail_subtotal?: number | null;
   item_count: number;
   created_at: string;
 }
@@ -67,6 +76,15 @@ const esc = (s: string) => String(s == null ? "" : s)
   .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 
 function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { subject: string; html: string; text: string } {
+  // Per-line helper: does this line have an actual markup applied?
+  const hasMarkup = (i: OrderItem) => {
+    const ru = i.retail_unit_price ?? i.retail_price;
+    return ru != null && Number(ru) > Number(i.unit_price);
+  };
+  const anyMarkup = items.some(hasMarkup);
+  const totalWholesale = items.reduce((s, i) => s + Number(i.line_total || 0), 0);
+  const totalRetail = items.reduce((s, i) => s + Number(i.retail_line_total || i.line_total || 0), 0);
+
   const itemRows = items.map(i => {
     const specialBadge = i.special_order
       ? `<span style="display:inline-block; margin-left:6px; padding:2px 8px; background:#fff3cd; color:#7a5d00; border:1px solid #f0d97a; border-radius:10px; font-size:10px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;">Special Order</span>`
@@ -77,15 +95,43 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
     const codeText = (!toCustomer && i.item_code) ? ` [${i.item_code}]` : '';
     const upcText = (!toCustomer && i.upc) ? ` · UPC ${i.upc}` : '';
     const codeHtml = (!toCustomer && i.item_code) ? `<div style="font-size:10px; color:#6b6256; font-family:ui-monospace,Menlo,Consolas,monospace; margin-top:2px;">${esc(i.item_code)}${i.upc ? ` · UPC ${esc(i.upc)}` : ''}</div>` : '';
+    const retailUnit = i.retail_unit_price ?? i.retail_price;
+    const lineHasMarkup = hasMarkup(i);
+    // Multiplier: prefer the explicit field if present (payload), else
+    // derive it from retail_price / unit_price when in markup mode.
+    const effectiveMultiplier = i.retail_multiplier
+      ?? (i.retail_mode === 'markup' && Number(i.unit_price) > 0
+          ? Number(retailUnit) / Number(i.unit_price)
+          : null);
+    // Markup badge: e.g. "×1.50" when the line was marked up. Shown on
+    // office copy only — customers see the retail price in the line total.
+    const markupBadge = (!toCustomer && lineHasMarkup && effectiveMultiplier)
+      ? `<span style="display:inline-block; margin-left:6px; padding:2px 8px; background:#e8f0e0; color:#2d4a2b; border:1px solid #b8d09a; border-radius:10px; font-size:10px; font-weight:700;">×${fmt(effectiveMultiplier)}</span>`
+      : '';
+    const textMarkup = (!toCustomer && lineHasMarkup && effectiveMultiplier)
+      ? `  [×${fmt(effectiveMultiplier)}]`
+      : '';
+    // Show retail column when any line has markup (or always on customer copy
+    // since the customer needs to see what they're being charged).
+    const showRetailCol = lineHasMarkup || toCustomer;
+    const unitPriceDisplay = (showRetailCol && lineHasMarkup)
+      ? `<span style="color:#999; text-decoration:line-through;">$${fmt(i.unit_price)}</span> $${fmt(Number(retailUnit))}`
+      : `$${fmt(i.unit_price)}`;
+    const lineTotalDisplay = (showRetailCol && lineHasMarkup)
+      ? `<span style="color:#999; text-decoration:line-through;">$${fmt(i.line_total)}</span> <strong>$${fmt(Number(i.retail_line_total))}</strong>`
+      : `<strong>$${fmt(i.line_total)}</strong>`;
+    const unitCol = showRetailCol ? 'Unit (retail)' : 'Unit';
     return {
       html: `<tr>
-        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb;">${esc(i.plant_name)}${specialBadge}${codeHtml}</td>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb;">${esc(i.plant_name)}${specialBadge}${markupBadge}${codeHtml}</td>
         <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; color:#666;">${esc(i.plant_size || "—")}</td>
         <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right;">${i.qty}</td>
-        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right;">$${fmt(i.unit_price)}</td>
-        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right; font-weight:600;">$${fmt(i.line_total)}</td>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right;">${unitPriceDisplay}</td>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right;">${lineTotalDisplay}</td>
       </tr>`,
-      text: `  - ${i.plant_name}${i.plant_size ? ` (${i.plant_size})` : ""} × ${i.qty} = $${fmt(i.line_total)}${textSpecial}${codeText}${upcText}`,
+      text: `  - ${i.plant_name}${i.plant_size ? ` (${i.plant_size})` : ""} × ${i.qty}` +
+            (lineHasMarkup ? ` — $${fmt(i.unit_price)} ea → $${fmt(Number(retailUnit))} ea = $${fmt(Number(i.retail_line_total))}` : ` = $${fmt(i.line_total)}`) +
+            `${textSpecial}${textMarkup}${codeText}${upcText}`,
     };
   });
 
@@ -99,6 +145,15 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
   const intro = toCustomer
     ? `<p>Hi ${esc(o.customer_name.split(" ")[0])} — we've received your order request. Our team will review availability and reach out to confirm pricing, pickup/delivery, and timing.</p>`
     : `<p><strong>${esc(o.customer_name)}</strong> just placed an order via the website.</p>`;
+
+  // Footer subtotal: show both wholesale and retail when there's markup
+  const subtotalCell = anyMarkup
+    ? `<td style="padding: 12px; text-align: right; font-weight: 700; font-size: 18px; color: #2d4a2b;">
+         <span style="color:#999; text-decoration:line-through; font-weight:400; font-size:14px;">$${fmt(totalWholesale)}</span><br>
+         $${fmt(totalRetail)}
+       </td>`
+    : `<td style="padding: 12px; text-align: right; font-weight: 700; font-size: 18px; color: #2d4a2b;">$${fmt(totalWholesale)}</td>`;
+  const subtotalLabel = anyMarkup ? 'Subtotal (retail)' : 'Subtotal';
 
   const html = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 640px; margin: 0 auto; color: #1f2a1c;">
@@ -114,15 +169,15 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
               <th style="padding:10px 12px; text-align:left;">Plant</th>
               <th style="padding:10px 12px; text-align:left;">Size</th>
               <th style="padding:10px 12px; text-align:right;">Qty</th>
-              <th style="padding:10px 12px; text-align:right;">Unit</th>
+              <th style="padding:10px 12px; text-align:right;">${anyMarkup ? 'Unit (retail)' : 'Unit'}</th>
               <th style="padding:10px 12px; text-align:right;">Line</th>
             </tr>
           </thead>
           <tbody>${itemRowsHtml}</tbody>
           <tfoot>
             <tr style="background: #efe9da;">
-              <td colspan="4" style="padding: 12px; text-align: right; font-weight: 600;">Subtotal</td>
-              <td style="padding: 12px; text-align: right; font-weight: 700; font-size: 18px; color: #2d4a2b;">$${fmt(o.subtotal)}</td>
+              <td colspan="4" style="padding: 12px; text-align: right; font-weight: 600;">${subtotalLabel}</td>
+              ${subtotalCell}
             </tr>
           </tfoot>
         </table>
@@ -150,7 +205,9 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
     `Items:`,
     ...itemRowsText,
     ``,
-    `Subtotal: $${fmt(o.subtotal)}`,
+    anyMarkup
+      ? `Subtotal: $${fmt(totalRetail)} (retail, was $${fmt(totalWholesale)})`
+      : `Subtotal: $${fmt(totalWholesale)}`,
     ``,
     `Name: ${o.customer_name}`,
     `Email: ${o.customer_email}`,

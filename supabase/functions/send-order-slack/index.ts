@@ -82,14 +82,30 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
   const itemLines = items.map((i, idx) => {
     const soFlag = i.special_order ? " • SPECIAL" : "";
     const sz = i.plant_size ? ` (${i.plant_size})` : "";
-    const wholesale = `$${fmt(i.unit_price)} ea = $${fmt(i.line_total)}`;
     const retailUnit = i.retail_unit_price ?? i.retail_price;
     const lineHasMarkup = retailUnit != null && Number(retailUnit) > Number(i.unit_price);
-    const retail = (showRetail && lineHasMarkup) ? ` (retail $${fmt(Number(retailUnit))})` : "";
+    // Multiplier: prefer the explicit field, else derive it from retail / wholesale
+    const effectiveMultiplier = i.retail_multiplier
+      ?? (i.retail_mode === 'markup' && Number(i.unit_price) > 0
+          ? Number(retailUnit) / Number(i.unit_price)
+          : null);
+    // Build the price portion of the line:
+    //   • Internal order with markup: show only wholesale (staff doesn't need retail math for phone orders).
+    //   • External order with markup: show wholesale struck-through + retail with multiplier.
+    //   • No markup: show only wholesale.
+    let pricePortion: string;
+    if (lineHasMarkup && showRetail && !internalOrder) {
+      pricePortion =
+        ` — ~~$${fmt(i.unit_price)} ea = $${fmt(i.line_total)}~~` +
+        ` → $${fmt(Number(retailUnit))} ea = $${fmt(Number(i.retail_line_total))}` +
+        (effectiveMultiplier ? ` (×${fmt(effectiveMultiplier)})` : '');
+    } else {
+      pricePortion = ` — $${fmt(i.unit_price)} ea = $${fmt(i.line_total)}`;
+    }
     // Item code (warehouse picker) + UPC (barcode scanner) shown next to name.
     const codeTag = i.item_code ? ` [${i.item_code}]` : "";
     const upcTag = i.upc ? ` · UPC ${i.upc}` : "";
-    return `${idx + 1}. ${i.plant_name}${sz}${codeTag} ×${i.qty} — ${wholesale}${retail}${upcTag}${soFlag}`;
+    return `${idx + 1}. ${i.plant_name}${sz}${codeTag} ×${i.qty}${pricePortion}${upcTag}${soFlag}`;
   });
 
   // Compact plain-text body — renders in small font in Slack, identical in
@@ -100,8 +116,9 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
     `${o.order_number} — ${o.customer_name}${o.customer_company ? ` (${o.customer_company})` : ""}`,
     [o.customer_email, o.customer_phone].filter(Boolean).join(" · "),
     ...itemLines,
-    `${items.length} plants · ${totalUnits} units · $${fmt(totalWholesale)}` + (showRetail && hasAnyMarkup ? ` (retail $${fmt(totalRetail)})` : ""),
-    specialCount > 0 ? `★ ${specialCount} special` : null,
+    (showRetail && hasAnyMarkup && !internalOrder)
+      ? `${items.length} plants · ${totalUnits} units · $${fmt(totalWholesale)} (retail $${fmt(totalRetail)})` + (specialCount > 0 ? ` · ★ ${specialCount} special` : "")
+      : `${items.length} plants · ${totalUnits} units · $${fmt(totalWholesale)}` + (specialCount > 0 ? ` · ★ ${specialCount} special` : ""),
     o.notes ? `Notes: ${o.notes}` : null,
   ].filter(Boolean) as string[];
   const text = textLines.join("\n");
@@ -145,10 +162,11 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
   if (buffer) blocks.push({ type: "section", text: { type: "mrkdwn", text: buffer } });
 
   // Footer context (small gray)
-  const footerText =
-    `${items.length} plants · ${totalUnits} units · $${fmt(totalWholesale)}` +
-    (showRetail && hasAnyMarkup ? ` (retail $${fmt(totalRetail)})` : "") +
-    (specialCount > 0 ? ` · ★ ${specialCount} special` : "");
+  // External order with markup: show wholesale struck-through + retail total.
+  // Internal order or no markup: show just wholesale total.
+  const footerText = (showRetail && hasAnyMarkup && !internalOrder)
+    ? `${items.length} plants · ${totalUnits} units · ~~$${fmt(totalWholesale)}~~ → $${fmt(totalRetail)} retail${specialCount > 0 ? ` · ★ ${specialCount} special` : ""}`
+    : `${items.length} plants · ${totalUnits} units · $${fmt(totalWholesale)}${specialCount > 0 ? ` · ★ ${specialCount} special` : ""}`;
   blocks.push({
     type: "context",
     elements: [{ type: "mrkdwn", text: footerText }],

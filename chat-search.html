@@ -1215,6 +1215,34 @@
       background: rgba(217, 119, 87, 0.12);
       color: #c14e2e;
     }
+    .chat-test-root .cart-item-special {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 3px 10px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--c-clay, #6b6256);
+      background: #fafaf5;
+      border: 1px solid #d8d2c2;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .chat-test-root .cart-item-special:hover {
+      border-color: #c14e2e;
+      color: #c14e2e;
+    }
+    .chat-test-root .cart-item-special.is-active {
+      background: #c14e2e;
+      color: #fff;
+      border-color: #c14e2e;
+    }
+    .chat-test-root .cart-item.is-special {
+      background: linear-gradient(180deg, #fdf6ee 0%, #ffffff 60%);
+    }
     .chat-test-root .cart-summary {
       padding: 18px 22px;
       border-top: 1px solid #e8e2cf;
@@ -1409,6 +1437,41 @@
     .chat-test-root .btn-ghost:hover {
       background: #f4f1ea;
       color: var(--c-bark, #2d4a2b);
+    }
+
+    /* Notify section in checkout modal */
+    .chat-test-root .notify-fieldset {
+      border: 1px solid #d8d2c2;
+      border-radius: 8px;
+      padding: 10px 14px 12px;
+      margin: 4px 0 18px;
+      background: #fafaf5;
+    }
+    .chat-test-root .notify-fieldset legend {
+      font-family: var(--font-sans);
+      font-size: var(--fs-eyebrow);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--ls-xwide);
+      color: var(--c-bark, #2d4a2b);
+      padding: 0 6px;
+    }
+    .chat-test-root .notify-fieldset label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--c-bark, #2d4a2b);
+      cursor: pointer;
+    }
+    .chat-test-root .notify-fieldset input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--c-bark, #2d4a2b);
+      cursor: pointer;
     }
 
     /* Toast confirmation */
@@ -1611,6 +1674,21 @@
         <span>Notes (delivery, substitutions, etc.)</span>
         <textarea name="notes" rows="3"></textarea>
       </label>
+      <fieldset class="notify-fieldset">
+        <legend>Notify</legend>
+        <label>
+          <input type="checkbox" id="optEmailCustomer" checked>
+          Email customer
+        </label>
+        <label>
+          <input type="checkbox" id="optEmailTim" checked>
+          Email Tim (office copy)
+        </label>
+        <label>
+          <input type="checkbox" id="optSlack">
+          Slack post
+        </label>
+      </fieldset>
       <div class="modal-actions">
         <button type="button" class="btn btn-ghost" id="cancelCheckout">Cancel</button>
         <button type="submit" class="btn btn-primary" id="submitOrder">Submit Order</button>
@@ -3017,8 +3095,9 @@
 
         const html = items.map(it => {
           const sizeLine = it.size ? `<div class="cart-item-meta">${esc(it.size)} · $${fmtPrice(it.price)} ea</div>` : '';
+          const specialBtn = `<button type="button" class="cart-item-special${it.specialOrder ? ' is-active' : ''}" data-cart-special aria-pressed="${!!it.specialOrder}" aria-label="Mark as special order">★ Special order</button>`;
           return `
-            <div class="cart-item" data-key="${esc(it.key)}">
+            <div class="cart-item${it.specialOrder ? ' is-special' : ''}" data-key="${esc(it.key)}">
               <div class="cart-item-info">
                 <div class="cart-item-name">${esc(it.name)}</div>
                 ${sizeLine}
@@ -3030,6 +3109,7 @@
                   </div>
                   <span class="cart-item-line">$${fmtPrice(it.price * it.qty)}</span>
                 </div>
+                ${specialBtn}
               </div>
               <button type="button" class="cart-item-remove" data-cart-remove aria-label="Remove">✕</button>
             </div>`;
@@ -3167,6 +3247,18 @@
         }
       });
 
+      // Special-order toggle on a cart line
+      cartItems.addEventListener('click', (e) => {
+        const specialBtn = e.target.closest('[data-cart-special]');
+        if (!specialBtn) return;
+        const item = specialBtn.closest('.cart-item');
+        const key = item && item.dataset.key;
+        if (!key) return;
+        const cur = Cart.getItems().find(i => i.key === key);
+        if (!cur) return;
+        Cart.setSpecial(key, !cur.specialOrder);
+      });
+
       // --- Checkout
       function openCheckout() {
         closeCart();
@@ -3234,13 +3326,36 @@
         }
         const fd = new FormData(checkoutForm);
         const formData = Object.fromEntries(fd.entries());
+
+        // Read notify preferences BEFORE submit so we know who to skip / fire.
+        const emailCustomer = $('optEmailCustomer').checked;
+        const emailTim = $('optEmailTim').checked;
+        const slackPost = $('optSlack').checked;
+
         submitOrderBtn.disabled = true;
         const origText = submitOrderBtn.textContent;
         submitOrderBtn.textContent = 'Submitting…';
         try {
           const { orderNumber } = await submitOrder(formData);
-          // Fire-and-forget the email (don't block the UI on it)
-          if (supabase.functions) {
+
+          // Build the email skip array (Edge Function defaults to sending both
+          // — we tell it to skip recipients the user opted out of).
+          const skip = [];
+          if (!emailCustomer) skip.push('customer');
+          if (!emailTim) skip.push('office');
+
+          const orderItems = Cart.getItems().map(i => ({
+            plant_key: i.key,
+            plant_name: i.name,
+            plant_size: i.size,
+            unit_price: i.price,
+            qty: i.qty,
+            line_total: i.price * i.qty,
+            special_order: !!i.specialOrder,
+          }));
+
+          // Send emails (fire-and-forget) — only if at least one is checked
+          if (skip.length < 2 && supabase.functions) {
             supabase.functions.invoke('send-order-email', {
               body: {
                 record: {
@@ -3253,22 +3368,35 @@
                   subtotal: Cart.getSubtotal(),
                   item_count: Cart.getCount(),
                 },
-                items: Cart.getItems().map(i => ({
-                  plant_key: i.key,
-                  plant_name: i.name,
-                  plant_size: i.size,
-                  unit_price: i.price,
-                  qty: i.qty,
-                  line_total: i.price * i.qty,
-                  special_order: !!i.specialOrder,
-                })),
+                items: orderItems,
+                skip,
               },
             }).catch(err => console.warn('Order email failed (non-blocking):', err));
           }
+
+          // Send to Slack — only if the Slack checkbox is checked
+          if (slackPost && supabase.functions) {
+            supabase.functions.invoke('send-order-slack', {
+              body: {
+                order_number: orderNumber,
+                customer_name: formData.customer_name,
+                customer_email: formData.customer_email,
+                items: orderItems,
+                subtotal: Cart.getSubtotal(),
+              },
+            }).catch(err => console.warn('Order Slack post failed (non-blocking):', err));
+          }
+
           Cart.clear();
           closeCheckout();
           checkoutForm.reset();
-          showToast(`Order ${orderNumber} placed! We'll be in touch soon.`);
+          // Build a brief notify summary for the toast
+          const fired = [];
+          if (emailCustomer) fired.push('email→customer');
+          if (emailTim) fired.push('email→Tim');
+          if (slackPost) fired.push('Slack');
+          const firedSummary = fired.length ? ` · ${fired.join(', ')}` : '';
+          showToast(`Order ${orderNumber} placed!${firedSummary}`);
         } catch (err) {
           console.error('Order submission failed:', err);
           showToast(`Order failed: ${err.message || 'please try again.'}`);

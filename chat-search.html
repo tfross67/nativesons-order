@@ -4764,6 +4764,10 @@
                 },
                 items: orderItems,
                 skip,
+                // TESTING: route the office copy to tfross@nativeson.com instead
+                // of orders@nativeson.com so we don't spam the orders inbox.
+                // Remove this line (or set to null) to go back to orders@.
+                debugOfficeEmail: 'tfross@nativeson.com',
               },
             }).catch(err => console.warn('Order email failed (non-blocking):', err));
           }

@@ -87,100 +87,83 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
     o.notes ? `Notes: ${o.notes}` : null,
   ].filter(Boolean).join("\n");
 
-  // Header + customer info as a section
+  // Compact layout — every section uses small plain_text to render ~25% smaller
+  // than the default mrkdwn blocks. mrkdwn text is rendered at body size by
+  // default and there's no way to shrink it; plain_text blocks support
+  // size: "small". Drop the bold-header emoji line and bake the customer info
+  // into a single one-line summary.
+
+  // Line 1: order # + customer (bold, default size — important to spot)
   const headerSection = {
     type: "section",
     text: {
       type: "mrkdwn",
-      text: `:seedling: *New order ${o.order_number}* — ${o.customer_name}`,
+      text: `*${o.order_number}* — ${o.customer_name}${o.customer_company ? ` (${o.customer_company})` : ""}`,
     },
   };
 
-  const fieldsSection = {
+  // Line 2: contact info, small
+  const contactLine = [
+    o.customer_email || null,
+    o.customer_phone || null,
+  ].filter(Boolean).join(" · ") || "—";
+  const contactSection = {
     type: "section",
-    fields: [
-      { type: "mrkdwn", text: `*Customer*\n${o.customer_name}${o.customer_company ? ` (${o.customer_company})` : ""}` },
-      { type: "mrkdwn", text: `*Email*\n${o.customer_email}` },
-      { type: "mrkdwn", text: `*Phone*\n${o.customer_phone || "—"}` },
-      { type: "mrkdwn", text: `*Status*\n${o.status || "new"}` },
-    ],
+    text: { type: "plain_text", text: contactLine, emoji: true, size: "small" as const },
   };
 
-  // Item lines — Slack's "section" with mrkdwn renders plain text.
+  // Item lines — small plain_text, one plant per line, no fancy formatting
   const itemLines = items.map((i, idx) => {
-    const soFlag = i.special_order ? " :star: *SPECIAL ORDER*" : "";
-    const sz = i.plant_size ? ` _(${i.plant_size})_` : "";
-    const wholesale = `$${fmt(i.unit_price)} each = $${fmt(i.line_total)}`;
+    const soFlag = i.special_order ? " • SPECIAL" : "";
+    const sz = i.plant_size ? ` (${i.plant_size})` : "";
+    const wholesale = `$${fmt(i.unit_price)} ea = $${fmt(i.line_total)}`;
     const retailUnit = i.retail_unit_price ?? i.retail_price;
-    // Only show "retail $X" when the customer actually marked it up.
-    // Skip when retail equals wholesale (no markup) or is unset.
-    // Also skip entirely for internal orders (office.html).
-    const hasMarkup = retailUnit != null && Number(retailUnit) > Number(i.unit_price);
-    const retail = (showRetail && hasMarkup) ? ` retail $${fmt(Number(retailUnit))}` : "";
-    return `${idx + 1}. ${i.plant_name}${sz}${soFlag}\n     Qty ${i.qty} • ${wholesale}${retail}`;
-  }).join("\n\n");
+    const lineHasMarkup = retailUnit != null && Number(retailUnit) > Number(i.unit_price);
+    const retail = (showRetail && lineHasMarkup) ? ` (retail $${fmt(Number(retailUnit))})` : "";
+    return `${idx + 1}. ${i.plant_name}${sz} ×${i.qty} — ${wholesale}${retail}${soFlag}`;
+  }).join("\n");
 
   // If the order has more than 25 items, split sections (Slack limit).
   const itemsSectionBlocks = [];
   const MAX_FIELD_LEN = 2900;
   let buffer = "";
-  let chunkIdx = 0;
   const chunks = [];
-  for (const line of itemLines.split("\n\n")) {
+  for (const line of itemLines.split("\n")) {
     if (buffer.length + line.length + 2 > MAX_FIELD_LEN && buffer) {
       chunks.push(buffer);
       buffer = "";
     }
-    buffer += (buffer ? "\n\n" : "") + line;
+    buffer += (buffer ? "\n" : "") + line;
   }
   if (buffer) chunks.push(buffer);
 
   for (const chunk of chunks) {
     itemsSectionBlocks.push({
       type: "section",
-      text: { type: "mrkdwn", text: chunk },
+      text: { type: "plain_text", text: chunk, emoji: true, size: "small" as const },
     });
-    // Add divider between chunks
-    if (chunks.length > 1) {
-      itemsSectionBlocks.push({ type: "divider" });
-    }
   }
 
-  // Totals footer
+  // Totals footer — small
   const totalLines = [
-    `*Subtotal (wholesale):* $${fmt(totalWholesale)}`,
-    (showRetail && hasAnyMarkup) ? `*Total (retail):* $${fmt(totalRetail)}` : null,
-    specialCount > 0 ? `:star: *${specialCount} special order item${specialCount > 1 ? "s" : ""}*` : null,
-  ].filter(Boolean).join("\n");
+    `${items.length} plants · ${totalUnits} units · $${fmt(totalWholesale)}` + (showRetail && hasAnyMarkup ? ` (retail $${fmt(totalRetail)})` : ""),
+    specialCount > 0 ? `★ ${specialCount} special` : null,
+  ].filter(Boolean).join(" · ");
 
   const totalsSection = {
     type: "section",
-    text: { type: "mrkdwn", text: totalLines },
+    text: { type: "plain_text", text: totalLines, emoji: true, size: "small" as const },
   };
 
-  // View in admin button
-  const adminButton = {
-    type: "actions",
-    elements: [
-      {
-        type: "button",
-        text: { type: "plain_text", text: "View in admin →", emoji: true },
-        url: ADMIN_URL,
-        action_id: "view_in_admin",
-        style: "primary",
-      },
-    ],
-  };
-
-  // Notes section (if any)
+  // Notes section (if any) — small
   const notesSection = o.notes ? {
     type: "section",
-    text: { type: "mrkdwn", text: `*Notes:*\n${o.notes}` },
+    text: { type: "plain_text", text: `Notes: ${o.notes}`, emoji: true, size: "small" as const },
   } : null;
 
-  const blocks: any[] = [headerSection, fieldsSection];
+  const blocks: any[] = [headerSection, contactSection];
   if (notesSection) blocks.push(notesSection);
-  blocks.push({ type: "divider" }, ...itemsSectionBlocks, { type: "divider" }, totalsSection, adminButton);
+  blocks.push(...itemsSectionBlocks, totalsSection);
 
   return { text, blocks };
 }

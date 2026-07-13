@@ -680,6 +680,11 @@
       line-height: 1.3;
       position: relative;
       z-index: 2;
+      pointer-events: auto;
+    }
+    /* Children of footer that are part of the result-link target should not capture clicks;
+       only the checkbox + select-label should. */
+    .chat-test-root .result-footer .result-link-text {
       pointer-events: none;
     }
     .chat-test-root .result-link-text {
@@ -711,6 +716,8 @@
       line-height: 1;
       user-select: none;
       transition: border-color 0.15s, background 0.15s;
+      position: relative;
+      z-index: 3;
     }
     /* Label sits next to the checkbox in the footer */
     .chat-test-root .result-select-label {
@@ -722,6 +729,8 @@
       cursor: pointer;
       user-select: none;
       line-height: var(--lh-snug);
+      position: relative;
+      z-index: 3;
     }
     .chat-test-root .result-select-label:hover { color: var(--c-bark, #2d4a2b); }
     .chat-test-root .result-image {

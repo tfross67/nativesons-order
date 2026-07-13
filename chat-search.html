@@ -473,7 +473,7 @@
     .chat-test-root .meta-pill {
       font-family: var(--font-sans);
       font-size: 10.5px;
-      font-weight: 500;
+      font-weight: 600;
       letter-spacing: 0.02em;
       background: #f4f1ea;
       border: 1px solid #e8e2cf;
@@ -500,7 +500,7 @@
     .chat-test-root .meta-pill.cat-size {
       background: #f0eaf5;
       border-color: #d2c0e0;
-      color: #5a2a7a;
+      color: #4a1f6a;
     }
     .chat-test-root .meta-pill.cat-bloom {
       background: #f9e9d4;
@@ -665,7 +665,7 @@
       font-family: var(--font-sans);
       font-size: 12.5px;
       font-weight: 400;
-      color: var(--c-bark, #2d4a2b);
+      color: #5a4220;
       line-height: var(--lh-snug);
       position: relative;
       z-index: 2;
@@ -675,6 +675,14 @@
     .chat-test-root .result-link-text {
       font-weight: 500;
       letter-spacing: 0.01em;
+      text-decoration: underline;
+      text-decoration-color: rgba(90, 66, 32, 0.3);
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+    }
+    .chat-test-root .result:hover .result-link-text,
+    .chat-test-root .result:focus-within .result-link-text {
+      text-decoration-color: rgba(90, 66, 32, 0.7);
     }
     .chat-test-root .result-checkbox {
       position: absolute;
@@ -993,7 +1001,7 @@
       <div class="hero-content">
         <div class="hero-eyebrow">This week's availability</div>
         <h2 class="hero-headline" id="heroHeadline">50+ plants in bloom</h2>
-        <p class="hero-sub">Browse by color, size, water needs, or just describe what you're looking for.</p>
+        <p class="hero-sub">Search by color, size, water needs, or describe what you're looking for.</p>
       </div>
       <div class="hero-stats" id="heroStats"></div>
     </div>

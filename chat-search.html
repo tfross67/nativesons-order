@@ -668,9 +668,11 @@
     .chat-test-root .result-footer {
       margin-top: 10px;
       padding-top: 8px;
-      padding-left: 36px;
       border-top: 1px dashed #e8e2cf;
-      text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
       font-family: var(--font-sans);
       font-size: 12.5px;
       font-weight: 400;
@@ -694,25 +696,35 @@
       text-decoration-color: rgba(90, 66, 32, 0.7);
     }
     .chat-test-root .result-checkbox {
-      position: absolute;
-      bottom: 12px;
-      left: 12px;
-      z-index: 3;
-      width: 24px;
-      height: 24px;
-      border: 2px solid #d8d2c2;
-      border-radius: 4px;
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid #d8d2c2;
+      border-radius: 3px;
       background: #fff;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
-      line-height: 1;
+      font-size: 14px;
+      font-weight: 700;
       color: var(--c-bark, #2d4a2b);
+      line-height: 1;
       user-select: none;
-      transition: all 0.15s;
+      transition: border-color 0.15s, background 0.15s;
     }
+    /* Label sits next to the checkbox in the footer */
+    .chat-test-root .result-select-label {
+      flex: 1 1 auto;
+      min-width: 0;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--c-clay, #6b6256);
+      cursor: pointer;
+      user-select: none;
+      line-height: var(--lh-snug);
+    }
+    .chat-test-root .result-select-label:hover { color: var(--c-bark, #2d4a2b); }
     .chat-test-root .result-image {
       position: absolute;
       top: -8px;
@@ -965,8 +977,8 @@
         top: -6px; right: -6px;
         border-width: 2px;
       }
-      .chat-test-root .result-checkbox { width: 22px; height: 22px; bottom: 10px; left: 10px; font-size: 14px; }
-      .chat-test-root .result-footer { padding-left: 32px; min-height: 22px; }
+      .chat-test-root .result-checkbox { width: 22px; height: 22px; font-size: 14px; }
+      .chat-test-root .result-footer { min-height: 22px; }
       /* Match tooltip: anchor to bottom-right of card so it doesn't clip off-screen */
       .chat-test-root .result-match-line::after {
         top: calc(100% + 8px);
@@ -3277,7 +3289,6 @@
 
                 card.innerHTML = `
                   <a class="result-link" href="${plantUrl(plant.botanical)}" target="_blank" rel="noopener" aria-label="More info on ${escapeHTML(plant.botanical)} on nativeson.com"></a>
-                  <div class="result-checkbox${isSel ? ' checked' : ''}" role="checkbox" aria-checked="${isSel}" aria-label="Select ${escapeHTML(plant.botanical)}" data-select>${isSel ? '✓' : ''}</div>
                   <img class="result-image" data-botanical="${escapeHTML(plant.botanical)}" src="${PLACEHOLDER_IMG}" alt="" loading="lazy">
                   <div class="result-botanical">${highlight(plant.botanical, highlightTerms)}</div>
                   <div class="result-common">${highlight(plant.common || '', highlightTerms)}</div>
@@ -3297,6 +3308,8 @@
                   </div>
                   <button type="button" class="result-expand" aria-expanded="false" data-expand>Details</button>
                   <div class="result-footer">
+                    <div class="result-checkbox${isSel ? ' checked' : ''}" role="checkbox" aria-checked="${isSel}" aria-label="Select ${escapeHTML(plant.botanical)} for export" data-select>${isSel ? '✓' : ''}</div>
+                    <label class="result-select-label" data-select-label>Select for export list</label>
                     <span class="result-link-text">More info on nativeson.com →</span>
                   </div>
                 `;
@@ -3470,10 +3483,11 @@
         return;
       }
       const cb = e.target.closest('[data-select]');
-      if (!cb) return;
+      const label = e.target.closest('[data-select-label]');
+      if (!cb && !label) return;
       e.preventDefault();
       e.stopPropagation();
-      const card = cb.closest('.result');
+      const card = (cb || label).closest('.result');
       if (!card) return;
       const botanical = card.dataset.botanical;
       const plant = getCatalog().find(p => p.botanical === botanical);
@@ -3481,9 +3495,12 @@
       toggleSelection(botanical, plant);
       // Update this card's UI
       const nowSelected = isSelected(botanical);
-      cb.classList.toggle('checked', nowSelected);
-      cb.textContent = nowSelected ? '✓' : '';
-      cb.setAttribute('aria-checked', String(nowSelected));
+      const targetCb = card.querySelector('[data-select]');
+      if (targetCb) {
+        targetCb.classList.toggle('checked', nowSelected);
+        targetCb.textContent = nowSelected ? '✓' : '';
+        targetCb.setAttribute('aria-checked', String(nowSelected));
+      }
       card.classList.toggle('selected', nowSelected);
     });
 

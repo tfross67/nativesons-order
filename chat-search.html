@@ -4691,7 +4691,7 @@
       }
 
       // Sync sidebar → checkout form fields whenever the user edits the sidebar
-      ['sideCustName', 'sideCustEmail', 'sideCustPhone', 'sideCustCompany', 'sideCustNotes'].forEach(id => {
+      ['sideCustName', 'sideCustEmail', 'sideCustPhone', 'sideCustCompany'].forEach(id => {
         const el = $(id);
         if (!el) return;
         el.addEventListener('input', () => {
@@ -4702,6 +4702,16 @@
           if (target) target.value = el.value;
         });
       });
+      // Notes has a different form field name (`notes`, not `customer_notes`)
+      const sideNotesEl = $('sideCustNotes');
+      if (sideNotesEl) {
+        sideNotesEl.addEventListener('input', () => {
+          const form = $('checkoutForm');
+          if (!form) return;
+          const target = form.querySelector('[name="notes"]');
+          if (target) target.value = sideNotesEl.value;
+        });
+      }
 
       // Wire customer picker (delegated — the elements only exist in staff mode)
       function wireStaffCustomerPicker() {

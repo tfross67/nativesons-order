@@ -1329,6 +1329,23 @@
     body .cart-item-retail-reset:hover {
       color: #c14e2e;
     }
+    body .cart-item-retail-toggle {
+      background: #f4f1ea;
+      border: 1px solid #d9d2b8;
+      color: var(--c-bark, #2d4a2b);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 0 8px;
+      height: 22px;
+      border-radius: 4px;
+      line-height: 1;
+      font-family: var(--font-sans);
+    }
+    body .cart-item-retail-toggle:hover {
+      background: #ede4d0;
+      border-color: #6b8a4a;
+    }
     body .cart-summary {
       padding: 18px 22px;
       border-top: 1px solid #e8e2cf;
@@ -3997,14 +4014,19 @@
 
         const html = items.map(it => {
           const sizeLine = it.size ? `<div class="cart-item-meta">${esc(it.size)} · $${fmtPrice(it.price)} wholesale</div>` : '';
+          const isMarkupMode = it.retailMode === 'markup' && it.retailMultiplier;
           const isCustomRetail = it.retailMode && it.retailMode !== 'wholesale';
           const retailVal = isCustomRetail ? it.retailPrice : it.price;
+          // In markup mode, show the multiplier as the input value
+          const inputValue = isMarkupMode ? it.retailMultiplier : retailVal;
+          const inputMode = isMarkupMode ? 'markup' : 'manual';
           const retailRow = `
             <div class="cart-item-retail">
               <label>
-                <span>Retail $</span>
-                <input type="number" min="0" step="0.01" value="${retailVal}" data-cart-retail-input>
+                <span>Retail ${isMarkupMode ? '×' : '$'}</span>
+                <input type="number" min="0" step="${isMarkupMode ? '0.05' : '0.01'}" value="${inputValue}" data-cart-retail-input data-cart-retail-mode="${inputMode}">
               </label>
+              <button type="button" class="cart-item-retail-toggle" data-cart-retail-toggle aria-label="${isMarkupMode ? 'Switch to dollar amount' : 'Switch to markup multiplier'}" title="${isMarkupMode ? 'Switch to $' : 'Switch to × markup'}">${isMarkupMode ? '$' : '×'}</button>
               ${isCustomRetail ? '<button type="button" class="cart-item-retail-reset" data-cart-retail-reset aria-label="Reset to wholesale">↺</button>' : ''}
             </div>`;
           const specialCb = `<label class="cart-item-special${it.specialOrder ? ' is-checked' : ''}" data-cart-special-label>
@@ -4420,7 +4442,8 @@
         Cart.setSpecial(key, !!cb.checked);
       });
 
-      // Per-item retail price input. Updates retailPrice + retailMode='manual'.
+      // Per-item retail price input. Supports both manual ($) and markup (×) modes.
+      // The current mode is encoded in data-cart-retail-mode on the input.
       // Use input (not change) so the live line total updates as the user types.
       cartItems.addEventListener('input', (e) => {
         const input = e.target.closest('[data-cart-retail-input]');
@@ -4428,7 +4451,23 @@
         const item = input.closest('.cart-item');
         const key = item && item.dataset.key;
         if (!key) return;
-        Cart.setRetail(key, 'manual', input.value, { silent: true });
+        const mode = input.dataset.cartRetailMode === 'markup' ? 'markup' : 'manual';
+        // Update cart item with current mode. For markup, cart.setRetail
+        // expects the multiplier as the value and computes retailPrice.
+        if (mode === 'markup') {
+          Cart.setRetail(key, 'markup', input.value, { silent: true });
+          // Stash the multiplier on the item so re-render shows the right value
+          const m = parseFloat(input.value);
+          if (!isNaN(m)) {
+            const it = Cart.getItems().find(i => i.key === key);
+            if (it) it.retailMultiplier = m;
+          }
+        } else {
+          Cart.setRetail(key, 'manual', input.value, { silent: true });
+          // Clear any stored multiplier
+          const it = Cart.getItems().find(i => i.key === key);
+          if (it) delete it.retailMultiplier;
+        }
         // Update only this line's display total + cart totals — don't re-render
         // the whole cart (would tear down the input mid-keystroke).
         const it = Cart.getItems().find(i => i.key === key);
@@ -4457,6 +4496,32 @@
         cartSummaryTotal.textContent = '$' + fmtPrice(Cart.getRetailSubtotal());
       });
 
+      // Toggle retail price input between $ (manual) and × (markup multiplier)
+      cartItems.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-cart-retail-toggle]');
+        if (btn) {
+          const item = btn.closest('.cart-item');
+          const key = item && item.dataset.key;
+          if (!key) return;
+          const it = Cart.getItems().find(i => i.key === key);
+          if (!it) return;
+          // Switching modes preserves the current effective retail price.
+          // markup mode derives a multiplier from (retailPrice / price); manual
+          // mode stores the absolute retailPrice directly.
+          if (it.retailMode === 'markup' && it.retailMultiplier) {
+            // Switch to manual: keep current effective retail
+            Cart.setRetail(key, 'manual', it.retailPrice);
+            delete it.retailMultiplier;
+          } else {
+            // Switch to markup: derive multiplier from current retail / wholesale
+            const m = it.price > 0 ? (it.retailPrice / it.price) : 1;
+            Cart.setRetail(key, 'markup', m);
+            it.retailMultiplier = Math.round(m * 100) / 100;
+          }
+          return;
+        }
+      });
+
       // Reset retail price back to wholesale
       cartItems.addEventListener('click', (e) => {
         const btn = e.target.closest('[data-cart-retail-reset]');
@@ -4465,6 +4530,9 @@
         const key = item && item.dataset.key;
         if (!key) return;
         Cart.setRetail(key, 'wholesale');
+        // Clear multiplier too
+        const it = Cart.getItems().find(i => i.key === key);
+        if (it) delete it.retailMultiplier;
       });
 
       // --- Checkout

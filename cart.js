@@ -97,11 +97,15 @@ window.Cart = (() => {
     // Ignored for 'wholesale'.
     // opts.silent: if true, persist without notifying listeners (avoids tearing
     //   down the input element mid-keystroke for retail-price edits).
+    // opts.multiplier: optional — store the explicit multiplier value when
+    //   mode='markup', so the UI can re-display it on re-render. Derived
+    //   automatically from value if not provided.
     const item = items.find(i => i.key === key);
     if (!item) return;
     item.retailMode = mode;
     if (mode === 'wholesale') {
       item.retailPrice = item.price;
+      delete item.retailMultiplier;
     } else if (mode === 'markup') {
       const strVal = String(value).trim();
       if (strVal === '' || strVal === '.' || strVal === '-') {
@@ -112,6 +116,10 @@ window.Cart = (() => {
       const mult = parseFloat(strVal);
       const m = (isNaN(mult) || mult < 0) ? 0 : mult;
       item.retailPrice = Math.round(item.price * m * 100) / 100;
+      // Store the multiplier for re-display
+      item.retailMultiplier = opts && opts.multiplier != null
+        ? opts.multiplier
+        : m;
     } else if (mode === 'manual') {
       // Accept partial input like "" or "1." without snapping to 0.
       // Only commit a rounded value when the input is a complete number.
@@ -124,6 +132,7 @@ window.Cart = (() => {
       }
       const p = parseFloat(strVal);
       item.retailPrice = (isNaN(p) || p < 0) ? 0 : Math.round(p * 100) / 100;
+      delete item.retailMultiplier;
     }
     if (opts && opts.silent) saveSilent();
     else save();

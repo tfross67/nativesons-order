@@ -4457,13 +4457,11 @@
         if (mode === 'markup') {
           const m = parseFloat(input.value);
           if (!isNaN(m)) {
-            const it = Cart.getItems().find(i => i.key === key);
-            if (it) it.retailMultiplier = m;
+            Cart.setRetail(key, 'markup', input.value, { silent: true, multiplier: m });
+          } else {
+            Cart.setRetail(key, 'markup', input.value, { silent: true });
           }
-          Cart.setRetail(key, 'markup', input.value, { silent: true });
         } else {
-          const it = Cart.getItems().find(i => i.key === key);
-          if (it) it.retailMultiplier = undefined;
           Cart.setRetail(key, 'manual', input.value, { silent: true });
         }
         // Update only this line's display total + cart totals — don't re-render
@@ -4506,15 +4504,14 @@
           // Switching modes preserves the current effective retail price.
           // markup mode derives a multiplier from (retailPrice / price); manual
           // mode stores the absolute retailPrice directly.
-          if (it.retailMode === 'markup' && it.retailMultiplier) {
+          if (it.retailMode === 'markup') {
             // Switch to manual: keep current effective retail
-            it.retailMultiplier = undefined;
             Cart.setRetail(key, 'manual', it.retailPrice);
           } else {
             // Switch to markup: derive multiplier from current retail / wholesale
             const m = it.price > 0 ? (it.retailPrice / it.price) : 1;
-            it.retailMultiplier = Math.round(m * 100) / 100;
-            Cart.setRetail(key, 'markup', m);
+            const rounded = Math.round(m * 100) / 100;
+            Cart.setRetail(key, 'markup', rounded, { multiplier: rounded });
           }
           return;
         }
@@ -4574,6 +4571,7 @@
           retail_mode: i.retailMode || 'wholesale',
           retail_price: i.retailPrice || i.price,
           retail_line_total: (i.retailPrice || i.price) * i.qty,
+          retail_multiplier: i.retailMultiplier || null,
           item_code: i.item_code || null,
           upc: i.upc || null,
           special_order: !!i.specialOrder,

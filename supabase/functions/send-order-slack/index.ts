@@ -78,41 +78,7 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
   const totalUnits = items.reduce((s, i) => s + (i.qty || 0), 0);
   const specialCount = items.filter(i => i.special_order).length;
 
-  // Build a Slack-flavored text version of the order (used as fallback when
-  // the channel doesn't render blocks — e.g. notifications, classic Slack).
-  const text = [
-    `*New order ${o.order_number}* — ${o.customer_name}`,
-    `Items: ${items.length} plants, ${totalUnits} units` +
-      (hasAnyMarkup ? `, retail $${fmt(totalRetail)}` : `, wholesale $${fmt(totalWholesale)}`),
-    o.notes ? `Notes: ${o.notes}` : null,
-  ].filter(Boolean).join("\n");
-
-  // Compact layout — every section uses small plain_text to render ~25% smaller
-  // than the default mrkdwn blocks. mrkdwn text is rendered at body size by
-  // default and there's no way to shrink it; plain_text blocks support
-  // size: "small". Drop the bold-header emoji line and bake the customer info
-  // into a single one-line summary.
-
-  // Line 1: order # + customer (bold, default size — important to spot)
-  const headerSection = {
-    type: "section",
-    text: {
-      type: "mrkdwn",
-      text: `*${o.order_number}* — ${o.customer_name}${o.customer_company ? ` (${o.customer_company})` : ""}`,
-    },
-  };
-
-  // Line 2: contact info, small
-  const contactLine = [
-    o.customer_email || null,
-    o.customer_phone || null,
-  ].filter(Boolean).join(" · ") || "—";
-  const contactSection = {
-    type: "section",
-    text: { type: "plain_text", text: contactLine, emoji: true, size: "small" as const },
-  };
-
-  // Item lines — small plain_text, one plant per line, no fancy formatting
+  // Build item lines for both the plain-text body and the blocks view
   const itemLines = items.map((i, idx) => {
     const soFlag = i.special_order ? " • SPECIAL" : "";
     const sz = i.plant_size ? ` (${i.plant_size})` : "";
@@ -120,50 +86,80 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
     const retailUnit = i.retail_unit_price ?? i.retail_price;
     const lineHasMarkup = retailUnit != null && Number(retailUnit) > Number(i.unit_price);
     const retail = (showRetail && lineHasMarkup) ? ` (retail $${fmt(Number(retailUnit))})` : "";
-    return `${idx + 1}. ${i.plant_name}${sz} ×${i.qty} — ${wholesale}${retail}${soFlag}`;
-  }).join("\n");
+    // Item code (warehouse picker) + UPC (barcode scanner) shown next to name.
+    const codeTag = i.item_code ? ` [${i.item_code}]` : "";
+    const upcTag = i.upc ? ` · UPC ${i.upc}` : "";
+    return `${idx + 1}. ${i.plant_name}${sz}${codeTag} ×${i.qty} — ${wholesale}${retail}${upcTag}${soFlag}`;
+  });
 
-  // If the order has more than 25 items, split sections (Slack limit).
-  const itemsSectionBlocks = [];
+  // Compact plain-text body — renders in small font in Slack, identical in
+  // every channel (no Block Kit folding, no client-specific quirks). Slack
+  // falls back to this for any client that doesn't render blocks (mobile
+  // notifications, SMS, classic Slack).
+  const textLines = [
+    `${o.order_number} — ${o.customer_name}${o.customer_company ? ` (${o.customer_company})` : ""}`,
+    [o.customer_email, o.customer_phone].filter(Boolean).join(" · "),
+    ...itemLines,
+    `${items.length} plants · ${totalUnits} units · $${fmt(totalWholesale)}` + (showRetail && hasAnyMarkup ? ` (retail $${fmt(totalRetail)})` : ""),
+    specialCount > 0 ? `★ ${specialCount} special` : null,
+    o.notes ? `Notes: ${o.notes}` : null,
+  ].filter(Boolean) as string[];
+  const text = textLines.join("\n");
+
+  // Block Kit blocks — header block (large, bold) + context (small gray).
+  // Slack's section blocks use default body size (mrkdwn) or default for
+  // plain_text — neither supports size. The plain-text body is what renders
+  // compact everywhere; blocks just give the eye a clear header.
+  const headerBlock = {
+    type: "header",
+    text: {
+      type: "plain_text",
+      text: `${o.order_number} — ${o.customer_name}`,
+      emoji: true,
+    },
+  };
+
+  const contextBlock = {
+    type: "context",
+    elements: [
+      {
+        type: "mrkdwn",
+        text: [o.customer_email, o.customer_phone].filter(Boolean).join(" · ") || "—",
+      },
+    ],
+  };
+
+  const blocks: any[] = [headerBlock, contextBlock];
+
+  // If the items list is large, split into multiple sections to stay under
+  // Slack's 3000-char section limit.
   const MAX_FIELD_LEN = 2900;
   let buffer = "";
-  const chunks = [];
-  for (const line of itemLines.split("\n")) {
+  for (const line of itemLines) {
     if (buffer.length + line.length + 2 > MAX_FIELD_LEN && buffer) {
-      chunks.push(buffer);
+      blocks.push({ type: "section", text: { type: "mrkdwn", text: buffer } });
       buffer = "";
     }
     buffer += (buffer ? "\n" : "") + line;
   }
-  if (buffer) chunks.push(buffer);
+  if (buffer) blocks.push({ type: "section", text: { type: "mrkdwn", text: buffer } });
 
-  for (const chunk of chunks) {
-    itemsSectionBlocks.push({
-      type: "section",
-      text: { type: "plain_text", text: chunk, emoji: true, size: "small" as const },
+  // Footer context (small gray)
+  const footerText =
+    `${items.length} plants · ${totalUnits} units · $${fmt(totalWholesale)}` +
+    (showRetail && hasAnyMarkup ? ` (retail $${fmt(totalRetail)})` : "") +
+    (specialCount > 0 ? ` · ★ ${specialCount} special` : "");
+  blocks.push({
+    type: "context",
+    elements: [{ type: "mrkdwn", text: footerText }],
+  });
+
+  if (o.notes) {
+    blocks.push({
+      type: "context",
+      elements: [{ type: "mrkdwn", text: `Notes: ${o.notes}` }],
     });
   }
-
-  // Totals footer — small
-  const totalLines = [
-    `${items.length} plants · ${totalUnits} units · $${fmt(totalWholesale)}` + (showRetail && hasAnyMarkup ? ` (retail $${fmt(totalRetail)})` : ""),
-    specialCount > 0 ? `★ ${specialCount} special` : null,
-  ].filter(Boolean).join(" · ");
-
-  const totalsSection = {
-    type: "section",
-    text: { type: "plain_text", text: totalLines, emoji: true, size: "small" as const },
-  };
-
-  // Notes section (if any) — small
-  const notesSection = o.notes ? {
-    type: "section",
-    text: { type: "plain_text", text: `Notes: ${o.notes}`, emoji: true, size: "small" as const },
-  } : null;
-
-  const blocks: any[] = [headerSection, contactSection];
-  if (notesSection) blocks.push(notesSection);
-  blocks.push(...itemsSectionBlocks, totalsSection);
 
   return { text, blocks };
 }

@@ -22,6 +22,8 @@ interface OrderItem {
   unit_price: number;
   qty: number;
   line_total: number;
+  item_code: string | null;
+  upc: string | null;
   special_order?: boolean;
 }
 
@@ -70,15 +72,20 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
       ? `<span style="display:inline-block; margin-left:6px; padding:2px 8px; background:#fff3cd; color:#7a5d00; border:1px solid #f0d97a; border-radius:10px; font-size:10px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;">Special Order</span>`
       : '';
     const textSpecial = i.special_order ? '  [Special Order]' : '';
+    // Code (warehouse picker) + UPC (barcode scanner) — shown on office copy
+    // only; customers don't need the SKUs and it clutters the receipt.
+    const codeText = (!toCustomer && i.item_code) ? ` [${i.item_code}]` : '';
+    const upcText = (!toCustomer && i.upc) ? ` · UPC ${i.upc}` : '';
+    const codeHtml = (!toCustomer && i.item_code) ? `<div style="font-size:10px; color:#6b6256; font-family:ui-monospace,Menlo,Consolas,monospace; margin-top:2px;">${esc(i.item_code)}${i.upc ? ` · UPC ${esc(i.upc)}` : ''}</div>` : '';
     return {
       html: `<tr>
-        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb;">${esc(i.plant_name)}${specialBadge}</td>
+        <td style="padding:8px 12px; border-bottom:1px solid #e3dccb;">${esc(i.plant_name)}${specialBadge}${codeHtml}</td>
         <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; color:#666;">${esc(i.plant_size || "—")}</td>
         <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right;">${i.qty}</td>
         <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right;">$${fmt(i.unit_price)}</td>
         <td style="padding:8px 12px; border-bottom:1px solid #e3dccb; text-align:right; font-weight:600;">$${fmt(i.line_total)}</td>
       </tr>`,
-      text: `  - ${i.plant_name}${i.plant_size ? ` (${i.plant_size})` : ""} × ${i.qty} = $${fmt(i.line_total)}${textSpecial}`,
+      text: `  - ${i.plant_name}${i.plant_size ? ` (${i.plant_size})` : ""} × ${i.qty} = $${fmt(i.line_total)}${textSpecial}${codeText}${upcText}`,
     };
   });
 

@@ -1452,6 +1452,49 @@
       font-feature-settings: "tnum" 1, "kern" 1;
       letter-spacing: var(--ls-tight);
     }
+    /* Session tally: shows what was just added in this picker open */
+    .chat-test-root .picker-tally {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px dashed #d8d2c2;
+    }
+    .chat-test-root .picker-tally-title {
+      font-family: var(--font-sans);
+      font-size: var(--fs-eyebrow);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--ls-xwide);
+      color: var(--c-clay, #6b6256);
+      margin-bottom: 8px;
+    }
+    .chat-test-root .picker-tally-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .chat-test-root .picker-tally-item {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 5px 0;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .picker-tally-name {
+      flex: 1;
+      font-weight: 600;
+    }
+    .chat-test-root .picker-tally-qty {
+      color: var(--c-clay, #6b6256);
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "kern" 1;
+    }
+    .chat-test-root .picker-tally-total {
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "kern" 1;
+    }
     .chat-test-root .form-field {
       display: block;
       margin-bottom: 14px;
@@ -3733,8 +3776,12 @@
         showToast(`Added ${plant.botanical}${qtyLabel} (${size.container || 'ea'}) to order`);
       }
 
+      // Track sizes added during this picker session so we can show a tally
+      let pickerSessionAdds = [];  // [{size, qty, total}]
+
       function openSizePicker(plant) {
-        sizePickerTitle.textContent = `Add to Order — ${plant.botanical}`;
+        pickerSessionAdds = [];
+        sizePickerTitle.textContent = `Add Sizes — ${plant.botanical}`;
         const sizes = getSizes(plant);
         const sizesHtml = `
           <div class="picker-section-label">Size</div>
@@ -3760,10 +3807,16 @@
           </div>
           <button type="button" class="btn btn-primary btn-block" id="pickerAddBtn" style="margin-top:18px;">
             Add to Order
-          </button>`;
+          </button>
+          <div class="picker-tally" id="pickerTally" hidden>
+            <div class="picker-tally-title">Added this session</div>
+            <ul class="picker-tally-list" id="pickerTallyList"></ul>
+            <button type="button" class="btn btn-ghost btn-block" id="pickerDoneBtn" style="margin-top:6px;">Done</button>
+          </div>`;
         sizePickerModal._plant = plant;
         sizePickerOverlay.hidden = false;
         sizePickerModal.hidden = false;
+        updatePickerAddBtn();
         // Focus the qty input for fast keyboard entry
         setTimeout(() => {
           const qi = $('pickerQtyInput');
@@ -3788,12 +3841,41 @@
         const sel = getPickerSelection();
         const totalEl = $('pickerLineTotal');
         if (sel && totalEl) totalEl.textContent = `$${fmtPrice(sel.size.price * sel.qty)}`;
+        updatePickerAddBtn();
+      }
+
+      function updatePickerAddBtn() {
+        const sel = getPickerSelection();
+        const btn = $('pickerAddBtn');
+        if (!btn) return;
+        if (!sel) { btn.textContent = 'Add to Order'; return; }
+        const sizeLabel = sel.size.container || 'ea';
+        const qtyLabel = sel.qty > 1 ? ` × ${sel.qty}` : '';
+        btn.textContent = `Add ${sizeLabel}${qtyLabel} to Order`;
+      }
+
+      function renderPickerTally() {
+        const tally = $('pickerTally');
+        const list = $('pickerTallyList');
+        if (!tally || !list) return;
+        if (pickerSessionAdds.length === 0) {
+          tally.hidden = true;
+          return;
+        }
+        tally.hidden = false;
+        list.innerHTML = pickerSessionAdds.map((a, idx) => `
+          <li class="picker-tally-item">
+            <span class="picker-tally-name">${esc(a.size.container || 'ea')}</span>
+            <span class="picker-tally-qty">× ${a.qty}</span>
+            <span class="picker-tally-total">$${fmtPrice(a.total)}</span>
+          </li>`).join('');
       }
 
       function closeSizePicker() {
         sizePickerOverlay.hidden = true;
         sizePickerModal.hidden = true;
         sizePickerModal._plant = null;
+        pickerSessionAdds = [];
       }
 
       // Delegated click handler for Add-to-Order buttons + size picker
@@ -3810,14 +3892,33 @@
           }
           return;
         }
-        // Picker "Add to Order" button
+        // Picker "Add {size} × {qty} to Order" button — adds current selection,
+        // keeps modal open so the user can add more sizes
         const pickerAddBtn = e.target.closest('#pickerAddBtn');
         if (pickerAddBtn) {
           const sel = getPickerSelection();
-          if (sel) {
-            addPlantToCart(sel.plant, sel.size, sel.qty);
-            closeSizePicker();
+          if (!sel) return;
+          addPlantToCart(sel.plant, sel.size, sel.qty);
+          pickerSessionAdds.push({
+            size: { ...sel.size },
+            qty: sel.qty,
+            total: sel.size.price * sel.qty,
+          });
+          renderPickerTally();
+          // Reset qty to 1 and refocus for the next add
+          const qi = $('pickerQtyInput');
+          if (qi) {
+            qi.value = 1;
+            qi.focus();
+            qi.select();
           }
+          updatePickerLineTotal();
+          return;
+        }
+        // Picker "Done" button — close modal
+        const doneBtn = e.target.closest('#pickerDoneBtn');
+        if (doneBtn) {
+          closeSizePicker();
           return;
         }
       });
@@ -3850,15 +3951,22 @@
           updatePickerLineTotal();
         }
       });
-      // Enter on qty input submits
+      // Enter on qty input adds (and keeps modal open for more sizes)
       sizePickerBody.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && e.target.id === 'pickerQtyInput') {
           e.preventDefault();
           const sel = getPickerSelection();
-          if (sel) {
-            addPlantToCart(sel.plant, sel.size, sel.qty);
-            closeSizePicker();
-          }
+          if (!sel) return;
+          addPlantToCart(sel.plant, sel.size, sel.qty);
+          pickerSessionAdds.push({
+            size: { ...sel.size },
+            qty: sel.qty,
+            total: sel.size.price * sel.qty,
+          });
+          renderPickerTally();
+          const qi = $('pickerQtyInput');
+          if (qi) { qi.value = 1; qi.focus(); qi.select(); }
+          updatePickerLineTotal();
         }
       });
 

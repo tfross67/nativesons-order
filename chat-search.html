@@ -4216,7 +4216,12 @@
           s.src = 'office_customers.js';
           s.onload = () => {
             if (window.OFFICE_CUSTOMERS && window.OFFICE_CUSTOMERS.length) {
-              allCustomers = window.OFFICE_CUSTOMERS;
+              // Pre-compute a lowercase index once, instead of lowercasing
+              // 2,938 customers' search_text on every keystroke.
+              allCustomers = window.OFFICE_CUSTOMERS.map(c => {
+                c._s = (c.search_text || '').toLowerCase();
+                return c;
+              });
               // If the customer picker is already visible, populate its results
               renderCustomerPicker();
             }
@@ -4227,6 +4232,16 @@
         });
         return staffCustomersPromise;
       };
+
+      // Debounce search input so we don't filter 2,938 records on every keystroke.
+      let customerPickerDebounce = null;
+      function scheduleCustomerPicker() {
+        if (customerPickerDebounce) clearTimeout(customerPickerDebounce);
+        customerPickerDebounce = setTimeout(() => {
+          customerPickerDebounce = null;
+          renderCustomerPicker();
+        }, 80);
+      }
 
       function renderCustomerPicker() {
         const results = $('custPickerResults');
@@ -4242,7 +4257,8 @@
           results.classList.remove('is-open');
           return;
         }
-        const matches = allCustomers.filter(c => (c.search_text || '').toLowerCase().includes(q)).slice(0, 12);
+        // Use pre-lowercased _s field — much faster than lowercasing on every search
+        const matches = allCustomers.filter(c => c._s.includes(q)).slice(0, 12);
         if (!matches.length) {
           results.innerHTML = '<div class="cust-result-empty">No matches</div>';
         } else {
@@ -4357,7 +4373,7 @@
         const clearCust = $('selCustClear');
         const results = $('custPickerResults');
         if (!input) return;
-        input.addEventListener('input', renderCustomerPicker);
+        input.addEventListener('input', scheduleCustomerPicker);
         input.addEventListener('focus', renderCustomerPicker);
         input.addEventListener('keydown', (e) => {
           if (e.key === 'Escape') results.classList.remove('is-open');

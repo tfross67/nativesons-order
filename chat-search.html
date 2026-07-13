@@ -1544,10 +1544,12 @@
     .chat-test-root .picker-flat-info {
       display: flex;
       flex-direction: column;
-      gap: 2px;
-      font-family: var(--font-sans);
-      font-size: 13px;
+      gap: 3px;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 14px;
       color: var(--c-clay, #6b6256);
+      line-height: var(--lh-snug);
     }
     .chat-test-root .picker-flat-line {
       display: flex;
@@ -1555,6 +1557,8 @@
       gap: 12px;
     }
     .chat-test-root .picker-flat-line strong {
+      font-family: var(--font-sans);
+      font-style: normal;
       color: var(--c-bark, #2d4a2b);
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
@@ -1563,6 +1567,7 @@
     .chat-test-root .picker-flat-chips {
       display: flex;
       gap: 8px;
+      margin-top: 4px;
     }
     .chat-test-root .picker-flat-chip {
       flex: 1 1 0;
@@ -1577,6 +1582,7 @@
       cursor: pointer;
       transition: background 0.15s, color 0.15s;
       text-align: center;
+      letter-spacing: var(--ls-tight);
     }
     .chat-test-root .picker-flat-chip:hover {
       background: var(--c-bark, #2d4a2b);

@@ -1041,7 +1041,9 @@
       if (imageMapPromise) return imageMapPromise;
       imageMapPromise = (async () => {
         try {
-          const resp = await fetch('image_map.json', { cache: 'force-cache' });
+          // Cache-bust to ensure users get the latest map (browsers cache JSON
+          // aggressively, and we updated the URLs).
+          const resp = await fetch('image_map.json?t=' + Date.now(), { cache: 'no-store' });
           if (!resp.ok) return {};
           return await resp.json();
         } catch (e) {

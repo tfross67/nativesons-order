@@ -1530,6 +1530,262 @@
       border-color: var(--c-bark, #2d4a2b);
     }
     .site-header .staff-link[hidden] { display: none; }
+
+    /* ============================================================ */
+    /* === Sign-in gate (staff mode)                             === */
+    /* ============================================================ */
+    .signin-gate {
+      position: fixed;
+      inset: 0;
+      background: var(--c-paper, #f7f4ec);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .signin-gate[hidden] { display: none; }
+    .signin-card {
+      background: #fff;
+      border: 1px solid #d8d2c2;
+      border-radius: 12px;
+      padding: 32px;
+      max-width: 380px;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      text-align: center;
+      font-family: var(--font-sans);
+    }
+    .signin-logo {
+      height: 64px;
+      width: auto;
+      margin: 0 auto 14px;
+      display: block;
+    }
+    .signin-title {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--c-bark, #2d4a2b);
+      margin: 0 0 6px;
+      letter-spacing: var(--ls-tight);
+    }
+    .signin-subtitle {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--c-clay, #6b6256);
+      margin: 0 0 20px;
+      line-height: var(--lh-snug);
+    }
+    .signin-card .form-field { text-align: left; margin-bottom: 14px; }
+    .signin-card .form-field input {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      padding: 11px 14px;
+      background: #fafaf5;
+      border: 1px solid #d8d2c2;
+      border-radius: 6px;
+      color: var(--c-bark, #2d4a2b);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .signin-card .form-field input:focus {
+      outline: none;
+      border-color: var(--c-bark, #2d4a2b);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(74, 122, 42, 0.15);
+    }
+    .signin-hint {
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      color: #999;
+      text-align: center;
+      margin: 14px 0 4px;
+    }
+    .signin-hint code {
+      font-family: var(--font-mono, "SF Mono", Menlo, monospace);
+      font-size: 11.5px;
+      background: #f4f1ea;
+      padding: 1px 6px;
+      border-radius: 3px;
+      color: var(--c-bark, #2d4a2b);
+    }
+    .signin-error {
+      min-height: 18px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: #c14e2e;
+      margin-top: 8px;
+    }
+    .signin-back {
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid #f0ece1;
+    }
+    .signin-back a {
+      color: var(--c-clay, #6b6256);
+      text-decoration: none;
+    }
+    .signin-back a:hover {
+      color: var(--c-bark, #2d4a2b);
+      text-decoration: underline;
+    }
+
+    /* Body when staff mode is active */
+    body.staff-mode {
+      /* sentinel class; currently no extra styling needed */
+    }
+
+    /* Staff-only chrome (visible when body has .staff-mode) */
+    .staff-only { display: none; }
+    body.staff-mode .staff-only { display: block; }
+    body.staff-mode .staff-only-inline { display: inline; }
+    body.staff-mode .staff-only-flex { display: flex; }
+    body.staff-mode .public-only { display: none; }
+
+    /* ============================================================ */
+    /* === Staff-only customer picker (in checkout modal)        === */
+    /* ============================================================ */
+    .chat-test-root .staff-section-title {
+      font-family: var(--font-sans);
+      font-size: var(--fs-eyebrow);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--ls-xwide);
+      color: var(--c-bark, #2d4a2b);
+      margin: 0 0 8px;
+      padding-top: 4px;
+    }
+    .chat-test-root .cust-picker-wrap {
+      position: relative;
+      margin-bottom: 12px;
+    }
+    .chat-test-root .cust-picker-input {
+      width: 100%;
+      padding: 10px 36px 10px 14px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      background: #fafaf5;
+      border: 1px solid #d8d2c2;
+      border-radius: 6px;
+      color: var(--c-bark, #2d4a2b);
+      box-sizing: border-box;
+    }
+    .chat-test-root .cust-picker-input:focus {
+      outline: none;
+      border-color: var(--c-bark, #2d4a2b);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(74, 122, 42, 0.15);
+    }
+    .chat-test-root .cust-picker-clear {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--c-clay, #6b6256);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: none;
+    }
+    .chat-test-root .cust-picker-clear:hover { color: var(--c-bark, #2d4a2b); background: #f4f1ea; }
+    .chat-test-root .cust-picker-results {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 120;
+      max-height: 280px;
+      overflow-y: auto;
+      background: #fff;
+      border: 1px solid #d8d2c2;
+      border-radius: 6px;
+      box-shadow: 0 6px 18px rgba(45, 74, 43, 0.18);
+    }
+    .chat-test-root .cust-picker-results.is-open { display: block; }
+    .chat-test-root .cust-result {
+      padding: 10px 14px;
+      border-bottom: 1px solid #f0ece1;
+      cursor: pointer;
+    }
+    .chat-test-root .cust-result:last-child { border-bottom: 0; }
+    .chat-test-root .cust-result:hover {
+      background: rgba(74, 122, 42, 0.10);
+    }
+    .chat-test-root .cust-result-name {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--c-bark, #2d4a2b);
+      margin-bottom: 2px;
+    }
+    .chat-test-root .cust-result-meta {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--c-clay, #6b6256);
+    }
+    .chat-test-root .cust-result-meta span {
+      margin-right: 8px;
+    }
+    .chat-test-root .cust-result-empty {
+      padding: 12px;
+      text-align: center;
+      color: var(--c-clay, #6b6256);
+      font-style: italic;
+      font-family: var(--font-serif);
+      font-size: 13px;
+    }
+    .chat-test-root .selected-cust {
+      background: rgba(74, 122, 42, 0.08);
+      border: 1px solid rgba(74, 122, 42, 0.20);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+    }
+    .chat-test-root .selected-cust-name {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .selected-cust-meta {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--c-clay, #6b6256);
+      margin-top: 4px;
+    }
+    .chat-test-root .selected-cust-meta span {
+      margin-right: 8px;
+    }
+    .chat-test-root .selected-cust-actions {
+      margin-top: 8px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .chat-test-root .markup-pill {
+      display: inline-block;
+      padding: 3px 10px;
+      background: #c14e2e;
+      color: #fff;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .chat-test-root .selected-cust-actions .btn {
+      font-size: 12px;
+      padding: 4px 10px;
+    }
   </style>
 </head>
 <body>
@@ -1541,12 +1797,32 @@
       <div class="header-meta">
         <span class="header-tagline">We grow plants that thrive in California's Mediterranean climate.</span>
         <span class="week-label" id="weekLabel">This week</span>
-        <a href="office.html" class="staff-link" id="staffLink" hidden>Staff: Office Form →</a>
+        <a href="?staff=1" class="staff-link" id="staffLink" hidden>Staff: Sign in</a>
+        <a href="#" class="staff-link staff-only-inline" id="staffSignOut" hidden>Staff: Sign out</a>
       </div>
     </div>
   </header>
 
-  <main class="chat-test-root">
+  <!-- Staff sign-in gate. Visible only when ?staff=1 (or sessionStorage
+       has the admin flag set). Hides the main UI until unlocked. -->
+  <div id="signInGate" class="signin-gate" hidden>
+    <form id="signInForm" class="signin-card"
+          onsubmit="var pw=document.getElementById('signInPassword').value; if(pw==='OFC-NativeSons-2026'){try{sessionStorage.setItem('nativesons_admin','1');}catch(e){} document.getElementById('signInGate').hidden=true; document.body.classList.add('staff-mode'); try{window.__onStaffSignIn && window.__onStaffSignIn();}catch(e){console.error(e);} return false;} document.getElementById('signInError').textContent='Wrong password. Type the new one sent to you.'; document.getElementById('signInError').style.color='#c14e2e'; document.getElementById('signInPassword').select(); return false;">
+      <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
+      <h1 class="signin-title">Office sign-in</h1>
+      <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
+      <label class="form-field">
+        <span>Password</span>
+        <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
+      </label>
+      <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+      <p class="signin-hint">Current password: <code>OFC-NativeSons-2026</code></p>
+      <div id="signInError" class="signin-error"></div>
+      <p class="signin-back"><a href="?" id="signInBackLink">← Back to public search</a></p>
+    </form>
+  </div>
+
+  <main class="chat-test-root" id="mainApp">
     <div class="hero-band">
       <div class="hero-content">
         <div class="hero-eyebrow">This week's availability</div>
@@ -1663,6 +1939,29 @@
     </header>
     <form id="checkoutForm" class="modal-body">
       <p class="modal-intro">We'll send a confirmation to your email and follow up with availability and totals.</p>
+
+      <!-- Staff-only customer picker -->
+      <div class="staff-only" id="staffCustomerSection">
+        <h2 class="staff-section-title">Customer</h2>
+        <div class="cust-picker-wrap">
+          <input type="search" id="custPickerInput" class="cust-picker-input"
+                 placeholder="Search name, code, city, email…" autocomplete="off">
+          <button class="cust-picker-clear" id="custPickerClear" type="button" title="Clear">✕</button>
+          <div class="cust-picker-results" id="custPickerResults"></div>
+        </div>
+        <div id="selectedCust" hidden>
+          <div class="selected-cust">
+            <div class="selected-cust-name" id="selCustName">—</div>
+            <div class="selected-cust-meta" id="selCustMeta"></div>
+            <div class="selected-cust-actions">
+              <span class="markup-pill" id="selCustMarkup" hidden>+0% markup</span>
+              <button type="button" class="btn btn-ghost" id="selCustClear">× Clear</button>
+            </div>
+          </div>
+        </div>
+        <h2 class="staff-section-title" style="margin-top:14px;">Customer details</h2>
+      </div>
+
       <label class="form-field">
         <span>Name <em>*</em></span>
         <input type="text" name="customer_name" required autocomplete="name">
@@ -1713,6 +2012,9 @@
   <script src="supabase-config.js"></script>
   <script src="cart.js"></script>
   <script src="availability_data.js"></script>
+  <!-- Note: office_customers.js is loaded dynamically by loadStaffCustomerData()
+       ONLY when staff mode is active. NEVER included as a static <script>
+       — that would expose customer PII to public visitors. -->
   <script>
   /* ========================================================================
    * Native Sons — Smart Plant Search (chat-test.html)
@@ -2995,16 +3297,68 @@
     window.chatTestSelection = () => Object.values(selection);
     console.log('chat-test.html ready. Try: chatTestParse("red flowers 1gal")');
 
-    // Show staff link when ?staff=1 or ?staff=true in URL
-    (function maybeShowStaffLink() {
+    // Staff mode: show sign-in gate when ?staff=1, or restore from sessionStorage.
+    // Also drives the header "Sign in / Sign out" link.
+    (function initStaffMode() {
       try {
         const params = new URLSearchParams(window.location.search);
-        if (params.get('staff') === '1' || params.get('staff') === 'true') {
-          const link = document.getElementById('staffLink');
-          if (link) link.hidden = false;
+        const wantsStaff = params.get('staff') === '1' || params.get('staff') === 'true';
+        const isSignedIn = (function () {
+          try { return sessionStorage.getItem('nativesons_admin') === '1'; } catch (e) { return false; }
+        })();
+        const signInLink = document.getElementById('staffLink');
+        const signOutLink = document.getElementById('staffSignOut');
+
+        if (wantsStaff) {
+          // Show gate if not signed in
+          if (isSignedIn) {
+            document.body.classList.add('staff-mode');
+            document.getElementById('signInGate').hidden = true;
+            if (signOutLink) signOutLink.hidden = false;
+          } else {
+            document.body.classList.add('staff-mode');
+            document.getElementById('signInGate').hidden = false;
+          }
+        } else if (isSignedIn) {
+          // Signed in but visiting the public URL — show sign-out only
+          document.body.classList.add('staff-mode');
+          document.getElementById('signInGate').hidden = true;
+          if (signOutLink) signOutLink.hidden = false;
+        } else {
+          // Public visitor — show "Sign in" link
+          if (signInLink) signInLink.hidden = false;
+        }
+
+        // Wire sign-out
+        if (signOutLink) {
+          signOutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            try { sessionStorage.removeItem('nativesons_admin'); } catch (e2) { /* ignore */ }
+            document.body.classList.remove('staff-mode');
+            signOutLink.hidden = true;
+            window.location.href = window.location.pathname;
+          });
         }
       } catch (e) { /* ignore */ }
     })();
+
+    // Hook called by the sign-in form's inline onsubmit when password matches.
+    window.__onStaffSignIn = function () {
+      try {
+        document.body.classList.add('staff-mode');
+        const signInLink = document.getElementById('staffLink');
+        const signOutLink = document.getElementById('staffSignOut');
+        if (signInLink) signInLink.hidden = true;
+        if (signOutLink) signOutLink.hidden = false;
+        try {
+          const url = new URL(window.location.href);
+          url.searchParams.delete('staff');
+          window.history.replaceState({}, '', url.pathname + url.search);
+        } catch (e2) { /* ignore */ }
+        if (typeof loadStaffCustomerData === 'function') loadStaffCustomerData();
+        if (typeof renderCart === 'function') renderCart();
+      } catch (e) { console.error(e); }
+    };
 
     /* ============================================================
      * Ordering / cart integration
@@ -3424,6 +3778,155 @@
           else if (!sizePickerModal.hidden) closeSizePicker();
         }
       });
+
+      // ============================================================
+      // Staff-only: customer database + picker in checkout modal
+      // ============================================================
+      let allCustomers = [];
+      let selectedCustomer = null;
+      let staffCustomersPromise = null;
+
+      window.loadStaffCustomerData = function loadStaffCustomerData() {
+        if (staffCustomersPromise) return staffCustomersPromise;
+        staffCustomersPromise = new Promise((resolve) => {
+          // Dynamically inject office_customers.js so it's only loaded for staff
+          const s = document.createElement('script');
+          s.src = 'office_customers.js';
+          s.onload = () => {
+            if (window.OFFICE_CUSTOMERS && window.OFFICE_CUSTOMERS.length) {
+              allCustomers = window.OFFICE_CUSTOMERS;
+              // If the customer picker is already visible, populate its results
+              renderCustomerPicker();
+            }
+            resolve(allCustomers);
+          };
+          s.onerror = () => resolve([]);
+          document.head.appendChild(s);
+        });
+        return staffCustomersPromise;
+      };
+
+      function renderCustomerPicker() {
+        const results = $('custPickerResults');
+        const input = $('custPickerInput');
+        if (!results || !input) return;
+        const q = (input.value || '').trim().toLowerCase();
+        if (!allCustomers.length) {
+          results.innerHTML = '<div class="cust-result-empty">Loading customer database…</div>';
+          results.classList.add('is-open');
+          return;
+        }
+        if (!q) {
+          results.classList.remove('is-open');
+          return;
+        }
+        const matches = allCustomers.filter(c => (c.search_text || '').toLowerCase().includes(q)).slice(0, 12);
+        if (!matches.length) {
+          results.innerHTML = '<div class="cust-result-empty">No matches</div>';
+        } else {
+          results.innerHTML = matches.map((c, i) => `
+            <div class="cust-result" data-idx="${i}">
+              <div class="cust-result-name">${esc(c.name || '(no name)')}</div>
+              <div class="cust-result-meta">
+                ${c.city ? `<span>${esc(c.city)}, ${esc(c.state || '')}</span>` : ''}
+                ${c.customer_code ? `<span>Code: ${esc(c.customer_code)}</span>` : ''}
+                ${c.type ? `<span>${esc(c.type)}</span>` : ''}
+              </div>
+            </div>`).join('');
+          results.querySelectorAll('.cust-result').forEach(row => {
+            row.addEventListener('click', () => pickCustomer(matches[+row.dataset.idx]));
+          });
+        }
+        results.classList.add('is-open');
+      }
+
+      function pickCustomer(c) {
+        selectedCustomer = c;
+        const nameEl = $('selCustName');
+        const metaEl = $('selCustMeta');
+        const markupEl = $('selCustMarkup');
+        const card = $('selectedCust');
+        if (nameEl) nameEl.textContent = c.name || '—';
+        if (metaEl) metaEl.innerHTML = [
+          c.city && `<span>${esc(c.city)}, ${esc(c.state || '')}</span>`,
+          c.customer_code && `<span>Code: ${esc(c.customer_code)}</span>`,
+          c.type && `<span>${esc(c.type)}</span>`,
+          c.terms && `<span>${esc(c.terms)}</span>`,
+        ].filter(Boolean).join('');
+        if (markupEl) {
+          if (c.default_markup_pct != null && c.default_markup_pct > 0) {
+            markupEl.textContent = `+${(c.default_markup_pct * 100).toFixed(0)}% default markup`;
+            markupEl.hidden = false;
+          } else {
+            markupEl.hidden = true;
+          }
+        }
+        if (card) card.hidden = false;
+        // Fill form fields
+        const form = $('checkoutForm');
+        if (form) {
+          form.customer_name.value = c.name || '';
+          form.customer_email.value = c.email || '';
+          form.customer_phone.value = c.phone || '';
+          form.customer_company.value = (c.ship_to_name && c.ship_to_name !== c.name) ? c.ship_to_name : (c.name || '');
+        }
+        // Close picker
+        const input = $('custPickerInput');
+        const results = $('custPickerResults');
+        if (input) { input.value = ''; }
+        if (results) { results.classList.remove('is-open'); }
+        // Apply default markup to cart
+        if (c.default_markup_pct && Cart.getCount() > 0) {
+          const mult = 1 + c.default_markup_pct;
+          Cart.applyDefaultMarkup(mult);
+          renderCart();
+        }
+      }
+
+      function clearSelectedCustomer() {
+        selectedCustomer = null;
+        const card = $('selectedCust');
+        const markupEl = $('selCustMarkup');
+        if (card) card.hidden = true;
+        if (markupEl) markupEl.hidden = true;
+        const form = $('checkoutForm');
+        if (form) {
+          form.customer_name.value = '';
+          form.customer_email.value = '';
+          form.customer_phone.value = '';
+          form.customer_company.value = '';
+        }
+      }
+
+      // Wire customer picker (delegated — the elements only exist in staff mode)
+      function wireStaffCustomerPicker() {
+        const input = $('custPickerInput');
+        const clear = $('custPickerClear');
+        const clearCust = $('selCustClear');
+        const results = $('custPickerResults');
+        if (!input) return;
+        input.addEventListener('input', renderCustomerPicker);
+        input.addEventListener('focus', renderCustomerPicker);
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') results.classList.remove('is-open');
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const first = results.querySelector('.cust-result');
+            if (first) first.click();
+          }
+        });
+        if (clear) clear.addEventListener('click', () => {
+          input.value = '';
+          renderCustomerPicker();
+        });
+        if (clearCust) clearCust.addEventListener('click', clearSelectedCustomer);
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.cust-picker-wrap')) {
+            if (results) results.classList.remove('is-open');
+          }
+        });
+      }
+      wireStaffCustomerPicker();
     })();
   })();
   </script>

@@ -1902,7 +1902,10 @@
     /* ============================================================ */
     body.staff-mode #mainApp {
       padding-left: 308px;        /* 280px sidebar + 28px gutter */
-      padding-right: 0;
+      padding-right: 16px;
+      margin-left: 0;             /* override default centering so the main content fills from sidebar edge to viewport edge */
+      margin-right: 0;
+      max-width: none;            /* override default 900px cap in staff mode */
       transition: padding 0.2s ease;
     }
     .chat-test-root .staff-sidebar,

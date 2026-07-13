@@ -36,7 +36,7 @@
       --c-line: #d8d2c2;
       --c-muted: #6b6256;
       --c-ink: #1a2e1a;
-      --c-clay: #c14e2e;
+      --c-clay: #6b6256;
     }
     .chat-test-root {
       max-width: 900px;
@@ -2130,6 +2130,109 @@
       .staff-sidebar-inner {
         min-height: 0;
       }
+    }
+    /* ===================================================================
+       LEGACY STYLES.CSS OVERRIDES
+       chat-search.html loads styles.css BEFORE this inline <style>, so
+       styles.css rules with equal-or-higher specificity (like `.modal-header h2`)
+       win on elements that live OUTSIDE .chat-test-root (cart panel, modals).
+       These unscoped overrides restore the chat-search design system.
+       =================================================================== */
+    body { font-family: var(--font-sans); color: var(--c-ink, #1a2e1a); }
+    /* Modal title — chat-search design: Georgia 18px regular, --c-bark */
+    .modal-header h2 {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--c-bark, #2d4a2b);
+      margin: 0;
+    }
+    /* Modal intro — Georgia italic, --c-clay */
+    .modal-intro {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 14px;
+      color: var(--c-clay, #6b6256);
+      margin: 0 0 14px;
+      line-height: 1.4;
+    }
+    /* Form labels — eyebrow style (small caps, uppercase, 11px) */
+    .form-field > span {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--c-bark, #2d4a2b);
+      margin-bottom: 5px;
+    }
+    .form-field > span em {
+      color: #c14e2e;
+      font-style: normal;
+      margin-left: 2px;
+    }
+    /* Form inputs — match chat-search input style */
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+      width: 100%;
+      padding: 9px 12px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      background: #fff;
+      border: 1px solid #d8d2c2;
+      border-radius: 6px;
+      color: var(--c-ink, #1a2e1a);
+      box-sizing: border-box;
+    }
+    .form-field input:focus,
+    .form-field textarea:focus,
+    .form-field select:focus {
+      outline: none;
+      border-color: var(--c-bark, #2d4a2b);
+      box-shadow: 0 0 0 3px rgba(45, 74, 43, 0.12);
+    }
+    /* Required-asterisk color in form fields */
+    .form-field em { color: #c14e2e; font-style: normal; }
+    /* Cart panel: items + summary typography aligned with design system */
+    .cart-empty {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 15px;
+      color: var(--c-clay, #6b6256);
+      padding: 36px 24px;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .cart-summary-row {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--c-bark, #2d4a2b);
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "kern" 1;
+    }
+    .cart-note {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--c-clay, #6b6256);
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+    /* Toast notifications (if rendered outside chat-test-root) */
+    .toast {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      background: var(--c-bark, #2d4a2b);
+      border-radius: 6px;
+      padding: 10px 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .toast.is-error {
+      background: #c14e2e;
     }
   </style>
 </head>

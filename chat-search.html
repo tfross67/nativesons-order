@@ -2272,6 +2272,7 @@
   <script src="supabase-config.js"></script>
   <script src="cart.js"></script>
   <script src="availability_data.js"></script>
+  <script src="masteritem_full.js"></script>
   <!-- Note: office_customers.js is loaded dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static script tag —
        that would expose customer PII to public visitors. -->
@@ -3765,14 +3766,56 @@
         openSizePicker(plant);
       }
 
+      // Build a lookup index from MASTER_ITEM_FULL once. Maps
+      // "botanical_name_lower|size_lower" → {code, upc}. Built lazily on
+      // first add so the script tag's parse cost isn't wasted if no order
+      // is placed.
+      let masterItemIndex = null;
+      function ensureMasterItemIndex() {
+        if (masterItemIndex) return masterItemIndex;
+        masterItemIndex = new Map();
+        const list = window.MASTER_ITEM_FULL || [];
+        for (const row of list) {
+          // row.c = code, row.s = size, row.u = UPC, row.d = description
+          const key = `${(row.d || '').toLowerCase()}|${(row.s || '').toLowerCase()}`;
+          masterItemIndex.set(key, { code: row.c, upc: row.u, description: row.d });
+        }
+        return masterItemIndex;
+      }
+      // Look up item code + UPC by botanical name + size. Tries exact
+      // description match first, then falls back to matching just the
+      // size while trusting that description is similar to the plant name.
+      function lookupItemCode(botanical, size) {
+        const idx = ensureMasterItemIndex();
+        const sz = (size || '').toLowerCase().replace(/\s+/g, '');
+        const nm = (botanical || '').toLowerCase().trim();
+        // Exact match: full description text + size
+        const exactKey = `${nm}|${sz}`;
+        if (idx.has(exactKey)) return idx.get(exactKey);
+        // Prefix match: description starts with the botanical name
+        for (const [k, v] of idx) {
+          const [d, s] = k.split('|');
+          if (s !== sz) continue;
+          // Tolerate cultivar differences — match if both names share the genus + species
+          if (d === nm || d.startsWith(nm + ' ') || nm.startsWith(d + ' ')) return v;
+          const nmTokens = nm.split(/\s+/);
+          const dTokens = d.split(/\s+/);
+          if (nmTokens[0] === dTokens[0] && nmTokens[1] === dTokens[1]) return v;
+        }
+        return null;
+      }
+
       function addPlantToCart(plant, size, qty) {
         const key = `${plant.botanical}|${size.container || ''}`;
+        const codeInfo = lookupItemCode(plant.botanical, size.container || '');
         Cart.add({
           key,
           name: plant.botanical,
           size: size.container || '',
           price: size.price || 0,
           qty: qty || 1,
+          item_code: codeInfo?.code || null,
+          upc: codeInfo?.upc || null,
         });
         const qtyLabel = qty && qty > 1 ? ` × ${qty}` : '';
         showToast(`Added ${plant.botanical}${qtyLabel} (${size.container || 'ea'}) to order`);
@@ -4070,6 +4113,8 @@
           retail_mode: i.retailMode || 'wholesale',
           retail_price: i.retailPrice || i.price,
           retail_line_total: (i.retailPrice || i.price) * i.qty,
+          item_code: i.item_code || null,
+          upc: i.upc || null,
           special_order: !!i.specialOrder,
         }));
         const { data: orderId, error } = await supabase.rpc('submit_order', {
@@ -4131,6 +4176,8 @@
             unit_price: i.price,
             qty: i.qty,
             line_total: i.price * i.qty,
+            item_code: i.item_code || null,
+            upc: i.upc || null,
             special_order: !!i.specialOrder,
           }));
 

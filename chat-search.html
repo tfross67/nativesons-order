@@ -1375,12 +1375,25 @@
       margin-bottom: 6px;
       cursor: pointer;
       transition: border-color 0.15s, background 0.15s;
+      gap: 12px;
     }
     .chat-test-root .size-option:hover {
       border-color: var(--c-bark, #2d4a2b);
       background: #f8faf3;
     }
+    .chat-test-root .size-option.is-selected {
+      border-color: var(--c-bark, #2d4a2b);
+      background: #f8faf3;
+    }
+    .chat-test-root .size-option input[type="radio"] {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: var(--c-bark, #2d4a2b);
+      cursor: pointer;
+    }
     .chat-test-root .size-option-name {
+      flex: 1;
       font-family: var(--font-sans);
       font-size: 14px;
       font-weight: 600;
@@ -1393,6 +1406,38 @@
       color: var(--c-bark, #2d4a2b);
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
+    }
+    .chat-test-root .picker-section-label {
+      font-family: var(--font-sans);
+      font-size: var(--fs-eyebrow);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--ls-xwide);
+      color: var(--c-bark, #2d4a2b);
+      margin: 0 0 8px;
+    }
+    .chat-test-root .picker-qty-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      justify-content: space-between;
+    }
+    .chat-test-root .picker-qty {
+      flex: 0 0 auto;
+    }
+    .chat-test-root .picker-qty input {
+      width: 56px;
+      font-size: 15px;
+      padding: 6px 0;
+    }
+    .chat-test-root .picker-line-total {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 22px;
+      color: var(--c-bark, #2d4a2b);
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "kern" 1;
+      letter-spacing: var(--ls-tight);
     }
     .chat-test-root .form-field {
       display: block;
@@ -1786,6 +1831,69 @@
       font-size: 12px;
       padding: 4px 10px;
     }
+
+    /* ============================================================ */
+    /* === Staff-mode 3-column layout (sidebar | results | cart) === */
+    /* ============================================================ */
+    body.staff-mode #mainApp {
+      padding-left: 308px;        /* 280px sidebar + 28px gutter */
+      padding-right: 0;
+      transition: padding 0.2s ease;
+    }
+    .chat-test-root .staff-sidebar {
+      position: fixed;
+      top: 0;                     /* full-height, sits over the header */
+      left: 0;
+      bottom: 0;
+      width: 280px;
+      background: #fff;
+      border-right: 1px solid #d8d2c2;
+      padding: 88px 16px 24px;    /* 88px clears the site header */
+      overflow-y: auto;
+      z-index: 80;
+      box-shadow: 2px 0 8px rgba(45, 74, 43, 0.05);
+    }
+    .chat-test-root .staff-sidebar h2 {
+      font-family: var(--font-sans);
+      font-size: var(--fs-eyebrow);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--ls-xwide);
+      color: var(--c-bark, #2d4a2b);
+      margin: 0 0 10px;
+    }
+    /* Selected customer — pinned at the bottom of the sidebar */
+    .chat-test-root .staff-sidebar .selected-cust-bottom {
+      margin-top: auto;
+    }
+    .chat-test-root .staff-sidebar-inner {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    /* Make the sidebar's cust-picker-results drop down on top of results */
+    .chat-test-root .staff-sidebar .cust-picker-results {
+      z-index: 85;
+    }
+
+    /* Mobile: collapse to top strip */
+    @media (max-width: 900px) {
+      body.staff-mode #mainApp {
+        padding-left: 0;
+        padding-top: 92px;
+      }
+      .chat-test-root .staff-sidebar {
+        position: static;
+        width: auto;
+        border-right: none;
+        border-bottom: 1px solid #d8d2c2;
+        padding: 16px;
+        box-shadow: none;
+      }
+      .chat-test-root .staff-sidebar-inner {
+        min-height: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1821,6 +1929,33 @@
       <p class="signin-back"><a href="?" id="signInBackLink">← Back to public search</a></p>
     </form>
   </div>
+
+  <!-- Staff-only customer sidebar (visible only when body has .staff-mode).
+       Sits as a fixed left column on desktop; collapses to a top strip on mobile. -->
+  <aside class="staff-sidebar staff-only" id="staffSidebar" aria-label="Customer lookup">
+    <div class="staff-sidebar-inner">
+      <h2>Customer</h2>
+      <div class="cust-picker-wrap">
+        <input type="search" id="custPickerInput" class="cust-picker-input"
+               placeholder="Search name, code, city, email…" autocomplete="off">
+        <button class="cust-picker-clear" id="custPickerClear" type="button" title="Clear">✕</button>
+        <div class="cust-picker-results" id="custPickerResults"></div>
+      </div>
+
+      <div class="selected-cust-bottom">
+        <div id="selectedCust" hidden>
+          <div class="selected-cust">
+            <div class="selected-cust-name" id="selCustName">—</div>
+            <div class="selected-cust-meta" id="selCustMeta"></div>
+            <div class="selected-cust-actions">
+              <span class="markup-pill" id="selCustMarkup" hidden>+0% markup</span>
+              <button type="button" class="btn btn-ghost" id="selCustClear">× Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
 
   <main class="chat-test-root" id="mainApp">
     <div class="hero-band">
@@ -1940,28 +2075,8 @@
     <form id="checkoutForm" class="modal-body">
       <p class="modal-intro">We'll send a confirmation to your email and follow up with availability and totals.</p>
 
-      <!-- Staff-only customer picker -->
-      <div class="staff-only" id="staffCustomerSection">
-        <h2 class="staff-section-title">Customer</h2>
-        <div class="cust-picker-wrap">
-          <input type="search" id="custPickerInput" class="cust-picker-input"
-                 placeholder="Search name, code, city, email…" autocomplete="off">
-          <button class="cust-picker-clear" id="custPickerClear" type="button" title="Clear">✕</button>
-          <div class="cust-picker-results" id="custPickerResults"></div>
-        </div>
-        <div id="selectedCust" hidden>
-          <div class="selected-cust">
-            <div class="selected-cust-name" id="selCustName">—</div>
-            <div class="selected-cust-meta" id="selCustMeta"></div>
-            <div class="selected-cust-actions">
-              <span class="markup-pill" id="selCustMarkup" hidden>+0% markup</span>
-              <button type="button" class="btn btn-ghost" id="selCustClear">× Clear</button>
-            </div>
-          </div>
-        </div>
-        <h2 class="staff-section-title" style="margin-top:14px;">Customer details</h2>
-      </div>
-
+      <!-- Customer picker now lives in the persistent left sidebar (staff mode).
+           The form fields below auto-fill when a customer is selected. -->
       <label class="form-field">
         <span>Name <em>*</em></span>
         <input type="text" name="customer_name" required autocomplete="name">
@@ -3489,7 +3604,9 @@
       renderCart();
 
       // --- "Add to Order" button handler
-      // For plants with one size, add directly. For multi-size, open picker.
+      // Always opens a size+qty picker so users can set the quantity up-front
+      // (matching the office.html flow). For single-size plants, the size list
+      // shows just one option but the qty stepper is always present.
       function handleAddToOrder(botanical) {
         const plant = findPlant(botanical);
         if (!plant) return;
@@ -3498,40 +3615,88 @@
           showToast(`No sizes available for ${plant.botanical}`);
           return;
         }
-        if (sizes.length === 1) {
-          addPlantToCart(plant, sizes[0]);
-          return;
-        }
-        // Multi-size → open picker
         openSizePicker(plant);
       }
 
-      function addPlantToCart(plant, size) {
+      function addPlantToCart(plant, size, qty) {
         const key = `${plant.botanical}|${size.container || ''}`;
         Cart.add({
           key,
           name: plant.botanical,
           size: size.container || '',
           price: size.price || 0,
-          qty: 1,
+          qty: qty || 1,
         });
-        showToast(`Added ${plant.botanical} (${size.container || 'ea'}) to order`);
+        const qtyLabel = qty && qty > 1 ? ` × ${qty}` : '';
+        showToast(`Added ${plant.botanical}${qtyLabel ? qtyLabel : ''} (${size.container || 'ea'}) to order`);
       }
 
       function openSizePicker(plant) {
-        sizePickerTitle.textContent = `Pick a size — ${plant.botanical}`;
+        sizePickerTitle.textContent = `Add to Order — ${plant.botanical}`;
         const sizes = getSizes(plant);
-        sizePickerBody.innerHTML = sizes.map(s => `
-          <div class="size-option" data-pick-size="${esc(s.container || '')}" data-pick-price="${s.price}">
-            <span class="size-option-name">${esc(s.container || 'Standard')}</span>
-            <span class="size-option-price">$${fmtPrice(s.price)}</span>
+        const showSizeList = sizes.length > 1;
+        const sizesHtml = showSizeList
+          ? `<div class="picker-section-label">Size</div>
+             <div class="size-options-list">
+               ${sizes.map((s, i) => `
+                 <label class="size-option">
+                   <input type="radio" name="pickerSize" value="${esc(s.container || '')}" data-pick-price="${s.price}" ${i === 0 ? 'checked' : ''}>
+                   <span class="size-option-name">${esc(s.container || 'Standard')}</span>
+                   <span class="size-option-price">$${fmtPrice(s.price)}</span>
+                 </label>
+               `).join('')}
+             </div>`
+          : `<div class="picker-section-label">Size</div>
+             <div class="size-options-list">
+               <label class="size-option is-selected">
+                 <input type="radio" name="pickerSize" value="${esc(sizes[0].container || '')}" data-pick-price="${sizes[0].price}" checked>
+                 <span class="size-option-name">${esc(sizes[0].container || 'Standard')}</span>
+                 <span class="size-option-price">$${fmtPrice(sizes[0].price)}</span>
+               </label>
+             </div>`;
+        sizePickerBody.innerHTML = `
+          ${sizesHtml}
+          <div class="picker-section-label" style="margin-top:14px;">Quantity</div>
+          <div class="picker-qty-row">
+            <div class="qty-stepper picker-qty">
+              <button type="button" data-picker-qty-step="-1" aria-label="Decrease quantity">−</button>
+              <input type="number" min="1" step="1" value="1" id="pickerQtyInput">
+              <button type="button" data-picker-qty-step="1" aria-label="Increase quantity">+</button>
+            </div>
+            <span class="picker-line-total" id="pickerLineTotal">$${fmtPrice(sizes[0].price)}</span>
           </div>
-        `).join('');
-        // Stash the current plant on the modal so the click handler knows
+          <button type="button" class="btn btn-primary btn-block" id="pickerAddBtn" style="margin-top:18px;">
+            Add to Order
+          </button>`;
         sizePickerModal._plant = plant;
         sizePickerOverlay.hidden = false;
         sizePickerModal.hidden = false;
+        // Focus the qty input for fast keyboard entry
+        setTimeout(() => {
+          const qi = $('pickerQtyInput');
+          if (qi) { qi.focus(); qi.select(); }
+        }, 50);
       }
+
+      function getPickerSelection() {
+        const plant = sizePickerModal._plant;
+        if (!plant) return null;
+        const checked = sizePickerBody.querySelector('input[name="pickerSize"]:checked');
+        if (!checked) return null;
+        const container = checked.value;
+        const size = getSizes(plant).find(s => (s.container || '') === container);
+        if (!size) return null;
+        const qtyInput = $('pickerQtyInput');
+        const qty = Math.max(1, parseInt(qtyInput ? qtyInput.value : 1, 10) || 1);
+        return { plant, size, qty };
+      }
+
+      function updatePickerLineTotal() {
+        const sel = getPickerSelection();
+        const totalEl = $('pickerLineTotal');
+        if (sel && totalEl) totalEl.textContent = `$${fmtPrice(sel.size.price * sel.qty)}`;
+      }
+
       function closeSizePicker() {
         sizePickerOverlay.hidden = true;
         sizePickerModal.hidden = true;
@@ -3552,15 +3717,53 @@
           }
           return;
         }
-        // Size picker selection
-        const sizeOpt = e.target.closest('[data-pick-size]');
-        if (sizeOpt && !sizePickerModal.hidden) {
-          const plant = sizePickerModal._plant;
-          if (!plant) return;
-          const container = sizeOpt.dataset.pickSize;
-          const size = getSizes(plant).find(s => (s.container || '') === container);
-          if (size) {
-            addPlantToCart(plant, size);
+        // Picker "Add to Order" button
+        const pickerAddBtn = e.target.closest('#pickerAddBtn');
+        if (pickerAddBtn) {
+          const sel = getPickerSelection();
+          if (sel) {
+            addPlantToCart(sel.plant, sel.size, sel.qty);
+            closeSizePicker();
+          }
+          return;
+        }
+      });
+
+      // Picker qty stepper
+      sizePickerBody.addEventListener('click', (e) => {
+        const step = e.target.closest('[data-picker-qty-step]');
+        if (step) {
+          const input = $('pickerQtyInput');
+          if (!input) return;
+          const delta = parseInt(step.dataset.pickerQtyStep, 10) || 0;
+          const cur = Math.max(1, parseInt(input.value, 10) || 1);
+          input.value = String(cur + delta);
+          updatePickerLineTotal();
+        }
+      });
+      // Update line total when qty or size changes
+      sizePickerBody.addEventListener('input', (e) => {
+        if (e.target.id === 'pickerQtyInput' || e.target.name === 'pickerSize') {
+          updatePickerLineTotal();
+        }
+      });
+      sizePickerBody.addEventListener('change', (e) => {
+        if (e.target.name === 'pickerSize') {
+          // Toggle is-selected class on each option
+          sizePickerBody.querySelectorAll('.size-option').forEach(opt => {
+            const inp = opt.querySelector('input[type="radio"]');
+            opt.classList.toggle('is-selected', !!(inp && inp.checked));
+          });
+          updatePickerLineTotal();
+        }
+      });
+      // Enter on qty input submits
+      sizePickerBody.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && e.target.id === 'pickerQtyInput') {
+          e.preventDefault();
+          const sel = getPickerSelection();
+          if (sel) {
+            addPlantToCart(sel.plant, sel.size, sel.qty);
             closeSizePicker();
           }
         }

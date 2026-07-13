@@ -3955,7 +3955,8 @@
           url.searchParams.delete('staff');
           window.history.replaceState({}, '', url.pathname + url.search);
         } catch (e2) { /* ignore */ }
-        if (typeof loadStaffCustomerData === 'function') loadStaffCustomerData();
+        // Customer database loads lazily on first use of the picker —
+        // don't block sign-in on it (see loadStaffCustomerData for rationale).
         if (typeof renderCart === 'function') renderCart();
       } catch (e) { console.error(e); }
     };
@@ -4820,28 +4821,32 @@
       let selectedCustomer = null;
       let staffCustomersPromise = null;
 
+      // Lazy-load the customer database the first time the staff actually
+      // opens the customer picker. Loading on sign-in (1.8 MB script) was
+      // blocking the main thread and freezing the UI for 200+ ms after
+      // the password was accepted. Now signing in is instant; the JSON
+      // parses only when the user types in the picker.
       window.loadStaffCustomerData = function loadStaffCustomerData() {
         if (staffCustomersPromise) return staffCustomersPromise;
-        staffCustomersPromise = new Promise((resolve) => {
-          // Dynamically inject office_customers.js so it's only loaded for staff
-          const s = document.createElement('script');
-          s.src = 'office_customers.js';
-          s.onload = () => {
-            if (window.OFFICE_CUSTOMERS && window.OFFICE_CUSTOMERS.length) {
-              // Pre-compute a lowercase index once, instead of lowercasing
-              // 2,938 customers' search_text on every keystroke.
-              allCustomers = window.OFFICE_CUSTOMERS.map(c => {
-                c._s = (c.search_text || '').toLowerCase();
-                return c;
-              });
-              // If the customer picker is already visible, populate its results
-              renderCustomerPicker();
-            }
-            resolve(allCustomers);
-          };
-          s.onerror = () => resolve([]);
-          document.head.appendChild(s);
-        });
+        staffCustomersPromise = fetch('office_customers.json?v=' + Date.now())
+          .then(r => {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          })
+          .then(arr => {
+            // Pre-compute a lowercase index once, instead of lowercasing
+            // 2,938 customers' search_text on every keystroke.
+            allCustomers = arr.map(c => {
+              c._s = (c.search_text || '').toLowerCase();
+              return c;
+            });
+            renderCustomerPicker();
+            return allCustomers;
+          })
+          .catch(err => {
+            console.warn('Failed to load customer database:', err);
+            return [];
+          });
         return staffCustomersPromise;
       };
 
@@ -5001,8 +5006,16 @@
         const clearCust = $('selCustClear');
         const results = $('custPickerResults');
         if (!input) return;
-        input.addEventListener('input', scheduleCustomerPicker);
-        input.addEventListener('focus', renderCustomerPicker);
+        input.addEventListener('input', () => {
+          // Trigger lazy load on first input — the picker shows a "Loading…"
+          // message until the JSON arrives (see renderCustomerPicker).
+          if (typeof loadStaffCustomerData === 'function') loadStaffCustomerData();
+          scheduleCustomerPicker();
+        });
+        input.addEventListener('focus', () => {
+          if (typeof loadStaffCustomerData === 'function') loadStaffCustomerData();
+          renderCustomerPicker();
+        });
         input.addEventListener('keydown', (e) => {
           if (e.key === 'Escape') results.classList.remove('is-open');
           if (e.key === 'Enter') {

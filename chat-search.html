@@ -4455,18 +4455,16 @@
         // Update cart item with current mode. For markup, cart.setRetail
         // expects the multiplier as the value and computes retailPrice.
         if (mode === 'markup') {
-          Cart.setRetail(key, 'markup', input.value, { silent: true });
-          // Stash the multiplier on the item so re-render shows the right value
           const m = parseFloat(input.value);
           if (!isNaN(m)) {
             const it = Cart.getItems().find(i => i.key === key);
             if (it) it.retailMultiplier = m;
           }
+          Cart.setRetail(key, 'markup', input.value, { silent: true });
         } else {
-          Cart.setRetail(key, 'manual', input.value, { silent: true });
-          // Clear any stored multiplier
           const it = Cart.getItems().find(i => i.key === key);
-          if (it) delete it.retailMultiplier;
+          if (it) it.retailMultiplier = undefined;
+          Cart.setRetail(key, 'manual', input.value, { silent: true });
         }
         // Update only this line's display total + cart totals — don't re-render
         // the whole cart (would tear down the input mid-keystroke).
@@ -4510,13 +4508,13 @@
           // mode stores the absolute retailPrice directly.
           if (it.retailMode === 'markup' && it.retailMultiplier) {
             // Switch to manual: keep current effective retail
+            it.retailMultiplier = undefined;
             Cart.setRetail(key, 'manual', it.retailPrice);
-            delete it.retailMultiplier;
           } else {
             // Switch to markup: derive multiplier from current retail / wholesale
             const m = it.price > 0 ? (it.retailPrice / it.price) : 1;
-            Cart.setRetail(key, 'markup', m);
             it.retailMultiplier = Math.round(m * 100) / 100;
+            Cart.setRetail(key, 'markup', m);
           }
           return;
         }
@@ -4529,10 +4527,9 @@
         const item = btn.closest('.cart-item');
         const key = item && item.dataset.key;
         if (!key) return;
-        Cart.setRetail(key, 'wholesale');
-        // Clear multiplier too
         const it = Cart.getItems().find(i => i.key === key);
-        if (it) delete it.retailMultiplier;
+        if (it) it.retailMultiplier = undefined;
+        Cart.setRetail(key, 'wholesale');
       });
 
       // --- Checkout

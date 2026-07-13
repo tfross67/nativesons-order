@@ -2240,7 +2240,9 @@
         <span>Notes (delivery, substitutions, etc.)</span>
         <textarea name="notes" rows="3"></textarea>
       </label>
-      <fieldset class="notify-fieldset">
+      <!-- Staff-only: choose who gets notified. Public visitors see no Notify
+           fieldset — they always receive the email automatically. -->
+      <fieldset class="notify-fieldset staff-only">
         <legend>Notify</legend>
         <label>
           <input type="checkbox" id="optEmailCustomer" checked>
@@ -4095,10 +4097,20 @@
         const fd = new FormData(checkoutForm);
         const formData = Object.fromEntries(fd.entries());
 
-        // Read notify preferences BEFORE submit so we know who to skip / fire.
-        const emailCustomer = $('optEmailCustomer').checked;
-        const emailTim = $('optEmailTim').checked;
-        const slackPost = $('optSlack').checked;
+        // Read notify preferences — but only if the staff-only fieldset is
+        // visible. Public visitors can't see the Notify checkboxes (and we
+        // don't want them to); they always receive a confirmation email and
+        // a copy goes to the office. No Slack for public visitors.
+        const isStaffSubmit = document.body.classList.contains('staff-mode');
+        let emailCustomer = true, emailTim = true, slackPost = false;
+        if (isStaffSubmit) {
+          const custCb = $('optEmailCustomer');
+          const timCb = $('optEmailTim');
+          const slackCb = $('optSlack');
+          emailCustomer = custCb ? custCb.checked : true;
+          emailTim = timCb ? timCb.checked : true;
+          slackPost = slackCb ? slackCb.checked : false;
+        }
 
         submitOrderBtn.disabled = true;
         const origText = submitOrderBtn.textContent;

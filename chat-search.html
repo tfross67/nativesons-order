@@ -1326,6 +1326,21 @@
       width: 100%;
       text-align: center;
     }
+    /* Touch targets — at least 44px tall on mobile for thumb-friendly buttons */
+    @media (max-width: 600px) {
+      .chat-test-root .modal-actions .btn {
+        min-height: 48px;
+        font-size: 16px;
+        padding: 12px 20px;
+      }
+      .chat-test-root .modal-actions .btn-ghost {
+        flex: 0 0 auto;
+        min-width: 90px;
+      }
+      .chat-test-root .modal-actions .btn-primary {
+        flex: 1 1 auto;
+      }
+    }
 
     /* Size picker modal */
     .chat-test-root .modal-overlay {
@@ -1342,11 +1357,31 @@
       transform: translate(-50%, -50%);
       width: 92%;
       max-width: 420px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
       background: #fff;
       border-radius: 12px;
       box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
       z-index: 115;
       font-family: var(--font-sans);
+      overflow: hidden; /* keep modal-actions pinned at bottom */
+    }
+    /* Mobile bottom-sheet: anchor to viewport bottom so the Submit button
+       is always reachable above the iOS home indicator. */
+    @media (max-width: 600px) {
+      .chat-test-root .modal {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transform: none;
+        width: 100%;
+        max-width: 100%;
+        max-height: 95vh;
+        border-radius: 14px 14px 0 0;
+        padding-bottom: env(safe-area-inset-bottom, 0);
+      }
     }
     .chat-test-root .modal[hidden] { display: none; }
     .chat-test-root .modal-header {
@@ -1365,7 +1400,7 @@
       color: var(--c-bark, #2d4a2b);
       margin: 0;
     }
-    .chat-test-root .modal-body { padding: 20px 22px; }
+    .chat-test-root .modal-body { padding: 20px 22px; overflow-y: auto; flex: 1 1 auto; min-height: 0; -webkit-overflow-scrolling: touch; }
     .chat-test-root .modal-intro {
       font-family: var(--font-serif);
       font-style: italic;
@@ -1537,7 +1572,14 @@
       display: flex;
       justify-content: flex-end;
       gap: 10px;
-      margin-top: 18px;
+      padding: 14px 22px;
+      margin-top: 0;
+      flex-shrink: 0; /* keep actions visible at bottom of scrollable modal */
+      border-top: 1px solid #e8e2cf;
+      background: #fafaf5;
+    }
+    @media (max-width: 600px) {
+      .chat-test-root .modal-actions { padding-bottom: calc(14px + env(safe-area-inset-bottom, 0)); }
     }
     .chat-test-root .btn-ghost {
       background: transparent;

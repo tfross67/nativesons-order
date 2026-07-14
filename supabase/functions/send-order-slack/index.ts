@@ -191,42 +191,6 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
     });
   }
 
-  // DEBUG: write the items + key fields to a debug table so we can verify
-  // what was sent for each order. Helps diagnose "no retail in Slack" reports.
-  // Disable in production if too noisy — for now, always log.
-  try {
-    const itemsDebug = items.map((i: any) => ({
-      plant_name: i.plant_name,
-      plant_size: i.plant_size,
-      unit_price: i.unit_price,
-      retail_mode: i.retail_mode,
-      retail_price: i.retail_price,
-      retail_line_total: i.retail_line_total,
-      retail_multiplier: i.retail_multiplier,
-    }));
-    await fetch(`${SUPABASE_URL}/rest/v1/slack_debug`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": SUPABASE_SERVICE_ROLE_KEY,
-        "authorization": `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-        "Prefer": "return=minimal",
-      },
-      body: JSON.stringify({
-        order_number: o.order_number,
-        customer_name: o.customer_name,
-        items: itemsDebug,
-        internal_order: internalOrder,
-        show_retail: showRetail,
-        has_any_markup: hasAnyMarkup,
-        total_wholesale: totalWholesale,
-        total_retail: totalRetail,
-      }),
-    });
-  } catch (e) {
-    console.error("slack_debug write failed:", e);
-  }
-
   return { text, blocks };
 }
 

@@ -93,12 +93,24 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
     //   • Internal order with markup: show only wholesale (staff doesn't need retail math for phone orders).
     //   • External order with markup: show wholesale struck-through + retail with multiplier.
     //   • No markup: show only wholesale.
+    //   • Markup mode active but multiplier is exactly 1.0: show both prices
+    //     plus a `×1.00` marker so staff can spot they didn't actually apply
+    //     any markup (red flag for accidental no-op markups).
+    const markupModeButZero = !lineHasMarkup
+      && showRetail && !internalOrder
+      && i.retail_mode === 'markup'
+      && effectiveMultiplier !== null;
     let pricePortion: string;
     if (lineHasMarkup && showRetail && !internalOrder) {
       pricePortion =
         ` — ~~$${fmt(i.unit_price)} ea = $${fmt(i.line_total)}~~` +
         ` → $${fmt(Number(retailUnit))} ea = $${fmt(Number(i.retail_line_total))}` +
         (effectiveMultiplier ? ` (×${fmt(effectiveMultiplier)})` : '');
+    } else if (markupModeButZero) {
+      pricePortion =
+        ` — ~~$${fmt(i.unit_price)} ea = $${fmt(i.line_total)}~~` +
+        ` → $${fmt(Number(i.unit_price))} ea = $${fmt(i.line_total)}` +
+        ` (×1.00 — no markup applied)`;
     } else {
       pricePortion = ` — $${fmt(i.unit_price)} ea = $${fmt(i.line_total)}`;
     }

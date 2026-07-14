@@ -4645,7 +4645,7 @@
           Cart.setRetail(key, 'markup', defaultMult, { multiplier: defaultMult, customerApplied: false });
           // After the cart re-renders, auto-focus the markup input so staff
           // can type their actual multiplier without an extra click.
-          requestAnimationFrame(() => {
+          setTimeout(() => {
             const newInput = document.querySelector(
               `.cart-item[data-key="${CSS.escape(key)}"] input[data-cart-retail-input]`
             );
@@ -4653,7 +4653,7 @@
               newInput.focus();
               newInput.select();
             }
-          });
+          }, 50);
         }
       });
 

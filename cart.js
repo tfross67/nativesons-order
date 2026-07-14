@@ -63,18 +63,26 @@ window.Cart = (() => {
   function add(plant) {
     // plant: { key, name, size, price, qty, item_code, upc, defaultMarkup? }
     // When defaultMarkup is set (e.g. 1.30 for a +30% customer), new items
-    // are added in markup mode with that multiplier applied. Existing items
-    // already in wholesale mode also get marked up — see applyDefaultMarkup.
+    // are added in markup mode with that multiplier. existingMarkup?: if true
+    // and a default markup is now active, this item was previously a customer-
+    // applied markup and should be refreshed to the new multiplier (rather
+    // than staying at the old customer's rate). Items staff customized
+    // manually (via the × toggle or $ entry) keep their own retailMultiplier.
     const existing = items.find(i => i.key === plant.key);
     if (existing) {
       existing.qty += plant.qty;
-      // If the existing item is still wholesale and a default markup is now
-      // active, promote it so the customer's markup applies on quantity bumps too.
-      if (plant.defaultMarkup && plant.defaultMarkup > 1 && existing.retailMode === 'wholesale') {
-        const m = plant.defaultMarkup;
+      // Refresh customer-applied markups when the multiplier changes.
+      const m = plant.defaultMarkup && plant.defaultMarkup > 1 ? plant.defaultMarkup : null;
+      if (m && existing.customerMarkup) {
         existing.retailMode = 'markup';
         existing.retailPrice = Math.round(existing.price * m * 100) / 100;
         existing.retailMultiplier = m;
+      } else if (m && existing.retailMode === 'wholesale') {
+        // New customer markup, item was at wholesale — promote it.
+        existing.retailMode = 'markup';
+        existing.retailPrice = Math.round(existing.price * m * 100) / 100;
+        existing.retailMultiplier = m;
+        existing.customerMarkup = true;
       }
     } else {
       const m = plant.defaultMarkup && plant.defaultMarkup > 1 ? plant.defaultMarkup : null;
@@ -87,6 +95,7 @@ window.Cart = (() => {
         retailMode: m ? 'markup' : 'wholesale',
         retailPrice: m ? Math.round(plant.price * m * 100) / 100 : plant.price,
         retailMultiplier: m,
+        customerMarkup: !!m,  // tracks whether the active markup was set by the customer
         specialOrder: false,
         item_code: plant.item_code || null,
         upc: plant.upc || null,
@@ -118,6 +127,16 @@ window.Cart = (() => {
     const item = items.find(i => i.key === key);
     if (!item) return;
     item.retailMode = mode;
+    // When staff manually changes the price (manual $ entry or custom ×),
+    // mark this item as no longer auto-managed by the customer's markup.
+    // This preserves per-item overrides across customer changes.
+    if (mode === 'manual') {
+      item.customerMarkup = false;
+    } else if (mode === 'markup' && opts && opts.customerApplied === false) {
+      // The × toggle in the UI passes this when the user types a custom
+      // multiplier that overrides the customer default.
+      item.customerMarkup = false;
+    }
     if (mode === 'wholesale') {
       item.retailPrice = item.price;
       delete item.retailMultiplier;
@@ -153,17 +172,22 @@ window.Cart = (() => {
     else save();
   }
 
-  // Apply a markup multiplier to every item currently in 'wholesale' mode.
-  // Items already on 'markup' or 'manual' are left untouched. Returns the
-  // number of items affected.
+  // Apply a markup multiplier to every item currently in 'wholesale' mode OR
+  // previously marked up by the customer (customerMarkup: true). Items the
+  // staff has manually customized via the × toggle or $ entry (customerMarkup
+  // is false on those) are left untouched so per-item overrides survive a
+  // customer change.
   function applyDefaultMarkup(multiplier) {
     const mult = parseFloat(multiplier);
     if (isNaN(mult) || mult < 0) return 0;
     let changed = 0;
     items.forEach(item => {
-      if (item.retailMode === 'wholesale') {
+      const shouldApply = item.retailMode === 'wholesale' || item.customerMarkup;
+      if (shouldApply) {
         item.retailMode = 'markup';
         item.retailPrice = Math.round(item.price * mult * 100) / 100;
+        item.retailMultiplier = mult;
+        item.customerMarkup = true;
         changed++;
       }
     });

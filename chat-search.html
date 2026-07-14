@@ -4541,7 +4541,10 @@
         if (mode === 'markup') {
           const m = parseFloat(input.value);
           if (!isNaN(m)) {
-            Cart.setRetail(key, 'markup', input.value, { silent: true, multiplier: m });
+            // Staff is typing a custom multiplier in the input — flag this
+            // as a per-item override so changing customers later doesn't
+            // clobber it back to the new customer's default.
+            Cart.setRetail(key, 'markup', input.value, { silent: true, multiplier: m, customerApplied: false });
           } else {
             Cart.setRetail(key, 'markup', input.value, { silent: true });
           }
@@ -4597,7 +4600,9 @@
           if (!it) return;
           // Switching modes preserves the current effective retail price.
           // markup mode derives a multiplier from (retailPrice / price); manual
-          // mode stores the absolute retailPrice directly.
+          // mode stores the absolute retailPrice directly. Both transitions
+          // mark this item as staff-customized so future customer changes
+          // don't overwrite the per-item choice.
           if (it.retailMode === 'markup') {
             // Switch to manual: keep current effective retail
             Cart.setRetail(key, 'manual', it.retailPrice);
@@ -4605,7 +4610,7 @@
             // Switch to markup: derive multiplier from current retail / wholesale
             const m = it.price > 0 ? (it.retailPrice / it.price) : 1;
             const rounded = Math.round(m * 100) / 100;
-            Cart.setRetail(key, 'markup', rounded, { multiplier: rounded });
+            Cart.setRetail(key, 'markup', rounded, { multiplier: rounded, customerApplied: false });
           }
           return;
         }

@@ -149,16 +149,10 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
     : `<p><strong>${esc(o.customer_name)}</strong> just placed an order via the website.</p>`;
 
   // Footer subtotal: show both wholesale and retail when there's markup
-  // Subtotal: always shows WHOLESALE as the primary amount (that's what we
-  // invoice). When markup is applied, retail is shown beneath as the
-  // customer-facing reference, but the bold total is wholesale.
-  const subtotalCell = anyMarkup
-    ? `<td style="padding: 12px; text-align: right; font-weight: 700; font-size: 18px; color: #2d4a2b;">
-         $${fmt(totalWholesale)}
-         <div style="color:#666; font-weight:400; font-size:13px; margin-top:4px;">retail $${fmt(totalRetail)}</div>
-       </td>`
-    : `<td style="padding: 12px; text-align: right; font-weight: 700; font-size: 18px; color: #2d4a2b;">$${fmt(totalWholesale)}</td>`;
-  const subtotalLabel = anyMarkup ? 'Subtotal (wholesale)' : 'Subtotal';
+  // Subtotal: always shows WHOLESALE only. Retail price is visible on each
+  // line item above; we don't repeat the retail total at the bottom.
+  const subtotalCell = `<td style="padding: 12px; text-align: right; font-weight: 700; font-size: 18px; color: #2d4a2b;">$${fmt(totalWholesale)}</td>`;
+  const subtotalLabel = 'Subtotal';
 
   const html = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 640px; margin: 0 auto; color: #1f2a1c;">
@@ -210,9 +204,7 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
     `Items:`,
     ...itemRowsText,
     ``,
-    anyMarkup
-      ? `Subtotal (wholesale): $${fmt(totalWholesale)} | retail: $${fmt(totalRetail)}`
-      : `Subtotal: $${fmt(totalWholesale)}`,
+    `Subtotal: $${fmt(totalWholesale)}`,
     ``,
     `Name: ${o.customer_name}`,
     `Email: ${o.customer_email}`,

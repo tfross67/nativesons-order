@@ -4057,6 +4057,12 @@
         showToast._t = setTimeout(() => cartToast.classList.remove('show'), 2400);
       }
 
+      // Hoisted here (was originally below near addPlantToCart at line ~4222)
+      // because renderCart references defaultMarkupMultiplier on the very
+      // first call. Declaring it later hit the let/const TDZ on Safari and
+      // aborted the rest of this IIFE, which is why no click handlers
+      // worked there even though the page rendered fine.
+      let defaultMarkupMultiplier = 1.0;
       // --- Render cart UI
       function renderCart() {
         const items = Cart.getItems();
@@ -4219,7 +4225,8 @@
       // Track the active customer's default markup multiplier so it auto-
       // applies to every item added to the cart (and re-applies to existing
       // items when the customer changes). 1.0 = no markup (wholesale).
-      let defaultMarkupMultiplier = 1.0;
+      // Declared once at the top of this IIFE so renderCart can read it
+      // on first call without hitting TDZ. Do not re-declare.
 
       function addPlantToCart(plant, size, qty) {
         const key = `${plant.botanical}|${size.container || ''}`;

@@ -1668,6 +1668,69 @@
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
     }
+    /* Picker tally items live INSIDE sizePickerBody which is itself inside
+       the size picker modal (a sibling of main, NOT inside .chat-test-root).
+       So .chat-test-root-scoped rules above don't apply. Provide an
+       unscoped fallback so the tally + remove button render correctly. */
+    .modal .picker-tally {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px dashed #d8d2c2;
+    }
+    .modal .picker-tally-title {
+      font-family: var(--font-sans);
+      font-size: var(--fs-eyebrow);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--ls-xwide);
+      color: var(--c-clay, #6b6256);
+      margin-bottom: 8px;
+    }
+    .modal .picker-tally-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .modal .picker-tally-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 0;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      color: var(--c-bark, #2d4a2b);
+    }
+    .modal .picker-tally-name {
+      flex: 1;
+      font-weight: 600;
+    }
+    .modal .picker-tally-qty {
+      color: var(--c-clay, #6b6256);
+      font-variant-numeric: tabular-nums;
+    }
+    .modal .picker-tally-total {
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+    .modal .picker-tally-remove {
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+      border: 1px solid #d8d2c2;
+      border-radius: 50%;
+      background: #fff;
+      color: var(--c-clay, #6b6256);
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    .modal .picker-tally-remove:hover {
+      background: #c14545;
+      color: #fff;
+      border-color: #c14545;
+    }
     /* Flat-pricing helper for 4in / 3in / liner plants (sold by the flat) */
     .chat-test-root .picker-flat-helper {
       margin-top: 12px;
@@ -4388,7 +4451,24 @@
             <span class="picker-tally-name">${esc(a.size.container || 'ea')}</span>
             <span class="picker-tally-qty">× ${a.qty}</span>
             <span class="picker-tally-total">$${fmtPrice(a.total)}</span>
+            <button type="button" class="picker-tally-remove" data-tally-remove="${idx}" aria-label="Remove this line">×</button>
           </li>`).join('');
+      }
+
+      // Remove a single line from the picker tally (for accidental × 1 clicks)
+      // before the user hits Done. Removes from pickerSessionAdds only; cart
+      // state is untouched (so if user already committed to cart, they can
+      // still remove from the cart panel itself).
+      const pickerTallyEl = $('pickerTally');
+      if (pickerTallyEl) {
+        pickerTallyEl.addEventListener('click', (e) => {
+          const rm = e.target.closest('[data-tally-remove]');
+          if (!rm) return;
+          const idx = parseInt(rm.getAttribute('data-tally-remove'), 10);
+          if (Number.isNaN(idx)) return;
+          pickerSessionAdds.splice(idx, 1);
+          renderPickerTally();
+        });
       }
 
       function closeSizePicker() {

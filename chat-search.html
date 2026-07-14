@@ -4492,6 +4492,20 @@
           }
           return;
         }
+        // Photo-link on each plant tile: <a class="result-link"> with
+        // target="_blank" already opens in a new tab, BUT Safari's popup
+        // blocker can downgrade that to same-window navigation. Force a
+        // window.open() from this user-click handler so Safari treats it as
+        // a programmatic-open-from-gesture, which is always allowed.
+        const photoLink = e.target.closest('a.result-link');
+        if (photoLink) {
+          const href = photoLink.getAttribute('href');
+          if (href) {
+            e.preventDefault();
+            window.open(href, '_blank', 'noopener');
+          }
+          return;
+        }
         // Picker "Add {size} × {qty} to Order" button — adds current selection,
         // keeps modal open so the user can add more sizes
         const pickerAddBtn = e.target.closest('#pickerAddBtn');

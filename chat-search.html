@@ -4839,6 +4839,8 @@
             // Helps diagnose "no retail in Slack" reports. The orderId is the
             // database record id; we use it to correlate with slack_log entries.
             console.log('[DEBUG] send-order-slack payload', JSON.stringify(slackBody, null, 2));
+            console.log('[DEBUG] Cart contents at submit:', JSON.stringify(Cart.getItems(), null, 2));
+            console.log('[DEBUG] Subtotal:', Cart.getSubtotal(), 'Retail:', Cart.getRetailSubtotal());
             // Also store it in localStorage so it survives a page reload — useful
             // when staff reports an issue after submitting.
             try {

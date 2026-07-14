@@ -4782,6 +4782,10 @@
           if (!emailCustomer) skip.push('customer');
           if (!emailTim) skip.push('office');
 
+          // Build items payload for Slack + email Edge Functions.
+          // MUST include retail fields so the markup shows in both Slack
+          // posts and customer emails. (The DB RPC gets a separate pItems
+          // payload — also with retail fields — below.)
           const orderItems = Cart.getItems().map(i => ({
             plant_key: i.key,
             plant_name: i.name,
@@ -4789,6 +4793,10 @@
             unit_price: i.price,
             qty: i.qty,
             line_total: i.price * i.qty,
+            retail_mode: i.retailMode || 'wholesale',
+            retail_price: i.retailPrice || i.price,
+            retail_line_total: (i.retailPrice || i.price) * i.qty,
+            retail_multiplier: i.retailMultiplier || null,
             item_code: i.item_code || null,
             upc: i.upc || null,
             special_order: !!i.specialOrder,

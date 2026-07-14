@@ -3995,6 +3995,9 @@
         return;
       }
 
+      // --- Helper (chat IIFE's $ is out of scope here)
+      const $ = (id) => document.getElementById(id);
+
       // --- DOM refs
       const cartBar = $('cartBar');
       const cartCount = $('cartCount');

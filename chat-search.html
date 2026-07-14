@@ -4459,9 +4459,13 @@
       // before the user hits Done. Removes from pickerSessionAdds only; cart
       // state is untouched (so if user already committed to cart, they can
       // still remove from the cart panel itself).
-      const pickerTallyEl = $('pickerTally');
-      if (pickerTallyEl) {
-        pickerTallyEl.addEventListener('click', (e) => {
+      //
+      // The tally is rendered into sizePickerBody dynamically each time the
+      // picker opens (innerHTML wipe), so we can't attach a listener to
+      // pickerTally at init time — the element doesn't exist yet. Bind to
+      // sizePickerBody (always present) and use event delegation.
+      if (sizePickerBody) {
+        sizePickerBody.addEventListener('click', (e) => {
           const rm = e.target.closest('[data-tally-remove]');
           if (!rm) return;
           const idx = parseInt(rm.getAttribute('data-tally-remove'), 10);

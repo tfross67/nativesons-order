@@ -4249,6 +4249,10 @@
       }
 
       function openSizePicker(plant) {
+        // Close the cart slide-out if it's open — the picker is a focused
+        // transient interaction and shouldn't sit behind the cart panel.
+        cartOverlay.hidden = true;
+        cartPanel.hidden = true;
         pickerSessionAdds = [];
         sizePickerTitle.textContent = `Add Sizes — ${plant.botanical}`;
         const sizes = getSizes(plant);
@@ -4494,6 +4498,11 @@
       // --- Cart bar / slide-out panel
       function openCart() {
         if (Cart.getCount() === 0) return;
+        // Cart is the persistent view — if the size picker is open, close it.
+        // (Picker auto-closes the cart when it opens; this is the inverse —
+        // explicit cart pill click beats implicit picker presence.)
+        sizePickerOverlay.hidden = true;
+        sizePickerModal.hidden = true;
         cartOverlay.hidden = false;
         cartPanel.hidden = false;
       }

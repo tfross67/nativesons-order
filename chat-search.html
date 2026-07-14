@@ -1346,6 +1346,21 @@
       background: #ede4d0;
       border-color: #6b8a4a;
     }
+    /* Markup mode is on but multiplier is 1.0 — i.e. retail = wholesale,
+       no markup actually applied. Highlight the input so staff notices
+       before submitting. */
+    body .cart-item-retail.is-zero-markup input[data-cart-retail-input] {
+      background: #fff8e6;
+      border-color: #d4a76a;
+      box-shadow: 0 0 0 2px rgba(212, 167, 106, 0.18);
+    }
+    body .cart-item-retail.is-zero-markup::before {
+      content: 'Multiplier = 1.00 means no markup — type your markup above.';
+      display: block;
+      font-size: 11px;
+      color: #a36b1e;
+      margin-bottom: 2px;
+    }
     body .cart-summary {
       padding: 18px 22px;
       border-top: 1px solid #e8e2cf;
@@ -4080,8 +4095,11 @@
           // In markup mode, show the multiplier as the input value
           const inputValue = isMarkupMode ? it.retailMultiplier : retailVal;
           const inputMode = isMarkupMode ? 'markup' : 'manual';
+          // Flag when markup mode is on but multiplier is 1.0 — visually
+          // warn that no actual markup has been applied (retail == wholesale).
+          const noEffectiveMarkup = isMarkupMode && Number(it.retailMultiplier) <= 1;
           const retailRow = `
-            <div class="cart-item-retail">
+            <div class="cart-item-retail${noEffectiveMarkup ? ' is-zero-markup' : ''}">
               <label>
                 <span>Retail ${isMarkupMode ? '×' : '$'}</span>
                 <input type="number" min="0" step="${isMarkupMode ? '0.05' : '0.01'}" value="${inputValue}" data-cart-retail-input data-cart-retail-mode="${inputMode}">
@@ -4599,20 +4617,43 @@
           const it = Cart.getItems().find(i => i.key === key);
           if (!it) return;
           // Switching modes preserves the current effective retail price.
-          // markup mode derives a multiplier from (retailPrice / price); manual
-          // mode stores the absolute retailPrice directly. Both transitions
-          // mark this item as staff-customized so future customer changes
-          // don't overwrite the per-item choice.
+          //   • markup → manual: store the absolute retailPrice.
+          //   • manual → markup: derive the multiplier from retail/wholesale.
+          //   • wholesale → markup: default to a sensible multiplier (the
+          //     customer's default if set, else 1.25 = 25% markup) and
+          //     auto-focus the input so staff can adjust immediately.
+          // Both transitions mark this item as staff-customized so future
+          // customer changes don't overwrite the per-item choice.
           if (it.retailMode === 'markup') {
             // Switch to manual: keep current effective retail
             Cart.setRetail(key, 'manual', it.retailPrice);
-          } else {
+            return;
+          }
+          if (it.retailMode === 'manual') {
             // Switch to markup: derive multiplier from current retail / wholesale
             const m = it.price > 0 ? (it.retailPrice / it.price) : 1;
             const rounded = Math.round(m * 100) / 100;
             Cart.setRetail(key, 'markup', rounded, { multiplier: rounded, customerApplied: false });
+            return;
           }
-          return;
+          // wholesale → markup: pick a useful default multiplier.
+          // Customer's default if it makes sense (>1), otherwise 1.25.
+          let defaultMult = 1.25;
+          if (typeof defaultMarkupMultiplier === 'number' && defaultMarkupMultiplier > 1) {
+            defaultMult = Math.round(defaultMarkupMultiplier * 100) / 100;
+          }
+          Cart.setRetail(key, 'markup', defaultMult, { multiplier: defaultMult, customerApplied: false });
+          // After the cart re-renders, auto-focus the markup input so staff
+          // can type their actual multiplier without an extra click.
+          requestAnimationFrame(() => {
+            const newInput = document.querySelector(
+              `.cart-item[data-key="${CSS.escape(key)}"] input[data-cart-retail-input]`
+            );
+            if (newInput) {
+              newInput.focus();
+              newInput.select();
+            }
+          });
         }
       });
 

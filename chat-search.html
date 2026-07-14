@@ -2187,12 +2187,11 @@
     /* ============================================================ */
     body.staff-mode #mainApp,
     body.staff-mode .chat-test-root {
-      padding-left: 308px !important;        /* 280px sidebar + 28px gutter */
+      padding-left: 308px !important;        /* 280px sidebar + 28px gutter — staff-mode build 2026-07-14, change forces CDN cache bust */
       padding-right: 16px;
       margin-left: 0 !important;             /* override default centering so the main content fills from sidebar edge to viewport edge */
       margin-right: 0;
       max-width: none;            /* override default 900px cap in staff mode */
-      transition: padding 0.2s ease;
     }
     .chat-test-root .staff-sidebar,
     .staff-sidebar {

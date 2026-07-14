@@ -4821,22 +4821,34 @@
 
           // Send to Slack — only if the Slack checkbox is checked
           if (slackPost && supabase.functions) {
-            supabase.functions.invoke('send-order-slack', {
-              body: {
-                record: {
-                  order_number: orderNumber,
-                  customer_name: formData.customer_name,
-                  customer_email: formData.customer_email,
-                  customer_phone: formData.customer_phone,
-                  customer_company: formData.customer_company,
-                  notes: formData.notes,
-                  subtotal: Cart.getSubtotal(),
-                  retail_subtotal: Cart.getRetailSubtotal(),
-                  item_count: Cart.getCount(),
-                },
-                items: orderItems,
+            const slackBody = {
+              record: {
+                order_number: orderNumber,
+                customer_name: formData.customer_name,
+                customer_email: formData.customer_email,
+                customer_phone: formData.customer_phone,
+                customer_company: formData.customer_company,
+                notes: formData.notes,
+                subtotal: Cart.getSubtotal(),
+                retail_subtotal: Cart.getRetailSubtotal(),
+                item_count: Cart.getCount(),
               },
-            }).catch(err => console.warn('Order Slack post failed (non-blocking):', err));
+              items: orderItems,
+            };
+            // DEBUG: log the payload so we can see exactly what's sent to Slack.
+            // Helps diagnose "no retail in Slack" reports. The orderId is the
+            // database record id; we use it to correlate with slack_log entries.
+            console.log('[DEBUG] send-order-slack payload', JSON.stringify(slackBody, null, 2));
+            // Also store it in localStorage so it survives a page reload — useful
+            // when staff reports an issue after submitting.
+            try {
+              const recent = JSON.parse(localStorage.getItem('nativesons_last_slack_payloads') || '[]');
+              recent.unshift({ ts: Date.now(), order_number: orderNumber, body: slackBody });
+              while (recent.length > 5) recent.pop();
+              localStorage.setItem('nativesons_last_slack_payloads', JSON.stringify(recent));
+            } catch (e) { /* ignore quota */ }
+            supabase.functions.invoke('send-order-slack', { body: slackBody })
+              .catch(err => console.warn('Order Slack post failed (non-blocking):', err));
           }
 
           Cart.clear();

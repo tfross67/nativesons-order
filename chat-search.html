@@ -1050,9 +1050,9 @@
     body .cart-bar {
       position: fixed;
       bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
+      right: 24px;
       z-index: 90;
+      pointer-events: auto;
       background: var(--c-bark, #2d4a2b);
       color: #fff;
       border: none;
@@ -1067,9 +1067,10 @@
       align-items: center;
       gap: 12px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
     }
     body .cart-bar:hover {
-      transform: translateX(-50%) translateY(-2px);
+      transform: translateY(-2px);
       box-shadow: 0 8px 28px rgba(45, 74, 43, 0.35);
     }
     body .cart-bar[hidden] { display: none; }

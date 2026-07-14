@@ -4071,7 +4071,7 @@
         // Update bar (use retail subtotal — that's what the customer pays)
         cartBar.hidden = false;
         cartCount.textContent = String(count);
-        cartTotal.textContent = '$' + fmtPrice(retailSubtotal);
+        cartTotal.textContent = fmtPrice(retailSubtotal);
         if (cartSummaryWholesale) {
           if (Math.abs(retailSubtotal - subtotal) < 0.005) {
             cartSummaryWholesale.parentElement.hidden = true;
@@ -4133,7 +4133,7 @@
         }).join('');
         cartItems.innerHTML = html;
         cartSummary.hidden = false;
-        cartSummaryTotal.textContent = '$' + fmtPrice(retailSubtotal);
+        cartSummaryTotal.textContent = fmtPrice(retailSubtotal);
         if (cartSummaryWholesale) {
           // Hide the wholesale row when retail matches (no markup applied)
           if (Math.abs(retailSubtotal - subtotal) < 0.005) {
@@ -4596,8 +4596,8 @@
         // Update the cart totals
         const newSubtotal = Cart.getSubtotal();
         const newRetail = Cart.getRetailSubtotal();
-        cartTotal.textContent = '$' + fmtPrice(newRetail);
-        cartSummaryTotal.textContent = '$' + fmtPrice(newRetail);
+        cartTotal.textContent = fmtPrice(newRetail);
+        cartSummaryTotal.textContent = fmtPrice(newRetail);
         if (cartSummaryWholesale) {
           if (Math.abs(newRetail - newSubtotal) < 0.005) {
             cartSummaryWholesale.parentElement.hidden = true;

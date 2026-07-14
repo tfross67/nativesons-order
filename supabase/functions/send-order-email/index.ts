@@ -111,16 +111,18 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
     const textMarkup = (!toCustomer && lineHasMarkup && effectiveMultiplier)
       ? `  [×${fmt(effectiveMultiplier)}]`
       : '';
-    // Show retail column when any line has markup (or always on customer copy
-    // since the customer needs to see what they're being charged).
+    // Show both wholesale and retail in the unit + line columns when
+    // markup is applied. The line total is the RETAIL amount (what the
+    // customer is being charged) but we show the wholesale struck-through
+    // next to it so staff and customer can both see the reference price.
     const showRetailCol = lineHasMarkup || toCustomer;
+    const unitCol = showRetailCol ? 'Unit' : 'Unit';
     const unitPriceDisplay = (showRetailCol && lineHasMarkup)
-      ? `<span style="color:#999; text-decoration:line-through;">$${fmt(i.unit_price)}</span> $${fmt(Number(retailUnit))}`
+      ? `<span style="color:#999; text-decoration:line-through;">$${fmt(i.unit_price)}</span><br>$${fmt(Number(retailUnit))}`
       : `$${fmt(i.unit_price)}`;
     const lineTotalDisplay = (showRetailCol && lineHasMarkup)
-      ? `<span style="color:#999; text-decoration:line-through;">$${fmt(i.line_total)}</span> <strong>$${fmt(Number(i.retail_line_total))}</strong>`
+      ? `<span style="color:#999; text-decoration:line-through;">$${fmt(i.line_total)}</span><br><strong>$${fmt(Number(i.retail_line_total))}</strong>`
       : `<strong>$${fmt(i.line_total)}</strong>`;
-    const unitCol = showRetailCol ? 'Unit (retail)' : 'Unit';
     return {
       html: `<tr>
         <td style="padding:8px 12px; border-bottom:1px solid #e3dccb;">${esc(i.plant_name)}${specialBadge}${markupBadge}${codeHtml}</td>
@@ -147,13 +149,16 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
     : `<p><strong>${esc(o.customer_name)}</strong> just placed an order via the website.</p>`;
 
   // Footer subtotal: show both wholesale and retail when there's markup
+  // Subtotal: always shows WHOLESALE as the primary amount (that's what we
+  // invoice). When markup is applied, retail is shown beneath as the
+  // customer-facing reference, but the bold total is wholesale.
   const subtotalCell = anyMarkup
     ? `<td style="padding: 12px; text-align: right; font-weight: 700; font-size: 18px; color: #2d4a2b;">
-         <span style="color:#999; text-decoration:line-through; font-weight:400; font-size:14px;">$${fmt(totalWholesale)}</span><br>
-         $${fmt(totalRetail)}
+         $${fmt(totalWholesale)}
+         <div style="color:#666; font-weight:400; font-size:13px; margin-top:4px;">retail $${fmt(totalRetail)}</div>
        </td>`
     : `<td style="padding: 12px; text-align: right; font-weight: 700; font-size: 18px; color: #2d4a2b;">$${fmt(totalWholesale)}</td>`;
-  const subtotalLabel = anyMarkup ? 'Subtotal (retail)' : 'Subtotal';
+  const subtotalLabel = anyMarkup ? 'Subtotal (wholesale)' : 'Subtotal';
 
   const html = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 640px; margin: 0 auto; color: #1f2a1c;">
@@ -169,7 +174,7 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
               <th style="padding:10px 12px; text-align:left;">Plant</th>
               <th style="padding:10px 12px; text-align:left;">Size</th>
               <th style="padding:10px 12px; text-align:right;">Qty</th>
-              <th style="padding:10px 12px; text-align:right;">${anyMarkup ? 'Unit (retail)' : 'Unit'}</th>
+              <th style="padding:10px 12px; text-align:right;">${anyMarkup ? 'Unit (wholesale / retail)' : 'Unit'}</th>
               <th style="padding:10px 12px; text-align:right;">Line</th>
             </tr>
           </thead>
@@ -206,7 +211,7 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
     ...itemRowsText,
     ``,
     anyMarkup
-      ? `Subtotal: $${fmt(totalRetail)} (retail, was $${fmt(totalWholesale)})`
+      ? `Subtotal (wholesale): $${fmt(totalWholesale)} | retail: $${fmt(totalRetail)}`
       : `Subtotal: $${fmt(totalWholesale)}`,
     ``,
     `Name: ${o.customer_name}`,

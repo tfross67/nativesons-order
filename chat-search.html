@@ -328,7 +328,7 @@
     .chat-test-root .results {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      align-items: start;
+      align-items: stretch;
       gap: 18px;
       margin-top: 18px;
     }
@@ -396,6 +396,8 @@
       padding: 14px 14px 12px;
       box-shadow: 0 1px 3px rgba(45, 74, 43, 0.06), 0 4px 12px rgba(45, 74, 43, 0.04);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
     }
     .chat-test-root .result:hover {
       transform: translateY(-3px);
@@ -408,11 +410,11 @@
     .chat-test-root .result-botanical {
       font-family: var(--font-sans);
       font-style: normal !important;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--c-bark, #2d4a2b);
-      font-size: var(--fs-card);
-      line-height: var(--lh-snug);
-      letter-spacing: var(--ls-tight);
+      font-size: 17px;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
       margin-bottom: 2px;
     }
     .chat-test-root .result-botanical em { font-style: normal; }
@@ -546,12 +548,14 @@
     }
     .result-price {
       font-family: var(--font-sans);
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 17px;
+      font-weight: 700;
       color: var(--c-bark, #2d4a2b);
-      line-height: var(--lh-snug);
+      line-height: 1.25;
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
+      margin-top: auto;
+      padding-top: 8px;
     }
     .chat-test-root .no-results {
       text-align: center;
@@ -1025,31 +1029,37 @@
     /* Add-to-order button on each card */
     .chat-test-root .add-to-order-btn {
       display: block;
-      width: fit-content;
-      margin-top: 8px;
-      padding: 5px 10px;
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px 14px;
       font-family: var(--font-sans);
-      font-size: 11.5px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: var(--c-bark, #2d4a2b);
-      background: #fff;
+      color: #fff;
+      background: var(--c-bark, #2d4a2b);
       border: 1px solid var(--c-bark, #2d4a2b);
-      border-radius: 4px;
+      border-radius: 6px;
       cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+      transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
       position: relative;
       z-index: 2;
+      box-shadow: 0 1px 2px rgba(45, 74, 43, 0.12);
     }
     .chat-test-root .add-to-order-btn:hover {
-      background: var(--c-bark, #2d4a2b);
-      color: #fff;
+      background: #1a3019;
+      border-color: #1a3019;
+      box-shadow: 0 2px 6px rgba(45, 74, 43, 0.2);
+    }
+    .chat-test-root .add-to-order-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 0 0 rgba(45, 74, 43, 0);
     }
     .chat-test-root .add-to-order-btn.added {
       background: #2d6b1f;
-      color: #fff;
       border-color: #2d6b1f;
+      color: #fff;
     }
 
     /* Floating cart bar */
@@ -2459,7 +2469,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-51</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-52</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

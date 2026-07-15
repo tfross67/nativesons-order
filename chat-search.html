@@ -2690,7 +2690,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-73</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-74</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -3800,12 +3800,22 @@
         filterSummaryEl.addEventListener('click', (e) => {
           const x = e.target.closest('.pill-x');
           if (!x) {
-            // "Clear all" button — wipes every filter and re-runs with empty query
+            // "Clear all" button — wipes every filter and runs the default
+            // browse query so the user sees all available plants, not a
+            // blank page.
             if (e.target.closest('[data-clear-all]')) {
               e.preventDefault();
               input.value = '';
               lastParsed = null;
               run(true);
+              // After clearing, re-run with default 'in bloom' pre-fill
+              // (matches the first-load experience).
+              setTimeout(() => {
+                if (!input.value) {
+                  input.value = 'in bloom';
+                  run();
+                }
+              }, 0);
             }
             return;
           }

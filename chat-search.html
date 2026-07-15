@@ -76,21 +76,6 @@
       font-weight: 400;
       letter-spacing: 0;
     }
-    .chat-test-root .week-label {
-      display: inline-block;
-      margin-top: 4px;
-      font-family: var(--font-sans);
-      font-size: 11.5px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #4a7a2a;
-      background: #e8f0d8;
-      border: 1px solid #c5d9a8;
-      border-radius: 999px;
-      padding: 3px 10px;
-      white-space: nowrap;
-    }
     @media (max-width: 600px) {
       .chat-test-root .header-tagline {
         font-size: 14px;
@@ -2514,7 +2499,6 @@
       </div>
       <div class="header-meta">
         <span class="header-tagline">We grow plants that thrive in California's Mediterranean climate.</span>
-        <span class="week-label" id="weekLabel">This week</span>
         <a href="?staff=1" class="staff-link" id="staffLink" hidden>Staff: Sign in</a>
         <a href="#" class="staff-link staff-only-inline" id="staffSignOut" hidden>Staff: Sign out</a>
       </div>
@@ -2529,7 +2513,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-54</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-55</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2797,7 +2781,6 @@
     const resultsEl = $('results');
     const noResultsEl = $('noResults');
     const filterSummaryEl = $('filterSummary');
-    const weekLabel = $('weekLabel');
     const selectionBar = $('selectionBar');
     const selCount = $('selCount');
     const selTotal = $('selTotal');
@@ -2971,10 +2954,10 @@
     // by normalized botanical name, preferring General Nursery entries.
     function getCatalog() {
       const raw = (window.AVAILABILITY && window.AVAILABILITY.plants) || [];
-      // Show week label if available — both in the header pill and the hero band
+      // Show week label in the hero band (header pill removed — date lives
+      // only in the hero now, no redundancy with the header tagline)
       const weekText = (window.AVAILABILITY && window.AVAILABILITY.week) || '';
       if (weekText) {
-        if (weekLabel) weekLabel.textContent = weekText;
         const heroWeek = $('heroWeekLabel');
         if (heroWeek) { heroWeek.textContent = weekText; heroWeek.hidden = false; }
       }

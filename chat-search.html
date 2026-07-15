@@ -252,6 +252,12 @@
       color: var(--c-clay, #6b6256);
       margin-right: 4px;
     }
+    .chat-test-root .suggestion-divider {
+      width: 1px;
+      align-self: stretch;
+      background: var(--c-line, #d8d2c2);
+      margin: 2px 4px;
+    }
     .chat-test-root .suggestion {
       font-family: var(--font-sans);
       background: #f4f1ea;
@@ -2529,6 +2535,11 @@
       </div>
       <div class="suggested">
         <span class="suggested-label">Try:</span>
+        <button class="suggestion" data-q="under 1'">under 1'</button>
+        <button class="suggestion" data-q="1' to 2'">1' to 2'</button>
+        <button class="suggestion" data-q="2' to 4'">2' to 4'</button>
+        <button class="suggestion" data-q="over 4'">over 4'</button>
+        <span class="suggestion-divider" aria-hidden="true"></span>
         <button class="suggestion" data-q="ca native">ca native</button>
         <button class="suggestion" data-q="shade">shade</button>
         <button class="suggestion" data-q="succulent">succulent</button>
@@ -2996,6 +3007,18 @@
       tree:     ['tree', 'trees'],
     };
 
+    // === Height bands ===
+    // Plants in the catalog have a height field stored as a range string:
+    //   "2-3'"   (2 to 3 feet)   OR   '12-18"'  (12 to 18 inches)
+    // When the user searches for a height band, we keep the plant if its range
+    // overlaps the band's inches range. Bands at 1' / 2' / 4' boundaries.
+    const HEIGHT_BANDS = {
+      under1: { min: 0,    max: 12,   label: "under 1'" },
+      '1to2': { min: 12,   max: 24,   label: "1' to 2'" },
+      '2to4': { min: 24,   max: 48,   label: "2' to 4'" },
+      over4:  { min: 48,   max: 9999, label: "over 4'"  },
+    };
+
     // === Parse query into structured filters ===
     /*
      * Returns { filters: {field: value[]}, matchedPlants: [...], score: fn(p) }
@@ -3009,6 +3032,7 @@
         water:     [],   // list of canonical water keys
         types:     [],   // list of canonical plant type keys
         container: [],   // ['1gal','5gal','15gal','4in','2gal','7gal','20inch']
+        heightBand: null,// 'under1' | '1to2' | '2to4' | 'over4' | null
         inBloom:   false,
         budding:   false,
         origin:    [],   // ['California','Oregon', etc.]
@@ -3025,6 +3049,19 @@
           if (!filters.container.includes(norm)) filters.container.push(norm);
         });
       }
+
+      // Height band: "under 1'", "1' to 2'", "2'-4'", "over 4'", "1-2ft", "< 1'", "> 4'"
+      // Heights in the catalog are stored as range strings like "2-3'" (feet) or "12-18""
+      // (inches). Band matches if the plant's height range OVERLAPS the requested band.
+      // Convert all to inches for comparison.
+      const underRegex = /(?:under|less than|below|<)\s*1\s*['′]/;
+      const overRegex  = /(?:over|more than|above|>)\s*4\s*['′]/;
+      const range12    = /1\s*['′]\s*(?:to|-|–|—)\s*2\s*(?:ft|['′])|1\s*(?:ft|['′])\s*(?:to|-|–|—)\s*2\s*(?:ft|['′])/;
+      const range24    = /2\s*['′]\s*(?:to|-|–|—)\s*4\s*(?:ft|['′])|2\s*(?:ft|['′])\s*(?:to|-|–|—)\s*4\s*(?:ft|['′])/;
+      if (underRegex.test(q))        filters.heightBand = 'under1';
+      else if (range12.test(q))      filters.heightBand = '1to2';
+      else if (range24.test(q))      filters.heightBand = '2to4';
+      else if (overRegex.test(q))    filters.heightBand = 'over4';
 
       // In bloom / budding
       if (/\b(?:bloom|blooming|in bloom|in flower|flowering)\b/.test(q)) filters.inBloom = true;
@@ -3077,6 +3114,7 @@
       // Decide if this is "active" (any structured or free-text signal)
       const active = filters.colors.length || filters.exposures.length || filters.water.length ||
                      filters.types.length || filters.container.length ||
+                     filters.heightBand ||
                      filters.inBloom || filters.budding ||
                      filters.origin.length || filters.freeText.length;
 
@@ -3176,6 +3214,34 @@
       if (filters.budding && !plant.bud) return null;
       if (filters.budding) matchedBloom.push('budding');
 
+      // === Height band ===
+      // Catalog height is a string like "2-3'" (feet) or "12-18"" (inches), or
+      // sometimes a single value like "2'". Convert to inches; check overlap
+      // with the requested band.
+      if (filters.heightBand) {
+        const band = HEIGHT_BANDS[filters.heightBand];
+        const h = String(plant.height || '').trim();
+        if (h) {
+          // Detect unit: apostrophe => feet, quote => inches
+          const isInches = /"/.test(h);
+          const isFeet   = /'/.test(h);
+          // Pull all numbers from the string
+          const nums = h.match(/\d+(\.\d+)?/g);
+          if (nums && nums.length) {
+            const low  = parseFloat(nums[0]);
+            const high = nums.length > 1 ? parseFloat(nums[1]) : low;
+            const loIn = isInches ? low  : low  * 12;
+            const hiIn = isInches ? high : high * 12;
+            // Overlap: plant's range [loIn, hiIn] intersects band's [min, max]
+            if (hiIn < band.min || loIn > band.max) return null;
+            matchedFields.add('height');
+          } else {
+            // Unparseable height string — fail open (don't filter the plant out)
+          }
+        }
+        // If plant has no height field, fail open (no data to filter on)
+      }
+
       // === Origin ===
       if (filters.origin.length) {
         const o = (plant.origin || '').toLowerCase();
@@ -3196,6 +3262,7 @@
       const hasStructured = filters.colors.length || filters.exposures.length ||
                             filters.water.length || filters.types.length ||
                             filters.container.length ||
+                            filters.heightBand ||
                             filters.inBloom || filters.budding ||
                             filters.origin.length;
       if (!hasStructured && freeText.length && !matchedFreeText.length) return null;
@@ -3414,6 +3481,9 @@
       } else if (category === 'origin') {
         f.origin = [];
         lastParsed = { filters: f, freeText: lastParsed.freeText, active: true };
+      } else if (category === 'height') {
+        f.heightBand = null;
+        lastParsed = { filters: f, freeText: lastParsed.freeText, active: true };
       } else if (Array.isArray(f[category]) && value) {
         f[category] = f[category].filter(v => v !== value);
         lastParsed = { filters: f, freeText: lastParsed.freeText, active: true };
@@ -3434,6 +3504,7 @@
       if (f.water.length)     parts.push(WATER_SYNONYMS[f.water[0]]?.[0] || f.water[0]);
       if (f.exposures.length) parts.push(EXPOSURE_SYNONYMS[f.exposures[0]]?.[0] || f.exposures[0]);
       if (f.container.length) parts.push(f.container.join(' '));
+      if (f.heightBand)        parts.push(HEIGHT_BANDS[f.heightBand].label);
       if (f.inBloom)          parts.push('in bloom');
       if (f.budding)          parts.push('budding');
       if (f.origin.length)    parts.push('native');
@@ -3492,6 +3563,7 @@
       if (f.water.length)     { f.water.forEach(w => pushChip('Water: ' + w, 'water:' + w)); }
       if (f.types.length)     { f.types.forEach(t => pushChip('Type: ' + t, 'types:' + t)); }
       if (f.container.length) { f.container.forEach(c => pushChip('Size: ' + c, 'container:' + c)); }
+      if (f.heightBand)       pushChip('Height: ' + HEIGHT_BANDS[f.heightBand].label, 'height');
       if (f.inBloom)          pushChip('In bloom', 'bloom');
       if (f.budding)          pushChip('Budding', 'budding');
       if (f.origin.length)    pushChip('Native/CA', 'origin');

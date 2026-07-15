@@ -830,29 +830,30 @@
     .chat-test-root .result-expand {
       display: block;
       width: 100%;
-      margin-top: 10px;
-      padding: 6px 12px;
-      background: transparent;
-      border: 1px solid #d8d2c2;
+      margin-top: 12px;
+      padding: 8px 12px;
+      background: #fff;
+      border: 1px solid var(--c-bark, #2d4a2b);
       border-radius: 6px;
       font-family: var(--font-sans);
       font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
       color: var(--c-bark, #2d4a2b);
       cursor: pointer;
       position: relative;
       z-index: 2;
-      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
     }
     .chat-test-root .result-expand:hover {
-      background: #f4f1ea;
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
       border-color: var(--c-bark, #2d4a2b);
     }
     .chat-test-root .result-expand[aria-expanded="true"] {
       background: var(--c-bark, #2d4a2b);
       color: #fff;
-      border-color: var(--c-bark, #2d4a2b);
     }
     .chat-test-root .result-details {
       margin-top: 10px;
@@ -2535,7 +2536,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-62</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-63</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

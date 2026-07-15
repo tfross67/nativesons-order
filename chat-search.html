@@ -369,6 +369,32 @@
     .chat-test-root .filter-summary .pill-x:active {
       transform: scale(0.9);
     }
+    .chat-test-root .filter-summary .clear-all-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      margin-left: 4px;
+      background: transparent;
+      border: 1px solid #d8d2c2;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--c-bark, #2d4a2b);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .chat-test-root .filter-summary .clear-all-btn:hover {
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+      border-color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .filter-summary .clear-all-btn:active {
+      transform: scale(0.96);
+    }
     .chat-test-root .results {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -387,6 +413,56 @@
       text-transform: uppercase;
       letter-spacing: var(--ls-xwide);
       color: var(--c-clay, #6b6256);
+      flex-wrap: wrap;
+    }
+    .chat-test-root .toolbar-divider {
+      width: 1px;
+      height: 22px;
+      background: #d8d2c2;
+      margin: 0 4px;
+    }
+    .chat-test-root .sort-select-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--c-clay, #6b6256);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .chat-test-root .sort-select {
+      appearance: none;
+      -webkit-appearance: none;
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      text-transform: none;
+      color: var(--c-bark, #2d4a2b);
+      background: #fff;
+      border: 1px solid var(--c-bark, #2d4a2b);
+      border-radius: 6px;
+      padding: 5px 28px 5px 10px;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='none' stroke='%232d4a2b' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 9px center;
+      transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .chat-test-root .sort-select:hover {
+      background-color: var(--c-bark, #2d4a2b);
+      color: #fff;
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+    }
+    .chat-test-root .sort-select:focus {
+      outline: 2px solid var(--c-bark, #2d4a2b);
+      outline-offset: 2px;
+    }
+    @media (max-width: 720px) {
+      .chat-test-root .toolbar-divider { display: none; }
+      .chat-test-root .results-toolbar { gap: 8px; }
     }
     .chat-test-root .results-toolbar-label {
       font-weight: 700;
@@ -2614,7 +2690,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-72</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-73</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2721,6 +2797,18 @@
         <button type="button" class="sort-tab" data-sort="type:succulent" role="tab" aria-selected="false">Succulents</button>
         <button type="button" class="sort-tab" data-sort="type:tree" role="tab" aria-selected="false">Trees</button>
       </div>
+      <span class="toolbar-divider" aria-hidden="true"></span>
+      <label class="sort-select-label">
+        <span>Sort by</span>
+        <select id="sortBy" class="sort-select" aria-label="Sort plants">
+          <option value="relevance">Relevance</option>
+          <option value="name-asc">Name (A–Z)</option>
+          <option value="name-desc">Name (Z–A)</option>
+          <option value="price-asc">Price (low → high)</option>
+          <option value="price-desc">Price (high → low)</option>
+          <option value="bloom-first">In bloom first</option>
+        </select>
+      </label>
     </div>
 
     <div id="results" class="results"></div>
@@ -3711,7 +3799,16 @@
         filterSummaryEl._pillWired = true;
         filterSummaryEl.addEventListener('click', (e) => {
           const x = e.target.closest('.pill-x');
-          if (!x) return;
+          if (!x) {
+            // "Clear all" button — wipes every filter and re-runs with empty query
+            if (e.target.closest('[data-clear-all]')) {
+              e.preventDefault();
+              input.value = '';
+              lastParsed = null;
+              run(true);
+            }
+            return;
+          }
           const pill = x.closest('.pill');
           const key = pill && pill.dataset.filter;
           if (!key) return;
@@ -3741,9 +3838,12 @@
 
       filterSummaryEl.hidden = chips.length === 0;
       if (chips.length) {
+        const clearAll = chips.length > 1
+          ? `<button type="button" class="clear-all-btn" data-clear-all>Clear all</button>`
+          : '';
         filterSummaryEl.innerHTML =
           `<strong>${results.length}</strong> result${results.length === 1 ? '' : 's'} — ` +
-          chips.join('');
+          chips.join('') + clearAll;
       }
       // Show sort toolbar when there are results
       const sortToolbar = $('resultsToolbar');
@@ -3923,23 +4023,53 @@
     // === Sort results according to user selection ===
     let currentSort = 'relevance';
     function sortResults(results, mode) {
-      // mode can be 'relevance' (default) or 'type:<category>' for category filter.
-      // The category filter NARROWS the results to that plant type; within it, sort by relevance.
+      // mode can be:
+      //   'relevance'        — by match.score desc
+      //   'type:<category>'  — narrow by plant type, then sort by relevance
+      //   'name-asc/desc'    — alphabetical
+      //   'price-asc/desc'   — by lowest size price
+      //   'bloom-first'      — plants flagged bloom=true first, then by relevance
       if (mode && mode.startsWith('type:')) {
-        const category = mode.slice(5);  // 'perennial' | 'shrub' | 'grass' | 'succulent' | 'tree'
+        const category = mode.slice(5);
         const patterns = TYPE_PATTERNS[category] || [];
         for (let i = results.length - 1; i >= 0; i--) {
           const t = String(results[i].plant.plant_type || '').toLowerCase();
-          if (!patterns.some(p => t.includes(p))) {
-            results.splice(i, 1);
-          }
+          if (!patterns.some(p => t.includes(p))) results.splice(i, 1);
         }
-        // Within category, sort by relevance
         results.sort((a, b) => b.match.score - a.match.score);
-      } else {
-        // relevance — by match.score
-        results.sort((a, b) => b.match.score - a.match.score);
+        return;
       }
+      if (mode === 'name-asc' || mode === 'name-desc') {
+        const dir = mode === 'name-asc' ? 1 : -1;
+        results.sort((a, b) => {
+          const an = String(a.plant.botanical || '').toLowerCase();
+          const bn = String(b.plant.botanical || '').toLowerCase();
+          return an < bn ? -1 * dir : an > bn ? 1 * dir : 0;
+        });
+        return;
+      }
+      if (mode === 'price-asc' || mode === 'price-desc') {
+        const dir = mode === 'price-asc' ? 1 : -1;
+        const minPrice = (p) => {
+          const sizes = p.sizes || [];
+          const prices = sizes.map(s => Number(s.price || 0)).filter(x => x > 0);
+          return prices.length ? Math.min(...prices) : 0;
+        };
+        results.sort((a, b) => (minPrice(a.plant) - minPrice(b.plant)) * dir);
+        return;
+      }
+      if (mode === 'bloom-first') {
+        const isBloom = (p) => p.bloom === true || p.bloom === 'True' || p.bloom === 'true';
+        results.sort((a, b) => {
+          const ab = isBloom(a.plant) ? 1 : 0;
+          const bb = isBloom(b.plant) ? 1 : 0;
+          if (ab !== bb) return bb - ab;
+          return b.match.score - a.match.score;
+        });
+        return;
+      }
+      // default: relevance
+      results.sort((a, b) => b.match.score - a.match.score);
     }
 
     // Substring patterns to match against plant.plant_type for each category tab.
@@ -3989,6 +4119,23 @@
         run(true);
       });
     });
+
+    // === Sort select dropdown ===
+    const sortSelect = document.getElementById('sortBy');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', () => {
+        currentSort = sortSelect.value;
+        // Reset type tab to "All" when sorting changes (since the user is
+        // expressing a different intent — they want to see all plants,
+        // sorted differently).
+        sortTabs.forEach(t => {
+          const isAll = t.dataset.sort === 'relevance';
+          t.classList.toggle('active', isAll);
+          t.setAttribute('aria-selected', isAll ? 'true' : 'false');
+        });
+        run(true);
+      });
+    }
 
     input.focus();
 

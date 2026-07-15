@@ -269,10 +269,12 @@ body { padding-bottom: 80px; }
 }
 
 .plant-price {
-  font-family: var(--font-serif);
-  font-size: 22px;
+  font-family: var(--font-sans);
+  font-size: 14px;
   font-weight: 600;
   color: var(--c-ink);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "kern" 1;
   margin: 4px 0;
 }
 .plant-price .unit { font-size: 12px; color: var(--c-muted); font-family: var(--font-sans); font-weight: 400; margin-left: 2px; }

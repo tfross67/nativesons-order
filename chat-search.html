@@ -2513,7 +2513,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-55</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-56</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -4678,10 +4678,13 @@
         }
       });
 
-      // Picker flat chips — quick-add ½ flat or full flat to current qty.
-      // The "+" in the chip label means ADD — clicking adds to whatever's in
-      // the qty field, the same way the +/- stepper buttons do. This way a
-      // customer can click "+ 16 (full flat)" three times to order 3 flats.
+      // Picker flat chips — "set if smaller, otherwise add" semantics.
+      // The "+" in the chip label means "another flat" — a customer who clicks
+      // "+ 16 (full flat)" three times expects 3 flats (16 + 16 + 16 = 48),
+      // not 1 + 16 + 16 + 16 = 49. So the FIRST click sets the qty to the chip
+      // value (replacing the initial 1), and SUBSEQUENT clicks add another
+      // flat. This matches the visible label and the customer's flat-counting
+      // mental model.
       sizePickerBody.addEventListener('click', (e) => {
         const chip = e.target.closest('.picker-flat-chip');
         if (chip) {
@@ -4689,7 +4692,8 @@
           const qi = $('pickerQtyInput');
           if (qi) {
             const cur = Math.max(1, parseInt(qi.value, 10) || 1);
-            qi.value = String(cur + delta);
+            const next = (cur < delta) ? delta : (cur + delta);
+            qi.value = String(next);
             qi.focus();
             qi.select();
           }

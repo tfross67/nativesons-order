@@ -927,7 +927,11 @@
       gap: 10px;
       z-index: 50;
     }
-    .chat-test-root .selection-bar[hidden] { display: none; }
+    /* Hide export-list UI from the public portal — that's a staff workflow
+       (build a custom customer order list, export CSV, email, print). For
+       public customers, the only action is "Add to Order" on the card. */
+    .chat-test-root .result-footer,
+    .chat-test-root .selection-bar { display: none !important; }
     .chat-test-root .selection-summary {
       flex: 1;
       font-family: var(--font-sans);
@@ -2531,7 +2535,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-61</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-62</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -3766,11 +3770,6 @@
                     </div>
                   </div>
                   <button type="button" class="result-expand" aria-expanded="false" data-expand>Details</button>
-                  <div class="result-footer">
-                    <div class="result-checkbox${isSel ? ' checked' : ''}" role="checkbox" aria-checked="${isSel}" aria-label="Select ${escapeHTML(plant.botanical)} for export" data-select>${isSel ? '✓' : ''}</div>
-                    <label class="result-select-label" data-select-label>Select for export list</label>
-                    <span class="result-link-text">More info on nativeson.com →</span>
-                  </div>
                 `;
         card.dataset.botanical = plant.botanical;
         if (isSel) card.classList.add('selected');

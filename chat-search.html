@@ -1488,7 +1488,7 @@
       z-index: 110;
     }
     body .modal-overlay[hidden]{ display: none; }
-    .chat-test-root .modal {
+    .modal {
       position: fixed;
       top: 50%;
       left: 50%;
@@ -1508,7 +1508,7 @@
     /* Mobile bottom-sheet: anchor to viewport bottom so the Submit button
        is always reachable above the iOS home indicator. */
     @media (max-width: 600px) {
-      .chat-test-root .modal {
+      .modal {
         top: auto;
         bottom: 0;
         left: 0;
@@ -1521,7 +1521,7 @@
         padding-bottom: env(safe-area-inset-bottom, 0);
       }
     }
-    .chat-test-root .modal[hidden] { display: none; }
+    .modal[hidden] { display: none; }
     .modal .modal-header{
       display: flex;
       align-items: center;

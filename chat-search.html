@@ -2531,7 +2531,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-60</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-61</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2597,7 +2597,7 @@
           <div class="hero-eyebrow">This week's availability</div>
           <span class="hero-week-pill" id="heroWeekLabel" hidden></span>
         </div>
-        <h2 class="hero-headline" id="heroHeadline">50+ plants in bloom <img src="popppy-flower.png" alt="" class="hero-accent" aria-hidden="true"></h2>
+        <h2 class="hero-headline" id="heroHeadline"><span id="heroHeadlineText">50+ plants in bloom</span> <img src="popppy-flower.png" alt="" class="hero-accent" aria-hidden="true"></h2>
         <p class="hero-sub">Search by color, size, water needs, or describe what you're looking for.</p>
       </div>
       <div class="hero-stats" id="heroStats"></div>
@@ -3011,12 +3011,15 @@
     let lastHeroTotals = null;
     function renderHero(plants) {
       const headline = $('heroHeadline');
+      const headlineText = $('heroHeadlineText');
       const stats = $('heroStats');
       if (!plants || !plants.length || !headline || !stats) return;
       const inBloom = plants.filter(p => p.bloom).length;
       const natives = plants.filter(p => isNativeOrigin(p.origin)).length;
       const total = plants.length;
-      headline.textContent = `${inBloom} plants in bloom this week`;
+      // Update only the text span — leaves the inline flower img intact
+      // (would be wiped if we used headline.textContent)
+      if (headlineText) headlineText.textContent = `${inBloom} plants in bloom this week`;
 
       // Skip DOM update if values are unchanged
       const sig = `${total}|${inBloom}|${natives}`;

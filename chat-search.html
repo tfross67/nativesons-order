@@ -1481,13 +1481,13 @@
     }
 
     /* Size picker modal */
-    .chat-test-root .modal-overlay {
+    body .modal-overlay{
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.45);
       z-index: 110;
     }
-    .chat-test-root .modal-overlay[hidden] { display: none; }
+    body .modal-overlay[hidden]{ display: none; }
     .chat-test-root .modal {
       position: fixed;
       top: 50%;
@@ -1522,7 +1522,7 @@
       }
     }
     .chat-test-root .modal[hidden] { display: none; }
-    .chat-test-root .modal-header {
+    .modal .modal-header{
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1531,15 +1531,15 @@
       background: #fafaf5;
       border-radius: 12px 12px 0 0;
     }
-    .chat-test-root .modal-header h2 {
+    .modal .modal-header h2{
       font-family: var(--font-serif);
       font-size: 18px;
       font-weight: 400;
       color: var(--c-bark, #2d4a2b);
       margin: 0;
     }
-    .chat-test-root .modal-body { padding: 20px 22px; overflow-y: auto; flex: 1 1 auto; min-height: 0; -webkit-overflow-scrolling: touch; }
-    .chat-test-root .modal-intro {
+    .modal .modal-body{ padding: 20px 22px; overflow-y: auto; flex: 1 1 auto; min-height: 0; -webkit-overflow-scrolling: touch; }
+    .modal .modal-intro{
       font-family: var(--font-serif);
       font-style: italic;
       font-size: 14px;
@@ -1552,7 +1552,7 @@
       flex-direction: column;
       gap: 6px;
     }
-    .chat-test-root .picker-section-label {
+    .modal .picker-section-label{
       font-family: var(--font-sans);
       font-size: var(--fs-eyebrow);
       font-weight: 700;
@@ -1602,21 +1602,21 @@
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
     }
-    .chat-test-root .picker-qty-row {
+    .modal .picker-qty-row{
       display: flex;
       align-items: center;
       gap: 16px;
       justify-content: space-between;
     }
-    .chat-test-root .picker-qty {
+    .modal .picker-qty{
       flex: 0 0 auto;
     }
-    .chat-test-root .picker-qty input {
+    .modal .picker-qty input{
       width: 56px;
       font-size: 15px;
       padding: 6px 0;
     }
-    .chat-test-root .picker-line-total {
+    .modal .picker-line-total{
       font-family: var(--font-serif);
       font-weight: 400;
       font-size: 22px;
@@ -1626,12 +1626,12 @@
       letter-spacing: var(--ls-tight);
     }
     /* Session tally: shows what was just added in this picker open */
-    .chat-test-root .picker-tally {
+    .modal .picker-tally{
       margin-top: 18px;
       padding-top: 14px;
       border-top: 1px dashed #d8d2c2;
     }
-    .chat-test-root .picker-tally-title {
+    .modal .picker-tally-title{
       font-family: var(--font-sans);
       font-size: var(--fs-eyebrow);
       font-weight: 700;
@@ -1640,12 +1640,12 @@
       color: var(--c-clay, #6b6256);
       margin-bottom: 8px;
     }
-    .chat-test-root .picker-tally-list {
+    .modal .picker-tally-list{
       list-style: none;
       padding: 0;
       margin: 0;
     }
-    .chat-test-root .picker-tally-item {
+    .modal .picker-tally-item{
       display: flex;
       align-items: baseline;
       gap: 8px;
@@ -1654,16 +1654,16 @@
       font-size: 13.5px;
       color: var(--c-bark, #2d4a2b);
     }
-    .chat-test-root .picker-tally-name {
+    .modal .picker-tally-name{
       flex: 1;
       font-weight: 600;
     }
-    .chat-test-root .picker-tally-qty {
+    .modal .picker-tally-qty{
       color: var(--c-clay, #6b6256);
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
     }
-    .chat-test-root .picker-tally-total {
+    .modal .picker-tally-total{
       font-weight: 600;
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
@@ -1734,7 +1734,7 @@
       border-color: #c14545;
     }
     /* Flat-pricing helper for 4in / 3in / liner plants (sold by the flat) */
-    .chat-test-root .picker-flat-helper {
+    .modal .picker-flat-helper{
       margin-top: 12px;
       padding: 12px 14px;
       background: #fafaf5;
@@ -1744,7 +1744,7 @@
       flex-direction: column;
       gap: 8px;
     }
-    .chat-test-root .picker-flat-info {
+    .modal .picker-flat-info{
       display: flex;
       flex-direction: column;
       gap: 3px;
@@ -1754,12 +1754,12 @@
       color: var(--c-clay, #6b6256);
       line-height: var(--lh-snug);
     }
-    .chat-test-root .picker-flat-line {
+    .modal .picker-flat-line{
       display: flex;
       justify-content: space-between;
       gap: 12px;
     }
-    .chat-test-root .picker-flat-line strong {
+    .modal .picker-flat-line strong{
       font-family: var(--font-sans);
       font-style: normal;
       color: var(--c-bark, #2d4a2b);
@@ -1767,12 +1767,12 @@
       font-feature-settings: "tnum" 1, "kern" 1;
       font-weight: 600;
     }
-    .chat-test-root .picker-flat-chips {
+    .modal .picker-flat-chips{
       display: flex;
       gap: 8px;
       margin-top: 4px;
     }
-    .chat-test-root .picker-flat-chip {
+    .modal .picker-flat-chip{
       flex: 1 1 0;
       padding: 8px 10px;
       background: #fff;
@@ -1787,7 +1787,7 @@
       text-align: center;
       letter-spacing: var(--ls-tight);
     }
-    .chat-test-root .picker-flat-chip:hover {
+    .modal .picker-flat-chip:hover{
       background: var(--c-bark, #2d4a2b);
       color: #fff;
     }
@@ -1829,7 +1829,7 @@
       background: #fff;
       box-shadow: 0 0 0 3px rgba(74, 122, 42, 0.15);
     }
-    .chat-test-root .modal-actions {
+    .modal .modal-actions{
       display: flex;
       justify-content: flex-end;
       gap: 10px;
@@ -1906,7 +1906,7 @@
       transition: opacity 0.25s, transform 0.25s;
       z-index: 200;
     }
-    .chat-test-root .cart-toast.show {
+    body .cart-toast.show{
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
@@ -2066,12 +2066,12 @@
       padding-top: 4px;
     }
     .staff-sidebar .cust-picker-wrap,
-    .chat-test-root .cust-picker-wrap {
+    body .cust-picker-wrap{
       position: relative;
       margin-bottom: 12px;
     }
     .staff-sidebar .cust-picker-input,
-    .chat-test-root .cust-picker-input {
+    body .cust-picker-input{
       width: 100%;
       padding: 10px 36px 10px 14px;
       font-family: var(--font-sans);
@@ -2083,14 +2083,14 @@
       box-sizing: border-box;
     }
     .staff-sidebar .cust-picker-input:focus,
-    .chat-test-root .cust-picker-input:focus {
+    body .cust-picker-input:focus{
       outline: none;
       border-color: var(--c-bark, #2d4a2b);
       background: #fff;
       box-shadow: 0 0 0 3px rgba(74, 122, 42, 0.15);
     }
     .staff-sidebar .cust-picker-clear,
-    .chat-test-root .cust-picker-clear {
+    body .cust-picker-clear{
       position: absolute;
       right: 8px;
       top: 50%;
@@ -2105,9 +2105,9 @@
       display: none;
     }
     .staff-sidebar .cust-picker-clear:hover,
-    .chat-test-root .cust-picker-clear:hover { color: var(--c-bark, #2d4a2b); background: #f4f1ea; }
+    body .cust-picker-clear:hover{ color: var(--c-bark, #2d4a2b); background: #f4f1ea; }
     .staff-sidebar .cust-picker-results,
-    .chat-test-root .cust-picker-results {
+    body .cust-picker-results{
       display: none;
       position: absolute;
       top: 100%;
@@ -2122,7 +2122,7 @@
       box-shadow: 0 6px 18px rgba(45, 74, 43, 0.18);
     }
     .staff-sidebar .cust-picker-results.is-open,
-    .chat-test-root .cust-picker-results.is-open { display: block; }
+    body .cust-picker-results.is-open{ display: block; }
     .staff-sidebar .cust-result,
     .chat-test-root .cust-result {
       padding: 10px 14px;
@@ -2295,7 +2295,7 @@
       min-height: 100%;
     }
     /* Make the sidebar's cust-picker-results drop down on top of results */
-    .chat-test-root .staff-sidebar .cust-picker-results,
+    body .staff-sidebar .cust-picker-results, 
     .staff-sidebar .cust-picker-results {
       z-index: 85;
     }

@@ -1943,6 +1943,8 @@
       border-color: var(--c-bark, #2d4a2b);
     }
     .site-header .staff-link[hidden] { display: none; }
+    /* Hide 'Staff: Sign in' link from public-facing portal — staff still access via direct ?staff=1 URL */
+    .site-header .staff-link:not(.staff-only-inline) { display: none !important; }
 
     /* ============================================================ */
     /* === Sign-in gate (staff mode)                             === */
@@ -2457,7 +2459,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260713-50</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-51</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

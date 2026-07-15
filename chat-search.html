@@ -2616,7 +2616,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-68</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-69</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2697,17 +2697,17 @@
       </div>
       <div class="suggested">
         <span class="suggested-label">Try:</span>
-        <button class="suggestion" data-q="under 1'">under 1'</button>
-        <button class="suggestion" data-q="1' to 2'">1' to 2'</button>
-        <button class="suggestion" data-q="2' to 4'">2' to 4'</button>
-        <button class="suggestion" data-q="over 4'">over 4'</button>
+        <button class="suggestion" data-q="4&Prime;">4&Prime;</button>
+        <button class="suggestion" data-q="1g">1g</button>
+        <button class="suggestion" data-q="2g">2g</button>
+        <button class="suggestion" data-q="5g">5g</button>
+        <button class="suggestion" data-q="15g">15g</button>
         <span class="suggestion-divider" aria-hidden="true"></span>
         <button class="suggestion" data-q="ca native">ca native</button>
         <button class="suggestion" data-q="shade">shade</button>
         <button class="suggestion" data-q="succulent">succulent</button>
         <button class="suggestion" data-q="in bloom">in bloom</button>
         <button class="suggestion" data-q="blue flowers">blue flowers</button>
-        <button class="suggestion" data-q="1gal">1gal</button>
       </div>
     </div>
 
@@ -3208,10 +3208,16 @@
       if (!q) return { filters, freeText: [], active: false };
 
       // Container: "1gal", "5gal", "15gal", "4in", "4 inch", "2gal", "7gal", "20 inch box"
-      const containerMatches = q.match(/(\d+\s*(?:gal|inch|in|inch box)\w*)/g);
+      // Also accepts shorthand: "4\"", "1g", "2g", "5g", "15g"
+      // Order matters: try the 4"-with-quote pattern first to consume the inch quote
+      // before the generic number+gal match.
+      const containerMatches = q.match(/(\d+\s*(?:gal|g)|4\s*(?:"|″|in\b)|\d+\s*(?:inch(?:es)?|inch box)\b)/g);
       if (containerMatches) {
         containerMatches.forEach(c => {
-          const norm = c.replace(/\s+/g, '').replace(/inch/g, 'in');
+          let norm = c.replace(/\s+/g, '').replace(/inch/g, 'in').toLowerCase();
+          // Shorthand normalization: "4\"" / "4″" → "4in", "1g" → "1gal"
+          if (/^4["″]$/.test(norm)) norm = '4in';
+          else if (norm.endsWith('g') && !norm.endsWith('gal')) norm = norm + 'al';
           if (!filters.container.includes(norm)) filters.container.push(norm);
         });
       }

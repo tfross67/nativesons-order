@@ -129,6 +129,31 @@
       color: #4a7a2a;
       margin-bottom: 4px;
     }
+    .chat-test-root .hero-eyebrow-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+    .chat-test-root .hero-eyebrow-row .hero-eyebrow {
+      margin-bottom: 0;
+    }
+    .chat-test-root .hero-week-pill {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #2d4a2b;
+      background: #fff;
+      border: 1px solid #c5d9a8;
+      border-radius: 999px;
+      padding: 2px 9px;
+      white-space: nowrap;
+    }
+    .chat-test-root .hero-week-pill[hidden] { display: none; }
     .chat-test-root .hero-headline {
       font-family: var(--font-serif);
       font-size: var(--fs-headline);
@@ -2504,7 +2529,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-53</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-54</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2566,7 +2591,10 @@
   <main class="chat-test-root" id="mainApp">
     <div class="hero-band">
       <div class="hero-content">
-        <div class="hero-eyebrow">This week's availability</div>
+        <div class="hero-eyebrow-row">
+          <div class="hero-eyebrow">This week's availability</div>
+          <span class="hero-week-pill" id="heroWeekLabel" hidden></span>
+        </div>
         <h2 class="hero-headline" id="heroHeadline">50+ plants in bloom</h2>
         <p class="hero-sub">Search by color, size, water needs, or describe what you're looking for.</p>
       </div>
@@ -2943,9 +2971,12 @@
     // by normalized botanical name, preferring General Nursery entries.
     function getCatalog() {
       const raw = (window.AVAILABILITY && window.AVAILABILITY.plants) || [];
-      // Show week label if available
-      if (window.AVAILABILITY && window.AVAILABILITY.week && weekLabel) {
-        weekLabel.textContent = window.AVAILABILITY.week;
+      // Show week label if available — both in the header pill and the hero band
+      const weekText = (window.AVAILABILITY && window.AVAILABILITY.week) || '';
+      if (weekText) {
+        if (weekLabel) weekLabel.textContent = weekText;
+        const heroWeek = $('heroWeekLabel');
+        if (heroWeek) { heroWeek.textContent = weekText; heroWeek.hidden = false; }
       }
       const norm = (s) => String(s || '').toLowerCase()
         .replace(/[‘’'"]/g, '')

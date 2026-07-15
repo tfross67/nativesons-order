@@ -2002,19 +2002,20 @@
     .site-header .staff-link:not(.staff-only-inline) { display: none !important; }
     /* Match header container width to content column (1080px) */
     .site-header .container { max-width: 1080px; }
-    /* Header accent: California poppy flower to the right of the logo.
-       Sized slightly taller than the logo (64 vs 56) so it reads as a
-       deliberate decorative anchor without overpowering the wordmark.
-       Transparent PNG so it sits cleanly on any header background. */
-    .site-header .brand-accent {
-      height: 64px;
-      width: auto;
-      margin-left: 14px;
+    /* Hero accent: California poppy flower below the headline.
+       Sized larger than the header version (96 vs 64) — in the hero it
+       needs presence to balance the 32px serif headline. Block-level so
+       it sits on its own line directly under the headline, then the
+       sub copy flows below. Transparent PNG. */
+    .chat-test-root .hero-accent {
       display: block;
+      height: 96px;
+      width: auto;
+      margin: -4px 0 12px;
       object-fit: contain;
     }
     @media (max-width: 600px) {
-      .site-header .brand-accent { height: 44px; margin-left: 8px; }
+      .chat-test-root .hero-accent { height: 64px; margin: -2px 0 8px; }
     }
 
     /* ============================================================ */
@@ -2512,7 +2513,6 @@
     <div class="container header-inner">
       <div class="brand">
         <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="brand-logo" height="56">
-        <img src="popppy-flower.png" alt="" class="brand-accent" aria-hidden="true">
       </div>
       <div class="header-meta">
         <span class="header-tagline">We grow plants that thrive in California's Mediterranean climate.</span>
@@ -2530,7 +2530,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-58</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-59</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2597,6 +2597,7 @@
           <span class="hero-week-pill" id="heroWeekLabel" hidden></span>
         </div>
         <h2 class="hero-headline" id="heroHeadline">50+ plants in bloom</h2>
+        <img src="popppy-flower.png" alt="" class="hero-accent" aria-hidden="true">
         <p class="hero-sub">Search by color, size, water needs, or describe what you're looking for.</p>
       </div>
       <div class="hero-stats" id="heroStats"></div>

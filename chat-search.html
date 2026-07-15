@@ -929,6 +929,16 @@
       line-height: var(--lh-snug);
       color: #4a4239;
     }
+    /* Em-dash placeholder for missing detail values — muted, low-emphasis
+       so the consistent row structure reads as "data not available"
+       instead of "blank row". Label is dimmed too, but still readable
+       so the customer knows which field would be there. */
+    .chat-test-root .result-details .detail-row.missing .detail-label { opacity: 0.55; }
+    .chat-test-root .result-details .detail-row.missing .detail-value.placeholder {
+      color: #b8b09a;
+      font-style: italic;
+      opacity: 0.7;
+    }
     .chat-test-root .result-checkbox:hover {
       border-color: var(--c-bark, #2d4a2b);
     }
@@ -2564,7 +2574,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-64</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-65</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -3779,6 +3789,22 @@
 
                 const isSel = isSelected(plant.botanical);
 
+                const detailsRows = [
+                      { key: 'hardiness',     label: 'Hardiness' },
+                      { key: 'soil',           label: 'Soil' },
+                      { key: 'exposure',       label: 'Sun' },
+                      { key: 'water',          label: 'Water' },
+                      { key: 'special_uses',   label: 'Uses' },
+                      { key: 'foliage',        label: 'Foliage' },
+                    ];
+                    const detailsHTML = detailsRows.map(r => {
+                      const v = plant[r.key];
+                      if (v) {
+                        return `<div class="detail-row"><span class="detail-label">${r.label}</span><span class="detail-value">${escapeHTML(String(v).replace(/\n/g, ', '))}</span></div>`;
+                      }
+                      return `<div class="detail-row missing"><span class="detail-label">${r.label}</span><span class="detail-value placeholder">—</span></div>`;
+                    }).join('');
+
                 card.innerHTML = `
                   <a class="result-link" href="${plantUrl(plant.botanical)}" target="_blank" rel="noopener" aria-label="More info on ${escapeHTML(plant.botanical)} on nativeson.com"></a>
                   <img class="result-image" data-botanical="${escapeHTML(plant.botanical)}" src="${PLACEHOLDER_IMG}" alt="" loading="lazy">
@@ -3791,10 +3817,7 @@
                   ${matchLine}
                   <div class="result-details" hidden>
                     <div class="result-details-inner">
-                      ${plant.hardiness ? `<div class="detail-row"><span class="detail-label">Hardiness</span><span>${escapeHTML(plant.hardiness)}</span></div>` : ''}
-                      ${plant.soil ? `<div class="detail-row"><span class="detail-label">Soil</span><span>${escapeHTML(plant.soil)}</span></div>` : ''}
-                      ${plant.special_uses ? `<div class="detail-row"><span class="detail-label">Uses</span><span>${escapeHTML(plant.special_uses.replace(/\n/g, ', '))}</span></div>` : ''}
-                      ${plant.foliage ? `<div class="detail-row"><span class="detail-label">Foliage</span><span>${escapeHTML(plant.foliage)}</span></div>` : ''}
+                      ${detailsHTML}
                       ${plant.additional_info ? `<div class="detail-info">${escapeHTML(plant.additional_info)}</div>` : ''}
                     </div>
                   </div>

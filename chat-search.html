@@ -604,28 +604,56 @@
     }
     .chat-test-root .no-results {
       text-align: center;
-      padding: 32px 16px;
+      padding: 56px 28px 48px;
       color: var(--c-clay, #6b6256);
-      background: #fafaf5;
-      border: 1px dashed #d8d2c2;
-      border-radius: 10px;
-      margin-top: 16px;
+      background:
+        radial-gradient(ellipse at top, rgba(74, 122, 42, 0.06) 0%, transparent 60%),
+        linear-gradient(180deg, #fafaf5 0%, #f4f1ea 100%);
+      border: 1px solid var(--c-line, #e8e2cf);
+      border-radius: 16px;
+      margin-top: 24px;
+      box-shadow: 0 1px 2px rgba(45, 74, 43, 0.04);
+    }
+    .chat-test-root .no-results::before {
+      content: "🌱";
+      display: block;
+      font-size: 40px;
+      line-height: 1;
+      margin-bottom: 12px;
+      filter: grayscale(0.2);
     }
     .chat-test-root .no-results h3 {
       margin: 0 0 8px;
       color: var(--c-bark, #2d4a2b);
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: normal;
-      font-size: 18px;
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+    .chat-test-root .no-results h3 em {
+      font-style: italic;
+      color: var(--c-bark, #2d4a2b);
+      background: rgba(212, 226, 193, 0.5);
+      padding: 0 6px;
+      border-radius: 4px;
+    }
+    .chat-test-root .no-results p {
+      margin: 0 0 4px;
+      color: var(--c-clay, #6b6256);
+      font-size: 14px;
+      font-family: var(--font-sans);
     }
     .chat-test-root .no-results .suggestions {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 8px;
       justify-content: center;
-      margin-top: 14px;
+      margin-top: 18px;
     }
-    .chat-test-root .no-results .suggestions .suggestion { font-size: 12px; }
+    .chat-test-root .no-results .suggestions .suggestion {
+      font-size: 13px;
+      padding: 6px 14px;
+    }
     .chat-test-root .match-hl {
       background: #d4e2c1;
       border-radius: 3px;
@@ -2536,7 +2564,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-63</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-64</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

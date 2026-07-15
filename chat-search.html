@@ -444,15 +444,6 @@
       display: flex;
       flex-direction: column;
     }
-    /* Anchor the DETAILS button to the bottom of the card so cards in a
-       row stay visually aligned even when some have Details expanded.
-       Details panel sits above the button; button stays at bottom.
-       This means when Details is OPEN, the row stays the same height
-       (the panel pushes content down within the same card). When CLOSED,
-       the button sits flush at the bottom with no whitespace gap. */
-    .chat-test-root .result-expand {
-      margin-top: auto;
-    }
     .chat-test-root .result:hover {
       transform: translateY(-3px);
       box-shadow: 0 2px 6px rgba(45, 74, 43, 0.10), 0 16px 32px rgba(45, 74, 43, 0.14), 0 0 0 1px rgba(74, 122, 42, 0.18);
@@ -600,6 +591,14 @@
       color: var(--c-bark, #2d4a2b);
       font-weight: 600;
     }
+    .result-price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 8px;
+    }
     .result-price {
       font-family: var(--font-sans);
       font-size: 17px;
@@ -608,8 +607,42 @@
       line-height: 1.25;
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
-      margin-top: auto;
-      padding-top: 8px;
+    }
+    .result-share-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--c-clay, #6b6256);
+      cursor: pointer;
+      position: relative;
+      z-index: 3; /* above the card-link overlay */
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .result-share-btn:hover {
+      background: #f4f1ea;
+      color: var(--c-bark, #2d4a2b);
+      border-color: #d8d2c2;
+    }
+    .result-share-btn:active { transform: scale(0.96); }
+    .result-share-btn.copied {
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+      border-color: var(--c-bark, #2d4a2b);
+    }
+    .result-share-btn svg {
+      width: 13px;
+      height: 13px;
+      vertical-align: -1px;
     }
     .chat-test-root .no-results {
       text-align: center;
@@ -2583,7 +2616,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-67</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-68</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -3821,7 +3854,13 @@
                   <div class="result-common">${highlight(plant.common || '', highlightTerms)}</div>
                   ${typeOriginHTML}
                   <div class="result-meta">${meta.join('')}</div>
-                  <div class="result-price">${escapeHTML(sizesHTML)}</div>
+                  <div class="result-price-row">
+                    <div class="result-price">${escapeHTML(sizesHTML)}</div>
+                    <button type="button" class="result-share-btn" data-share-url="${plantUrl(plant.botanical)}" aria-label="Copy link to ${escapeHTML(plant.botanical)}" title="Copy link to clipboard">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                      <span data-share-label>Share</span>
+                    </button>
+                  </div>
                   <button type="button" class="add-to-order-btn" data-add-to-order aria-label="Add ${escapeHTML(plant.botanical)} to your order">+ Add to Order</button>
                   ${matchLine}
                   <div class="result-details" hidden>
@@ -3982,6 +4021,47 @@
     // Use event delegation on results container. Checkbox click is captured first
     // (z-index 3 > link overlay z-index 1), so it doesn't trigger the link.
     resultsEl.addEventListener('click', (e) => {
+      const shareBtn = e.target.closest('[data-share-url]');
+      if (shareBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const url = shareBtn.dataset.shareUrl;
+        const label = shareBtn.querySelector('[data-share-label]');
+        const original = label ? label.textContent : 'Share';
+        const showCopied = () => {
+          if (label) label.textContent = 'Copied!';
+          shareBtn.classList.add('copied');
+          setTimeout(() => {
+            if (label) label.textContent = original;
+            shareBtn.classList.remove('copied');
+          }, 1600);
+        };
+        // Use modern clipboard API with fallback to a hidden textarea
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(showCopied).catch(() => {
+            // Fallback if clipboard API blocked
+            const ta = document.createElement('textarea');
+            ta.value = url;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); showCopied(); } catch (_) {}
+            document.body.removeChild(ta);
+          });
+        } else {
+          // Older browser fallback
+          const ta = document.createElement('textarea');
+          ta.value = url;
+          ta.style.position = 'fixed';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); showCopied(); } catch (_) {}
+          document.body.removeChild(ta);
+        }
+        return;
+      }
       const expand = e.target.closest('[data-expand]');
       if (expand) {
         e.preventDefault();

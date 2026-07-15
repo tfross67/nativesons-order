@@ -373,7 +373,7 @@
     .chat-test-root .results {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      align-items: stretch;
+      align-items: start;
       gap: 18px;
       margin-top: 18px;
     }
@@ -443,6 +443,15 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       display: flex;
       flex-direction: column;
+    }
+    /* Anchor the DETAILS button to the bottom of the card so cards in a
+       row stay visually aligned even when some have Details expanded.
+       Details panel sits above the button; button stays at bottom.
+       This means when Details is OPEN, the row stays the same height
+       (the panel pushes content down within the same card). When CLOSED,
+       the button sits flush at the bottom with no whitespace gap. */
+    .chat-test-root .result-expand {
+      margin-top: auto;
     }
     .chat-test-root .result:hover {
       transform: translateY(-3px);
@@ -2574,7 +2583,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-66</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-67</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

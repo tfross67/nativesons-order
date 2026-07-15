@@ -24,7 +24,7 @@ from pathlib import Path
 import openpyxl
 
 ROOT = Path(__file__).parent
-MASTER_DB = Path('/Users/tfross/.hermes/cache/documents/doc_5465e03905a5_plantdatabase.xlsx')
+MASTER_DB = Path('/Users/tfross/.hermes/cache/documents/doc_d5065ec9337c_plantdataexport.xlsx')
 AVAIL = ROOT / 'availability_data.js'
 
 

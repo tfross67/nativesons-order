@@ -76,6 +76,21 @@
       font-weight: 400;
       letter-spacing: 0;
     }
+    .chat-test-root .week-label {
+      display: inline-block;
+      margin-top: 4px;
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #4a7a2a;
+      background: #e8f0d8;
+      border: 1px solid #c5d9a8;
+      border-radius: 999px;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
     @media (max-width: 600px) {
       .chat-test-root .header-tagline {
         font-size: 14px;
@@ -112,29 +127,32 @@
       text-transform: uppercase;
       letter-spacing: var(--ls-xwide);
       color: #4a7a2a;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .chat-test-root .hero-headline {
       font-family: var(--font-serif);
       font-size: var(--fs-headline);
       font-weight: 400;
       color: var(--c-bark, #2d4a2b);
-      margin: 0 0 8px;
-      line-height: var(--lh-tight);
-      letter-spacing: var(--ls-tight);
+      margin: 0 0 10px;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
     }
     .chat-test-root .hero-sub {
       font-family: var(--font-sans);
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 400;
       color: #6b6256;
-      margin: 0 0 16px;
-      line-height: var(--lh-snug);
+      margin: 0;
+      line-height: 1.4;
+      max-width: 520px;
     }
     .chat-test-root .hero-stats {
       display: flex;
-      gap: 14px;
+      gap: 12px;
       flex-shrink: 0;
+      padding-left: 18px;
+      border-left: 1px solid rgba(45, 74, 43, 0.12);
     }
     .chat-test-root .hero-stat {
       background: #fff;
@@ -149,23 +167,23 @@
       font-size: var(--fs-stat);
       font-weight: 400;
       color: var(--c-bark, #2d4a2b);
-      line-height: var(--lh-tight);
+      line-height: 1.05;
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
     }
     .chat-test-root .hero-stat-label {
       font-family: var(--font-sans);
-      font-size: var(--fs-eyebrow);
-      font-weight: 500;
+      font-size: 10.5px;
+      font-weight: 600;
       color: var(--c-clay, #6b6256);
       text-transform: uppercase;
-      letter-spacing: var(--ls-xwide);
-      margin-top: 4px;
+      letter-spacing: 0.08em;
+      margin-top: 6px;
     }
     @media (max-width: 600px) {
       .chat-test-root .hero-band { flex-direction: column; align-items: flex-start; padding: 16px 18px; }
       .chat-test-root .hero-headline { font-size: 24px; }
-      .chat-test-root .hero-stats { width: 100%; }
+      .chat-test-root .hero-stats { width: 100%; padding-left: 0; border-left: none; }
       .chat-test-root .hero-stat { flex: 1; min-width: 0; padding: 10px 8px; }
       .chat-test-root .hero-stat-num { font-size: 28px; }
       .chat-test-root .hero-stat-label { font-size: 10px; }
@@ -250,7 +268,9 @@
       text-transform: uppercase;
       letter-spacing: var(--ls-xwide);
       color: var(--c-clay, #6b6256);
-      margin-right: 4px;
+      margin-right: 8px;
+      padding-right: 10px;
+      border-right: 1px solid var(--c-line, #d8d2c2);
     }
     .chat-test-root .suggestion-divider {
       width: 1px;
@@ -269,9 +289,19 @@
       letter-spacing: 0.01em;
       cursor: pointer;
       color: var(--c-bark, #2d4a2b);
-      transition: background 0.15s, border-color 0.15s;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s, box-shadow 0.15s, color 0.15s;
+      box-shadow: 0 1px 0 rgba(45, 74, 43, 0.04);
     }
-    .chat-test-root .suggestion:hover { background: #e8e2cf; border-color: #b8b09a; }
+    .chat-test-root .suggestion:hover {
+      background: #2d4a2b;
+      border-color: #2d4a2b;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(45, 74, 43, 0.18);
+    }
+    .chat-test-root .suggestion:active {
+      transform: translateY(1px);
+      box-shadow: 0 0 0 rgba(45, 74, 43, 0);
+    }
     .chat-test-root .filter-summary {
       margin: 18px 0 12px;
       font-family: var(--font-sans);
@@ -290,17 +320,18 @@
     .chat-test-root .filter-summary .pill {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       background: #e8e2cf;
       border-radius: 999px;
-      padding: 3px 4px 3px 11px;
-      margin: 0 6px 4px 0;
+      padding: 4px 6px 4px 12px;
+      margin: 0 6px 6px 0;
       font-family: var(--font-sans);
-      font-size: 12px;
-      font-weight: 500;
+      font-size: 12.5px;
+      font-weight: 600;
       letter-spacing: 0.01em;
       color: var(--c-bark, #2d4a2b);
       transition: background 0.15s;
+      cursor: pointer;
     }
     .chat-test-root .filter-summary .pill:hover {
       background: #d8d2c2;
@@ -309,21 +340,25 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 18px;
-      height: 18px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       border: none;
-      background: rgba(45, 74, 43, 0.08);
+      background: rgba(45, 74, 43, 0.14);
       color: var(--c-bark, #2d4a2b);
-      font-size: 14px;
+      font-size: 15px;
       line-height: 1;
+      font-weight: 700;
       cursor: pointer;
       padding: 0;
-      transition: background 0.15s;
+      transition: background 0.15s, color 0.15s, transform 0.1s;
     }
     .chat-test-root .filter-summary .pill-x:hover {
-      background: var(--c-bark, #2d4a2b);
+      background: #c14e2e;
       color: #fff;
+    }
+    .chat-test-root .filter-summary .pill-x:active {
+      transform: scale(0.9);
     }
     .chat-test-root .results {
       display: grid;
@@ -2469,7 +2504,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-52</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-53</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -4629,13 +4664,21 @@
         }
       });
 
-      // Picker flat chips — quick-set qty to ½ flat or full flat
+      // Picker flat chips — quick-add ½ flat or full flat to current qty.
+      // The "+" in the chip label means ADD — clicking adds to whatever's in
+      // the qty field, the same way the +/- stepper buttons do. This way a
+      // customer can click "+ 16 (full flat)" three times to order 3 flats.
       sizePickerBody.addEventListener('click', (e) => {
         const chip = e.target.closest('.picker-flat-chip');
         if (chip) {
-          const qty = parseInt(chip.dataset.flatQty, 10) || 1;
+          const delta = parseInt(chip.dataset.flatQty, 10) || 1;
           const qi = $('pickerQtyInput');
-          if (qi) { qi.value = String(qty); qi.focus(); qi.select(); }
+          if (qi) {
+            const cur = Math.max(1, parseInt(qi.value, 10) || 1);
+            qi.value = String(cur + delta);
+            qi.focus();
+            qi.select();
+          }
           updatePickerLineTotal();
           return;
         }

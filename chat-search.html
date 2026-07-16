@@ -2724,7 +2724,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-83</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-84</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -5495,18 +5495,6 @@
               while (recent.length > 5) recent.pop();
               localStorage.setItem('nativesons_last_slack_payloads', JSON.stringify(recent));
             } catch (e) { /* ignore quota */ }
-            // Also display it on the page (hidden div) so staff can grab it via
-            // View Source without dev tools. Tagged with a unique ID per order.
-            try {
-              let debugPanel = document.getElementById('lastSlackPayloadDebug');
-              if (!debugPanel) {
-                debugPanel = document.createElement('pre');
-                debugPanel.id = 'lastSlackPayloadDebug';
-                debugPanel.style.cssText = 'position:fixed;bottom:0;left:0;right:0;max-height:200px;overflow:auto;background:#fff8e6;border:2px solid #d4a76a;color:#000;font-size:10px;padding:8px;z-index:99999;white-space:pre-wrap;word-break:break-all;';
-                document.body.appendChild(debugPanel);
-              }
-              debugPanel.textContent = `[${orderNumber}] ${new Date().toISOString()}\n${JSON.stringify(slackBody, null, 2)}`;
-            } catch (e) { /* ignore */ }
             supabase.functions.invoke('send-order-slack', { body: slackBody })
               .catch(err => console.warn('Order Slack post failed (non-blocking):', err));
           }

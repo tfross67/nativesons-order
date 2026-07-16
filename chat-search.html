@@ -2169,6 +2169,24 @@
     .site-header .staff-link:not(.staff-only-inline) { display: none !important; }
     /* Match header container width to content column (1080px) */
     .site-header .container { max-width: 1080px; }
+
+    /* Horizontal action row for admin + sign-out buttons.
+       Header-meta is column-flex (tagline stacks above); this wrapper
+       flips to row-flex so the two action buttons sit side-by-side.
+       align-self: flex-end sits the row on the right edge of the
+       column-flex parent. */
+    .header-meta-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      align-self: flex-end;
+    }
+    /* Staff-mode header: shift the entire header to clear the 280px sidebar
+       that sits at left:0 in fixed position. */
+    body.staff-mode .site-header .container {
+      padding-left: 308px;       /* 280px sidebar + 28px gutter */
+    }
     /* Hero accent: California poppy flower inline with the headline.
        Sits on the same line as "50+ plants in bloom" text, sized to match
        the headline cap-height (60px ≈ 1.4× font-size 32px → 44px gives a
@@ -2690,8 +2708,10 @@
       <div class="header-meta">
         <span class="header-tagline">We grow plants that thrive in California's Mediterranean climate.</span>
         <a href="?staff=1" class="staff-link" id="staffLink" hidden>Staff: Sign in</a>
-        <a href="admin.html" class="staff-link staff-only-inline" id="staffAdminLink" hidden>Admin →</a>
-        <a href="#" class="staff-link staff-only-inline" id="staffSignOut" hidden>Staff: Sign out</a>
+        <div class="header-meta-actions staff-only-inline" id="staffHeaderActions" hidden>
+          <a href="admin.html" class="staff-link" id="staffAdminLink">Admin →</a>
+          <a href="#" class="staff-link" id="staffSignOut">Staff: Sign out</a>
+        </div>
       </div>
     </div>
   </header>
@@ -2704,7 +2724,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-81</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-82</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -4467,12 +4487,14 @@
         const signInLink = document.getElementById('staffLink');
         const signOutLink = document.getElementById('staffSignOut');
         const adminLink = document.getElementById('staffAdminLink');
+        const headerActions = document.getElementById('staffHeaderActions');
 
         if (wantsStaff) {
           // Show gate if not signed in
           if (isSignedIn) {
             document.body.classList.add('staff-mode');
             document.getElementById('signInGate').hidden = true;
+            if (headerActions) headerActions.hidden = false;
             if (signOutLink) signOutLink.hidden = false;
             if (adminLink) adminLink.hidden = false;
           } else {
@@ -4483,6 +4505,7 @@
           // Signed in but visiting the public URL — show sign-out only
           document.body.classList.add('staff-mode');
           document.getElementById('signInGate').hidden = true;
+          if (headerActions) headerActions.hidden = false;
           if (signOutLink) signOutLink.hidden = false;
           if (adminLink) adminLink.hidden = false;
         } else {
@@ -4496,7 +4519,8 @@
             e.preventDefault();
             try { sessionStorage.removeItem('nativesons_admin'); } catch (e2) { /* ignore */ }
             document.body.classList.remove('staff-mode');
-            signOutLink.hidden = true;
+            if (headerActions) headerActions.hidden = true;
+            if (signOutLink) signOutLink.hidden = true;
             if (adminLink) adminLink.hidden = true;
             window.location.href = window.location.pathname;
           });
@@ -4511,7 +4535,9 @@
         const signInLink = document.getElementById('staffLink');
         const signOutLink = document.getElementById('staffSignOut');
         const adminLink = document.getElementById('staffAdminLink');
+        const headerActions = document.getElementById('staffHeaderActions');
         if (signInLink) signInLink.hidden = true;
+        if (headerActions) headerActions.hidden = false;
         if (signOutLink) signOutLink.hidden = false;
         if (adminLink) adminLink.hidden = false;
         try {

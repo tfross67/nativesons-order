@@ -78,28 +78,26 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
   const totalUnits = items.reduce((s, i) => s + (i.qty || 0), 0);
   const specialCount = items.filter(i => i.special_order).length;
 
-  // Build item lines for both the plain-text body and the blocks view
-  const itemLines = items.map((i, idx) => {
+  // Build per-item plain-text and per-item Block Kit fields.
+  const itemTextLines: string[] = [];
+  const itemBlocks: any[] = [];
+  items.forEach((i, idx) => {
     const soFlag = i.special_order ? " • SPECIAL" : "";
     const sz = i.plant_size ? ` (${i.plant_size})` : "";
     const retailUnit = i.retail_unit_price ?? i.retail_price;
     const lineHasMarkup = retailUnit != null && Number(retailUnit) > Number(i.unit_price);
-    // Multiplier: prefer the explicit field, else derive it from retail / wholesale
     const effectiveMultiplier = i.retail_multiplier
       ?? (i.retail_mode === 'markup' && Number(i.unit_price) > 0
           ? Number(retailUnit) / Number(i.unit_price)
           : null);
-    // Build the price portion of the line:
-    //   • Internal order with markup: show only wholesale (staff doesn't need retail math for phone orders).
-    //   • External order with markup: show wholesale struck-through + retail with multiplier.
-    //   • No markup: show only wholesale.
-    //   • Markup mode active but multiplier is exactly 1.0: show both prices
-    //     plus a `×1.00` marker so staff can spot they didn't actually apply
-    //     any markup (red flag for accidental no-op markups).
+    // Markup-on-but-zero: retailer set markup mode but applied no actual markup.
+    // Flag so staff can spot accidental no-op markups.
     const markupModeButZero = !lineHasMarkup
       && showRetail && !internalOrder
       && i.retail_mode === 'markup'
       && effectiveMultiplier !== null;
+
+    // Plain-text line (used for the fallback `text` field and for SMS / mobile)
     let pricePortion: string;
     if (lineHasMarkup && showRetail && !internalOrder) {
       pricePortion =
@@ -114,31 +112,58 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
     } else {
       pricePortion = ` — $${fmt(i.unit_price)} ea = $${fmt(i.line_total)}`;
     }
-    // Item code (warehouse picker) + UPC (barcode scanner) shown next to name.
     const codeTag = i.item_code ? ` [${i.item_code}]` : "";
     const upcTag = i.upc ? ` · UPC ${i.upc}` : "";
-    return `${idx + 1}. ${i.plant_name}${sz}${codeTag} ×${i.qty}${pricePortion}${upcTag}${soFlag}`;
+    itemTextLines.push(
+      `${idx + 1}. ${i.plant_name}${sz}${codeTag} ×${i.qty}${pricePortion}${upcTag}${soFlag}`
+    );
+
+    // Block Kit section: 2-column fields.
+    //   Left:  "**Name** (size)" + "qty ×N" subtext
+    //   Right: "$X.XX ea / $Y.YY total" + (if markup) "retail $Z.ZZ ea" subtext
+    // Numbered prefix shown via emoji "1." "2." to keep the section block
+    // free to render side-by-side fields cleanly.
+    const numEmoji = `${idx + 1}\u20e3`;  // 1️⃣ 2️⃣ 3️⃣ ...
+    const nameLine = `*${i.plant_name}${sz}*${i.special_order ? "  •SPECIAL" : ""}`;
+    const qtyLine = `_Qty: ${i.qty}${i.item_code ? `  ·  ${i.item_code}` : ""}${i.upc ? `  ·  UPC ${i.upc}` : ""}_`;
+    const fields: { type: string; text: string }[] = [
+      { type: "mrkdwn", text: `${numEmoji}  ${nameLine}\n${qtyLine}` },
+    ];
+    if (lineHasMarkup && showRetail && !internalOrder) {
+      fields.push({
+        type: "mrkdwn",
+        text: `*$${fmt(Number(retailUnit))} ea  →  $${fmt(Number(i.retail_line_total))}*\n_Wholesale: ~~$${fmt(i.unit_price)}~~ → $${fmt(i.line_total)}_`,
+      });
+    } else if (markupModeButZero) {
+      fields.push({
+        type: "mrkdwn",
+        text: `*$${fmt(i.unit_price)} ea  →  $${fmt(i.line_total)}*\n_⚠️ markup mode ×1.00 — no markup applied_`,
+      });
+    } else {
+      fields.push({
+        type: "mrkdwn",
+        text: `*$${fmt(i.unit_price)} ea  →  $${fmt(i.line_total)}*\n_${i.qty} units_`,
+      });
+    }
+    itemBlocks.push({ type: "section", fields });
+    // Divider between items for visual rhythm (skip after last)
+    if (idx < items.length - 1) itemBlocks.push({ type: "divider" });
   });
 
-  // Compact plain-text body — renders in small font in Slack, identical in
-  // every channel (no Block Kit folding, no client-specific quirks). Slack
-  // falls back to this for any client that doesn't render blocks (mobile
-  // notifications, SMS, classic Slack).
+  // Compact plain-text fallback body — used in notification previews,
+  // SMS, and any Slack client that doesn't render blocks.
   const textLines = [
     `${o.order_number} — ${o.customer_name}${o.customer_company ? ` (${o.customer_company})` : ""}`,
     [o.customer_email, o.customer_phone].filter(Boolean).join(" · "),
-    ...itemLines,
+    ...itemTextLines,
     (showRetail && hasAnyMarkup && !internalOrder)
-      ? `${items.length} plants · ${totalUnits} units · $${fmt(totalWholesale)} (retail $${fmt(totalRetail)})` + (specialCount > 0 ? ` · ★ ${specialCount} special` : "")
+      ? `${items.length} plants · ${totalUnits} units · $${fmt(totalWholesale)} wholesale → $${fmt(totalRetail)} retail` + (specialCount > 0 ? ` · ★ ${specialCount} special` : "")
       : `${items.length} plants · ${totalUnits} units · $${fmt(totalWholesale)}` + (specialCount > 0 ? ` · ★ ${specialCount} special` : ""),
     o.notes ? `Notes: ${o.notes}` : null,
   ].filter(Boolean) as string[];
   const text = textLines.join("\n");
 
-  // Block Kit blocks — header block (large, bold) + context (small gray).
-  // Slack's section blocks use default body size (mrkdwn) or default for
-  // plain_text — neither supports size. The plain-text body is what renders
-  // compact everywhere; blocks just give the eye a clear header.
+  // Block Kit assembly
   const headerBlock = {
     type: "header",
     text: {
@@ -148,48 +173,65 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
     },
   };
 
-  const contextBlock = {
-    type: "context",
-    elements: [
-      {
-        type: "mrkdwn",
-        text: [o.customer_email, o.customer_phone].filter(Boolean).join(" · ") || "—",
-      },
-    ],
-  };
+  const contactLine = [o.customer_email, o.customer_phone].filter(Boolean).join("  ·  ") || "—";
 
-  const blocks: any[] = [headerBlock, contextBlock];
+  const blocks: any[] = [headerBlock];
 
-  // If the items list is large, split into multiple sections to stay under
-  // Slack's 3000-char section limit.
-  const MAX_FIELD_LEN = 2900;
-  let buffer = "";
-  for (const line of itemLines) {
-    if (buffer.length + line.length + 2 > MAX_FIELD_LEN && buffer) {
-      blocks.push({ type: "section", text: { type: "mrkdwn", text: buffer } });
-      buffer = "";
-    }
-    buffer += (buffer ? "\n" : "") + line;
+  // Customer block: company (if any) + contact line, two-column fields
+  if (o.customer_company) {
+    blocks.push({
+      type: "section",
+      fields: [
+        { type: "mrkdwn", text: `*Company*\n${o.customer_company}` },
+        { type: "mrkdwn", text: `*Contact*\n${contactLine}` },
+      ],
+    });
+  } else {
+    blocks.push({
+      type: "section",
+      text: { type: "mrkdwn", text: `*Contact:*  ${contactLine}` },
+    });
   }
-  if (buffer) blocks.push({ type: "section", text: { type: "mrkdwn", text: buffer } });
 
-  // Footer context (small gray)
-  // External order with markup: show wholesale struck-through + retail total.
-  // Internal order or no markup: show just wholesale total.
+  // Divider before item list
+  blocks.push({ type: "divider" });
+
+  // Per-item sections (each is its own block — Slack handles long lists fine
+  // as long as the total block count stays under 50, which is a 50-item order
+  // max and well above realistic order sizes).
+  blocks.push(...itemBlocks);
+
+  // Totals footer — single context block with the summary line.
+  // For external orders with markup: split wholesale (struck) and retail.
+  // For internal orders or no markup: just wholesale.
   const footerText = (showRetail && hasAnyMarkup && !internalOrder)
-    ? `${items.length} plants · ${totalUnits} units · ~~$${fmt(totalWholesale)}~~ → $${fmt(totalRetail)} retail${specialCount > 0 ? ` · ★ ${specialCount} special` : ""}`
-    : `${items.length} plants · ${totalUnits} units · $${fmt(totalWholesale)}${specialCount > 0 ? ` · ★ ${specialCount} special` : ""}`;
+    ? `*${items.length} plants*  ·  ${totalUnits} units  ·  ~$${fmt(totalWholesale)}~  →  *$${fmt(totalRetail)} retail*${specialCount > 0 ? `  ·  ★ ${specialCount} special` : ""}`
+    : `*${items.length} plants*  ·  ${totalUnits} units  ·  *$${fmt(totalWholesale)}*${specialCount > 0 ? `  ·  ★ ${specialCount} special` : ""}`;
+  blocks.push({ type: "divider" });
   blocks.push({
-    type: "context",
-    elements: [{ type: "mrkdwn", text: footerText }],
+    type: "section",
+    text: { type: "mrkdwn", text: footerText },
   });
 
   if (o.notes) {
     blocks.push({
       type: "context",
-      elements: [{ type: "mrkdwn", text: `Notes: ${o.notes}` }],
+      elements: [{ type: "mrkdwn", text: `📝 ${o.notes}` }],
     });
   }
+
+  // Action buttons: link back to the admin panel for this order.
+  blocks.push({
+    type: "actions",
+    elements: [
+      {
+        type: "button",
+        text: { type: "plain_text", text: "Open in Admin Panel", emoji: true },
+        url: `${ADMIN_URL}?order=${encodeURIComponent(o.order_number)}`,
+        style: "primary",
+      },
+    ],
+  });
 
   return { text, blocks };
 }

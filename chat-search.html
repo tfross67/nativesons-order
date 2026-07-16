@@ -2281,6 +2281,11 @@
       padding-top: 14px;
       border-top: 1px solid #f0ece1;
     }
+    .signin-back + .signin-back {
+      margin-top: 10px;
+      padding-top: 0;
+      border-top: none;
+    }
     .signin-back a {
       color: var(--c-clay, #6b6256);
       text-decoration: none;
@@ -2685,6 +2690,7 @@
       <div class="header-meta">
         <span class="header-tagline">We grow plants that thrive in California's Mediterranean climate.</span>
         <a href="?staff=1" class="staff-link" id="staffLink" hidden>Staff: Sign in</a>
+        <a href="admin.html" class="staff-link staff-only-inline" id="staffAdminLink" hidden>Admin →</a>
         <a href="#" class="staff-link staff-only-inline" id="staffSignOut" hidden>Staff: Sign out</a>
       </div>
     </div>
@@ -2698,7 +2704,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-80</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260715-81</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2707,6 +2713,7 @@
       <p class="signin-hint">Don't have the password? Ask Tim.</p>
       <div id="signInError" class="signin-error"></div>
       <p class="signin-back"><a href="?" id="signInBackLink">← Back to public search</a></p>
+      <p class="signin-back"><a href="admin.html">Need the admin panel? Sign in there →</a></p>
     </form>
   </div>
 
@@ -4459,6 +4466,7 @@
         })();
         const signInLink = document.getElementById('staffLink');
         const signOutLink = document.getElementById('staffSignOut');
+        const adminLink = document.getElementById('staffAdminLink');
 
         if (wantsStaff) {
           // Show gate if not signed in
@@ -4466,6 +4474,7 @@
             document.body.classList.add('staff-mode');
             document.getElementById('signInGate').hidden = true;
             if (signOutLink) signOutLink.hidden = false;
+            if (adminLink) adminLink.hidden = false;
           } else {
             document.body.classList.add('staff-mode');
             document.getElementById('signInGate').hidden = false;
@@ -4475,6 +4484,7 @@
           document.body.classList.add('staff-mode');
           document.getElementById('signInGate').hidden = true;
           if (signOutLink) signOutLink.hidden = false;
+          if (adminLink) adminLink.hidden = false;
         } else {
           // Public visitor — show "Sign in" link
           if (signInLink) signInLink.hidden = false;
@@ -4487,6 +4497,7 @@
             try { sessionStorage.removeItem('nativesons_admin'); } catch (e2) { /* ignore */ }
             document.body.classList.remove('staff-mode');
             signOutLink.hidden = true;
+            if (adminLink) adminLink.hidden = true;
             window.location.href = window.location.pathname;
           });
         }
@@ -4499,8 +4510,10 @@
         document.body.classList.add('staff-mode');
         const signInLink = document.getElementById('staffLink');
         const signOutLink = document.getElementById('staffSignOut');
+        const adminLink = document.getElementById('staffAdminLink');
         if (signInLink) signInLink.hidden = true;
         if (signOutLink) signOutLink.hidden = false;
+        if (adminLink) adminLink.hidden = false;
         try {
           const url = new URL(window.location.href);
           url.searchParams.delete('staff');

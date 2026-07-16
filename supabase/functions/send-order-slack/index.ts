@@ -115,19 +115,16 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
     const codeTag = i.item_code ? ` [${i.item_code}]` : "";
     const upcTag = i.upc ? ` · UPC ${i.upc}` : "";
     itemTextLines.push(
-      `${idx + 1}. ${i.plant_name}${sz}${codeTag} ×${i.qty}${pricePortion}${upcTag}${soFlag}`
+      `• ${i.plant_name}${sz}${codeTag} ×${i.qty}${pricePortion}${upcTag}${soFlag}`
     );
 
     // Block Kit section: 2-column fields.
     //   Left:  "**Name** (size)" + "qty ×N" subtext
     //   Right: "$X.XX ea / $Y.YY total" + (if markup) "retail $Z.ZZ ea" subtext
-    // Numbered prefix shown via emoji "1." "2." to keep the section block
-    // free to render side-by-side fields cleanly.
-    const numEmoji = `${idx + 1}\u20e3`;  // 1️⃣ 2️⃣ 3️⃣ ...
     const nameLine = `*${i.plant_name}${sz}*${i.special_order ? "  •SPECIAL" : ""}`;
     const qtyLine = `_Qty: ${i.qty}${i.item_code ? `  ·  ${i.item_code}` : ""}${i.upc ? `  ·  UPC ${i.upc}` : ""}_`;
     const fields: { type: string; text: string }[] = [
-      { type: "mrkdwn", text: `${numEmoji}  ${nameLine}\n${qtyLine}` },
+      { type: "mrkdwn", text: `${nameLine}\n${qtyLine}` },
     ];
     if (lineHasMarkup && showRetail && !internalOrder) {
       fields.push({

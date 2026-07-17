@@ -3245,12 +3245,12 @@ window.AVAILABILITY = {
       "section": "General Nursery",
       "sizes": [
         {
-          "container": "1gal",
+          "container": "2gal",
           "price": 16.5,
           "order": ""
         },
         {
-          "container": "2gal",
+          "container": "5gal",
           "price": 22.0,
           "order": ""
         },
@@ -8671,5 +8671,3 @@ window.AVAILABILITY = {
     }
   ]
 };
-
-

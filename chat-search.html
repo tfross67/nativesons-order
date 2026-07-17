@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2d4a2b">
   <title>Native Sons — Smart Plant Search (test)</title>
   <meta name="description" content="Test page: smart keyword search across the Native Sons availability list. Natural-language parsing of color, size, price, and growing conditions.">
-  <link rel="stylesheet" href="styles.css?v=20260716-16">
+  <link rel="stylesheet" href="styles.css?v=20260716-17">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -2725,7 +2725,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260716-16</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260716-17</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2981,10 +2981,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260716-16"></script>
-  <script src="cart.js?v=20260716-16"></script>
-  <script src="availability_data.js?v=20260716-16"></script>
-  <script src="masteritem_full.js?v=20260716-16"></script>
+  <script src="supabase-config.js?v=20260716-17"></script>
+  <script src="cart.js?v=20260716-17"></script>
+  <script src="availability_data.js?v=20260716-17"></script>
+  <script src="masteritem_full.js?v=20260716-17"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -4694,6 +4694,9 @@
           const sizeLine = it.size ? `<div class="cart-item-meta">${esc(it.size)} · $${fmtPrice(it.price)} wholesale</div>` : '';
           const isMarkupMode = it.retailMode === 'markup' && it.retailMultiplier;
           const isCustomRetail = it.retailMode && it.retailMode !== 'wholesale';
+          // retailVal: the value used for the cart-row line total.
+          // At wholesale we show the wholesale price; with markup/manual we
+          // show the actual retail price.
           const retailVal = isCustomRetail ? it.retailPrice : it.price;
           // In markup mode, show the multiplier as the input value
           const inputValue = isMarkupMode ? it.retailMultiplier : retailVal;
@@ -4701,11 +4704,15 @@
           // Flag when markup mode is on but multiplier is 1.0 — visually
           // warn that no actual markup has been applied (retail == wholesale).
           const noEffectiveMarkup = isMarkupMode && Number(it.retailMultiplier) <= 1;
+          // inputDisplayValue: what goes in the <input value="...">. At
+          // wholesale we leave it blank so the field doesn't duplicate the
+          // wholesale price shown elsewhere on the row.
+          const inputDisplayValue = isCustomRetail ? inputValue : '';
           const retailRow = `
-            <div class="cart-item-retail${noEffectiveMarkup ? ' is-zero-markup' : ''}">
+            <div class="cart-item-retail${noEffectiveMarkup ? ' is-zero-markup' : ''}${!isCustomRetail ? ' is-wholesale' : ''}">
               <label>
                 <span>Retail ${isMarkupMode ? '×' : '$'}</span>
-                <input type="number" min="0" step="${isMarkupMode ? '0.05' : '0.01'}" value="${inputValue}" data-cart-retail-input data-cart-retail-mode="${inputMode}">
+                <input type="number" min="0" step="${isMarkupMode ? '0.05' : '0.01'}" value="${inputDisplayValue}" placeholder="${isMarkupMode ? '1.00' : '—'}" data-cart-retail-input data-cart-retail-mode="${inputMode}">
               </label>
               <button type="button" class="cart-item-retail-toggle" data-cart-retail-toggle aria-label="${isMarkupMode ? 'Switch to dollar amount' : 'Switch to markup multiplier'}" title="${isMarkupMode ? 'Switch to $' : 'Switch to × markup'}">${isMarkupMode ? '$' : '×'}</button>
               ${isCustomRetail ? '<button type="button" class="cart-item-retail-reset" data-cart-retail-reset aria-label="Reset to wholesale">↺</button>' : ''}

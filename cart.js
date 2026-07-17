@@ -7,36 +7,38 @@
 window.Cart = (() => {
   const STORAGE_KEY = 'nativesons_cart_v1';
 
-  // In-memory state
-  // items: [{ key, name, size, price, qty, retailMode, retailPrice }]
-  //   retailMode: 'wholesale' | 'markup' | 'manual'
-  //   retailPrice: per-unit retail price used for the order
-  //   When retailMode === 'wholesale', retailPrice === price (wholesale).
-  //   When retailMode === 'markup',  retailPrice === price * markupMultiplier.
-  //   When retailMode === 'manual',  retailPrice is whatever the user typed.
-  // Cart subtotal always reflects WHOLESALE; retail is only used at order submit.
-  let items = [];
-  let listeners = [];
+    // In-memory state
+    // items: [{ key, name, size, price, qty, retailMode, retailPrice }]
+    //   retailMode: 'wholesale' | 'markup' | 'manual'
+    //   retailPrice: per-unit retail price used for the order; NULL when at
+    //                wholesale (no markup applied) — UI then shows the field
+    //                blank instead of duplicating the wholesale price.
+    //                When retailMode === 'wholesale', retailPrice === null.
+    //                When retailMode === 'markup',  retailPrice === price * mult.
+    //                When retailMode === 'manual',  retailPrice is the typed $ value.
+    // Cart subtotal always reflects WHOLESALE; retail is only used at order submit.
+    let items = [];
+    let listeners = [];
 
-  function load() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      const parsed = raw ? JSON.parse(raw) : [];
-      if (!Array.isArray(parsed)) { items = []; return; }
-      // Backfill retail fields on legacy items.
-      items = parsed.map(i => Object.assign(
-        { retailMode: 'wholesale', retailPrice: i.price || 0, specialOrder: false },
-        i
-      ));
-      // If item is wholesale mode but retailPrice drifted, snap it back to wholesale.
-      items.forEach(i => {
-        if (i.retailMode === 'wholesale') i.retailPrice = i.price || 0;
-      });
-    } catch (e) {
-      console.warn('Cart load failed, starting fresh', e);
-      items = [];
+      function load() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(parsed)) { items = []; return; }
+        // Backfill retail fields on legacy items.
+        items = parsed.map(i => Object.assign(
+          { retailMode: 'wholesale', retailPrice: null, specialOrder: false },
+          i
+        ));
+        // If item is wholesale mode but retailPrice is missing/stale, normalize.
+        // Legacy carts had retailPrice === price; new carts use null.
+        items.forEach(i => {
+          if (i.retailMode === 'wholesale') i.retailPrice = null;
+        });
+      } catch (e) {
+        console.warn('Cart load failed, starting fresh', e);
+      }
     }
-  }
 
   function save() {
     try {
@@ -92,8 +94,10 @@ window.Cart = (() => {
         size: plant.size,
         price: plant.price,
         qty: plant.qty,
+        // retailPrice stays null at wholesale — UI shows the field blank
+        // rather than duplicating the wholesale price.
         retailMode: m ? 'markup' : 'wholesale',
-        retailPrice: m ? Math.round(plant.price * m * 100) / 100 : plant.price,
+        retailPrice: m ? Math.round(plant.price * m * 100) / 100 : null,
         retailMultiplier: m,
         customerMarkup: !!m,  // tracks whether the active markup was set by the customer
         specialOrder: false,
@@ -138,7 +142,9 @@ window.Cart = (() => {
       item.customerMarkup = false;
     }
     if (mode === 'wholesale') {
-      item.retailPrice = item.price;
+      // Reset to wholesale = blank retail field. Don't store the wholesale
+      // price as retailPrice (that made the retail column duplicate it).
+      item.retailPrice = null;
       delete item.retailMultiplier;
     } else if (mode === 'markup') {
       const strVal = String(value).trim();
@@ -217,7 +223,14 @@ window.Cart = (() => {
   function getItems() { return items.map(i => ({ ...i })); }
   function getCount() { return items.reduce((sum, i) => sum + i.qty, 0); }
   function getSubtotal() { return items.reduce((sum, i) => sum + (i.price * i.qty), 0); }
-  function getRetailSubtotal() { return items.reduce((sum, i) => sum + (i.retailPrice * i.qty), 0); }
+  // Retail subtotal falls back to wholesale when retailPrice is null
+  // (wholesale mode = no markup applied).
+  function getRetailSubtotal() {
+    return items.reduce((sum, i) => {
+      const p = i.retailPrice != null ? i.retailPrice : i.price;
+      return sum + (p * i.qty);
+    }, 0);
+  }
 
   load();
   return { add, setQty, setRetail, setSpecial, applyDefaultMarkup, remove, clear, getItems, getCount, getSubtotal, getRetailSubtotal, onChange };

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2d4a2b">
   <title>Native Sons — Smart Plant Search (test)</title>
   <meta name="description" content="Test page: smart keyword search across the Native Sons availability list. Natural-language parsing of color, size, price, and growing conditions.">
-  <link rel="stylesheet" href="styles.css?v=20260716-17">
+  <link rel="stylesheet" href="styles.css?v=20260716-18">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -2725,7 +2725,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260716-17</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260716-18</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2981,10 +2981,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260716-17"></script>
-  <script src="cart.js?v=20260716-17"></script>
-  <script src="availability_data.js?v=20260716-17"></script>
-  <script src="masteritem_full.js?v=20260716-17"></script>
+  <script src="supabase-config.js?v=20260716-18"></script>
+  <script src="cart.js?v=20260716-18"></script>
+  <script src="availability_data.js?v=20260716-18"></script>
+  <script src="masteritem_full.js?v=20260716-18"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -4812,7 +4812,10 @@
       // are Lavandula x intermedia).
       function extractCultivar(s) {
         // Returns the cultivar name (lowercase, no spaces) or null if none.
-        const m = String(s || '').match(/'([^']+)'/);
+        // Match straight OR curly single quotes — the availability data
+        // uses curly quotes (' ') while the SKU file uses straight (' '),
+        // and we need to compare them after normalization.
+        const m = String(s || '').match(/['‘'’]([^'‘'’]+)['‘'’]/);
         return m ? m[1].toLowerCase().replace(/\s+/g, '') : null;
       }
       function lookupItemCode(botanical, size) {
@@ -4851,10 +4854,13 @@
           // Cultivar policy: if BOTH have a cultivar, they MUST match exactly.
           // If only ONE has a cultivar, allow it to match a no-cultivar SKU
           // (fallback). If NEITHER has a cultivar, that's a direct hit.
-          if (nmCultivar && d.includes("'")) {
+          // Use a unicode-tolerant apostrophe check (' ‘ '’) so curly quotes
+          // in the availability data don't break the comparison.
+          const hasApos = (str) => /['‘'’]/.test(str);
+          if (nmCultivar && hasApos(d)) {
             const dCultivar = extractCultivar(d);
             if (dCultivar !== nmCultivar) continue;
-          } else if (nmCultivar && !d.includes("'")) {
+          } else if (nmCultivar && !hasApos(d)) {
             // Botanical has cultivar but this SKU doesn't — wrong plant.
             continue;
           }

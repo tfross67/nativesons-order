@@ -47,7 +47,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nHedge Planting\nAttracts butterflies\nWoodland planting\nShade garden\nFormal hedge\nScreen\nSlope planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Abelia x grandiflora 'Kaleidoscope'",
       "common": "Kaleidoscope Abelia",
@@ -89,7 +89,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container Planting\nBorder Planting\nSlope Planting\nWoodland planting\nAttracts butterflies\nShade garden",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Abelia x grandiflora 'Radiance'",
       "common": "Radiance Abelia ",
@@ -126,7 +126,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Acacia cultriformis",
       "common": "Knifeleaf Wattle",
@@ -153,7 +153,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Dry garden\nSlope planting\nAccent",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Acacia iteaphylla",
       "common": "Willow Wattle",
@@ -190,7 +190,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Coastal Garden\nDry Garden\nSlope Planting\nScreen\nHedge Planting\nAttracts birds",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Acacia vestita",
       "common": "Hairy Wattle",
@@ -222,7 +222,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Acanthus 'Whitewater'",
       "common": "Bear's Breeches",
@@ -259,7 +259,7 @@ window.AVAILABILITY = {
       "soil": "Moist / well drained",
       "special_uses": "Cut Flower\nBorder planting\nShade garden\nAccent",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Achillea 'Moonshine'",
       "common": "Yarrow",
@@ -291,7 +291,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nSmall Gardens\nCut Flower\nCoastal garden\nRock garden",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Achillea millefolium 'Pink Grapefruit'",
       "common": "Yarrow",
@@ -323,7 +323,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Cut Flower\nBorder Planting\nContainer Planting\nAttracts butterflies\nRock garden\nCoastal garden",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Achillea millefolium 'Pomegranate'",
       "common": "Yarrow",
@@ -355,7 +355,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Accent\nBorder planting\nContainer planting\nAttracts butterflies\nRock garden\nCoastal garden",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Achillea millefolium 'Rosa Maria'",
       "common": "Yarrow",
@@ -387,7 +387,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Dry garden\nAttracts butterflies",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Achillea millefolium 'Sonoma Coast'",
       "common": "Yarrow",
@@ -419,7 +419,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nAttracts Butterflies\nCoastal Garden\nCut Flower\nSmall area groundcover\nErosion control\nRock garden",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Achillea millefolium Milly Rock™  'Red'",
       "common": "Yarrow",
@@ -446,7 +446,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts butterflies",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Achillea millefolium ‘Paprika’",
       "common": "Yarrow",
@@ -478,7 +478,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nSmall Gardens\n",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Adenanthos 'Silver Haze'",
       "common": "Silver Haze Woolly Bush",
@@ -510,7 +510,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Agastache ‘Blue Fortune’",
       "common": "Giant hyssop",
@@ -552,7 +552,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts Birds\nBorder Planting\nSmall Gardens\nCoastal Garden",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Agave 'Blue Glow'",
       "common": "Agave",
@@ -604,7 +604,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nContainer Planting\nDry Garden\nAccent",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Agave 'Blue Waves'",
       "common": "Agave",
@@ -631,7 +631,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nAccent\nDry garden",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Agave 'Little Penguins'",
       "common": "Little Penguins agave",
@@ -663,7 +663,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Agave americana 'Rancho Blue'",
       "common": "Century plant",
@@ -690,7 +690,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Agave potatorum 'Cameron Blue'",
       "common": "Cameron Blue agave",
@@ -717,7 +717,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock garden",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Agave shawii ‘Marginata’",
       "common": "Variegated Coastal Agave ",
@@ -744,7 +744,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Ajuga reptans 'Burgundy Glow'",
       "common": "Bugle",
@@ -772,7 +772,7 @@ window.AVAILABILITY = {
       "soil": "Rich soils",
       "special_uses": "Small area groundcover\nContainer Planting\nCoastal Garden\nShade Garden\nBorder Planting\nSmall area groundcover\nSmall Gardens",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Ajuga reptans 'Chocolate Chip'",
       "common": "",
@@ -800,7 +800,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": ""
-    },,
+    },
     {
       "botanical": "Ajuga reptans 'Rainbow'",
       "common": "Bugleweed",
@@ -828,7 +828,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Small area groundcover\nBorder planting\nContainer Planting\nCoastal Garden\nSmall Gardens",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Ajuga reptans ‘Burgundy Glow’",
       "common": "Bugle",
@@ -860,7 +860,7 @@ window.AVAILABILITY = {
       "soil": "Rich soils",
       "special_uses": "Small area groundcover\nContainer Planting\nCoastal Garden\nShade Garden\nBorder Planting\nSmall area groundcover\nSmall Gardens",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Ajuga reptans ‘Rainbow’",
       "common": "Bugleweed",
@@ -892,7 +892,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Small area groundcover\nBorder planting\nContainer Planting\nCoastal Garden\nSmall Gardens",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Ajuga ‘Chocolate Chip’",
       "common": "Bugle",
@@ -924,7 +924,7 @@ window.AVAILABILITY = {
       "soil": "Well drained / moisture retentive",
       "special_uses": "Small area groundcover\nSmall Gardens\nCoastal Garden\nBorder Planting\n",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Alyogyne huegelii 'White Swan'",
       "common": "White Australian hibiscus",
@@ -956,7 +956,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Anemone 'Dawn Breaker'",
       "common": "Japanese anemone",
@@ -983,7 +983,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts butterflies\nBorder planting\nContainer planting\nCut Flower",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Anemone x hybrida Fantasy™ 'Red Riding Hood'",
       "common": "Japanese anemone",
@@ -1010,7 +1010,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nAttracts butterflies",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Anemone ‘September Charm’",
       "common": "Japanese anemone",
@@ -1037,7 +1037,7 @@ window.AVAILABILITY = {
       "soil": "Rich soils",
       "special_uses": "Woodland planting\nBorder Planting\nSmall area groundcover\nShade garden\n",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Anisodontea 'Elegant Lady'",
       "common": "Cape mallow",
@@ -1079,7 +1079,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Slope Planting\nHedge Planting\nScreen",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Arabis ferdinandi-coburgi 'Old Gold'",
       "common": "Rockcress",
@@ -1107,7 +1107,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nContainer Planting\nAttracts butterflies\nAttracts birds\nSmall area groundcover",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Arabis ferdinandi-coburgi ‘Old Gold’",
       "common": "Rockcress",
@@ -1139,7 +1139,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nContainer Planting\nAttracts butterflies\nAttracts birds\nSmall area groundcover",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Arctostaphylos 'Emerald Carpet'",
       "common": "Manzanita",
@@ -1176,7 +1176,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Slope Planting\nCoastal Garden\nErosion Control\nRevegetation and Restoration\nLarge area groundcover",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Arctostaphylos glauca ‘Canyon Blush'",
       "common": "Manzanita",
@@ -1208,7 +1208,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Arctostaphylos manzanita 'Sebastopol White'",
       "common": "Manzanita",
@@ -1240,7 +1240,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts birds\nAttracts butterflies",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Arctostaphylos x media 'Peter Ehrlich'",
       "common": "Peter Ehrlich manzanita",
@@ -1272,7 +1272,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Armeria maritima 'Alba'",
       "common": "Sea Pink",
@@ -1300,7 +1300,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nContainer Planting\nBorder Planting\nSmall area groundcover",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Armeria trojana",
       "common": "Turkish Alpine Thrift",
@@ -1327,7 +1327,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock garden",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Artemisia californica ‘Canyon Gray’",
       "common": "California sagebrush",
@@ -1364,7 +1364,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nSlope Planting\nDry Garden\nLarge area groundcover",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Asclepias fascicularis",
       "common": "Narrow leaf milkweed",
@@ -1392,7 +1392,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nDry Garden\nSlope Planting\nAttracts Birds\nAttracts Butterflies",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Baccharis pilularis 'San Bruno Lady'",
       "common": "Coyote Bush",
@@ -1419,7 +1419,7 @@ window.AVAILABILITY = {
       "soil": "Well drained / tolerates heavier soils",
       "special_uses": "Erosion control",
       "hardiness": "5°F"
-    },,
+    },
     {
       "botanical": "Bidens ferulifolia 'Yellow Sunshine'",
       "common": "Tickseed",
@@ -1446,7 +1446,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nBorder planting\nRock garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Caesalpinia mexicana",
       "common": "Mexican Caesalpinia",
@@ -1467,7 +1467,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Calamagrostis nutkae. x fol. 'Little Nootka'",
       "common": "Little Nootka reed grass",
@@ -1494,7 +1494,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nContainer planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Callistemon 'Woodlander's Hardy Red'",
       "common": "",
@@ -1515,7 +1515,7 @@ window.AVAILABILITY = {
       "soil": "",
       "special_uses": "",
       "hardiness": ""
-    },,
+    },
     {
       "botanical": "Callistemon viminalis 'Slim'",
       "common": "Slim bottlebrush",
@@ -1547,7 +1547,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nRock garden\nCoastal garden",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Calocedrus decurrens",
       "common": "Incense cedar",
@@ -1584,7 +1584,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Attracts Birds",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Calocedrus decurrens",
       "common": "Incense cedar",
@@ -1621,7 +1621,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Attracts Birds",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Campanula garganica 'Dickson's Gold'",
       "common": "Adriatic bellflower",
@@ -1649,7 +1649,7 @@ window.AVAILABILITY = {
       "soil": "Moist / well drained",
       "special_uses": "Border planting\nShade Garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Campanula garganica ‘Dickson's Gold’",
       "common": "Adriatic bellflower",
@@ -1681,7 +1681,7 @@ window.AVAILABILITY = {
       "soil": "Moist / well drained",
       "special_uses": "Border planting\nShade Garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Campanula poscharskyana 'Alba'",
       "common": "Serbian bellflower",
@@ -1713,7 +1713,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container Planting\nBorder Planting\nSmall area groundcover\nWoodland Planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Carex divulsa 'Westfield'",
       "common": "Berkeley sedge",
@@ -1745,7 +1745,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Shade Garden\nWater Gardens\nContainer Planting\nWoodland Planting\nBorder Planting\nSmall area groundcover\nCoastal garden\nRock garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Carex flacca 'Blue Zinger'",
       "common": "Blue Zinger sedge",
@@ -1773,7 +1773,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Small area groundcover\nContainer Planting\nErosion control\nCoastal garden\nShade garden\nDry garden\nSlope planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Carex flacca ‘Blue Zinger’",
       "common": "Blue Zinger sedge",
@@ -1805,7 +1805,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Small area groundcover\nContainer Planting\nErosion control\nCoastal garden\nShade garden\nDry garden\nSlope planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Carex praegracilis",
       "common": "Clustered field sedge",
@@ -1833,7 +1833,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Small area groundcover\nErosion Control\nRevegetation and Restoration\nSlope planting\nCoastal garden\nDry garden\nShade garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Carex praegracilis 'Chisai'",
       "common": "Fine California field sedge",
@@ -1861,7 +1861,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Carex praegracilis ‘Chisai’",
       "common": "Fine California field sedge",
@@ -1893,7 +1893,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Carpenteria californica 'Elizabeth'",
       "common": "Bush anemone",
@@ -1930,7 +1930,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Slope planting\nFormal hedge\nHedge Planting\nScreen\nAttracts butterflies\nCoastal garden\nShade garden\nCalifornia Native",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Caryopteris x clandonensis 'Gold Crest'",
       "common": "Bluebeard",
@@ -1957,7 +1957,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nContainer planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Casuarina glauca 'Cousin It'",
       "common": "Prostrate swamp oak",
@@ -1999,7 +1999,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nTrellis/Wall planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Ceanothus 'Autumnal Blue'",
       "common": "California lilac",
@@ -2031,7 +2031,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Screen\nAccent\nLarge area groundcover\nDry garden\nCoastal garden",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Ceanothus 'Blue Ray'",
       "common": "Blue Ray ceanothus",
@@ -2063,7 +2063,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts birds",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Ceanothus 'Owlswood Blue'",
       "common": "Island mountain lilac",
@@ -2095,7 +2095,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nBackground Planting\nAttracts Birds\nAttracts Butterflies\nLarge area groundcover\nScreen\nDry garden\nCoastal garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Ceanothus arboreus 'Campo Grande'",
       "common": "Ceanothus",
@@ -2127,7 +2127,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal garden\nDry garden\nAccent\nHedge Planting\nNative Sons selection",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Ceanothus arboreus 'Powder Blue'",
       "common": "Island ceanothus",
@@ -2159,7 +2159,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nScreen\nLarge area groundcover\nCoastal garden\nDry garden",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Ceanothus hearstiorum",
       "common": "California lilac",
@@ -2196,7 +2196,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal Garden\nDry Garden\nRevegetation and Restoration\nErosion Control\nSlope Planting\nLarge area groundcover\nBorder planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Ceanothus thyr. var. griseus 'Louis Edmunds’",
       "common": "Carmel ceanothus",
@@ -2228,7 +2228,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Large area groundcover\nSlope Planting\nErosion Control\nCoastal Garden\nDry Garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Ceanothus thyr. var. repens 'Taylor's Blue'",
       "common": "Taylor's Blue ceanothus",
@@ -2260,7 +2260,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal garden\nLarge area groundcover",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Ceanothus thyrsiflorus 'Oregon Mist'",
       "common": "Blueblossom, California Lilac",
@@ -2292,7 +2292,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "5°F"
-    },,
+    },
     {
       "botanical": "Ceanothus thyrsiflorus var. griseus",
       "common": "Carmel creeper",
@@ -2324,7 +2324,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Slope Planting\nLarge area groundcover\nCoastal garden\nDry garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Ceanothus x 'Xera Azul'",
       "common": "Ceanothus ",
@@ -2356,7 +2356,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Chondropetalum tectorum",
       "common": "Weskaapse dakriet",
@@ -2398,7 +2398,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Container Planting\nBorder Planting\nAccent\nRock garden\nCoastal garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Chondropetalum tectorum 'El Campo™'",
       "common": "Weskaapse dakriet",
@@ -2440,7 +2440,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Container Planting\nBorder Planting\nNative Sons Selection\nCoastal garden\nAccent",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Cistus 'Victor Reiter'",
       "common": "Rockrose",
@@ -2472,7 +2472,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Cistus ladanifer 'Blanche'",
       "common": "Rockrose",
@@ -2504,7 +2504,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Dry Garden\nBackground Planting\nScreen\nSlope planting\nLarge area groundcover\nCoastal garden\nAttracts butterflies",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Coleonema album",
       "common": "Breath of heaven",
@@ -2536,7 +2536,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal garden\nShade garden\nSmall area groundcover\nBorder planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Coleonema pulchellum 'Red'",
       "common": "Breath of heaven",
@@ -2568,7 +2568,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Large area groundcover\nSlope planting\nBorder planting\nCoastal garden",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Convolvulus cneorum 'Snow Angel'",
       "common": "Bush morning glory",
@@ -2610,7 +2610,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container Planting\nBorder Planting\nCoastal Garden",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Convolvulus cneorum 'Xera Sphere'",
       "common": "Bush morning glory",
@@ -2647,7 +2647,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Convolvulus sabatius",
       "common": "Ground morning glory",
@@ -2675,7 +2675,7 @@ window.AVAILABILITY = {
       "soil": "Well drained / tolerates heavier soils",
       "special_uses": "Groundcover, Container planting\nSmall area groundcover\nSlope planting\nContainer planting\nCoastal garden",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Convolvulus sabatius",
       "common": "Ground morning glory",
@@ -2712,7 +2712,7 @@ window.AVAILABILITY = {
       "soil": "Well drained / tolerates heavier soils",
       "special_uses": "Groundcover, Container planting\nSmall area groundcover\nSlope planting\nContainer planting\nCoastal garden",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Convolvulus sabatius 'Compacta'",
       "common": "Compact ground morning glory",
@@ -2740,7 +2740,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nCoastal Garden\nSmall area groundcover\nContainer Planting\nBorder Planting",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Convolvulus sabatius 'Prime White'",
       "common": "Prime White convolvulus ",
@@ -2777,7 +2777,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nSmall area groundcover\nRock garden",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Coprosma 'Lemon and Lime'",
       "common": "Mirror bush",
@@ -2805,7 +2805,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nBorder planting\nScreen\nCoastal garden",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Coprosma 'Marble Queen'",
       "common": "Mirror plant",
@@ -2842,7 +2842,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nBorder planting\nCoastal garden",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Coprosma repens 'Pacific Night'",
       "common": "Mirror plant",
@@ -2879,7 +2879,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nContainer planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Coprosma repens 'Plum Hussey'",
       "common": "Mirror plant",
@@ -2916,7 +2916,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Slope planting\nBorder planting\nAccent",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Coprosma ‘Lemon and Lime’",
       "common": "Mirror bush",
@@ -2953,7 +2953,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nBorder planting\nScreen\nCoastal garden",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Coreopsis 'Jethro Tull'",
       "common": "Tickseed",
@@ -2985,7 +2985,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nContainer Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Coreopsis auriculata 'Nana'",
       "common": "Tickseed",
@@ -3013,7 +3013,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Coreopsis auriculata ‘Nana’",
       "common": "Tickseed",
@@ -3045,7 +3045,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Correa 'Ivory Bells'",
       "common": "Australian fuchsia",
@@ -3077,7 +3077,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Correa pulchella 'Pink Flamingo'",
       "common": "Australian fuchsia",
@@ -3109,7 +3109,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal Garden\nBorder Planting\nContainer Planting\nDry Garden",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Correa reflexa 'Kangaroo Island'",
       "common": "Kangaroo Island fuchsia",
@@ -3141,7 +3141,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Cotinus 'Grace'",
       "common": "Smoke tree",
@@ -3173,7 +3173,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Border Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Cuphea 'Blackberry Sparkler'",
       "common": "Firecracker plant",
@@ -3205,7 +3205,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nAttracts butterflies\nAttracts birds",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Cuphea hyssopifolia 'Alba'",
       "common": "False heather",
@@ -3233,7 +3233,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Cuphea hyssopifolia 'Pink'",
       "common": "False Heather",
@@ -3261,7 +3261,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts butterflies",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Cuphea hyssopifolia ‘Alba’",
       "common": "False heather",
@@ -3293,7 +3293,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Cuphea hyssopifolia ‘Pink’",
       "common": "False Heather",
@@ -3325,7 +3325,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts butterflies",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Delosperma cooperi 'Mountain Dew'",
       "common": "Ice plant",
@@ -3353,7 +3353,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock garden\nErosion control\nContainer planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Delosperma cooperi ‘Mountain Dew’",
       "common": "Ice plant",
@@ -3380,7 +3380,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock garden\nErosion control\nContainer planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Delosperma ‘Fire Spinner’",
       "common": "Fire spinner ice plant",
@@ -3412,7 +3412,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock garden\nCoastal garden\nDry garden\nContainer planting\nSmall area groundcover",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Dorycnium hirsutum",
       "common": "Hairy Canary clover",
@@ -3449,7 +3449,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Small area groundcover\nContainer Planting\nBorder Planting\nDry Garden\nCoastal Garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Dymondia margaretae",
       "common": "Dymondia",
@@ -3477,7 +3477,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Small area groundcover\nCoastal Garden\nRock Garden\nSlope planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Dymondia margaretae",
       "common": "Dymondia",
@@ -3509,7 +3509,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Small area groundcover\nCoastal Garden\nRock Garden\nSlope planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Epilobium 'Marin Pink'",
       "common": "California fuchsia",
@@ -3541,7 +3541,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal garden\nDry garden\nErosion control\nAttracts butterflies\nFall color\nSlope planting\nBorder planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Epilobium 'Schieffelin's Choice'",
       "common": "California fuchsia",
@@ -3573,7 +3573,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Attracts Birds\nBorder Planting\nSmall area groundcover",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Epilobium californica 'Calistoga'",
       "common": "California fuchsia",
@@ -3605,7 +3605,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Dry Garden\nBorder Planting\nSlope Planting\nAttracts Butterflies\nAttracts Birds\nSmall area groundcover",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Epilobium canum ssp. latifolia ‘Everett’s Choice’",
       "common": "California fuchsia ",
@@ -3637,7 +3637,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts Birds\nRock Garden\nDry Garden\nBorder Planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Erigeron glaucus 'Compacta'",
       "common": "Seaside daisy",
@@ -3669,7 +3669,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock garden\nCoastal garden\nContainer planting\nBorder planting\nCut Flower",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Erigeron glaucus 'White Lights'",
       "common": "White Seaside Daisy",
@@ -3696,7 +3696,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts birds\nRock garden\nContainer planting\nCalifornia Native\nAttracts butterflies",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Erigeron karvinskianus",
       "common": "Santa Barbara daisy",
@@ -3724,7 +3724,7 @@ window.AVAILABILITY = {
       "soil": "Well drained / tolerates heavier soils",
       "special_uses": "Container Planting\nBorder Planting\nSmall area groundcover\nTrellis/Wall Planting\nRock garden\nCoastal garden\nShade garden\nErosion control\nSlope planting",
       "hardiness": "5°F"
-    },,
+    },
     {
       "botanical": "Erigeron karvinskianus",
       "common": "Santa Barbara daisy",
@@ -3756,7 +3756,7 @@ window.AVAILABILITY = {
       "soil": "Well drained / tolerates heavier soils",
       "special_uses": "Container Planting\nBorder Planting\nSmall area groundcover\nTrellis/Wall Planting\nRock garden\nCoastal garden\nShade garden\nErosion control\nSlope planting",
       "hardiness": "5°F"
-    },,
+    },
     {
       "botanical": "Erigeron karvinskianus 'Spindrift'",
       "common": "Compact Santa Barbara daisy",
@@ -3784,7 +3784,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nHerb Garden\nCoastal Garden\nDry Garden\nSmall area groundcover\nBorder Planting\nContainer Planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Erigeron karvinskianus ‘Spindrift’",
       "common": "Compact Santa Barbara daisy",
@@ -3816,7 +3816,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nHerb Garden\nCoastal Garden\nDry Garden\nSmall area groundcover\nBorder Planting\nContainer Planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Eriogonum crocatum",
       "common": "Conejo buckwheat",
@@ -3848,7 +3848,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Dry Garden\nCoastal Garden\nRevegetation and Restoration\nSlope planting\nContainer planting\nBorder planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Eriogonum grande var. rubescens",
       "common": "Red buckwheat",
@@ -3880,7 +3880,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Rock Garden\nCoastal Garden\nDry Garden\nRevegetation and Restoration",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Erodium reichardii 'Album'",
       "common": "Heron’s bill",
@@ -3908,7 +3908,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nCoastal Garden\nDry Garden\nBorder Planting\nContainer Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Erodium reichardii ‘Album’",
       "common": "Heron’s bill",
@@ -3940,7 +3940,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nCoastal Garden\nDry Garden\nBorder Planting\nContainer Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Erysimum 'Bowles Mauve'",
       "common": "Wallflower",
@@ -3968,7 +3968,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Coastal garden\nSlope planting\nContainer planting\nLarge area groundcover",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Erysimum linifolium 'Erysistible™ Magenta'",
       "common": "Wallflower",
@@ -3989,7 +3989,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nCoastal garden\nContainer planting\nSlope planting\nAttracts birds\nAttracts butterflies",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Erysimum ‘Bowles Mauve’",
       "common": "Wallflower",
@@ -4021,7 +4021,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Coastal garden\nSlope planting\nContainer planting\nLarge area groundcover",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Escallonia 'Compacta'",
       "common": "Escallonia",
@@ -4053,7 +4053,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Formal Hedge\nScreen\nContainer planting\nSlope planting\nWoodland planting\nBorder planting\nCoastal garden\nShade garden",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Escallonia bifida 'Compact White'",
       "common": "Escallonia",
@@ -4080,7 +4080,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Eschscholzia californica var. maritima",
       "common": "California poppy",
@@ -4112,7 +4112,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nContainer Planting\nSlope Planting\nCoastal Garden\nDry Garden\nRock Garden",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Euphorbia 'Ascot Petite'",
       "common": "Spurge",
@@ -4144,7 +4144,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nBorder planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Euphorbia 'Miner's Merlot'",
       "common": "Spurge",
@@ -4186,7 +4186,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nBorder planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Euphorbia 'Ruby Hybrid'",
       "common": "Spurge",
@@ -4223,7 +4223,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nWoodland planting\nBorder planting\nShade garden",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Euphorbia amygdaloides var. robbiae",
       "common": "Wood spurge",
@@ -4265,7 +4265,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Shade Garden\nContainer Planting\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Euphorbia x martinii 'Ascot Rainbow'",
       "common": "Spurge",
@@ -4302,7 +4302,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nContainer Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Euphorbia x martinii 'Tiny Treasure'™",
       "common": "Spurge",
@@ -4323,7 +4323,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nBorder planting\nCut Flower",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Festuca amethystina 'Superba'",
       "common": "Blue Sheep’s Fescue",
@@ -4360,7 +4360,7 @@ window.AVAILABILITY = {
       "soil": "Moist / well drained",
       "special_uses": "Rock Garden, Container planting\nAccent\nBorder Planting\nSlope Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Festuca glauca 'Elijah Blue'",
       "common": "Blue Fescue",
@@ -4392,7 +4392,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Festuca idahoensis 'Tomales Bay'",
       "common": "Tomales Bay Idaho Fescue",
@@ -4420,7 +4420,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Small area groundcover\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Festuca idahoensis ‘Tomales Bay’",
       "common": "Tomales Bay Idaho Fescue",
@@ -4452,7 +4452,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Small area groundcover\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Festuca rubra 'Patrick's Point'",
       "common": "Patrick’s Point Fescue",
@@ -4484,7 +4484,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nSmall area groundcover\nShade Garden",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Fragaria vesca californica ‘Montana de Oro’",
       "common": "Woodland strawberry",
@@ -4516,7 +4516,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal Garden\nShade Garden\nAttracts Birds\nAttracts Butterflies\nSlope Planting\nContainer Planting\nWoodland Planting\nSmall area groundcover\nNative Sons Selection",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Fuchsia hatschbachii",
       "common": "Willow-leaf fuchsia",
@@ -4548,7 +4548,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts butterflies\nAttracts birds\nTrellis/Wall planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Fuchsia magellanica 'Versicolor'",
       "common": "Fuchsia",
@@ -4580,7 +4580,7 @@ window.AVAILABILITY = {
       "soil": "Rich soils",
       "special_uses": "",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Garrya elliptica 'Evie'",
       "common": "Coast silktassel",
@@ -4617,7 +4617,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal Garden\nDry Garden\nRevegetation and Restoration\nBackground Planting\nScreen\nHedge Planting\n",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Gaura lindheimeri 'White Dove'",
       "common": "Gaura",
@@ -4645,7 +4645,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Gaura lindheimeri ‘White Dove’",
       "common": "Gaura",
@@ -4677,7 +4677,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Geranium ‘Rozanne’",
       "common": "Cranesbill",
@@ -4709,7 +4709,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nContainer Planting\nWoodland Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Geum 'Sunkissed Lime'",
       "common": "Avens",
@@ -4736,7 +4736,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts butterflies\nBorder planting\nContainer planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Grevillea 'Moonlight'",
       "common": "Spider flower",
@@ -4768,7 +4768,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Screen\nHedge Planting\nSlope planting",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Grevillea fililoba",
       "common": "Spider flower",
@@ -4800,7 +4800,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Hedge Planting\nAttracts Birds",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Grevillea nudiflora 'Medusa'",
       "common": "Spider flower",
@@ -4837,7 +4837,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Halimiocistus 'Merrist Wood Cream'",
       "common": "Halimiocistus",
@@ -4869,7 +4869,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nDry Garden\nCoastal Garden\nSmall area groundcover\nBorder Planting\nSlope Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Halimiocistus sahucii",
       "common": "Sunrose",
@@ -4906,7 +4906,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nHedge Planting\n",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Halimium lasianthum 'Sandling'",
       "common": "Sunrose",
@@ -4933,7 +4933,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock garden\nCoastal garden\nDry garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Hebe diosimifolia 'Aute Wainie Falls'",
       "common": "Hebe",
@@ -4970,7 +4970,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nCoastal garden\nFormal hedge\nHedge Planting\n",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Hebe vernicosa",
       "common": "Varnished Hebe",
@@ -4998,7 +4998,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container Planting\nBorder Planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Hebe vernicosa",
       "common": "Varnished Hebe",
@@ -5040,7 +5040,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container Planting\nBorder Planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Helianthemum nummularium 'Single Yellow'",
       "common": "Sunrose",
@@ -5068,7 +5068,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Helianthemum nummularium ‘Single Yellow’",
       "common": "Sunrose",
@@ -5100,7 +5100,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Helianthemum ‘Belgravia Rose’",
       "common": "Sunrose",
@@ -5132,7 +5132,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Border planting\nDry Garden",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Helianthemum ‘Ben Hope’",
       "common": "Sunrose",
@@ -5164,7 +5164,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Helianthemum ‘The Bride’",
       "common": "Sunrose",
@@ -5196,7 +5196,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Border planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Helleborus argutifolius 'Pacific Frost'",
       "common": "Corsican hellebore",
@@ -5223,7 +5223,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Hesperocyparis macrocarpa 'Wilma Goldcrest'",
       "common": "Wilma Goldcrest Monterey Cypress",
@@ -5244,7 +5244,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nContainer planting",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Hesperozygis x satureja 'Sunrise Mojito'",
       "common": "",
@@ -5272,7 +5272,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb garden",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Hesperozygis x satureja ‘Sunrise Mojito’",
       "common": "",
@@ -5304,7 +5304,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb garden",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Iris 'Canyon Snow'",
       "common": "Douglas Iris ",
@@ -5341,7 +5341,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal Garden\nBorder Planting\nWoodland Planting\nContainer Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Juncus effusus var. pacificus ‘Quartz Creek’",
       "common": "Soft rush",
@@ -5378,7 +5378,7 @@ window.AVAILABILITY = {
       "soil": "Moist / well drained",
       "special_uses": "Container Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Juncus effusus ‘Carman’s Japanese’",
       "common": "Rush",
@@ -5415,7 +5415,7 @@ window.AVAILABILITY = {
       "soil": "Well drained / moisture retentive",
       "special_uses": "Water Gardens\nBog Planting\nContainer Planting\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Juncus patens 'Carman's Grey'",
       "common": "California Gray rush",
@@ -5452,7 +5452,7 @@ window.AVAILABILITY = {
       "soil": "Moist / well drained",
       "special_uses": "Bog Planting\nContainer Planting\nWater Gardens",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Juncus patens 'Elk Blue'",
       "common": "Rush",
@@ -5480,7 +5480,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Bog Planting\nWater Gardens\nContainer Planting\nBorder planting\nShade Garden\nAccent",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Juncus patens ‘Elk Blue’",
       "common": "Rush",
@@ -5512,7 +5512,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Bog Planting\nWater Gardens\nContainer Planting\nBorder planting\nShade Garden\nAccent",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Juncus patens ‘Elk Blue’",
       "common": "Rush",
@@ -5544,7 +5544,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Bog Planting\nWater Gardens\nContainer Planting\nBorder planting\nShade Garden\nAccent",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Juniperus communis 'Point Saint George'",
       "common": "Dwarf Juniper",
@@ -5581,7 +5581,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock garden\nContainer planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Juniperus horizontalis 'Pancake'",
       "common": "Creeping Juniper",
@@ -5613,7 +5613,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Erosion control\nContainer planting\nDry garden\nRock garden",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Kalanchoe pumila",
       "common": "Kalanchoe",
@@ -5641,7 +5641,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal Garden\nRock Garden\nSmall area groundcover\nWoodland Planting\nContainer Planting\nBorder Planting",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Lavandula 'Avonview'",
       "common": "Lavender",
@@ -5673,7 +5673,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nCoastal Garden\nDry Garden\nBorder Planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Lavandula 'Ghostly Princess'",
       "common": "Lavender",
@@ -5715,7 +5715,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts butterflies\nBorder planting\nContainer planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Lavandula 'Jennifer'",
       "common": "Lavender",
@@ -5747,7 +5747,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts butterflies\nCut Flower",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Lavandula angustifolia 'Betty Blue'",
       "common": "English lavender",
@@ -5784,7 +5784,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Cut Flower\nHerb garden\nAttracts butterflies",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Lavandula angustifolia 'Munstead'",
       "common": "English Lavender",
@@ -5812,7 +5812,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nBorder Planting\nDry Garden\nCoastal garden\nCut Flower\nSlope planting\nAccent\nAttracts birds\nAttracts butterflies",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Lavandula angustifolia ‘Munstead’",
       "common": "English Lavender",
@@ -5849,7 +5849,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nBorder Planting\nDry Garden\nCoastal garden\nCut Flower\nSlope planting\nAccent\nAttracts birds\nAttracts butterflies",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Lavandula stoechas 'Double Anouk'",
       "common": "Spanish Lavender",
@@ -5891,7 +5891,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock garden\nCoastal garden\nDry garden\nContainer planting\nBorder planting\nCut Flower\nSmall area groundcover\nAccent\nHedge Planting\n",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Lavandula stoechas 'La Diva Big Night'",
       "common": "Spanish Lavender ",
@@ -5928,7 +5928,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Cut Flower\nContainer planting\nHerb garden",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Lavandula stoechas 'Marshwood'",
       "common": "Spanish Lavender",
@@ -5970,7 +5970,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nCoastal Garden\nDry Garden\nBorder Planting\nHedge Planting\n",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Lavandula stoechas 'Primavera'",
       "common": "Primavera Lavender",
@@ -6012,7 +6012,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb garden\nAttracts birds\nAttracts butterflies\nContainer planting\nBorder planting\nCut Flower",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Lavandula stoechas 'Silver Anouk'",
       "common": "Spanish Lavender",
@@ -6054,7 +6054,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal Garden\nBorder Planting\nContainer Planting\nHerb Garden",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Lavandula stoechas 'White Anouk'",
       "common": "Spanish Lavender",
@@ -6096,7 +6096,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Lavandula x allardii 'Sweet Petite'",
       "common": "Compact Sweet Lavender",
@@ -6117,7 +6117,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nHerb Garden\nDry Garden\nContainer planting\nNative Sons selection",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Lavandula x intermedia 'Romana'",
       "common": "Lavender",
@@ -6149,7 +6149,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Lavandula x intermedia ‘Provence’",
       "common": "Lavender",
@@ -6186,7 +6186,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Leonotis menthifolia 'Savannah Sunset'",
       "common": "Lion’s tail",
@@ -6213,7 +6213,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Lepechinia fragrans 'El Tigre'",
       "common": "Pitcher sage",
@@ -6250,7 +6250,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal Garden\nDry Garden\nShade Garden\nWoodland Planting\nBorder Planting\nSlope Planting\nAttracts Butterflies",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Leptospermum 'Dark Shadows'",
       "common": "Dark Shadows tea tree",
@@ -6282,7 +6282,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal Garden\nBorder Planting\nSlope Planting\nBackground Planting\nAccent\nScreen",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Leptospermum rotundifolia ‘Manning’s Choice’",
       "common": "Tea tree",
@@ -6314,7 +6314,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Accent",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Leucadendron 'Ebony'",
       "common": "Ebony conebush",
@@ -6351,7 +6351,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Leucadendron 'Pisa'",
       "common": "Leucadendron",
@@ -6388,7 +6388,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Leucadendron 'Red Gem'",
       "common": "No common name",
@@ -6420,7 +6420,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nCut Flower",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Leucadendron salignum 'Winter Red'",
       "common": "Winter Red conebush",
@@ -6457,7 +6457,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nAccent\nContainer Planting",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Marrubium bourgaei ‘All Hallows Green’",
       "common": "Ballota",
@@ -6489,7 +6489,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Small area groundcover\nBorder planting\nContainer planting\nCoastal garden\nHerb garden",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Mimulus 'Alexandra'",
       "common": "Monkey flower",
@@ -6526,7 +6526,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal Garden\nShade Garden\nWoodland Planting\nBorder Planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Mimulus 'Burst Berry'",
       "common": "Monkey flower",
@@ -6558,7 +6558,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Miscanthus sinensis 'Little Miss'",
       "common": "Eulalia grass",
@@ -6590,7 +6590,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nBorder planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Muhlenbergia dubia",
       "common": "Pine muhly",
@@ -6627,7 +6627,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Dry Garden\nBorder Planting\nSlope Planting\nAccent\nLarge area groundcover",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Myrica californica",
       "common": "Pacific wax myrtle",
@@ -6659,7 +6659,7 @@ window.AVAILABILITY = {
       "soil": "Moist / well drained",
       "special_uses": "Coastal Garden\nShade Garden\nBackground Planting\nHedge Planting\nScreen\nWoodland Planting\nCalifornia Native",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Myrtus communis 'Compacta Variegata'",
       "common": "Dwarf variegated myrtle",
@@ -6691,7 +6691,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Myrtus communis 'Variegata'",
       "common": "Variegated myrtle",
@@ -6733,7 +6733,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Hedge Planting\nFormal Hedge\nAccent\nScreen\nBorder Planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Nepeta ‘Chartreuse on the Loose’",
       "common": "Catmint",
@@ -6765,7 +6765,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts birds\nAttracts butterflies\nBorder planting\nContainer planting\nCut Flower",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Nepeta ‘Snowflake’",
       "common": "Catmint",
@@ -6797,7 +6797,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts birds\nAttracts butterflies\nSlope planting\nCut Flower",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Oenothera fruticosa 'African Sun'",
       "common": "",
@@ -6818,7 +6818,7 @@ window.AVAILABILITY = {
       "soil": "",
       "special_uses": "",
       "hardiness": ""
-    },,
+    },
     {
       "botanical": "Olea europaea 'Campo Dwarf'",
       "common": "Evergreen olive tree",
@@ -6860,7 +6860,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Container Planting\nAccent",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Ophiopogon japonicus",
       "common": "Mondo Grass",
@@ -6888,7 +6888,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock garden\nBorder planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Origanum vulgare 'Aureum'",
       "common": "Golden oregano",
@@ -6916,7 +6916,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nCoastal Garden\nDry Garden\nBorder Planting\nSmall area groundcover\nContainer Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Origanum vulgare ‘Aureum’",
       "common": "Golden oregano",
@@ -6948,7 +6948,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nCoastal Garden\nDry Garden\nBorder Planting\nSmall area groundcover\nContainer Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Orostachys iwarenge",
       "common": "Chinese Dunce Cap",
@@ -6976,7 +6976,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Pallenis maritima",
       "common": "Gold coin",
@@ -7008,7 +7008,7 @@ window.AVAILABILITY = {
       "soil": "Well drained / tolerates heavier soils",
       "special_uses": "Border Planting\nCoastal Garden\nDry Garden\nSmall area groundcover",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Parahebe linifolia",
       "common": "White Parahebe",
@@ -7040,7 +7040,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Pelargonium 'Bronze Little Leaf'",
       "common": "Bronze Little Leaf Zonal Geranium",
@@ -7072,7 +7072,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nAttracts butterflies\nAttracts birds",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Pelargonium 'Oldbury Duet'",
       "common": "Geranium",
@@ -7114,7 +7114,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nContainer Planting",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Pelargonium ionidiflorum",
       "common": "Celery pelargonium",
@@ -7146,7 +7146,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container Planting\nBorder Planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Pelargonium sidoides",
       "common": "African Geranium",
@@ -7188,7 +7188,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container Planting\nCoastal Garden\nBorder planting",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Pellaea falcata",
       "common": "Sickle fern",
@@ -7215,7 +7215,7 @@ window.AVAILABILITY = {
       "soil": "Rich soils",
       "special_uses": "Container planting\nShade garden",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Pennisetum spathiolatum",
       "common": "Slender Veldt Grass",
@@ -7252,7 +7252,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Slope Planting\nDry Garden\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Penstemon 'Apple Blossom'",
       "common": "Beardtongue",
@@ -7289,7 +7289,7 @@ window.AVAILABILITY = {
       "soil": "Well drained / tolerates heavier soils",
       "special_uses": "Cut Flower\nContainer Planting\nBorder Planting\nAttracts Birds",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Penstemon 'Cathedral Pink'",
       "common": "Penstemon",
@@ -7321,7 +7321,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Cut Flower\nBorder planting\nAttracts birds\nAttracts butterflies",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Penstemon 'Firebird'",
       "common": "Penstemon",
@@ -7353,7 +7353,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Container Planting\nBorder Planting\nCut Flower\n",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Penstemon 'Lavender Ruffles'",
       "common": "Penstemon",
@@ -7385,7 +7385,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nContainer Planting\nCut Flower\nAttracts Birds",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Penstemon 'Osprey'",
       "common": "Penstemon",
@@ -7417,7 +7417,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nContainer Planting\nCut Flower\nAttracts Birds",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Penstemon 'Red Trumpet'",
       "common": "Penstemon",
@@ -7444,7 +7444,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": ""
-    },,
+    },
     {
       "botanical": "Penstemon heteroph. 'Catherine de la Mare'",
       "common": "Penstemon",
@@ -7481,7 +7481,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts Birds\nCut Flower\nContainer Planting\nBorder Planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Penstemon ‘Sour Grapes’",
       "common": "Beardtongue",
@@ -7518,7 +7518,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nContainer Planting\nCut Flower\n",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Phlomis angustifolia 'Toob'",
       "common": "Big Leaf Jerusalem sage",
@@ -7550,7 +7550,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Phlomis fruticosa",
       "common": "Jerusalem sage",
@@ -7587,7 +7587,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Dry Garden\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Phlomis purpurea",
       "common": "Jerusalem sage",
@@ -7619,7 +7619,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container Planting\nBorder Planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Phormium 'Platt's Black'",
       "common": "New Zealand flax",
@@ -7656,7 +7656,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal Garden\nBorder Planting\nContainer Planting\nAccent",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Phormium cookianum 'Black Adder'",
       "common": "New Zealand flax",
@@ -7693,7 +7693,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal Garden\nAccent\nContainer Planting\nBorder Planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Phygelius 'Candy Drops™ Red'",
       "common": "Cape Fuchsia",
@@ -7720,7 +7720,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nContainer planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Phyla nodiflora (pink)",
       "common": "",
@@ -7748,7 +7748,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": ""
-    },,
+    },
     {
       "botanical": "Phyla nodiflora (white)",
       "common": "",
@@ -7776,7 +7776,7 @@ window.AVAILABILITY = {
       "soil": "",
       "special_uses": "",
       "hardiness": ""
-    },,
+    },
     {
       "botanical": "Pittosporum 'Elfin'",
       "common": "Tawhiwhi, Kohuhu",
@@ -7813,7 +7813,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container Planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Pittosporum 'Wrinkle Blue'",
       "common": "Tawhiwhi, Kohuhu",
@@ -7850,7 +7850,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Pittosporum eugenioides 'Variegatum'",
       "common": "Lemonwood",
@@ -7882,7 +7882,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Pittosporum tenuifolium 'Beach Ball'™",
       "common": "Beach Ball kohuhu",
@@ -7914,7 +7914,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Pittosporum tenuifolium 'Gold Star'",
       "common": "Tawhiwhi, Kohuhu",
@@ -7951,7 +7951,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nWoodland Planting\nContainer Planting\nFormal Hedge\nHedge Planting\nAccent",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Pittosporum tenuifolium 'Harley Botanica'",
       "common": "Tawhiwhi, Kohuhu",
@@ -7988,7 +7988,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Pittosporum tenuifolium 'Jade'",
       "common": "Tawhiwhi, Kohuhu",
@@ -8020,7 +8020,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Pittosporum tenuifolium ‘Jade’",
       "common": "Tawhiwhi, Kohuhu",
@@ -8052,7 +8052,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Polygala myrtifolia 'Mariposa'",
       "common": "Compact sweet pea bush",
@@ -8094,7 +8094,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container Planting\nBorder Planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Polystichum munitum",
       "common": "Western sword fern",
@@ -8136,7 +8136,7 @@ window.AVAILABILITY = {
       "soil": "Rich soils",
       "special_uses": "Shade Garden\nWoodland Planting\nContainer Planting\nCalifornia Native",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Portulacaria afra 'Aurea'",
       "common": "Yellow Rainbow Bush",
@@ -8164,7 +8164,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Portulacaria afra 'Skyscraper'",
       "common": "Narrow Elephant's Food",
@@ -8192,7 +8192,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Drought tolerant\nContainer planting\nHedge Planting\nScreen",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Portulacaria afra ‘Aurea’",
       "common": "Yellow Rainbow Bush",
@@ -8224,7 +8224,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Prostanthera ovalifolia 'Variegata'",
       "common": "Variegated Australian mint bush",
@@ -8266,7 +8266,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Hedge Planting\nScreen\nBorder Planting",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Prostanthera rotundifolia",
       "common": "Australian Mint Bush",
@@ -8287,7 +8287,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts birds",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Quercus suber",
       "common": "Cork Oak",
@@ -8319,7 +8319,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Rhamnus alaternus 'John Edwards'",
       "common": "Italian buckthorn",
@@ -8351,7 +8351,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Hedge Planting\nScreen\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Rhamnus californica 'Mound San Bruno'",
       "common": "Coffeeberry",
@@ -8383,7 +8383,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Revegetation and Restoration\nAttracts Birds\nDry Garden\nCoastal Garden\nScreen\nHedge Planting\nCalifornia Native",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Rhamnus californica 'Olema'",
       "common": "California coffeeberry",
@@ -8415,7 +8415,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Hedge Planting\nScreen\nAttracts birds\nAttracts butterflies",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Rhodanthemum hosmariense",
       "common": "Moroccan daisy",
@@ -8443,7 +8443,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Romneya coulteri",
       "common": "Matilija poppy",
@@ -8490,7 +8490,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Dry Garden\nScreen",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Rosmarinus officinalis 'Barbeque'",
       "common": "Rosemary",
@@ -8527,7 +8527,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Screen\nHerb Garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Rosmarinus officinalis 'Blue Boy'",
       "common": "Dwarf rosemary",
@@ -8564,7 +8564,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nContainer Planting\nAttracts Butterflies\nAttracts Birds\nBorder Planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Rosmarinus officinalis 'Boule'",
       "common": "Rosemary",
@@ -8601,7 +8601,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nCoastal Garden\nDry Garden\nContainer Planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Rosmarinus officinalis 'Carollina'",
       "common": "Rosemary",
@@ -8633,7 +8633,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Rosmarinus officinalis 'Collingwood Ingram'",
       "common": "Rosemary",
@@ -8670,7 +8670,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Rosmarinus officinalis 'Huntington Carpet'",
       "common": "Rosemary",
@@ -8707,7 +8707,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb garden\nErosion control\nBorder planting\nContainer planting\nRock garden",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Rosmarinus officinalis 'Roman Beauty'",
       "common": "Rosemary",
@@ -8744,7 +8744,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nContainer Planting\nDry Garden\nSlope Planting\nHerb garden",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Rosmarinus officinalis 'Roseus'",
       "common": "Rosemary",
@@ -8776,7 +8776,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Rosmarinus officinalis 'Speedy'",
       "common": "Rosemary",
@@ -8813,7 +8813,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb garden\nContainer planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Rosmarinus officinalis ‘Irene’",
       "common": "Rosemary",
@@ -8850,7 +8850,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Slope Planting\nSmall area groundcover\nHerb Garden\nDry Garden",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Ruschia lineolata",
       "common": "Carpet of Stars ",
@@ -8878,7 +8878,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Salvia 'Hot Lips'",
       "common": "Sage",
@@ -8920,7 +8920,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Dry Garden\nBorder Planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Salvia 'Karla'",
       "common": "Karla's sage ",
@@ -8947,7 +8947,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Salvia brandegeei 'Pacific Blue'",
       "common": "Brandegee's sage",
@@ -8984,7 +8984,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Dry Garden\nCoastal Garden\nBorder Planting\nLarge area groundcover\nSlope Planting\nAttracts Birds",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Salvia coahuilensis",
       "common": "Coahuila Sage",
@@ -9016,7 +9016,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nContainer planting",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Salvia greggii 'Amethyst Lips'",
       "common": "Sage",
@@ -9058,7 +9058,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nContainer planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Salvia greggii 'Pina Colada'",
       "common": "Pina Colada sage",
@@ -9086,7 +9086,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nAttracts butterflies\nAttracts birds",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Salvia greggii 'Rose Bicolor'",
       "common": "Sage",
@@ -9123,7 +9123,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts butterflies\nAttracts birds\nBorder planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Salvia greggii 'Smokin' Lavender'",
       "common": "Autumn sage",
@@ -9160,7 +9160,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nBorder planting\nAttracts butterflies\nAttracts birds",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Salvia greggii ‘Pina Colada'",
       "common": "Pina Colada sage",
@@ -9192,7 +9192,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting\nAttracts butterflies\nAttracts birds",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Salvia leucantha 'Danielle's Dream'",
       "common": "Mexican bush sage",
@@ -9213,7 +9213,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Salvia leucantha ‘Santa Barbara’",
       "common": "Dwarf Mexican bush sage",
@@ -9255,7 +9255,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Dry Garden\nBorder Planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Salvia microphylla 'Royal Bumble'",
       "common": "Sage",
@@ -9292,7 +9292,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts birds\nAttracts butterflies\nBorder planting\nCoastal garden\nContainer planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Salvia microphylla x 'Brilliance'",
       "common": "Heatwave sage",
@@ -9329,7 +9329,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Salvia microphylla x 'Glimmer'",
       "common": "Heatwave sage",
@@ -9357,7 +9357,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Salvia microphylla x ‘Glimmer’",
       "common": "Heatwave sage",
@@ -9394,7 +9394,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Salvia muirii",
       "common": "John Muir sage",
@@ -9426,7 +9426,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nCoastal Garden",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Salvia officinalis 'Silver Scent'",
       "common": "Sage",
@@ -9454,7 +9454,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb garden\nContainer planting\nBorder planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Salvia officinalis ‘Silver Scent’",
       "common": "Sage",
@@ -9481,7 +9481,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb garden\nContainer planting\nBorder planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Santolina 'Little Nicky'",
       "common": "Dwarf lavender cotton",
@@ -9509,7 +9509,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nHerb Garden\nCoastal Garden\nDry Garden\nContainer Planting\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Santolina virens 'Lemon Fizz'",
       "common": "Lavender cotton",
@@ -9537,7 +9537,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Santolina virens ‘Lemon Fizz’",
       "common": "Lavender cotton",
@@ -9569,7 +9569,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Santolina ‘Little Nicky’",
       "common": "Dwarf lavender cotton",
@@ -9601,7 +9601,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nHerb Garden\nCoastal Garden\nDry Garden\nContainer Planting\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Santolina ‘Shades of Jade’",
       "common": "Lavender cotton",
@@ -9633,7 +9633,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nCoastal Garden\nDry Garden\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Saponaria 'Bressingham'",
       "common": "Soapwort",
@@ -9661,7 +9661,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nContainer Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Scabiosa columbaria 'Flutter Deep Blue'",
       "common": "Pincushion Flower",
@@ -9693,7 +9693,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Scabiosa columbaria ‘Pink Mist’",
       "common": "Pincushion flower",
@@ -9725,7 +9725,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Border Planting\nSmall area groundcover",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Scabiosa ochroleuca 'Moon Dance'",
       "common": "Pincushion flower",
@@ -9753,7 +9753,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nContainer Planting\nCut Flower",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Scabiosa ochroleuca ‘Moon Dance’",
       "common": "Pincushion flower",
@@ -9785,7 +9785,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nContainer Planting\nCut Flower",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Scutellaria suffrutescens",
       "common": "Cherry skullcap",
@@ -9813,7 +9813,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nContainer Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Scutellaria suffrutescens",
       "common": "Cherry skullcap",
@@ -9855,7 +9855,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nContainer Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Sedum 'Little Missy'",
       "common": "Stonecrop",
@@ -9883,7 +9883,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock garden\nContainer planting\nSmall area groundcover",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Sedum album",
       "common": "Stonecrop",
@@ -9911,7 +9911,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nDry Garden\nSmall area groundcover\nBorder Planting\nContainer Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Sedum hispanicum 'Purpureum'",
       "common": "Stonecrop",
@@ -9939,7 +9939,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nCoastal Garden\nDry Garden\nContainer Planting\nBorder Planting\nSmall area groundcover",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Sedum hispanicum ‘Purpureum’",
       "common": "Stonecrop",
@@ -9960,7 +9960,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nCoastal Garden\nDry Garden\nContainer Planting\nBorder Planting\nSmall area groundcover",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Sedum kam. 'Little Miss Sunshine'",
       "common": "",
@@ -9988,7 +9988,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": ""
-    },,
+    },
     {
       "botanical": "Sedum kamtschaticum ‘Little Miss Sunshine’",
       "common": "Stonecrop",
@@ -10015,7 +10015,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Sedum lineare 'Sea Urchin'",
       "common": "Stonecrop",
@@ -10043,7 +10043,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Small area groundcover\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Sedum lineare ‘Sea Urchin’",
       "common": "Stonecrop",
@@ -10070,7 +10070,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Small area groundcover\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Sedum rubrotinctum",
       "common": "Pork and Beans",
@@ -10098,7 +10098,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nCoastal Garden\nDry Garden\nContainer Planting\nBorder Planting",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Sedum spath. 'Tomales Bay'",
       "common": "",
@@ -10126,7 +10126,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": ""
-    },,
+    },
     {
       "botanical": "Sedum spathulifolium ‘Tomales Bay’",
       "common": "Stonecrop",
@@ -10158,7 +10158,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nSmall area groundcover\nContainer Planting",
       "hardiness": "5°F"
-    },,
+    },
     {
       "botanical": "Sedum spurium 'Dragon's Blood'",
       "common": "Stonecrop",
@@ -10186,7 +10186,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nDry Garden\nBorder Planting\nContainer Planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Sedum spurium 'Variegatum'",
       "common": "Stonecrop",
@@ -10214,7 +10214,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nContainer Planting\nSmall area groundcover\n",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Sedum spurium ‘Dragon's Blood’",
       "common": "Stonecrop",
@@ -10241,7 +10241,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nDry Garden\nBorder Planting\nContainer Planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Sedum spurium ‘Variegatum’",
       "common": "Stonecrop",
@@ -10268,7 +10268,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nContainer Planting\nSmall area groundcover\n",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Sedum ‘Little Missy’",
       "common": "Stonecrop",
@@ -10295,7 +10295,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock garden\nContainer planting\nSmall area groundcover",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Senecio serpens",
       "common": "Blue-chalksticks",
@@ -10323,7 +10323,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Small area groundcover\nBorder Planting\nAccent\nCoastal Garden\nRock Garden",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Senna artemisioides",
       "common": "Wormwood cassia",
@@ -10360,7 +10360,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Dry garden\nSlope planting\nLarge area groundcover",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Senna phyllodinea",
       "common": "Silver leaf cassia",
@@ -10392,7 +10392,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts butterflies",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Sesleria caerulea",
       "common": "Blue Moor Grass",
@@ -10429,7 +10429,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Woodland planting\nSmall area groundcover\nBorder Planting\nAccent",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Silene uniflora 'Druett's Variegated'",
       "common": "Variegated sea campion",
@@ -10457,7 +10457,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nContainer Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Sisyrinchium 'Janet Denman'",
       "common": "Variegated blue-eyed grass",
@@ -10485,7 +10485,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nBorder planting\nContainer planting\nAlpine garden",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Sisyrinchium bellum ‘Rocky Point’",
       "common": "Blue-eyed grass",
@@ -10517,7 +10517,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Rock Garden\nCoastal Garden\nDry Garden\nContainer Planting\nBorder Planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Sisyrinchium californicum",
       "common": "Golden-eyed grass",
@@ -10549,7 +10549,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Coastal Garden\nContainer Planting\nBorder Planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Sphaeralcea 'Newleaze Coral'",
       "common": "Globe Mallow",
@@ -10586,7 +10586,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Cut Flower\nContainer planting\nRock garden\nTrellis/Wall planting\nAccent",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Stachys 'Summer Romance'",
       "common": "Summer Romance Betony",
@@ -10614,7 +10614,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts butterflies\nBorder planting\nRock garden\nCut Flower\nContainer planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Stachys byzantina 'Big Ears'",
       "common": "Big-leafed lamb's ears",
@@ -10646,7 +10646,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Stenotaphrum secundatum 'Variegatum'",
       "common": "Buffalo grass",
@@ -10673,7 +10673,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Container planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Stipa ichu",
       "common": "Peruvian feather grass",
@@ -10705,7 +10705,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Container planting\nDry garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Tagetes lemmonii 'Compacta'",
       "common": "Mexican bush marigold",
@@ -10742,7 +10742,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Tanacetum camphoratum",
       "common": "Dune tansy",
@@ -10769,7 +10769,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts butterflies\nBorder planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Teucrium betonicum",
       "common": "Wood germander",
@@ -10806,7 +10806,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nDry Garden\nCoastal Garden\nHerb Garden",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Teucrium cham. subsp. nuc. 'Pride of Georgia'",
       "common": "Pride of Georgia germander ",
@@ -10833,7 +10833,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nContainer planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Teucrium chamaedrys",
       "common": "Wall germander",
@@ -10870,7 +10870,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nBorder Planting",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Teucrium fruticans 'Azureum'",
       "common": "Bush germander",
@@ -10902,7 +10902,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Background Planting\nCoastal Garden\nBorder Planting\nRevegetation and Restoration",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Thuja plicata 'Emerald Cone'",
       "common": "Western red cedar",
@@ -10939,7 +10939,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Screen\nHedge Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Thymus doerfleri 'Doone Valley'",
       "common": "",
@@ -10967,7 +10967,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": ""
-    },,
+    },
     {
       "botanical": "Thymus doerfleri ‘Doone Valley’",
       "common": "",
@@ -10988,7 +10988,7 @@ window.AVAILABILITY = {
       "soil": "",
       "special_uses": "",
       "hardiness": ""
-    },,
+    },
     {
       "botanical": "Thymus praecox 'Albiflorus'",
       "common": "Thyme",
@@ -11016,7 +11016,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nCoastal Garden\nDry Garden\nRock Garden\nContainer Planting\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Thymus praecox ‘Albiflorus’",
       "common": "Thyme",
@@ -11043,7 +11043,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nCoastal Garden\nDry Garden\nRock Garden\nContainer Planting\nBorder Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Thymus pseudolanuginosus",
       "common": "Wooly Thyme",
@@ -11071,7 +11071,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nSmall area groundcover\nRock Garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Thymus serpyllum 'Elfin'",
       "common": "Elfin thyme",
@@ -11099,7 +11099,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nSmall area groundcover\nContainer Planting\nRock Garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Thymus serpyllum ‘Elfin’",
       "common": "Elfin thyme",
@@ -11131,7 +11131,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nSmall area groundcover\nContainer Planting\nRock Garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Thymus x citriodorus 'Lime'",
       "common": "Lime thyme",
@@ -11159,7 +11159,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nSmall area groundcover",
       "hardiness": "5°F"
-    },,
+    },
     {
       "botanical": "Thymus x citriodorus ‘Lime’",
       "common": "Lime thyme",
@@ -11191,7 +11191,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Herb Garden\nSmall area groundcover",
       "hardiness": "5°F"
-    },,
+    },
     {
       "botanical": "Tolmiea menziesii 'Cool Gold'",
       "common": "Gold Piggyback Plant",
@@ -11218,7 +11218,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Shade garden\nContainer planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Trichostema lanatum x purpusii",
       "common": "Midnight Magic blue curls",
@@ -11239,7 +11239,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal garden\nDry garden\nContainer planting\nRevegetation and Restoration\nBackground planting",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Tulbaghia 'Fairy Star'",
       "common": "Society garlic",
@@ -11271,7 +11271,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border Planting\nContainer Planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Tulbaghia violacea 'Oro Verde'",
       "common": "Golden Society garlic",
@@ -11303,7 +11303,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Tulbaghia violacea 'Purpleicious'®",
       "common": "Purpleicious society garlic",
@@ -11335,7 +11335,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nContainer planting\nHerb garden",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Tulbaghia violacea 'Snow Flurry'",
       "common": "Society garlic",
@@ -11367,7 +11367,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Tulbaghia x 'Ashanti'",
       "common": "Society garlic",
@@ -11394,7 +11394,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Border planting\nContainer planting\nCoastal garden",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Ugni molinae",
       "common": "Chilean guava",
@@ -11436,7 +11436,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Coastal Garden\nBackground Planting\nSlope Planting\nBorder Planting\nHedge Planting\nFormal Hedge",
       "hardiness": "15°F"
-    },,
+    },
     {
       "botanical": "Verbena bonariensis 'Lollipop'",
       "common": "Lollipop verbena",
@@ -11468,7 +11468,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Attracts Birds\nAttracts Butterflies\nCut Flower\nContainer Planting\nBorder Planting",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Verbena lilacina 'De La Mina'",
       "common": "Cedros Island vervain",
@@ -11510,7 +11510,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Slope Planting\nCoastal Garden\nBorder Planting\nAttracts Butterflies",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Veronica 'Waterperry Blue'",
       "common": "Speedwell",
@@ -11542,7 +11542,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "Small area groundcover\nRock Garden\nContainer Planting",
       "hardiness": "0°F"
-    },,
+    },
     {
       "botanical": "Viola ‘Etain’",
       "common": "Viola",
@@ -11574,7 +11574,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Border Planting\nContainer Planting",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Washingtonia filifera",
       "common": "California fan palm",
@@ -11606,7 +11606,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Westringia 'Naringa'",
       "common": "Coast rosemary",
@@ -11638,7 +11638,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Slope planting\nBorder planting\nCoastal garden\nDry garden",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Westringia 'Wynyabbie Highlight'",
       "common": "Coast rosemary ",
@@ -11670,7 +11670,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Westringia fruticosa 'Grey Box'",
       "common": "Dwarf Coast rosemary",
@@ -11707,7 +11707,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "20°F"
-    },,
+    },
     {
       "botanical": "Westringia fruticosa 'Mundi'",
       "common": "Coast rosemary ",
@@ -11744,7 +11744,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "25°F"
-    },,
+    },
     {
       "botanical": "Westringia fruticosa 'Small Ball'",
       "common": "Dwarf Coast rosemary",
@@ -11781,7 +11781,7 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "special_uses": "",
       "hardiness": "30°F"
-    },,
+    },
     {
       "botanical": "Woodwardia fimbriata",
       "common": "Giant chain fern",
@@ -11823,7 +11823,7 @@ window.AVAILABILITY = {
       "soil": "Most soil types",
       "special_uses": "Shade Garden\nWoodland Planting\nContainer Planting\nScreen\nCalifornia Native",
       "hardiness": "10°F"
-    },,
+    },
     {
       "botanical": "Yucca rostrata 'Sapphire Skies'",
       "common": "Sapphire Skies Blue Beaked Yucca",

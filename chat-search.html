@@ -4139,11 +4139,10 @@
     });
     clearBtn.addEventListener('click', () => {
       input.value = '';
-      resultsEl.innerHTML = '';
-      noResultsEl.hidden = true;
-      filterSummaryEl.hidden = true;
-      const sortToolbar3 = $('resultsToolbar');
-      if (sortToolbar3) sortToolbar3.hidden = true;
+      lastParsed = null;
+      // Re-run with empty query so the page repopulates with the full catalog
+      // sorted A-Z (matches the default load behavior).
+      run(true);
       input.focus();
     });
     document.querySelectorAll('.suggestion').forEach(btn => {

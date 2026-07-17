@@ -784,7 +784,7 @@ window.AVAILABILITY = {
       "section": "General Nursery",
       "sizes": [
         {
-          "container": "1gal",
+          "container": "5gal",
           "price": 26.0,
           "order": ""
         },
@@ -1863,7 +1863,7 @@ window.AVAILABILITY = {
           "order": ""
         },
         {
-          "container": "5gal",
+          "container": "2gal",
           "price": 20.0,
           "order": ""
         },
@@ -4955,7 +4955,7 @@ window.AVAILABILITY = {
       "section": "General Nursery",
       "sizes": [
         {
-          "container": "1gal",
+          "container": "5gal",
           "price": 22.0,
           "order": ""
         },
@@ -5568,7 +5568,7 @@ window.AVAILABILITY = {
           "order": ""
         },
         {
-          "container": "5gal",
+          "container": "2gal",
           "price": 16.5,
           "order": ""
         },
@@ -6250,7 +6250,7 @@ window.AVAILABILITY = {
           "order": ""
         },
         {
-          "container": "5gal",
+          "container": "2gal",
           "price": 16.5,
           "order": ""
         },
@@ -7036,7 +7036,7 @@ window.AVAILABILITY = {
           "order": ""
         },
         {
-          "container": "5gal",
+          "container": "2gal",
           "price": 16.5,
           "order": ""
         },
@@ -7097,7 +7097,7 @@ window.AVAILABILITY = {
           "order": ""
         },
         {
-          "container": "5gal",
+          "container": "2gal",
           "price": 18.0,
           "order": ""
         },

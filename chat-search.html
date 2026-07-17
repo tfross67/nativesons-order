@@ -2725,7 +2725,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260716-3</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260716-4</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2838,7 +2838,7 @@
         <span>Sort by</span>
         <select id="sortBy" class="sort-select" aria-label="Sort plants">
           <option value="relevance">Relevance</option>
-          <option value="name-asc">Name (A–Z)</option>
+          <option value="name-asc" selected>Name (A–Z)</option>
           <option value="name-desc">Name (Z–A)</option>
           <option value="price-asc">Price (low → high)</option>
           <option value="price-desc">Price (high → low)</option>
@@ -4070,7 +4070,7 @@
     }
 
     // === Sort results according to user selection ===
-    let currentSort = 'relevance';
+    let currentSort = 'name-asc';
     function sortResults(results, mode) {
       // mode can be:
       //   'relevance'        — by match.score desc

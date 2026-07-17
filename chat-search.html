@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2d4a2b">
   <title>Native Sons — Smart Plant Search (test)</title>
   <meta name="description" content="Test page: smart keyword search across the Native Sons availability list. Natural-language parsing of color, size, price, and growing conditions.">
-  <link rel="stylesheet" href="styles.css?v=20260716-15">
+  <link rel="stylesheet" href="styles.css?v=20260716-16">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -2725,7 +2725,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260716-15</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260716-16</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2901,8 +2901,8 @@
         <span>Wholesale</span>
         <span class="amt" id="cartSummaryWholesale">$0.00</span>
       </div>
-      <div class="cart-summary-row total-row">
-        <span>Subtotal (retail)</span>
+      <div class="cart-summary-row total-row" id="cartSummaryRetailRow">
+        <span>Total (with markup)</span>
         <span class="amt">$<span id="cartSummaryTotal">0.00</span></span>
       </div>
       <p class="cart-note">Final invoice comes from the office. Tax &amp; delivery calculated there.</p>
@@ -2981,10 +2981,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260716-15"></script>
-  <script src="cart.js?v=20260716-15"></script>
-  <script src="availability_data.js?v=20260716-15"></script>
-  <script src="masteritem_full.js?v=20260716-15"></script>
+  <script src="supabase-config.js?v=20260716-16"></script>
+  <script src="cart.js?v=20260716-16"></script>
+  <script src="availability_data.js?v=20260716-16"></script>
+  <script src="masteritem_full.js?v=20260716-16"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -4595,6 +4595,7 @@
       const cartSummary = $('cartSummary');
       const cartSummaryTotal = $('cartSummaryTotal');
       const cartSummaryWholesale = $('cartSummaryWholesale');
+      const cartSummaryRetailRow = $('cartSummaryRetailRow');
       const cartMarkupBanner = $('cartMarkupBanner');
       const cartMarkupMultiplierEl = $('cartMarkupMultiplier');
       const cartMarkupClear = $('cartMarkupClear');
@@ -4668,14 +4669,19 @@
         cartBar.hidden = false;
         cartCount.textContent = String(count);
         cartTotal.textContent = fmtPrice(retailSubtotal);
+        // If no markup applied, retail == wholesale — collapse to a single
+        // "Subtotal" row (no separate retail line, no markup banner).
+        const noMarkup = Math.abs(retailSubtotal - subtotal) < 0.005
+                          && defaultMarkupMultiplier <= 1;
         if (cartSummaryWholesale) {
-          if (Math.abs(retailSubtotal - subtotal) < 0.005) {
+          if (noMarkup) {
             cartSummaryWholesale.parentElement.hidden = true;
           } else {
             cartSummaryWholesale.parentElement.hidden = false;
             cartSummaryWholesale.textContent = '$' + fmtPrice(subtotal);
           }
         }
+        if (cartSummaryRetailRow) cartSummaryRetailRow.hidden = noMarkup;
 
         // Render items
         if (items.length === 0) {
@@ -4732,13 +4738,17 @@
         cartSummaryTotal.textContent = fmtPrice(retailSubtotal);
         if (cartSummaryWholesale) {
           // Hide the wholesale row when retail matches (no markup applied)
-          if (Math.abs(retailSubtotal - subtotal) < 0.005) {
+          if (noMarkup) {
             cartSummaryWholesale.parentElement.hidden = true;
           } else {
             cartSummaryWholesale.parentElement.hidden = false;
             cartSummaryWholesale.textContent = '$' + fmtPrice(subtotal);
           }
         }
+        // Hide the retail row label when no markup — the wholesale row
+        // already shows the total, and a separate "Total (with markup)"
+        // row would be confusing without markup to show.
+        if (cartSummaryRetailRow) cartSummaryRetailRow.hidden = noMarkup;
         // Show markup banner when an active multiplier > 1 is set
         if (cartMarkupBanner) {
           if (defaultMarkupMultiplier > 1) {
@@ -4789,22 +4799,59 @@
       // Look up item code + UPC by botanical name + size. Tries exact
       // description match first, then falls back to matching just the
       // size while trusting that description is similar to the plant name.
+      // IMPORTANT: when multiple SKUs share genus+species but have different
+      // cultivars, the cultivar MUST match — otherwise we return the wrong
+      // code (e.g. 'Provence' was returning 'Dutch' for the 1gal because both
+      // are Lavandula x intermedia).
+      function extractCultivar(s) {
+        // Returns the cultivar name (lowercase, no spaces) or null if none.
+        const m = String(s || '').match(/'([^']+)'/);
+        return m ? m[1].toLowerCase().replace(/\s+/g, '') : null;
+      }
       function lookupItemCode(botanical, size) {
         const idx = ensureMasterItemIndex();
         const sz = (size || '').toLowerCase().replace(/\s+/g, '');
         const nm = (botanical || '').toLowerCase().trim();
+        const nmCultivar = extractCultivar(botanical);
         // Exact match: full description text + size
         const exactKey = `${nm}|${sz}`;
         if (idx.has(exactKey)) return idx.get(exactKey);
-        // Prefix match: description starts with the botanical name
+        // Walk every SKU; only accept one whose description is a real match.
         for (const [k, v] of idx) {
           const [d, s] = k.split('|');
           if (s !== sz) continue;
-          // Tolerate cultivar differences — match if both names share the genus + species
+          // Wholly identical or one is a prefix of the other (with space).
           if (d === nm || d.startsWith(nm + ' ') || nm.startsWith(d + ' ')) return v;
+          // Token-by-token fallback: require cultivar match if both have one,
+          // otherwise require genus + species + (optional x/var.) to align.
           const nmTokens = nm.split(/\s+/);
           const dTokens = d.split(/\s+/);
-          if (nmTokens[0] === dTokens[0] && nmTokens[1] === dTokens[1]) return v;
+          // Compare genus (first token).
+          if (nmTokens[0] !== dTokens[0]) continue;
+          // Walk through "x", "var.", species, etc. — find first non-special
+          // token after genus in each and require equality.
+          const SPECIAL = new Set(['x', 'var.', 'subsp.', 'ssp.', 'f.']);
+          const skipSpecial = (arr) => {
+            const out = [];
+            for (const t of arr) if (!SPECIAL.has(t)) out.push(t);
+            return out;
+          };
+          const nmCore = skipSpecial(nmTokens);
+          const dCore = skipSpecial(dTokens);
+          if (nmCore.length < 2 || dCore.length < 2) continue;
+          // Genus + species must match.
+          if (nmCore[0] !== dCore[0] || nmCore[1] !== dCore[1]) continue;
+          // Cultivar policy: if BOTH have a cultivar, they MUST match exactly.
+          // If only ONE has a cultivar, allow it to match a no-cultivar SKU
+          // (fallback). If NEITHER has a cultivar, that's a direct hit.
+          if (nmCultivar && d.includes("'")) {
+            const dCultivar = extractCultivar(d);
+            if (dCultivar !== nmCultivar) continue;
+          } else if (nmCultivar && !d.includes("'")) {
+            // Botanical has cultivar but this SKU doesn't — wrong plant.
+            continue;
+          }
+          return v;
         }
         return null;
       }
@@ -5251,14 +5298,19 @@
         const newRetail = Cart.getRetailSubtotal();
         cartTotal.textContent = fmtPrice(newRetail);
         cartSummaryTotal.textContent = fmtPrice(newRetail);
+        // Same collapse rule as renderCart: hide wholesale + retail rows
+        // when there's no markup, so the cart shows just one total.
+        const noMarkupNow = Math.abs(newRetail - newSubtotal) < 0.005
+                            && defaultMarkupMultiplier <= 1;
         if (cartSummaryWholesale) {
-          if (Math.abs(newRetail - newSubtotal) < 0.005) {
+          if (noMarkupNow) {
             cartSummaryWholesale.parentElement.hidden = true;
           } else {
             cartSummaryWholesale.parentElement.hidden = false;
             cartSummaryWholesale.textContent = '$' + fmtPrice(newSubtotal);
           }
         }
+        if (cartSummaryRetailRow) cartSummaryRetailRow.hidden = noMarkupNow;
       });
 
       // Toggle retail price input between $ (manual) and × (markup multiplier)
@@ -5669,16 +5721,12 @@
         const results = $('custPickerResults');
         if (input) { input.value = ''; }
         if (results) { results.classList.remove('is-open'); }
-        // Apply default markup to cart
-        if (c.default_markup_pct && c.default_markup_pct > 0) {
-          const mult = 1 + c.default_markup_pct;
-          defaultMarkupMultiplier = mult;
-          // Apply to existing items that are still at wholesale (don't
-          // override items the staff has manually customized).
-          Cart.applyDefaultMarkup(mult);
-        } else {
-          defaultMarkupMultiplier = 1.0;
-        }
+        // Auto-apply default markup to the cart when the customer has one.
+        // DISABLED: this was creating surprise markups (e.g. JJ's Backyard
+        // getting ×1.10 applied silently). Staff must now explicitly set
+        // markup per-item using the × toggle, or via the "Clear markup"
+        // banner when an active multiplier is present.
+        defaultMarkupMultiplier = 1.0;
         renderCart();
       }
 

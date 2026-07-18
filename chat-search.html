@@ -2171,9 +2171,9 @@
     /* Match header container width to content column (1080px) */
     .site-header .container { max-width: 1080px; }
 
-    /* Horizontal action row for admin + sign-out buttons.
+    /* Horizontal action row for admin + customer-portal + sign-out buttons.
        Header-meta is column-flex (tagline stacks above); this wrapper
-       flips to row-flex so the two action buttons sit side-by-side.
+       flips to row-flex so the action buttons sit side-by-side.
        align-self: flex-end sits the row on the right edge of the
        column-flex parent. */
     .header-meta-actions {
@@ -2711,6 +2711,7 @@
         <a href="?staff=1" class="staff-link" id="staffLink" hidden>Staff: Sign in</a>
         <div class="header-meta-actions" id="staffHeaderActions" hidden>
           <a href="admin.html" class="staff-link" id="staffAdminLink">Admin →</a>
+          <a href="?" class="staff-link" id="staffCustomerLink">Customer portal →</a>
           <a href="#" class="staff-link" id="staffSignOut">Staff: Sign out</a>
         </div>
       </div>

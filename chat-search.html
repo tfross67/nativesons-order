@@ -4543,6 +4543,20 @@
             window.location.href = window.location.pathname;
           });
         }
+
+        // Wire "Customer portal" link — clears the staff session and reloads
+        // the page in public mode (so staff can preview what customers see).
+        // Without clearing sessionStorage, the page would reload with ?staff=1
+        // removed but still re-apply staff-mode from the session flag.
+        const customerLink = document.getElementById('staffCustomerLink');
+        if (customerLink) {
+          customerLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            try { sessionStorage.removeItem('nativesons_admin'); } catch (e2) { /* ignore */ }
+            // Strip ?staff=1 (and any other query params) and reload as public.
+            window.location.href = window.location.pathname;
+          });
+        }
       } catch (e) { /* ignore */ }
     })();
 

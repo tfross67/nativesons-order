@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2d4a2b">
   <title>Native Sons — Smart Plant Search (test)</title>
   <meta name="description" content="Test page: smart keyword search across the Native Sons availability list. Natural-language parsing of color, size, price, and growing conditions.">
-  <link rel="stylesheet" href="styles.css?v=20260716-18">
+  <link rel="stylesheet" href="styles.css?v=20260720-01">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -2580,8 +2580,19 @@
     /* Mobile: collapse to top strip */
     @media (max-width: 900px) {
       body.staff-mode #mainApp {
-        padding-left: 0;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        max-width: 100% !important;
         padding-top: 92px;
+      }
+      body.staff-mode .chat-test-root {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        max-width: 100% !important;
       }
       .chat-test-root .staff-sidebar,
       .staff-sidebar {
@@ -2728,7 +2739,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260716-18</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260720-01</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

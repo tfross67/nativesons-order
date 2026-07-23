@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2d4a2b">
   <title>Native Sons — Smart Plant Search (test)</title>
   <meta name="description" content="Test page: smart keyword search across the Native Sons availability list. Natural-language parsing of color, size, price, and growing conditions.">
-  <link rel="stylesheet" href="styles.css?v=20260720-05">
+  <link rel="stylesheet" href="styles.css?v=20260720-06">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -657,13 +657,26 @@
       border-color: #e8b870;
       color: #7a4818;
     }
+    /* Bloom-prefixed pills (icon + text). Use inline-flex so the icon and the text
+       sibling are independently centered vertically regardless of their heights
+       or the surrounding line-height. Keeps the chip's vertical center
+       consistent across cards. */
+    .chat-test-root .meta-pill.cat-flower.bloom,
+    .chat-test-root .meta-pill.bloom {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding-top: 0;
+      padding-bottom: 0;
+      line-height: 26px; /* matches the rendered chip height so text baselines align */
+    }
     .chat-test-root .meta-pill .bloom-icon {
       display: inline-block;
       width: 20px;
       height: 20px;
-      vertical-align: -4px;
-      margin-right: 5px;
+      margin-right: 0; /* gap on parent handles spacing */
       object-fit: contain;
+      flex-shrink: 0; /* keep from being squished if pill is ever in flex mode */
     }
     @keyframes bloom-glow {
       0%, 100% {
@@ -2749,7 +2762,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260720-05</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260720-06</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -3005,10 +3018,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260720-05"></script>
-  <script src="cart.js?v=20260720-05"></script>
-  <script src="availability_data.js?v=20260720-05"></script>
-  <script src="masteritem_full.js?v=20260720-05"></script>
+  <script src="supabase-config.js?v=20260720-06"></script>
+  <script src="cart.js?v=20260720-06"></script>
+  <script src="availability_data.js?v=20260720-06"></script>
+  <script src="masteritem_full.js?v=20260720-06"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse

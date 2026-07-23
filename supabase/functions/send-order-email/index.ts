@@ -256,7 +256,7 @@ const CORS_HEADERS = {
 // Origin allowlist — same gate as send-order-slack. Prevents curl-based attacks
 // where the anon key (public in chat-search.html) is used to send fake emails.
 const ALLOWED_ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ||
-  "https://tfross67.github.io,https://nativesons.com,https://www.nativesons.com")
+  "https://tfross67.github.io,https://nativeson.com,https://www.nativeson.com")
   .split(",").map(s => s.trim()).filter(Boolean);
 
 function originAllowed(req: Request): boolean {

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2d4a2b">
   <title>Native Sons — Smart Plant Search (test)</title>
   <meta name="description" content="Test page: smart keyword search across the Native Sons availability list. Natural-language parsing of color, size, price, and growing conditions.">
-  <link rel="stylesheet" href="styles.css?v=20260720-04">
+  <link rel="stylesheet" href="styles.css?v=20260720-05">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -647,12 +647,22 @@
       box-shadow: 0 0 0 0 rgba(244, 168, 58, 0);
       animation: bloom-glow 2.4s ease-in-out infinite;
     }
+    /* Companion to .meta-pill.cat-bloom — used when a bloom chip is also tagged
+       with another category (e.g. the combined cat-flower bloom prefix-pill).
+       Inherits the warm color treatment so the chip stands out from the regular
+       cream flower-color pills, but skips the pulse (would be too much visual
+       noise on the data-dense meta row). */
+    .chat-test-root .meta-pill.bloom {
+      background: #f9e9d4;
+      border-color: #e8b870;
+      color: #7a4818;
+    }
     .chat-test-root .meta-pill .bloom-icon {
       display: inline-block;
-      width: 14px;
-      height: 14px;
-      vertical-align: -2px;
-      margin-right: 4px;
+      width: 20px;
+      height: 20px;
+      vertical-align: -4px;
+      margin-right: 5px;
       object-fit: contain;
     }
     @keyframes bloom-glow {
@@ -2739,7 +2749,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260720-04</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260720-05</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2995,10 +3005,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260720-04"></script>
-  <script src="cart.js?v=20260720-04"></script>
-  <script src="availability_data.js?v=20260720-04"></script>
-  <script src="masteritem_full.js?v=20260720-04"></script>
+  <script src="supabase-config.js?v=20260720-05"></script>
+  <script src="cart.js?v=20260720-05"></script>
+  <script src="availability_data.js?v=20260720-05"></script>
+  <script src="masteritem_full.js?v=20260720-05"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -3984,7 +3994,13 @@
                   const isColorMatch = matched.colors.some(c => plant.flower_color.toLowerCase().includes(c));
                   // Highlight when EITHER the color term or the in-bloom filter is matched.
                   // The popppy-icon prefix in flowerColorHTML is the bloom signal.
-                  meta.push(pill(flowerColorHTML, isColorMatch || isBloomFilterMatch, 'flower'));
+                  // When plant is in bloom, also tag 'bloom' so the pill picks up the warm
+                  // chip color (see .meta-pill.bloom CSS).
+                  meta.push(pill(
+                    flowerColorHTML,
+                    isColorMatch || isBloomFilterMatch,
+                    plant.bloom ? 'flower bloom' : 'flower'
+                  ));
                 } else if (plant.bloom) {
                   meta.push(pill(bloomPrefix + ' in bloom', isBloomFilterMatch, 'bloom'));
                 }

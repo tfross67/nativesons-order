@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2d4a2b">
   <title>Native Sons — Smart Plant Search (test)</title>
   <meta name="description" content="Test page: smart keyword search across the Native Sons availability list. Natural-language parsing of color, size, price, and growing conditions.">
-  <link rel="stylesheet" href="styles.css?v=20260723-01">
+  <link rel="stylesheet" href="styles.css?v=20260720-02">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -2739,7 +2739,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260723-01</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260720-02</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2995,10 +2995,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260716-18"></script>
-  <script src="cart.js?v=20260716-18"></script>
-  <script src="availability_data.js?v=20260716-18"></script>
-  <script src="masteritem_full.js?v=20260716-18"></script>
+  <script src="supabase-config.js?v=20260720-02"></script>
+  <script src="cart.js?v=20260720-02"></script>
+  <script src="availability_data.js?v=20260720-02"></script>
+  <script src="masteritem_full.js?v=20260720-02"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -3867,14 +3867,6 @@
               input.value = '';
               lastParsed = null;
               run(true);
-              // After clearing, re-run with default 'in bloom' pre-fill
-              // (matches the first-load experience).
-              setTimeout(() => {
-                if (!input.value) {
-                  input.value = 'in bloom';
-                  run();
-                }
-              }, 0);
             }
             return;
           }
@@ -4215,13 +4207,10 @@
         // getCatalog(), which is invoked by run() — i.e. only after a search).
         getCatalog();
 
-        // Pre-fill the search and run a default query so the page has tiles on first load.
-        // Only pre-fill 'in bloom' if we actually have in-bloom plants this week; otherwise
-        // leave the input empty so the catalog shows all plants.
-        const initialBloomCount = (window.AVAILABILITY?.plants || []).filter(p => p.bloom).length;
-        if (initialBloomCount > 0) {
-          input.value = 'in bloom';
-        }
+        // Render the full catalog on first load (A-Z). No pre-fill — the user asked for a clean
+        // alphabetical catalog by default; the "in bloom" suggestion chip below the search bar
+        // still lets users opt into the bloom filter when they want it.
+        input.value = '';
         run();
 
         // === Back-to-top button: appears after scrolling 600px ===

@@ -61,7 +61,7 @@ const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") || "";
 // a malicious page. Browsers send Origin/Referer; direct curl requests can be
 // rejected here. Comma-separated list of prefixes.
 const ALLOWED_ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ||
-  "https://tfross67.github.io,https://nativesons.com,https://www.nativesons.com")
+  "https://tfross67.github.io,https://nativeson.com,https://www.nativeson.com")
   .split(",").map(s => s.trim()).filter(Boolean);
 
 const fmt = (n: number) => (typeof n === "number" ? n.toFixed(2) : "0.00");

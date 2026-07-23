@@ -253,6 +253,23 @@ const CORS_HEADERS = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
+// Origin allowlist — same gate as send-order-slack. Prevents curl-based attacks
+// where the anon key (public in chat-search.html) is used to send fake emails.
+const ALLOWED_ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ||
+  "https://tfross67.github.io,https://nativesons.com,https://www.nativesons.com")
+  .split(",").map(s => s.trim()).filter(Boolean);
+
+function originAllowed(req: Request): boolean {
+  const origin = (req.headers.get("origin") || "").trim();
+  const referer = (req.headers.get("referer") || "").trim();
+  const hasInternalSecret = !!Deno.env.get("INTERNAL_SECRET") &&
+    req.headers.get("x-internal-secret") === Deno.env.get("INTERNAL_SECRET");
+  if (hasInternalSecret) return true;
+  if (!origin && !referer) return false;
+  return ALLOWED_ORIGINS.some(prefix =>
+    origin.startsWith(prefix) || referer.startsWith(prefix));
+}
+
 // @ts-ignore
 Deno.serve(async (req: Request) => {
   // Handle preflight
@@ -261,6 +278,13 @@ Deno.serve(async (req: Request) => {
   }
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405, headers: CORS_HEADERS });
+  }
+
+  if (!originAllowed(req)) {
+    return new Response(
+      JSON.stringify({ ok: false, error: "Forbidden: untrusted origin" }),
+      { status: 403, headers: { "Content-Type": "application/json", ...CORS_HEADERS } }
+    );
   }
 
   let payload: OrderPayload;

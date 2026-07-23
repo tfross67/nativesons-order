@@ -56,7 +56,30 @@ const ADMIN_URL = Deno.env.get("ADMIN_URL") || "https://tfross67.github.io/nativ
 // Where the function appends each send. Used to detect duplicates from double-clicks.
 const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") || "";
 
+// Origin allowlist — gates the Edge Function so the anon key alone (which is
+// public in chat-search.html) cannot be used to post to Slack from curl or
+// a malicious page. Browsers send Origin/Referer; direct curl requests can be
+// rejected here. Comma-separated list of prefixes.
+const ALLOWED_ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ||
+  "https://tfross67.github.io,https://nativesons.com,https://www.nativesons.com")
+  .split(",").map(s => s.trim()).filter(Boolean);
+
 const fmt = (n: number) => (typeof n === "number" ? n.toFixed(2) : "0.00");
+
+function originAllowed(req: Request): boolean {
+  const origin = (req.headers.get("origin") || "").trim();
+  const referer = (req.headers.get("referer") || "").trim();
+  // Browser requests will set Origin (and usually Referer). Direct fetch/curl
+  // typically sets neither — we treat absent Origin/Referer as suspicious
+  // unless an internal-secret header is also present (so smoke tests work).
+  const headers = req.headers;
+  const hasInternalSecret = !!Deno.env.get("INTERNAL_SECRET") &&
+    headers.get("x-internal-secret") === Deno.env.get("INTERNAL_SECRET");
+  if (hasInternalSecret) return true;
+  if (!origin && !referer) return false;
+  return ALLOWED_ORIGINS.some(prefix =>
+    origin.startsWith(prefix) || referer.startsWith(prefix));
+}
 
 function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = false) {
   // Only count retail toward totals when there's an actual markup on that line.
@@ -281,6 +304,15 @@ Deno.serve(async (req: Request) => {
   }
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405, headers: CORS_HEADERS });
+  }
+
+  // Reject requests without a trusted Origin/Referer (or internal secret).
+  // Blocks curl-based attacks where someone copies the anon key from chat-search.html.
+  if (!originAllowed(req)) {
+    return new Response(
+      JSON.stringify({ ok: false, error: "Forbidden: untrusted origin" }),
+      { status: 403, headers: { "Content-Type": "application/json", ...CORS_HEADERS } }
+    );
   }
 
   if (!SLACK_WEBHOOK_URL) {

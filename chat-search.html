@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2d4a2b">
   <title>Native Sons — Smart Plant Search (test)</title>
   <meta name="description" content="Test page: smart keyword search across the Native Sons availability list. Natural-language parsing of color, size, price, and growing conditions.">
-  <link rel="stylesheet" href="styles.css?v=20260720-02">
+  <link rel="stylesheet" href="styles.css?v=20260720-03">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -601,6 +601,17 @@
       font-weight: 400;
       margin: 0 6px;
       vertical-align: baseline;
+    }
+    .chat-test-root .bloom-corner-mark {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 3;          /* above .result-image (z=2) so the photo slide-in on hover doesn't hide it */
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      pointer-events: none; /* decorative — never capture clicks; the result-link covers the whole card */
+      filter: drop-shadow(0 1px 2px rgba(45, 74, 43, 0.18));
     }
     .chat-test-root .result-meta {
       display: flex;
@@ -2739,7 +2750,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260720-02</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260720-03</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -2995,10 +3006,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260720-02"></script>
-  <script src="cart.js?v=20260720-02"></script>
-  <script src="availability_data.js?v=20260720-02"></script>
-  <script src="masteritem_full.js?v=20260720-02"></script>
+  <script src="supabase-config.js?v=20260720-03"></script>
+  <script src="cart.js?v=20260720-03"></script>
+  <script src="availability_data.js?v=20260720-03"></script>
+  <script src="masteritem_full.js?v=20260720-03"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -3967,13 +3978,11 @@
           ? `<div class="result-type-origin">${typeSpan}${sep}${originSpan}</div>`
           : '';
 
-                // Build meta pills (color, exposure, water, height, width — type/origin are above)
+                // Build meta pills (color, exposure, water, height, width — type/origin are above).
+                // Note: in-bloom no longer pushes a meta pill — the flower icon is rendered as
+                // a top-right corner mark on the card itself (see .bloom-corner-mark CSS).
                 let meta = [];
-                if (plant.bloom) {
-                  const bloomImg = '<img src="popppy-flower.png" alt="" class="bloom-icon" aria-hidden="true">';
-                  meta.push(pill(bloomImg + ' in bloom', matched.bloom.includes('in bloom'), 'bloom'));
-                }
-                else if (plant.bud) meta.push(pill('🌿 budding', matched.bloom.includes('budding'), 'bloom'));
+                if (plant.bud && !plant.bloom) meta.push(pill('🌿 budding', matched.bloom.includes('budding'), 'bloom'));
                 if (plant.flower_color) {
                   const fcFirst = String(plant.flower_color).toLowerCase().split(/[ ,\(]/)[0];
                   const isColorMatch = matched.colors.some(c => plant.flower_color.toLowerCase().includes(c));
@@ -4017,6 +4026,7 @@
 
                 card.innerHTML = `
                   <a class="result-link" href="${plantUrl(plant.botanical)}" target="_blank" rel="noopener" aria-label="More info on ${escapeHTML(plant.botanical)} on nativeson.com"></a>
+                  ${plant.bloom ? `<img class="bloom-corner-mark" src="popppy-flower.png" alt="In bloom" title="In bloom" aria-label="In bloom this week">` : ''}
                   <img class="result-image" data-botanical="${escapeHTML(plant.botanical)}" src="${PLACEHOLDER_IMG}" alt="" loading="lazy">
                   <div class="result-botanical">${highlight(plant.botanical, highlightTerms)}</div>
                   <div class="result-common">${highlight(plant.common || '', highlightTerms)}</div>

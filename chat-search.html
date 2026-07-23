@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2d4a2b">
   <title>Native Sons — Smart Plant Search (test)</title>
   <meta name="description" content="Test page: smart keyword search across the Native Sons availability list. Natural-language parsing of color, size, price, and growing conditions.">
-  <link rel="stylesheet" href="styles.css?v=20260720-01">
+  <link rel="stylesheet" href="styles.css?v=20260723-01">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -4877,8 +4877,16 @@
           const nmCore = skipSpecial(nmTokens);
           const dCore = skipSpecial(dTokens);
           if (nmCore.length < 2 || dCore.length < 2) continue;
-          // Genus + species must match.
-          if (nmCore[0] !== dCore[0] || nmCore[1] !== dCore[1]) continue;
+          // Genus + species must match (with abbreviation tolerance).
+          // SKU may have "grandi." / "grand." / "grandi" for "grandiflora".
+          // If the SKU species is a prefix of the botanical species (after
+          // stripping trailing punctuation), treat as a match.
+          const stripPunct = (s) => s.replace(/[.,;:]+$/, '');
+          if (nmCore[0] !== dCore[0]) continue;
+          const dSppStripped = stripPunct(dCore[1]);
+          const sppMatch = dSppStripped === nmCore[1] ||
+            (nmCore[1].length > dSppStripped.length && nmCore[1].startsWith(dSppStripped));
+          if (!sppMatch) continue;
           // Cultivar policy: if BOTH have a cultivar, they MUST match exactly.
           // If only ONE has a cultivar, allow it to match a no-cultivar SKU
           // (fallback). If NEITHER has a cultivar, that's a direct hit.

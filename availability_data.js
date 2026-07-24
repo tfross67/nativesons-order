@@ -21,7 +21,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Europe, Asia",
@@ -49,7 +49,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Europe",
@@ -79,7 +79,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -107,7 +107,7 @@ window.AVAILABILITY = {
       ],
       "bloom": true,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Europe",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -133,7 +133,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Bulgaria",
@@ -163,7 +163,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Australia",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -189,7 +189,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -217,7 +217,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Italy",
@@ -301,7 +301,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "New Zealand",
@@ -385,7 +385,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -413,7 +413,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "South Africa",
@@ -525,7 +525,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -555,7 +555,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -581,7 +581,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "New Zealand",
@@ -609,7 +609,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -637,9 +637,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -665,9 +665,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -693,7 +693,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Tropics and subtropics",
@@ -721,7 +721,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Tropics and subtropics",
@@ -777,7 +777,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -805,9 +805,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -833,7 +833,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Russia",
@@ -917,7 +917,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Arizona, N Mexico",
@@ -1057,7 +1057,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -1085,9 +1085,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -1115,7 +1115,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -1141,9 +1141,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Caucusus, Iran",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -1169,7 +1169,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -1225,7 +1225,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -1253,7 +1253,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -1281,9 +1281,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Garden hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -1337,9 +1337,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Europe and northern Africa",
       "plant_type": "Grass/grass-like perennial",
       "exposure": "Full sun - Partial shade",
@@ -1365,9 +1365,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Grass/grass-like perennial",
       "exposure": "Full sun - Partial shade",
@@ -1393,9 +1393,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Grass/grass-like perennial",
       "exposure": "Full sun - Partial shade",
@@ -1421,7 +1421,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -1449,7 +1449,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -1477,7 +1477,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Europe",
@@ -1505,9 +1505,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Grass/grass-like perennial",
       "exposure": "Full sun - Partial shade",
@@ -1533,7 +1533,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Asia",
@@ -1589,7 +1589,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Madagascar",
@@ -1675,7 +1675,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "South Africa",
       "plant_type": "Succulent",
       "exposure": "Full sun - Partial shade",
@@ -1701,7 +1701,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "South Africa",
@@ -1729,9 +1729,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "South Africa",
       "plant_type": "Perennial",
       "exposure": "Full sun/ light shade",
@@ -1757,9 +1757,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Greece",
       "plant_type": "Succulent",
       "exposure": "Full sun",
@@ -1785,9 +1785,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Mediterranean",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -1813,9 +1813,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -1841,9 +1841,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Succulent",
       "exposure": "Full sun",
@@ -1869,9 +1869,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Mexico",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -1897,9 +1897,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Succulent",
       "exposure": "Full sun - Partial shade",
@@ -1925,9 +1925,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -1953,9 +1953,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Caucasus, Northern Iran",
       "plant_type": "Succulent",
       "exposure": "Full sun",
@@ -1981,9 +1981,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Succulent",
       "exposure": "Full sun - Partial shade",
@@ -2009,7 +2009,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "South Africa",
@@ -2037,7 +2037,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -2070,7 +2070,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -2103,7 +2103,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -2131,9 +2131,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Australia",
       "plant_type": "Evergreen shrub - Small tree",
       "exposure": "Full sun",
@@ -2187,7 +2187,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -2215,7 +2215,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -2271,9 +2271,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Garden hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -2299,9 +2299,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Garden hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -2327,7 +2327,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -2388,7 +2388,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -2416,7 +2416,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mexico",
@@ -2444,7 +2444,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -2558,7 +2558,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": false,
+      "new": true,
       "origin": "Garden hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -2584,7 +2584,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -2612,9 +2612,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Garden hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -2668,7 +2668,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -2729,7 +2729,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -2757,7 +2757,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -2785,7 +2785,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -2813,7 +2813,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Montara Ridge, San Mateo County, California",
@@ -2841,7 +2841,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -2869,7 +2869,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -2953,7 +2953,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -3009,7 +3009,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -3037,7 +3037,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -3065,7 +3065,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Italy",
@@ -3149,7 +3149,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "North America",
@@ -3177,7 +3177,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -3205,7 +3205,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -3233,7 +3233,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -3261,7 +3261,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -3294,7 +3294,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -3322,7 +3322,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -3350,9 +3350,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun",
@@ -3378,7 +3378,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -3406,9 +3406,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Coastal Central California",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun",
@@ -3434,7 +3434,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -3462,7 +3462,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California, Oregon",
@@ -3495,7 +3495,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Coastal California",
@@ -3551,7 +3551,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -3584,7 +3584,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -3612,9 +3612,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun",
@@ -3792,7 +3792,7 @@ window.AVAILABILITY = {
       ],
       "bloom": true,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Southern Europe to North Africa",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -3818,7 +3818,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -3846,7 +3846,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "New Zealand",
@@ -3874,7 +3874,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "New Zealand",
@@ -3902,7 +3902,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "New Zealand",
@@ -3930,8 +3930,8 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
-      "bud": false,
+      "bloom": false,
+      "bud": true,
       "new": false,
       "origin": "Australia",
       "plant_type": "Evergreen shrub",
@@ -3963,7 +3963,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -3991,9 +3991,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
-      "bud": false,
-      "new": true,
+      "bloom": false,
+      "bud": true,
+      "new": false,
       "origin": "Mexico",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -4019,9 +4019,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Central Europe to Central China",
       "plant_type": "Deciduous shrub",
       "exposure": "Full sun - Partial shade",
@@ -4075,7 +4075,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -4133,7 +4133,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "South Africa",
       "plant_type": "Succulent",
       "exposure": "Full Sun",
@@ -4159,9 +4159,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "South Africa",
       "plant_type": "Succulent",
       "exposure": "Full sun",
@@ -4187,7 +4187,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "South Africa",
@@ -4215,9 +4215,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Madeira Islands",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun",
@@ -4243,7 +4243,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California deserts",
@@ -4271,7 +4271,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -4299,7 +4299,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -4327,7 +4327,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -4355,9 +4355,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -4467,7 +4467,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "San Miguel and Santa Cruz Islands",
@@ -4495,7 +4495,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "North America",
@@ -4551,7 +4551,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -4584,7 +4584,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -4612,7 +4612,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -4640,9 +4640,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Europe, Southwestern Asia",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -4668,9 +4668,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Selected in Victoria, Australia",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -4696,7 +4696,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -4724,9 +4724,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -4757,7 +4757,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "South America",
@@ -4785,7 +4785,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Chile, Argentina",
@@ -4843,7 +4843,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": false,
+      "new": true,
       "origin": "Hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -4869,7 +4869,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -4930,7 +4930,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -4958,7 +4958,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "intergeneric hybrid",
@@ -4986,7 +4986,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Intergeneric hybrid",
@@ -5016,7 +5016,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": false,
+      "new": true,
       "origin": "Southwestern Europe",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun",
@@ -5042,7 +5042,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "New Zealand",
@@ -5070,7 +5070,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "New Zealand",
@@ -5098,7 +5098,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -5126,7 +5126,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -5154,7 +5154,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -5182,7 +5182,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -5210,9 +5210,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Corsica",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -5238,7 +5238,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -5294,9 +5294,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Arid Old World tropics",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -5327,7 +5327,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -5357,7 +5357,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": false,
+      "new": true,
       "origin": "North America",
       "plant_type": "Groundcover, Evergreen shrub",
       "exposure": "Full sun",
@@ -5385,7 +5385,7 @@ window.AVAILABILITY = {
       ],
       "bloom": true,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Mediterranean",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun",
@@ -5411,8 +5411,8 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
-      "bud": false,
+      "bloom": false,
+      "bud": true,
       "new": false,
       "origin": "Mediterranean",
       "plant_type": "Woody perennial - Subshrub",
@@ -5439,7 +5439,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -5469,7 +5469,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Mediterranean",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -5495,7 +5495,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -5523,9 +5523,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Spain",
       "plant_type": "Woody perennial/subshrub",
       "exposure": "Full sun",
@@ -5735,8 +5735,8 @@ window.AVAILABILITY = {
         }
       ],
       "bloom": false,
-      "bud": false,
-      "new": true,
+      "bud": true,
+      "new": false,
       "origin": "Mediterranean",
       "plant_type": "Woody perennial/subshrub",
       "exposure": "Full sun",
@@ -5762,9 +5762,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Garden hybrid",
       "plant_type": "Woody perennial/subshrub",
       "exposure": "Full sun",
@@ -5795,7 +5795,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -5823,7 +5823,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -5851,9 +5851,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
-      "bud": false,
-      "new": true,
+      "bloom": false,
+      "bud": true,
+      "new": false,
       "origin": "South Africa",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -5884,7 +5884,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -5912,7 +5912,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia, New Zealand",
@@ -5940,7 +5940,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "South Africa",
@@ -5968,7 +5968,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "South Africa",
@@ -5996,7 +5996,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -6029,7 +6029,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "South Africa",
@@ -6059,7 +6059,7 @@ window.AVAILABILITY = {
       ],
       "bloom": true,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Northwestern California, Southwestern Oregon",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -6085,9 +6085,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun - Partial shade",
@@ -6113,7 +6113,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California to Washington",
@@ -6141,7 +6141,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -6169,7 +6169,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -6230,7 +6230,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -6258,9 +6258,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Perennial",
       "exposure": "Shade",
@@ -6314,9 +6314,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "New Zealand",
       "plant_type": "Woody perennial/subshrub",
       "exposure": "Full sun - Partial shade",
@@ -6347,7 +6347,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -6375,7 +6375,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -6403,7 +6403,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -6576,7 +6576,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -6604,7 +6604,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -6634,7 +6634,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": false,
+      "new": true,
       "origin": "Garden hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -6660,8 +6660,8 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
-      "bud": false,
+      "bloom": false,
+      "bud": true,
       "new": false,
       "origin": "Garden hybrid",
       "plant_type": "Perennial",
@@ -6688,9 +6688,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -6744,7 +6744,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -6772,7 +6772,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Crete, Mediterranean",
@@ -6800,7 +6800,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Spain, Portugal",
@@ -6828,7 +6828,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "New Zealand",
@@ -6856,7 +6856,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "New Zealand",
@@ -6884,7 +6884,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -6912,9 +6912,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "New Zealand",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun",
@@ -6945,9 +6945,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "New Zealand",
       "plant_type": "Evergreen tree",
       "exposure": "Full sun",
@@ -6973,9 +6973,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "New Zealand",
       "plant_type": "Evergreen tree",
       "exposure": "Full sun",
@@ -7003,7 +7003,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "New Zealand",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun - Partial shade",
@@ -7029,9 +7029,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "New Zealand",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun - Partial shade",
@@ -7062,9 +7062,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "New Zealand",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun - Partial shade",
@@ -7090,9 +7090,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "New Zealand",
       "plant_type": "Evergreen tree",
       "exposure": "Full sun",
@@ -7118,9 +7118,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "South Africa",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun - Partial shade",
@@ -7146,7 +7146,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -7202,7 +7202,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -7230,7 +7230,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -7258,7 +7258,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -7319,7 +7319,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California, Mexico",
@@ -7408,7 +7408,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "North America",
@@ -7436,7 +7436,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -7464,9 +7464,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Mediterranean",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun",
@@ -7492,7 +7492,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -7525,7 +7525,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -7553,7 +7553,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -7581,7 +7581,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -7609,9 +7609,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Woody perennial/subshrub",
       "exposure": "Full sun",
@@ -7671,7 +7671,7 @@ window.AVAILABILITY = {
         }
       ],
       "bloom": false,
-      "bud": false,
+      "bud": true,
       "new": false,
       "origin": "Garden hybrid",
       "plant_type": "Woody perennial - Subshrub",
@@ -7698,7 +7698,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -7726,9 +7726,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Woody perennial - Subshrub",
       "exposure": "Full sun",
@@ -7754,7 +7754,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -7782,7 +7782,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -7843,7 +7843,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": false,
+      "bloom": true,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -7899,7 +7899,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -7927,7 +7927,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Mediterranean",
@@ -7955,9 +7955,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Mediterranean",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun",
@@ -7983,9 +7983,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -8039,9 +8039,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "North America",
       "plant_type": "Woody perennial - Subshrub",
       "exposure": "Full sun",
@@ -8072,7 +8072,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -8128,9 +8128,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Perennial",
       "exposure": "Full sun - Partial shade",
@@ -8184,7 +8184,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -8212,7 +8212,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Hybrid",
@@ -8240,9 +8240,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Garden hybrid",
       "plant_type": "Perennial",
       "exposure": "Full sun",
@@ -8268,7 +8268,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Arizona, N Mexico",
@@ -8296,7 +8296,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -8324,7 +8324,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Madeira",
@@ -8353,7 +8353,7 @@ window.AVAILABILITY = {
         }
       ],
       "bloom": false,
-      "bud": false,
+      "bud": true,
       "new": false,
       "origin": "Mediterranean to Western Asia",
       "plant_type": "Perennial",
@@ -8380,7 +8380,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Europe to Caucasus",
@@ -8408,7 +8408,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -8436,7 +8436,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Garden hybrid",
@@ -8497,7 +8497,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California, Oregon",
@@ -8555,7 +8555,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": false,
+      "new": true,
       "origin": "North America",
       "plant_type": "Perennial",
       "exposure": "Shade",
@@ -8693,7 +8693,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Chile, Argentina",
@@ -8749,7 +8749,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Cedros Island, Baja California",
@@ -8777,7 +8777,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -8805,7 +8805,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -8833,7 +8833,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -8861,9 +8861,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Australia",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun - Partial shade",
@@ -8889,9 +8889,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Australia",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun",
@@ -8919,7 +8919,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Australia",
       "plant_type": "Evergreen shrub",
       "exposure": "Full sun",
@@ -8950,7 +8950,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "North America and Mexico",
@@ -8978,9 +8978,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California, Europe, Northern Asia",
       "plant_type": "Fern",
       "exposure": "Filtered shade",
@@ -9006,7 +9006,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -9039,7 +9039,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California to Alaska and Montana",
@@ -9067,7 +9067,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Western British Columbia to Southern California",
@@ -9095,9 +9095,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "California",
       "plant_type": "Grass/grass-like perennial",
       "exposure": "Full sun - Partial shade",
@@ -9123,7 +9123,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Europe",
@@ -9151,7 +9151,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Central Europe",
@@ -9179,7 +9179,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "France",
@@ -9207,7 +9207,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -9235,7 +9235,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "California",
@@ -9263,7 +9263,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Japan",
@@ -9291,7 +9291,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Southern Oregon",
@@ -9319,7 +9319,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Baja California to Oregon",
@@ -9347,7 +9347,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -9375,7 +9375,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Australia",
@@ -9403,9 +9403,9 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
-      "new": true,
+      "new": false,
       "origin": "Hybrid",
       "plant_type": "Grass/grass-like perennial",
       "exposure": "Full sun - Partial shade",
@@ -9431,7 +9431,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "W Texas, New Mexico, Northern Mexico",
@@ -9459,7 +9459,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "North America",
@@ -9487,7 +9487,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "Europe",
@@ -9517,7 +9517,7 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": false,
+      "new": true,
       "origin": "Tropical America, W Africa",
       "plant_type": "Grass/grass-like perennial",
       "exposure": "Full sun - Partial shade",
@@ -9548,7 +9548,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "South Africa",
@@ -9576,7 +9576,7 @@ window.AVAILABILITY = {
           "order": ""
         }
       ],
-      "bloom": true,
+      "bloom": false,
       "bud": false,
       "new": false,
       "origin": "South Africa",

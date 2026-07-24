@@ -4,6 +4,7 @@
 .vscode/
 *.swp
 *.swo
+file_maker_data/
 
 # Local config — do NOT commit
 admin-config.local.js

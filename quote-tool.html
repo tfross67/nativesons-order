@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Native Sons — Bid Quoter</title>
+<link rel="icon" href="logo.jpg" />
+<style>
+  /* ---- Native Sons brand palette (mirrors styles.css) ---- */
+  :root {
+    --c-bg: #f7f4ec;
+    --c-bg-soft: #efe9da;
+    --c-paper: #ffffff;
+    --c-ink: #1f2a1c;
+    --c-ink-soft: #4a5546;
+    --c-muted: #8a8a7c;
+    --c-line: #e3dccb;
+    --c-sage: #5d7a4a;
+    --c-sage-deep: #2d4a2b;
+    --c-sage-soft: #e3ecd9;
+    --c-clay: #b85c38;
+    --c-clay-soft: #f4e0d4;
+    --c-warn: #c44d56;
+    --c-warn-soft: #f7dde0;
+    --c-shadow: 0 1px 2px rgba(31, 42, 28, 0.05), 0 4px 16px rgba(31, 42, 28, 0.06);
+    --r-sm: 6px;
+    --r-md: 10px;
+    --r-lg: 16px;
+    --r-xl: 22px;
+    --font-serif: 'Cormorant Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; padding: 0; background: var(--c-bg); color: var(--c-ink);
+    font-family: var(--font-sans); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  body { padding-bottom: 80px; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---- Header ---- */
+  .site-header { background: var(--c-paper); border-bottom: 1px solid var(--c-line);
+    padding: 18px 0; box-shadow: var(--c-shadow); }
+  .site-header .row { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 16px; }
+  .brand img { height: 64px; width: auto; display: block; }
+  .brand h1 { font-family: var(--font-serif); font-size: 28px; font-weight: 500; margin: 0; color: var(--c-sage-deep); letter-spacing: 0.5px; }
+  .brand .sub { font-size: 12px; color: var(--c-muted); letter-spacing: 1.2px; text-transform: uppercase; }
+  .contact { font-size: 13px; color: var(--c-ink-soft); text-align: right; line-height: 1.4; }
+  .contact a { color: var(--c-sage-deep); text-decoration: none; }
+
+  /* ---- Sections ---- */
+  section { background: var(--c-paper); border: 1px solid var(--c-line); border-radius: var(--r-lg);
+    padding: 24px; margin-top: 24px; box-shadow: var(--c-shadow); }
+  section h2 { font-family: var(--font-serif); font-weight: 500; font-size: 22px; margin: 0 0 6px; color: var(--c-sage-deep); }
+  section .hint { color: var(--c-muted); font-size: 13px; margin: 0 0 16px; }
+
+  /* ---- Form rows ---- */
+  .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 16px; }
+  label { display: block; font-size: 12px; color: var(--c-ink-soft); letter-spacing: 0.6px;
+    text-transform: uppercase; margin-bottom: 6px; font-weight: 600; }
+  input[type="text"], input[type="date"], textarea, select {
+    width: 100%; padding: 10px 12px; font: inherit; color: var(--c-ink);
+    background: var(--c-bg); border: 1px solid var(--c-line); border-radius: var(--r-sm);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  input[type="text"]:focus, input[type="date"]:focus, textarea:focus, select:focus {
+    outline: none; border-color: var(--c-sage); background: var(--c-paper);
+  }
+  textarea { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 13px; min-height: 180px; resize: vertical; }
+
+  /* ---- Buttons ---- */
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px;
+    font: inherit; font-weight: 600; border-radius: var(--r-sm); cursor: pointer;
+    border: 1px solid transparent; transition: all 0.15s; }
+  .btn-primary { background: var(--c-sage); color: white; }
+  .btn-primary:hover { background: var(--c-sage-deep); }
+  .btn-secondary { background: var(--c-paper); color: var(--c-ink-soft); border-color: var(--c-line); }
+  .btn-secondary:hover { background: var(--c-bg-soft); }
+  .btn-clay { background: var(--c-clay); color: white; }
+  .btn-clay:hover { background: #a04e2f; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+  /* ---- Status banner ---- */
+  .status { padding: 12px 16px; border-radius: var(--r-sm); margin: 12px 0;
+    display: flex; align-items: center; gap: 10px; }
+  .status.ok  { background: var(--c-sage-soft); color: var(--c-sage-deep); border: 1px solid #c3d4b3; }
+  .status.warn { background: var(--c-warn-soft); color: var(--c-warn); border: 1px solid #e8b9bf; }
+  .status.info { background: #f8ebcd; color: #8a6618; border: 1px solid #e6cd6a; }
+
+  /* ---- Output table ---- */
+  .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 16px 0; }
+  .summary-card { background: var(--c-bg-soft); border: 1px solid var(--c-line); border-radius: var(--r-md); padding: 14px 16px; }
+  .summary-card .label { font-size: 11px; color: var(--c-muted); text-transform: uppercase; letter-spacing: 0.6px; }
+  .summary-card .value { font-family: var(--font-serif); font-size: 24px; color: var(--c-sage-deep); margin-top: 4px; }
+  .summary-card.warn .value { color: var(--c-warn); }
+
+  table.lines { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.lines thead th { background: var(--c-sage-deep); color: white; padding: 10px 12px;
+    text-align: left; font-weight: 600; font-size: 12px; letter-spacing: 0.6px; text-transform: uppercase; }
+  table.lines tbody td { padding: 10px 12px; border-bottom: 1px solid var(--c-line); vertical-align: top; }
+  table.lines tbody tr.miss td { background: var(--c-warn-soft); }
+  table.lines tbody tr.miss td:first-child::before { content: "⚠ "; color: var(--c-warn); font-weight: 600; }
+  table.lines tbody tr.swap td { background: #fdf6e3; }
+  table.lines tbody tr.swap td:first-child::before { content: "↔ "; color: #8a6618; font-weight: 600; }
+  table.lines tbody tr.ambiguous td { background: var(--c-clay-soft); }
+  table.lines tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  table.lines tbody td.code { font-family: ui-monospace, 'SF Mono', monospace; font-size: 12px; color: var(--c-ink-soft); }
+  table.lines tfoot td { padding: 12px; font-weight: 600; background: var(--c-bg-soft); }
+  table.lines tfoot td.grand { font-family: var(--font-serif); font-size: 22px; color: var(--c-sage-deep); text-align: right; }
+
+  /* ---- Edit-on-the-fly inputs in table ---- */
+  td.editable input, td.editable select { background: transparent; border: 1px solid transparent;
+    padding: 4px 6px; margin: -5px 0; width: 100%; }
+  td.editable input:hover, td.editable select:hover { border-color: var(--c-line); }
+  td.editable input:focus, td.editable select:focus { border-color: var(--c-sage); background: white; }
+
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px;
+    background: var(--c-sage-soft); color: var(--c-sage-deep); font-weight: 600; }
+  .pill.size { background: var(--c-clay-soft); color: var(--c-clay); }
+  .pill.miss { background: var(--c-warn-soft); color: var(--c-warn); }
+  .pill.amb { background: var(--c-clay-soft); color: var(--c-clay); }
+
+  details.amb { background: var(--c-clay-soft); border-radius: var(--r-sm); padding: 8px 12px; margin-top: 6px; }
+  details.amb summary { cursor: pointer; font-size: 12px; color: var(--c-clay); font-weight: 600; }
+  details.amb ul { margin: 6px 0; padding-left: 20px; font-size: 12px; }
+  details.amb li { margin: 2px 0; }
+  details.amb button { font-size: 11px; padding: 2px 8px; border: 1px solid var(--c-clay);
+    background: transparent; color: var(--c-clay); border-radius: 4px; cursor: pointer; margin-left: 6px; }
+  details.amb button:hover { background: var(--c-clay); color: white; }
+
+  .swap-note { font-size: 11px; color: #8a6618; margin-top: 6px;
+    background: rgba(255,255,255,0.5); padding: 3px 6px; border-radius: 4px; }
+
+  /* ---- Footer ---- */
+  footer { text-align: center; color: var(--c-muted); font-size: 12px; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container row">
+    <div class="brand">
+      <img src="logo.jpg" alt="Native Sons Wholesale Nursery" onerror="this.alt=''; this.style.display='none'" />
+      <div>
+        <h1>Bid Quoter</h1>
+        <div class="sub">Native Sons Wholesale Nursery</div>
+      </div>
+    </div>
+    <div class="contact">
+      <strong>Tim Fross</strong><br />
+      714.801.8581 · tfross@nativeson.com
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ============ BID INFO ============ -->
+  <section>
+    <h2>Bid Information</h2>
+    <p class="hint">Customer & project details. These appear on the exported Excel quote.</p>
+    <div class="form-row">
+      <div><label>Customer / Project</label><input id="customer" type="text" placeholder="e.g. Devil Mountain Nursery" /></div>
+      <div><label>Quote #</label><input id="quoteNum" type="text" placeholder="auto-generated" /></div>
+      <div><label>Bid Date</label><input id="bidDate" type="date" /></div>
+      <div><label>Valid Through</label><input id="validDate" type="date" /></div>
+    </div>
+    <div class="form-row">
+      <div style="grid-column: 1 / -1;">
+        <label>Notes (project, site location, terms)</label>
+        <input id="notes" type="text" placeholder="Plant material bid for installation at ..." />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PASTE-IN ============ -->
+  <section>
+    <h2>Bid List — Paste In</h2>
+    <p class="hint">
+      Paste from Excel, CSV, or plain text. Each line: <code>Description, Size, Qty</code> (size optional — we default to 1gal).
+      Smart-quotes, curly apostrophes, and “$ & ” are auto-normalized. Tab, comma, or multi-space delimited.
+    </p>
+    <textarea id="raw" placeholder="Achillea 'Moonshine', 1gal, 48
+Ceanothus 'Dark Star', 5gal, 12
+Ribes viburnifolium, 2gal, 60
+Salvia leucantha, 1gal, 24"></textarea>
+    <div class="btn-row" style="margin-top: 14px;">
+      <button id="btnLoad" class="btn btn-primary">Parse & Match →</button>
+      <button id="btnSample" class="btn btn-secondary">Load sample bid</button>
+      <button id="btnClear" class="btn btn-secondary">Clear</button>
+      <span id="rowCount" style="margin-left:auto; color: var(--c-muted); font-size: 13px;"></span>
+    </div>
+    <div id="status"></div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section id="resultsSection" hidden>
+    <h2>Quoted Bid</h2>
+    <p class="hint">Edit any cell in place. Use the dropdown for ambiguous matches, or fix the description and re-parse.</p>
+
+    <div class="summary-cards">
+      <div class="summary-card"><div class="label">Line Items</div><div class="value" id="kpiLines">0</div></div>
+      <div class="summary-card"><div class="label">Plants</div><div class="value" id="kpiPlants">0</div></div>
+      <div class="summary-card"><div class="label">Total (wholesale)</div><div class="value" id="kpiTotal">$0.00</div></div>
+      <div class="summary-card" id="kpiSwapCard" hidden style="background:#fdf6e3; border-color:#e6cd6a;"><div class="label">Size Swaps</div><div class="value" style="color:#8a6618;">0</div></div>
+      <div class="summary-card" id="kpiMissCard" hidden><div class="label">Unmatched</div><div class="value" id="kpiMiss">0</div></div>
+    </div>
+
+    <table class="lines" id="linesTable">
+      <thead>
+        <tr>
+          <th style="width:36%">Description</th>
+          <th style="width:11%">Code</th>
+          <th style="width:9%">Size</th>
+          <th style="width:8%">Qty</th>
+          <th style="width:11%">Unit</th>
+          <th style="width:11%">Line</th>
+          <th style="width:4%"></th>
+        </tr>
+      </thead>
+      <tbody id="linesBody"></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5" style="text-align:right; text-transform:uppercase; letter-spacing:0.6px; font-size:12px;">Bid Total</td>
+          <td class="grand" colspan="2" id="grandTotal">$0.00</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="btn-row" style="margin-top: 18px;">
+      <button id="btnExport" class="btn btn-clay">Export Excel (.xlsx)</button>
+      <button id="btnRecalc" class="btn btn-secondary">Recompute</button>
+      <span style="margin-left:auto; font-size:12px; color: var(--c-muted);">All prices pulled from <code>masteritem_full.js</code>.</span>
+    </div>
+  </section>
+
+  <footer>Native Sons Wholesale Nursery · Bid Quoter · Data current as of <span id="dataDate">—</span></footer>
+</div>
+
+<!-- ============ DATA ============ -->
+<script src="masteritem_full.js"></script>
+<script src="xlsx.full.min.js"></script>
+
+<script>
+// =============================================================================
+// Native Sons Bid Quoter
+// Pulls wholesale prices from window.MASTER_ITEM_FULL (loaded via masteritem_full.js).
+// =============================================================================
+
+(function () {
+  'use strict';
+
+  // ---------- 1. Build the search index --------------------------------------
+  // Flatten the data into an array, then build a few lookup structures:
+  //   - byDescLower   : description (lowered) -> [{row, ...}, ...] for candidates
+  //   - byDescExact   : description (lower, normalized) -> first matching row
+  //   - byCode        : code -> row
+  //   - byDescPrefix  : first 4 chars of description (lower) -> [rows] for type-ahead
+  // ---------------------------------------------------------------------------
+  const RAW = window.MASTER_ITEM_FULL || [];
+  const SIZE_ALIAS = {
+    // user input -> catalog size token (in precedence order)
+    '1g': '1gal', '1 gal': '1gal', '1-gallon': '1gal', '1 gallon': '1gal', 'one gal': '1gal',
+    '5g': '5gal', '5 gal': '5gal', '5-gallon': '5gal', '5 gallon': '5gal',
+    '15g': '15gal', '15 gal': '15gal', '15-gallon': '15gal', '15 gallon': '15gal',
+    '2g': '2gal', '2 gal': '2gal',
+    '7g': '7gal', '7 gal': '7gal',
+    '20g': '20gal', '20 gal': '20gal', '20"': '20gal', '20 box': '20gal', '20" box': '20gal',
+    '24" box': '24gal', '24 gal': '24gal',
+    '4"': '4inch', '4 in': '4inch', '4 in.': '4inch', '4 inch': '4inch', '4-inch': '4inch',
+    '4"pot': '4inch', 'four inch': '4inch',
+    'liner': 'liner', 'lin': 'liner',
+    'plug': 'plug', '72 plug': '72 plug', '128 plug': '128 plug', '50 plug': '50 plug', '200 plug': '200 plug',
+  };
+
+  function normalizeDesc(s) {
+    if (!s) return '';
+    return s
+      .replace(/[\u2018\u2019\u2032]/g, "'")    // curly single quotes
+      .replace(/[\u201C\u201D\u2033]/g, '"')    // curly double quotes
+      .replace(/\s+/g, ' ')                     // collapse whitespace
+      .trim()
+      .toLowerCase();
+  }
+
+  // Tokenize a description using a description-safe tokenization that
+  // KEEPS spaces around cultivar quotes. Used for matching.
+  function tokensOf(s) {
+    // Replace quotes with markers so they don't fuse adjacent words
+    const cleaned = (s || '')
+      .replace(/[\u2018\u2019\u2032]/g, "'")
+      .replace(/[\u201C\u201D\u2033]/g, '"')
+      .trim()
+      .toLowerCase();
+    // Replace cultivar 'foo' with a single token. Pull out first.
+    const cultivars = [];
+    let rest = cleaned.replace(/'([^']*)'/g, (_, c) => {
+      cultivars.push(c.trim());
+      return ' ';
+    });
+    // Strip remaining punctuation, collapse whitespace
+    rest = rest.replace(/[^a-z0-9.\- ]+/g, ' ').replace(/\s+/g, ' ').trim();
+    const bare = rest.split(/\s+/).filter(Boolean);
+    return { bare, cultivars };
+  }
+
+  function normalizeSizeToken(s) {
+    if (!s) return null;
+    const t = String(s).trim().toLowerCase();
+    if (!t) return null;
+    if (SIZE_ALIAS[t]) return SIZE_ALIAS[t];
+    // try stripping trailing "s"
+    if (SIZE_ALIAS[t + 's']) return SIZE_ALIAS[t + 's'];
+    // direct catalog match
+    return t;
+  }
+
+  // Bucket rows by description (lowered) — keys preserve spaces around quotes
+  const byDescLower = new Map();
+  const byCode = new Map();
+  for (const row of RAW) {
+    // Match on the simpler normalization (without quote-space-stripping)
+    // so that "Carex 'Foo Bar'" still matches input "Carex 'Foo Bar'"
+    const k = normalizeDesc(row.d);
+    if (k) {
+      if (!byDescLower.has(k)) byDescLower.set(k, []);
+      byDescLower.get(k).push(row);
+    }
+    byCode.set(row.c, row);
+  }
+
+  // ---------- 2. Matcher -----------------------------------------------------
+  // Returns { ok, candidates, row } where row is the chosen match (or null)
+  // and candidates is the list of matching rows for ambiguous pickers.
+  //
+  // Matching strategy (priority order):
+  //   1. Exact description match
+  //   2. Cultivar-aware match (genus + cultivar-name, ignoring missing species epithet)
+  //   3. Genus-only match with cultivars (offers all cultivars as alternatives)
+  //   4. Token-overlap fuzzy match (high threshold)
+  //   5. Item code (exact code prefix from the catalog)
+  function match(inputDesc, sizeToken) {
+    const norm = normalizeDesc(inputDesc);
+    if (!norm) return { ok: false, reason: 'empty', candidates: [] };
+
+    // 1. Exact description match
+    if (byDescLower.has(norm)) {
+      return resolveSize(byDescLower.get(norm), sizeToken, inputDesc);
+    }
+    // 2. Try with spaces stripped (for catalog entries with internal spaces)
+    const tight = norm.replace(/\s/g, '');
+    for (const [k, v] of byDescLower) {
+      if (k.replace(/\s/g, '') === tight) {
+        return resolveSize(v, sizeToken, inputDesc);
+      }
+    }
+
+    // Tokenize input — pull out cultivar (single-quoted string) and bare words
+    const inputTok = tokensOf(norm);
+    const inputTokens = inputTok.bare;
+    const inputCultivar = inputTok.cultivars[0] || null;
+    const inputGenus = inputTokens[0] || '';
+    const inputSpecies = inputTokens[1] || '';
+
+    // 3. Cultivar-aware match (PRIMARY — most specific):
+    //    If user provided a cultivar AND a genus, look for catalog rows with
+    //    same genus AND same cultivar, regardless of which species it sits under.
+    //    Example: input="Festuca Elijah Blue" → matches "Festuca glauca 'Elijah Blue'"
+    if (inputCultivar && inputGenus) {
+      const sameGenusAndCultivar = RAW.filter(r => {
+        const rTok = tokensOf(normalizeDesc(r.d));
+        return rTok.bare[0] === inputGenus &&
+               rTok.cultivars[0] === inputCultivar;
+      });
+      if (sameGenusAndCultivar.length) {
+        return resolveSize(sameGenusAndCultivar, sizeToken, inputDesc);
+      }
+    }
+
+    // 4. Cultivar-only match (no genus): if user just typed 'Moonshine', find any
+    //    catalog row containing that cultivar and offer candidates.
+    if (inputCultivar && !inputGenus) {
+      const sameCultivar = RAW.filter(r => {
+        const rTok = tokensOf(normalizeDesc(r.d));
+        return rTok.cultivars[0] === inputCultivar;
+      });
+      if (sameCultivar.length) {
+        return resolveSize(sameCultivar, sizeToken, inputDesc);
+      }
+    }
+
+    // 5. Exact species match — user typed "Achillea millefolium" (no cultivar).
+    //    Find all catalog entries that share genus + species epithet and offer
+    //    them as ambiguous candidates with no default pick.
+    if (inputGenus && inputSpecies && !inputCultivar) {
+      const sameSpecies = RAW.filter(r => {
+        const rd = normalizeDesc(r.d);
+        const rTok = tokensOf(rd);
+        return rTok.bare[0] === inputGenus &&
+               (rTok.bare[1] === inputSpecies ||
+                (inputSpecies === 'x' && rTok.bare[1] === 'x'));
+      });
+      if (sameSpecies.length) {
+        const result = resolveSize(sameSpecies, sizeToken, inputDesc);
+        result.ambiguous = true;
+        return result;
+      }
+    }
+
+    // 6. Species-tolerance match — user wrote something like "Festuca Elijah Blue"
+    //    (cultivar not in quotes, but genus + cultivar-words provided).
+    //    Match by genus + each cultivar-token present.
+    if (inputGenus && !inputCultivar && inputTokens.length >= 2) {
+      const inputCultiTokens = inputTokens.slice(1).sort().join(' ');
+      const candidates = RAW.filter(r => {
+        const rd = normalizeDesc(r.d);
+        const rTok = tokensOf(rd);
+        if (rTok.bare[0] !== inputGenus) return false;
+        if (!rTok.cultivars.length) return false;
+        const rCultiTokens = rTok.cultivars[0].split(/\s+/).sort().join(' ');
+        return rCultiTokens === inputCultiTokens;
+      });
+      if (candidates.length) return resolveSize(candidates, sizeToken, inputDesc);
+    }
+
+    // 7. Generic token-overlap fuzzy match (NEED at least 2 token matches to qualify)
+    //    Step 8 (typo correction) handles single-token-overlap-only cases.
+    let scored = [];
+    for (const [k, rows] of byDescLower) {
+      const rTok = tokensOf(k);
+      const kTokens = rTok.bare;
+      const kCultivar = rTok.cultivars[0] || null;
+      // Compute overlap score
+      const score = tokenOverlap(inputTokens, kTokens, inputGenus, kCultivar);
+      // Filter: must have at least one token common aside from genus
+      const setA = new Set(inputTokens), setB = new Set(kTokens);
+      let meaningfulCommon = 0;
+      for (const t of setA) if (setB.has(t) && t !== inputGenus) meaningfulCommon++;
+      if (score >= 0.7 && meaningfulCommon >= 1) {
+        scored.push({ score, rows, k });
+      } else if (inputCultivar && kCultivar === inputCultivar) {
+        // Strong cultivar signal: bypass the meaningful-common gate
+        scored.push({ score: score + 0.2, rows, k });
+      }
+    }
+    if (scored.length > 0) {
+      scored.sort((a, b) => b.score - a.score);
+      const top = scored[0];
+      const topRows = scored.filter(s => s.score >= top.score - 0.05).flatMap(s => s.rows);
+      const distinctDesc = new Set(topRows.map(r => r.d));
+      const result = resolveSize(topRows, sizeToken, inputDesc);
+      if (distinctDesc.size > 1 && result.reason !== 'size-swap') result.ambiguous = true;
+      return result;
+    }
+
+    // 8. Single-token typo fallback (e.g. "tumicola" → "tumulicola").
+    //    Only fires when nothing else matched AND the input looks like genus + species.
+    //    For each input token with len >= 4, find catalog tokens within 2 edit-distance.
+    if (inputGenus && inputTokens.length >= 2) {
+      const typoCandidates = RAW.filter(r => {
+        const rTok = tokensOf(normalizeDesc(r.d));
+        if (rTok.bare[0] !== inputGenus) return false;
+        const rTokens = rTok.bare;
+        let matchable = 0;
+        for (const t of inputTokens.slice(1)) {
+          if (rTokens.includes(t)) { matchable++; continue; }
+          for (const rt of rTokens) {
+            if (Math.abs(rt.length - t.length) > 2) continue;
+            if (editDistance(rt, t, 2) <= 2) { matchable++; break; }
+          }
+        }
+        return matchable >= Math.ceil((inputTokens.length - 1) * 0.6);
+      });
+      if (typoCandidates.length) {
+        const result = resolveSize(typoCandidates, sizeToken, inputDesc);
+        result.ambiguous = true;
+        return result;
+      }
+    }
+
+    // 6. Genus-only fallback: if input has only 1 valid token and it looks like a genus,
+    //    offer all species/cultivars of that genus as alternatives.
+    if (inputTokens.length === 1 && inputGenus.length >= 3) {
+      const sameGenus = RAW.filter(r => normalizeDesc(r.d).startsWith(inputGenus + ' '));
+      if (sameGenus.length && sameGenus.length <= 30) {
+        return resolveSize(sameGenus, sizeToken, inputDesc);
+      }
+    }
+
+    // 7. Item code (exact match)
+    if (byCode.has(norm)) {
+      const r = byCode.get(norm);
+      return { ok: true, row: r, candidates: [r], reason: 'code' };
+    }
+
+    return { ok: false, reason: 'no-match', candidates: [] };
+  }
+
+  function extractCultivar(normDesc) {
+    // Pull out the first single-quoted cultivar name, e.g. 'Elijah Blue'
+    const m = normDesc.match(/'([^']+)'/);
+    return m ? m[1].trim() : null;
+  }
+
+  function tokenizeDesc(s) {
+    // Tokenize a description (normalized or not) into:
+    //   [bare tokens] — words separated by whitespace
+    //   [cultivar]    — first single-quoted string
+    // Preserve spaces — a 'Hime-kan-suge' is ONE cultivar-token, not split.
+    const m = s.match(/'([^']+)'/);
+    const tokens = s.replace(/['"]/g, '').split(/\s+/).filter(Boolean);
+    return { tokens, cultivar: m ? m[1].trim() : null };
+  }
+
+  function editDistance(a, b, maxDist = 2) {
+    if (a === b) return 0;
+    const m = a.length, n = b.length;
+    if (Math.abs(m - n) > maxDist) return 99;
+    if (!m) return Math.min(n, maxDist);
+    if (!n) return Math.min(m, maxDist);
+    let prev = Array.from({length: n + 1}, (_, i) => Math.min(i, maxDist));
+    let curr = new Array(n + 1);
+    for (let i = 1; i <= m; i++) {
+      curr[0] = i;
+      let rowMin = curr[0];
+      for (let j = 1; j <= n; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        curr[j] = Math.min(prev[j] + 1, curr[j - 1] + 1, prev[j - 1] + cost);
+        if (curr[j] < rowMin) rowMin = curr[j];
+      }
+      if (rowMin > maxDist) return rowMin;
+      [prev, curr] = [curr, prev];
+    }
+    return prev[n];
+  }
+
+  function tokenOverlap(a, b, genus, kCultivar) {
+    // Standard token overlap on the union of input tokens (a) and catalog tokens (b).
+    // Plus genus bonus (heavy) and cultivar bonus (heavy).
+    if (!a.length || !b.length) return 0;
+    const setA = new Set(a), setB = new Set(b);
+    let common = 0;
+    for (const t of setA) if (setB.has(t)) common++;
+    const ratio = common / Math.max(setA.size, setB.size);
+    let bonus = 0;
+    // Cultivar match is a strong signal — even when species differs
+    // (the user often forgets the species epithet)
+    if (genus && kCultivar) {
+      const genusMatch = genus === b[0];
+      const cultivarMatch = a.includes(kCultivar);
+      if (genusMatch && cultivarMatch) bonus += 0.35;
+      else if (cultivarMatch) bonus += 0.25;
+      else if (genusMatch) bonus += 0.15;
+    } else if (genus && genus === b[0]) {
+      bonus += 0.10;
+    }
+    return Math.min(1, ratio + bonus);
+  }
+
+  // Container size ladder for "nearest available" fallbacks
+  const SIZE_LADDER = ['4inch', '1gal', '2gal', '5gal', '7gal', '15gal', '20gal', '24gal'];
+
+  function resolveSize(rows, sizeToken, originalDesc) {
+    // If there's only one row, take it
+    if (rows.length === 1) {
+      return { ok: true, row: rows[0], candidates: rows, reason: 'exact' };
+    }
+    // If user specified a size, pick the matching one
+    if (sizeToken) {
+      const exact = rows.filter(r => r.s === sizeToken);
+      if (exact.length === 1) return { ok: true, row: exact[0], candidates: rows, reason: 'exact+size' };
+      if (exact.length > 1) {
+        return { ok: true, row: exact[0], candidates: rows, reason: 'duplicate', ambiguous: true };
+      }
+      // size mismatch — find NEAREST available size in ladder
+      const ladderIdx = SIZE_LADDER.indexOf(sizeToken);
+      if (ladderIdx >= 0) {
+        const available = rows.filter(r => SIZE_LADDER.includes(r.s));
+        if (available.length) {
+          // pick row whose size is closest to requested on the ladder
+          const sorted = [...available].sort((a, b) => {
+            return Math.abs(SIZE_LADDER.indexOf(a.s) - ladderIdx) -
+                   Math.abs(SIZE_LADDER.indexOf(b.s) - ladderIdx);
+          });
+          return {
+            ok: true,
+            row: sorted[0],
+            candidates: rows,
+            reason: 'size-swap',
+            requestedSize: sizeToken,
+            swappedFrom: sizeToken,
+            swappedTo: sorted[0].s,
+          };
+        }
+      }
+      // No ladder match — still offer all candidates
+      return { ok: false, row: null, candidates: rows, reason: 'size-mismatch', requestedSize: sizeToken };
+    }
+    // No size given: prefer 1gal, then 4inch, then 2gal/5gal/...
+    const ranked = [...rows].sort((a, b) => {
+      const ai = SIZE_LADDER.indexOf(a.s), bi = SIZE_LADDER.indexOf(b.s);
+      if (ai === -1 && bi === -1) return String(a.s).localeCompare(String(b.s));
+      if (ai === -1) return 1;
+      if (bi === -1) return -1;
+      return ai - bi;
+    });
+    return { ok: true, row: ranked[0], candidates: rows, reason: 'default-size' };
+  }
+
+  // ---------- 3. Line parser -------------------------------------------------
+  // Splits a single line like "Achillea 'Moonshine', 1gal, 48" or
+  // "Ribes viburnifolium\t2gal\t60" or just "Achillea 'Moonshine', 48".
+  // Robust against:
+  //   - line endings (\r\n, \n, \r)
+  //   - bullet/number prefixes (1. , 2) , - , • , em-dash)
+  //   - trailing punctuation (. , ; :)
+  //   - non-breaking spaces & unusual whitespace
+  //   - smart quotes in catalog values
+  function parseLine(line) {
+    if (!line || !line.trim()) return null;
+    let s = line.trim();
+
+    // Strip bullet/number prefix: "1. ", "1)", "—", "•", "-"
+    s = s.replace(/^(?:\d+\s*[.)]\s*|[\s—–-•*·]+\s*)/, '').trim();
+    if (!s) return null;
+
+    let prefixQty = null;
+    // Capture leading "<number> -" qty prefix (e.g. "35 - 1 gal Festuca Elijah Blue")
+    {
+      const m = s.match(/^(\d+)\s*[-–—]\s*/);
+      if (m) {
+        prefixQty = parseInt(m[1], 10);
+        s = s.substring(m[0].length).trim();
+      }
+    }
+    if (!s) return null;
+
+    // Strip a single pair of wrapping quotes/parens if the line is wrapped
+    //   "Achillea 'Moonshine', 1gal, 48"  → Achillea 'Moonshine', 1gal, 48
+    //   'Achillea "Moonshine", 1gal, 48'  → Achillea "Moonshine", 1gal, 48
+    while (/^[\s"'\u2018\u2019\u201C\u201D(]\s*[\s\S]*[\s"'\u2018\u2019\u201C\u201D)]\s*$/.test(s)) {
+      const inner = s.replace(/^[\s"'\u2018\u2019\u201C\u201D(]+/, '').replace(/[\s"'\u2018\u2019\u201C\u201D)]+$/, '').trim();
+      if (inner.length === 0 || inner.length >= s.length) break;  // sanity
+      s = inner;
+    }
+
+    // Normalize whitespace: non-breaking (U+00A0) → space, all whitespace → single space
+    s = s.replace(/\u00A0/g, ' ').replace(/[\t\f\v]+/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!s) return null;
+
+    // Strip trailing sentence punctuation
+    s = s.replace(/[.,;:]+$/, '').trim();
+    if (!s) return null;
+
+    // Now split. Priority order:
+    //   1. tab-separated (Excel paste)
+    //   2. >= 3 commas → CSV (description, size, qty)
+    //   3. comma-separated with 2 parts (description, qty OR description, size)
+    //   4. multi-space-separated columns
+    //   5. "<size> <description>" pattern (no commas) — strip leading size, keep the rest as description
+    let parts;
+    if (s.includes('\t')) {
+      parts = s.split(/\t+/).map(p => p.trim()).filter(Boolean);
+    } else if ((s.match(/,/g) || []).length >= 2) {
+      parts = s.split(/\s*,\s*/).filter(Boolean);
+    } else if (s.includes(',')) {
+      parts = s.split(/\s*,\s*/);
+      const right = parts[1] || '';
+      const isQty = /^\d{1,5}$/.test(right);
+      const isSize = SIZE_ALIAS[right.toLowerCase()] || /^\d+(?:gal|g|"|inch|in|liner|plug)/i.test(right) || /^(?:liner|plug)$/i.test(right);
+      if (isQty || isSize) parts = parts.map(p => p.trim());
+      else parts = [s];
+    } else {
+      // No commas — try multi-space separator. If that yields no split,
+      // try detecting a leading size token to strip.
+      const ms = s.split(/\s{2,}/).map(p => p.trim()).filter(Boolean);
+      if (ms.length > 1) {
+        parts = ms;
+      } else {
+        // Try to detect "<size> <description>" pattern, e.g. "1 gal Festuca Elijah Blue"
+        const sizeDetect = s.match(/^(\d+\s*gal|\d+\s*g\b|\d+"|\d+\s*inch|\d+\s*in\.?|liner|plug(?:es)?)/i);
+        if (sizeDetect) {
+          const detectedSize = sizeDetect[1];
+          const rest = s.substring(detectedSize.length).trim();
+          parts = [detectedSize, rest];
+        } else {
+          parts = [s];
+        }
+      }
+    }
+
+    if (!parts.length) return null;
+
+    // Identify qty (pure digits, possibly trailing zero) and size
+    const qtyIdx = parts.findIndex(p => /^\d{1,5}$/.test(p));
+    const sizeIdx = parts.findIndex((p, i) =>
+      i !== qtyIdx &&
+      (SIZE_ALIAS[p.toLowerCase()] ||
+       /^\d+(?:\s*gal(?:\s|$)|g(?:\s|$)|"|inch|in|liner|plug)/i.test(p) ||
+       /^(?:liner|plug)$/i.test(p))
+    );
+
+    let description, size = null, qty = null;
+    if (qtyIdx === -1 && sizeIdx === -1) {
+      description = parts.join(', ');
+      qty = prefixQty != null ? prefixQty : 1;
+    } else {
+      description = parts.filter((_, i) => i !== qtyIdx && i !== sizeIdx).join(', ').trim();
+      if (sizeIdx >= 0) {
+        size = SIZE_ALIAS[parts[sizeIdx].toLowerCase()] || normalizeSizeToken(parts[sizeIdx]);
+      }
+      if (qtyIdx >= 0) qty = parseInt(parts[qtyIdx], 10);
+      else if (prefixQty != null) qty = prefixQty;
+    }
+    if (!description) return null;
+
+    return { raw: line, description, size, qty };
+  }
+
+  // ---------- 4. Parse the whole paste ---------------------------------------
+  function parseAll(text) {
+    return text.split(/\r?\n/).map(parseLine).filter(Boolean);
+  }
+
+  // ---------- 5. State -------------------------------------------------------
+  let STATE = [];   // [{ raw, description, size, qty, match, alternatives, status, swapInfo }]
+
+  function render(parsed) {
+    STATE = parsed.map(p => {
+      const m = match(p.description, p.size);
+      let status, swapInfo = null;
+      if (!m.ok) status = 'miss';
+      else if (m.ambiguous) status = 'ambiguous';
+      else if (m.reason === 'size-swap') { status = 'swap'; swapInfo = { from: m.swappedFrom, to: m.swappedTo }; }
+      else status = 'ok';
+      return {
+        raw: p.raw,
+        description: p.description,
+        size: p.size,
+        qty: p.qty,
+        match: m.ok ? m.row : null,
+        status,
+        reason: m.reason,
+        swapInfo,
+        alternatives: m.candidates || [],
+      };
+    });
+    drawTable();
+  }
+
+  function drawTable() {
+    const body = document.getElementById('linesBody');
+    body.innerHTML = '';
+    let total = 0;
+    let plants = 0;
+    let miss = 0;
+    let swapped = 0;
+    let lines = STATE.length;
+
+    STATE.forEach((row, idx) => {
+      const tr = document.createElement('tr');
+      tr.dataset.idx = idx;
+      // row class set later based on status
+
+      // Description
+      const tdDesc = document.createElement('td');
+      tdDesc.className = 'editable';
+      let swapNote = '';
+      if (row.swapInfo) {
+        swapNote = `<div class="swap-note">↔ size swap: ${escapeHtml(row.swapInfo.from)} → ${escapeHtml(row.swapInfo.to)} (no row in ${escapeHtml(row.swapInfo.from)})</div>`;
+      }
+      tdDesc.innerHTML = `<input type="text" value="${escapeAttr(row.description)}" data-field="description" />${swapNote}`;
+      tr.appendChild(tdDesc);
+
+      // Code (or status pill)
+      const tdCode = document.createElement('td');
+      tdCode.className = 'code';
+      if (row.match) {
+        tdCode.textContent = row.match.c;
+        tdCode.title = row.match.d;
+      } else if (row.status === 'miss') {
+        tdCode.innerHTML = '<span class="pill miss">not found</span>';
+      } else {
+        tdCode.textContent = '—';
+      }
+      tr.appendChild(tdCode);
+
+      // Set row class for status-driven styling
+      tr.className = row.status === 'miss' ? 'miss'
+                   : row.status === 'ambiguous' ? 'ambiguous'
+                   : row.status === 'swap' ? 'swap'
+                   : '';
+
+      // Size picker — shows available sizes for this match (or alternatives)
+      const tdSize = document.createElement('td');
+      tdSize.className = 'editable';
+      if (row.match) {
+        const sel = document.createElement('select');
+        sel.dataset.field = 'size';
+        // show alternatives (same desc, all sizes in catalog)
+        const sameDesc = RAW.filter(r => normalizeDesc(r.d) === normalizeDesc(row.match.d));
+        const sizes = [...new Set(sameDesc.map(r => r.s))];
+        for (const s of sizes) {
+          const opt = document.createElement('option');
+          opt.value = s;
+          opt.textContent = s;
+          if (s === row.match.s) opt.selected = true;
+          sel.appendChild(opt);
+        }
+        tdSize.appendChild(sel);
+      } else {
+        tdSize.textContent = row.size || '—';
+      }
+      tr.appendChild(tdSize);
+
+      // Qty
+      const tdQty = document.createElement('td');
+      tdQty.className = 'editable num';
+      tdQty.innerHTML = `<input type="number" min="0" step="1" value="${row.qty ?? 1}" data-field="qty" />`;
+      tr.appendChild(tdQty);
+
+      // Unit price
+      const tdUnit = document.createElement('td');
+      tdUnit.className = 'num';
+      if (row.match) tdUnit.textContent = fmtMoney(row.match.p);
+      else tdUnit.textContent = '—';
+      tr.appendChild(tdUnit);
+
+      // Line total
+      const tdLine = document.createElement('td');
+      tdLine.className = 'num';
+      if (row.match) {
+        const line = row.match.p * (row.qty || 0);
+        total += line;
+        plants += row.qty || 0;
+        if (row.status === 'swap') swapped++;
+        tdLine.textContent = fmtMoney(line);
+      } else {
+        miss++;
+        tdLine.textContent = '—';
+      }
+      tr.appendChild(tdLine);
+
+      // Delete button
+      const tdDel = document.createElement('td');
+      tdDel.innerHTML = '<button class="btn btn-secondary" style="padding:2px 8px;" title="Remove">×</button>';
+      tdDel.firstChild.addEventListener('click', () => {
+        STATE.splice(idx, 1);
+        drawTable();
+      });
+      tr.appendChild(tdDel);
+
+      // Ambiguous candidates — show picker as details below the row
+      if (row.status === 'ambiguous' && row.alternatives.length > 1) {
+        const det = document.createElement('tr');
+        det.className = 'amb-row';
+        const td = document.createElement('td');
+        td.colSpan = 7;
+        td.style.padding = '6px 12px';
+        const codeGroups = {};
+        row.alternatives.forEach(r => {
+          codeGroups[r.c] = codeGroups[r.c] || [];
+          codeGroups[r.c].push(r);
+        });
+        let html = '<details class="amb"><summary>Ambiguous: ' + Object.keys(codeGroups).length + ' candidate(s) — pick one:</summary><ul>';
+        for (const [code, rows] of Object.entries(codeGroups)) {
+          for (const r of rows) {
+            html += `<li><code>${escapeHtml(code)}</code> &nbsp; ${r.s} &nbsp; <strong>${fmtMoney(r.p)}</strong> &nbsp; <span>${escapeHtml(r.d)}</span><button data-pick="${escapeAttr(code)}" data-size="${escapeAttr(r.s)}">Use this</button></li>`;
+          }
+        }
+        html += '</ul></details>';
+        td.innerHTML = html;
+        det.appendChild(td);
+        body.appendChild(tr);
+        body.appendChild(det);
+        det.querySelectorAll('button[data-pick]').forEach(b => {
+          b.addEventListener('click', () => {
+            row.match = STATE_matchByCodeSize(b.dataset.pick, b.dataset.size);
+            row.status = row.match ? 'ok' : 'miss';
+            drawTable();
+          });
+        });
+      } else {
+        body.appendChild(tr);
+      }
+
+      // Hook up live edits for description / size / qty
+      tr.querySelectorAll('input, select').forEach(el => {
+        el.addEventListener('change', () => onEdit(idx, el));
+        el.addEventListener('blur', () => onEdit(idx, el));
+      });
+    });
+
+    document.getElementById('kpiLines').textContent = lines;
+    document.getElementById('kpiPlants').textContent = plants;
+    document.getElementById('kpiTotal').textContent = fmtMoney(total);
+    const missCard = document.getElementById('kpiMissCard');
+    if (miss > 0) {
+      missCard.hidden = false;
+      missCard.querySelector('.value').textContent = miss;
+    } else {
+      missCard.hidden = true;
+    }
+    const swapCard = document.getElementById('kpiSwapCard');
+    if (swapped > 0) {
+      swapCard.hidden = false;
+      swapCard.querySelector('.value').textContent = swapped;
+    } else {
+      swapCard.hidden = true;
+    }
+    document.getElementById('grandTotal').textContent = fmtMoney(total);
+  }
+
+  function STATE_matchByCodeSize(code, size) {
+    return RAW.find(r => r.c === code && r.s === size) || null;
+  }
+
+  function onEdit(idx, el) {
+    const row = STATE[idx];
+    if (!row) return;
+    const field = el.dataset.field;
+    if (field === 'description' || field === 'size') {
+      if (field === 'description') row.description = el.value.trim();
+      if (field === 'size') row.size = el.value;
+      const m = match(row.description, row.size);
+      row.match = m.ok ? m.row : null;
+      row.alternatives = m.candidates || [];
+      if (!m.ok) row.status = 'miss';
+      else if (m.ambiguous) row.status = 'ambiguous';
+      else if (m.reason === 'size-swap') { row.status = 'swap'; row.swapInfo = { from: m.swappedFrom, to: m.swappedTo }; }
+      else { row.status = 'ok'; row.swapInfo = null; }
+      row.reason = m.reason;
+    } else if (field === 'qty') {
+      row.qty = Math.max(0, parseInt(el.value, 10) || 0);
+    }
+    drawTable();
+  }
+
+  // ---------- 6. Excel export -------------------------------------------------
+  // Build a self-contained, printable .xlsx using SheetJS.
+  // Layout matches the bid: branded header, customer block, line items, totals, terms.
+  function buildExport() {
+    if (!STATE.length) return;
+    const wb = XLSX.utils.book_new();
+    const lines = [];
+    let total = 0;
+
+    // Header rows (rows 1-7) — merged across A:G
+    const today = document.getElementById('bidDate').value || new Date().toISOString().slice(0, 10);
+    const qn = document.getElementById('quoteNum').value || ('Q-' + today.replace(/-/g, '') + '-' + (STATE.length).toString().padStart(3, '0'));
+    const customer = document.getElementById('customer').value || 'Customer';
+    const notes = document.getElementById('notes').value || '';
+    const valid = document.getElementById('validDate').value || '';
+
+    lines.push(['NATIVE SONS WHOLESALE NURSERY']);
+    lines.push(['Bid Quotation']);
+    lines.push([]);
+    lines.push([`Quote #: ${qn}`,  '', '', '', `Date: ${today}`]);
+    lines.push([`Customer: ${customer}`, '', '', '', valid ? `Valid Through: ${valid}` : '']);
+    if (notes) {
+      lines.push([`Project: ${notes}`]);
+    }
+    lines.push([]);
+    lines.push([]);
+
+    // Column headers
+    lines.push(['#', 'Item Code', 'Description', 'Size', 'Qty', 'Unit Price', 'Line Total']);
+
+    // Line items
+    let i = 1;
+    STATE.forEach(r => {
+      if (r.match && r.qty > 0) {
+        const line = r.match.p * r.qty;
+        total += line;
+        lines.push([
+          i++,
+          r.match.c,
+          r.match.d,
+          r.match.s,
+          r.qty,
+          r.match.p,
+          line,
+        ]);
+      }
+    });
+
+    // Totals
+    lines.push([]);
+    lines.push(['', '', '', '', '', 'Subtotal', total]);
+    lines.push(['', '', '', '', '', 'Tax', '']);
+    lines.push(['', '', '', '', '', 'Total', total]);
+
+    // Terms
+    lines.push([]);
+    lines.push(['Terms & Conditions']);
+    lines.push([`Prices valid through ${valid || 'date specified above'}.`]);
+    lines.push(['All prices are wholesale, FOB Native Sons Wholesale Nursery.']);
+    lines.push([`Quote generated ${new Date().toLocaleString()}`]);
+
+    const ws = XLSX.utils.aoa_to_sheet(lines);
+
+    // Column widths
+    ws['!cols'] = [
+      { wch: 4 },   // #
+      { wch: 12 },  // code
+      { wch: 42 },  // description
+      { wch: 8 },   // size
+      { wch: 6 },   // qty
+      { wch: 11 },  // unit
+      { wch: 13 },  // line
+    ];
+
+    // Money formatting on unit / line / total columns
+    const range = XLSX.utils.decode_range(ws['!ref']);
+    for (let r = 0; r <= range.e.r; r++) {
+      for (let c = 4; c <= 6; c++) {  // cols E (qty), F (unit), G (line)
+        const ref = XLSX.utils.encode_cell({ r, c });
+        const cell = ws[ref];
+        if (cell && typeof cell.v === 'number') {
+          cell.z = c === 4 ? '0' : '"$"#,##0.00';
+        }
+      }
+    }
+
+    XLSX.utils.book_append_sheet(wb, ws, 'Bid');
+
+    const fname = `NS-Bid-${qn}.xlsx`;
+    XLSX.writeFile(wb, fname);
+    setStatus('ok', `Exported ${fname} (${i - 1} lines, ${fmtMoney(total)})`);
+  }
+
+  // ---------- 7. UI plumbing --------------------------------------------------
+  function fmtMoney(n) {
+    if (typeof n !== 'number' || !isFinite(n)) return '—';
+    return (n < 0 ? '-' : '') + '$' + Math.abs(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+  function escapeHtml(s) { return String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+  function escapeAttr(s) { return escapeHtml(s).replace(/"/g, '&quot;'); }
+
+  function setStatus(kind, msg) {
+    const el = document.getElementById('status');
+    el.className = 'status ' + kind;
+    el.textContent = msg;
+  }
+  function clearStatus() {
+    const el = document.getElementById('status');
+    el.className = ''; el.textContent = '';
+  }
+
+  function onLoad() {
+    clearStatus();
+    const text = document.getElementById('raw').value;
+    if (!text.trim()) { setStatus('warn', 'Paste your bid list into the box above first.'); return; }
+    const parsed = parseAll(text);
+    if (!parsed.length) {
+      const rawLines = text.split(/\r?\n/).filter(l => l.trim()).length;
+      if (rawLines === 0) {
+        setStatus('warn', 'Paste your bid list into the box above first.');
+      } else {
+        setStatus('warn',
+          `0 rows parsed from ${rawLines} input line(s). The parser couldn't extract a description ` +
+          `from any line. Try one line per item with at minimum a plant name; ` +
+          `e.g. "Achillea 'Moonshine', 1gal, 48". `
+        );
+      }
+      return;
+    }
+    render(parsed);
+    document.getElementById('resultsSection').hidden = false;
+    const matched = STATE.filter(s => s.status === 'ok').length;
+    const ambig = STATE.filter(s => s.status === 'ambiguous').length;
+    const swapped = STATE.filter(s => s.status === 'swap').length;
+    const missed = STATE.filter(s => s.status === 'miss').length;
+    let msg = `${parsed.length} row(s) parsed · ${matched} priced`;
+    if (swapped > 0) msg += ` · ${swapped} size swap${swapped > 1 ? 's' : ''}`;
+    if (ambig > 0) msg += ` · ${ambig} ambiguous`;
+    if (missed > 0) msg += ` · ${missed} unmatched (highlighted)`;
+    let kind = (missed > 0) ? 'warn' : (swapped > 0 ? 'info' : 'ok');
+    setStatus(kind, msg);
+    document.getElementById('rowCount').textContent = `${parsed.length} row(s)`;
+  }
+
+  function onClear() {
+    document.getElementById('raw').value = '';
+    document.getElementById('resultsSection').hidden = true;
+    document.getElementById('rowCount').textContent = '';
+    STATE = [];
+    clearStatus();
+  }
+
+  function loadSample() {
+    const sample = [
+      // A realistic NS bid — covers exact, fuzzy, miss, multi-size
+      "Achillea 'Moonshine'	1gal	48",
+      "Achillea millefolium 'Apple Blossom'	4inch	100",
+      "Ceanothus 'Dark Star'	1gal	24",
+      "Ceanothus thyrsiflorus var. griseus	5gal	12",
+      "Ribes viburnifolium	2gal	60",
+      "Salvia leucantha	1gal	24",
+      "Salvia 'Pozo Blue'	1gal	12",
+      "Arctostaphylos 'Howard McMinn'	1gal	30",
+      "Quercus agrifolia	15gal	8",
+      "Carex tumulicola	4inch	200",
+      "Lavandula stoechas	1gal	36",
+      "Lavandula stoechas	2gal	18",
+      "Westringia 'Wynyabbie Gem'	1gal	24",
+      "Some Bogus Plant Name	1gal	10",
+    ].join('\n');
+    document.getElementById('raw').value = sample;
+    document.getElementById('customer').value = 'Sample Landscape Co.';
+    document.getElementById('notes').value = 'Native plant palette for hillside renovation project — coastal NorCal';
+    onLoad();
+  }
+
+  // Date defaults
+  const today = new Date().toISOString().slice(0, 10);
+  const valid = new Date(Date.now() + 30 * 86400 * 1000).toISOString().slice(0, 10);
+  document.getElementById('bidDate').value = today;
+  document.getElementById('validDate').value = valid;
+
+  // ----- Wire buttons -----
+  document.getElementById('btnLoad').addEventListener('click', onLoad);
+  document.getElementById('btnSample').addEventListener('click', loadSample);
+  document.getElementById('btnClear').addEventListener('click', onClear);
+  document.getElementById('btnExport').addEventListener('click', buildExport);
+  document.getElementById('btnRecalc').addEventListener('click', () => { drawTable(); });
+
+  // Cmd-Enter / Ctrl-Enter to parse from textarea
+  document.getElementById('raw').addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      onLoad();
+    }
+  });
+
+  // Mark data freshness (file mtime would need a server roundtrip; use build date)
+  if (Array.isArray(RAW) && RAW.length) {
+    document.getElementById('dataDate').textContent = new Date().toLocaleDateString();
+  } else {
+    document.getElementById('dataDate').textContent = 'NOT LOADED';
+    setStatus('warn', 'masteritem_full.js did not load — open this page via http://localhost:<port>/quote-tool.html');
+  }
+})();
+</script>
+</body>
+</html>

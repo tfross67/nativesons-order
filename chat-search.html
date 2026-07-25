@@ -3527,13 +3527,18 @@
         const sizes = plant.sizes || [];
         for (const c of filters.container) {
           const hit = sizes.some(s => {
-            // Normalize the plant's container: lowercase, strip whitespace,
-            // and convert inch-mark variants (4", 4″) to '4in' so it matches
-            // the parser's canonical output.
-            let sc = String(s.container || '').toLowerCase().replace(/\s+/g, '');
-            if (/^4["″]$/.test(sc)) sc = '4in';
-            else if (/^3["″]$/.test(sc)) sc = '3in';
-            else if (/^20["″]$/.test(sc)) sc = '20in';
+            // Normalize the plant's container to match the parser's canonical
+            // output. Catalog stores values like '4" pot' (with a trailing
+            // word). Parser canonicals are '4in', '1gal', '5gal', etc.
+            let sc = String(s.container || '').toLowerCase();
+            // Strip trailing unit-words ("pot", "inch", "in.", "in")
+            sc = sc.replace(/\s*(?:inch(?:es)?|in\.?|pot)\s*$/i, '').trim();
+            // Strip remaining whitespace
+            sc = sc.replace(/\s+/g, '');
+            // Convert any "<digits>\"" / "<digits>″" (with anything after) → "<digits>in"
+            sc = sc.replace(/^(\d+)["″].*/, '$1in');
+            // Bare "<digits>" (e.g. "4", "3") → treat as 4-inch / 3-inch
+            if (/^\d+$/.test(sc)) sc = sc + 'in';
             return sc === c || sc.includes(c);
           });
           if (hit) {

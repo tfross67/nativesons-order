@@ -1009,7 +1009,7 @@
     .chat-test-root .result-expand {
       display: block;
       width: 100%;
-      margin-top: 8px;
+      margin-top: 0;
       padding: 8px 12px;
       background: #fff;
       border: 1px solid var(--c-bark, #2d4a2b);
@@ -1036,7 +1036,6 @@
       box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
     }
     .chat-test-root .result-details {
-      margin-top: 10px;
       padding-top: 10px;
       border-top: 1px dashed #e8e2cf;
       font-family: var(--font-sans);
@@ -1283,11 +1282,18 @@
       transition: background 0.15s, border-color 0.15s;
       position: relative;
       z-index: 2;
-      /* push the action stack to the bottom of the card */
-      margin-top: auto;
+      margin-top: 0;
       margin-bottom: 0;
-      padding-top: 12px;
-      padding-bottom: 12px;
+    }
+    /* Card-actions wrapper holds Details + Add to Order with consistent
+       6px gap between them, and pushes the whole stack to the bottom
+       of the card via margin-top: auto. */
+    .chat-test-root .card-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: auto;
+      padding-top: 8px;
     }
     .chat-test-root .add-to-order-btn:hover {
       background: #1a3019;
@@ -4130,15 +4136,17 @@
                       <span data-share-label>Share</span>
                     </button>
                   </div>
-                  <button type="button" class="result-expand" aria-expanded="false" data-expand>Details</button>
-                  ${matchLine}
-                  <div class="result-details" hidden>
-                    <div class="result-details-inner">
-                      ${detailsHTML}
-                      ${plant.description ? `<div class="detail-info">${escapeHTML(plant.description)}</div>` : ''}
+                  <div class="card-actions">
+                    <button type="button" class="result-expand" aria-expanded="false" data-expand>Details</button>
+                    ${matchLine}
+                    <div class="result-details" hidden>
+                      <div class="result-details-inner">
+                        ${detailsHTML}
+                        ${plant.description ? `<div class="detail-info">${escapeHTML(plant.description)}</div>` : ''}
+                      </div>
                     </div>
+                    <button type="button" class="add-to-order-btn" data-add-to-order aria-label="Add ${escapeHTML(plant.botanical)} to your order">+ Add to Order</button>
                   </div>
-                  <button type="button" class="add-to-order-btn" data-add-to-order aria-label="Add ${escapeHTML(plant.botanical)} to your order">+ Add to Order</button>
                 `;
         card.dataset.botanical = plant.botanical;
         if (isSel) card.classList.add('selected');

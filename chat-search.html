@@ -2951,7 +2951,7 @@
         <button class="suggestion" data-q="shade">shade</button>
         <button class="suggestion" data-q="succulent">succulent</button>
         <button class="suggestion" data-q="in bloom">in bloom</button>
-        <button class="suggestion" data-q="blue flowers">blue flowers</button>
+        <button class="suggestion" data-q="pollinators">pollinators</button>
       </div>
     </div>
 
@@ -3434,6 +3434,24 @@
       tree:     ['tree', 'trees'],
     };
 
+    // Plants known to attract pollinators (bees, butterflies, hummingbirds).
+    // Matched against the plant's botanical + common name + special_uses;
+    // a "pollinator" query includes any of these.
+    const POLLINATOR_KEYWORDS = [
+      // Genera
+      'salvia','lavandula','lavender','rosmarinus','rosemary','thymus','thyme',
+      'origanum','echinacea','rudbeckia','aster','helianthus','monarda','agastache',
+      'hyssop','hyssopus','penstemon','verbena','achillea','yarrow','cosmos',
+      'lupinus','lupine','buddleia','phlox','zinnia','trifolium','clover','mentha',
+      'mint','sage','salvia','fennel','foeniculum','anethum','dill','cilantro',
+      'coriandrum','nepeta','catmint','catnip','lamium','monarda','echinops',
+      'eryngium','ocimum','basil','limonium','statice',
+      // Common names that mean pollinator-friendly
+      'hummingbird','honey bee','bee balm','joe pye',
+      // Verb-style intent
+      'pollinator','pollinators','pollinator friendly',
+    ];
+
     // === Height bands ===
     // Plants in the catalog have a height field stored as a range string:
     //   "2-3'"   (2 to 3 feet)   OR   '12-18"'  (12 to 18 inches)
@@ -3462,6 +3480,7 @@
         heightBand: null,// 'under1' | '1to2' | '2to4' | 'over4' | null
         inBloom:   false,
         budding:   false,
+        pollinator:false, // show plants that attract pollinators
         origin:    [],   // ['California','Oregon', etc.]
         freeText:  [],   // tokens to match anywhere
       };
@@ -3499,6 +3518,9 @@
       // In bloom / budding
       if (/\b(?:bloom|blooming|in bloom|in flower|flowering)\b/.test(q)) filters.inBloom = true;
       if (/\b(?:bud|budding)\b/.test(q)) filters.budding = true;
+
+      // Pollinator-friendly plants
+      if (/\b(?:pollinator|pollinators|pollinator[- ]friendly|bee[- ]friendly|butterfly[- ]friendly)\b/.test(q)) filters.pollinator = true;
 
       // Colors
       for (const [canon, synonyms] of Object.entries(COLOR_SYNONYMS)) {
@@ -3548,7 +3570,7 @@
       const active = filters.colors.length || filters.exposures.length || filters.water.length ||
                      filters.types.length || filters.container.length ||
                      filters.heightBand ||
-                     filters.inBloom || filters.budding ||
+                     filters.inBloom || filters.budding || filters.pollinator ||
                      filters.origin.length || filters.freeText.length;
 
       return { filters, freeText: filters.freeText, active };
@@ -3657,6 +3679,23 @@
       if (filters.inBloom) matchedBloom.push('in bloom');
       if (filters.budding && !plant.bud) return null;
       if (filters.budding) matchedBloom.push('budding');
+
+      // === Pollinator-friendly plants ===
+      // Match against botanical + common name + special_uses. A plant is
+      // considered pollinator-friendly if its name contains any of the
+      // POLLINATOR_KEYWORDS tokens (genus like salvia, common name like
+      // "hummingbird", or special_uses like "Pollinator Friendly").
+      if (filters.pollinator) {
+        const haystack = [
+          plant.botanical,
+          plant.common,
+          plant.special_uses,
+          plant.plant_type,
+        ].filter(Boolean).join(' ').toLowerCase();
+        const isPollinator = POLLINATOR_KEYWORDS.some(kw => haystack.includes(kw));
+        if (!isPollinator) return null;
+        matchedFields.add('pollinator');
+      }
 
       // === Height band ===
       // Catalog height is a string like "2-3'" (feet) or "12-18"" (inches), or

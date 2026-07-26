@@ -707,11 +707,12 @@
     }
     .chat-test-root .meta-pill .bloom-icon {
       display: inline-block;
-      width: 20px;
-      height: 20px;
+      width: 28px;
+      height: 28px;
       margin-right: 0; /* gap on parent handles spacing */
       object-fit: contain;
       flex-shrink: 0; /* keep from being squished if pill is ever in flex mode */
+      vertical-align: -4px;
     }
     @keyframes bloom-glow {
       0%, 100% {
@@ -1019,10 +1020,10 @@
       transition: opacity 0.25s ease, transform 0.25s ease;
       pointer-events: none;
     }
-    /* For plant images, show the full image; for the logo placeholder, scale to fit */
-    .chat-test-root .result-image[src$="logo.jpg"] {
+    /* Placeholder SVG renders as a soft sage leaf; remove the old logo-specific rule. */
+    .chat-test-root .result-image[src*="data:image/svg"] {
       object-fit: contain;
-      padding: 10px;
+      padding: 16px;
       background: #f4f1ea;
     }
     .chat-test-root .result:hover .result-image {
@@ -3779,7 +3780,9 @@
     // Fallback image for plants whose real image can't be loaded (404, missing, etc.).
     // Uses the Native Sons logo cropped to a circle via CSS. Browsers that can't
     // load this (e.g. file:// origin) will show broken-image glyph — fine for now.
-    const PLACEHOLDER_IMG = 'logo.jpg';
+    // Inline SVG leaf placeholder — visible on cards that have no photo.
+    // Cards with a real photo replace this via the image observer below.
+    const PLACEHOLDER_IMG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96' fill='%23a8c890' fill-opacity='0.55'><path d='M48 12c-20 14-30 32-30 50 0 6 4 12 10 14 0-14 4-26 12-38 8-12 22-22 32-26-10 6-22 16-30 30-2 4-4 10-4 16 6-2 12-8 16-14-4 10-6 22-2 32-2-4-4-10-8-16-6-8-6-18 0-26 0-6 2-12 4-22z'/></svg>";
 
     // Pre-load an image and resolve when it loads (or fails)
     function loadImage(url) {

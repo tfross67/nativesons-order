@@ -489,7 +489,7 @@
     }
     .chat-test-root .sort-tab {
       padding: 5px 14px;
-      border: none;
+      border: 1px solid transparent;
       background: transparent;
       color: var(--c-clay, #6b6256);
       font-family: var(--font-sans);
@@ -498,10 +498,12 @@
       letter-spacing: 0.01em;
       border-radius: 999px;
       cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
     }
     .chat-test-root .sort-tab:hover {
       color: var(--c-bark, #2d4a2b);
+      background: rgba(45, 74, 43, 0.06);
+      border-color: rgba(45, 74, 43, 0.18);
     }
     .chat-test-root .sort-tab.active {
       background: var(--c-bark, #2d4a2b);
@@ -633,10 +635,10 @@
       color: var(--c-bark, #2d4a2b);
     }
     .chat-test-root .result-type-origin .sep {
-      color: #c5bda9;
+      color: #d4ccb9;
       font-size: 14px;
       font-weight: 400;
-      margin: 0 6px;
+      margin: 0 7px;
       vertical-align: baseline;
     }
     .chat-test-root .result-meta {

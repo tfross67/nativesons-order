@@ -5808,28 +5808,40 @@
           }));
 
           // Send emails (fire-and-forget) — only if at least one is checked
+          // We await the response so we can show success/failure toasts.
           if (skip.length < 2 && supabase.functions) {
-            supabase.functions.invoke('send-order-email', {
-              body: {
-                record: {
-                  order_number: orderNumber,
-                  customer_name: formData.customer_name,
-                  customer_email: formData.customer_email,
-                  customer_phone: formData.customer_phone,
-                  customer_company: formData.customer_company,
-                  notes: formData.notes,
-                  subtotal: Cart.getSubtotal(),
-                  retail_subtotal: Cart.getRetailSubtotal(),
-                  item_count: Cart.getCount(),
+            try {
+              const { data: emailResult, error: emailErr } = await supabase.functions.invoke('send-order-email', {
+                body: {
+                  record: {
+                    order_number: orderNumber,
+                    customer_name: formData.customer_name,
+                    customer_email: formData.customer_email,
+                    customer_phone: formData.customer_phone,
+                    customer_company: formData.customer_company,
+                    notes: formData.notes,
+                    subtotal: Cart.getSubtotal(),
+                    retail_subtotal: Cart.getRetailSubtotal(),
+                    item_count: Cart.getCount(),
+                  },
+                  items: orderItems,
+                  skip,
+                  // TESTING: route the office copy to tfross@nativeson.com instead
+                  // of orders@nativeson.com so we don't spam the orders inbox.
+                  // Remove this line (or set to null) to go back to orders@.
+                  debugOfficeEmail: 'tfross@nativeson.com',
                 },
-                items: orderItems,
-                skip,
-                // TESTING: route the office copy to tfross@nativeson.com instead
-                // of orders@nativeson.com so we don't spam the orders inbox.
-                // Remove this line (or set to null) to go back to orders@.
-                debugOfficeEmail: 'tfross@nativeson.com',
-              },
-            }).catch(err => console.warn('Order email failed (non-blocking):', err));
+              });
+              if (emailErr) {
+                console.error('[order-email] failed:', emailErr);
+                showToast(`Order ${orderNumber} saved, but email FAILED: ${emailErr.message || 'unknown error'}`);
+              } else {
+                console.log('[order-email] ok:', emailResult);
+              }
+            } catch (err) {
+              console.error('[order-email] exception:', err);
+              showToast(`Order ${orderNumber} saved, but email FAILED: ${err.message || 'unknown error'}`);
+            }
           }
 
           // Send to Slack — only if the Slack checkbox is checked
@@ -5862,8 +5874,18 @@
               while (recent.length > 5) recent.pop();
               localStorage.setItem('nativesons_last_slack_payloads', JSON.stringify(recent));
             } catch (e) { /* ignore quota */ }
-            supabase.functions.invoke('send-order-slack', { body: slackBody })
-              .catch(err => console.warn('Order Slack post failed (non-blocking):', err));
+            try {
+              const { data: slackResult, error: slackErr } = await supabase.functions.invoke('send-order-slack', { body: slackBody });
+              if (slackErr) {
+                console.error('[order-slack] failed:', slackErr);
+                showToast(`Order ${orderNumber} saved, but Slack FAILED: ${slackErr.message || 'unknown error'}`);
+              } else {
+                console.log('[order-slack] ok:', slackResult);
+              }
+            } catch (err) {
+              console.error('[order-slack] exception:', err);
+              showToast(`Order ${orderNumber} saved, but Slack FAILED: ${err.message || 'unknown error'}`);
+            }
           }
 
           Cart.clear();

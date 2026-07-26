@@ -529,6 +529,39 @@
       box-shadow: 0 2px 6px rgba(45, 107, 31, 0.18), 0 12px 24px rgba(45, 107, 31, 0.14);
       background: linear-gradient(180deg, #f6f8f1 0%, #ffffff 60%);
     }
+    /* Plant is in the user's cart — show a subtle badge + accent border. */
+    .chat-test-root .result.in-cart {
+      border-color: #6b8e4e;
+      box-shadow: 0 0 0 1px #6b8e4e, 0 2px 6px rgba(107, 142, 78, 0.16);
+      position: relative;
+    }
+    .chat-test-root .result.in-cart::before {
+      content: "✓ In your order";
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      background: #2d6b1f;
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      z-index: 4;
+      pointer-events: none;
+      box-shadow: 0 2px 6px rgba(45, 107, 31, 0.32);
+    }
+    .chat-test-root .result.in-cart .add-to-order-btn {
+      background: #2d6b1f;
+      border-color: #2d6b1f;
+      color: #fff;
+    }
+    .chat-test-root .result.in-cart .add-to-order-btn::before {
+      content: "✓ ";
+      margin-right: 2px;
+    }
     .chat-test-root .result-botanical {
       font-family: var(--font-sans);
       font-style: normal !important;
@@ -4154,6 +4187,25 @@
       });
     }
 
+    // Walk the rendered cards and toggle the .in-cart class on each based on
+    // whether its plant has any line items in the cart. Cheap O(n) scan,
+    // run after every renderResults and every cart change.
+    function updateAddedState() {
+      const items = Cart.getItems();
+      const inCart = new Set();
+      // Match by botanical name (case-insensitive); a plant is "in cart"
+      // if any of its items are present, regardless of size/qty.
+      for (const it of items) {
+        inCart.add((it.name || '').toLowerCase());
+      }
+      const cards = resultsEl.querySelectorAll('.result');
+      for (const card of cards) {
+        const name = (card.dataset.botanical || '').toLowerCase();
+        if (inCart.has(name)) card.classList.add('in-cart');
+        else card.classList.remove('in-cart');
+      }
+    }
+
     // === Main: parse + match + render ===
     let lastParsed = null;  // reused when alt-suggestion chip is clicked
 
@@ -4192,6 +4244,9 @@
       renderResults(parsed, results);
       // Set up lazy image loading for the new cards
       observeCardImages();
+      // Mark cards whose plant is already in the cart (call after the cards
+      // are in the DOM so we can update each .result node).
+      updateAddedState();
     }
 
     // === Sort results according to user selection ===
@@ -4895,8 +4950,14 @@
         }
       }
 
-      Cart.onChange(renderCart);
+      Cart.onChange(() => {
+        renderCart();
+        // Also refresh the in-cart badge on each card in the grid so the
+        // "✓ In your order" indicator updates as items are added/removed.
+        updateAddedState();
+      });
       renderCart();
+      updateAddedState();
 
       // --- "Add to Order" button handler
       // Always opens a size+qty picker so users can set size and quantity

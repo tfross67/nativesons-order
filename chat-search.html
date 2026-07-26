@@ -3436,20 +3436,23 @@
 
     // Plants known to attract pollinators (bees, butterflies, hummingbirds).
     // Matched against the plant's botanical + common name + special_uses;
-    // a "pollinator" query includes any of these.
+    // a "pollinator" query includes any of these. The trigger words
+    // ("pollinator", "pollinators", "pollinator friendly", "bee friendly",
+    // "butterfly friendly") are NOT in this list — those are used by
+    // parseQuery to set the filter flag, and the haystack check excludes
+    // them so a plant's name containing "pollinator" doesn't match
+    // itself.
     const POLLINATOR_KEYWORDS = [
       // Genera
       'salvia','lavandula','lavender','rosmarinus','rosemary','thymus','thyme',
       'origanum','echinacea','rudbeckia','aster','helianthus','monarda','agastache',
       'hyssop','hyssopus','penstemon','verbena','achillea','yarrow','cosmos',
       'lupinus','lupine','buddleia','phlox','zinnia','trifolium','clover','mentha',
-      'mint','sage','salvia','fennel','foeniculum','anethum','dill','cilantro',
+      'mint','sage','fennel','foeniculum','anethum','dill','cilantro',
       'coriandrum','nepeta','catmint','catnip','lamium','monarda','echinops',
       'eryngium','ocimum','basil','limonium','statice',
       // Common names that mean pollinator-friendly
       'hummingbird','honey bee','bee balm','joe pye',
-      // Verb-style intent
-      'pollinator','pollinators','pollinator friendly',
     ];
 
     // === Height bands ===
@@ -3692,8 +3695,15 @@
           plant.special_uses,
           plant.plant_type,
         ].filter(Boolean).join(' ').toLowerCase();
-        const isPollinator = POLLINATOR_KEYWORDS.some(kw => haystack.includes(kw));
-        if (!isPollinator) return null;
+        // Check that the plant matches any of the pollinator-associated
+        // GENUS/COMMON-NAME tokens — NOT the "pollinators" trigger word
+        // itself. (If we included "pollinators" in the keywords list, no
+        // plant would ever match because no plant name contains the word.)
+        const plantIsPollinator = POLLINATOR_KEYWORDS.some(
+          kw => kw !== 'pollinator' && kw !== 'pollinators' && kw !== 'pollinator friendly' &&
+                haystack.includes(kw)
+        );
+        if (!plantIsPollinator) return null;
         matchedFields.add('pollinator');
       }
 

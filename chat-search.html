@@ -1659,6 +1659,55 @@
       background: #2d4a2b;
       color: white;
     }
+    body .cart-markup-global {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: #2d4a2b;
+      margin-left: auto;
+    }
+    body .cart-markup-global-label {
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    body #cartGlobalMarkup {
+      width: 64px;
+      padding: 4px 8px;
+      border: 1px solid #b8d09a;
+      border-radius: 4px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      background: white;
+      color: #2d4a2b;
+    }
+    body #cartGlobalMarkup:focus {
+      outline: 2px solid #2d4a2b;
+      outline-offset: 1px;
+    }
+    body .cart-markup-apply {
+      background: #2d4a2b;
+      border: 1px solid #2d4a2b;
+      color: white;
+      cursor: pointer;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    body .cart-markup-apply:hover {
+      background: #1f3520;
+      border-color: #1f3520;
+    }
+    body .cart-markup-apply:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
     body .cart-summary[hidden] { display: none; }
     body .cart-summary-row {
       display: flex;
@@ -2932,6 +2981,11 @@
     <div class="cart-summary" id="cartSummary" hidden>
       <div class="cart-markup-banner" id="cartMarkupBanner" hidden>
         <span class="cart-markup-pill">×<span id="cartMarkupMultiplier">1.00</span> customer markup</span>
+        <span class="cart-markup-global">
+          <label for="cartGlobalMarkup" class="cart-markup-global-label">Set markup for all:</label>
+          <input type="number" id="cartGlobalMarkup" min="0" step="0.05" value="1.00" inputmode="decimal" aria-label="Global markup multiplier applied to every cart item">
+          <button type="button" class="cart-markup-apply" id="cartGlobalMarkupApply" aria-label="Apply markup to all items in cart">Apply to all</button>
+        </span>
         <button type="button" class="cart-markup-clear" id="cartMarkupClear" hidden aria-label="Remove customer markup from all items">Clear markup</button>
       </div>
       <div class="cart-summary-row">
@@ -4659,6 +4713,8 @@
       const cartMarkupBanner = $('cartMarkupBanner');
       const cartMarkupMultiplierEl = $('cartMarkupMultiplier');
       const cartMarkupClear = $('cartMarkupClear');
+      const cartGlobalMarkup = $('cartGlobalMarkup');
+      const cartGlobalMarkupApply = $('cartGlobalMarkupApply');
       const closeCartBtn = $('closeCart');
       const proceedBtn = $('proceedToCheckout');
       const sizePickerOverlay = $('sizePickerOverlay');
@@ -5466,7 +5522,43 @@
               Cart.setRetail(it.key, 'wholesale');
             }
           });
+          if (cartGlobalMarkup) cartGlobalMarkup.value = '1.00';
         });
+      }
+
+      // --- "Apply to all" — set every cart item's multiplier to the
+      // value typed in the global input. Overrides per-item markups
+      // AND per-item manual retail prices (all items snap to markup
+      // mode at the typed multiplier). Use clear-markup to revert.
+      if (cartGlobalMarkupApply && cartGlobalMarkup) {
+        const applyToAll = () => {
+          const raw = parseFloat(cartGlobalMarkup.value);
+          if (isNaN(raw) || raw <= 0) {
+            showToast('Enter a markup greater than 0 (e.g. 1.25 for 25% over wholesale).');
+            return;
+          }
+          const m = Math.round(raw * 100) / 100;
+          // Always mark as a customer-applied override so a future
+          // customer switch won't clobber it back to the new default.
+          defaultMarkupMultiplier = m;
+          Cart.getItems().forEach(it => {
+            Cart.setRetail(it.key, 'markup', m, {
+              multiplier: m,
+              customerApplied: false,
+            });
+          });
+          showToast(`Applied ×${m.toFixed(2)} markup to ${Cart.getItems().length} item${Cart.getItems().length === 1 ? '' : 's'}.`);
+        };
+        cartGlobalMarkupApply.addEventListener('click', applyToAll);
+        cartGlobalMarkup.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            applyToAll();
+          }
+        });
+        // Keep the input in sync with the active default markup so the
+        // user sees the current global value when they open the cart.
+        cartGlobalMarkup.value = defaultMarkupMultiplier.toFixed(2);
       }
 
       // --- Checkout

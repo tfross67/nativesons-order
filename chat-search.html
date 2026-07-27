@@ -31,12 +31,27 @@
       --ls-wide:  0.04em;
       --ls-xwide: 0.12em;
 
+      /* === Color tokens ===
+       * Page/card backgrounds are unified at #fafaf5 so the layout reads as
+       * one continuous warm cream surface; cards rely on border + shadow for
+       * elevation instead of switching to white.
+       *
+       * --c-bark stays at #2d4a2b for titles and the type chip — the deep
+       * forest green is the brand. The CTA green (.cta-primary) is a
+       * brighter #3a5f3a to lift the "Add to Order" button visually.
+       *
+       * --c-ink is darker than --c-muted/clay and is used for body text.
+       * Previously the body used a hardcoded #2d2820 — moved here so the
+       * system stays token-driven.
+       */
       --c-bark: #2d4a2b;
       --c-paper: #f7f4ec;
       --c-line: #d8d2c2;
       --c-muted: #6b6256;
       --c-ink: #1a2e1a;
-      --c-clay: #6b6256;
+      --c-clay: #4a4438;     /* darker warm gray for readable body text */
+      --c-body: #2d2820;     /* alias kept for legacy references */
+      --c-cta: #3a5f3a;      /* brighter green for filled buttons */
     }
     .chat-test-root {
       max-width: 1080px;
@@ -56,7 +71,7 @@
       font-family: var(--font-sans);
       font-size: var(--fs-body);
       line-height: var(--lh-normal);
-      color: #2d2820;
+      color: var(--c-ink);
       font-feature-settings: "kern" 1;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -184,7 +199,7 @@
       font-family: var(--font-sans);
       font-size: 10.5px;
       font-weight: 700;
-      color: var(--c-clay, #6b6256);
+      color: var(--c-bark, #2d4a2b);
       text-transform: uppercase;
       letter-spacing: 0.1em;
       margin-top: 6px;
@@ -556,8 +571,8 @@
       box-shadow: 0 2px 6px rgba(45, 107, 31, 0.32);
     }
     .chat-test-root .result.in-cart .add-to-order-btn {
-      background: #2d6b1f;
-      border-color: #2d6b1f;
+      background: var(--c-cta, #3a5f3a);
+      border-color: var(--c-cta, #3a5f3a);
       color: #fff;
     }
     .chat-test-root .result.in-cart .add-to-order-btn::before {
@@ -1313,8 +1328,8 @@
       letter-spacing: 0.04em;
       text-transform: uppercase;
       color: #fff;
-      background: var(--c-bark, #2d4a2b);
-      border: 1px solid var(--c-bark, #2d4a2b);
+      background: var(--c-cta, #3a5f3a);
+      border: 1px solid var(--c-cta, #3a5f3a);
       border-radius: 6px;
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s;
@@ -1334,8 +1349,8 @@
       padding-top: 8px;
     }
     .chat-test-root .add-to-order-btn:hover {
-      background: #1a3019;
-      border-color: #1a3019;
+      background: #2c4a2c;
+      border-color: #2c4a2c;
     }
     .chat-test-root .add-to-order-btn:active {
       transform: translateY(1px);

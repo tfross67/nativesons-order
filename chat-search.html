@@ -5061,9 +5061,27 @@
         const m = String(s || '').match(/['‘'’]([^'‘'’]+)['‘'’]/);
         return m ? m[1].toLowerCase().replace(/\s+/g, '') : null;
       }
+      // Normalize the display container size ("4\" pot", "1gal", "5g",
+      // "15 gallon") to the canonical form used in MASTER_ITEM_FULL
+      // ("4in", "1gal", "5gal", "15gal"). The availability catalog uses
+      // human-readable strings ("4\" pot") while the master data uses
+      // database-friendly codes ("4in"). Without this normalization the
+      // lookup matches size-against-size and silently returns null for
+      // every 4" pot plant, so item_code + UPC are sent as null and the
+      // email/PDF renders "—" for those columns.
+      function normalizeContainerSize(s) {
+        const x = String(s || '').toLowerCase().replace(/[\s"]/g, '');
+        if (x === '4pot' || x === '4in' || x === '4inch' || x === '4inchpot') return '4in';
+        if (x === '1gal' || x === '1g' || x === '1gallon' || x === '1gpot') return '1gal';
+        if (x === '2gal' || x === '2g' || x === '2gallon' || x === '2gpot') return '2gal';
+        if (x === '5gal' || x === '5g' || x === '5gallon' || x === '5gpot') return '5gal';
+        if (x === '15gal' || x === '15g' || x === '15gallon' || x === '15gpot') return '15gal';
+        if (x === '4') return '4in';
+        return x;
+      }
       function lookupItemCode(botanical, size) {
         const idx = ensureMasterItemIndex();
-        const sz = (size || '').toLowerCase().replace(/\s+/g, '');
+        const sz = normalizeContainerSize(size);
         const nm = (botanical || '').toLowerCase().trim();
         const nmCultivar = extractCultivar(botanical);
         // Exact match: full description text + size

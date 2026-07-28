@@ -66,6 +66,65 @@ const ALLOWED_ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ||
 
 const fmt = (n: number) => (typeof n === "number" ? n.toFixed(2) : "0.00");
 
+// Strip a trailing "(<size>)" from plant_name when plant_size is also set.
+// The availability data sometimes embeds the container in the botanical name
+// (e.g. "Salvia apiana (1gal)"), and the separate plant_size field carries
+// the same value — without de-duping the Slack row reads "Salvia apiana (1gal) (1gal)".
+function dedupSize(name: string | null | undefined, size: string | null | undefined): string {
+  if (!name || !size) return name || "";
+  const sz = size.trim();
+  // Match "(size)" or " size" at end of name, with the exact size string.
+  // Case-insensitive; tolerant of the canonical variants like "1gal" / "1gal ".
+  const esc = sz.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const re = new RegExp(`\\s*[(\\[\\s]\\s*${esc}\\s*[)\\]]?\\s*$`, "i");
+  return name.replace(re, "").trim();
+}
+
+// Format ISO timestamp or Date as a friendly "Jul 27, 4:44 PM" string.
+// Falls back to empty string when input is invalid.
+function formatPlacedAt(iso: string | null | undefined): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "";
+  return d.toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+// Format a phone string for human-readable display. Accepts:
+//   - "9496463925"      → "(949) 646-3925"
+//   - "949-646-3925"    → "(949) 646-3925"
+//   - "(949) 646-3925"  → "(949) 646-3925"
+//   - "949.646.3925"    → "(949) 646-3925"
+//   - "+1 949 646 3925" → "+1 (949) 646-3925"
+//   - short/odd input   → returned unchanged so the office can see what they sent
+function formatPhone(input: string | null | undefined): string {
+  if (!input) return "";
+  const trimmed = String(input).trim();
+  if (!trimmed) return "";
+  // Extract digits, preserving a leading "+" if present.
+  const plus = trimmed.startsWith("+") ? "+" : "";
+  const digits = trimmed.replace(/\D/g, "");
+  // 11 digits starting with 1 (US country code): +1 (XXX) XXX-XXXX
+  if (digits.length === 11 && digits.startsWith("1")) {
+    return `+1 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7)}`;
+  }
+  // 10 digits (no country code): (XXX) XXX-XXXX
+  if (digits.length === 10) {
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+  // 7 digits (local): XXX-XXXX
+  if (digits.length === 7) {
+    return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  }
+  // Otherwise — odd length, international, etc — return the trimmed input as-is
+  // so the office isn't misled by a mangled transformation.
+  return trimmed;
+}
+
 function originAllowed(req: Request): boolean {
   const origin = (req.headers.get("origin") || "").trim();
   const referer = (req.headers.get("referer") || "").trim();
@@ -105,6 +164,8 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
   const itemTextLines: string[] = [];
   const itemBlocks: any[] = [];
   items.forEach((i, idx) => {
+    // De-dupe size: plant_name sometimes already includes "(1gal)" baked in.
+    const cleanName = dedupSize(i.plant_name, i.plant_size);
     const soFlag = i.special_order ? " • SPECIAL" : "";
     const sz = i.plant_size ? ` (${i.plant_size})` : "";
     const retailUnit = i.retail_unit_price ?? i.retail_price;
@@ -138,13 +199,15 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
     const codeTag = i.item_code ? ` [${i.item_code}]` : "";
     const upcTag = i.upc ? ` · UPC ${i.upc}` : "";
     itemTextLines.push(
-      `• ${i.plant_name}${sz}${codeTag} ×${i.qty}${pricePortion}${upcTag}${soFlag}`
+      `• ${cleanName}${sz}${codeTag} ×${i.qty}${pricePortion}${upcTag}${soFlag}`
     );
 
     // Block Kit section: 2-column fields.
     //   Left:  "**Name** (size)" + "qty ×N" subtext
     //   Right: "$X.XX ea / $Y.YY total" + (if markup) "retail $Z.ZZ ea" subtext
-    const nameLine = `*${i.plant_name}${sz}*${i.special_order ? "  •SPECIAL" : ""}`;
+    // SPECIAL items get a third column on the right with the badge, so the
+    // marker reads as a deliberate flag rather than noise inline with the name.
+    const nameLine = `*${cleanName}${sz}*`;
     const qtyLine = `_Qty: ${i.qty}${i.item_code ? `  ·  ${i.item_code}` : ""}${i.upc ? `  ·  UPC ${i.upc}` : ""}_`;
     const fields: { type: string; text: string }[] = [
       { type: "mrkdwn", text: `${nameLine}\n${qtyLine}` },
@@ -163,6 +226,14 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
       fields.push({
         type: "mrkdwn",
         text: `*$${fmt(i.unit_price)} ea  →  $${fmt(i.line_total)}*\n_${i.qty} units_`,
+      });
+    }
+    // SPECIAL badge as a third column — gives the marker a home of its own
+    // instead of mashing it inline with the botanical.
+    if (i.special_order) {
+      fields.push({
+        type: "mrkdwn",
+        text: `*⚠️ SPECIAL*\n_Customer request — office to source_`,
       });
     }
     itemBlocks.push({ type: "section", fields });
@@ -193,23 +264,29 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
     },
   };
 
-  const contactLine = [o.customer_email, o.customer_phone].filter(Boolean).join("  ·  ") || "—";
+  const contactLine = [o.customer_email, formatPhone(o.customer_phone)].filter(Boolean).join("  ·  ") || "—";
+  const placedAt = formatPlacedAt(o.created_at);
+  const placedSubtext = placedAt ? `_Placed ${placedAt}_` : null;
 
   const blocks: any[] = [headerBlock];
 
-  // Customer block: company (if any) + contact line, two-column fields
+  // Customer block: company (if any) + contact line, two-column fields.
+  // When company is set we get a clean two-column layout. When it's absent
+  // we render the contact line as a single full-width section so the email
+  // and phone each have room. Placed-at sits in the same block so the
+  // timestamp is visible without crowding the header title.
   if (o.customer_company) {
     blocks.push({
       type: "section",
       fields: [
         { type: "mrkdwn", text: `*Company*\n${o.customer_company}` },
-        { type: "mrkdwn", text: `*Contact*\n${contactLine}` },
+        { type: "mrkdwn", text: `*Contact*\n${contactLine}${placedSubtext ? `\n${placedSubtext}` : ""}` },
       ],
     });
   } else {
     blocks.push({
       type: "section",
-      text: { type: "mrkdwn", text: `*Contact:*  ${contactLine}` },
+      text: { type: "mrkdwn", text: `*Contact:*  ${contactLine}${placedSubtext ? `\n${placedSubtext}` : ""}` },
     });
   }
 

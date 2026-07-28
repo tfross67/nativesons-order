@@ -2986,6 +2986,31 @@
       border-color: var(--c-bark, #2d4a2b);
     }
 
+    /* Always-visible CTA in the cart header — staff can add a customer
+       request without first emptying the cart. Sits inline with the
+       title, smaller than the primary "Place Order Request" button. */
+    .chat-test-root .cart-header {
+      gap: 8px;
+    }
+    .chat-test-root .cart-header-cta {
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--c-bark, #2d4a2b);
+      background: transparent;
+      border: 1px solid var(--c-line, #d8d2c2);
+      border-radius: 999px;
+      padding: 6px 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      margin-right: auto;
+    }
+    .chat-test-root .cart-header-cta:hover {
+      background: rgba(45, 74, 43, 0.06);
+      border-color: var(--c-bark, #2d4a2b);
+    }
+
     /* Toast notifications (if rendered outside chat-test-root) */
     .toast {
       font-family: var(--font-sans);
@@ -3190,6 +3215,7 @@
   <aside class="cart-panel" id="cartPanel" hidden aria-label="Shopping cart" role="dialog">
     <header class="cart-header">
       <h2>Your Order</h2>
+      <button type="button" class="cart-header-cta" id="cartHeaderCta">+ Customer request</button>
       <button type="button" class="icon-btn" id="closeCart" aria-label="Close cart">✕</button>
     </header>
     <div class="cart-items" id="cartItems">
@@ -6589,10 +6615,15 @@
       })();
 
       // Cart empty-state CTA — wired via delegation so it works whatever
-      // markup renderCartItems emits.
+      // markup renderCartItems emits. The cart-header button (#cartHeaderCta)
+      // lives outside the cart-items host, so wire it directly.
       document.addEventListener('click', (e) => {
         const cta = e.target.closest('.cart-empty-cta');
         if (cta && typeof window.openCustomerRequestPicker === 'function') {
+          window.openCustomerRequestPicker();
+          return;
+        }
+        if (e.target.id === 'cartHeaderCta' && typeof window.openCustomerRequestPicker === 'function') {
           window.openCustomerRequestPicker();
         }
       });

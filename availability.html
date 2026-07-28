@@ -5283,9 +5283,20 @@
         if (masterItemIndex) return masterItemIndex;
         masterItemIndex = new Map();
         const list = window.MASTER_ITEM_FULL || [];
+        // Normalize apostrophes (straight + curly variants) to a canonical
+        // form before computing the key. Without this, master entries with
+        // straight quotes (Penstemon heterophyllus 'Margarita BOP') wouldn't
+        // match availability entries with curly quotes (Penstemon
+        // heterophyllus 'Margarita BOP'), and the lookup would fall through
+        // to the prefix-walk that picked the wrong (species-only) SKU.
+        const normKey = (s) => String(s || '')
+          .toLowerCase()
+          .replace(/[‘’]/g, "'")    // curly → straight
+          .replace(/\s+/g, ' ')      // collapse whitespace
+          .trim();
         for (const row of list) {
           // row.c = code, row.s = size, row.u = UPC, row.d = description
-          const key = `${(row.d || '').toLowerCase()}|${(row.s || '').toLowerCase()}`;
+          const key = `${normKey(row.d)}|${normKey(row.s)}`;
           masterItemIndex.set(key, { code: row.c, upc: row.u, description: row.d });
         }
         return masterItemIndex;
@@ -5325,8 +5336,13 @@
       }
       function lookupItemCode(botanical, size) {
         const idx = ensureMasterItemIndex();
+        const normKey = (s) => String(s || '')
+          .toLowerCase()
+          .replace(/[‘’]/g, "'")
+          .replace(/\s+/g, ' ')
+          .trim();
         const sz = normalizeContainerSize(size);
-        const nm = (botanical || '').toLowerCase().trim();
+        const nm = normKey(botanical);
         const nmCultivar = extractCultivar(botanical);
         // Exact match: full description text + size
         const exactKey = `${nm}|${sz}`;

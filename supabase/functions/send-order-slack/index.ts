@@ -166,7 +166,7 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
   items.forEach((i, idx) => {
     // De-dupe size: plant_name sometimes already includes "(1gal)" baked in.
     const cleanName = dedupSize(i.plant_name, i.plant_size);
-    const soFlag = i.special_order ? " • SPECIAL" : "";
+    const soFlag = i.special_order ? " • Special order" : "";
     const sz = i.plant_size ? ` (${i.plant_size})` : "";
     const retailUnit = i.retail_unit_price ?? i.retail_price;
     const lineHasMarkup = retailUnit != null && Number(retailUnit) > Number(i.unit_price);
@@ -233,7 +233,7 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
     if (i.special_order) {
       fields.push({
         type: "mrkdwn",
-        text: `*⚠️ SPECIAL*\n_Customer request — office to source_`,
+        text: `*⚠️ Special order*\n_Customer request — office to source_`,
       });
     }
     itemBlocks.push({ type: "section", fields });

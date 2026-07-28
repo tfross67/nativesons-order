@@ -2857,6 +2857,135 @@
       margin-top: 8px;
       line-height: 1.4;
     }
+    /* === Customer request modal styles ===
+       Restraint here — same modal/form sizing as the existing size picker
+       and checkout modals, just with a results list and a "picked" pill. */
+    .cust-request-results {
+      max-height: 320px;
+      overflow-y: auto;
+      border: 1px solid var(--c-line, #d8d2c2);
+      border-radius: 6px;
+      background: #fdfdf8;
+      padding: 4px;
+    }
+    .cust-request-empty {
+      padding: 16px;
+      color: var(--c-clay, #6b6256);
+      font-style: italic;
+      text-align: center;
+      margin: 0;
+    }
+    .cust-request-result {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      gap: 12px;
+      font-size: 13px;
+    }
+    .cust-request-result:hover,
+    .cust-request-result.is-focused {
+      background: rgba(45, 107, 31, 0.06);
+    }
+    .cust-request-result-name {
+      font-weight: 600;
+      color: var(--c-bark, #2d4a2b);
+      flex: 1;
+      min-width: 0;
+    }
+    .cust-request-result-name small {
+      display: block;
+      font-weight: 400;
+      font-size: 11.5px;
+      color: var(--c-muted, #6b6256);
+      margin-top: 2px;
+    }
+    .cust-request-result-meta {
+      font-size: 11.5px;
+      color: var(--c-clay, #6b6256);
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+    .cust-request-result-meta .code {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--c-muted, #6b6256);
+      margin-top: 1px;
+    }
+    .cust-request-picked {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      background: rgba(45, 107, 31, 0.06);
+      border: 1px solid rgba(45, 107, 31, 0.18);
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+    .cust-request-picked-name {
+      font-weight: 700;
+      color: var(--c-bark, #2d4a2b);
+      font-size: 14px;
+    }
+    .cust-request-picked-meta {
+      font-size: 12px;
+      color: var(--c-muted, #6b6256);
+      margin-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+    .cust-request-result-count {
+      padding: 8px 12px;
+      font-size: 11.5px;
+      color: var(--c-muted, #6b6256);
+      border-top: 1px solid var(--c-line, #d8d2c2);
+      background: #fafaf5;
+    }
+
+    /* Special-order badge on cart items. Subtle but recognisable —
+       pulls from --c-bark family so it doesn't fight the rest of the
+       design system. */
+    body .cart-item-special {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--c-bark, #2d4a2b);
+      border-radius: 999px;
+      padding: 2px 7px;
+      margin-left: 6px;
+      vertical-align: 2px;
+    }
+
+    /* Empty-cart CTA for staff — opens the customer-request modal
+       directly from the empty cart state so staff don't have to
+       open the cart first to discover the feature. */
+    body .cart-empty-cta {
+      display: block;
+      margin: 18px auto 0;
+      padding: 10px 18px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--c-bark, #2d4a2b);
+      background: transparent;
+      border: 1px dashed var(--c-line, #d8d2c2);
+      border-radius: 6px;
+      cursor: pointer;
+      width: calc(100% - 48px);
+    }
+    body .cart-empty-cta:hover {
+      background: rgba(45, 74, 43, 0.04);
+      border-color: var(--c-bark, #2d4a2b);
+    }
+
     /* Toast notifications (if rendered outside chat-test-root) */
     .toast {
       font-family: var(--font-sans);
@@ -3064,7 +3193,8 @@
       <button type="button" class="icon-btn" id="closeCart" aria-label="Close cart">✕</button>
     </header>
     <div class="cart-items" id="cartItems">
-      <p class="cart-empty">Cart is empty. Add plants from the search results to get started.</p>
+      <p class="cart-empty">Cart is empty. Add plants from the search results, or add a customer request below.</p>
+      <button type="button" class="cart-empty-cta" id="cartEmptyCta" hidden>+ Customer request</button>
     </div>
     <div class="cart-summary" id="cartSummary" hidden>
       <div class="cart-markup-banner" id="cartMarkupBanner" hidden>
@@ -3153,6 +3283,53 @@
         <button type="submit" class="btn btn-primary" id="submitOrder">Submit Order</button>
       </div>
     </form>
+  </div>
+
+  <!-- Customer request modal — staff adds plants NOT in this week's
+       availability but ARE in the master catalog. Search is restricted
+       to in-master-but-not-this-week by default, with a toggle to fall
+       back to the full master catalog. Each added item lands in the cart
+       with specialOrder: true so the office knows to source it. -->
+  <div class="modal-overlay" id="custRequestOverlay" hidden></div>
+  <div class="modal" id="custRequestModal" hidden role="dialog" aria-labelledby="custRequestTitle">
+    <header class="modal-header">
+      <h2 id="custRequestTitle">Customer request — pick a plant</h2>
+      <button type="button" class="icon-btn" id="closeCustRequest" aria-label="Close">✕</button>
+    </header>
+    <div class="modal-body">
+      <p class="modal-intro" id="custRequestIntro">
+        Search the master catalog. By default we hide plants already on this week's
+        list so you can find what's <em>missing</em>.
+      </p>
+      <label class="form-field">
+        <span>Search the catalog</span>
+        <input type="search" id="custRequestSearch" placeholder="Try ‘lavender’ or ‘Lavandula angustifolia’" autocomplete="off">
+      </label>
+      <div class="cust-request-results" id="custRequestResults" aria-live="polite">
+        <p class="cust-request-empty">Type at least 2 characters to search.</p>
+      </div>
+      <div class="form-row" id="custRequestSelectedRow" hidden>
+        <div class="cust-request-picked">
+          <div>
+            <div class="cust-request-picked-name" id="custRequestPickedName">—</div>
+            <div class="cust-request-picked-meta" id="custRequestPickedMeta">—</div>
+          </div>
+          <button type="button" class="icon-btn" id="custRequestClearPick" aria-label="Clear selection">✕</button>
+        </div>
+        <label class="form-field">
+          <span>Quantity</span>
+          <input type="number" id="custRequestQty" min="1" step="1" value="1" inputmode="numeric">
+        </label>
+        <label class="form-field">
+          <span>Notes (optional)</span>
+          <input type="text" id="custRequestNotes" placeholder="Customer requested this; will check next week" autocomplete="off">
+        </label>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="cancelCustRequest">Cancel</button>
+          <button type="button" class="btn btn-primary" id="addCustRequestToCart">Add to cart</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Order confirmation toast -->
@@ -4962,7 +5139,8 @@
 
         // Render items
         if (items.length === 0) {
-          cartItems.innerHTML = '<p class="cart-empty">Cart is empty.</p>';
+          cartItems.innerHTML = '<p class="cart-empty">Cart is empty. Add plants from the search results, or use the customer-request picker for items not on this week\'s list.</p>'
+            + '<button type="button" class="cart-empty-cta" id="cartEmptyCta">+ Customer request</button>';
           cartSummary.hidden = true;
           return;
         }
@@ -5001,7 +5179,7 @@
           return `
             <div class="cart-item${it.specialOrder ? ' is-special' : ''}" data-key="${esc(it.key)}">
               <div class="cart-item-info">
-                <div class="cart-item-name">${esc(it.name)}</div>
+                <div class="cart-item-name">${esc(it.name)}${it.specialOrder ? '<span class="cart-item-special">Customer request</span>' : ''}</div>
                 ${sizeLine}
                 <div class="cart-item-controls">
                   <div class="qty-stepper">
@@ -5863,6 +6041,9 @@
             item_code: i.item_code || null,
             upc: i.upc || null,
             special_order: !!i.specialOrder,
+            // Per-item notes set in the customer-request picker. Falls
+            // back to null when the item isn't special or has no notes.
+            item_notes: (window.__specialOrderNotes && window.__specialOrderNotes[i.key]) || null,
           }));
 
           // Send emails (fire-and-forget) — only if at least one is checked
@@ -6188,6 +6369,233 @@
         });
       }
       wireStaffCustomerPicker();
+
+      // ============================================================
+      // Customer request picker — staff adds plants NOT in this week's
+      // availability. Search is restricted to in-master-but-not-this-week.
+      // Each picked row joins the cart with specialOrder: true.
+      // ============================================================
+      (function () {
+        const modal = $('custRequestModal');
+        const overlay = $('custRequestOverlay');
+        const closeBtn = $('closeCustRequest');
+        const cancelBtn = $('cancelCustRequest');
+        const searchInput = $('custRequestSearch');
+        const resultsHost = $('custRequestResults');
+        const selectedRow = $('custRequestSelectedRow');
+        const pickedName = $('custRequestPickedName');
+        const pickedMeta = $('custRequestPickedMeta');
+        const clearPickBtn = $('custRequestClearPick');
+        const qtyInput = $('custRequestQty');
+        const notesInput = $('custRequestNotes');
+        const addBtn = $('addCustRequestToCart');
+        if (!modal || !searchInput) return;
+
+        // Lazy index of plants in master but not in this week's availability.
+        // Built once on first modal open; persists until reload.
+        // Each entry: { c: code, s: size, p: price, u: UPC, d: description }
+        let inMasterNotInWeek = null;
+        // Same structure but ALL master items, for fallback / "search everything" mode.
+        let fullMaster = null;
+
+        function buildIndex() {
+          if (inMasterNotInWeek && fullMaster) return;
+          fullMaster = (window.MASTER_ITEM_FULL || []).slice();
+
+          // Build a set of (botanical_lower, size_normalized_lower) for items
+          // that ARE in this week's availability. We use description-as-key
+          // because master uses description (e.g. "Lavandula angustifolia")
+          // and availability also uses the same convention.
+          const inThisWeek = new Set();
+          const avail = (window.AVAILABILITY && window.AVAILABILITY.plants) || [];
+          for (const plant of avail) {
+            const normD = (plant.botanical || '').toLowerCase().trim();
+            for (const sz of (plant.sizes || [])) {
+              const c = (sz.container || '').toLowerCase().trim().replace(/\s+/g, '');
+              if (normD && c) inThisWeek.add(normD + '|' + c);
+            }
+          }
+
+          // Normalize master sizes the same way (strip spaces) so the keys match.
+          inMasterNotInWeek = fullMaster.filter(row => {
+            const d = (row.d || '').toLowerCase().trim();
+            const s = (row.s || '').toLowerCase().trim().replace(/\s+/g, '');
+            return d && s && !inThisWeek.has(d + '|' + s);
+          });
+        }
+
+        function openModal() {
+          buildIndex();
+          if (!inMasterNotInWeek) {
+            showToast('Master catalog not loaded yet — try again in a second.');
+            return;
+          }
+          modal.hidden = false;
+          overlay.hidden = false;
+          setTimeout(() => searchInput.focus(), 50);
+        }
+
+        function closeModal() {
+          modal.hidden = true;
+          overlay.hidden = true;
+          searchInput.value = '';
+          selectedRow.hidden = true;
+          qtyInput.value = 1;
+          notesInput.value = '';
+          clearPick();
+          resultsHost.innerHTML = '<p class="cust-request-empty">Type at least 2 characters to search.</p>';
+        }
+
+        let pickedRow = null;
+        function clearPick() {
+          pickedRow = null;
+          selectedRow.hidden = true;
+        }
+        function pickRow(row) {
+          pickedRow = row;
+          pickedName.textContent = row.d || '';
+          const metaParts = [];
+          if (row.s) metaParts.push(row.s);
+          if (row.p != null) metaParts.push('$' + Number(row.p).toFixed(2));
+          if (row.c) metaParts.push(row.c);
+          pickedMeta.textContent = metaParts.join(' · ');
+          selectedRow.hidden = false;
+          // Re-render results to highlight the selection
+          renderResults();
+        }
+
+        let renderToken = 0;
+        function renderResults() {
+          const q = searchInput.value.trim().toLowerCase();
+          const token = ++renderToken;
+          if (q.length < 2) {
+            resultsHost.innerHTML = '<p class="cust-request-empty">Type at least 2 characters to search.</p>';
+            return;
+          }
+          // Simple substring match across description, code, and size.
+          // Sort by relevance: startsWith > includes in description, fall through.
+          const rows = [];
+          for (const row of inMasterNotInWeek) {
+            const d = (row.d || '').toLowerCase();
+            const c = (row.c || '').toLowerCase();
+            const s = (row.s || '').toLowerCase();
+            if ((d && d.includes(q)) || (c && c.includes(q)) || (s && s.includes(q))) {
+              if (d) rows.push(row);
+            }
+          }
+          // Cap at 50 hits to keep the DOM small.
+          rows.length = Math.min(rows.length, 50);
+
+          if (rows.length === 0) {
+            resultsHost.innerHTML = '<p class="cust-request-empty">No matches in the master catalog. Try a different spelling.</p>';
+            return;
+          }
+
+          // Sort: descriptions that start with q first, then includes.
+          rows.sort((a, b) => {
+            const ad = (a.d || '').toLowerCase();
+            const bd = (b.d || '').toLowerCase();
+            const aStarts = ad.startsWith(q) ? 0 : 1;
+            const bStarts = bd.startsWith(q) ? 0 : 1;
+            if (aStarts !== bStarts) return aStarts - bStarts;
+            if (ad < bd) return -1;
+            if (ad > bd) return 1;
+            return 0;
+          });
+
+          // Build the result list.
+          const html = rows.map(row => {
+            const pickedCls = (pickedRow === row) ? ' is-focused' : '';
+            const code = row.c ? `<span class="code">${escapeHtml(row.c)}</span>` : '';
+            const price = (row.p != null) ? '$' + Number(row.p).toFixed(2) : '';
+            return `
+              <div class="cust-request-result${pickedCls}" data-row-key="${escapeHtml(row.c + '|' + row.s)}">
+                <div class="cust-request-result-name">
+                  ${escapeHtml(row.d || '')}
+                  <small>${escapeHtml(row.s || '')}</small>
+                </div>
+                <div class="cust-request-result-meta">
+                  ${price ? escapeHtml(price) + ' · ' : ''}
+                  ${code}
+                </div>
+              </div>`;
+          }).join('');
+          resultsHost.innerHTML = html + `<div class="cust-request-result-count">${rows.length} match${rows.length === 1 ? '' : 'es'} in master (not in this week's list)</div>`;
+        }
+
+        function escapeHtml(s) {
+          return String(s).replace(/[&<>"']/g, c => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;',
+            '"': '&quot;', "'": '&#39;',
+          })[c]);
+        }
+
+        // Wire events
+        searchInput.addEventListener('input', renderResults);
+        resultsHost.addEventListener('click', (e) => {
+          const row = e.target.closest('.cust-request-result');
+          if (!row) return;
+          const key = row.dataset.rowKey;
+          const found = inMasterNotInWeek.find(r => (r.c + '|' + r.s) === key);
+          if (found) pickRow(found);
+        });
+        clearPickBtn.addEventListener('click', clearPick);
+        closeBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', closeModal);
+
+        document.addEventListener('keydown', (e) => {
+          if (modal.hidden) return;
+          if (e.key === 'Escape') closeModal();
+        });
+
+        addBtn.addEventListener('click', () => {
+          if (!pickedRow) {
+            showToast('Pick a plant first.');
+            return;
+          }
+          const qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+          const key = 'special|' + (pickedRow.c || '') + '|' + (pickedRow.s || '');
+          const description = pickedRow.d ? `${pickedRow.d}${pickedRow.s ? ' (' + pickedRow.s + ')' : ''}` : (pickedRow.c || 'Special order');
+          Cart.add({
+            key,
+            name: description,
+            size: pickedRow.s || '',
+            price: pickedRow.p || 0,
+            qty,
+            item_code: pickedRow.c || null,
+            upc: pickedRow.u || null,
+            specialOrder: true,
+          });
+          // Persist notes onto a sidecar map keyed by cart item key.
+          // The order submit reads this on send and stamps each item with a
+          // 'notes' field for the email/Slack/PDF.
+          if (notesInput.value && pickedRow) {
+            if (!window.__specialOrderNotes) window.__specialOrderNotes = {};
+            window.__specialOrderNotes[key] = notesInput.value.trim();
+          }
+          showToast(`Added ${qty}× ${description} (customer request)`);
+          // Keep the modal open so staff can add multiple items.
+          notesInput.value = '';
+          clearPick();
+          searchInput.value = '';
+          resultsHost.innerHTML = '<p class="cust-request-empty">Type at least 2 characters to search.</p>';
+          setTimeout(() => searchInput.focus(), 50);
+        });
+
+        // Expose openModal for external triggers (cart empty-state CTA)
+        window.openCustomerRequestPicker = openModal;
+        window.closeCustomerRequestPicker = closeModal;
+      })();
+
+      // Cart empty-state CTA — wired via delegation so it works whatever
+      // markup renderCartItems emits.
+      document.addEventListener('click', (e) => {
+        const cta = e.target.closest('.cart-empty-cta');
+        if (cta && typeof window.openCustomerRequestPicker === 'function') {
+          window.openCustomerRequestPicker();
+        }
+      });
     })();
   })();
   </script>

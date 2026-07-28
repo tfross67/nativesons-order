@@ -5205,7 +5205,7 @@
           return `
             <div class="cart-item${it.specialOrder ? ' is-special' : ''}" data-key="${esc(it.key)}">
               <div class="cart-item-info">
-                <div class="cart-item-name">${esc(it.name)}${it.specialOrder ? '<span class="cart-item-special">Customer request</span>' : ''}</div>
+                <div class="cart-item-name">${esc(it.name)}${(it.specialOrder && /^special\|/.test(it.key || '')) ? '<span class="cart-item-special">Customer request</span>' : ''}</div>
                 ${sizeLine}
                 <div class="cart-item-controls">
                   <div class="qty-stepper">

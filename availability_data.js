@@ -7494,20 +7494,6 @@ window.AVAILABILITY = {
       "new": false
     },
     {
-      "botanical": "Ajuga",
-      "section": "Perennials (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
-      "bloom": false,
-      "bud": false,
-      "new": false
-    },
-    {
       "botanical": "Ajuga reptans ‘Burgundy Glow’",
       "section": "Perennials (4\")",
       "sizes": [
@@ -7672,20 +7658,6 @@ window.AVAILABILITY = {
       "new": false
     },
     {
-      "botanical": "Campanula",
-      "section": "Perennials (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
-      "bloom": false,
-      "bud": false,
-      "new": false
-    },
-    {
       "botanical": "Campanula garganica ‘Dickson’s Gold’",
       "section": "Perennials (4\")",
       "sizes": [
@@ -7806,20 +7778,6 @@ window.AVAILABILITY = {
       "hardiness": "0",
       "description": "Generally evergreen (deciduous in cooler climates) this dwarf perennial grows to 10” high and spreads by stolons to form a 2’ wide clump. Bright orange-yellow flowers bloom from spring to fall, especially if faded flowers are removed periodically. Hardy to 0F. Southeastern North America.",
       "bloom": true,
-      "bud": false,
-      "new": false
-    },
-    {
-      "botanical": "Cuphea",
-      "section": "Perennials (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
-      "bloom": false,
       "bud": false,
       "new": false
     },
@@ -7961,20 +7919,6 @@ window.AVAILABILITY = {
       "new": false
     },
     {
-      "botanical": "Fragaria",
-      "section": "Perennials (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
-      "bloom": false,
-      "bud": false,
-      "new": false
-    },
-    {
       "botanical": "Fragaria chiloensis ‘Chaval’",
       "section": "Perennials (4\")",
       "sizes": [
@@ -8046,20 +7990,6 @@ window.AVAILABILITY = {
       "special_uses": "Container Planting\nBorder Planting",
       "hardiness": "20",
       "description": "An excellent addition to our expanding Hebe collection. A RHS (Award of Garden Merit) selection. Its name means varnished, referring to the leaves. This compact evergreen shrub has a neat rounded habit. Dark, glossy green leaves have thin yellow margins. White to pale lilac flowers in late spring. A excellent container subject, also suitable for rock gardens. Full sun, well drained soils. Hardy to 20F.",
-      "bloom": false,
-      "bud": false,
-      "new": false
-    },
-    {
-      "botanical": "Helianthemum",
-      "section": "Perennials (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
       "bloom": false,
       "bud": false,
       "new": false
@@ -8584,20 +8514,6 @@ window.AVAILABILITY = {
       "new": false
     },
     {
-      "botanical": "Nepeta",
-      "section": "Herbs (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
-      "bloom": false,
-      "bud": false,
-      "new": false
-    },
-    {
       "botanical": "Nepeta faassenii ‘Kitten Around’",
       "section": "Herbs (4\")",
       "sizes": [
@@ -8680,20 +8596,6 @@ window.AVAILABILITY = {
       "new": false
     },
     {
-      "botanical": "Santolina",
-      "section": "Herbs (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
-      "bloom": false,
-      "bud": false,
-      "new": false
-    },
-    {
       "botanical": "Santolina virens ‘Lemon Fizz’",
       "section": "Herbs (4\")",
       "sizes": [
@@ -8744,20 +8646,6 @@ window.AVAILABILITY = {
       "special_uses": "Rock Garden\nHerb Garden\nCoastal Garden\nDry Garden\nContainer Planting\nBorder Planting",
       "hardiness": "0",
       "description": "Very compact. Very light flowering which helps to conserve its tight form.",
-      "bloom": false,
-      "bud": false,
-      "new": false
-    },
-    {
-      "botanical": "Thymus",
-      "section": "Herbs (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
       "bloom": false,
       "bud": false,
       "new": false
@@ -8815,20 +8703,6 @@ window.AVAILABILITY = {
       "hardiness": "10",
       "description": "Wild thyme. Aromatic, dwarf shrub to 4” with trailing stems, tiny, rounded leaves, and pink flowers. Hardy to 5F. Northern Europe.",
       "bloom": true,
-      "bud": false,
-      "new": false
-    },
-    {
-      "botanical": "Carex",
-      "section": "Grasses (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
-      "bloom": false,
       "bud": false,
       "new": false
     },
@@ -8914,20 +8788,6 @@ window.AVAILABILITY = {
       "new": false
     },
     {
-      "botanical": "Festuca",
-      "section": "Grasses (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
-      "bloom": false,
-      "bud": false,
-      "new": false
-    },
-    {
       "botanical": "Festuca amethystina ‘Superba’",
       "section": "Grasses (4\")",
       "sizes": [
@@ -9007,20 +8867,6 @@ window.AVAILABILITY = {
       "special_uses": "Bog Planting\nWater Gardens\nContainer Planting\nBorder planting\nShade Garden\nAccent",
       "hardiness": "0",
       "description": "A striking cultivar with exceptional blue foliage and a vigorous habit. Dark chocolate flowers appear at the tips of the foliage through summer and fall. In our experience plants are shorter than the type but spread over time. Plant alongside ponds and streams or in containers where its vertical form and cool color can be appreciated. A San Marcos Growers introduction. Hardy to 0F.",
-      "bloom": false,
-      "bud": false,
-      "new": false
-    },
-    {
-      "botanical": "Sesleria",
-      "section": "Grasses (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
       "bloom": false,
       "bud": false,
       "new": false
@@ -9190,20 +9036,6 @@ window.AVAILABILITY = {
       "new": false
     },
     {
-      "botanical": "Portulacaria",
-      "section": "Succulents (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
-      "bloom": false,
-      "bud": false,
-      "new": false
-    },
-    {
       "botanical": "Portulacaria afra ‘Aurea’",
       "section": "Succulents (4\")",
       "sizes": [
@@ -9259,20 +9091,6 @@ window.AVAILABILITY = {
       "new": false
     },
     {
-      "botanical": "Ruschia",
-      "section": "Succulents (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
-      "bloom": false,
-      "bud": false,
-      "new": false
-    },
-    {
       "botanical": "Ruschia lineolata",
       "section": "Succulents (4\")",
       "sizes": [
@@ -9322,20 +9140,6 @@ window.AVAILABILITY = {
       "soil": "Well drained",
       "hardiness": "25",
       "description": "More compact than straight lineolata.",
-      "bloom": false,
-      "bud": false,
-      "new": false
-    },
-    {
-      "botanical": "Sedum",
-      "section": "Succulents (4\")",
-      "sizes": [
-        {
-          "container": "4in",
-          "price": 3.15,
-          "order": ""
-        }
-      ],
       "bloom": false,
       "bud": false,
       "new": false

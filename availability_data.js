@@ -2655,7 +2655,15 @@ window.AVAILABILITY = {
       "origin": "California",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Coastal Garden\nShade Garden\nAttracts Birds\nAttracts Butterflies\nSlope Planting\nContainer Planting\nWoodland Planting\nSmall area groundcover\nNative Sons Selection",
+      "hardiness": "10",
+      "description": "Excellent groundcover for full sun to part shade. Vigorous and heavy blooming. Red berries are small but sweet. Excellent beneath trees or shrubs to smother weeds and add color."
     },
     {
       "botanical": "Fuchsia hatschbachii",
@@ -7697,7 +7705,21 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "common": "Bellflower",
+      "origin": "Southern Europe",
+      "plant_type": "Perennial",
+      "exposure": "Full sun on coast - Shade inland",
+      "flower_color": "Vivid blue",
+      "flower_time": "Summer",
+      "height": "3-6\"",
+      "width": "12-18\"",
+      "foliage": "Green",
+      "water": "Regular",
+      "soil": "Well drained",
+      "special_uses": "Border Planting\nSmall area groundcover",
+      "hardiness": "0",
+      "description": "Low-growing perennial with Vivid blue flowers that are larger and darker than the species."
     },
     {
       "botanical": "Convolvulus sabatius",
@@ -7964,7 +7986,15 @@ window.AVAILABILITY = {
       "origin": "California",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Coastal Garden\nShade Garden\nAttracts Birds\nAttracts Butterflies\nSlope Planting\nContainer Planting\nWoodland Planting\nSmall area groundcover\nNative Sons Selection",
+      "hardiness": "10",
+      "description": "Excellent groundcover for full sun to part shade. Vigorous and heavy blooming. Red berries are small but sweet. Excellent beneath trees or shrubs to smother weeds and add color."
     },
     {
       "botanical": "Hebe vernicosa",

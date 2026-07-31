@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delivery portal — Native Sons</title>
+<style>
+  :root {
+    --c-bark: #2d4a2b;
+    --c-paper: #f7f4ec;
+    --c-line: #d8d2c2;
+    --c-ink: #1a2e1a;
+    --c-muted: #6b6256;
+    --c-clay: #4a4438;
+    --c-cta: #3a5f3a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--c-paper); color: var(--c-ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, "SF Pro Text", "Helvetica Neue", sans-serif; }
+  header {
+    background: var(--c-bark); color: #f7f4ec;
+    padding: 14px 24px;
+    display: flex; align-items: baseline; justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(45,74,43,0.18);
+  }
+  header h1 { font-size: 18px; margin: 0; letter-spacing: 0.04em; font-weight: 600; }
+  header .meta { font-size: 12px; opacity: 0.85; }
+  main { max-width: 1180px; margin: 0 auto; padding: 24px; }
+  .toolbar {
+    display: flex; gap: 12px; align-items: center;
+    margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .toolbar input[type=search] {
+    flex: 1; min-width: 240px;
+    padding: 10px 14px;
+    border: 1px solid var(--c-line);
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+  }
+  .toolbar button {
+    background: var(--c-cta); color: #fff;
+    border: 0; padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .toolbar button:hover { background: #2d4a2b; }
+  .toolbar button.ghost { background: transparent; color: var(--c-bark); border: 1px solid var(--c-line); }
+  .toolbar button.ghost:hover { background: #efece4; }
+  .toolbar .count { color: var(--c-muted); font-size: 13px; }
+
+  .customers { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+  .customer {
+    background: #fff; border: 1px solid var(--c-line);
+    border-radius: 10px; padding: 12px 14px;
+    display: flex; flex-direction: column; gap: 6px;
+    cursor: pointer; transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+  }
+  .customer:hover { border-color: #c4b88a; }
+  .customer.selected { background: #f1f6ec; border-color: var(--c-bark); }
+  .customer .name { font-weight: 600; font-size: 14.5px; color: var(--c-ink); }
+  .customer .badge-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .customer .badge {
+    font-size: 10.5px; padding: 3px 7px; border-radius: 4px;
+    font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .badge.open { background: #d9ecce; color: #2c5e1c; }
+  .badge.closed { background: #efd9d2; color: #8b3a1c; }
+  .badge.unknown { background: #ece4d0; color: #6b6256; }
+  .badge.partial { background: #ebe4cf; color: #6b6256; }
+  .badge.byappt { background: #e8e0f4; color: #4a3a8b; }
+  .badge.raw { background: #f4e8d4; color: #7a5520; }
+  .customer .addr { font-size: 12.5px; color: var(--c-muted); line-height: 1.35; }
+  .customer .hours-raw {
+    font-size: 11.5px; color: var(--c-clay);
+    background: #faf7ed; padding: 5px 8px; border-radius: 5px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .customer .meta-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 11px; color: var(--c-muted);
+    margin-top: 4px; gap: 8px;
+  }
+  .customer .phone { font-weight: 500; }
+
+  /* Print view */
+  body.printing { background: #fff; }
+  body.printing header { display: none; }
+  body.printing main { padding: 16px; max-width: none; }
+  body.printing .toolbar { display: none; }
+  body.printing .customers { grid-template-columns: 1fr; gap: 0; }
+  body.printing .customer {
+    border: 0; border-bottom: 1px solid #999;
+    padding: 14px 8px;
+    page-break-inside: avoid;
+    cursor: default;
+  }
+  body.printing .customer:hover { background: transparent; border-color: #999; }
+  body.printing .customer.selected { background: transparent; }
+  body.printing .customer:not(.selected) { display: none; }
+  body.printing .stop-number {
+    display: inline-block; width: 28px; height: 28px;
+    background: var(--c-bark); color: #fff;
+    border-radius: 50%; text-align: center;
+    line-height: 28px; font-weight: 700;
+    margin-right: 8px; vertical-align: middle;
+  }
+  body.printing .print-only { display: block !important; }
+  body.printing .comments { margin-top: 6px; padding: 6px 8px; background: #fff8e1; border-left: 3px solid #b89c3c;
+    font-size: 12px; color: #6b5018; }
+  .print-only { display: none; }
+  body:not(.printing) .print-header { display: none; }
+
+  /* Error / loading */
+  .gate, .error, .loading {
+    max-width: 480px; margin: 60px auto;
+    padding: 32px 24px; background: #fff;
+    border: 1px solid var(--c-line); border-radius: 12px;
+    text-align: center;
+  }
+  .error h2 { color: #8b3a1c; margin: 0 0 12px; }
+  .gate h2 { color: var(--c-bark); margin: 0 0 12px; }
+  .gate p, .error p { color: var(--c-muted); font-size: 14px; line-height: 1.5; }
+  .error a, .gate a { color: var(--c-cta); }
+
+  @media print {
+    .toolbar { display: none !important; }
+    .customers { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Native Sons — Delivery Routing</h1>
+  <div class="meta" id="meta"></div>
+</header>
+<main id="app">
+  <div class="loading" id="loading">Loading customer data…</div>
+</main>
+
+<script>
+// ============================================================
+// SECRET — embedded in this file. Protects against casual URL
+// sharing; not cryptographically secure against determined attacks.
+// If leaked, rotate this string AND re-run parse_customers.py.
+// ============================================================
+const DELIVERY_SECRET = "nsdeliveries";
+
+// ============================================================
+// Signed-URL validation
+// ============================================================
+async function computeSig(date) {
+  const enc = new TextEncoder();
+  const data = enc.encode(`delivery:${date}:${DELIVERY_SECRET}`);
+  const hash = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("")
+    .slice(0, 16);
+}
+
+function getUrlDate() {
+  const params = new URLSearchParams(location.search);
+  return params.get("date");
+}
+function getUrlSig() {
+  return new URLSearchParams(location.search).get("sig");
+}
+
+// ============================================================
+// Status computation — "open now" / "closed now" / etc.
+// ============================================================
+const DAY_CODES = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+function nowDayAndMinutes() {
+  const d = new Date();
+  return {
+    day: DAY_CODES[d.getDay()],
+    minutes: d.getHours() * 60 + d.getMinutes(),
+    isToday: true,
+  };
+}
+function parseTimeRange(s) {
+  if (!s || s === "closed") return null;
+  const m = s.match(/^(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})$/);
+  if (!m) return null;
+  return [parseInt(m[1]) * 60 + parseInt(m[2]), parseInt(m[3]) * 60 + parseInt(m[4])];
+}
+function isOpenAt(hours, day, minutes) {
+  const range = parseTimeRange(hours[day]);
+  if (!range) return false;
+  // handle overnight (close < open) by treating as 24h if difference ≥ 22h
+  let [open, close] = range;
+  if (close <= open) close += 24 * 60;
+  return minutes >= open && minutes < close;
+}
+
+function statusFor(hours, now) {
+  if (hours.quality === "empty") return { label: "Hours not on file", cls: "unknown" };
+  if (hours.quality === "by_appointment") return { label: "By appointment", cls: "byappt" };
+  if (hours.quality === "raw") return { label: "Hours not parsed", cls: "raw", raw: hours.raw };
+
+  // structured or partial
+  const todayRange = hours[now.day];
+  const todayParsed = parseTimeRange(todayRange);
+  if (todayRange === null || todayRange === undefined) {
+    return { label: "Closed today", cls: "closed" };
+  }
+  if (!todayParsed) {
+    return { label: todayRange, cls: "partial" };
+  }
+  if (isOpenAt(hours, now.day, now.minutes)) {
+    return { label: "Open now", cls: "open" };
+  }
+  return { label: "Closed now", cls: "closed" };
+}
+
+// ============================================================
+// DOM helpers
+// ============================================================
+function el(tag, attrs = {}, ...children) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") e.className = v;
+    else if (k === "html") e.innerHTML = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v);
+  }
+  for (const c of children) {
+    if (c == null) continue;
+    e.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+  }
+  return e;
+}
+function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
+
+// ============================================================
+// UI rendering
+// ============================================================
+let STATE = {
+  data: null,
+  selected: new Set(),
+  search: "",
+  filterType: "all",
+  filterStatus: "all",
+  sortBy: "name",
+};
+
+function renderApp() {
+  const app = document.getElementById("app");
+  clear(app);
+
+  if (!STATE.data) return;
+  const now = nowDayAndMinutes();
+  const customers = filterAndSort(STATE.data.customers);
+  const dayName = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][
+    ["sun","mon","tue","wed","thu","fri","sat"].indexOf(now.day)
+  ];
+
+  // Toolbar
+  const selectedCount = STATE.selected.size;
+  const toolbar = el("div", { class: "toolbar" },
+    el("input", {
+      type: "search",
+      placeholder: "Search by name, city, address, contact…",
+      value: STATE.search,
+      oninput: (e) => { STATE.search = e.target.value; renderCustomers(); },
+    }),
+    el("select", {
+      onchange: (e) => { STATE.filterType = e.target.value; renderCustomers(); },
+    },
+      el("option", { value: "all" }, "All types"),
+      el("option", { value: "Retail" }, "Retail"),
+      el("option", { value: "Wholesale" }, "Wholesale"),
+      el("option", { value: "Landscape" }, "Landscape"),
+    ),
+    el("select", {
+      onchange: (e) => { STATE.filterStatus = e.target.value; renderCustomers(); },
+    },
+      el("option", { value: "all" }, "All status"),
+      el("option", { value: "open" }, "Open now"),
+      el("option", { value: "closed" }, "Closed now"),
+      el("option", { value: "today" }, "Closed today"),
+      el("option", { value: "no_hours" }, "Hours not on file"),
+    ),
+    el("button", {
+      onclick: () => { goToPrint(); },
+    }, `Print ${selectedCount} stop${selectedCount !== 1 ? "s" : ""}`),
+    el("span", { class: "count" },
+      `${customers.length} customers · ${selectedCount} selected · ${dayName}`,
+    ),
+  );
+  app.appendChild(toolbar);
+
+  // Customer list
+  const grid = el("div", { class: "customers" });
+  app.appendChild(grid);
+  for (const c of customers) {
+    grid.appendChild(renderCustomer(c, now));
+  }
+}
+
+function renderCustomers() {
+  const grid = document.querySelector(".customers");
+  if (!grid) { renderApp(); return; }
+  const now = nowDayAndMinutes();
+  clear(grid);
+  const customers = filterAndSort(STATE.data.customers);
+  for (const c of customers) {
+    grid.appendChild(renderCustomer(c, now));
+  }
+  // update count
+  const countEl = document.querySelector(".toolbar .count");
+  if (countEl) {
+    const dayName = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][
+      ["sun","mon","tue","wed","thu","fri","sat"].indexOf(now.day)
+    ];
+    countEl.textContent = `${customers.length} customers · ${STATE.selected.size} selected · ${dayName}`;
+  }
+}
+
+function renderCustomer(c, now) {
+  const status = statusFor(c.hours, now);
+  const isSelected = STATE.selected.has(c.id || c.name);
+  const card = el("article", {
+    class: `customer${isSelected ? " selected" : ""}`,
+    onclick: () => toggleSelect(c),
+    "data-id": c.id || c.name,
+  },
+    el("span", { class: "stop-number print-only" }, ""), // filled in at print time
+    el("div", { class: "name" }, c.name || "(unnamed)"),
+    el("div", { class: "badge-row" },
+      el("span", { class: `badge ${status.cls}` }, status.label),
+      c.type ? el("span", { class: "badge partial" }, c.type) : null,
+    ),
+    c.address ? el("div", { class: "addr" }, c.address) : null,
+    c.hours.raw && c.hours.quality !== "structured" ?
+      el("div", { class: "hours-raw" }, c.hours.raw) : null,
+    el("div", { class: "meta-row" },
+      el("span", {}, c.contact || ""),
+      el("span", { class: "phone" }, c.telephone || c.mobile || ""),
+    ),
+    c.comment ? el("div", { class: "comments print-only" }, "⚠ " + c.comment) : null,
+  );
+  return card;
+}
+
+function toggleSelect(c) {
+  const k = c.id || c.name;
+  if (STATE.selected.has(k)) STATE.selected.delete(k);
+  else STATE.selected.add(k);
+  // re-render just this card
+  const card = document.querySelector(`.customer[data-id="${cssEscape(k)}"]`);
+  if (card) {
+    card.classList.toggle("selected");
+    // update count
+    const countEl = document.querySelector(".toolbar .count");
+    if (countEl) {
+      const m = countEl.textContent.match(/(\d+) customers · (\d+) selected/);
+      if (m) countEl.textContent = countEl.textContent.replace(
+        /(\d+) selected/,
+        `${STATE.selected.size} selected`,
+      );
+    }
+  }
+}
+
+function cssEscape(s) {
+  if (window.CSS && CSS.escape) return CSS.escape(s);
+  return String(s).replace(/"/g, '\\"');
+}
+
+function filterAndSort(customers) {
+  const q = STATE.search.trim().toLowerCase();
+  let filtered = customers;
+  if (q) {
+    filtered = filtered.filter(c => {
+      const hay = (c.name + " " + (c.address||"") + " " + (c.city||"") + " " + (c.contact||"") + " " + (c.telephone||"")).toLowerCase();
+      return hay.includes(q);
+    });
+  }
+  if (STATE.filterType !== "all") {
+    filtered = filtered.filter(c => c.type === STATE.filterType);
+  }
+  if (STATE.filterStatus !== "all") {
+    const now = nowDayAndMinutes();
+    filtered = filtered.filter(c => {
+      const status = statusFor(c.hours, now);
+      if (STATE.filterStatus === "open") return status.cls === "open";
+      if (STATE.filterStatus === "closed") return status.cls === "closed" && c.hours[now.day];
+      if (STATE.filterStatus === "today") return c.hours[now.day] == null || c.hours[now.day] === "closed";
+      if (STATE.filterStatus === "no_hours") return c.hours.quality === "empty";
+      return true;
+    });
+  }
+  if (STATE.sortBy === "name") {
+    filtered.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+  } else if (STATE.sortBy === "city") {
+    filtered.sort((a, b) => (a.city || "").localeCompare(b.city || ""));
+  }
+  return filtered;
+}
+
+function goToPrint() {
+  document.body.classList.add("printing");
+  // fill in stop numbers in the selected cards
+  const cards = [...document.querySelectorAll(".customer.selected")];
+  cards.forEach((card, i) => {
+    const sn = card.querySelector(".stop-number");
+    if (sn) sn.textContent = String(i + 1);
+  });
+  // also expand comments on all selected
+  const printHeader = el("div", { class: "print-header", style: "padding:8px 12px;background:#eee;border-bottom:1px solid #999;font-size:13px" },
+    el("strong", {}, `Driver route — ${STATE.data.date} — ${cards.length} stop${cards.length !== 1 ? "s" : ""}`),
+  );
+  const main = document.getElementById("app");
+  main.insertBefore(printHeader, main.firstChild);
+  window.print();
+  // restore on dialog close
+  setTimeout(() => {
+    document.body.classList.remove("printing");
+    if (printHeader.parentNode) printHeader.parentNode.removeChild(printHeader);
+  }, 100);
+}
+
+// ============================================================
+// Boot
+// ============================================================
+async function boot() {
+  const date = getUrlDate();
+  const providedSig = getUrlSig();
+
+  if (!date || !providedSig) {
+    showError("Missing signature",
+      `This delivery portal requires a signed URL with both <code>?date=YYYY-MM-DD</code> and <code>?sig=…</code> parameters.`,
+      );
+    return;
+  }
+
+  // Validate sig
+  const expected = await computeSig(date);
+  if (expected !== providedSig) {
+    showError("Invalid signature",
+      `The URL signature is invalid or expired for date <strong>${date}</strong>. ` +
+      `Generate a fresh URL from the staff portal.`,
+      );
+    return;
+  }
+
+  // Load data file
+  const script = document.createElement("script");
+  script.src = `delivery-data-${date}.js?v=${Date.now()}`;
+  script.onload = () => {
+    if (!window.DELIVERY_DATA) {
+      showError("Data file empty", `delivery-data-${date}.js loaded but contains no data.`);
+      return;
+    }
+    STATE.data = window.DELIVERY_DATA;
+    document.getElementById("meta").textContent =
+      `${date} · ${STATE.data.count} customers · generated ${STATE.data.generated}`;
+    renderApp();
+  };
+  script.onerror = () => {
+    showError("Data file missing",
+      `Could not load <code>delivery-data-${date}.js</code>. Either the file isn't published yet or this date is outside the valid window.`,
+    );
+  };
+  document.head.appendChild(script);
+}
+
+function showError(title, body) {
+  clear(document.getElementById("app"));
+  document.getElementById("app").appendChild(
+    el("div", { class: "error" },
+      el("h2", {}, title),
+      el("p", { html: body }),
+    ),
+  );
+  document.getElementById("meta").textContent = "—";
+}
+
+boot();
+</script>
+</body>
+</html>

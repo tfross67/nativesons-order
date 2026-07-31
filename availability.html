@@ -795,42 +795,7 @@
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
     }
-    .result-share-btn {
-      flex-shrink: 0;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 8px;
-      background: transparent;
-      border: 1px solid transparent;
-      border-radius: 6px;
-      font-family: var(--font-sans);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--c-clay, #6b6256);
-      cursor: pointer;
-      position: relative;
-      z-index: 3; /* above the card-link overlay */
-      transition: background 0.15s, color 0.15s, border-color 0.15s;
-    }
-    .result-share-btn:hover {
-      background: #f4f1ea;
-      color: var(--c-bark, #2d4a2b);
-      border-color: #d8d2c2;
-    }
-    .result-share-btn:active { transform: scale(0.96); }
-    .result-share-btn.copied {
-      background: var(--c-bark, #2d4a2b);
-      color: #fff;
-      border-color: var(--c-bark, #2d4a2b);
-    }
-    .result-share-btn svg {
-      width: 13px;
-      height: 13px;
-      vertical-align: -1px;
-    }
+    /* .result-share-btn removed 2026-08-01: button removed from card layout to declutter */
     .chat-test-root .no-results {
       text-align: center;
       padding: 56px 28px 48px;
@@ -3363,10 +3328,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260801-03"></script>
-  <script src="cart.js?v=20260801-03"></script>
-  <script src="availability_data.js?v=20260801-03"></script>
-  <script src="masteritem_full.js?v=20260801-03"></script>
+  <script src="supabase-config.js?v=20260801-04"></script>
+  <script src="cart.js?v=20260801-04"></script>
+  <script src="availability_data.js?v=20260801-04"></script>
+  <script src="masteritem_full.js?v=20260801-04"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -4461,10 +4426,6 @@
                   <div class="result-meta">${meta.join('')}</div>
                   <div class="result-price-row">
                     <div class="result-price">${sizesHTML}</div>
-                    <button type="button" class="result-share-btn" data-share-url="${plantUrl(plant.botanical)}" aria-label="Copy link to ${escapeHTML(plant.botanical)}" title="Copy link to clipboard">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                      <span data-share-label>Share</span>
-                    </button>
                   </div>
                   <div class="card-actions">
                     <button type="button" class="result-expand" aria-expanded="false" data-expand>Details</button>
@@ -4699,47 +4660,6 @@
     // Use event delegation on results container. Checkbox click is captured first
     // (z-index 3 > link overlay z-index 1), so it doesn't trigger the link.
     resultsEl.addEventListener('click', (e) => {
-      const shareBtn = e.target.closest('[data-share-url]');
-      if (shareBtn) {
-        e.preventDefault();
-        e.stopPropagation();
-        const url = shareBtn.dataset.shareUrl;
-        const label = shareBtn.querySelector('[data-share-label]');
-        const original = label ? label.textContent : 'Share';
-        const showCopied = () => {
-          if (label) label.textContent = 'Copied!';
-          shareBtn.classList.add('copied');
-          setTimeout(() => {
-            if (label) label.textContent = original;
-            shareBtn.classList.remove('copied');
-          }, 1600);
-        };
-        // Use modern clipboard API with fallback to a hidden textarea
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(url).then(showCopied).catch(() => {
-            // Fallback if clipboard API blocked
-            const ta = document.createElement('textarea');
-            ta.value = url;
-            ta.style.position = 'fixed';
-            ta.style.left = '-9999px';
-            document.body.appendChild(ta);
-            ta.select();
-            try { document.execCommand('copy'); showCopied(); } catch (_) {}
-            document.body.removeChild(ta);
-          });
-        } else {
-          // Older browser fallback
-          const ta = document.createElement('textarea');
-          ta.value = url;
-          ta.style.position = 'fixed';
-          ta.style.left = '-9999px';
-          document.body.appendChild(ta);
-          ta.select();
-          try { document.execCommand('copy'); showCopied(); } catch (_) {}
-          document.body.removeChild(ta);
-        }
-        return;
-      }
       const expand = e.target.closest('[data-expand]');
       if (expand) {
         e.preventDefault();

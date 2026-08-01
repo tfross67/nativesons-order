@@ -674,11 +674,9 @@
       margin-bottom: 9px;
       color: var(--c-bark, #2d4a2b);
     }
-    /* 2026-08-01: absorb the extra vertical space inside the metadata
-       block so .result-price-row + .card-actions always sit at the same
-       baseline across all cards in a grid row, regardless of how many
-       chips or how the type/origin text wraps. */
-    .chat-test-root .result-meta { flex: 1 1 auto; }
+    /* Price alignment is handled by .result-price-row's own
+       margin-top: auto, so .result-meta doesn't need to grow and
+       create gaps when chips only fill 1-2 rows. */
     .chat-test-root .result-type-origin .sep {
       color: #d4ccb9;
       font-size: 14px;
@@ -3334,10 +3332,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260801-06"></script>
-  <script src="cart.js?v=20260801-06"></script>
-  <script src="availability_data.js?v=20260801-06"></script>
-  <script src="masteritem_full.js?v=20260801-06"></script>
+  <script src="supabase-config.js?v=20260801-07"></script>
+  <script src="cart.js?v=20260801-07"></script>
+  <script src="availability_data.js?v=20260801-07"></script>
+  <script src="masteritem_full.js?v=20260801-07"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse

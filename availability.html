@@ -558,8 +558,14 @@
       padding: 14px 14px 12px;
       box-shadow: 0 1px 2px rgba(45, 74, 43, 0.04), 0 4px 12px rgba(45, 74, 43, 0.04);
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      /* Rows: [link absolute], [image absolute], botanical, common, type-origin,
+         meta (grows), price-row, card-actions. Absolute children don't occupy
+         grid tracks. The 1fr meta row absorbs any vertical extra space so the
+         price row + actions always bottom-align across all cards in a row,
+         while chips inside meta stay at their natural height at the top of
+         that meta block (no chip gaps). */
+      grid-template-rows: auto auto auto auto 1fr auto auto;
       height: 100%;
     }
     .chat-test-root .result:hover {
@@ -3332,10 +3338,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260801-07"></script>
-  <script src="cart.js?v=20260801-07"></script>
-  <script src="availability_data.js?v=20260801-07"></script>
-  <script src="masteritem_full.js?v=20260801-07"></script>
+  <script src="supabase-config.js?v=20260801-08"></script>
+  <script src="cart.js?v=20260801-08"></script>
+  <script src="availability_data.js?v=20260801-08"></script>
+  <script src="masteritem_full.js?v=20260801-08"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse

@@ -233,7 +233,7 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
     if (i.special_order) {
       fields.push({
         type: "mrkdwn",
-        text: `*🌱 Special order*\n_Customer request — office to source_`,
+        text: `*🌱 Special order* — Customer request`,
       });
     }
     itemBlocks.push({ type: "section", fields });

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#2d4a2b">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <link rel="stylesheet" href="styles.css?v=20260807-01">
+  <link rel="stylesheet" href="styles.css?v=20260807-02">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -3338,10 +3338,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260807-01"></script>
-  <script src="cart.js?v=20260807-01"></script>
-  <script src="availability_data.js?v=20260807-01"></script>
-  <script src="masteritem_full.js?v=20260807-01"></script>
+  <script src="supabase-config.js?v=20260807-02"></script>
+  <script src="cart.js?v=20260807-02"></script>
+  <script src="availability_data.js?v=20260807-02"></script>
+  <script src="masteritem_full.js?v=20260807-02"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -3547,7 +3547,8 @@
         .replace(/[‘’'"]/g, '')
         .replace(/\s+/g, ' ')
         .trim();
-      // Prefer non-4-inch entries
+      // Prefer non-4-inch entries; merge any 4" sizes into the kept entry
+      // so customers can order both sizes (e.g. Lavandula 'Munstead' 1gal + 4in).
       const seen = new Map();
       for (const p of raw) {
         const k = norm(p.botanical);
@@ -3555,13 +3556,19 @@
           seen.set(k, p);
           continue;
         }
-        // Replace if current is non-4-inch and stored is 4-inch
         const cur = seen.get(k);
         const curIsFour = /\(4"\)/.test(cur.section || '');
         const newIsFour = /\(4"\)/.test(p.section || '');
         if (curIsFour && !newIsFour) {
-          seen.set(k, p);
+          // Merge 4" sizes into the new (1g+) entry, then keep the new entry
+          const merged = { ...p, sizes: [...(p.sizes || []), ...(cur.sizes || [])] };
+          seen.set(k, merged);
+        } else if (!curIsFour && newIsFour) {
+          // New is 4", keep the existing 1g+ entry but graft in the 4" sizes
+          const merged = { ...cur, sizes: [...(cur.sizes || []), ...(p.sizes || [])] };
+          seen.set(k, merged);
         }
+        // else: both non-4" duplicate — keep the first one (current behavior)
       }
       const deduped = Array.from(seen.values());
       renderHero(deduped);

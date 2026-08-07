@@ -147,7 +147,14 @@ window.AVAILABILITY = {
       "origin": "Australia",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Evergreen tree",
+      "exposure": "Full sun",
+      "foliage": "Gray green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Dry garden\nSlope planting\nAccent",
+      "hardiness": "25"
     },
     {
       "botanical": "Acacia iteaphylla",
@@ -314,7 +321,14 @@ window.AVAILABILITY = {
       "origin": "Australia",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Evergreen shrub",
+      "exposure": "Full sun",
+      "foliage": "Silver gray",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "hardiness": "30",
+      "description": "Synonyms: Adenanthos UCSC 98.7."
     },
     {
       "botanical": "Agapanthus 'Blackjack'™",
@@ -328,7 +342,20 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": true
+      "new": true,
+      "common": "African Lily",
+      "origin": "Garden hybrid",
+      "plant_type": "Perennial",
+      "exposure": "Full sun",
+      "flower_color": "Dark purple",
+      "flower_time": "Spring - Summer",
+      "height": "18-24\"",
+      "width": "12-18\"",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained / tolerates heavier soils",
+      "special_uses": "Cut Flower\nCoastal garden\nContainer planting\nBorder planting\nAttracts birds\nAttracts butterflies",
+      "hardiness": "15"
     },
     {
       "botanical": "Agastache 'Vivid'",
@@ -402,7 +429,14 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Succulent",
+      "exposure": "Full sun",
+      "foliage": "Blue",
+      "water": "Infrequent",
+      "soil": "Well drained",
+      "special_uses": "Container planting",
+      "hardiness": "25"
     },
     {
       "botanical": "Agave americana 'Rancho Blue'",
@@ -422,7 +456,13 @@ window.AVAILABILITY = {
       "origin": "Mexico",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Succulent",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Blue gray",
+      "water": "Infrequent",
+      "soil": "Well drained",
+      "hardiness": "20"
     },
     {
       "botanical": "Agave potatorum 'Cameron Blue'",
@@ -442,7 +482,14 @@ window.AVAILABILITY = {
       "origin": "Mexico",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Succulent",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Blue gray",
+      "water": "Infrequent",
+      "soil": "Well drained",
+      "special_uses": "Rock garden",
+      "hardiness": "20"
     },
     {
       "botanical": "Anemone 'Dawn Breaker'",
@@ -462,7 +509,14 @@ window.AVAILABILITY = {
       "origin": "Garden hybrid",
       "bloom": false,
       "bud": false,
-      "new": true
+      "new": true,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Attracts butterflies\nBorder planting\nContainer planting\nCut Flower",
+      "hardiness": "10"
     },
     {
       "botanical": "Anemone ‘September Charm’",
@@ -510,7 +564,15 @@ window.AVAILABILITY = {
       "origin": "Garden hybrid",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Container planting\nAttracts butterflies",
+      "hardiness": "10",
+      "description": "Fantasy Series™"
     },
     {
       "botanical": "Anisodontea 'Elegant Lady'",
@@ -645,7 +707,20 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "common": "Humboldt Mystery manzanita",
+      "origin": "California",
+      "plant_type": "Evergreen shrub",
+      "exposure": "Full sun - Partial shade",
+      "flower_color": "Light pink to white",
+      "flower_time": "Winter",
+      "height": "4-6'",
+      "width": "6-8'",
+      "foliage": "Dark green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Attracts birds\nAttracts butterflies\nCalifornia Native\nAccent",
+      "hardiness": "0"
     },
     {
       "botanical": "Arctostaphylos x media 'Peter Ehrlich'",
@@ -802,7 +877,15 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Regular",
+      "soil": "Well drained",
+      "special_uses": "Attracts butterflies\nSmall area groundcover\nRock garden\nContainer planting\nBorder planting",
+      "hardiness": "0",
+      "description": "Up to 18\" tall, including flower spikes."
     },
     {
       "botanical": "Bergenia cordifolia 'Tubby Andrews'",
@@ -822,7 +905,14 @@ window.AVAILABILITY = {
       "origin": "Garden hybrid",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Variegated, green and cream",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Border planting\nContainer planting\nAttracts butterflies\nAttracts birds",
+      "hardiness": "10"
     },
     {
       "botanical": "Bidens ferulifolia 'Yellow Sunshine'",
@@ -842,7 +932,14 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun",
+      "foliage": "Green, fern-like",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Container planting\nBorder planting\nRock garden",
+      "hardiness": "10"
     },
     {
       "botanical": "Boronia heterophylla",
@@ -862,7 +959,14 @@ window.AVAILABILITY = {
       "origin": "Australia",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Evergreen shrub",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Dark green",
+      "water": "Regular",
+      "soil": "Moist / well drained",
+      "special_uses": "Screen\nCut Flower",
+      "hardiness": "20"
     },
     {
       "botanical": "Buddleja 'Buzz™ Ivory'",
@@ -909,7 +1013,13 @@ window.AVAILABILITY = {
       "origin": "South America",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Shrub - Small tree",
+      "exposure": "Full sun",
+      "foliage": "Dark green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "hardiness": "15"
     },
     {
       "botanical": "Callistemon viminalis 'Slim'",
@@ -1067,7 +1177,13 @@ window.AVAILABILITY = {
       "origin": "North America",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "hardiness": "10"
     },
     {
       "botanical": "Caryopteris x clandonensis 'Gold Crest'",
@@ -1087,7 +1203,15 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Deciduous shrub",
+      "exposure": "Full sun",
+      "foliage": "Golden yellow",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Border planting\nContainer planting",
+      "hardiness": "20",
+      "description": "Deer and rabbit resistant."
     },
     {
       "botanical": "Casuarina glauca 'Cousin It'",
@@ -1450,7 +1574,13 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Evergreen shrub",
+      "exposure": "Full sun",
+      "foliage": "Green, glossy texture",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "hardiness": "10"
     },
     {
       "botanical": "Cistus 'Victor Reiter'",
@@ -1949,7 +2079,15 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Attracts butterflies",
+      "hardiness": "30",
+      "description": "Mounded. Small pink blooms. Fine fernlike foliage. Loves heat."
     },
     {
       "botanical": "Dorycnium hirsutum",
@@ -1997,7 +2135,14 @@ window.AVAILABILITY = {
       "origin": "South Africa",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Succulent",
+      "exposure": "Full Sun",
+      "foliage": "Green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "hardiness": "30",
+      "description": "Synonyms: Mesembryanthemum micans."
     },
     {
       "botanical": "Drosanthemum speciosum",
@@ -2017,7 +2162,14 @@ window.AVAILABILITY = {
       "origin": "South Africa",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Succulent",
+      "exposure": "Full sun",
+      "foliage": "Green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "hardiness": "30",
+      "description": "Synonyms: Mesembryanthemum speciosum."
     },
     {
       "botanical": "Dymondia margaretae",
@@ -2202,7 +2354,14 @@ window.AVAILABILITY = {
       "origin": "California",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Attracts birds\nRock garden\nContainer planting\nCalifornia Native\nAttracts butterflies",
+      "hardiness": "15"
     },
     {
       "botanical": "Eriogonum grande var. rubescens",
@@ -2250,7 +2409,14 @@ window.AVAILABILITY = {
       "origin": "California",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Evergreen shrub",
+      "exposure": "Full sun",
+      "foliage": "Gray green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Erosion control\nCoastal garden\nAttracts butterflies",
+      "hardiness": "15"
     },
     {
       "botanical": "Erysimum linifolium 'Erysistible™ Magenta'",
@@ -2270,7 +2436,14 @@ window.AVAILABILITY = {
       "origin": "North America",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Border Planting\nCoastal garden\nContainer planting\nSlope planting\nAttracts birds\nAttracts butterflies",
+      "hardiness": "0"
     },
     {
       "botanical": "Escallonia 'Compacta'",
@@ -2488,7 +2661,15 @@ window.AVAILABILITY = {
       "origin": "California",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Coastal Garden\nShade Garden\nAttracts Birds\nAttracts Butterflies\nSlope Planting\nContainer Planting\nWoodland Planting\nSmall area groundcover\nNative Sons Selection",
+      "hardiness": "10",
+      "description": "Excellent groundcover for full sun to part shade. Vigorous and heavy blooming. Red berries are small but sweet. Excellent beneath trees or shrubs to smother weeds and add color."
     },
     {
       "botanical": "Fremontodendron ‘California Glory’",
@@ -2563,7 +2744,14 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": false,
       "bud": false,
-      "new": true
+      "new": true,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Lime Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Attracts butterflies\nBorder planting\nContainer planting",
+      "hardiness": "15"
     },
     {
       "botanical": "Grevillea 'Moonlight'",
@@ -2698,7 +2886,14 @@ window.AVAILABILITY = {
       "origin": "Southwestern Europe",
       "bloom": false,
       "bud": false,
-      "new": true
+      "new": true,
+      "plant_type": "Evergreen shrub",
+      "exposure": "Full sun",
+      "foliage": "Silver gray",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Rock garden\nCoastal garden\nDry garden",
+      "hardiness": "10"
     },
     {
       "botanical": "Hebe diosimifolia 'Aute Wainie Falls'",
@@ -2862,7 +3057,13 @@ window.AVAILABILITY = {
       "origin": "Garden hybrid",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Woody perennial - Subshrub",
+      "exposure": "Full sun",
+      "foliage": "Dark green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "hardiness": "0"
     },
     {
       "botanical": "Helleborus argutifolius 'Pacific Frost'",
@@ -2942,7 +3143,8 @@ window.AVAILABILITY = {
       "hardiness": "25",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "special_uses": "Herb garden"
     },
     {
       "botanical": "Heuchera cylindrica",
@@ -3048,7 +3250,14 @@ window.AVAILABILITY = {
       "origin": "North America",
       "bloom": false,
       "bud": false,
-      "new": true
+      "new": true,
+      "plant_type": "Groundcover, Evergreen shrub",
+      "exposure": "Full sun",
+      "foliage": "Blue gray",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Erosion control\nContainer planting\nDry garden\nRock garden",
+      "hardiness": "20"
     },
     {
       "botanical": "Lavandula 'Avonview'",
@@ -3096,7 +3305,14 @@ window.AVAILABILITY = {
       "origin": "Mediterranean",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Woody perennial - Subshrub",
+      "exposure": "Full sun",
+      "foliage": "Gray green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Attracts butterflies\nBorder planting\nContainer planting",
+      "hardiness": "0"
     },
     {
       "botanical": "Lavandula 'Jennifer'",
@@ -3143,7 +3359,15 @@ window.AVAILABILITY = {
       "origin": "Mediterranean",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Cut Flower\nHerb garden\nAttracts butterflies",
+      "hardiness": "0",
+      "description": "Deer resistant"
     },
     {
       "botanical": "Lavandula angustifolia 'Munstead'",
@@ -3392,7 +3616,14 @@ window.AVAILABILITY = {
       "origin": "Mediterranean",
       "bloom": false,
       "bud": true,
-      "new": false
+      "new": false,
+      "plant_type": "Woody perennial/subshrub",
+      "exposure": "Full sun",
+      "foliage": "Gray green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Border Planting\nHerb Garden\nDry Garden\nContainer planting\nNative Sons selection",
+      "hardiness": "15"
     },
     {
       "botanical": "Lavandula x intermedia 'Grosso'",
@@ -3559,7 +3790,15 @@ window.AVAILABILITY = {
       "origin": "Australia, New Zealand",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Evergreen shrub",
+      "exposure": "Full sun",
+      "foliage": "Green, round",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Accent",
+      "hardiness": "20",
+      "description": "Shrub to about 6’ tall and 9’ wide with large, lavender-pink flowers bearing dark green centers appearing in spring. A Native Sons favorite and arguably the best Aussie in our garden. Australia."
     },
     {
       "botanical": "Leucadendron 'Ebony'",
@@ -3913,7 +4152,14 @@ window.AVAILABILITY = {
       "origin": "North America",
       "bloom": false,
       "bud": false,
-      "new": true
+      "new": true,
+      "plant_type": "Perennial",
+      "exposure": "Full sun",
+      "foliage": "Green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Container planting\nSmall area groundcover\nBorder planting\nRock garden",
+      "hardiness": "0"
     },
     {
       "botanical": "Olea europaea 'Campo Dwarf'",
@@ -4048,7 +4294,14 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun",
+      "foliage": "Green and purple",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Container planting\nAttracts butterflies\nAttracts birds",
+      "hardiness": "20"
     },
     {
       "botanical": "Pelargonium 'Oldbury Duet'",
@@ -4208,7 +4461,14 @@ window.AVAILABILITY = {
       "origin": "Garden hybrid",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun",
+      "foliage": "Green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Attracts birds\nAttracts butterflies",
+      "hardiness": "20"
     },
     {
       "botanical": "Penstemon heterophyllus ‘Margarita BOP’",
@@ -4256,7 +4516,14 @@ window.AVAILABILITY = {
       "origin": "Europe",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun",
+      "foliage": "Gray green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "hardiness": "10",
+      "description": "Rounded evergreen shrub."
     },
     {
       "botanical": "Phlomis fruticosa",
@@ -4421,7 +4688,14 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Border planting\nContainer planting",
+      "hardiness": "20"
     },
     {
       "botanical": "Pittosporum 'Wrinkle Blue'",
@@ -4671,7 +4945,15 @@ window.AVAILABILITY = {
       "origin": "Australia",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun",
+      "foliage": "Dark Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Attracts birds",
+      "hardiness": "20",
+      "description": "Bell shaped flowers."
     },
     {
       "botanical": "Quercus suber",
@@ -4773,7 +5055,14 @@ window.AVAILABILITY = {
       "origin": "California",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Evergreen shrub",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Hedge Planting\nScreen\nAttracts birds\nAttracts butterflies",
+      "hardiness": "10"
     },
     {
       "botanical": "Rhus integrifolia",
@@ -5221,7 +5510,14 @@ window.AVAILABILITY = {
       "origin": "Garden hybrid",
       "bloom": false,
       "bud": true,
-      "new": false
+      "new": false,
+      "plant_type": "Woody perennial - Subshrub",
+      "exposure": "Full sun",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "hardiness": "25",
+      "description": "Cross between S. 'Waverly' and S. chiapensis."
     },
     {
       "botanical": "Salvia apiana",
@@ -5319,7 +5615,20 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": true,
-      "new": false
+      "new": false,
+      "common": "Coahuila Sage",
+      "origin": "Mexico",
+      "plant_type": "Evergreen shrub",
+      "exposure": "Full sun",
+      "flower_color": "Blue violet",
+      "flower_time": "Summer - Fall",
+      "height": "2-3'",
+      "width": "2-3'",
+      "foliage": "Green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Border planting\nContainer planting",
+      "hardiness": "25"
     },
     {
       "botanical": "Salvia greggii 'Amethyst Lips'",
@@ -5421,7 +5730,14 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Woody perennial - Subshrub",
+      "exposure": "Full sun on coast - Part shade inland",
+      "foliage": "Deep green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Attracts birds\nAttracts butterflies\nBorder planting\nCoastal garden\nContainer planting",
+      "hardiness": "20"
     },
     {
       "botanical": "Salvia spathacea",
@@ -5691,7 +6007,15 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun",
+      "foliage": "Variegated",
+      "water": "Regular",
+      "soil": "Well drained",
+      "special_uses": "Rock garden\nDry garden\nContainer planting",
+      "hardiness": "0",
+      "description": "A compact, semi-evergreen, clump-forming variegated cultivar of blue-eyed grass (*Sisyrinchium biscutella*) with slender, erect, sword-shaped grey-green leaves striped and margined in cream — the foliage itself is the principal ornament, holding its coloration year-round in mild climates. To only 6-8 inches tall and 8-10 inches wide, forming neat, slowly expanding tufts that read well at the front of a border or in a trough. Late spring through summer brings slender stems of flowers whose buds emerge a curious dusky purple and open only in the afternoon (roughly 2-6 pm) to an unusual mix of yellow-cream, tawny orange, and pale straw with a purplish ring around bright yellow centers. Each bloom lasts only a few hours but the plant produces them in succession over a long season. Hardy to about 0°F (RHS H5; USDA zones 5a-9b per Greg app; the parent species is from southern South America). Prefers full sun and sharply drained, lean soil; tolerates part shade in hot inland gardens. Excellent in rock gardens, scree beds, gravel gardens, alpine troughs, and patio containers where the afternoon-only flower display becomes a conversation piece. Deer-resistant and drought-tolerant once established. A member of the Iridaceae from southern Argentina, Uruguay, and southern Brazil."
     },
     {
       "botanical": "Sisyrinchium bellum ‘Rocky Point’",
@@ -6138,7 +6462,14 @@ window.AVAILABILITY = {
       "origin": "North America",
       "bloom": false,
       "bud": false,
-      "new": true
+      "new": true,
+      "plant_type": "Perennial",
+      "exposure": "Shade",
+      "foliage": "Golden yellow",
+      "water": "Regular",
+      "soil": "Well drained",
+      "special_uses": "Shade garden\nContainer planting",
+      "hardiness": "20"
     },
     {
       "botanical": "Tulbaghia 'Fairy Star'",
@@ -6511,7 +6842,14 @@ window.AVAILABILITY = {
       "origin": "Australia",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Evergreen shrub",
+      "exposure": "Full sun",
+      "foliage": "Bright emerald green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "hardiness": "30",
+      "description": "Bright emerald green leaves darken slightly as they mature."
     },
     {
       "botanical": "Yucca rostrata 'Sapphire Skies'",
@@ -6564,7 +6902,15 @@ window.AVAILABILITY = {
       "origin": "S America, Australia, New Zealand",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Fern",
+      "exposure": "Filtered shade - Shade",
+      "foliage": "Green with red new growth",
+      "water": "Regular",
+      "soil": "Moist / well drained",
+      "special_uses": "Border planting\nContainer planting\nRock garden\nWoodland planting\nShade garden",
+      "hardiness": "20",
+      "description": "Spreads slowly via creeping rhizomes to form a wide mat up to 3 to 5 feet across."
     },
     {
       "botanical": "Pellaea falcata",
@@ -7081,7 +7427,15 @@ window.AVAILABILITY = {
       "origin": "Tropical America, W Africa",
       "bloom": false,
       "bud": false,
-      "new": true
+      "new": true,
+      "plant_type": "Grass/grass-like perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Variegated, green and cream",
+      "water": "Regular",
+      "soil": "Well drained",
+      "special_uses": "Container planting",
+      "hardiness": "20",
+      "description": "It spreads by stolons and can be used for erosion control or trailing in hanging baskets."
     },
     {
       "botanical": "Chondropetalum tectorum",
@@ -7162,7 +7516,14 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green w/cream margins tinted pink",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Attracts birds\nAttracts butterflies\nCut Flower",
+      "hardiness": "10"
     },
     {
       "botanical": "Ajuga ‘Chocolate Chip’",
@@ -7455,7 +7816,15 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Attracts butterflies",
+      "hardiness": "30",
+      "description": "Mounded. Small pink blooms. Fine fernlike foliage. Loves heat."
     },
     {
       "botanical": "Dymondia margaretae",
@@ -7586,7 +7955,15 @@ window.AVAILABILITY = {
       "origin": "California",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Coastal Garden\nShade Garden\nAttracts Birds\nAttracts Butterflies\nSlope Planting\nContainer Planting\nWoodland Planting\nSmall area groundcover\nNative Sons Selection",
+      "hardiness": "10",
+      "description": "Excellent groundcover for full sun to part shade. Vigorous and heavy blooming. Red berries are small but sweet. Excellent beneath trees or shrubs to smother weeds and add color."
     },
     {
       "botanical": "Helianthemum nummularium ‘Single Yellow’",
@@ -7606,7 +7983,13 @@ window.AVAILABILITY = {
       "origin": "Garden hybrid",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Woody perennial - Subshrub",
+      "exposure": "Full sun",
+      "foliage": "Dark green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "hardiness": "0"
     },
     {
       "botanical": "Helianthemum ‘Ben Hope’",
@@ -7680,7 +8063,14 @@ window.AVAILABILITY = {
       "origin": "Canary Islands",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Gray green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Attracts birds\nSmall area groundcover\nDry garden",
+      "hardiness": "30"
     },
     {
       "botanical": "Phyla nodiflora (pink)",
@@ -7728,7 +8118,13 @@ window.AVAILABILITY = {
       "origin": "South Africa",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "hardiness": "20"
     },
     {
       "botanical": "Rhodanthemum hosmariense",
@@ -7914,7 +8310,15 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun",
+      "foliage": "Variegated",
+      "water": "Regular",
+      "soil": "Well drained",
+      "special_uses": "Rock garden\nDry garden\nContainer planting",
+      "hardiness": "0",
+      "description": "A compact, semi-evergreen, clump-forming variegated cultivar of blue-eyed grass (*Sisyrinchium biscutella*) with slender, erect, sword-shaped grey-green leaves striped and margined in cream — the foliage itself is the principal ornament, holding its coloration year-round in mild climates. To only 6-8 inches tall and 8-10 inches wide, forming neat, slowly expanding tufts that read well at the front of a border or in a trough. Late spring through summer brings slender stems of flowers whose buds emerge a curious dusky purple and open only in the afternoon (roughly 2-6 pm) to an unusual mix of yellow-cream, tawny orange, and pale straw with a purplish ring around bright yellow centers. Each bloom lasts only a few hours but the plant produces them in succession over a long season. Hardy to about 0°F (RHS H5; USDA zones 5a-9b per Greg app; the parent species is from southern South America). Prefers full sun and sharply drained, lean soil; tolerates part shade in hot inland gardens. Excellent in rock gardens, scree beds, gravel gardens, alpine troughs, and patio containers where the afternoon-only flower display becomes a conversation piece. Deer-resistant and drought-tolerant once established. A member of the Iridaceae from southern Argentina, Uruguay, and southern Brazil."
     },
     {
       "botanical": "Stachys ‘Summer Romance’",
@@ -7934,7 +8338,14 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun",
+      "foliage": "Green",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Attracts butterflies\nBorder planting\nRock garden\nCut Flower\nContainer planting",
+      "hardiness": "0"
     },
     {
       "botanical": "Verbena bonariensis ‘Cloud 8’",
@@ -7988,7 +8399,8 @@ window.AVAILABILITY = {
       "hardiness": "25",
       "bloom": true,
       "bud": false,
-      "new": false
+      "new": false,
+      "special_uses": "Herb garden"
     },
     {
       "botanical": "Lavandula angustifolia ‘Munstead’",
@@ -8091,7 +8503,14 @@ window.AVAILABILITY = {
       "origin": "Mediterranean",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Perennial",
+      "exposure": "Full sun",
+      "foliage": "Silver green, fragrant",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Herb garden\nContainer planting\nBorder planting",
+      "hardiness": "0"
     },
     {
       "botanical": "Santolina virens ‘Lemon Fizz’",
@@ -8188,7 +8607,20 @@ window.AVAILABILITY = {
       ],
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "common": "Catmint",
+      "origin": "Hybrid",
+      "plant_type": "Perennial",
+      "exposure": "Full sun",
+      "flower_color": "Lavender blue",
+      "flower_time": "Summer - Fall",
+      "height": "8-12\"",
+      "width": "18-24\"",
+      "foliage": "Chartreuse, aromatic",
+      "water": "Moderate",
+      "soil": "Well drained",
+      "special_uses": "Attracts birds\nAttracts butterflies\nBorder planting\nContainer planting\nCut Flower",
+      "hardiness": "10"
     },
     {
       "botanical": "Carex divulsa ‘Westfield’",
@@ -8512,7 +8944,14 @@ window.AVAILABILITY = {
       "origin": "Hybrid",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Succulent",
+      "exposure": "Full sun",
+      "foliage": "Green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Rock garden\nErosion control\nContainer planting",
+      "hardiness": "0"
     },
     {
       "botanical": "Kalanchoe pumila",
@@ -8559,7 +8998,14 @@ window.AVAILABILITY = {
       "origin": "Asia",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Succulent",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Lavender Blue Gray",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "hardiness": "0",
+      "description": "Rosette max size 3\"."
     },
     {
       "botanical": "Portulacaria afra ‘Aurea’",
@@ -8579,7 +9025,14 @@ window.AVAILABILITY = {
       "origin": "South Africa",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Succulent",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Yellow turning lime green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "hardiness": "30",
+      "description": "Reddish brown stems. Leaves emerge bright yellow and turn lime green with age."
     },
     {
       "botanical": "Portulacaria afra ‘Skyscraper’",
@@ -8599,7 +9052,15 @@ window.AVAILABILITY = {
       "origin": "South Africa",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Succulent",
+      "exposure": "Full sun - Partial shade",
+      "foliage": "Green",
+      "water": "Occasional",
+      "soil": "Well drained",
+      "special_uses": "Rock garden",
+      "hardiness": "30",
+      "description": "Reddish brown stems. Slow-growing."
     },
     {
       "botanical": "Ruschia lineolata",
@@ -8652,7 +9113,8 @@ window.AVAILABILITY = {
       "hardiness": "25",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "description": "More compact than straight lineolata."
     },
     {
       "botanical": "Sedum album",
@@ -8946,7 +9408,14 @@ window.AVAILABILITY = {
       "origin": "California",
       "bloom": false,
       "bud": false,
-      "new": false
+      "new": false,
+      "plant_type": "Succulent",
+      "exposure": "Full sun",
+      "foliage": "Variegated, gray green and cream yellow",
+      "water": "Infrequent",
+      "soil": "Well drained",
+      "hardiness": "30",
+      "description": "Synonyms: Agave shawii 'John Bleck'.\nFoliage: Variegated, dark gray green and cream yellow margins."
     },
     {
       "botanical": "Yucca rostrata 'Sapphire Skies'",

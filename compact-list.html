@@ -107,7 +107,8 @@
     table.list {
       width: 100%;
       border-collapse: collapse;
-      font-size: 13px;
+      font-size: 14px;
+      line-height: 1.55;
       background: #fff;
       border: 1px solid var(--c-line);
       border-radius: 6px;
@@ -116,13 +117,13 @@
 
     table.list thead th {
       text-align: left;
-      font-weight: 600;
-      color: var(--c-bark);
+      font-weight: 500;
+      color: var(--c-muted);
       background: #f3efe2;
-      padding: 8px 12px;
+      padding: 12px 16px;
       border-bottom: 1px solid var(--c-line);
-      font-size: 12px;
-      letter-spacing: 0.04em;
+      font-size: 11px;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       white-space: nowrap;
       cursor: pointer;
@@ -132,25 +133,27 @@
     }
     table.list thead th:hover { background: #ebe6d4; }
     table.list thead th .arrow { color: var(--c-muted); margin-left: 4px; font-size: 10px; }
+    /* Centered Status column — match the cell alignment */
+    table.list thead th[data-sort="status"] { text-align: center; }
 
     table.list tbody td {
-      padding: 6px 12px;
+      padding: 10px 16px;
       border-bottom: 1px solid #efeada;
-      vertical-align: top;
+      vertical-align: middle;
     }
+    table.list tbody tr:last-child td { border-bottom: 0; }
     table.list tbody tr:nth-child(even) td { background: #fbfaf3; }
     table.list tbody tr:hover td { background: #f4f0df; }
 
     td.botanical {
       font-style: italic;
       color: var(--c-bark);
-      font-weight: 500;
+      font-weight: 400;
       white-space: nowrap;
     }
-    td.common { color: var(--c-clay); }
     td.size, td.height, td.width {
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 13px;
       color: var(--c-clay);
       white-space: nowrap;
     }
@@ -159,13 +162,14 @@
       font-family: var(--font-mono);
       font-weight: 600;
       color: var(--c-bark);
+      font-size: 14px;
       white-space: nowrap;
     }
     td.status {
       text-align: center;
       vertical-align: middle;
       white-space: nowrap;
-      padding: 4px 8px;
+      padding: 8px 12px;
     }
     td.status img.bloom-icon {
       display: inline-block;

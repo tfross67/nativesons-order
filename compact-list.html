@@ -161,6 +161,15 @@
       color: var(--c-bark);
       white-space: nowrap;
     }
+    td.status {
+      text-align: center;
+      font-size: 16px;
+      white-space: nowrap;
+    }
+    /* Larger emoji target for mobile taps */
+    @media (max-width: 720px) {
+      td.status { font-size: 20px; }
+    }
     td.section {
       font-size: 11px;
       color: var(--c-muted);
@@ -188,14 +197,14 @@
       td.common, td.section { display: none; }
     }
 
-    /* === Pricing gate (mirror availability.html) === */
-    body.pricing-locked td.price { color: var(--c-muted); }
+    /* === Pricing gate (mirror availability.html) ===
+       Banner up top is always the CTA. Per-row "Sign in for pricing"
+       is suppressed — visitors see no price column rather than a
+       placeholder in every row. */
+    body.pricing-locked #rows td.price { display: none; }
+    body.pricing-locked thead th[data-sort="price"] { display: none; }
+    /* Legacy single-row placeholder rule (kept for any future per-cell use) */
     body.pricing-locked td.price > .price-value { display: none; }
-    body.pricing-locked td.price::before {
-      content: "Sign in for pricing";
-      font-style: italic;
-      font-weight: 400;
-    }
 
     .pricing-banner {
       display: none;
@@ -233,7 +242,7 @@
     </div>
 
     <div class="toolbar">
-      <input type="search" id="q" placeholder="Filter by botanical or common name…" autocomplete="off" spellcheck="false">
+      <input type="search" id="q" placeholder="Filter by botanical name…" autocomplete="off" spellcheck="false">
       <span class="count" id="count"></span>
     </div>
 
@@ -241,11 +250,11 @@
       <thead>
         <tr>
           <th data-sort="botanical">Botanical<span class="arrow"></span></th>
-          <th data-sort="common">Common<span class="arrow"></span></th>
           <th data-sort="size">Size<span class="arrow"></span></th>
           <th data-sort="height">Height<span class="arrow"></span></th>
           <th data-sort="width">Width<span class="arrow"></span></th>
           <th data-sort="price" style="text-align:right">Price<span class="arrow"></span></th>
+          <th data-sort="status" class="col-status">Status<span class="arrow"></span></th>
           <th data-sort="section" class="col-staff">Section<span class="arrow"></span></th>
         </tr>
       </thead>
@@ -312,25 +321,32 @@
 
       for (const p of plants) {
         const sizes = (p.sizes || []).filter(s => s && s.container && typeof s.price === 'number');
+        // Status flag: bloom > bud > new (first true wins)
+        let status = '';
+        if (p.bloom) status = '🌸';
+        else if (p.bud) status = '🌿';
+        else if (p.new) status = '✨';
         if (sizes.length === 0) {
           ALL_ROWS.push({
             botanical: p.botanical || '',
-            common: p.common || '',
             size: '',
             height: p.height || '',
             width: p.width || '',
             price: null,
+            status,
+            statusOrder: p.bloom ? 1 : (p.bud ? 2 : (p.new ? 3 : 4)),
             section: p.section || '',
           });
         } else {
           for (const s of sizes) {
             ALL_ROWS.push({
               botanical: p.botanical || '',
-              common: p.common || '',
               size: s.container,
               height: p.height || '',
               width: p.width || '',
               price: s.price,
+              status,
+              statusOrder: p.bloom ? 1 : (p.bud ? 2 : (p.new ? 3 : 4)),
               section: p.section || '',
             });
           }
@@ -365,6 +381,7 @@
       switch (SORT_KEY) {
         case 'price': return row.price == null ? Infinity : row.price;
         case 'size': return row.size || '';
+        case 'status': return row.statusOrder;
         default: return (row[SORT_KEY] || '').toLowerCase();
       }
     }
@@ -373,8 +390,7 @@
       const q = (document.getElementById('q').value || '').trim().toLowerCase();
       const filtered = q
         ? ALL_ROWS.filter(r =>
-            (r.botanical || '').toLowerCase().includes(q) ||
-            (r.common || '').toLowerCase().includes(q))
+            (r.botanical || '').toLowerCase().includes(q))
         : ALL_ROWS.slice();
 
       filtered.sort((a, b) => {
@@ -401,14 +417,15 @@
           const priceCell = r.price == null
             ? '<span class="price-value">—</span>'
             : '<span class="price-value">$' + r.price.toFixed(2) + '</span>';
+          // Build the cell — for mobile, embed data-label so the card layout can render label/value pairs
           return '<tr>' +
-            '<td class="botanical">' + esc(r.botanical) + '</td>' +
-            '<td class="common">' + esc(r.common) + '</td>' +
-            '<td class="size">' + esc(r.size) + '</td>' +
-            '<td class="height">' + esc(r.height) + '</td>' +
-            '<td class="width">' + esc(r.width) + '</td>' +
-            '<td class="price">' + priceCell + '</td>' +
-            '<td class="section col-staff" style="' + (STAFF ? '' : 'display:none') + '">' + esc(r.section) + '</td>' +
+            '<td class="botanical" data-label="Botanical">' + esc(r.botanical) + '</td>' +
+            '<td class="size" data-label="Size">' + esc(r.size) + '</td>' +
+            '<td class="height" data-label="Height">' + esc(r.height) + '</td>' +
+            '<td class="width" data-label="Width">' + esc(r.width) + '</td>' +
+            '<td class="price" data-label="Price">' + priceCell + '</td>' +
+            '<td class="status" data-label="Status">' + esc(r.status) + '</td>' +
+            '<td class="section col-staff" data-label="Section" style="' + (STAFF ? '' : 'display:none') + '">' + esc(r.section) + '</td>' +
           '</tr>';
         }).join('');
         tbody.innerHTML = html;

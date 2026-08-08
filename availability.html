@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="Native Sons">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="styles.css?v=20260808-08">
+  <link rel="stylesheet" href="styles.css?v=20260808-09">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -3221,7 +3221,6 @@
         <span class="header-tagline">We grow plants that thrive in California's Mediterranean climate.</span>
         <span class="pricing-status-header" id="pricingStatusHeader" hidden></span>
         <button type="button" class="pricing-link-header" id="pricingLinkHeader" hidden>Get trade pricing</button>
-        <a href="compact-list.html" class="header-compact-link">Compact list</a>
         <a href="?staff=1" class="staff-link" id="staffLink" hidden>Staff: Sign in</a>
         <div class="header-meta-actions" id="staffHeaderActions" hidden>
           <a href="admin.html" class="staff-link" id="staffAdminLink">Admin →</a>
@@ -3268,7 +3267,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-08</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-09</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -3347,6 +3346,7 @@
                placeholder='e.g. "red flowers in 1gal" or "drought tolerant ceanothus"'
                autocomplete="off" aria-label="Search plants with natural language">
         <button type="button" id="chatClear" class="clear-btn">Clear</button>
+        <a href="compact-list.html" class="search-compact-link" title="View this week's availability as a compact text-only table">View as table →</a>
       </div>
       <div class="suggested">
         <span class="suggested-label">Try:</span>

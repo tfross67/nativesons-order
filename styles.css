@@ -81,24 +81,22 @@ body { padding-bottom: 80px; }
   object-fit: contain;
 }
 .brand-compact-link,
-.header-compact-link {
-  font-size: 12px;
+.search-compact-link {
+  font-size: 13px;
   color: var(--c-cta, #3a5f3a);
   text-decoration: none;
-  letter-spacing: 0.02em;
   font-weight: 500;
   white-space: nowrap;
-  padding: 4px 10px;
-  border: 1px solid var(--c-cta, #3a5f3a);
-  border-radius: 4px;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: opacity 0.15s ease;
 }
 .brand-compact-link:hover,
-.header-compact-link:hover {
-  background: var(--c-cta, #3a5f3a);
-  color: #fff;
-  text-decoration: none;
+.search-compact-link:hover {
+  text-decoration: underline;
   opacity: 1;
+}
+/* Compact link lives inside the search row — give it a touch of breathing room */
+.search-compact-link {
+  margin-left: 4px;
 }
 .brand-text h1 {
   font-family: var(--font-serif);

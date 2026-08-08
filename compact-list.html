@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2d4a2b">
+  <title>Native Sons — Quick Availability</title>
+  <meta name="description" content="Fast, text-only availability list. Botanical name, common name, size, height, width, and price.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Native Sons">
+  <style>
+    :root {
+      --c-bark: #2d4a2b;
+      --c-paper: #f7f4ec;
+      --c-line: #d8d2c2;
+      --c-muted: #6b6256;
+      --c-ink: #1a2e1a;
+      --c-clay: #4a4438;
+      --c-cta: #3a5f3a;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --font-mono: "SF Mono", Menlo, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--c-ink);
+      background: #fafaf5;
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 64px;
+    }
+
+    header.page {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--c-line);
+    }
+
+    header.page h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--c-bark);
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    header.page .meta {
+      font-size: 12px;
+      color: var(--c-muted);
+    }
+
+    header.page a.nav-back {
+      font-size: 12px;
+      color: var(--c-cta);
+      text-decoration: none;
+    }
+    header.page a.nav-back:hover { text-decoration: underline; }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .toolbar input[type="search"] {
+      flex: 1 1 240px;
+      min-width: 200px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-family: var(--font-sans);
+      color: var(--c-ink);
+      background: #fff;
+      border: 1px solid var(--c-line);
+      border-radius: 6px;
+      outline: none;
+    }
+    .toolbar input[type="search"]:focus {
+      border-color: var(--c-cta);
+      box-shadow: 0 0 0 2px rgba(58,95,58,0.15);
+    }
+
+    .toolbar .count {
+      font-size: 12px;
+      color: var(--c-muted);
+      white-space: nowrap;
+    }
+
+    table.list {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: #fff;
+      border: 1px solid var(--c-line);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    table.list thead th {
+      text-align: left;
+      font-weight: 600;
+      color: var(--c-bark);
+      background: #f3efe2;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--c-line);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+      position: sticky;
+      top: 0;
+    }
+    table.list thead th:hover { background: #ebe6d4; }
+    table.list thead th .arrow { color: var(--c-muted); margin-left: 4px; font-size: 10px; }
+
+    table.list tbody td {
+      padding: 6px 12px;
+      border-bottom: 1px solid #efeada;
+      vertical-align: top;
+    }
+    table.list tbody tr:nth-child(even) td { background: #fbfaf3; }
+    table.list tbody tr:hover td { background: #f4f0df; }
+
+    td.botanical {
+      font-style: italic;
+      color: var(--c-bark);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    td.common { color: var(--c-clay); }
+    td.size, td.height, td.width {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--c-clay);
+      white-space: nowrap;
+    }
+    td.price {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--c-bark);
+      white-space: nowrap;
+    }
+    td.section {
+      font-size: 11px;
+      color: var(--c-muted);
+      white-space: nowrap;
+    }
+
+    .empty {
+      padding: 32px;
+      text-align: center;
+      color: var(--c-muted);
+      font-size: 13px;
+    }
+
+    footer.page {
+      margin-top: 24px;
+      font-size: 11px;
+      color: var(--c-muted);
+      text-align: right;
+    }
+
+    @media (max-width: 720px) {
+      .wrap { padding: 16px 8px 48px; }
+      table.list { font-size: 12px; }
+      table.list thead th, table.list tbody td { padding: 6px 8px; }
+      td.common, td.section { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="page">
+      <h1>Quick Availability</h1>
+      <div>
+        <a class="nav-back" href="./availability.html">← Full search</a>
+        <span class="meta" id="meta">Loading…</span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="Filter by botanical or common name…" autocomplete="off" spellcheck="false">
+      <span class="count" id="count"></span>
+    </div>
+
+    <table class="list" id="t">
+      <thead>
+        <tr>
+          <th data-sort="botanical">Botanical<span class="arrow"></span></th>
+          <th data-sort="common">Common<span class="arrow"></span></th>
+          <th data-sort="size">Size<span class="arrow"></span></th>
+          <th data-sort="height">Height<span class="arrow"></span></th>
+          <th data-sort="width">Width<span class="arrow"></span></th>
+          <th data-sort="price" style="text-align:right">Price<span class="arrow"></span></th>
+          <th data-sort="section" class="col-staff">Section<span class="arrow"></span></th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty" hidden>No plants match your filter.</div>
+
+    <footer class="page" id="foot"></footer>
+  </div>
+
+  <script>
+    // ===== Staff gate =====
+    const STAFF = new URLSearchParams(location.search).get('staff') === '1';
+    if (!STAFF) {
+      document.querySelectorAll('.col-staff').forEach(el => el.style.display = 'none');
+    }
+
+    // ===== Data load =====
+    // availability_data.js sets: window.AVAILABILITY = { week, generated, source, contact, plants: [...] }
+    const script = document.createElement('script');
+    script.src = 'availability_data.js?v=' + Date.now();
+    script.onload = init;
+    script.onerror = () => {
+      document.getElementById('meta').textContent = 'Failed to load availability_data.js';
+      document.getElementById('rows').innerHTML = '<tr><td colspan="7" class="empty">Could not load data. Check that availability_data.js exists in the same directory.</td></tr>';
+    };
+    document.head.appendChild(script);
+
+    let ALL_ROWS = [];
+    let SORT_KEY = 'botanical';
+    let SORT_DIR = 1;
+
+    function init() {
+      const data = window.AVAILABILITY || {};
+      const week = data.week || '';
+      const generated = data.generated || '';
+      const contact = data.contact || '';
+      const contactStr = typeof contact === 'string' ? contact : (contact?.name || contact?.email || '');
+      const plants = Array.isArray(data.plants) ? data.plants : [];
+
+      for (const p of plants) {
+        const sizes = (p.sizes || []).filter(s => s && s.container && typeof s.price === 'number');
+        if (sizes.length === 0) {
+          ALL_ROWS.push({
+            botanical: p.botanical || '',
+            common: p.common || '',
+            size: '',
+            height: p.height || '',
+            width: p.width || '',
+            price: null,
+            section: p.section || '',
+          });
+        } else {
+          for (const s of sizes) {
+            ALL_ROWS.push({
+              botanical: p.botanical || '',
+              common: p.common || '',
+              size: s.container,
+              height: p.height || '',
+              width: p.width || '',
+              price: s.price,
+              section: p.section || '',
+            });
+          }
+        }
+      }
+
+      const meta = [];
+      if (week) meta.push(week);
+      if (generated) meta.push('Generated ' + generated);
+      document.getElementById('meta').textContent = meta.join(' · ');
+      document.getElementById('foot').textContent = [
+        plants.length + ' plants',
+        ALL_ROWS.length + ' rows',
+        contactStr ? 'Contact: ' + contactStr : '',
+        STAFF ? 'Staff view' : '',
+      ].filter(Boolean).join(' · ');
+
+      document.getElementById('q').addEventListener('input', render);
+      document.querySelectorAll('thead th[data-sort]').forEach(th => {
+        th.addEventListener('click', () => {
+          const k = th.getAttribute('data-sort');
+          if (SORT_KEY === k) SORT_DIR *= -1;
+          else { SORT_KEY = k; SORT_DIR = 1; }
+          render();
+        });
+      });
+
+      render();
+    }
+
+    function sortKey(row) {
+      switch (SORT_KEY) {
+        case 'price': return row.price == null ? Infinity : row.price;
+        case 'size': return row.size || '';
+        default: return (row[SORT_KEY] || '').toLowerCase();
+      }
+    }
+
+    function render() {
+      const q = (document.getElementById('q').value || '').trim().toLowerCase();
+      const filtered = q
+        ? ALL_ROWS.filter(r =>
+            (r.botanical || '').toLowerCase().includes(q) ||
+            (r.common || '').toLowerCase().includes(q))
+        : ALL_ROWS.slice();
+
+      filtered.sort((a, b) => {
+        const av = sortKey(a), bv = sortKey(b);
+        if (av < bv) return -1 * SORT_DIR;
+        if (av > bv) return 1 * SORT_DIR;
+        return 0;
+      });
+
+      document.querySelectorAll('thead th[data-sort] .arrow').forEach(el => el.textContent = '');
+      const active = document.querySelector('thead th[data-sort="' + SORT_KEY + '"] .arrow');
+      if (active) active.textContent = SORT_DIR === 1 ? '▲' : '▼';
+
+      const tbody = document.getElementById('rows');
+      const empty = document.getElementById('empty');
+      const count = document.getElementById('count');
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        empty.hidden = false;
+      } else {
+        empty.hidden = true;
+        const html = filtered.map(r => {
+          const priceCell = r.price == null ? '—' : '$' + r.price.toFixed(2);
+          return '<tr>' +
+            '<td class="botanical">' + esc(r.botanical) + '</td>' +
+            '<td class="common">' + esc(r.common) + '</td>' +
+            '<td class="size">' + esc(r.size) + '</td>' +
+            '<td class="height">' + esc(r.height) + '</td>' +
+            '<td class="width">' + esc(r.width) + '</td>' +
+            '<td class="price">' + priceCell + '</td>' +
+            '<td class="section col-staff" style="' + (STAFF ? '' : 'display:none') + '">' + esc(r.section) + '</td>' +
+          '</tr>';
+        }).join('');
+        tbody.innerHTML = html;
+      }
+      count.textContent = filtered.length + ' of ' + ALL_ROWS.length + (q ? ' (filtered)' : '');
+    }
+
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+  </script>
+</body>
+</html>

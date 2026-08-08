@@ -80,6 +80,18 @@ body { padding-bottom: 80px; }
   display: block;
   object-fit: contain;
 }
+.brand-compact-link {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--c-cta, #3a5f3a);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0.7;
+}
+.brand-compact-link:hover { opacity: 1; text-decoration: underline; }
 .brand-text h1 {
   font-family: var(--font-serif);
   font-size: 28px;

@@ -248,6 +248,105 @@
       margin-left: 4px;
     }
     .cust-copy:hover { color: var(--c-ink); border-color: var(--c-ink); }
+
+    /* === Trade-pricing email list editor === */
+    .cust-email-list {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+    }
+    .cust-email-list .cust-field-label {
+      margin-bottom: 4px;
+    }
+    .cust-email-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .cust-email-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 6px;
+      background: #fff;
+      border: 1px solid var(--c-line);
+      border-radius: 4px;
+    }
+    .cust-email-addr {
+      flex: 1;
+      font-family: var(--font-mono, "SF Mono", Menlo, monospace);
+      font-size: 13px;
+      color: var(--c-ink);
+    }
+    .cust-email-badge {
+      background: var(--c-bark, #2d4a2b);
+      color: white;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+    .cust-email-btn {
+      background: none;
+      border: 1px solid var(--c-line);
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 12px;
+      color: var(--c-muted);
+      cursor: pointer;
+      line-height: 1;
+    }
+    .cust-email-btn:hover {
+      color: var(--c-ink);
+      border-color: var(--c-ink);
+    }
+    .cust-email-btn--primary {
+      background: var(--c-cta, #3a5f3a);
+      color: white;
+      border-color: var(--c-cta, #3a5f3a);
+    }
+    .cust-email-btn--primary:hover {
+      background: #2d4a2b;
+      border-color: #2d4a2b;
+    }
+    .cust-email-add {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .cust-email-input {
+      flex: 1;
+      padding: 4px 8px;
+      font-size: 13px;
+      font-family: var(--font-mono, "SF Mono", Menlo, monospace);
+      border: 1px solid var(--c-line);
+      border-radius: 4px;
+      background: white;
+    }
+    .cust-email-input:focus {
+      outline: none;
+      border-color: var(--c-cta, #3a5f3a);
+    }
+    .cust-email-empty {
+      padding: 8px 12px;
+      color: var(--c-muted);
+      font-size: 12px;
+      font-style: italic;
+      background: #fdf6e3;
+      border-radius: 4px;
+      border: 1px dashed #d8c990;
+    }
+    .cust-email-status {
+      margin-top: 6px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .cust-email-status[data-kind="ok"] { background: #e7f3e7; color: #2d4a2b; }
+    .cust-email-status[data-kind="error"] { background: #fce8e6; color: #8a2a1f; }
   </style>
 </head>
 <body>
@@ -528,6 +627,8 @@
       });
     }
 
+    let currentCustomerEmails = [];
+
     function renderCustomerDetail(id) {
       const c = allCustomers.find(x => x.id === id);
       if (!c) {
@@ -564,6 +665,33 @@
             <button class="cust-copy" data-copy="${esc(value)}">copy</button>
           </span>
         </div>`;
+      };
+
+      // Email list editor — inline edit for trade-pricing whitelist.
+      // Each row has: email address, [primary] badge, [✎] edit, [✕] remove.
+      // Below the list: [+] add new email.
+      const renderEmailList = (emails) => {
+        const rows = emails.map(e => `
+          <div class="cust-email-row" data-email-id="${e.id}" data-email="${esc(e.email)}" data-is-primary="${e.is_primary}">
+            <span class="cust-email-addr">${esc(e.email)}</span>
+            ${e.is_primary ? '<span class="cust-email-badge">primary</span>' : ''}
+            <button class="cust-email-btn" data-action="edit" title="Edit this email">✎</button>
+            <button class="cust-email-btn" data-action="remove" title="Remove this email">✕</button>
+            ${e.is_primary ? '' : '<button class="cust-email-btn" data-action="primary" title="Mark as primary">★</button>'}
+          </div>
+        `).join('');
+        return `
+          <div class="cust-field cust-email-list">
+            <span class="cust-field-label">Trade emails</span>
+            <div class="cust-email-rows">
+              ${rows || '<div class="cust-email-empty">No emails — this customer can\'t get trade pricing yet.</div>'}
+              <div class="cust-email-add">
+                <input type="email" placeholder="new-email@example.com" class="cust-email-input">
+                <button class="cust-email-btn cust-email-btn--primary" data-action="add">+ Add email</button>
+              </div>
+            </div>
+          </div>
+        `;
       };
 
       customerPanel.innerHTML = `
@@ -613,7 +741,7 @@
             ${fieldRow('Discount', c.discount)}
             ${fieldRow('Routing', c.routing)}
             ${fieldRow('Sales person', c.sales_person)}
-            ${copyField('Email', c.email)}
+            ${renderEmailList(currentCustomerEmails)}
             ${copyField('Phone', c.phone)}
             ${copyField('Ship-to address', c.ship_to_address ? `${c.ship_to_address}, ${c.ship_to_city || ''} ${c.ship_to_state || ''} ${c.ship_to_zip || ''}`.trim().replace(/\s+/g, ' ') : null)}
             ${copyField('Billing address', c.address ? `${c.address}, ${c.city || ''} ${c.state || ''} ${c.zip || ''}`.trim().replace(/\s+/g, ' ') : null)}
@@ -648,6 +776,154 @@
             document.body.removeChild(ta);
           }
         });
+      });
+
+      // ---- Trade-pricing email list (inline editor) ----
+      loadCustomerEmails(c.id).then(() => wireEmailList(c.id));
+    }
+
+    async function loadCustomerEmails(customerId) {
+      if (!supabaseAdmin) return;
+      try {
+        const { data, error } = await supabaseAdmin
+          .from('customer_emails')
+          .select('id,email,is_primary')
+          .eq('customer_id', customerId)
+          .order('is_primary', { ascending: false });
+        if (error) {
+          console.warn('[customer_emails] load failed:', error);
+          currentCustomerEmails = [];
+          return;
+        }
+        currentCustomerEmails = data || [];
+      } catch (err) {
+        console.warn('[customer_emails] load exception:', err);
+        currentCustomerEmails = [];
+      }
+    }
+
+    function wireEmailList(customerId) {
+      const listEl = customerPanel.querySelector('.cust-email-list');
+      if (!listEl) return;
+
+      const rerender = () => {
+        // Replace the entire email-list block with a fresh one, keeping the rest of the panel intact
+        const replacement = document.createElement('div');
+        replacement.innerHTML = renderEmailList(currentCustomerEmails);
+        const newEl = replacement.firstElementChild;
+        if (newEl) {
+          listEl.replaceWith(newEl);
+          wireEmailList(customerId);
+        }
+      };
+
+      const setStatus = (msg, kind = 'info') => {
+        // Find the current listEl (may have been replaced by a rerender)
+        const liveListEl = customerPanel.querySelector('.cust-email-list');
+        if (!liveListEl) return;
+        let statusEl = liveListEl.querySelector('.cust-email-status');
+        if (!statusEl) {
+          statusEl = document.createElement('div');
+          statusEl.className = 'cust-email-status';
+          liveListEl.appendChild(statusEl);
+        }
+        statusEl.textContent = msg;
+        statusEl.dataset.kind = kind;
+        setTimeout(() => { if (statusEl && statusEl.parentNode) statusEl.remove(); }, 3000);
+      };
+
+      listEl.addEventListener('click', async (ev) => {
+        const btn = ev.target.closest('[data-action]');
+        if (!btn) return;
+        const row = btn.closest('.cust-email-row');
+        const action = btn.dataset.action;
+
+        if (action === 'add') {
+          const input = listEl.querySelector('.cust-email-input');
+          const email = (input?.value || '').trim();
+          if (!email || !email.includes('@')) {
+            setStatus('Enter a valid email.', 'error');
+            return;
+          }
+          const { error } = await supabaseAdmin
+            .from('customer_emails')
+            .insert({
+              customer_id: customerId,
+              email: email.toLowerCase(),
+              is_primary: currentCustomerEmails.length === 0,  // first one is primary
+            });
+          if (error) {
+            if (error.code === '23505') setStatus('That email is already in use.', 'error');
+            else setStatus(`Save failed: ${error.message}`, 'error');
+            return;
+          }
+          setStatus('Added.', 'ok');
+          await loadCustomerEmails(customerId);
+          rerender();
+        }
+
+        if (action === 'remove' && row) {
+          const emailId = row.dataset.emailId;
+          const wasPrimary = row.dataset.isPrimary === 'true';
+          const { error } = await supabaseAdmin
+            .from('customer_emails')
+            .delete()
+            .eq('id', emailId);
+          if (error) { setStatus(`Delete failed: ${error.message}`, 'error'); return; }
+          // If we just removed the primary, promote another one
+          if (wasPrimary) {
+            await loadCustomerEmails(customerId);
+            const newPrimary = currentCustomerEmails[0];
+            if (newPrimary) {
+              await supabaseAdmin
+                .from('customer_emails')
+                .update({ is_primary: true })
+                .eq('id', newPrimary.id);
+            }
+          }
+          setStatus('Removed.', 'ok');
+          await loadCustomerEmails(customerId);
+          rerender();
+        }
+
+        if (action === 'primary' && row) {
+          const emailId = row.dataset.emailId;
+          // Clear current primary, set this one
+          const currentPrimary = currentCustomerEmails.find(e => e.is_primary);
+          if (currentPrimary) {
+            await supabaseAdmin
+              .from('customer_emails')
+              .update({ is_primary: false })
+              .eq('id', currentPrimary.id);
+          }
+          const { error } = await supabaseAdmin
+            .from('customer_emails')
+            .update({ is_primary: true })
+            .eq('id', emailId);
+          if (error) { setStatus(`Update failed: ${error.message}`, 'error'); return; }
+          setStatus('Primary updated.', 'ok');
+          await loadCustomerEmails(customerId);
+          rerender();
+        }
+
+        if (action === 'edit' && row) {
+          const emailId = row.dataset.emailId;
+          const oldEmail = row.dataset.email;
+          const newEmail = prompt(`Edit email for ${oldEmail}:`, oldEmail);
+          if (!newEmail || !newEmail.includes('@') || newEmail === oldEmail) return;
+          const { error } = await supabaseAdmin
+            .from('customer_emails')
+            .update({ email: newEmail.toLowerCase() })
+            .eq('id', emailId);
+          if (error) {
+            if (error.code === '23505') setStatus('That email is already in use.', 'error');
+            else setStatus(`Update failed: ${error.message}`, 'error');
+            return;
+          }
+          setStatus('Updated.', 'ok');
+          await loadCustomerEmails(customerId);
+          rerender();
+        }
       });
     }
 

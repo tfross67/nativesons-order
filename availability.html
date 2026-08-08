@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="Native Sons">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="styles.css?v=20260808-05">
+  <link rel="stylesheet" href="styles.css?v=20260808-06">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -3241,7 +3241,7 @@
       <input type="email" id="pricingEmail" placeholder="you@yourcompany.com" autocomplete="email" required>
       <button type="button" class="pricing-cta" id="pricingSendPin">Send access code</button>
       <div class="pricing-status" id="pricingStatus"></div>
-      <button type="button" class="pricing-link" id="pricingShowEnterPin" hidden>I already have a code</button>
+      <button type="button" class="pricing-link" id="pricingShowEnterPin">I already have a code</button>
     </div>
   </div>
 
@@ -3267,7 +3267,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-05</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-06</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -3577,10 +3577,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260808-05"></script>
-  <script src="cart.js?v=20260808-05"></script>
-  <script src="availability_data.js?v=20260808-05"></script>
-  <script src="masteritem_full.js?v=20260808-05"></script>
+  <script src="supabase-config.js?v=20260808-06"></script>
+  <script src="cart.js?v=20260808-06"></script>
+  <script src="availability_data.js?v=20260808-06"></script>
+  <script src="masteritem_full.js?v=20260808-06"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse

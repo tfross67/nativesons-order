@@ -163,12 +163,20 @@
     }
     td.status {
       text-align: center;
-      font-size: 16px;
+      vertical-align: middle;
       white-space: nowrap;
+      padding: 4px 8px;
     }
-    /* Larger emoji target for mobile taps */
+    td.status img.bloom-icon {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      vertical-align: middle;
+      line-height: 1;
+    }
     @media (max-width: 720px) {
-      td.status { font-size: 20px; }
+      td.status img.bloom-icon { width: 26px; height: 26px; }
     }
     td.section {
       font-size: 11px;
@@ -321,11 +329,10 @@
 
       for (const p of plants) {
         const sizes = (p.sizes || []).filter(s => s && s.container && typeof s.price === 'number');
-        // Status flag: bloom > bud > new (first true wins)
-        let status = '';
-        if (p.bloom) status = '🌸';
-        else if (p.bud) status = '🌿';
-        else if (p.new) status = '✨';
+        // Status flag: bloom uses the poppy icon. Bud and new are
+        // intentionally not displayed here — the user asked for the
+        // poppy icon only. (sortKey still ranks bloom rows first.)
+        const status = p.bloom ? '<img src="popppy-flower.png" alt="" class="bloom-icon" aria-hidden="true">' : '';
         if (sizes.length === 0) {
           ALL_ROWS.push({
             botanical: p.botanical || '',
@@ -424,7 +431,7 @@
             '<td class="height" data-label="Height">' + esc(r.height) + '</td>' +
             '<td class="width" data-label="Width">' + esc(r.width) + '</td>' +
             '<td class="price" data-label="Price">' + priceCell + '</td>' +
-            '<td class="status" data-label="Status">' + esc(r.status) + '</td>' +
+            '<td class="status" data-label="Status">' + r.status + '</td>' +
             '<td class="section col-staff" data-label="Section" style="' + (STAFF ? '' : 'display:none') + '">' + esc(r.section) + '</td>' +
           '</tr>';
         }).join('');

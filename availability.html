@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="Native Sons">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="styles.css?v=20260808-03">
+  <link rel="stylesheet" href="styles.css?v=20260808-04">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -871,6 +871,7 @@
       padding: 28px 28px 24px;
       box-shadow: 0 16px 48px rgba(45, 74, 43, 0.25);
       font-family: var(--font-sans);
+      position: relative;
     }
     .pricing-modal h2 {
       margin: 0 0 6px;
@@ -3242,7 +3243,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-03</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-04</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -3552,10 +3553,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260808-03"></script>
-  <script src="cart.js?v=20260808-03"></script>
-  <script src="availability_data.js?v=20260808-03"></script>
-  <script src="masteritem_full.js?v=20260808-03"></script>
+  <script src="supabase-config.js?v=20260808-04"></script>
+  <script src="cart.js?v=20260808-04"></script>
+  <script src="availability_data.js?v=20260808-04"></script>
+  <script src="masteritem_full.js?v=20260808-04"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -6818,16 +6819,39 @@
       if (document.body.classList.contains('staff-mode')) return true;
       try { return sessionStorage.getItem('nativesons_admin') === '1'; } catch (e) { return false; }
     }
-    if (isStaff()) {
-      // Staff always sees pricing — no gate.
-      return;
-    }
+    // Only short-circuit if the page is actually in staff mode (URL ?staff=1
+    // AND password already entered). We DON'T bail on the IIFE entirely —
+    // staff can still dismiss pricing modals that may have been opened
+    // before staff-mode kicked in. The CSS body.pricing-locked class is
+    // what actually hides prices; staff mode never gets that class because
+    // applyPricingState() short-circuits when isStaff() is true.
+    const staffNow = isStaff();
+
+    // Escape key + backdrop click work for staff AND public visitors
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal('pricingModalBackdrop');
+        closeModal('pricingPinModalBackdrop');
+      }
+    });
+    ['pricingModalBackdrop', 'pricingPinModalBackdrop'].forEach((id) => {
+      const el = document.getElementById(id);
+      el?.addEventListener('click', (e) => {
+        if (e.target === el) closeModal(id);
+      });
+    });
+
     // Re-check on DOMContentLoaded in case staff-mode is added by init scripts.
     document.addEventListener('DOMContentLoaded', () => {
       if (isStaff() && document.body.classList.contains('pricing-locked')) {
         document.body.classList.remove('pricing-locked');
       }
     });
+
+    if (staffNow) {
+      // Staff bypass — pricing always visible, no gate UI to wire up.
+      return;
+    }
 
     const STORAGE_KEY = 'ns_pricing_verified';
     const EXPIRY_DAYS = 90;
@@ -6928,20 +6952,6 @@
     document.getElementById('pricingPinModalClose')?.addEventListener('click', () => closeModal('pricingPinModalBackdrop'));
 
     // Click backdrop (outside the modal card) to dismiss
-    ['pricingModalBackdrop', 'pricingPinModalBackdrop'].forEach((id) => {
-      const el = document.getElementById(id);
-      el?.addEventListener('click', (e) => {
-        if (e.target === el) closeModal(id);
-      });
-    });
-    // Escape key to dismiss any open pricing modal
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeModal('pricingModalBackdrop');
-        closeModal('pricingPinModalBackdrop');
-      }
-    });
-
     const sendPinBtn = document.getElementById('pricingSendPin');
     if (sendPinBtn) {
       sendPinBtn.addEventListener('click', async () => {

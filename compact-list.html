@@ -187,6 +187,34 @@
       table.list thead th, table.list tbody td { padding: 6px 8px; }
       td.common, td.section { display: none; }
     }
+
+    /* === Pricing gate (mirror availability.html) === */
+    body.pricing-locked td.price { color: var(--c-muted); }
+    body.pricing-locked td.price > .price-value { display: none; }
+    body.pricing-locked td.price::before {
+      content: "Sign in for pricing";
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .pricing-banner {
+      display: none;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      background: #fff8e1;
+      border: 1px solid #e8d9a0;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--c-clay);
+    }
+    body.pricing-locked .pricing-banner { display: block; }
+    .pricing-banner a {
+      color: var(--c-cta, #3a5f3a);
+      font-weight: 500;
+      text-decoration: none;
+      margin-left: 4px;
+    }
+    .pricing-banner a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -198,6 +226,11 @@
         <span class="meta" id="meta">Loading…</span>
       </div>
     </header>
+
+    <div class="pricing-banner" id="pricingBanner">
+      Wholesale prices are hidden until your trade account is verified.
+      <a href="./availability.html">Verify trade pricing →</a>
+    </div>
 
     <div class="toolbar">
       <input type="search" id="q" placeholder="Filter by botanical or common name…" autocomplete="off" spellcheck="false">
@@ -228,6 +261,30 @@
     const STAFF = new URLSearchParams(location.search).get('staff') === '1';
     if (!STAFF) {
       document.querySelectorAll('.col-staff').forEach(el => el.style.display = 'none');
+    }
+
+    // ===== Pricing gate =====
+    // Mirror availability.html: hide wholesale prices for unverified visitors.
+    // Storage key + 90-day expiry are the source of truth on the main page;
+    // this page just reads them and re-applies the same CSS hook.
+    const PRICING_KEY = 'ns_pricing_verified';
+    const PRICING_EXPIRY_DAYS = 90;
+    const isTradeVerified = () => {
+      try {
+        const raw = localStorage.getItem(PRICING_KEY);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        if (!data || !data.email || !data.expiresAt) return false;
+        if (Date.now() > data.expiresAt) {
+          localStorage.removeItem(PRICING_KEY);
+          return false;
+        }
+        return true;
+      } catch (e) { return false; }
+    };
+    // Staff mode always bypasses the gate.
+    if (!STAFF && !isTradeVerified()) {
+      document.body.classList.add('pricing-locked');
     }
 
     // ===== Data load =====
@@ -341,7 +398,9 @@
       } else {
         empty.hidden = true;
         const html = filtered.map(r => {
-          const priceCell = r.price == null ? '—' : '$' + r.price.toFixed(2);
+          const priceCell = r.price == null
+            ? '<span class="price-value">—</span>'
+            : '<span class="price-value">$' + r.price.toFixed(2) + '</span>';
           return '<tr>' +
             '<td class="botanical">' + esc(r.botanical) + '</td>' +
             '<td class="common">' + esc(r.common) + '</td>' +

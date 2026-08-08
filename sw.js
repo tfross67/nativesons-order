@@ -3,7 +3,7 @@
 // weekly. Cache-first for static branding assets. Network-first for the HTML
 // itself (so deploys always show up).
 
-const CACHE_VERSION = 'ns-pwa-v2';
+const CACHE_VERSION = 'ns-pwa-v3';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 
@@ -11,7 +11,7 @@ const DATA_CACHE = `${CACHE_VERSION}-data`;
 const STATIC_ASSETS = [
   '/',
   '/logo.jpg',
-  '/icon-240.png',
+  '/icon-512.png',
   '/apple-touch-icon.png',
   '/popppy-flower.png',
   '/styles.css',

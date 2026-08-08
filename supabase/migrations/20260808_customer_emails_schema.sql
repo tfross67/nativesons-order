@@ -27,10 +27,10 @@ create table if not exists public.customer_emails (
   customer_id uuid not null references public.customers(id) on delete cascade,
   email text not null,
   is_primary boolean not null default false,
-  created_at timestamptz not null default now(),
-  unique (lower(email))
+  created_at timestamptz not null default now()
 );
 
+create unique index if not exists idx_customer_emails_email_unique on public.customer_emails (lower(email));
 create index if not exists idx_customer_emails_customer on public.customer_emails (customer_id);
 create index if not exists idx_customer_emails_email_lower on public.customer_emails (lower(email));
 

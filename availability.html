@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="Native Sons">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="styles.css?v=20260808-04">
+  <link rel="stylesheet" href="styles.css?v=20260808-05">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -971,23 +971,47 @@
       line-height: 1;
     }
 
-    /* Header pricing link */
+    /* Header pricing link — prominent filled CTA so non-trade visitors
+       don't miss it. Sits in the header's right column next to the tagline. */
     .pricing-link-header {
-      color: #2d4a2b;
-      text-decoration: underline;
-      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--c-sage-deep, #2d4a2b);
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
       cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0;
+      border: 1px solid var(--c-sage-deep, #2d4a2b);
+      border-radius: 999px;
+      padding: 9px 18px;
+      margin-top: 8px;
       font-family: var(--font-sans);
+      box-shadow: 0 2px 6px rgba(45, 74, 43, 0.18);
+      transition: background 0.15s, transform 0.15s;
     }
-    .pricing-link-header:hover { color: #1a3019; }
+    .pricing-link-header:hover {
+      background: #1a3019;
+      border-color: #1a3019;
+      transform: translateY(-1px);
+    }
+    .pricing-link-header:active {
+      transform: translateY(0);
+    }
     .pricing-link-header[hidden] { display: none; }
     .pricing-status-header {
-      color: #2d4a2b;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--c-sage-soft, #e3ecd9);
+      color: var(--c-sage-deep, #2d4a2b);
       font-size: 13px;
       font-weight: 600;
+      border-radius: 999px;
+      padding: 7px 14px;
+      margin-top: 8px;
     }
     .pricing-status-header[hidden] { display: none; }
     /* .result-share-btn removed 2026-08-01: button removed from card layout to declutter */
@@ -3243,7 +3267,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-04</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-05</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -3553,10 +3577,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260808-04"></script>
-  <script src="cart.js?v=20260808-04"></script>
-  <script src="availability_data.js?v=20260808-04"></script>
-  <script src="masteritem_full.js?v=20260808-04"></script>
+  <script src="supabase-config.js?v=20260808-05"></script>
+  <script src="cart.js?v=20260808-05"></script>
+  <script src="availability_data.js?v=20260808-05"></script>
+  <script src="masteritem_full.js?v=20260808-05"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse

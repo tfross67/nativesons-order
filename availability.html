@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="Native Sons">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="styles.css?v=20260808-01">
+  <link rel="stylesheet" href="styles.css?v=20260808-02">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -811,6 +811,184 @@
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
     }
+
+    /* === Pricing gate: hide wholesale prices for unauthenticated visitors === */
+    /* Public visitors can still browse, add to cart, and submit — they just
+       don't see the $ figures. Verified trade customers get full prices. */
+    body.pricing-locked .result-price-row,
+    body.pricing-locked .cart-item-meta,
+    body.pricing-locked #cartSummaryWholesale,
+    body.pricing-locked #cartSummaryTotal,
+    body.pricing-locked #cartTotal,
+    body.pricing-locked #selTotal {
+      display: none !important;
+    }
+    body.pricing-locked .result-price::before {
+      content: "Trade pricing — sign in to view";
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b6256;
+      letter-spacing: 0;
+    }
+    body.pricing-locked .cart-item-line,
+    body.pricing-locked .cart-total-amount,
+    body.pricing-locked .cart-item-retail-input {
+      visibility: hidden !important;
+    }
+    body.pricing-locked .picker-line-total {
+      font-size: 0 !important;
+    }
+    body.pricing-locked .picker-line-total::before {
+      content: "Sign in for pricing";
+      font-size: 13px;
+      color: #6b6256;
+      font-weight: 600;
+    }
+    body.pricing-locked .size-option-price {
+      visibility: hidden !important;
+    }
+    body.pricing-locked .size-option-label {
+      display: inline-block !important;
+    }
+
+    /* Pricing gate modal */
+    .pricing-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(45, 74, 43, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .pricing-modal-backdrop.is-open { display: flex; }
+    .pricing-modal {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 420px;
+      width: 100%;
+      padding: 28px 28px 24px;
+      box-shadow: 0 16px 48px rgba(45, 74, 43, 0.25);
+      font-family: var(--font-sans);
+    }
+    .pricing-modal h2 {
+      margin: 0 0 6px;
+      font-size: 19px;
+      font-weight: 700;
+      color: #2d4a2b;
+    }
+    .pricing-modal p {
+      margin: 0 0 18px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: #4a5546;
+    }
+    .pricing-modal label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #2d4a2b;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .pricing-modal input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      border: 1px solid #d6cdb5;
+      border-radius: 6px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: #1f2a1c;
+      background: #fff;
+      margin-bottom: 14px;
+    }
+    .pricing-modal input:focus {
+      outline: none;
+      border-color: #2d4a2b;
+      box-shadow: 0 0 0 3px rgba(45, 74, 43, 0.15);
+    }
+    .pricing-modal .pricing-cta {
+      width: 100%;
+      background: #2d4a2b;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 11px 16px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .pricing-modal .pricing-cta:hover { background: #1a3019; }
+    .pricing-modal .pricing-cta:disabled {
+      background: #9ba89b;
+      cursor: not-allowed;
+    }
+    .pricing-modal .pricing-status {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      display: none;
+    }
+    .pricing-modal .pricing-status.is-error {
+      display: block;
+      background: #fbeae3;
+      color: #a8391e;
+      border: 1px solid #f0c8b3;
+    }
+    .pricing-modal .pricing-status.is-info {
+      display: block;
+      background: #e8f0e0;
+      color: #2d4a2b;
+      border: 1px solid #b8d09a;
+    }
+    .pricing-modal .pricing-link {
+      background: none;
+      border: none;
+      color: #2d4a2b;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 13px;
+      padding: 0;
+      margin-top: 12px;
+      font-family: var(--font-sans);
+    }
+    .pricing-modal .pricing-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: #6b6256;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+
+    /* Header pricing link */
+    .pricing-link-header {
+      color: #2d4a2b;
+      text-decoration: underline;
+      font-size: 13px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: var(--font-sans);
+    }
+    .pricing-link-header:hover { color: #1a3019; }
+    .pricing-link-header[hidden] { display: none; }
+    .pricing-status-header {
+      color: #2d4a2b;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .pricing-status-header[hidden] { display: none; }
     /* .result-share-btn removed 2026-08-01: button removed from card layout to declutter */
     .chat-test-root .no-results {
       text-align: center;
@@ -3016,6 +3194,8 @@
       </div>
       <div class="header-meta">
         <span class="header-tagline">We grow plants that thrive in California's Mediterranean climate.</span>
+        <span class="pricing-status-header" id="pricingStatusHeader" hidden></span>
+        <button type="button" class="pricing-link-header" id="pricingLinkHeader" hidden>Get trade pricing</button>
         <a href="?staff=1" class="staff-link" id="staffLink" hidden>Staff: Sign in</a>
         <div class="header-meta-actions" id="staffHeaderActions" hidden>
           <a href="admin.html" class="staff-link" id="staffAdminLink">Admin →</a>
@@ -3026,6 +3206,34 @@
     </div>
   </header>
 
+  <!-- Pricing gate modal -->
+  <div class="pricing-modal-backdrop" id="pricingModalBackdrop" aria-hidden="true">
+    <div class="pricing-modal" role="dialog" aria-modal="true" aria-labelledby="pricingModalTitle">
+      <button type="button" class="pricing-close" id="pricingModalClose" aria-label="Close">×</button>
+      <h2 id="pricingModalTitle">Get trade pricing</h2>
+      <p>Native Sons wholesale pricing is for verified trade customers. Enter your email and we'll send a 6-digit access code (valid for 15 minutes).</p>
+      <label for="pricingEmail">Email</label>
+      <input type="email" id="pricingEmail" placeholder="you@yourcompany.com" autocomplete="email" required>
+      <button type="button" class="pricing-cta" id="pricingSendPin">Send access code</button>
+      <div class="pricing-status" id="pricingStatus"></div>
+      <button type="button" class="pricing-link" id="pricingShowEnterPin" hidden>I already have a code</button>
+    </div>
+  </div>
+
+  <!-- Pricing gate — PIN entry modal -->
+  <div class="pricing-modal-backdrop" id="pricingPinModalBackdrop" aria-hidden="true">
+    <div class="pricing-modal" role="dialog" aria-modal="true" aria-labelledby="pricingPinModalTitle">
+      <button type="button" class="pricing-close" id="pricingPinModalClose" aria-label="Close">×</button>
+      <h2 id="pricingPinModalTitle">Enter your code</h2>
+      <p>Enter the 6-digit code we emailed to <strong id="pricingPinEmailDisplay">your email</strong>. It expires in 15 minutes.</p>
+      <label for="pricingPin">Access code</label>
+      <input type="text" id="pricingPin" placeholder="123456" inputmode="numeric" maxlength="6" pattern="\d{6}" autocomplete="one-time-code">
+      <button type="button" class="pricing-cta" id="pricingVerifyPin">Unlock pricing</button>
+      <div class="pricing-status" id="pricingPinStatus"></div>
+      <button type="button" class="pricing-link" id="pricingResendPin">Send a new code</button>
+    </div>
+  </div>
+
   <!-- Staff sign-in gate. Visible only when ?staff=1 (or sessionStorage
        has the admin flag set). Hides the main UI until unlocked. -->
   <div id="signInGate" class="signin-gate" hidden>
@@ -3034,7 +3242,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-01</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-02</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -3344,10 +3552,10 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260808-01"></script>
-  <script src="cart.js?v=20260808-01"></script>
-  <script src="availability_data.js?v=20260808-01"></script>
-  <script src="masteritem_full.js?v=20260808-01"></script>
+  <script src="supabase-config.js?v=20260808-02"></script>
+  <script src="cart.js?v=20260808-02"></script>
+  <script src="availability_data.js?v=20260808-02"></script>
+  <script src="masteritem_full.js?v=20260808-02"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -6598,6 +6806,248 @@
       });
     });
   }
+</script>
+<script>
+  // ===== Trade pricing gate (PIN-based) =====
+  // Public visitors see plants + photos + descriptions but no wholesale $ amounts.
+  // Verified trade customers see full pricing for 90 days. Re-verifies after
+  // expiry. Staff mode (?staff=1) bypasses the gate entirely.
+
+  (function () {
+    function isStaff() {
+      if (document.body.classList.contains('staff-mode')) return true;
+      try { return sessionStorage.getItem('nativesons_admin') === '1'; } catch (e) { return false; }
+    }
+    if (isStaff()) {
+      // Staff always sees pricing — no gate.
+      return;
+    }
+    // Re-check on DOMContentLoaded in case staff-mode is added by init scripts.
+    document.addEventListener('DOMContentLoaded', () => {
+      if (isStaff() && document.body.classList.contains('pricing-locked')) {
+        document.body.classList.remove('pricing-locked');
+      }
+    });
+
+    const STORAGE_KEY = 'ns_pricing_verified';
+    const EXPIRY_DAYS = 90;
+    let pendingEmail = '';
+
+    // Apply current state on page load
+    function applyPricingState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          document.body.classList.add('pricing-locked');
+          showHeaderLink(true, false);
+          return;
+        }
+        const data = JSON.parse(raw);
+        if (!data || !data.email || !data.expiresAt || Date.now() > data.expiresAt) {
+          localStorage.removeItem(STORAGE_KEY);
+          document.body.classList.add('pricing-locked');
+          showHeaderLink(true, false);
+          return;
+        }
+        document.body.classList.remove('pricing-locked');
+        showHeaderLink(false, true, data.email);
+      } catch (e) {
+        document.body.classList.add('pricing-locked');
+        showHeaderLink(true, false);
+      }
+    }
+
+    function showHeaderLink(showSignIn, signedIn, email) {
+      const link = document.getElementById('pricingLinkHeader');
+      const status = document.getElementById('pricingStatusHeader');
+      if (!link || !status) return;
+      if (signedIn && email) {
+        link.hidden = true;
+        status.hidden = false;
+        status.textContent = `✓ Trade pricing verified · ${email}`;
+        if (!status.querySelector('.pricing-signout-btn')) {
+          const btn = document.createElement('button');
+          btn.className = 'pricing-signout-btn';
+          btn.textContent = 'Sign out';
+          btn.style.cssText = 'margin-left:8px; background:none; border:1px solid #2d4a2b; border-radius:4px; padding:2px 8px; font-size:11px; color:#2d4a2b; cursor:pointer; font-family:var(--font-sans);';
+          btn.addEventListener('click', () => {
+            if (confirm('Sign out and re-hide pricing on this device?')) {
+              localStorage.removeItem(STORAGE_KEY);
+              location.reload();
+            }
+          });
+          status.appendChild(btn);
+        }
+      } else if (showSignIn) {
+        link.hidden = false;
+        status.hidden = true;
+      } else {
+        link.hidden = true;
+        status.hidden = true;
+      }
+    }
+
+    function openModal(id) {
+      const m = document.getElementById(id);
+      if (m) {
+        m.classList.add('is-open');
+        m.setAttribute('aria-hidden', 'false');
+      }
+    }
+    function closeModal(id) {
+      const m = document.getElementById(id);
+      if (m) {
+        m.classList.remove('is-open');
+        m.setAttribute('aria-hidden', 'true');
+      }
+    }
+    function setStatus(id, message, kind) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (!message) {
+        el.className = 'pricing-status';
+        el.textContent = '';
+        return;
+      }
+      el.className = 'pricing-status ' + (kind === 'error' ? 'is-error' : 'is-info');
+      el.textContent = message;
+    }
+
+    const linkBtn = document.getElementById('pricingLinkHeader');
+    if (linkBtn) {
+      linkBtn.addEventListener('click', () => {
+        setStatus('pricingStatus', '', null);
+        const emailInput = document.getElementById('pricingEmail');
+        if (emailInput) emailInput.value = '';
+        openModal('pricingModalBackdrop');
+        if (emailInput) setTimeout(() => emailInput.focus(), 100);
+      });
+    }
+
+    document.getElementById('pricingModalClose')?.addEventListener('click', () => closeModal('pricingModalBackdrop'));
+    document.getElementById('pricingPinModalClose')?.addEventListener('click', () => closeModal('pricingPinModalBackdrop'));
+
+    const sendPinBtn = document.getElementById('pricingSendPin');
+    if (sendPinBtn) {
+      sendPinBtn.addEventListener('click', async () => {
+        const emailInput = document.getElementById('pricingEmail');
+        const email = (emailInput?.value || '').trim().toLowerCase();
+        if (!email || !email.includes('@')) {
+          setStatus('pricingStatus', 'Please enter a valid email address.', 'error');
+          return;
+        }
+        pendingEmail = email;
+        sendPinBtn.disabled = true;
+        setStatus('pricingStatus', 'Sending access code…', 'info');
+        try {
+          const cfg = window.SUPABASE_CONFIG;
+          const res = await fetch(`${cfg.url}/functions/v1/send-pricing-pin`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'apikey': cfg.anonKey },
+            body: JSON.stringify({ email }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (data && data.ok) {
+            setStatus('pricingStatus', `Code sent to ${email}. Check your inbox.`, 'info');
+            const showEnter = document.getElementById('pricingShowEnterPin');
+            if (showEnter) showEnter.hidden = false;
+            setTimeout(() => {
+              closeModal('pricingModalBackdrop');
+              const emailDisplay = document.getElementById('pricingPinEmailDisplay');
+              if (emailDisplay) emailDisplay.textContent = email;
+              openModal('pricingPinModalBackdrop');
+              const pinInput = document.getElementById('pricingPin');
+              if (pinInput) setTimeout(() => pinInput.focus(), 100);
+            }, 800);
+          } else if (data && data.reason === 'not_trade_customer') {
+            setStatus('pricingStatus', "This email isn't on our trade customer list. If this is wrong, please contact the office.", 'error');
+          } else {
+            setStatus('pricingStatus', 'Something went wrong. Please try again in a moment.', 'error');
+          }
+        } catch (err) {
+          console.error('[NS Pricing] send-pricing-pin failed:', err);
+          setStatus('pricingStatus', 'Network error. Please try again.', 'error');
+        } finally {
+          sendPinBtn.disabled = false;
+        }
+      });
+    }
+
+    document.getElementById('pricingShowEnterPin')?.addEventListener('click', () => {
+      const email = (document.getElementById('pricingEmail')?.value || '').trim().toLowerCase() || pendingEmail;
+      const emailDisplay = document.getElementById('pricingPinEmailDisplay');
+      if (emailDisplay) emailDisplay.textContent = email || 'your email';
+      pendingEmail = email;
+      closeModal('pricingModalBackdrop');
+      openModal('pricingPinModalBackdrop');
+      const pinInput = document.getElementById('pricingPin');
+      if (pinInput) setTimeout(() => pinInput.focus(), 100);
+    });
+
+    document.getElementById('pricingResendPin')?.addEventListener('click', () => {
+      closeModal('pricingPinModalBackdrop');
+      const emailInput = document.getElementById('pricingEmail');
+      if (emailInput) emailInput.value = pendingEmail;
+      openModal('pricingModalBackdrop');
+    });
+
+    const verifyBtn = document.getElementById('pricingVerifyPin');
+    if (verifyBtn) {
+      verifyBtn.addEventListener('click', async () => {
+        const pinInput = document.getElementById('pricingPin');
+        const pin = (pinInput?.value || '').trim();
+        if (!/^\d{6}$/.test(pin)) {
+          setStatus('pricingPinStatus', 'Please enter the 6-digit code from the email.', 'error');
+          return;
+        }
+        verifyBtn.disabled = true;
+        setStatus('pricingPinStatus', 'Verifying…', 'info');
+        try {
+          const cfg = window.SUPABASE_CONFIG;
+          const res = await fetch(`${cfg.url}/functions/v1/verify-pricing-pin`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'apikey': cfg.anonKey },
+            body: JSON.stringify({ email: pendingEmail, pin }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (data && data.ok) {
+            const expiresAt = Date.now() + EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+              email: pendingEmail,
+              verifiedAt: Date.now(),
+              expiresAt,
+            }));
+            setStatus('pricingPinStatus', `✓ Pricing unlocked for ${EXPIRY_DAYS} days.`, 'info');
+            setTimeout(() => {
+              closeModal('pricingPinModalBackdrop');
+              location.reload();
+            }, 700);
+          } else if (data && (data.reason === 'invalid_or_expired' || data.reason === 'invalid_format')) {
+            setStatus('pricingPinStatus', 'That code is invalid or expired. Try again or request a new code.', 'error');
+          } else {
+            setStatus('pricingPinStatus', 'Verification failed. Please try again.', 'error');
+          }
+        } catch (err) {
+          console.error('[NS Pricing] verify-pricing-pin failed:', err);
+          setStatus('pricingPinStatus', 'Network error. Please try again.', 'error');
+        } finally {
+          verifyBtn.disabled = false;
+        }
+      });
+    }
+
+    const pinInput = document.getElementById('pricingPin');
+    if (pinInput) {
+      pinInput.addEventListener('input', () => {
+        pinInput.value = pinInput.value.replace(/\D/g, '').slice(0, 6);
+        if (pinInput.value.length === 6) {
+          verifyBtn?.click();
+        }
+      });
+    }
+
+    applyPricingState();
+  })();
 </script>
 </body>
 </html>

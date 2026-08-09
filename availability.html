@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="Native Sons">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="styles.css?v=20260808-09">
+  <link rel="stylesheet" href="styles.css?v=20260808-10">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -3267,7 +3267,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-09</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-10</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -4827,6 +4827,25 @@
 
     // === Wire up ===
     let typingTimer = null;
+
+    // === Prefill from ?plant=<botanical> query param ===
+    // Used by compact-list.html to deep-link to a single plant's
+    // results. The compact list is great for scanning; the main
+    // portal has the order flow. Pre-fills the chat search box so
+    // the page opens filtered to just that plant.
+    (function prefillFromQuery() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const plant = params.get('plant');
+        if (plant && input) {
+          input.value = plant;
+          // Focus the search so the user can edit it (e.g. clear to
+          // see other sizes of the same plant, or add a keyword).
+          setTimeout(() => { input.focus(); }, 100);
+        }
+      } catch (e) { /* ignore */ }
+    })();
+
     input.addEventListener('input', () => {
       clearTimeout(typingTimer);
       typingTimer = setTimeout(run, 120);

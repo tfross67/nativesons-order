@@ -151,6 +151,15 @@
       font-weight: 400;
       white-space: nowrap;
     }
+    td.botanical a.plant-link {
+      color: var(--c-bark);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--c-line);
+    }
+    td.botanical a.plant-link:hover {
+      color: var(--c-cta, #3a5f3a);
+      border-bottom-color: var(--c-cta, #3a5f3a);
+    }
     td.size, td.height, td.width {
       font-family: var(--font-mono);
       font-size: 13px;
@@ -436,9 +445,15 @@
           const priceCell = r.price == null
             ? '<span class="price-value">—</span>'
             : '<span class="price-value">$' + r.price.toFixed(2) + '</span>';
-          // Build the cell — for mobile, embed data-label so the card layout can render label/value pairs
+          // Build the cell — botanical is a link to the main portal
+          // with the plant name prefilled, so staff can scan the
+          // compact list and one-click into the order flow.
+          const plantLink = '<a class="plant-link" href="availability.html?plant=' +
+            encodeURIComponent(r.botanical) +
+            '" title="Open in the full search to add to an order">' +
+            esc(r.botanical) + '</a>';
           return '<tr>' +
-            '<td class="botanical" data-label="Botanical">' + esc(r.botanical) + '</td>' +
+            '<td class="botanical" data-label="Botanical">' + plantLink + '</td>' +
             '<td class="status" data-label="Status">' + r.status + '</td>' +
             '<td class="size" data-label="Size">' + esc(r.size) + '</td>' +
             '<td class="height" data-label="Height">' + esc(r.height) + '</td>' +

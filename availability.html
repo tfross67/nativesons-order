@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="Native Sons">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="styles.css?v=20260808-11">
+  <link rel="stylesheet" href="styles.css?v=20260808-12">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -3267,7 +3267,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-11</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-12</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -4816,35 +4816,54 @@
         if (match) results.push({ plant, match });
       }
 
-      // Deep-link boost: when ?plant= is present, lift exact and
-      // close-variant matches above free-text substring matches so
-      // the user lands on the plant they clicked, not a list of
-      // color-chip false positives. Free-text-only matches (plants
-      // matched only because a color or epithet happened to contain
-      // a substring of the requested name) are filtered out —
-      // a deep link is an explicit "show me this plant", not a
-      // search.
+      // Deep-link boost: when ?plant= is present, build a separate
+      // tiered result list that prioritizes the exact plant the user
+      // clicked (even if matchPlant's structured filters would have
+      // rejected it). The existing free-text matches stay available
+      // as a fallback so the user isn't left with an empty page if
+      // their link targets a name that no longer exists in the catalog.
       if (__deepLinkPlant) {
         const target = normalizeForMatch(__deepLinkPlant);
         const tiered = [];
-        for (const r of results) {
-          const pn = normalizeForMatch(r.plant.botanical);
-          if (pn === target) {
-            // Tier 1: exact (normalized) match
-            r.match.score += 1000;
-            r.match.reasons.unshift('deep link — exact match');
-            tiered.push(r);
-          } else if (closeVariant(pn, target)) {
-            // Tier 2: same genus + similar epithet (typo tolerance)
-            r.match.score += 500;
-            r.match.reasons.unshift('deep link — close variant');
-            tiered.push(r);
+        const seenIds = new Set();
+        // Tier 1: exact (normalized) match against the full catalog
+        for (const plant of catalog) {
+          const pn = normalizeForMatch(plant.botanical);
+          if (pn === target && !seenIds.has(plant.id || plant.botanical)) {
+            tiered.push({
+              plant,
+              match: {
+                score: 1000,
+                reasons: ['deep link — exact match'],
+                matched: { colors: [], exposures: [], water: [], types: [], container: [], bloom: [], budding: [], freeText: [], origin: [], height: [], width: [] },
+              },
+            });
+            seenIds.add(plant.id || plant.botanical);
           }
-          // Anything else: drop from deep-link results. We don't
-          // surface plants that only matched because "vivid" is also
-          // a flower color chip on unrelated plants.
         }
-        tiered.sort((a, b) => b.match.score - a.match.score);
+        // Tier 2: close variant (same genus + similar epithet)
+        for (const plant of catalog) {
+          const pn = normalizeForMatch(plant.botanical);
+          const key = plant.id || plant.botanical;
+          if (seenIds.has(key)) continue;
+          if (closeVariant(pn, target)) {
+            tiered.push({
+              plant,
+              match: {
+                score: 500,
+                reasons: ['deep link — close variant'],
+                matched: { colors: [], exposures: [], water: [], types: [], container: [], bloom: [], budding: [], freeText: [], origin: [], height: [], width: [] },
+              },
+            });
+            seenIds.add(key);
+          }
+        }
+        // Tier 3: existing free-text matches (sorted by score) — only
+        // included if tier 1 or 2 found nothing, so the user still
+        // sees SOMETHING if the exact plant was renamed/removed.
+        if (tiered.length === 0 && results.length > 0) {
+          tiered.push(...results);
+        }
         renderResults(parsed, tiered);
       } else {
         // Apply user-selected sort, default relevance

@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="Native Sons">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="styles.css?v=20260808-10">
+  <link rel="stylesheet" href="styles.css?v=20260808-11">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -3267,7 +3267,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-10</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260808-11</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -4721,6 +4721,67 @@
       }
     }
 
+    // === Deep-link helpers ===
+    // Normalize a botanical name for comparison: lowercase, collapse
+    // whitespace, strip cultivar quotes (so 'Munstead' and 'Munstead'
+    // match even if one has smart quotes and the other doesn't).
+    function normalizeForMatch(s) {
+      if (!s) return '';
+      return String(s)
+        .toLowerCase()
+        .replace(/[‘’ʼ]/g, "'")
+        .replace(/[“”]/g, '"')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    // Returns true if two botanical names refer to the same plant —
+    // same genus + similar epithet/cultivar. Used to forgive typos and
+    // alternate cultivar-quote styles in deep-link matching. Conservative:
+    // require both genus and at least one matching epithet word.
+    function closeVariant(a, b) {
+      if (!a || !b) return false;
+      if (a === b) return false;  // exact match handled separately
+      const wordsA = a.replace(/[()]/g, '').split(/[\s'"]+/).filter(Boolean);
+      const wordsB = b.replace(/[()]/g, '').split(/[\s'"]+/).filter(Boolean);
+      if (wordsA.length < 2 || wordsB.length < 2) return false;
+      // First word = genus (binomial starts there). Must match.
+      if (wordsA[0] !== wordsB[0]) return false;
+      // Subsequent words = epithet / cultivar. At least one must match
+      // (substring match for typo tolerance on the epithet).
+      for (let i = 1; i < wordsA.length; i++) {
+        for (let j = 1; j < wordsB.length; j++) {
+          if (wordsA[i] === wordsB[j]) return true;
+          // Typo tolerance: 1-char edit distance on words > 4 chars
+          if (wordsA[i].length > 4 && wordsB[j].length > 4 &&
+              levenshtein(wordsA[i], wordsB[j]) <= 1) return true;
+        }
+      }
+      return false;
+    }
+
+    // Tiny Levenshtein for typo tolerance. Only used on short epithets
+    // where 1-edit differences are clearly typos (e.g. 'munstead' vs
+    // 'munsteed'). O(n*m) — fine for words under 30 chars.
+    function levenshtein(a, b) {
+      if (a === b) return 0;
+      const m = a.length, n = b.length;
+      if (m === 0) return n;
+      if (n === 0) return m;
+      let prev = new Array(n + 1);
+      let curr = new Array(n + 1);
+      for (let j = 0; j <= n; j++) prev[j] = j;
+      for (let i = 1; i <= m; i++) {
+        curr[0] = i;
+        for (let j = 1; j <= n; j++) {
+          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+          curr[j] = Math.min(curr[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+        }
+        [prev, curr] = [curr, prev];
+      }
+      return prev[n];
+    }
+
     // === Main: parse + match + render ===
     let lastParsed = null;  // reused when alt-suggestion chip is clicked
 
@@ -4754,9 +4815,42 @@
         const match = matchPlant(plant, parsed);
         if (match) results.push({ plant, match });
       }
-      // Apply user-selected sort, default relevance
-      sortResults(results, currentSort);
-      renderResults(parsed, results);
+
+      // Deep-link boost: when ?plant= is present, lift exact and
+      // close-variant matches above free-text substring matches so
+      // the user lands on the plant they clicked, not a list of
+      // color-chip false positives. Free-text-only matches (plants
+      // matched only because a color or epithet happened to contain
+      // a substring of the requested name) are filtered out —
+      // a deep link is an explicit "show me this plant", not a
+      // search.
+      if (__deepLinkPlant) {
+        const target = normalizeForMatch(__deepLinkPlant);
+        const tiered = [];
+        for (const r of results) {
+          const pn = normalizeForMatch(r.plant.botanical);
+          if (pn === target) {
+            // Tier 1: exact (normalized) match
+            r.match.score += 1000;
+            r.match.reasons.unshift('deep link — exact match');
+            tiered.push(r);
+          } else if (closeVariant(pn, target)) {
+            // Tier 2: same genus + similar epithet (typo tolerance)
+            r.match.score += 500;
+            r.match.reasons.unshift('deep link — close variant');
+            tiered.push(r);
+          }
+          // Anything else: drop from deep-link results. We don't
+          // surface plants that only matched because "vivid" is also
+          // a flower color chip on unrelated plants.
+        }
+        tiered.sort((a, b) => b.match.score - a.match.score);
+        renderResults(parsed, tiered);
+      } else {
+        // Apply user-selected sort, default relevance
+        sortResults(results, currentSort);
+        renderResults(parsed, results);
+      }
       // Set up lazy image loading for the new cards
       observeCardImages();
       // Mark cards whose plant is already in the cart (call after the cards
@@ -4828,20 +4922,24 @@
     // === Wire up ===
     let typingTimer = null;
 
-    // === Prefill from ?plant=<botanical> query param ===
-    // Used by compact-list.html to deep-link to a single plant's
-    // results. The compact list is great for scanning; the main
-    // portal has the order flow. Pre-fills the chat search box so
-    // the page opens filtered to just that plant.
-    // Must run AFTER the initial run() at line ~4912 below because
-    // that init explicitly resets input.value = '' to render the full
-    // catalog. We re-set and re-run.
+    // === Deep-link from ?plant=<botanical> ===
+    // When ?plant= is present, we want the matched plant front and center,
+    // not buried in a list of free-text matches. The prefillFromQuery IIFE
+    // sets __deepLinkPlant = the requested name; run() consults it to
+    // rank results: tier 1 = exact botanical match, tier 2 = close variant
+    // (same genus + similar epithet for typo tolerance), tier 3 = the
+    // existing free-text token match. This keeps the deep link intent
+    // ("show me THIS plant") from being drowned out by substring matches
+    // in flower_color or other fields.
+    let __deepLinkPlant = null;
+
     (function prefillFromQuery() {
       try {
         const params = new URLSearchParams(window.location.search);
         const plant = params.get('plant');
         if (plant && input) {
           input.value = plant;
+          __deepLinkPlant = plant;
           run(true);
           setTimeout(() => { input.focus(); }, 100);
         }

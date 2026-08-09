@@ -4833,14 +4833,16 @@
     // results. The compact list is great for scanning; the main
     // portal has the order flow. Pre-fills the chat search box so
     // the page opens filtered to just that plant.
+    // Must run AFTER the initial run() at line ~4912 below because
+    // that init explicitly resets input.value = '' to render the full
+    // catalog. We re-set and re-run.
     (function prefillFromQuery() {
       try {
         const params = new URLSearchParams(window.location.search);
         const plant = params.get('plant');
         if (plant && input) {
           input.value = plant;
-          // Focus the search so the user can edit it (e.g. clear to
-          // see other sizes of the same plant, or add a keyword).
+          run(true);
           setTimeout(() => { input.focus(); }, 100);
         }
       } catch (e) { /* ignore */ }
@@ -4908,8 +4910,14 @@
         // Render the full catalog on first load (A-Z). No pre-fill — the user asked for a clean
         // alphabetical catalog by default; the "in bloom" suggestion chip below the search bar
         // still lets users opt into the bloom filter when they want it.
-        input.value = '';
-        run();
+        // Skip the empty-input reset if a ?plant= deep link is active — the
+        // prefillFromQuery IIFE (run earlier) has already set the value and
+        // called run(true); clearing it here would undo the prefill.
+        const hasPlantParam = (() => { try { return new URLSearchParams(window.location.search).has('plant'); } catch (e) { return false; } })();
+        if (!hasPlantParam) {
+          input.value = '';
+          run();
+        }
 
         // === Back-to-top button: appears after scrolling 600px ===
         const backToTop = $('backToTop');

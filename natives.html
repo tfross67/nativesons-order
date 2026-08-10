@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2d4a2b">
+  <title>Native Sons — California Natives Availability</title>
+  <meta name="description" content="California native plants currently in production at Native Sons Wholesale Nursery. Botanical name, common name, and container size. Updated weekly.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Native Sons">
+  <style>
+    :root {
+      --c-bark: #2d4a2b;
+      --c-paper: #f7f4ec;
+      --c-line: #d8d2c2;
+      --c-muted: #6b6256;
+      --c-ink: #1a2e1a;
+      --c-clay: #4a4438;
+      --c-cta: #3a5f3a;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --font-mono: "SF Mono", Menlo, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--c-ink);
+      background: #fafaf5;
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 64px;
+    }
+
+    header.page {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 8px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--c-line);
+    }
+
+    header.page h1 {
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--c-bark);
+      margin: 0 0 4px;
+      letter-spacing: -0.01em;
+    }
+    header.page .subtitle {
+      font-size: 14px;
+      color: var(--c-clay);
+      margin: 0;
+    }
+    header.page .subtitle strong {
+      color: var(--c-bark);
+    }
+    header.page .meta {
+      font-size: 12px;
+      color: var(--c-muted);
+      margin-top: 4px;
+    }
+    header.page .meta a {
+      color: var(--c-cta);
+      text-decoration: none;
+    }
+    header.page .meta a:hover { text-decoration: underline; }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin: 16px 0 12px;
+    }
+
+    .toolbar input[type="search"] {
+      flex: 1 1 240px;
+      min-width: 200px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-family: var(--font-sans);
+      color: var(--c-ink);
+      background: #fff;
+      border: 1px solid var(--c-line);
+      border-radius: 6px;
+      outline: none;
+    }
+    .toolbar input[type="search"]:focus {
+      border-color: var(--c-cta);
+      box-shadow: 0 0 0 2px rgba(58,95,58,0.15);
+    }
+
+    .toolbar button {
+      padding: 8px 14px;
+      font-size: 13px;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      background: var(--c-cta);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .toolbar button:hover { background: #2d4a2b; }
+    .toolbar button.secondary {
+      background: white;
+      color: var(--c-bark);
+      border: 1px solid var(--c-line);
+    }
+    .toolbar button.secondary:hover {
+      background: #f3efe2;
+      border-color: var(--c-bark);
+    }
+    .toolbar .count {
+      font-size: 12px;
+      color: var(--c-muted);
+      white-space: nowrap;
+    }
+
+    /* Copy-toast feedback */
+    .copy-feedback {
+      display: none;
+      margin-left: 8px;
+      padding: 4px 10px;
+      background: #e7f3e7;
+      color: #2d4a2b;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .copy-feedback.is-visible { display: inline-block; }
+
+    h2.section {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--c-bark);
+      margin: 24px 0 8px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    h2.section .count {
+      color: var(--c-muted);
+      font-weight: 400;
+      font-size: 12px;
+      margin-left: 4px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    table.list {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      line-height: 1.55;
+      background: #fff;
+      border: 1px solid var(--c-line);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    table.list thead th {
+      text-align: left;
+      font-weight: 500;
+      color: var(--c-muted);
+      background: #f3efe2;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--c-line);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    table.list tbody td {
+      padding: 10px 16px;
+      border-bottom: 1px solid #efeada;
+      vertical-align: middle;
+    }
+    table.list tbody tr:last-child td { border-bottom: 0; }
+    table.list tbody tr:nth-child(even) td { background: #fbfaf3; }
+
+    td.botanical {
+      font-style: italic;
+      color: var(--c-bark);
+      font-weight: 400;
+      white-space: nowrap;
+    }
+    td.common { color: var(--c-clay); }
+    td.container {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--c-clay);
+      white-space: nowrap;
+    }
+    td.container.is-4in {
+      background: #fdf6e3;
+      color: #8a6a1f;
+      font-weight: 500;
+      border-radius: 4px;
+      padding-left: 10px;
+      padding-right: 10px;
+      display: inline-block;
+      margin: 4px 0;
+    }
+
+    footer.page {
+      margin-top: 24px;
+      font-size: 11px;
+      color: var(--c-muted);
+      text-align: right;
+    }
+    footer.page a { color: var(--c-cta); text-decoration: none; }
+    footer.page a:hover { text-decoration: underline; }
+
+    @media (max-width: 720px) {
+      .wrap { padding: 16px 8px 48px; }
+      table.list { font-size: 12px; }
+      table.list thead th, table.list tbody td { padding: 6px 8px; }
+      td.common { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="page">
+      <div>
+        <h1>California Natives — Availability</h1>
+        <p class="subtitle">Plants currently in production at Native Sons Wholesale Nursery</p>
+        <p class="meta">
+          <strong id="week">Loading…</strong>
+          &nbsp;·&nbsp;
+          Tim Fross · 714.801.8581 · tfross@nativeson.com
+          &nbsp;·&nbsp;
+          <a href="availability.html">Full availability →</a>
+        </p>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="Filter by botanical or common name…" autocomplete="off" spellcheck="false">
+      <span class="count" id="count"></span>
+      <button id="copyBtn">Copy list</button>
+      <span class="copy-feedback" id="copyFb">✓ copied</span>
+    </div>
+
+    <h2 class="section">4" Production <span class="count" id="count4"></span></h2>
+    <table class="list" id="t4">
+      <thead>
+        <tr>
+          <th style="width:38%">Botanical</th>
+          <th>Common</th>
+          <th style="width:90px">Container</th>
+        </tr>
+      </thead>
+      <tbody id="rows4"></tbody>
+    </table>
+
+    <h2 class="section">1gal+ Production <span class="count" id="count1"></span></h2>
+    <table class="list" id="t1">
+      <thead>
+        <tr>
+          <th style="width:38%">Botanical</th>
+          <th>Common</th>
+          <th style="width:140px">Container</th>
+        </tr>
+      </thead>
+      <tbody id="rows1"></tbody>
+    </table>
+
+    <footer class="page">
+      Source: <a href="https://nativeson.com">nativeson.com</a> availability
+      &nbsp;·&nbsp;
+      Same data as the Obsidian note in Tim's Vault
+      &nbsp;·&nbsp;
+      <a href="availability.html">View as tiles →</a>
+    </footer>
+  </div>
+
+  <script>
+    // ===== Load availability_data.js (same source as compact-list) =====
+    const script = document.createElement('script');
+    script.src = 'availability_data.js?v=' + Date.now();
+    script.onload = init;
+    script.onerror = () => {
+      document.getElementById('week').textContent = 'Failed to load availability_data.js';
+    };
+    document.head.appendChild(script);
+
+    let ALL_ROWS = [];
+    let WEEK_LABEL = '';
+
+    function init() {
+      const data = window.AVAILABILITY || {};
+      const weekRaw = data.week || '';
+      // Convert "Week of August 10th, 2026" → "Week of August 10, 2026" for the page header
+      // (strip the ordinal suffix)
+      WEEK_LABEL = weekRaw.replace(/(\d+)(st|nd|rd|th)/, '$1');
+
+      document.getElementById('week').textContent = WEEK_LABEL;
+
+      // Strict CA filter (from native-sons-blooms-list skill — verified
+      // 2026-08-01). Loose filter pulls in 4 false positives; this one
+      // is the source of truth.
+      const isCA = p => (p.origin || '').toLowerCase().includes('california') || p.ca_native;
+      const natives = (data.plants || []).filter(isCA);
+
+      // Flatten to one row per (plant, size)
+      for (const p of natives) {
+        for (const s of (p.sizes || [])) {
+          if (typeof s.price !== 'number') continue;
+          const is4in = (s.container || '').includes('4');
+          ALL_ROWS.push({
+            botanical: p.botanical || '',
+            common: p.common || '',
+            container: s.container,
+            is4in,
+          });
+        }
+      }
+
+      // Sort by botanical name
+      ALL_ROWS.sort((a, b) =>
+        a.botanical.toLowerCase().localeCompare(b.botanical.toLowerCase()));
+
+      document.getElementById('q').addEventListener('input', render);
+      document.getElementById('copyBtn').addEventListener('click', copyList);
+
+      render();
+    }
+
+    function filterRows() {
+      const q = (document.getElementById('q').value || '').trim().toLowerCase();
+      if (!q) return ALL_ROWS.slice();
+      return ALL_ROWS.filter(r =>
+        r.botanical.toLowerCase().includes(q) ||
+        r.common.toLowerCase().includes(q));
+    }
+
+    function render() {
+      const rows = filterRows();
+      const fourInch = rows.filter(r => r.is4in);
+      const oneGalPlus = rows.filter(r => !r.is4in);
+
+      document.getElementById('count').textContent =
+        rows.length + ' of ' + ALL_ROWS.length + (document.getElementById('q').value ? ' (filtered)' : '');
+      document.getElementById('count4').textContent =
+        `(${fourInch.length} ${fourInch.length === 1 ? 'plant' : 'plants'})`;
+      document.getElementById('count1').textContent =
+        `(${oneGalPlus.length} ${oneGalPlus.length === 1 ? 'plant' : 'plants'})`;
+
+      const esc = s => String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+      const rowHtml = r => `<tr>
+        <td class="botanical">${esc(r.botanical)}</td>
+        <td class="common">${esc(r.common)}</td>
+        <td class="container${r.is4in ? ' is-4in' : ''}">${esc(r.container)}</td>
+      </tr>`;
+
+      document.getElementById('rows4').innerHTML =
+        fourInch.length ? fourInch.map(rowHtml).join('') :
+        '<tr><td colspan="3" class="empty">No 4" matches.</td></tr>';
+      document.getElementById('rows1').innerHTML =
+        oneGalPlus.length ? oneGalPlus.map(rowHtml).join('') :
+        '<tr><td colspan="3" class="empty">No 1gal+ matches.</td></tr>';
+    }
+
+    // ===== Copy to clipboard =====
+    // Builds a plain-text version of the list (matches the format
+    // of the Obsidian "Native Plants Availability" markdown table,
+    // minus the table syntax — just rows). Easier to paste into
+    // emails, Slack, etc.
+    function copyList() {
+      const q = (document.getElementById('q').value || '').trim();
+      const rows = filterRows();
+      if (!rows.length) {
+        flashCopyFeedback('Nothing to copy');
+        return;
+      }
+      // Plain-text format: "Botanical — Common — Container"
+      // Use the unicode bullet between fields for clean pasting.
+      const lines = rows.map(r => {
+        const bot = r.botanical;
+        const common = r.common || '';
+        const cont = r.container || '';
+        // Format: "*Botanical* 'cultivar'" — Common — Container
+        const parts = [bot];
+        if (common) parts.push(common);
+        if (cont) parts.push(cont);
+        return parts.join('  ·  ');
+      });
+      // Group by section for clarity (4" first, then 1gal+)
+      const fourInch = rows.filter(r => r.is4in);
+      const oneGalPlus = rows.filter(r => !r.is4in);
+      const sections = [];
+      if (fourInch.length) {
+        sections.push(`4" PRODUCTION\n` + fourInch.map(r => {
+          const parts = [r.botanical];
+          if (r.common) parts.push(r.common);
+          return parts.join('  ·  ');
+        }).join('\n'));
+      }
+      if (oneGalPlus.length) {
+        sections.push(`1GAL+ PRODUCTION\n` + oneGalPlus.map(r => {
+          const parts = [r.botanical];
+          if (r.common) parts.push(r.common);
+          parts.push(r.container);
+          return parts.join('  ·  ');
+        }).join('\n'));
+      }
+      const header = `California Natives — Native Sons Wholesale Nursery\n${WEEK_LABEL}\n` +
+        (q ? `Filter: ${q}\n` : '') +
+        `${rows.length} plants\n`;
+      const text = header + '\n' + sections.join('\n\n') + '\n';
+
+      // Modern clipboard API, with fallback for older browsers
+      const fb = document.getElementById('copyFb');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(
+          () => flashCopyFeedback('✓ copied'),
+          () => fallbackCopy(text)
+        );
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (_) {}
+      document.body.removeChild(ta);
+      flashCopyFeedback(ok ? '✓ copied' : 'copy failed');
+    }
+
+    function flashCopyFeedback(msg) {
+      const fb = document.getElementById('copyFb');
+      fb.textContent = msg;
+      fb.classList.add('is-visible');
+      clearTimeout(fb._t);
+      fb._t = setTimeout(() => fb.classList.remove('is-visible'), 1800);
+    }
+  </script>
+</body>
+</html>

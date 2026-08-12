@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <link rel="stylesheet" href="styles.css?v=20260811-04">
+  <link rel="stylesheet" href="styles.css?v=20260811-05">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -279,6 +279,11 @@
       display: flex;
       gap: 8px;
       align-items: center;
+    }
+    @media (max-width: 720px) {
+      .chat-test-root .search-input-row {
+        flex-wrap: wrap;
+      }
     }
     .chat-test-root .search-input {
       flex: 1;
@@ -3390,7 +3395,14 @@
                placeholder='e.g. "red flowers in 1gal" or "drought tolerant ceanothus"'
                autocomplete="off" aria-label="Search plants with natural language">
         <button type="button" id="chatClear" class="clear-btn">Clear</button>
-        <a href="compact-list.html" class="search-compact-link" title="View this week's availability as a compact text-only table">View as table →</a>
+        <a href="compact-list.html" class="search-compact-link" title="View this week's availability as a compact text-only table">
+          <svg class="compact-link-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+            <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/>
+            <path d="M3 9h18M3 15h18M9 3v18M15 3v18" stroke="currentColor" stroke-width="1.4" fill="none"/>
+          </svg>
+          <span class="compact-link-label">Table view</span>
+          <span class="compact-link-arrow" aria-hidden="true">→</span>
+        </a>
       </div>
       <div class="suggested">
         <span class="suggested-label">Try:</span>

@@ -1040,8 +1040,8 @@ body { padding-bottom: 80px; }
     transform: translateY(100%);
     transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
     will-change: transform;
-    will-change: transform;
-    /* No slideIn animation on desktop; the sheet transitions via transform */
+    /* Kill the desktop slideIn animation — it fights the bottom-sheet transform */
+    animation: none !important;
   }
   /* When shown, slide up */
   body .cart-panel:not([hidden]) {
@@ -1088,10 +1088,10 @@ body { padding-bottom: 80px; }
   }
 
   /* Prevent body scroll when sheet is expanded */
-  body.cart-expanded {
+  body.cart-expanded,
+  body.cart-expanded .chat-test-root {
     overflow: hidden;
-    position: fixed;
-    width: 100%;
+    overscroll-behavior: contain;
   }
 
   /* Adjust floating cart bar for mobile */

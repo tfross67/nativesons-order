@@ -1,5 +1,5 @@
 {
-  "name": "Native Sons",
+  "name": "Native Sons Wholesale Nursery",
   "short_name": "Native Sons",
   "description": "Native Sons Wholesale Nursery — weekly plant availability, search, and ordering for landscape professionals.",
   "start_url": "/availability.html",
@@ -8,18 +8,19 @@
   "background_color": "#f4f1ea",
   "theme_color": "#2d4a2b",
   "orientation": "portrait",
+  "categories": ["business", "shopping", "gardening"],
   "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
     {
       "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }

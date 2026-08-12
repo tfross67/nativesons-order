@@ -4,15 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#2d4a2b">
-  <title>Native Sons — Smart Plant Search</title>
-  <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Native Sons">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="styles.css?v=20260808-12">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="icon-192.png" sizes="192x192">
+  <link rel="shortcut icon" href="icon-192.png" type="image/png">
+  <title>Native Sons — Smart Plant Search</title>
+  <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
+  <link rel="stylesheet" href="styles.css?v=20260811-01">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -3413,21 +3415,26 @@
 
   <!-- Floating cart bar (visible when cart has items) -->
   <button type="button" class="cart-bar" id="cartBar" hidden aria-label="View cart">
-    <span class="cart-bar-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="20" height="20">
-        <path d="M3 4h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.5L21 8H6"
-              stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="10" cy="20" r="1.4" fill="currentColor"/>
-        <circle cx="17" cy="20" r="1.4" fill="currentColor"/>
-      </svg>
+    <span class="cart-bar-inner">
+      <span class="cart-bar-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20">
+          <path d="M3 4h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.5L21 8H6"
+                stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="10" cy="20" r="1.4" fill="currentColor"/>
+          <circle cx="17" cy="20" r="1.4" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="cart-bar-text">
+        <span class="cart-bar-count"><span id="cartCount">0</span> items</span>
+        <span class="cart-bar-total">$<span id="cartTotal">0.00</span></span>
+      </span>
     </span>
-    <span class="cart-bar-count"><span id="cartCount">0</span> items</span>
-    <span class="cart-bar-total">$<span id="cartTotal">0.00</span></span>
   </button>
 
-  <!-- Cart slide-out -->
+  <!-- Cart slide-out / bottom sheet -->
   <div class="cart-overlay" id="cartOverlay" hidden></div>
-  <aside class="cart-panel" id="cartPanel" hidden aria-label="Shopping cart" role="dialog">
+  <aside class="cart-panel" id="cartPanel" hidden aria-label="Shopping cart" role="dialog" data-sheet-state="closed">
+    <div class="cart-drag-handle" id="cartDragHandle" aria-hidden="true"><span class="cart-drag-bar"></span></div>
     <header class="cart-header">
       <h2>Your Order</h2>
       <button type="button" class="cart-header-cta" id="cartHeaderCta">+ Customer request</button>
@@ -6059,14 +6066,68 @@
         sizePickerModal.hidden = true;
         cartOverlay.hidden = false;
         cartPanel.hidden = false;
+        document.body.classList.add('cart-expanded');
+        // Reset any drag state
+        cartPanel.style.transform = '';
+        cartPanel.style.transition = '';
       }
       function closeCart() {
         cartOverlay.hidden = true;
         cartPanel.hidden = true;
+        document.body.classList.remove('cart-expanded');
       }
+
+      // --- Bottom-sheet drag handling (mobile only)
+      let sheetStartY = 0;
+      let sheetTranslateY = 0;
+      let isDragging = false;
+      const sheetHandle = document.getElementById('cartDragHandle');
+      const SHEET_CLOSE_THRESHOLD = 120; // px of downward drag to close
+
+      if (sheetHandle) {
+        sheetHandle.addEventListener('pointerdown', (e) => {
+          if (window.innerWidth > 767) return; // desktop — no drag
+          isDragging = true;
+          sheetStartY = e.clientY;
+          sheetTranslateY = 0;
+          sheetHandle.classList.add('is-dragging');
+          cartPanel.style.transition = 'none';
+          e.preventDefault();
+          sheetHandle.setPointerCapture(e.pointerId);
+        });
+
+        document.addEventListener('pointermove', (e) => {
+          if (!isDragging || window.innerWidth > 767) return;
+          const dy = e.clientY - sheetStartY;
+          if (dy < 0) {
+            // Don't allow pull-up beyond fully open
+            sheetTranslateY = 0;
+          } else {
+            // Resistive drag — get harder the more you pull down
+            sheetTranslateY = Math.min(dy * 0.5, 300);
+          }
+          cartPanel.style.transform = `translateY(${sheetTranslateY}px)`;
+        });
+
+        document.addEventListener('pointerup', (e) => {
+          if (!isDragging) return;
+          isDragging = false;
+          sheetHandle.classList.remove('is-dragging');
+          cartPanel.style.transition = '';
+          cartPanel.style.transform = '';
+          if (sheetTranslateY > SHEET_CLOSE_THRESHOLD) {
+            closeCart();
+          }
+          sheetTranslateY = 0;
+        });
+      }
+
+      // Scroll lock overlay: close cart on tap
+      cartOverlay.addEventListener('click', closeCart);
+
+      // Cart bar and close button
       cartBar.addEventListener('click', openCart);
       closeCartBtn.addEventListener('click', closeCart);
-      cartOverlay.addEventListener('click', closeCart);
 
       // Quantity stepper inside cart
       cartItems.addEventListener('click', (e) => {

@@ -406,6 +406,7 @@ body { padding-bottom: 80px; }
   to { transform: translateX(-50%) translateY(0); opacity: 1; }
 }
 .cart-bar-inner { display: flex; align-items: center; gap: 12px; }
+.cart-bar-icon { display: none; }
 .cart-bar-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
 .cart-bar-count { font-size: 12px; opacity: 0.85; }
 .cart-bar-total { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
@@ -1015,5 +1016,276 @@ body { padding-bottom: 80px; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* === Mobile-first cart bottom sheet (overrides the desktop right-slide panel) === */
+@media (max-width: 767px) {
+  body .cart-panel {
+    position: fixed;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: 92vh;
+    background: var(--c-paper);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -8px 40px rgba(31, 42, 28, 0.2);
+    /* Start below screen */
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+    will-change: transform;
+    will-change: transform;
+    /* No slideIn animation on desktop; the sheet transitions via transform */
+  }
+  /* When shown, slide up */
+  body .cart-panel:not([hidden]) {
+    transform: translateY(0);
+  }
+  /* When hidden, keep it below screen (hidden attr must still be set by JS) */
+  body .cart-panel[hidden] {
+    display: flex;
+    transform: translateY(100%);
+    pointer-events: none;
+  }
+
+  /* Drag handle */
+  body .cart-drag-handle {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0 6px;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    flex-shrink: 0;
+  }
+  body .cart-drag-handle .cart-drag-bar {
+    display: block;
+    width: 36px;
+    height: 4px;
+    border-radius: 3px;
+    background: var(--c-line, #d8d2c2);
+    transition: background 0.2s;
+  }
+  body .cart-drag-handle:active .cart-drag-bar,
+  body .cart-drag-handle.is-dragging .cart-drag-bar {
+    background: var(--c-sage-deep, #2d4a2b);
+  }
+
+  /* Cart header adjustments for bottom sheet */
+  body .cart-header {
+    padding: 4px 20px 14px;
+    border-bottom: 1px solid var(--c-line);
+  }
+  body .cart-header h2 {
+    font-size: 20px;
+  }
+
+  /* Prevent body scroll when sheet is expanded */
+  body.cart-expanded {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+
+  /* Adjust floating cart bar for mobile */
+  body .cart-bar {
+    bottom: 16px;
+    padding: 14px 24px;
+    font-size: 16px;
+    border-radius: 999px;
+  }
+  body .cart-bar .cart-bar-icon {
+    display: inline-flex;
+  }
+  body .cart-bar-count {
+    font-size: 14px;
+  }
+  body .cart-bar-total {
+    font-size: 17px;
+  }
+
+  /* Cart overlay for mobile — fades more subtly */
+  body .cart-overlay {
+    background: rgba(31, 42, 28, 0.35);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  /* Results grid — single column, tighter spacing */
+  body .results {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  /* Result cards — more compact on mobile */
+  body .result-card {
+    padding: 14px;
+  }
+  body .result-card .result-botanical {
+    font-size: 15px;
+  }
+  body .result-card .result-common {
+    font-size: 13px;
+  }
+  body .result-card .result-price-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  body .result-card .result-price {
+    font-size: 13px;
+  }
+
+  /* Search input bigger for thumb typing */
+  body .search-input {
+    font-size: 16px !important; /* iOS zooms on <16px */
+    padding: 12px 16px !important;
+  }
+
+  /* Suggestion chips — scrollable row */
+  body .suggested {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  body .suggested::-webkit-scrollbar { display: none; }
+
+  /* Hero band more compact on mobile */
+  body .hero-band {
+    padding: 16px 18px;
+    border-radius: 12px;
+  }
+  body .hero-headline {
+    font-size: 24px;
+  }
+  body .hero-stats {
+    width: 100%;
+    padding-left: 0;
+    border-left: none;
+    gap: 8px;
+  }
+  body .hero-stat {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 6px;
+  }
+  body .hero-stat-num {
+    font-size: 26px;
+  }
+  body .hero-stat-label {
+    font-size: 10px;
+  }
+
+  /* Selection bar sticks to bottom */
+  body .selection-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    border-radius: 12px 12px 0 0;
+    padding: 12px 16px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    box-shadow: 0 -4px 20px rgba(31, 42, 28, 0.1);
+  }
+  body .selection-actions {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  body .selection-actions .action-btn {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  /* Back-to-top button */
+  body .back-to-top {
+    bottom: 80px;
+    right: 16px;
+  }
+
+  /* Cart items — more compact */
+  body .cart-items {
+    padding: 4px 16px;
+  }
+  body .cart-item {
+    padding: 12px 0;
+  }
+  body .cart-item-row {
+    grid-template-columns: 1fr auto auto;
+    gap: 8px;
+  }
+  body .cart-item-remove {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+  }
+  body .cart-item-pricing {
+    gap: 6px;
+  }
+  body .cart-item-pricing-label {
+    flex-basis: 100%;
+  }
+
+  /* Modals — full-screen on mobile */
+  body .modal {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    margin: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: none;
+  }
+  body .modal-header {
+    padding: 16px;
+  }
+
+  /* Staff sidebar — full-width on mobile */
+  body .staff-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 100%;
+    z-index: 110;
+    border-radius: 0;
+    padding: 20px;
+    padding-top: max(20px, env(safe-area-inset-top));
+    overflow-y: auto;
+  }
+
+  /* Touch-friendly tap targets */
+  body .sort-tab,
+  body .suggestion,
+  body .action-btn,
+  body .icon-btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  body .suggestion,
+  body .sort-tab {
+    padding: 10px 16px;
+  }
+}
+
+/* Tablet breakpoint (768px–1024px) — nicer card grid */
+@media (min-width: 768px) and (max-width: 1024px) {
+  body .results {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  body .result-card {
+    padding: 16px;
   }
 }

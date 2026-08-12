@@ -80,23 +80,62 @@ body { padding-bottom: 80px; }
   display: block;
   object-fit: contain;
 }
-.brand-compact-link,
 .search-compact-link {
-  font-size: 13px;
-  color: var(--c-cta, #3a5f3a);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--c-bark, #2d4a2b);
+  background: #fff;
+  border: 1px solid var(--c-line, #d8d2c2);
+  border-radius: 10px;
+  padding: 11px 16px;
   text-decoration: none;
-  font-weight: 500;
   white-space: nowrap;
-  transition: opacity 0.15s ease;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(45, 74, 43, 0.05);
 }
-.brand-compact-link:hover,
 .search-compact-link:hover {
-  text-decoration: underline;
-  opacity: 1;
+  background: #f2efe2;
+  border-color: var(--c-cta, #3a5f3a);
+  text-decoration: none;
 }
-/* Compact link lives inside the search row — give it a touch of breathing room */
-.search-compact-link {
-  margin-left: 4px;
+.search-compact-link:active {
+  transform: scale(0.98);
+}
+.search-compact-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 122, 42, 0.25);
+}
+.search-compact-link .compact-link-icon {
+  color: var(--c-cta, #3a5f3a);
+  flex-shrink: 0;
+}
+.search-compact-link .compact-link-arrow {
+  font-size: 13px;
+  color: var(--c-muted, #6b6256);
+  transition: transform 0.15s;
+}
+.search-compact-link:hover .compact-link-arrow {
+  transform: translateX(2px);
+  color: var(--c-cta, #3a5f3a);
+}
+/* Mobile: table link becomes a full-width row so it's easy to tap */
+@media (max-width: 720px) {
+  .search-compact-link {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 16px;
+    font-size: 15px;
+    margin: 2px 0 0;
+  }
+  .search-input-row {
+    flex-wrap: wrap;
+  }
 }
 .brand-text h1 {
   font-family: var(--font-serif);

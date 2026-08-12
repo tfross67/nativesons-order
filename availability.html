@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <link rel="stylesheet" href="styles.css?v=20260811-03">
+  <link rel="stylesheet" href="styles.css?v=20260811-04">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -2841,6 +2841,44 @@
       display: block;
       margin-bottom: 10px;
     }
+    /* Customer details — collapsible <details> so mobile staff can get past
+       customer entry without scrolling a full form. Open on desktop by
+       default; JS collapses it on small screens. */
+    .staff-sidebar .cust-details {
+      margin-top: 14px;
+    }
+    .staff-sidebar .cust-details-summary {
+      list-style: none;
+      cursor: pointer;
+      user-select: none;
+      font-family: var(--font-sans);
+      font-size: var(--fs-eyebrow);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: var(--ls-xwide);
+      color: var(--c-bark, #2d4a2b);
+      padding: 6px 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid transparent;
+    }
+    .staff-sidebar .cust-details-summary::-webkit-details-marker { display: none; }
+    .staff-sidebar .cust-details-summary::after {
+      content: "▾";
+      font-size: 10px;
+      transition: transform 0.15s;
+      color: var(--c-muted, #6b6256);
+    }
+    .staff-sidebar .cust-details[open] .cust-details-summary::after {
+      transform: rotate(180deg);
+    }
+    .staff-sidebar .cust-details-summary:hover {
+      color: var(--c-cta, #3a5f3a);
+    }
+    .staff-sidebar .cust-details-body {
+      padding-top: 2px;
+    }
     .staff-sidebar .cust-form-field > span {
       display: block;
       font-family: var(--font-sans);
@@ -3305,27 +3343,31 @@
         </div>
       </div>
 
-      <h2 class="staff-section-title" style="margin-top:16px;">Customer details</h2>
-      <label class="cust-form-field">
-        <span>Name</span>
-        <input type="text" id="sideCustName" autocomplete="name">
-      </label>
-      <label class="cust-form-field">
-        <span>Email</span>
-        <input type="email" id="sideCustEmail" autocomplete="email">
-      </label>
-      <label class="cust-form-field">
-        <span>Phone</span>
-        <input type="tel" id="sideCustPhone" autocomplete="tel">
-      </label>
-      <label class="cust-form-field">
-        <span>Company</span>
-        <input type="text" id="sideCustCompany" autocomplete="organization">
-      </label>
-      <label class="cust-form-field">
-        <span>Notes</span>
-        <textarea id="sideCustNotes" rows="2" placeholder="delivery, substitutions…"></textarea>
-      </label>
+      <details class="cust-details" id="custDetails" open>
+        <summary class="cust-details-summary" aria-label="Toggle customer details">Customer details</summary>
+        <div class="cust-details-body">
+          <label class="cust-form-field">
+            <span>Name</span>
+            <input type="text" id="sideCustName" autocomplete="name">
+          </label>
+          <label class="cust-form-field">
+            <span>Email</span>
+            <input type="email" id="sideCustEmail" autocomplete="email">
+          </label>
+          <label class="cust-form-field">
+            <span>Phone</span>
+            <input type="tel" id="sideCustPhone" autocomplete="tel">
+          </label>
+          <label class="cust-form-field">
+            <span>Company</span>
+            <input type="text" id="sideCustCompany" autocomplete="organization">
+          </label>
+          <label class="cust-form-field">
+            <span>Notes</span>
+            <textarea id="sideCustNotes" rows="2" placeholder="delivery, substitutions…"></textarea>
+          </label>
+        </div>
+      </details>
     </div>
   </aside>
 
@@ -5282,6 +5324,15 @@
     window.chatTestSelection = () => Object.values(selection);
     console.log('chat-test.html ready. Try: chatTestParse("red flowers 1gal")');
 
+    // Collapse the sidebar "Customer details" form on small screens so the
+    // plant search stays above the fold. Desktop keeps it open.
+    function collapseCustDetailsOnMobile() {
+      try {
+        const d = document.getElementById('custDetails');
+        if (d && window.innerWidth <= 900) d.open = false;
+      } catch (e) { /* non-fatal */ }
+    }
+
     // Staff mode: show sign-in gate when ?staff=1, or restore from sessionStorage.
     // Also drives the header "Sign in / Sign out" link.
     (function initStaffMode() {
@@ -5301,6 +5352,7 @@
           if (isSignedIn) {
             document.body.classList.add('staff-mode');
             document.getElementById('signInGate').hidden = true;
+            collapseCustDetailsOnMobile();
             if (headerActions) headerActions.hidden = false;
             if (signOutLink) signOutLink.hidden = false;
             if (adminLink) adminLink.hidden = false;
@@ -5312,6 +5364,7 @@
           // Signed in but visiting the public URL — show sign-out only
           document.body.classList.add('staff-mode');
           document.getElementById('signInGate').hidden = true;
+          collapseCustDetailsOnMobile();
           if (headerActions) headerActions.hidden = false;
           if (signOutLink) signOutLink.hidden = false;
           if (adminLink) adminLink.hidden = false;
@@ -5353,6 +5406,13 @@
     window.__onStaffSignIn = function () {
       try {
         document.body.classList.add('staff-mode');
+        // On small screens, collapse the customer-details form so the plant
+        // search isn't pushed below the fold by a full form of empty fields.
+        // Staff can tap "Customer details" to expand it when needed.
+        const custDetails = document.getElementById('custDetails');
+        if (custDetails && window.innerWidth <= 900) {
+          custDetails.open = false;
+        }
         const signInLink = document.getElementById('staffLink');
         const signOutLink = document.getElementById('staffSignOut');
         const adminLink = document.getElementById('staffAdminLink');

@@ -4,13 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#2d4a2b">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Native Sons — Quick Availability</title>
   <meta name="description" content="Fast, text-only availability list. Botanical name, common name, size, height, width, and price.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="icon-192.png" sizes="192x192">
-  <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Native Sons">
   <style>
@@ -43,7 +40,6 @@
       max-width: 1100px;
       margin: 0 auto;
       padding: 24px 16px 64px;
-      padding-bottom: calc(64px + env(safe-area-inset-bottom));
     }
 
     header.page {
@@ -106,11 +102,6 @@
       font-size: 12px;
       color: var(--c-muted);
       white-space: nowrap;
-    }
-
-    /* Mobile sort dropdown — hidden on desktop where the sortable header is visible */
-    .toolbar .sort-select {
-      display: none;
     }
 
     table.list {
@@ -226,110 +217,9 @@
 
     @media (max-width: 720px) {
       .wrap { padding: 16px 8px 48px; }
-
-      /* === Mobile: table becomes stacked cards === */
-      table.list, table.list tbody, table.list tr, table.list td { display: block; width: 100%; }
-      table.list { border: 0; background: transparent; overflow: visible; }
-      table.list thead { display: none; }  /* sorting moves to toolbar chips */
-      table.list tbody tr {
-        position: relative;
-        background: #fff;
-        border: 1px solid var(--c-line);
-        border-radius: 12px;
-        margin-bottom: 10px;
-        padding: 12px 14px;
-        box-shadow: 0 1px 3px rgba(45, 74, 43, 0.05);
-      }
-      table.list tbody tr:last-child { margin-bottom: 0; }
-      table.list tbody tr:nth-child(even) td { background: transparent; }
-      table.list tbody tr:hover td { background: transparent; }
-      table.list tbody tr:active { background: #f4f0df; }
-
-      td.botanical {
-        display: block;
-        white-space: normal;
-        font-size: 15px;
-        padding: 0 44px 8px 0;   /* right padding clears the status icon */
-      }
-      /* Stretched link: the whole card opens the plant in the full portal */
-      td.botanical a.plant-link::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-      }
-
-      td.status {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        padding: 0;
-      }
-      td.status img.bloom-icon { width: 26px; height: 26px; margin: 0; }
-
-      /* Size / height / width become one meta line */
-      td.size, td.height, td.width {
-        display: inline-block;
-        font-size: 12.5px;
-        padding: 2px 0;
-        margin-right: 10px;
-      }
-      td.size::before { content: ""; }
-      td.price {
-        display: block;
-        text-align: right;
-        font-size: 15px;
-        padding: 8px 0 0;
-        border-top: 1px dashed #efeada;
-        margin-top: 6px;
-      }
-
-      /* Toolbar — sticky filter row */
-      .toolbar {
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        background: rgba(250, 250, 245, 0.92);
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-        padding: 8px 0;
-        margin: 0 -4px 10px;
-        border-radius: 10px;
-      }
-      .toolbar input[type="search"] {
-        font-size: 16px;         /* prevents iOS focus-zoom */
-        padding: 12px 14px;
-        min-height: 44px;
-        border-radius: 10px;
-        flex: 1 1 100%;
-      }
-      /* Mobile sort dropdown replaces the hidden sortable header */
-      .toolbar .sort-select {
-        display: block;
-        flex: 1 1 100%;
-        min-height: 44px;
-        padding: 10px 12px;
-        font-size: 15px;
-        font-family: var(--font-sans);
-        color: var(--c-ink);
-        background: #fff;
-        border: 1px solid var(--c-line);
-        border-radius: 10px;
-        outline: none;
-        -webkit-appearance: none;
-        appearance: none;
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%236b6256' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>");
-        background-repeat: no-repeat;
-        background-position: right 12px center;
-      }
-      .toolbar .count { flex-basis: 100%; text-align: right; padding: 4px 4px 0; }
-
-      header.page { padding: 8px 4px 10px; }
-      header.page h1 { font-size: 20px; }
-      header.page .meta { font-size: 11px; }
-      header.page a.nav-back { font-size: 13px; min-height: 44px; display: inline-flex; align-items: center; }
-
-      /* Poppy icon only — no other status icons (design rule) */
-      td.status img { max-width: 26px; }
+      table.list { font-size: 12px; }
+      table.list thead th, table.list tbody td { padding: 6px 8px; }
+      td.common, td.section { display: none; }
     }
 
     /* === Pricing gate (mirror availability.html) ===
@@ -378,14 +268,6 @@
 
     <div class="toolbar">
       <input type="search" id="q" placeholder="Filter by botanical name…" autocomplete="off" spellcheck="false">
-      <select id="sortSelect" class="sort-select" aria-label="Sort plants" title="Sort">
-        <option value="botanical:1">Name (A–Z)</option>
-        <option value="botanical:-1">Name (Z–A)</option>
-        <option value="size:1">Size (A–Z)</option>
-        <option value="price:1">Price (low → high)</option>
-        <option value="price:-1">Price (high → low)</option>
-        <option value="status:1">Bloom first</option>
-      </select>
       <span class="count" id="count"></span>
     </div>
 
@@ -511,27 +393,11 @@
       ].filter(Boolean).join(' · ');
 
       document.getElementById('q').addEventListener('input', render);
-      const sortSelect = document.getElementById('sortSelect');
-      if (sortSelect) {
-        sortSelect.addEventListener('change', () => {
-          const [k, d] = sortSelect.value.split(':');
-          SORT_KEY = k;
-          SORT_DIR = parseInt(d, 10);
-          render();
-        });
-      }
       document.querySelectorAll('thead th[data-sort]').forEach(th => {
         th.addEventListener('click', () => {
           const k = th.getAttribute('data-sort');
           if (SORT_KEY === k) SORT_DIR *= -1;
           else { SORT_KEY = k; SORT_DIR = 1; }
-          // Keep the mobile sort dropdown in sync
-          const sel = document.getElementById('sortSelect');
-          if (sel) {
-            const d = SORT_DIR === 1 ? 1 : -1;
-            const opt = sel.querySelector('option[value="' + k + ':' + d + '"]');
-            if (opt) sel.value = opt.value;
-          }
           render();
         });
       });

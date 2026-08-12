@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <link rel="stylesheet" href="styles.css?v=20260811-05">
+  <link rel="stylesheet" href="styles.css?v=20260811-06">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -2537,9 +2537,13 @@
       align-self: flex-end;
     }
     /* Staff-mode header: shift the entire header to clear the 280px sidebar
-       that sits at left:0 in fixed position. */
-    body.staff-mode .site-header .container {
-      padding-left: 308px;       /* 280px sidebar + 28px gutter */
+       that sits at left:0 in fixed position. Only on desktop — the sidebar
+       collapses to a top strip ≤900px, so the header must stay full-width
+       there or the logo/actions get shoved right with a dead zone. */
+    @media (min-width: 901px) {
+      body.staff-mode .site-header .container {
+        padding-left: 308px;       /* 280px sidebar + 28px gutter */
+      }
     }
     /* Hero accent: California poppy flower inline with the headline.
        Sits on the same line as "50+ plants in bloom" text, sized to match

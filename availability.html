@@ -60,6 +60,19 @@
       --c-clay: #4a4438;     /* darker warm gray for readable body text */
       --c-body: #2d2820;     /* alias kept for legacy references */
       --c-cta: #3a5f3a;      /* brighter green for filled buttons */
+      /* Extended palette — same tokens as styles.css :root so the inline
+         stylesheet can reference sage / clay accents that match the
+         shared stylesheet. Inline-only components without equivalents
+         in styles.css continue to use the legacy tokens above. */
+      --c-sage: #5d7a4a;
+      --c-sage-deep: #2d4a2b;
+      --c-sage-soft: #e3ecd9;
+      --c-bg-soft: #efe9da;
+      --c-paper-pure: #ffffff;
+      /* California-poppy gold used in the two decorative gradient strips
+         (hero-band top edge, search-shell left edge). Represents the
+         in-bloom indicator / CA-native brand color. */
+      --c-bud: #f4a83a;
     }
     .chat-test-root {
       max-width: 1080px;
@@ -149,7 +162,7 @@
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; height: 4px;
-      background: linear-gradient(90deg, #2d6b1f 0%, #4a7a2a 50%, #f4a83a 100%);
+      background: linear-gradient(90deg, var(--c-cta) 0%, var(--c-sage) 50%, var(--c-bud) 100%);
     }
     .chat-test-root .hero-content { flex: 1; min-width: 0; }
     .chat-test-root .hero-eyebrow {
@@ -271,7 +284,7 @@
       position: absolute;
       top: 0; left: 0; bottom: 0;
       width: 6px;
-      background: linear-gradient(180deg, #2d6b1f 0%, #4a7a2a 60%, #f4a83a 100%);
+      background: linear-gradient(180deg, var(--c-cta) 0%, var(--c-sage) 60%, var(--c-bud) 100%);
       z-index: 1;
     }
     .chat-test-root .search-shell::after {
@@ -673,7 +686,7 @@
       vertical-align: baseline;
     }
     .chat-test-root .result-type.match {
-      background: #d4e2c1;
+      background: var(--c-sage-soft);
       padding: 1px 6px;
       border-radius: 3px;
     }
@@ -815,9 +828,9 @@
       .chat-test-root .meta-pill.cat-bloom { animation: none; }
     }
     .chat-test-root .meta-pill.match {
-      background: #d4e2c1;
-      border-color: #b8d09c;
-      color: var(--c-bark, #2d4a2b);
+      background: var(--c-sage-soft);
+      border-color: var(--c-sage);
+      color: var(--c-sage-deep);
       font-weight: 600;
     }
     .result-price-row {
@@ -1095,7 +1108,7 @@
       padding: 6px 14px;
     }
     .chat-test-root .match-hl {
-      background: #d4e2c1;
+      background: var(--c-sage-soft);
       border-radius: 3px;
       padding: 0 2px;
       font-weight: 600;
@@ -1112,7 +1125,7 @@
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #d4e2c1;
+      background: var(--c-sage-soft);
       color: var(--c-bark, #2d4a2b);
       font-size: 12px;
       font-weight: 700;

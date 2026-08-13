@@ -1564,6 +1564,7 @@
       gap: 6px;
       margin-top: auto;
       padding-top: 8px;
+      position: relative;
     }
     .chat-test-root .add-to-order-btn:hover {
       background: #2c4a2c;
@@ -1713,6 +1714,75 @@
       0%   { transform: scale(1); }
       40%  { transform: scale(1.18); }
       100% { transform: scale(1); }
+    }
+    /* First-add flash: brief "✓ Added 1gal" message that fades over 1.2s,
+       layered on top of the stepper's value before the steady state settles
+       in. Confirms to the user that their click registered, since the
+       button morphing from "+ Add to Order" to "- [1] +" doesn't read as
+       "the click worked" on its own. */
+    @keyframes qty-card-flash-in {
+      0%   { opacity: 0; transform: translateY(4px); }
+      30%  { opacity: 1; transform: translateY(0); }
+      75%  { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-2px); }
+    }
+    body .qty-card-flash,
+    .chat-test-root .qty-card-flash {
+      position: absolute;
+      left: 50%;
+      top: -28px;
+      transform: translateX(-50%);
+      background: var(--c-cta, #3a5f3a);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      box-shadow: 0 4px 12px rgba(58, 95, 58, 0.32);
+      z-index: 5;
+    }
+    body .qty-card-flash.is-show,
+    .chat-test-root .qty-card-flash.is-show {
+      animation: qty-card-flash-in 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @media (max-width: 600px) {
+      /* Mobile polish for the cart UX elements.
+         - Hint pill: bigger tap target + slightly higher opacity (was
+           hard to discover on phone screens in bright sun).
+         - Cart bar: a touch smaller padding so the floating bar doesn't
+           crowd the bottom edge on narrow phones.
+         - In-card stepper: tap targets 48px (Apple HIG minimum) instead of
+           the desktop 40px, so thumbs don't miss the +/- buttons.
+         - Safe-area inset on iOS home indicator so the pills don't sit
+           underneath the gesture bar. */
+      body .cart-hint {
+        padding: 12px 18px;
+        opacity: 0.85;
+        font-size: 14px;
+        bottom: max(18px, env(safe-area-inset-bottom, 18px));
+        left: max(16px, env(safe-area-inset-left, 16px));
+      }
+      body .cart-bar {
+        bottom: max(18px, env(safe-area-inset-bottom, 18px));
+        right: max(16px, env(safe-area-inset-right, 16px));
+        padding: 10px 18px;
+      }
+      body .qty-card-stepper button,
+      .chat-test-root .qty-card-stepper button {
+        width: 48px;
+        font-size: 20px;
+      }
+      body .qty-card-stepper .qty-card-value,
+      .chat-test-root .qty-card-stepper .qty-card-value {
+        min-width: 48px;
+        font-size: 16px;
+      }
     }
     body .cart-bar-count {
       font-family: var(--font-serif);
@@ -6049,6 +6119,45 @@
         });
         const qtyLabel = qty && qty > 1 ? ` × ${qty}` : '';
         showToast(`Added ${plant.botanical}${qtyLabel} (${size.container || 'ea'}) to order`);
+        // First-add flash on the card — brief "✓ Added" pill that confirms the
+        // click registered. Only fires when this plant wasn't already in the
+        // cart (otherwise it's just a +1 increment and the toast + pulse on
+        // the stepper already cover the feedback). findCardForPlant locates
+        // the rendered result card by botanical name.
+        const existingForPlant = Cart.getItems().filter(
+          it => (it.name || '').toLowerCase() === (plant.botanical || '').toLowerCase()
+        );
+        const totalBefore = existingForPlant.reduce((s, i) => s + i.qty, 0) - (qty || 1);
+        if (totalBefore <= 0) {
+          flashCardAdded(plant.botanical, size.container || 'ea');
+        }
+      }
+
+      // Briefly overlays a "✓ Added 1gal" pill above the in-card qty stepper,
+      // confirming the click landed. The pill auto-removes after 1.2s when
+      // its CSS animation ends. Re-entrant: subsequent calls on the same card
+      // restart the animation cleanly.
+      function flashCardAdded(botanical, sizeLabel) {
+        const card = resultsEl.querySelector(
+          `.result[data-botanical="${CSS.escape(botanical)}"]`
+        );
+        if (!card) return;
+        const actions = card.querySelector('.card-actions');
+        if (!actions) return;
+        // Remove any prior flash on this card so back-to-back adds don't
+        // pile up overlapping DOM nodes.
+        const prior = actions.querySelector('.qty-card-flash');
+        if (prior) prior.remove();
+        const flash = document.createElement('span');
+        flash.className = 'qty-card-flash';
+        flash.textContent = `✓ Added ${sizeLabel}`;
+        actions.appendChild(flash);
+        // Force reflow so the animation can restart cleanly on rapid re-clicks.
+        // eslint-disable-next-line no-unused-expressions
+        flash.offsetWidth;
+        flash.classList.add('is-show');
+        // Cleanup after the animation ends so the DOM doesn't accumulate.
+        setTimeout(() => { if (flash.parentNode) flash.remove(); }, 1300);
       }
 
       // Track sizes added during this picker session so we can show a tally

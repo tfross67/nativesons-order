@@ -657,23 +657,36 @@
       margin-right: 2px;
     }
     .chat-test-root .result-botanical {
-      font-family: var(--font-sans);
-      font-style: normal !important;
-      font-weight: 700;
+      /* Botanical names (Latin) are conventionally italicized. Use the serif
+         italic treatment so 'Abelia x grandiflora' reads as a scientific
+         name — matches how Monrovia / Annie's / most wholesale catalogs
+         typeset Latin binomials. Bold weight + serif italic gives the
+         presence of a lead without the industrial feel of sans bold. */
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 600;
       color: var(--c-bark, #2d4a2b);
       font-size: 18px;
       line-height: 1.2;
-      letter-spacing: -0.025em;
-      margin-bottom: 6px;
+      letter-spacing: -0.005em;
+      margin-bottom: 2px;
     }
-    .chat-test-root .result-botanical em { font-style: normal; }
+    /* Cultivar names ('Kaleidoscope', 'Confetti®') inside the botanical
+       stay upright roman — they're proper nouns, not Latin. */
+    .chat-test-root .result-botanical em,
+    .chat-test-root .result-botanical i { font-style: normal; }
     .chat-test-root .result-common {
-      font-family: var(--font-serif);
-      font-style: italic !important;
-      font-size: 13.5px;
+      /* Common name ('Variegated glossy abelia') gets the typographic
+         inverse: sans, normal weight, slightly larger so it reads as
+         the everyday name a trade customer uses at the counter.
+         Muted clay color keeps it secondary to the bold botanical
+         but gives it more presence than the previous 13.5px italic. */
+      font-family: var(--font-sans);
+      font-style: normal;
+      font-size: 14.5px;
       font-weight: 500;
-      color: var(--c-muted, #8a8a7c);
-      line-height: var(--lh-snug);
+      color: var(--c-clay, #4a4438);
+      line-height: 1.3;
       margin-bottom: 10px;
     }
     .chat-test-root .result-type {
@@ -850,6 +863,40 @@
       letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
+    }
+    /* Each price is its own span — the size label (1gal / 2gal / 5gal)
+       sits in normal weight alongside the price, separated by a thin
+       slash. Larger sizes get progressively lighter weight to draw the
+       eye to the smallest container (cheapest / most common entry).
+       The :nth-of-type skips the separator spans (which are also spans
+       but with class .result-price-sep — we use direct child count by
+       tag, which on a flat <span> line still increments per span; so we
+       use the inline --size-i CSS custom property set by JS to make this
+       independent of structure.) */
+    .result-price .result-price-size {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .result-price .result-price-size .price-amount {
+      font-weight: var(--price-weight, 800);
+    }
+    .result-price .result-price-size .price-unit {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--c-clay, #4a4438);
+      font-variant-numeric: tabular-nums;
+    }
+    .result-price .result-price-sep {
+      display: inline-block;
+      margin: 0 6px;
+      color: var(--c-line);
+      font-weight: 400;
+      font-size: 16px;
+      font-feature-settings: normal;
     }
 
     /* === Pricing gate: hide wholesale prices for unauthenticated visitors === */
@@ -4551,6 +4598,22 @@
       return p ? `${cDisplay} $${p.toFixed(2)}` : cDisplay;
     }
 
+    // Renders one size as a pair of unit + amount spans with a per-size
+    // weight that de-emphasizes larger containers. The first size (cheapest)
+    // stays at 800 weight, each subsequent size drops 100 weight so the eye
+    // lands on the smallest container first.
+    // priceIndex is 0-based.
+    function fmtSizeRich(s, priceIndex) {
+      const c = s.container || '?';
+      const cDisplay = c.replace(/^4"$/, '4\u2033').replace(/^3"$/, '3\u2033').replace(/^20"$/, '20\u2033');
+      const p = Number(s.price || 0);
+      // Weight table: 800, 700, 600, 500, 500, 500...
+      const weights = [800, 700, 600, 500, 500];
+      const w = weights[Math.min(priceIndex, weights.length - 1)];
+      if (!p) return `<span class="result-price-size"><span class="price-unit">${cDisplay}</span></span>`;
+      return `<span class="result-price-size" style="--price-weight: ${w};"><span class="price-unit">${cDisplay}</span><span class="price-amount">$${p.toFixed(2)}</span></span>`;
+    }
+
     // Build nativeson.com product URL from botanical name.
     // Slug format: lowercase, dashes for spaces, no punctuation, no cultivar quotes.
     // Most matches Drupal's auto-path generation. A few edge cases may 404 — those
@@ -4938,9 +5001,19 @@
                 if (plant.height) meta.push(pill(plant.height, false, 'size'));
                 if (plant.width)  meta.push(pill(plant.width, false, 'size'));
 
-                const sizesHTML = sizes.length
-                  ? sizes.map(s => `${escapeHTML(fmtSize(s))}`).join(', ')
-                  : '—';
+                // Sort sizes from smallest to largest container (1gal, 2gal,
+                // 5gal, 7gal, 15gal). Custom size labels sort to the end.
+                // Gives predictable price-line order on every card.
+                const SIZE_ORDER = ['4in', '4"', '3in', '3"', '1gal', '2gal', '5gal', '7gal', '10gal', '15gal', '25gal', 'ea'];
+                const sizeKey = (s) => {
+                  const c = (s.container || '').toLowerCase().replace(/\s+/g, '');
+                  const i = SIZE_ORDER.indexOf(c);
+                  return i === -1 ? 999 : i;
+                };
+                const sortedSizes = [...sizes].sort((a, b) => sizeKey(a) - sizeKey(b));
+                const sizesHTML = sortedSizes.length
+                  ? sortedSizes.map((s, i) => fmtSizeRich(s, i)).join(' <span class="result-price-sep">/</span> ')
+                  : '<span class="result-price-size"><span class="price-amount">—</span></span>';
 
                 const matchLine = matchReasons.length
                           ? `<div class="result-match-line" data-tooltip="matched on: ${escapeHTML(matchReasons.join(' · '))}" aria-label="Matched on: ${escapeHTML(matchReasons.join(', '))}">ⓘ</div>`

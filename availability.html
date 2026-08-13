@@ -1728,6 +1728,11 @@
       border-top: 1px solid var(--c-line, #e3dccb);
       padding-top: 10px;
       position: relative;
+      /* z-index 2 stacks the action row above the .result-link overlay
+         (which has z-index 1). Without this, the link covers the stepper
+         + / - buttons and the add-to-order link, so clicks navigate
+         to nativeson.com instead of triggering the in-card actions. */
+      z-index: 2;
     }
     .chat-test-root .add-to-order-link:hover {
       color: var(--c-cta, #3a5f3a);

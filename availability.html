@@ -14,6 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
+  <meta name="build" content="20260812-12">
   <link rel="stylesheet" href="styles.css?v=20260812-02">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
@@ -102,47 +103,7 @@
       font-feature-settings: "tnum" 1, "kern" 1;
     }
     /* Site header sits OUTSIDE .chat-test-root, so any rule here needs
-       to be unscoped (no .chat-test-root prefix). The tagline inherits
-       font-size 13px from .header-meta { font-size: 13px } in styles.css
-       — too small for body type. Force a sensible 15px here so the
-       tagline reads at the same weight as the rest of the type system.
-
-       Removed max-width: 380px (forced the tagline to wrap mid-word on
-       'Mediterranean' / 'climate') and set white-space: nowrap so the
-       tagline stays on one line and the .header-inner flex can wrap the
-       whole row if the viewport is narrow. */
-    .header-tagline {
-      font-family: var(--font-sans);
-      font-size: var(--fs-card, 15px);
-      color: var(--c-clay, #6b6256);
-      text-align: right;
-      line-height: var(--lh-snug, 1.3);
-      font-weight: 400;
-      letter-spacing: 0;
-      white-space: nowrap;
-      /* Vertically center this one-line tagline against the logo, which
-         sits in its own .brand wrapper. Without align-self, the column
-         positions the tagline at the top of the .header-meta stack
-         (gap: 4px reserves space for the hidden staff-link below),
-         making the tagline read as misaligned with the logo. */
-      align-self: center;
-    }
-    .chat-test-root .header-tagline {
-      font-family: var(--font-sans);
-      font-size: var(--fs-card, 15px);
-      color: var(--c-clay, #6b6256);
-      text-align: right;
-      line-height: var(--lh-snug, 1.3);
-      font-weight: 400;
-      letter-spacing: 0;
-      white-space: nowrap;
-    }
-    @media (max-width: 600px) {
-      .chat-test-root .header-tagline {
-        font-size: 13px;
-        line-height: 1.35;
-      }
-    }
+       to be unscoped (no .chat-test-root prefix). */
     .chat-test-root .hero-band {
       background:
         linear-gradient(135deg, rgba(45, 107, 31, 0.04) 0%, transparent 60%),
@@ -1672,16 +1633,8 @@
     }
     @media (max-width: 600px) {
       .chat-test-root { padding: 16px 12px 64px; }
-      /* Header tagline: external styles.css has a .header-meta { font-size: 12px } rule
-         that wins the cascade for descendant .header-tagline. Force the bigger size here. */
-      .chat-test-root .header-meta { font-size: 14px; }
-      .chat-test-root .header-meta .header-tagline {
-        font-family: var(--font-sans);
-        font-size: 14px;
-        max-width: 200px;
-        text-align: right;
-      }
-      /* Let the tagline column shrink inside the flex header so logo + tagline can wrap nicely */
+      /* Header meta column flex layout (preserved from the old tagline
+         treatment — the brand-mark span now occupies the right slot). */
       .chat-test-root .header-meta { flex: 1 1 auto; min-width: 0; }
       .chat-test-root .results { grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
       .chat-test-root .hero-headline { font-size: 22px; }
@@ -3640,12 +3593,12 @@
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
-        <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="brand-logo" height="56">
+        <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="brand-logo" height="44">
+        <span class="brand-mark">Wholesale Availability</span>
       </div>
       <div class="header-meta">
-        <span class="header-tagline">We grow plants that thrive in California's Mediterranean climate.</span>
-        <span class="pricing-status-header" id="pricingStatusHeader" hidden></span>
         <button type="button" class="pricing-link-header" id="pricingLinkHeader" hidden>Get trade pricing</button>
+        <span class="pricing-status-header" id="pricingStatusHeader" hidden></span>
         <a href="?staff=1" class="staff-link" id="staffLink" hidden>Staff: Sign in</a>
         <div class="header-meta-actions" id="staffHeaderActions" hidden>
           <a href="admin.html" class="staff-link" id="staffAdminLink">Admin →</a>
@@ -4276,6 +4229,7 @@
       }
       const deduped = Array.from(seen.values());
       renderHero(deduped);
+      renderFooter();
       return deduped;
     }
 
@@ -4329,6 +4283,39 @@
         if (t < 1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
+    }
+
+    // Populate the site footer with the same data sources as the hero
+    // (window.AVAILABILITY for week + generated date + contact info) and
+    // the current build stamp from the page's meta. Idempotent — safe to
+    // call multiple times.
+    function renderFooter() {
+      const data = window.AVAILABILITY || {};
+      const weekEl = $('siteFooterWeek');
+      const genEl = $('siteFooterGenerated');
+      const buildEl = $('siteFooterBuild');
+      const contactEl = $('siteFooterContact');
+      if (weekEl && data.week) weekEl.textContent = data.week;
+      if (genEl && data.generated) {
+        genEl.textContent = `Generated ${data.generated}`;
+      }
+      if (buildEl) {
+        // Pull the build stamp from the <meta name="build"> or from a
+        // data-attribute on the document, falling back to the date the
+        // file was last published.
+        const meta = document.querySelector('meta[name="build"]');
+        if (meta && meta.content) buildEl.textContent = meta.content;
+        else if (data.generated) buildEl.textContent = data.generated.replace(/-/g, '');
+      }
+      if (contactEl) {
+        const c = data.contact;
+        if (c && (c.email || c.phone)) {
+          const parts = [];
+          if (c.email) parts.push(`<a href="mailto:${escapeHTML(c.email)}">${escapeHTML(c.email)}</a>`);
+          if (c.phone) parts.push(escapeHTML(c.phone));
+          contactEl.innerHTML = parts.join(' &middot; ');
+        }
+      }
     }
 
     // === Synonyms / canonicalisation maps ===
@@ -8058,5 +8045,39 @@
     applyPricingState();
   })();
 </script>
+
+<!-- Site footer — three columns on desktop, stacked on mobile.
+     Provides identity, navigation, and data attribution that the
+     page was previously missing. The tagline moved from the header
+     here so the header stays focused on brand identity. -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer-grid">
+      <div class="site-footer-col site-footer-identity">
+        <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="site-footer-logo" height="36">
+        <p class="site-footer-tagline">We grow plants that thrive in California's Mediterranean climate.</p>
+        <p class="site-footer-contact" id="siteFooterContact"></p>
+      </div>
+      <div class="site-footer-col site-footer-nav">
+        <h4 class="site-footer-heading">Browse</h4>
+        <ul class="site-footer-list">
+          <li><a href="availability.html?">This week's availability</a></li>
+          <li><a href="compact-list.html">Compact table view</a></li>
+          <li><a href="index.html">Home</a></li>
+        </ul>
+      </div>
+      <div class="site-footer-col site-footer-meta">
+        <h4 class="site-footer-heading">This list</h4>
+        <p class="site-footer-meta-line" id="siteFooterWeek">—</p>
+        <p class="site-footer-meta-line" id="siteFooterGenerated">—</p>
+        <p class="site-footer-meta-line site-footer-build">Build <span id="siteFooterBuild"></span></p>
+      </div>
+    </div>
+    <div class="site-footer-bottom">
+      <span class="site-footer-copy">© Native Sons Wholesale Nursery</span>
+      <span class="site-footer-source">Source: Native Sons weekly availability list</span>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

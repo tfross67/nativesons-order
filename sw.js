@@ -9,7 +9,7 @@
 // automatically. Static-cache assets are cache-first and only refresh when
 // the version changes — bumping here is what triggers a fresh fetch for
 // every existing visitor on their next page load.
-const CACHE_VERSION = 'ns-pwa-v8';
+const CACHE_VERSION = 'ns-pwa-v9';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 

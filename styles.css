@@ -373,7 +373,7 @@ body { padding-bottom: 80px; }
   font-family: inherit;
   cursor: pointer;
   transition: background 0.15s, opacity 0.15s,
-              transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+              transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -381,10 +381,10 @@ body { padding-bottom: 80px; }
 }
 /* Press feedback: fast on the way down (snappy click confirmation),
    springy on the way back up (cubic-bezier overshoot via the transition
-   on the base .btn rule above). Subtle scale (0.98) keeps the press
-   from shifting nearby layout. */
-.btn:active { transform: scale(0.98); transition: transform 0.08s ease-out; }
-.btn:focus-visible { transform: scale(0.98); transition: transform 0.15s ease-out; }
+   on the base .btn rule above). scale(0.94) gives a clearly visible
+   bounce without distorting nearby layout. */
+.btn:active { transform: scale(0.94); transition: transform 0.08s ease-out; }
+.btn:focus-visible { transform: scale(0.94); transition: transform 0.15s ease-out; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-primary {
   background: var(--c-sage-deep);

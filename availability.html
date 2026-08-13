@@ -145,26 +145,26 @@
     }
     .chat-test-root .hero-band {
       background:
-        linear-gradient(135deg, rgba(45, 107, 31, 0.05) 0%, transparent 60%),
+        linear-gradient(135deg, rgba(45, 107, 31, 0.04) 0%, transparent 60%),
         linear-gradient(180deg, #fafaf5 0%, #f4f1ea 100%);
       border-radius: 14px;
-      padding: 22px 26px;
+      padding: 28px 32px 24px;
       margin-bottom: 18px;
       box-shadow: 0 1px 3px rgba(45, 74, 43, 0.04), 0 6px 18px rgba(45, 74, 43, 0.05);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
       position: relative;
       overflow: hidden;
     }
+    /* Thin gold rule across the top — single accent line in the
+       California-poppy bud color. Replaces the previous 4-stop gradient
+       strip (which read as decorative noise against the editorial hero
+       layout). 1px height so it sits as a hairline accent, not a band. */
     .chat-test-root .hero-band::before {
       content: "";
       position: absolute;
-      top: 0; left: 0; right: 0; height: 4px;
-      background: linear-gradient(90deg, var(--c-cta) 0%, var(--c-sage) 50%, var(--c-bud) 100%);
+      top: 0; left: 0; right: 0; height: 1px;
+      background: var(--c-bud, #f4a83a);
     }
-    .chat-test-root .hero-content { flex: 1; min-width: 0; }
+    .chat-test-root .hero-content { display: block; }
     .chat-test-root .hero-eyebrow {
       font-family: var(--font-sans);
       font-size: var(--fs-eyebrow);
@@ -172,38 +172,48 @@
       text-transform: uppercase;
       letter-spacing: var(--ls-xwide);
       color: var(--c-sage-deep, #2d4a2b);
-      margin-bottom: 4px;
+      margin-bottom: 14px;
+      display: inline;
     }
     .chat-test-root .hero-eyebrow-row {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 4px;
+      margin-bottom: 0;
     }
     .chat-test-root .hero-eyebrow-row .hero-eyebrow {
       margin-bottom: 0;
     }
+    .chat-test-root .hero-eyebrow-row::after {
+      /* En-dash separator between eyebrow and week pill, so the two
+         read as a single masthead row: 'THIS WEEK · AUGUST 10, 2026' */
+      content: "·";
+      color: var(--c-line);
+      font-size: 14px;
+      font-weight: 400;
+      margin: 0 6px 0 2px;
+    }
     .chat-test-root .hero-week-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       font-family: var(--font-sans);
       font-size: var(--fs-eyebrow);
       font-weight: 700;
       letter-spacing: var(--ls-xwide);
       text-transform: uppercase;
       color: var(--c-sage-deep, #2d4a2b);
-      background: rgba(45, 74, 43, 0.06);
-      border: 1px solid rgba(45, 74, 43, 0.18);
-      border-radius: 999px;
-      padding: 4px 11px 4px 9px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0;
       white-space: nowrap;
     }
     .chat-test-root .hero-week-pill::before {
       content: "";
-      width: 10px;
-      height: 10px;
+      width: 11px;
+      height: 11px;
       flex-shrink: 0;
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%232d4a2b' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='3' width='12' height='11' rx='1.5'/><line x1='2' y1='6.5' x2='14' y2='6.5'/><line x1='5' y1='2' x2='5' y2='4'/><line x1='11' y1='2' x2='11' y2='4'/></svg>");
       background-size: contain;
@@ -211,62 +221,83 @@
       background-position: center;
     }
     .chat-test-root .hero-week-pill[hidden] { display: none; }
+    /* Editorial serif headline — italic for that magazine-opener feel.
+       Sits on its own line with a tight top margin so it reads as
+       a single composed block, not a banner competing with the sub. */
     .chat-test-root .hero-headline {
       font-family: var(--font-serif);
       font-size: var(--fs-headline);
       font-weight: 400;
+      font-style: italic;
       color: var(--c-bark, #2d4a2b);
-      margin: 0 0 10px;
+      margin: 0 0 6px;
       line-height: 1.15;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.015em;
+      max-width: 720px;
     }
     .chat-test-root .hero-sub {
       font-family: var(--font-sans);
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 400;
-      color: var(--c-clay, #6b6256);
-      margin: 0;
-      line-height: 1.4;
-      max-width: 520px;
+      color: var(--c-clay, #4a4438);
+      margin: 0 0 22px;
+      line-height: 1.45;
+      max-width: 560px;
     }
+    /* Stats now sit inline below the sub, not as a separate column.
+       Treat them as a typographic row, not as cards. Each stat is a
+       number + label pair separated by typographic dots. */
     .chat-test-root .hero-stats {
       display: flex;
-      gap: 12px;
-      flex-shrink: 0;
-      padding-left: 18px;
-      border-left: 1px solid rgba(45, 74, 43, 0.12);
+      align-items: baseline;
+      gap: 0;
+      flex-wrap: wrap;
+      padding-top: 14px;
+      border-top: 1px solid var(--c-line, #d8d2c2);
     }
     .chat-test-root .hero-stat {
       background: transparent;
       border: none;
       border-radius: 0;
-      padding: 4px 0;
-      text-align: center;
-      min-width: 72px;
+      padding: 0;
+      text-align: left;
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+    .chat-test-root .hero-stat + .hero-stat {
+      padding-left: 18px;
+      margin-left: 18px;
+      border-left: 1px solid var(--c-line, #d8d2c2);
     }
     .chat-test-root .hero-stat-num {
       font-family: var(--font-serif);
       font-size: var(--fs-stat);
       font-weight: 400;
+      font-style: italic;
       color: var(--c-bark, #2d4a2b);
-      line-height: 1.05;
+      line-height: 1;
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
+      display: inline-block;
+      margin-right: 8px;
     }
     .chat-test-root .hero-stat-label {
       font-family: var(--font-sans);
       font-size: 10.5px;
       font-weight: 700;
-      color: var(--c-clay, #6b6256);
+      color: var(--c-clay, #4a4438);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-top: 6px;
+      letter-spacing: 0.12em;
+      margin-top: 0;
+      display: inline-block;
+      position: relative;
+      top: -3px;
     }
     @media (max-width: 600px) {
-      .chat-test-root .hero-band { flex-direction: column; align-items: flex-start; padding: 16px 18px; }
-      .chat-test-root .hero-headline { font-size: 24px; }
-      .chat-test-root .hero-stats { width: 100%; padding-left: 0; border-left: none; }
-      .chat-test-root .hero-stat { flex: 1; min-width: 0; padding: 10px 8px; }
+      .chat-test-root .hero-band { padding: 22px 18px 20px; }
+      .chat-test-root .hero-headline { font-size: 26px; }
+      .chat-test-root .hero-stats { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .chat-test-root .hero-stat + .hero-stat { padding-left: 0; margin-left: 0; border-left: none; }
       .chat-test-root .hero-stat-num { font-size: 28px; }
       .chat-test-root .hero-stat-label { font-size: 10px; }
     }

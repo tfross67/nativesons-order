@@ -1472,14 +1472,14 @@
       to { opacity: 1; max-height: 600px; }
     }
     .chat-test-root .result-details .detail-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 5px;
-      line-height: var(--lh-snug);
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      column-gap: 12px;
+      align-items: baseline;
+      margin-bottom: 6px;
+      line-height: 1.4;
     }
     .chat-test-root .result-details .detail-label {
-      flex-shrink: 0;
-      width: 76px;
       font-family: var(--font-sans);
       font-size: 10.5px;
       font-weight: 700;
@@ -1487,6 +1487,9 @@
       letter-spacing: var(--ls-wide);
       color: var(--c-bark, #2d4a2b);
       padding-top: 1px;
+    }
+    .chat-test-root .result-details .detail-value {
+      min-width: 0;  /* allow grid item to shrink so long values wrap */
     }
     .chat-test-root .result-details .detail-info {
       margin-top: 10px;

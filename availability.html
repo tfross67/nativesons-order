@@ -512,6 +512,92 @@
     .chat-test-root .filter-summary .clear-all-btn:active {
       transform: scale(0.96);
     }
+    /* ============================================================
+       Now-in-bloom ticker — text-only band above the grid.
+       No images, no card layout. Just typography that lets the user
+       see at a glance what's in bloom this week without scrolling.
+       Reads as a magazine contents line, not a featured-products
+       section.
+       ============================================================ */
+    .chat-test-root .in-bloom-ticker {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 10px 14px;
+      margin: 4px 0 14px;
+      background: var(--c-bg-soft, #efe9da);
+      border: 1px solid var(--c-line, #d8d2c2);
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      line-height: 1.4;
+      color: var(--c-clay, #4a4438);
+      overflow: hidden;
+    }
+    .chat-test-root .in-bloom-ticker[hidden] { display: none; }
+    .chat-test-root .in-bloom-ticker-label {
+      flex-shrink: 0;
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-sage-deep, #2d4a2b);
+      padding-right: 12px;
+      border-right: 1px solid var(--c-line, #d8d2c2);
+    }
+    .chat-test-root .in-bloom-ticker-list {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-style: italic;
+      color: var(--c-bark, #2d4a2b);
+    }
+    .chat-test-root .in-bloom-ticker-list .ticker-name {
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .chat-test-root .in-bloom-ticker-list .ticker-name:hover {
+      color: var(--c-cta, #3a5f3a);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .chat-test-root .in-bloom-ticker-list .ticker-name:active {
+      color: var(--c-sage-deep, #2d4a2b);
+    }
+    .chat-test-root .in-bloom-ticker-list .ticker-sep {
+      color: var(--c-line, #d8d2c2);
+      margin: 0 6px;
+      font-style: normal;
+    }
+    .chat-test-root .in-bloom-ticker-count {
+      flex-shrink: 0;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--c-bark, #2d4a2b);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.04em;
+      padding-left: 12px;
+      border-left: 1px solid var(--c-line, #d8d2c2);
+    }
+    @media (max-width: 600px) {
+      .chat-test-root .in-bloom-ticker {
+        padding: 9px 12px;
+        font-size: 12.5px;
+      }
+      .chat-test-root .in-bloom-ticker-list {
+        /* On mobile, allow horizontal scroll for the names list */
+        overflow-x: auto;
+        white-space: nowrap;
+        text-overflow: clip;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .chat-test-root .in-bloom-ticker-list::-webkit-scrollbar { display: none; }
+    }
     .chat-test-root .results {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -3740,6 +3826,16 @@
       </label>
     </div>
 
+    <!-- Now-in-bloom ticker — text-only band above the grid. Shows the
+         first N in-bloom plant names with the total count. Quiet
+         editorial line, no images, no competing section. Hidden when
+         the user has any filter or query active. -->
+    <div class="in-bloom-ticker" id="inBloomTicker" hidden aria-label="Plants currently in bloom">
+      <span class="in-bloom-ticker-label">In Bloom</span>
+      <span class="in-bloom-ticker-list" id="inBloomTickerList"></span>
+      <span class="in-bloom-ticker-count" id="inBloomTickerCount"></span>
+    </div>
+
     <div id="results" class="results"></div>
     <div id="noResults" class="no-results" hidden>No plants match your search. Try fewer words or different terms.</div>
 
@@ -4878,6 +4974,11 @@
     function renderResults(parsed, results) {
       resultsEl.innerHTML = '';
       noResultsEl.hidden = results.length > 0;
+      // Render the in-bloom ticker independently of the main grid — it's
+      // its own editorial band, not a filtered list. Hidden when filters
+      // are active (the user is searching, not browsing the weekly
+      // highlight line).
+      renderInBloomTicker(parsed, results);
 
       // === Wire up filter chip removal ===
       // The chip click handler lives at the container level so we only attach it once.
@@ -5093,6 +5194,78 @@
         card.dataset.botanical = plant.botanical;
         if (isSel) card.classList.add('selected');
         resultsEl.appendChild(card);
+      });
+    }
+
+    // === Now-in-bloom ticker =============================================
+    // Text-only editorial band above the grid. Shows the first N in-bloom
+    // plant names with the total count, so the user can see at a glance
+    // what's blooming without scrolling the grid.
+    // Hidden when:
+    //   - parsed.active is true (any filter or query is set — the user is
+    //     searching, not browsing the weekly highlight line)
+    //   - Fewer than 3 in-bloom plants are available
+    //   - The catalog is empty
+    // Each name is a clickable button that sets the search input to the
+    // plant's botanical and scrolls to the matching grid card.
+    function renderInBloomTicker(parsed, allResults) {
+      const ticker = $('inBloomTicker');
+      const list = $('inBloomTickerList');
+      const count = $('inBloomTickerCount');
+      if (!ticker || !list || !count) return;
+
+      // Hide if user is filtering or searching — the ticker is the
+      // unfiltered weekly highlight, redundant with active filters.
+      if (parsed && parsed.active) {
+        ticker.hidden = true;
+        return;
+      }
+
+      const catalog = getCatalog();
+      const inBloom = catalog.filter(p => p && p.bloom);
+      if (inBloom.length < 3) {
+        ticker.hidden = true;
+        return;
+      }
+
+      // Show up to 8 plant names. Sort by botanical A-Z for a stable,
+      // readable list (alphabetical reads better than score-sorted for
+      // a text-only ticker — the user can scan it like an index).
+      const sorted = [...inBloom]
+        .sort((a, b) => (a.botanical || '').localeCompare(b.botanical || ''))
+        .slice(0, 8);
+
+      ticker.hidden = false;
+      count.textContent = `${inBloom.length} total`;
+      list.innerHTML = sorted
+        .map((p, i) => {
+          const sep = i > 0 ? '<span class="ticker-sep">·</span>' : '';
+          return `${sep}<button type="button" class="ticker-name" data-ticker-botanical="${escapeHTML(p.botanical)}">${escapeHTML(p.botanical)}</button>`;
+        })
+        .join('');
+    }
+
+    // Click handler for ticker names — sets the search box to the plant's
+    // botanical and scrolls to the matching grid card.
+    function wireInBloomTickerClicks() {
+      const list = $('inBloomTickerList');
+      if (!list || list._wired) return;
+      list._wired = true;
+      list.addEventListener('click', (e) => {
+        const name = e.target.closest('[data-ticker-botanical]');
+        if (!name) return;
+        const botanical = name.getAttribute('data-ticker-botanical');
+        const input = $('chatSearch');
+        if (input) {
+          input.value = botanical;
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          setTimeout(() => {
+            const target = resultsEl.querySelector(
+              `.result[data-botanical="${CSS.escape(botanical)}"]`
+            );
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 50);
+        }
       });
     }
 
@@ -5474,6 +5647,11 @@
         // Populate the week label on initial load (it was only being set inside
         // getCatalog(), which is invoked by run() — i.e. only after a search).
         getCatalog();
+
+        // Wire the in-bloom ticker click handler once. The ticker content
+        // is rebuilt on every renderInBloomTicker() call, but the delegated
+        // click listener lives on the list container which is constant.
+        wireInBloomTickerClicks();
 
         // Render the full catalog on first load (A-Z). No pre-fill — the user asked for a clean
         // alphabetical catalog by default; the "in bloom" suggestion chip below the search bar

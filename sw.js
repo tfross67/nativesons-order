@@ -3,7 +3,13 @@
 // weekly. Cache-first for static branding assets. Network-first for the HTML
 // itself (so deploys always show up).
 
-const CACHE_VERSION = 'ns-pwa-v3';
+// CACHE_VERSION bump policy: bump on every deploy that changes static assets
+// (styles.css, logo, icons, manifest). Catalog data files in DATA_CACHE are
+// served stale-while-revalidate, so they pick up changes on next visit
+// automatically. Static-cache assets are cache-first and only refresh when
+// the version changes — bumping here is what triggers a fresh fetch for
+// every existing visitor on their next page load.
+const CACHE_VERSION = 'ns-pwa-v4';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 

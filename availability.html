@@ -566,9 +566,9 @@
     }
     .chat-test-root .result {
       background: #fff;
-      border: 1px solid #ebe4d2;
+      border: 1px solid var(--c-line, #e3dccb);
       border-radius: 12px;
-      padding: 14px 14px 12px;
+      padding: 16px 16px 14px;
       box-shadow: 0 1px 2px rgba(45, 74, 43, 0.04), 0 4px 12px rgba(45, 74, 43, 0.04);
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
       display: grid;
@@ -630,18 +630,18 @@
       color: var(--c-bark, #2d4a2b);
       font-size: 18px;
       line-height: 1.2;
-      letter-spacing: -0.015em;
-      margin-bottom: 3px;
+      letter-spacing: -0.025em;
+      margin-bottom: 6px;
     }
     .chat-test-root .result-botanical em { font-style: normal; }
     .chat-test-root .result-common {
       font-family: var(--font-serif);
       font-style: italic !important;
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 500;
-      color: #7a6856;
+      color: var(--c-muted, #8a8a7c);
       line-height: var(--lh-snug);
-      margin-bottom: 9px;
+      margin-bottom: 10px;
     }
     .chat-test-root .result-type {
       font-family: var(--font-sans);
@@ -667,8 +667,8 @@
       vertical-align: baseline;
     }
     .chat-test-root .result-origin.native {
-      color: #4a7a2a;
-      font-weight: 500;
+      color: var(--c-sage-deep, #2d4a2b);
+      font-weight: 600;
     }
     .chat-test-root .result-origin .ca-badge {
       display: inline-block;
@@ -676,7 +676,7 @@
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.6px;
-      background: #2d6b1f;
+      background: var(--c-sage-deep, #2d4a2b);
       color: #fff;
       padding: 3px 8px;
       border-radius: 999px;
@@ -684,7 +684,7 @@
       vertical-align: 1px;
       margin-right: 5px;
       text-transform: uppercase;
-      box-shadow: 0 1px 2px rgba(45, 107, 31, 0.18);
+      box-shadow: 0 1px 2px rgba(45, 74, 43, 0.18);
     }
     .chat-test-root .result-type-origin {
       font-family: var(--font-sans);
@@ -715,8 +715,8 @@
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.01em;
-      background: #f4f1ea;
-      border: 1px solid #e8e2cf;
+      background: var(--c-bg-soft, #efe9da);
+      border: 1px solid var(--c-line, #e3dccb);
       border-radius: 4px;
       padding: 3px 8px;
       color: var(--c-bark, #2d4a2b);
@@ -810,11 +810,11 @@
     }
     .result-price {
       font-family: var(--font-sans);
-      font-size: 19px;
-      font-weight: 700;
+      font-size: 20px;
+      font-weight: 800;
       color: var(--c-bark, #2d4a2b);
       line-height: 1.2;
-      letter-spacing: -0.015em;
+      letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
     }

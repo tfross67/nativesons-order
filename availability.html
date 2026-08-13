@@ -1611,6 +1611,109 @@
       box-shadow: 0 8px 28px rgba(45, 74, 43, 0.35);
     }
     body .cart-bar[hidden] { display: none; }
+
+    /* Persistent cart hint — shown only when cart is empty, so first-time
+       visitors can discover the cart without it being noisy once they're
+       actively shopping. Tucked bottom-left, opposite the real floating bar
+       which appears bottom-right once items are added. */
+    body .cart-hint {
+      position: fixed;
+      bottom: 18px;
+      left: 24px;
+      z-index: 90;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(45, 74, 43, 0.06);
+      color: var(--c-bark, #2d4a2b);
+      border: 1px solid rgba(45, 74, 43, 0.18);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+      opacity: 0.7;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body .cart-hint:hover {
+      background: rgba(45, 74, 43, 0.12);
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+    body .cart-hint[hidden] { display: none; }
+    body .cart-hint svg { display: block; opacity: 0.8; }
+
+    /* In-card qty stepper — replaces the .add-to-order-btn when the plant
+       has any line items in the cart. Sits in the same slot so the card
+       layout doesn't shift. Total qty (sum across all size variants) is
+       shown in the middle; - decrements the most-recent line, + opens
+       the size picker so the user picks which size to add more of. */
+    body .qty-card-stepper,
+    .chat-test-root .qty-card-stepper {
+      display: inline-flex;
+      align-items: stretch;
+      width: 100%;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--c-cta, #3a5f3a);
+      background: #fff;
+      font-family: var(--font-sans);
+    }
+    body .qty-card-stepper button,
+    .chat-test-root .qty-card-stepper button {
+      appearance: none;
+      border: none;
+      background: #fff;
+      color: var(--c-cta, #3a5f3a);
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1;
+      padding: 0;
+      width: 40px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+      font-family: inherit;
+    }
+    body .qty-card-stepper button:hover,
+    .chat-test-root .qty-card-stepper button:hover {
+      background: var(--c-cta, #3a5f3a);
+      color: #fff;
+    }
+    body .qty-card-stepper button:active,
+    .chat-test-root .qty-card-stepper button:active {
+      transform: scale(0.94);
+      transition: transform 0.08s ease-out;
+    }
+    body .qty-card-stepper .qty-card-value,
+    .chat-test-root .qty-card-stepper .qty-card-value {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--c-cta, #3a5f3a);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "kern" 1;
+      user-select: none;
+      cursor: pointer;
+      transition: background 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    body .qty-card-stepper .qty-card-value.is-pulse,
+    .chat-test-root .qty-card-stepper .qty-card-value.is-pulse {
+      animation: qty-card-pulse 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes qty-card-pulse {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.18); }
+      100% { transform: scale(1); }
+    }
     body .cart-bar-count {
       font-family: var(--font-serif);
       font-weight: 400;
@@ -3495,6 +3598,19 @@
     </span>
   </button>
 
+  <!-- Persistent cart hint (visible when cart is EMPTY, hides once items added).
+       Discoverability cue for first-time visitors without being noisy during
+       active shopping. -->
+  <button type="button" class="cart-hint" id="cartHint" hidden aria-label="View your cart">
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+      <path d="M3 4h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.5L21 8H6"
+            stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="10" cy="20" r="1.4" fill="currentColor"/>
+      <circle cx="17" cy="20" r="1.4" fill="currentColor"/>
+    </svg>
+    <span>Cart</span>
+  </button>
+
   <!-- Cart slide-out / bottom sheet -->
   <div class="cart-overlay" id="cartOverlay" hidden></div>
   <aside class="cart-panel" id="cartPanel" hidden aria-label="Shopping cart" role="dialog" data-sheet-state="closed">
@@ -4778,18 +4894,75 @@
     // run after every renderResults and every cart change.
     function updateAddedState() {
       const items = Cart.getItems();
-      const inCart = new Set();
-      // Match by botanical name (case-insensitive); a plant is "in cart"
-      // if any of its items are present, regardless of size/qty.
+      const inCart = new Map(); // botanical (lower) -> total qty across all sizes
       for (const it of items) {
-        inCart.add((it.name || '').toLowerCase());
+        const k = (it.name || '').toLowerCase();
+        inCart.set(k, (inCart.get(k) || 0) + (it.qty || 0));
       }
       const cards = resultsEl.querySelectorAll('.result');
       for (const card of cards) {
         const name = (card.dataset.botanical || '').toLowerCase();
-        if (inCart.has(name)) card.classList.add('in-cart');
-        else card.classList.remove('in-cart');
+        const qty = inCart.get(name) || 0;
+        if (qty > 0) {
+          if (!card.classList.contains('in-cart')) card.classList.add('in-cart');
+          // Swap the Add-to-Order button for an in-card qty stepper so users
+          // can adjust quantity without opening the cart panel.
+          replaceAddButtonWithStepper(card, qty);
+        } else {
+          if (card.classList.contains('in-cart')) card.classList.remove('in-cart');
+          // Restore the original Add-to-Order button if a stepper was in place.
+          restoreAddButton(card);
+        }
       }
+    }
+
+    // Replaces the .add-to-order-btn inside a card with a compact stepper
+    // showing the current total qty for this plant (sum across size variants).
+    // The + button opens the size picker so the user picks which size to add
+    // more of; the - button removes one unit from the most-recently-added
+    // line item (or removes the line entirely if its qty hits zero).
+    function replaceAddButtonWithStepper(card, qty) {
+      const btn = card.querySelector('.add-to-order-btn');
+      if (!btn) return;
+      // Already a stepper — just refresh the displayed qty and pulse.
+      const existing = card.querySelector('.qty-card-stepper');
+      if (existing) {
+        const val = existing.querySelector('.qty-card-value');
+        const prev = parseInt(val.textContent, 10) || 0;
+        val.textContent = String(qty);
+        if (qty !== prev) {
+          val.classList.remove('is-pulse');
+          // Force reflow so the animation can replay on rapid successive changes.
+          // eslint-disable-next-line no-unused-expressions
+          val.offsetWidth;
+          val.classList.add('is-pulse');
+        }
+        return;
+      }
+      const stepper = document.createElement('div');
+      stepper.className = 'qty-card-stepper';
+      stepper.setAttribute('role', 'group');
+      stepper.setAttribute('aria-label', `Adjust quantity in your order`);
+      stepper.innerHTML = `
+        <button type="button" data-qty-card-step="-1" aria-label="Decrease quantity">−</button>
+        <span class="qty-card-value is-pulse" data-qty-card-value>${qty}</span>
+        <button type="button" data-qty-card-step="1" aria-label="Increase quantity">+</button>
+      `;
+      btn.replaceWith(stepper);
+    }
+
+    // Restores the Add-to-Order button when a plant is removed from the cart.
+    function restoreAddButton(card) {
+      const stepper = card.querySelector('.qty-card-stepper');
+      if (!stepper) return;
+      const botanical = card.dataset.botanical || '';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'add-to-order-btn';
+      btn.setAttribute('data-add-to-order', '');
+      btn.setAttribute('aria-label', `Add ${botanical} to your order`);
+      btn.textContent = '+ Add to Order';
+      stepper.replaceWith(btn);
     }
 
     // === Deep-link helpers ===
@@ -5475,6 +5648,7 @@
 
       // --- DOM refs
       const cartBar = $('cartBar');
+      const cartHint = $('cartHint');
       const cartCount = $('cartCount');
       const cartTotal = $('cartTotal');
       const cartOverlay = $('cartOverlay');
@@ -5550,6 +5724,10 @@
 
         if (count === 0) {
           cartBar.hidden = true;
+          // Show the persistent cart hint when cart is empty so first-time
+          // visitors can discover the cart without being intrusive. Hides
+          // the moment any item is added.
+          if (cartHint) cartHint.hidden = false;
           cartPanel.hidden = true;
           cartOverlay.hidden = true;
           return;
@@ -5557,6 +5735,7 @@
 
         // Update bar (use retail subtotal — that's what the customer pays)
         cartBar.hidden = false;
+        if (cartHint) cartHint.hidden = true;
         cartCount.textContent = String(count);
         cartTotal.textContent = fmtPrice(retailSubtotal);
         // If no markup applied, retail == wholesale — collapse to a single
@@ -5673,6 +5852,47 @@
       // where size + qty could be set right inside the picker, not later in
       // the cart. For single-size plants, the size list shows just one
       // option (preselected) but the qty stepper is always present.
+      // In-card qty stepper handlers. Called from the delegated click handler.
+      // -1 = decrement the most-recently-added line for this plant; removes
+      // the line entirely if its qty hits zero. +1 = open the size picker so
+      // the user picks which size to add more of.
+      function handleCardQtyStep(botanical, dir) {
+        if (!botanical) return;
+        const plant = findPlant(botanical);
+        if (!plant) return;
+        const items = Cart.getItems();
+        // Find all cart entries for this plant (case-insensitive match on name).
+        const lowerName = (plant.common || plant.botanical || '').toLowerCase();
+        const myLines = items
+          .map((it, idx) => ({ it, idx }))
+          .filter(({ it }) => (it.name || '').toLowerCase() === lowerName);
+        if (myLines.length === 0) {
+          // Defensive: should never happen (the stepper only shows when in-cart),
+          // but if it does, open the size picker on +1 or no-op on -1.
+          if (dir > 0) handleAddToOrder(botanical);
+          return;
+        }
+        if (dir > 0) {
+          // Open the size picker — user picks which size to add more of.
+          // The picker can also be used to add a different size entirely.
+          handleAddToOrder(botanical);
+          return;
+        }
+        // dir < 0: decrement the most-recently-added line (last in the array).
+        const last = myLines[myLines.length - 1];
+        if (!last) return;
+        const newQty = (last.it.qty || 0) - 1;
+        if (newQty <= 0) {
+          // Remove the line entirely.
+          Cart.remove(last.it.key);
+          showToast(`Removed ${plant.common || plant.botanical}`);
+        } else {
+          Cart.setQty(last.it.key, newQty);
+        }
+        renderCart();
+        updateAddedState();
+      }
+
       function handleAddToOrder(botanical) {
         const plant = findPlant(botanical);
         if (!plant) return;
@@ -6007,6 +6227,31 @@
 
       // Delegated click handler for Add-to-Order buttons + size picker
       document.addEventListener('click', (e) => {
+        // In-card qty stepper — adjust the cart inline without opening the panel.
+        // -1 = remove one unit from the most-recently-added line item for this
+        // plant (or remove the line entirely if qty hits zero). +1 = open the
+        // size picker so the user picks which size to add more of.
+        const qtyStep = e.target.closest('[data-qty-card-step]');
+        if (qtyStep) {
+          e.preventDefault();
+          e.stopPropagation();
+          const dir = parseInt(qtyStep.getAttribute('data-qty-card-step'), 10);
+          const card = qtyStep.closest('.result');
+          if (!card) return;
+          const botanical = card.dataset.botanical || '';
+          handleCardQtyStep(botanical, dir);
+          return;
+        }
+        // Clicking the qty value in the stepper also opens the cart panel —
+        // handy for users who want to see line totals, retail/markup toggle,
+        // and remove buttons in one place.
+        const qtyValue = e.target.closest('[data-qty-card-value]');
+        if (qtyValue) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (typeof openCart === 'function') openCart();
+          return;
+        }
         const addBtn = e.target.closest('[data-add-to-order]');
         if (addBtn) {
           e.preventDefault();
@@ -6209,6 +6454,9 @@
 
       // Cart bar and close button
       cartBar.addEventListener('click', openCart);
+      // Persistent cart hint (when cart is empty) — opens the cart panel so
+      // visitors see the empty state and discover the +Customer request CTA.
+      if (cartHint) cartHint.addEventListener('click', openCart);
       closeCartBtn.addEventListener('click', closeCart);
 
       // Quantity stepper inside cart

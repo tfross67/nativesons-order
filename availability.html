@@ -211,7 +211,7 @@
       font-family: var(--font-sans);
       font-size: 16px;
       font-weight: 400;
-      color: #6b6256;
+      color: var(--c-clay, #6b6256);
       margin: 0;
       line-height: 1.4;
       max-width: 520px;
@@ -224,10 +224,10 @@
       border-left: 1px solid rgba(45, 74, 43, 0.12);
     }
     .chat-test-root .hero-stat {
-      background: #fff;
-      border: 1px solid #e8e2cf;
-      border-radius: 10px;
-      padding: 10px 14px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 4px 0;
       text-align: center;
       min-width: 72px;
     }
@@ -244,7 +244,7 @@
       font-family: var(--font-sans);
       font-size: 10.5px;
       font-weight: 700;
-      color: var(--c-bark, #2d4a2b);
+      color: var(--c-clay, #6b6256);
       text-transform: uppercase;
       letter-spacing: 0.1em;
       margin-top: 6px;
@@ -304,21 +304,22 @@
       font-weight: 400;
       letter-spacing: 0;
       padding: 14px 16px;
-      border: 1px solid #d8d2c2;
+      border: 1px solid var(--c-line, #e3dccb);
       border-radius: 8px;
-      background: #fafaf5;
+      background: var(--c-paper, #ffffff);
       outline: none;
       line-height: 1.4;
+      transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
     }
     .chat-test-root .search-input:focus {
       border-color: var(--c-bark, #2d4a2b);
       background: #fff;
-      box-shadow: 0 0 0 4px rgba(74, 122, 42, 0.15), 0 1px 3px rgba(45, 74, 43, 0.06);
+      box-shadow: 0 0 0 4px rgba(45, 74, 43, 0.12), 0 1px 3px rgba(45, 74, 43, 0.06);
     }
     .chat-test-root .clear-btn {
       padding: 10px 14px;
       background: transparent;
-      border: 1px solid #d8d2c2;
+      border: 1px solid var(--c-line, #e3dccb);
       border-radius: 8px;
       cursor: pointer;
       font-family: var(--font-sans);
@@ -326,8 +327,12 @@
       font-weight: 500;
       color: var(--c-clay, #6b6256);
       letter-spacing: 0.01em;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
     }
-    .chat-test-root .clear-btn:hover { background: #f4f1ea; }
+    .chat-test-root .clear-btn:hover {
+      background: var(--c-bg-soft, #efe9da);
+      border-color: var(--c-muted, #8a8a7c);
+    }
     .chat-test-root .suggested {
       display: flex;
       flex-wrap: wrap;
@@ -354,8 +359,8 @@
     }
     .chat-test-root .suggestion {
       font-family: var(--font-sans);
-      background: #f4f1ea;
-      border: 1px solid #d8d2c2;
+      background: var(--c-bg-soft, #efe9da);
+      border: 1px solid var(--c-line, #e3dccb);
       border-radius: 999px;
       padding: 5px 12px;
       font-size: 12.5px;
@@ -363,17 +368,18 @@
       letter-spacing: 0.01em;
       cursor: pointer;
       color: var(--c-bark, #2d4a2b);
-      transition: background 0.15s, border-color 0.15s, transform 0.1s, box-shadow 0.15s, color 0.15s;
+      transition: background 0.15s, border-color 0.15s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s, color 0.15s;
       box-shadow: 0 1px 0 rgba(45, 74, 43, 0.04);
     }
     .chat-test-root .suggestion:hover {
-      background: #2d4a2b;
-      border-color: #2d4a2b;
+      background: var(--c-sage-deep, #2d4a2b);
+      border-color: var(--c-sage-deep, #2d4a2b);
       color: #fff;
       box-shadow: 0 2px 6px rgba(45, 74, 43, 0.18);
     }
     .chat-test-root .suggestion:active {
-      transform: translateY(1px);
+      transform: scale(0.96);
+      transition: transform 0.08s ease-out;
       box-shadow: 0 0 0 rgba(45, 74, 43, 0);
     }
     .chat-test-root .filter-summary {
@@ -395,7 +401,8 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #e8e2cf;
+      background: var(--c-bg-soft, #efe9da);
+      border: 1px solid var(--c-line, #e3dccb);
       border-radius: 999px;
       padding: 4px 6px 4px 12px;
       margin: 0 6px 6px 0;
@@ -404,11 +411,12 @@
       font-weight: 600;
       letter-spacing: 0.01em;
       color: var(--c-bark, #2d4a2b);
-      transition: background 0.15s;
+      transition: background 0.15s, border-color 0.15s;
       cursor: pointer;
     }
     .chat-test-root .filter-summary .pill:hover {
-      background: #d8d2c2;
+      background: var(--c-sage-soft, #e3ecd9);
+      border-color: var(--c-sage, #5d7a4a);
     }
     .chat-test-root .filter-summary .pill-x {
       display: inline-flex;

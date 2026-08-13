@@ -512,6 +512,158 @@
     .chat-test-root .filter-summary .clear-all-btn:active {
       transform: scale(0.96);
     }
+    /* ============================================================
+       Featured plant strip — the page's editorial focal point.
+       Sits above the regular results grid when no user filters are
+       active. Shows the in-bloom plants the nursery most wants to
+       highlight this week, prioritizing CA-native species.
+       ============================================================ */
+    .chat-test-root .featured-strip {
+      margin: 4px 0 22px;
+      padding: 22px 0 18px;
+      border-top: 1px solid var(--c-line, #d8d2c2);
+      border-bottom: 1px solid var(--c-line, #d8d2c2);
+    }
+    .chat-test-root .featured-strip[hidden] { display: none; }
+    .chat-test-root .featured-strip-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+    .chat-test-root .featured-strip-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--c-bark, #2d4a2b);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    .chat-test-root .featured-strip-count {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-clay, #4a4438);
+    }
+    /* Horizontal scroll container for featured cards on mobile,
+       horizontal grid on desktop. */
+    .chat-test-root .featured-strip-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+    @media (max-width: 900px) {
+      .chat-test-root .featured-strip-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 600px) {
+      .chat-test-root .featured-strip {
+        margin-left: -16px;
+        margin-right: -16px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .chat-test-root .featured-strip-grid {
+        grid-template-columns: repeat(3, 130px);
+        grid-auto-flow: column;
+        grid-auto-columns: 130px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 8px;
+      }
+      .chat-test-root .featured-card { scroll-snap-align: start; }
+    }
+    .chat-test-root .featured-card {
+      background: #fff;
+      border: 1px solid var(--c-line, #e3dccb);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  box-shadow 0.2s ease,
+                  border-color 0.2s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-test-root .featured-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(45, 74, 43, 0.12);
+      border-color: var(--c-sage, #5d7a4a);
+    }
+    .chat-test-root .featured-card:active {
+      transform: translateY(-1px) scale(0.98);
+      transition: transform 0.08s ease-out;
+    }
+    .chat-test-root .featured-card-img {
+      aspect-ratio: 4 / 3;
+      width: 100%;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, var(--c-bg-soft, #efe9da) 0%, #e3dccb 100%);
+    }
+    .chat-test-root .featured-card-body {
+      padding: 12px 14px 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .chat-test-root .featured-card-botanical {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1.25;
+      color: var(--c-bark, #2d4a2b);
+      letter-spacing: -0.005em;
+      /* Cultivar names inside the botanical stay upright */
+    }
+    .chat-test-root .featured-card-botanical em { font-style: normal; }
+    .chat-test-root .featured-card-common {
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--c-clay, #4a4438);
+      line-height: 1.3;
+    }
+    .chat-test-root .featured-card-price {
+      margin-top: auto;
+      padding-top: 8px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--c-bark, #2d4a2b);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "kern" 1;
+    }
+    /* In-bloom badge on featured cards — small poppy indicator in
+       the corner so the strip reads as 'these are blooming now' */
+    .chat-test-root .featured-card-bloom {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 28px;
+      height: 28px;
+      background: var(--c-cta, #3a5f3a);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(45, 74, 43, 0.32);
+    }
+    .chat-test-root .featured-card-bloom img {
+      width: 14px;
+      height: 14px;
+      filter: brightness(0) invert(1);
+    }
     .chat-test-root .results {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -3740,6 +3892,16 @@
       </label>
     </div>
 
+    <!-- Featured plant strip — populated by renderFeatured() when no
+         user filters are active. Hides itself otherwise. -->
+    <section class="featured-strip" id="featuredStrip" hidden aria-label="Featured plants in bloom this week">
+      <div class="featured-strip-header">
+        <h3 class="featured-strip-title">In Bloom This Week</h3>
+        <span class="featured-strip-count" id="featuredStripCount"></span>
+      </div>
+      <div class="featured-strip-grid" id="featuredStripGrid"></div>
+    </section>
+
     <div id="results" class="results"></div>
     <div id="noResults" class="no-results" hidden>No plants match your search. Try fewer words or different terms.</div>
 
@@ -4878,6 +5040,11 @@
     function renderResults(parsed, results) {
       resultsEl.innerHTML = '';
       noResultsEl.hidden = results.length > 0;
+      // Render the featured strip independently of the main grid — it's
+      // its own editorial section. Hidden when filters are active (the
+      // user is searching for something specific, not browsing the
+      // weekly highlight reel) or when there are no in-bloom plants.
+      renderFeatured(parsed, results);
 
       // === Wire up filter chip removal ===
       // The chip click handler lives at the container level so we only attach it once.
@@ -5093,6 +5260,113 @@
         card.dataset.botanical = plant.botanical;
         if (isSel) card.classList.add('selected');
         resultsEl.appendChild(card);
+      });
+    }
+
+    // === Featured plant strip ============================================
+    // Picks up to 6 plants that are in bloom, prioritized by:
+    //   1. CA-native species (these get the nursery's stamp of approval)
+    //   2. Plants with a real photo (better editorial card)
+    //   3. Plants with multiple sizes available (more to buy)
+    // Hidden when:
+    //   - The user has any filter chips active (they're searching, not browsing)
+    //   - Fewer than 3 in-bloom plants are available (the strip would feel sparse)
+    //   - The catalog is empty
+    // Each card is a clickable thumbnail that sets the search input to the
+    // plant's botanical name and submits — gives the user a way to drill
+    // down into a featured plant's full card in the grid below.
+    function renderFeatured(parsed, allResults) {
+      const strip = $('featuredStrip');
+      const grid = $('featuredStripGrid');
+      const count = $('featuredStripCount');
+      if (!strip || !grid || !count) return;
+
+      // parsed.active is true whenever any filter has been set OR the
+      // user has typed something in the search box. In that case hide
+      // the strip — the user is searching, not browsing the weekly
+      // highlight reel.
+      const hasQueryOrFilter = parsed && parsed.active;
+      const catalog = getCatalog ? getCatalog() : [];
+      if (hasQueryOrFilter || !catalog.length) {
+        strip.hidden = true;
+        return;
+      }
+
+      // Score each in-bloom plant and pick the top 6.
+      const scored = catalog
+        .filter(p => p && p.bloom)
+        .map(p => {
+          const native = isNativeOrigin(p.origin) ? 100 : 0;
+          const hasPhoto = (p.image_map && p.image_map.thumb) || (p.images && p.images.length) ? 50 : 0;
+          const sizes = (p.sizes && p.sizes.length) || 0;
+          return { plant: p, score: native + hasPhoto + sizes * 5 };
+        })
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 6)
+        .map(s => s.plant);
+
+      if (scored.length < 3) {
+        strip.hidden = true;
+        return;
+      }
+
+      strip.hidden = false;
+      count.textContent = `${scored.length} highlighted`;
+      grid.innerHTML = scored.map(plant => {
+        const sizes = plant.sizes || [];
+        const priceText = sizes.length
+          ? `from $${Math.min(...sizes.map(s => Number(s.price) || 0)).toFixed(2)}`
+          : '';
+        const img = (plant.image_map && plant.image_map.thumb)
+          || (plant.images && plant.images[0])
+          || PLACEHOLDER_IMG;
+        // Build botanical with cultivar names upright (em tags stripped
+        // of italic styling via .featured-card-botanical em rule).
+        const botanical = escapeHTML(plant.botanical);
+        const common = escapeHTML(plant.common || '');
+        return `
+          <button type="button" class="featured-card"
+                  data-featured-botanical="${botanical}"
+                  aria-label="View ${botanical} in this week's availability">
+            <img class="featured-card-img"
+                 src="${escapeHTML(img)}"
+                 alt=""
+                 loading="lazy">
+            <span class="featured-card-bloom" aria-hidden="true">
+              <img src="popppy-flower.png" alt="">
+            </span>
+            <span class="featured-card-body">
+              <span class="featured-card-botanical">${botanical}</span>
+              <span class="featured-card-common">${common}</span>
+              <span class="featured-card-price">${priceText}</span>
+            </span>
+          </button>`;
+      }).join('');
+    }
+
+    // Click handler for featured cards — sets the search box to the plant's
+    // botanical and re-runs the search so the user lands on that plant's
+    // full card in the grid below.
+    function wireFeaturedClicks() {
+      const grid = $('featuredStripGrid');
+      if (!grid) return;
+      grid.addEventListener('click', (e) => {
+        const card = e.target.closest('[data-featured-botanical]');
+        if (!card) return;
+        const botanical = card.getAttribute('data-featured-botanical');
+        const input = $('chatSearch');
+        if (input) {
+          input.value = botanical;
+          // Trigger the input event so the existing search logic runs.
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          // Scroll the user down to the matching grid card.
+          setTimeout(() => {
+            const target = resultsEl.querySelector(
+              `.result[data-botanical="${CSS.escape(botanical)}"]`
+            );
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 50);
+        }
       });
     }
 
@@ -5474,6 +5748,11 @@
         // Populate the week label on initial load (it was only being set inside
         // getCatalog(), which is invoked by run() — i.e. only after a search).
         getCatalog();
+
+        // Wire the featured-strip click handler once. The strip markup is
+        // rebuilt on every renderFeatured() call, but the delegated click
+        // listener lives on the grid container which is constant.
+        wireFeaturedClicks();
 
         // Render the full catalog on first load (A-Z). No pre-fill — the user asked for a clean
         // alphabetical catalog by default; the "in bloom" suggestion chip below the search bar

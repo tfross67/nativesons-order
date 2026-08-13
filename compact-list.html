@@ -166,6 +166,34 @@
       color: var(--c-clay);
       white-space: nowrap;
     }
+    /* Consolidated size cell — one row per plant, with all available
+       sizes in a single cell as '1gal $8.00 / 2gal $12.00 / 5gal $24.00'.
+       Each size is its own span; the per-entry weight is set inline via
+       --price-weight so the eye lands on the smallest container first. */
+    td.size .size-entry {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    td.size .size-unit {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--c-clay);
+    }
+    td.size .size-amount {
+      font-weight: var(--price-weight, 700);
+      color: var(--c-bark);
+      font-variant-numeric: tabular-nums;
+    }
+    td.size .size-sep {
+      display: inline-block;
+      margin: 0 6px;
+      color: var(--c-line);
+      font-weight: 400;
+    }
+    td.size .size-value { color: var(--c-muted); }
     td.price {
       text-align: right;
       font-family: var(--font-mono);
@@ -354,31 +382,45 @@
         const status = p.bloom
           ? '<img src="popppy-flower.png" alt="" class="bloom-icon" aria-hidden="true">'
           : ' ';
-        if (sizes.length === 0) {
-          ALL_ROWS.push({
-            botanical: p.botanical || '',
-            size: '',
-            height: p.height || '',
-            width: p.width || '',
-            price: null,
-            status,
-            statusOrder: p.bloom ? 1 : (p.bud ? 2 : (p.new ? 3 : 4)),
-            section: p.section || '',
-          });
-        } else {
-          for (const s of sizes) {
-            ALL_ROWS.push({
-              botanical: p.botanical || '',
-              size: s.container,
-              height: p.height || '',
-              width: p.width || '',
-              price: s.price,
-              status,
-              statusOrder: p.bloom ? 1 : (p.bud ? 2 : (p.new ? 3 : 4)),
-              section: p.section || '',
-            });
-          }
-        }
+        // Consolidate sizes into a single cell. Sorted smallest-to-largest
+        // for a predictable read. Renders as '1gal $8.00 / 2gal $12.00 / 5gal $24.00'
+        // with the smallest container's price in bold so the cheapest entry
+        // is the visual anchor. Empty sizes get a dash.
+        const SIZE_ORDER = ['4in', '4"', '3in', '3"', '1gal', '2gal', '5gal', '7gal', '10gal', '15gal', '25gal', 'ea'];
+        const sizeKey = (s) => {
+          const c = (s.container || '').toLowerCase().replace(/\s+/g, '');
+          const i = SIZE_ORDER.indexOf(c);
+          return i === -1 ? 999 : i;
+        };
+        const sortedSizes = [...sizes].sort((a, b) => sizeKey(a) - sizeKey(b));
+        // Weights: 800 (cheapest) -> 700 -> 600 -> 500+ for the rest, so
+        // the eye lands on the smallest container first. Matches the
+        // B-pass treatment on the main grid's result cards.
+        const weights = [800, 700, 600, 500, 500];
+        const sizeCell = sortedSizes.length === 0
+          ? '<span class="size-value">—</span>'
+          : sortedSizes.map((s, i) => {
+              const w = weights[Math.min(i, weights.length - 1)];
+              return `<span class="size-entry" style="--price-weight: ${w};">` +
+                `<span class="size-unit">${esc(s.container)}</span>` +
+                `<span class="size-amount">$${s.price.toFixed(2)}</span>` +
+                `</span>`;
+            }).join(' <span class="size-sep">/</span> ');
+        // Cheapest price for sort. null if no sizes.
+        const cheapestPrice = sortedSizes.length
+          ? Math.min(...sortedSizes.map(s => s.price))
+          : null;
+        ALL_ROWS.push({
+          botanical: p.botanical || '',
+          sizes: sortedSizes,
+          sizeCell,
+          height: p.height || '',
+          width: p.width || '',
+          price: cheapestPrice,
+          status,
+          statusOrder: p.bloom ? 1 : (p.bud ? 2 : (p.new ? 3 : 4)),
+          section: p.section || '',
+        });
       }
 
       const meta = [];
@@ -408,7 +450,10 @@
     function sortKey(row) {
       switch (SORT_KEY) {
         case 'price': return row.price == null ? Infinity : row.price;
-        case 'size': return row.size || '';
+        // 'size' column is consolidated (one cell with '1gal $8 / 2gal $12 / 5gal $24')
+        // so we sort by the smallest container's price instead, which is the
+        // most useful ordering when a plant has multiple sizes.
+        case 'size': return row.price == null ? Infinity : row.price;
         case 'status': return row.statusOrder;
         default: return (row[SORT_KEY] || '').toLowerCase();
       }
@@ -455,10 +500,10 @@
           return '<tr>' +
             '<td class="botanical" data-label="Botanical">' + plantLink + '</td>' +
             '<td class="status" data-label="Status">' + r.status + '</td>' +
-            '<td class="size" data-label="Size">' + esc(r.size) + '</td>' +
+            '<td class="size" data-label="Size">' + r.sizeCell + '</td>' +
             '<td class="height" data-label="Height">' + esc(r.height) + '</td>' +
             '<td class="width" data-label="Width">' + esc(r.width) + '</td>' +
-            '<td class="price" data-label="Price">' + priceCell + '</td>' +
+            '<td class="price" data-label="Price from">' + priceCell + '</td>' +
             '<td class="section col-staff" data-label="Section" style="' + (STAFF ? '' : 'display:none') + '">' + esc(r.section) + '</td>' +
           '</tr>';
         }).join('');

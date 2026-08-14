@@ -1510,7 +1510,7 @@
     }
     .chat-test-root .result-details {
       padding-top: 10px;
-      border-top: 1px dashed #e8e2cf;
+      padding-bottom: 8px;
       font-family: var(--font-sans);
       font-size: 12.5px;
       font-weight: 400;
@@ -1519,6 +1519,8 @@
       position: relative;
       z-index: 2;
       animation: details-expand 0.25s ease;
+      /* Top border lives on card-actions below, so this dashed top border
+         would double up. Removed — keep only the bottom breathing room. */
     }
     .chat-test-root .result-details[hidden] { display: none; }
     @keyframes details-expand {
@@ -1769,8 +1771,12 @@
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     /* Card-actions row: Details + Add to order sit on a single line,
-       space-between. The whole row sits at the bottom of the card via
-       margin-top: auto. */
+       space-between. Sits at the bottom of the card via margin-top:
+       auto. The .result-details panel sits ABOVE this row in DOM
+       order so when expanded it expands into the space between the
+       price row and the action buttons (full card width). The
+       top border here separates the (possibly expanded) details
+       panel from the action buttons. */
     .chat-test-root .card-actions {
       display: flex;
       flex-direction: row;
@@ -1780,7 +1786,6 @@
       margin-top: auto;
       padding-top: 10px;
       border-top: 1px solid var(--c-line, #e3dccb);
-      padding-top: 10px;
       position: relative;
       /* z-index 2 stacks the action row above the .result-link overlay
          (which has z-index 1). Without this, the link covers the stepper
@@ -5228,15 +5233,15 @@
                   <div class="result-price-row">
                     <div class="result-price">${sizesHTML}</div>
                   </div>
+                  <div class="result-details" hidden>
+                    <div class="result-details-inner">
+                      ${detailsHTML}
+                      ${plant.description ? `<div class="detail-info">${escapeHTML(plant.description)}</div>` : ''}
+                    </div>
+                  </div>
                   <div class="card-actions">
                     <button type="button" class="result-expand" aria-expanded="false" data-expand aria-label="Show more details for ${escapeHTML(plant.botanical)}">Details</button>
                     ${matchLine}
-                    <div class="result-details" hidden>
-                      <div class="result-details-inner">
-                        ${detailsHTML}
-                        ${plant.description ? `<div class="detail-info">${escapeHTML(plant.description)}</div>` : ''}
-                      </div>
-                    </div>
                     <button type="button" class="add-to-order-link" data-add-to-order aria-label="Add ${escapeHTML(plant.botanical)} to your order">+ Add to order <span class="add-arrow" aria-hidden="true">→</span></button>
                   </div>
                 `;

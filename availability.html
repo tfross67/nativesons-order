@@ -6219,11 +6219,21 @@
         const plant = findPlant(botanical);
         if (!plant) return;
         const items = Cart.getItems();
-        // Find all cart entries for this plant (case-insensitive match on name).
-        const lowerName = (plant.common || plant.botanical || '').toLowerCase();
+        // Find all cart entries for this plant. Cart lines are stored under
+        // the BOTANICAL name (e.g. "Abelia x grandiflora 'Kaleidoscope'") —
+        // not the common name (e.g. "Kaleidoscope abelia") — so we MUST
+        // match on botanical here. Falling back to common was a bug: the
+        // filter never matched cart lines and the - button was a no-op.
+        // We also check common for the rare plant where the cart line was
+        // added under a different name.
+        const lowerBot = (plant.botanical || '').toLowerCase();
+        const lowerCom = (plant.common || '').toLowerCase();
         const myLines = items
           .map((it, idx) => ({ it, idx }))
-          .filter(({ it }) => (it.name || '').toLowerCase() === lowerName);
+          .filter(({ it }) => {
+            const n = (it.name || '').toLowerCase();
+            return n === lowerBot || (lowerCom && n === lowerCom);
+          });
         if (myLines.length === 0) {
           // Defensive: should never happen (the stepper only shows when in-cart),
           // but if it does, open the size picker on +1 or no-op on -1.

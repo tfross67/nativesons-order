@@ -864,25 +864,29 @@
        sibling are independently centered vertically regardless of their heights
        or the surrounding line-height. Keeps the chip's vertical center
        consistent across cards. */
+    /* Companion to .meta-pill.cat-bloom — used when a bloom chip is also tagged
+       with another category (e.g. the combined cat-flower bloom prefix-pill).
+       Kept for backwards compat with any persisted markup but no longer used
+       by the meta-row builder. The new approach puts the bloom icon and the
+       flower-color text in two separate pills of the same height, so this
+       combined style is rarely needed. */
     .chat-test-root .meta-pill.cat-flower.bloom,
     .chat-test-root .meta-pill.bloom {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      /* Keep top/bottom padding to match other meta pills — overriding to 0
-         made the bloom-prefixed flower-color pills look squashed compared to
-         the sun/water/size pills. Line-height stays at the base value to
-         keep the bloom icon (28px) vertically aligned with the pill text. */
+      /* Keep top/bottom padding to match other meta pills. The bloom icon is
+         a 16x16 chip-sized marker so it sits naturally inside the pill. */
       line-height: 1.35;
     }
     .chat-test-root .meta-pill .bloom-icon {
       display: inline-block;
-      width: 28px;
-      height: 28px;
+      width: 16px;
+      height: 16px;
       margin-right: 0; /* gap on parent handles spacing */
       object-fit: contain;
       flex-shrink: 0; /* keep from being squished if pill is ever in flex mode */
-      vertical-align: -4px;
+      vertical-align: -2px;
     }
     @keyframes bloom-glow {
       0%, 100% {
@@ -5149,24 +5153,27 @@
                 const bloomPrefix = plant.bloom ? '<img src="popppy-flower.png" alt="" class="bloom-icon" aria-hidden="true">' : '';
                 const isBloomFilterMatch = matched.bloom.includes('in bloom');
                 const flowerColorHTML = plant.flower_color
-                  ? bloomPrefix + highlight(plant.flower_color, highlightTerms)
+                  ? highlight(plant.flower_color, highlightTerms)
                   : '';
+                // Bloom icon is its OWN small pill now (not a prefix inside the
+                // flower-color pill). Two pills with the same height look like
+                // siblings in the meta row — visually consistent. The previous
+                // design had the icon prefix inside the color pill, which made
+                // that pill taller than the sun/water/size pills next to it.
                 let meta = [];
                 if (plant.bud && !plant.bloom) meta.push(pill('🌿 budding', matched.bloom.includes('budding'), 'bloom'));
+                if (plant.bloom && !plant.bud) {
+                  // Standalone bloom pill — icon-only chip so it visually pairs
+                  // with the cream flower-color pill that often sits next to it.
+                  meta.push(pill(`<img src="popppy-flower.png" alt="" class="bloom-icon" aria-hidden="true">`, isBloomFilterMatch, 'bloom'));
+                }
                 if (flowerColorHTML) {
                   const fcFirst = String(plant.flower_color).toLowerCase().split(/[ ,(]/)[0];
                   const isColorMatch = matched.colors.some(c => plant.flower_color.toLowerCase().includes(c));
-                  // Highlight when EITHER the color term or the in-bloom filter is matched.
-                  // The popppy-icon prefix in flowerColorHTML is the bloom signal.
-                  // When plant is in bloom, also tag 'bloom' so the pill picks up the warm
-                  // chip color (see .meta-pill.bloom CSS).
-                  meta.push(pill(
-                    flowerColorHTML,
-                    isColorMatch || isBloomFilterMatch,
-                    plant.bloom ? 'flower bloom' : 'flower'
-                  ));
+                  meta.push(pill(flowerColorHTML, isColorMatch || isBloomFilterMatch, 'flower'));
                 } else if (plant.bloom) {
-                  meta.push(pill(bloomPrefix + ' in bloom', isBloomFilterMatch, 'bloom'));
+                  // No flower_color but is in bloom — keep the "in bloom" text pill.
+                  meta.push(pill('in bloom', isBloomFilterMatch, 'bloom'));
                 }
                 if (plant.exposure) {
                   const isExpMatch = matched.exposures.some(e => plant.exposure.toLowerCase().includes(e));

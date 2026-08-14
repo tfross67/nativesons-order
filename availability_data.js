@@ -297,7 +297,8 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "special_uses": "Rock Garden\nCoastal Garden\nSmall area groundcover\nSmall Gardens\nCut Flower\nContainer planting\nHerb garden",
-    "additional_info": "Mounding to 8\" with fine, gray foliage and large white flowers in summer. Best used in rock gardens."
+    "additional_info": "Mounding to 8\" with fine, gray foliage and large white flowers in summer. Best used in rock gardens.",
+    "hardiness": "0°F"
   },
   {
     "botanical": "Adenanthos 'Silver Haze'",
@@ -1263,7 +1264,8 @@ window.AVAILABILITY = {
     "water": "Regular",
     "soil": "Rich soils",
     "special_uses": "Water Gardens\nShade Garden\nBackground Planting\nFall Color",
-    "additional_info": "Spice bush. A deciduous shrub to 12’ with an 8’ spread. The bark is aromatic and the fragrant leaves turn a warm yellow in the fall. Reddish-brown flowers resembling small water lilies, 2” across, appear from April to August. Flowers smell like an aged wine barrel. Grows in full sun with some light shade in warm climates. Plant in deep, moist, humus-rich soil with moderate to occasional water. A tough, trouble-free native deserving of greater use in California gardens. Hardy to 0F. California."
+    "additional_info": "Spice bush. A deciduous shrub to 12’ with an 8’ spread. The bark is aromatic and the fragrant leaves turn a warm yellow in the fall. Reddish-brown flowers resembling small water lilies, 2” across, appear from April to August. Flowers smell like an aged wine barrel. Grows in full sun with some light shade in warm climates. Plant in deep, moist, humus-rich soil with moderate to occasional water. A tough, trouble-free native deserving of greater use in California gardens. Hardy to 0F. California.",
+    "hardiness": "0°F"
   },
   {
     "botanical": "Campanula garganica 'Dickson's Gold'",
@@ -2947,7 +2949,8 @@ window.AVAILABILITY = {
     "foliage": "Dark green",
     "water": "Moderate",
     "soil": "Well drained",
-    "special_uses": "Container planting\nBorder planting"
+    "special_uses": "Container planting\nBorder planting",
+    "hardiness": "0°F"
   },
   {
     "botanical": "Euphorbia 'Miner's Merlot'",
@@ -3375,7 +3378,8 @@ window.AVAILABILITY = {
     "foliage": "Green",
     "water": "Moderate",
     "soil": "Most soil types",
-    "additional_info": "Perennial Plant of the Year 2015"
+    "additional_info": "Perennial Plant of the Year 2015",
+    "hardiness": "0°F"
   },
   {
     "botanical": "Geum 'Sunkissed Lime'",
@@ -4169,7 +4173,8 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "special_uses": "Attracts butterflies",
-    "additional_info": "Mounded."
+    "additional_info": "Mounded.",
+    "hardiness": "0°F"
   },
   {
     "botanical": "Lavandula angustifolia 'Betty Blue'",
@@ -6929,7 +6934,8 @@ window.AVAILABILITY = {
     "foliage": "Green",
     "water": "Moderate",
     "soil": "Well drained",
-    "special_uses": "Attracts butterflies\nAttracts birds\nBorder planting"
+    "special_uses": "Attracts butterflies\nAttracts birds\nBorder planting",
+    "hardiness": "0°F"
   },
   {
     "botanical": "Salvia leucantha 'Santa Barbara'",
@@ -7151,7 +7157,8 @@ window.AVAILABILITY = {
     "water": "Occasional",
     "soil": "Well drained",
     "special_uses": "Rock Garden\nHerb Garden\nCoastal Garden\nDry Garden\nBorder Planting\nContainer Planting",
-    "additional_info": "Deer resistant."
+    "additional_info": "Deer resistant.",
+    "hardiness": "0°F"
   },
   {
     "botanical": "Santolina magonica",
@@ -8060,7 +8067,8 @@ window.AVAILABILITY = {
     "foliage": "Gold",
     "water": "Regular",
     "soil": "Well drained",
-    "special_uses": "Border Planting"
+    "special_uses": "Border Planting",
+    "hardiness": "0°F"
   },
   {
     "botanical": "Teucrium betonicum",
@@ -8288,7 +8296,8 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "special_uses": "Herb Garden\nContainer Planting\nSmall area groundcover\nBorder Planting",
-    "additional_info": "Forms mats of dark green foliage, marked sporadically with patches of gold. Lemon-scented foliage to 3” and red-purple flowers in summer. Hardy to 0F. Garden origin."
+    "additional_info": "Forms mats of dark green foliage, marked sporadically with patches of gold. Lemon-scented foliage to 3” and red-purple flowers in summer. Hardy to 0F. Garden origin.",
+    "hardiness": "0°F"
   },
   {
     "botanical": "Thymus pseudolanuginosus",

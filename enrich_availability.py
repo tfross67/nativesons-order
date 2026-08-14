@@ -72,7 +72,9 @@ def load_master():
             'width':            str(row[10]).strip() if row[10] else None,
             'foliage':          str(row[11]).strip() if row[11] else None,
             'water':            str(row[12]).strip() if row[12] else None,
-            'hardiness':        row[13]               if row[13] else None,
+            # Hardiness is an integer (zone number like 0, 15, 25). 0 is a
+            # real value (hardy to 0F), so check for None specifically.
+            'hardiness':        row[13]               if row[13] is not None else None,
             'soil':             str(row[14]).strip() if row[14] else None,
             'special_uses':     str(row[15]).strip() if row[15] else None,
             'additional_info':  str(row[16]).strip() if row[16] else None,

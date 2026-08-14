@@ -33,7 +33,7 @@ GENERATED = '2026-08-14'
 
 
 def norm(s: str) -> str:
-    """Normalize plant name for fuzzy matching."""
+    """Normalize plant name for fuzzy matching — also normalize for output consistency."""
     if s is None:
         return ''
     text = unicodedata.normalize('NFKC', str(s)).strip().lower()
@@ -44,6 +44,19 @@ def norm(s: str) -> str:
     ):
         text = text.replace(old, new)
     return re.sub(r'\s+', ' ', text).strip()
+
+
+def normalize_quotes(s: str) -> str:
+    """Normalize curly quotes to straight quotes for output consistency with master DB."""
+    if not s:
+        return s
+    text = str(s)
+    for old, new in (
+        ('\u2018', "'"), ('\u2019', "'"),
+        ('\u201c', '"'), ('\u201d', '"'),
+    ):
+        text = text.replace(old, new)
+    return text
 
 
 def strip_pn(name: str) -> str:
@@ -176,6 +189,12 @@ def main():
     new_1g = parse_main_sheet(wb['1g and larger'])
     wb.close()
 
+    # Normalize curly quotes in the new xlsx botanical names to straight quotes
+    # so they match the master DB format and prior week's data style.
+    for d in (new_4in, new_1g):
+        for key in list(d.keys()):
+            d[key]['botanical'] = normalize_quotes(d[key]['botanical'])
+
     # Merge: 1g+ wins over 4" (1g+ plants have richer pricing)
     new_data = {**new_4in, **new_1g}
 
@@ -188,6 +207,9 @@ def main():
         if candidates:
             # Update existing plant
             plant = candidates[0]
+            # Use the normalized-cased name from the new xlsx so existing data
+            # adopts the same quote style as the source of truth.
+            plant['botanical'] = new_info['botanical']
             plant['sizes'] = new_info['sizes']
             plant['bloom'] = new_info['bloom']
             plant['bud'] = new_info['bud']

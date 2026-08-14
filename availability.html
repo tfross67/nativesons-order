@@ -869,9 +869,11 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding-top: 0;
-      padding-bottom: 0;
-      line-height: 26px; /* matches the rendered chip height so text baselines align */
+      /* Keep top/bottom padding to match other meta pills — overriding to 0
+         made the bloom-prefixed flower-color pills look squashed compared to
+         the sun/water/size pills. Line-height stays at the base value to
+         keep the bloom icon (28px) vertically aligned with the pill text. */
+      line-height: 1.35;
     }
     .chat-test-root .meta-pill .bloom-icon {
       display: inline-block;
@@ -3940,7 +3942,7 @@
 
   <!-- Size picker modal -->
   <div class="modal-overlay" id="sizePickerOverlay" hidden></div>
-  <div class="modal" id="sizePickerModal" hidden role="dialog" aria-labelledby="sizePickerTitle">
+  <div class="modal" id="sizePickerModal" hidden role="dialog" aria-modal="true" aria-labelledby="sizePickerTitle">
     <header class="modal-header">
       <h2 id="sizePickerTitle">Pick a size</h2>
       <button type="button" class="icon-btn" id="closeSizePicker" aria-label="Close">✕</button>
@@ -5214,7 +5216,7 @@
 
                 card.innerHTML = `
                   <a class="result-link" href="${plantUrl(plant.botanical)}" target="_blank" rel="noopener" aria-label="More info on ${escapeHTML(plant.botanical)} on nativeson.com"></a>
-                  <img class="result-image" data-botanical="${escapeHTML(plant.botanical)}" src="${PLACEHOLDER_IMG}" alt="" loading="lazy">
+                  <img class="result-image" data-botanical="${escapeHTML(plant.botanical)}" src="${PLACEHOLDER_IMG}" alt="${escapeHTML(plant.botanical)}${plant.common ? ' (' + escapeHTML(plant.common) + ')' : ''}" loading="lazy">
                   <div class="result-botanical">${highlight(plant.botanical, highlightTerms)}</div>
                   <div class="result-common">${highlight(plant.common || '', highlightTerms)}</div>
                   ${typeOriginHTML}
@@ -6490,7 +6492,7 @@
           <div class="size-options-list">
             ${sizes.map((s, i) => `
               <label class="size-option ${i === 0 ? 'is-selected' : ''}">
-                <input type="radio" name="pickerSize" value="${esc(s.container || '')}" data-pick-price="${s.price}" ${i === 0 ? 'checked' : ''}>
+                <input type="radio" name="pickerSize" value="${esc(s.container || '')}" data-pick-price="${s.price}" aria-label="Size ${esc(s.container || 'Standard')} at $${fmtPrice(s.price)}" ${i === 0 ? 'checked' : ''}>
                 <span class="size-option-name">${esc(s.container || 'Standard')}</span>
                 <span class="size-option-price">$${fmtPrice(s.price)}</span>
               </label>
@@ -6803,6 +6805,18 @@
 
       closeSizePickerBtn.addEventListener('click', closeSizePicker);
       sizePickerOverlay.addEventListener('click', closeSizePicker);
+      // Escape key closes the size picker when it's open — standard modal
+      // pattern. Skip if the user is typing in an input/textarea so it
+      // doesn't interfere with normal editing (e.g. the qty input).
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !sizePickerModal.hidden) {
+          const tag = (e.target.tagName || '').toLowerCase();
+          if (tag === 'input' || tag === 'textarea') return;
+          e.preventDefault();
+          closeSizePicker();
+          closeSizePickerBtn.focus();
+        }
+      });
 
       // --- Cart bar / slide-out panel
       function openCart() {

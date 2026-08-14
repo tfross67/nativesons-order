@@ -345,7 +345,8 @@
       } catch (e) { return false; }
     };
     // Staff mode always bypasses the gate.
-    if (!STAFF && !isTradeVerified()) {
+    const pricingLocked = !STAFF && !isTradeVerified();
+    if (pricingLocked) {
       document.body.classList.add('pricing-locked');
     }
 
@@ -396,6 +397,10 @@
         // Weights: 800 (cheapest) -> 700 -> 600 -> 500+ for the rest, so
         // the eye lands on the smallest container first. Matches the
         // B-pass treatment on the main grid's result cards.
+        // When trade pricing is locked, suppress the per-size dollar amount
+        // so the size column shows just container sizes ("5gal / 1gal") with
+        // no inline $X.XX leaking through.
+        const showAmount = !pricingLocked;
         const weights = [800, 700, 600, 500, 500];
         const sizeCell = sortedSizes.length === 0
           ? '<span class="size-value">—</span>'
@@ -403,7 +408,7 @@
               const w = weights[Math.min(i, weights.length - 1)];
               return `<span class="size-entry" style="--price-weight: ${w};">` +
                 `<span class="size-unit">${esc(s.container)}</span>` +
-                `<span class="size-amount">$${s.price.toFixed(2)}</span>` +
+                (showAmount ? `<span class="size-amount">$${s.price.toFixed(2)}</span>` : '') +
                 `</span>`;
             }).join(' <span class="size-sep">/</span> ');
         // Cheapest price for sort. null if no sizes.

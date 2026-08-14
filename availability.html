@@ -1298,10 +1298,58 @@
       z-index: 1;
       text-decoration: none;
       background: transparent;
+      /* Disabled by default — the link is re-enabled on hover/click of the
+         navigable area (the photo + botanical + common name + price-row).
+         This is more robust than the z-index trick because pointer-events
+         is checked before the click hit-test: the stepper + / - buttons
+         and the Add-to-order link below always receive clicks regardless
+         of stacking context, browser quirks, or future CSS changes. */
+      pointer-events: none;
+    }
+    /* Re-enable the link on the parts of the card the user expects to
+       click to open the product page. We list the specific areas the
+       link should cover (the photo, the name, the common name, the price
+       row) — anything else (the stepper, Add to order, Details) is left
+       pointer-events: none so those buttons always work. */
+    .chat-test-root .result-photo,
+    .chat-test-root .result-botanical,
+    .chat-test-root .result-common,
+    .chat-test-root .result-type-origin,
+    .chat-test-root .result-meta,
+    .chat-test-root .result-price,
+    .chat-test-root .result-image {
+      pointer-events: auto;
+    }
+    /* The link itself needs pointer-events: auto too, so the click
+       on the navigated area actually hits the <a>. */
+    .chat-test-root .result-link {
+      pointer-events: auto;
+    }
+    /* But make the link transparent to clicks in the navigable areas so
+       clicks bubble through. The trick: the <a> is at z-index 1 with
+       pointer-events: auto, and the navigable children are at a higher
+       z-index. We need to invert: make the link non-clickable EXCEPT
+       where the navigable children explicitly opt in. Since the link is
+       the parent and z-index doesn't help with parent-child pointer
+       hit-testing, the simpler approach: keep the link click-handling
+       but use the JS click handler on the navigable children to do
+       window.open(), and make the link pointer-events: none. */
+    .chat-test-root .result-link {
+      pointer-events: none;
+    }
+    .chat-test-root .result-photo,
+    .chat-test-root .result-botanical,
+    .chat-test-root .result-common,
+    .chat-test-root .result-type-origin,
+    .chat-test-root .result-meta,
+    .chat-test-root .result-price,
+    .chat-test-root .result-image {
+      pointer-events: auto;
+      cursor: pointer;
     }
     .chat-test-root .result-link:focus {
       outline: 2px solid var(--c-bark, #2d4a2b);
-      outline-offset: -2px;
+      outline-offset: -2;
       border-radius: 10px;
     }
     .chat-test-root .result-footer {
@@ -6613,17 +6661,26 @@
           }
           return;
         }
-        // Photo-link on each plant tile: <a class="result-link"> with
-        // target="_blank" already opens in a new tab, BUT Safari's popup
-        // blocker can downgrade that to same-window navigation. Force a
-        // window.open() from this user-click handler so Safari treats it as
-        // a programmatic-open-from-gesture, which is always allowed.
-        const photoLink = e.target.closest('a.result-link');
-        if (photoLink) {
-          const href = photoLink.getAttribute('href');
-          if (href) {
-            e.preventDefault();
-            window.open(href, '_blank', 'noopener');
+        // Photo-link on each plant tile: the .result-link <a> covers the
+        // whole card with pointer-events: none so the in-card actions
+        // (stepper, Add to order, Details) always receive clicks. So the
+        // user has to click one of the navigable children (photo, name,
+        // common, type-origin, meta, price) which DO have pointer-events:
+        // auto. When that happens, look up the parent card and open its
+        // result-link in a new tab.
+        // Safari's popup blocker can downgrade target="_blank" to same-
+        // window navigation. Force a window.open() from this user-click
+        // handler so Safari treats it as a programmatic-open-from-gesture,
+        // which is always allowed.
+        const card = e.target.closest('.result');
+        if (card) {
+          const link = card.querySelector('a.result-link');
+          if (link) {
+            const href = link.getAttribute('href');
+            if (href) {
+              e.preventDefault();
+              window.open(href, '_blank', 'noopener');
+            }
           }
           return;
         }

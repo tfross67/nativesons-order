@@ -5273,9 +5273,12 @@
     // more of; the - button removes one unit from the most-recently-added
     // line item (or removes the line entirely if its qty hits zero).
     function replaceAddButtonWithStepper(card, qty) {
-      const btn = card.querySelector('.add-to-order-link');
-      if (!btn) return;
-      // Already a stepper — just refresh the displayed qty and pulse.
+      // Update existing stepper in place if there is one. We can't just
+      // look for .add-to-order-link to decide — once the stepper replaced
+      // the add button, the add link is gone, so the lookup returned null
+      // and the function used to bail out without updating the displayed
+      // qty. Look up the stepper first and use its presence to short-
+      // circuit; fall back to the original add-link swap below.
       const existing = card.querySelector('.qty-card-stepper');
       if (existing) {
         const val = existing.querySelector('.qty-card-value');
@@ -5290,6 +5293,8 @@
         }
         return;
       }
+      const btn = card.querySelector('.add-to-order-link');
+      if (!btn) return;
       const stepper = document.createElement('div');
       stepper.className = 'qty-card-stepper';
       stepper.setAttribute('role', 'group');

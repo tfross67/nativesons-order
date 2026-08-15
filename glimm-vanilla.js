@@ -44,7 +44,14 @@ Usage:
 
   const VERT_SRC = `
     attribute vec2 a_position;
-    void main() { gl_Position = vec4(a_position, 0.0, 1.0); }
+    varying vec2 v_uv;
+    void main() {
+      // Convert clip-space (-1..1) to UV (0..1) for the fragment shader.
+      // v_uv.x is the horizontal sweep axis (0 = left, 1 = right),
+      // v_uv.y is the vertical axis (0 = top, 1 = bottom).
+      v_uv = a_position * 0.5 + 0.5;
+      gl_Position = vec4(a_position, 0.0, 1.0);
+    }
   `;
 
   // Fragment shader — sweeps a soft gaussian band across the screen.
@@ -74,13 +81,17 @@ Usage:
       else if (u_direction < 2.5) bandCenter = v_uv.y;
       else                        bandCenter = 1.0 - v_uv.y;
 
-      // Gaussian falloff centered on the band.
+      // Gaussian falloff centered on the band. bandTight=14 gives a
+      // very narrow beam; the band is ~5% of the screen wide at half
+      // peak alpha, which reads as a focused sweep rather than a soft wash.
       float dx = bandCenter - progress;
       float band = exp(-dx * dx * u_bandTight);
 
-      // Color from cosine palette using position along axis.
+      // Color from cosine palette using position along axis. Clamp to
+      // [0,1] so out-of-gamut values from the cosine formula don't write
+      // a transparent or negative color to the framebuffer.
       vec3 col = palette(v_uv.x);
-      col *= u_brightness;
+      col = clamp(col * u_brightness, 0.0, 1.0);
 
       gl_FragColor = vec4(col, band * u_peakAlpha);
     }

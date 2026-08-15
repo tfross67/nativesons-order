@@ -5617,12 +5617,18 @@
     // Trigger a WebGL sweep band on every navigation to the compact
     // table view. Both the inline search-panel link and the footer
     // nav link point to compact-list.html; this catches both. The
-    // browser performs the actual navigation — the sweep is purely
-    // visual punctuation above it. Citrus palette reads as a fresh
-    // section-level transition.
+    // browser navigates AFTER the sweep completes (otherwise the
+    // sweep is killed mid-frame by the navigation). Citrus palette
+    // reads as a fresh section-level transition.
     document.querySelectorAll('a[href="compact-list.html"]').forEach((a) => {
-      a.addEventListener('click', () => {
-        if (window.__glimm) window.__glimm.trigger({ palette: 'citrus', sweepMs: 700 });
+      a.addEventListener('click', (e) => {
+        if (!window.__glimm) return; // glimm didn't load — let browser navigate normally
+        e.preventDefault();
+        window.__glimm.trigger({
+          palette: 'citrus',
+          sweepMs: 600,
+          onDone: () => { window.location.href = a.href; },
+        });
       });
     });
 

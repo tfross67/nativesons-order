@@ -15,7 +15,7 @@
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
   <meta name="build" content="20260814-13">
-  <link rel="stylesheet" href="styles.css?v=20260812-02">
+  <link rel="stylesheet" href="styles.css?v=20260815-01">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -189,7 +189,7 @@
       font-family: var(--font-serif);
       font-size: var(--fs-headline);
       font-weight: 400;
-      font-style: italic;
+      font-style: normal;
       color: var(--c-bark, #2d4a2b);
       margin: 0 0 6px;
       line-height: 1.15;
@@ -234,7 +234,7 @@
       font-family: var(--font-serif);
       font-size: var(--fs-stat);
       font-weight: 400;
-      font-style: italic;
+      font-style: normal;
       color: var(--c-bark, #2d4a2b);
       line-height: 1;
       font-variant-numeric: tabular-nums;
@@ -712,13 +712,12 @@
       color: var(--c-sage-deep, #2d4a2b);
     }
     .chat-test-root .result-botanical {
-      /* Botanical names (Latin) are conventionally italicized. Use the serif
-         italic treatment so 'Abelia x grandiflora' reads as a scientific
-         name — matches how Monrovia / Annie's / most wholesale catalogs
-         typeset Latin binomials. Bold weight + serif italic gives the
-         presence of a lead without the industrial feel of sans bold. */
+      /* Botanical names (Latin) rendered upright serif — bold weight
+         + serif roman gives the presence of a lead without the
+         industrial feel of sans bold and without the academic feel
+         of italicized Latin. */
       font-family: var(--font-serif);
-      font-style: italic;
+      font-style: normal;
       font-weight: 600;
       color: var(--c-bark, #2d4a2b);
       font-size: 18px;

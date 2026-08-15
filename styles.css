@@ -1374,7 +1374,7 @@ body { padding-bottom: 80px; }
 }
 .site-footer-tagline {
   font-family: var(--font-serif);
-  font-style: italic;
+  font-style: normal;
   font-size: 16px;
   line-height: 1.4;
   color: var(--c-bark, #2d4a2b);

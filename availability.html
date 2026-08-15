@@ -17,18 +17,21 @@
   <meta name="build" content="20260814-13">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="styles.css?v=20260815-03">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="styles.css?v=20260815-04">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
     :root, .chat-test-root {
-      /* Single-family monolinear type system: Inter for everything.
-         --font-serif and --font-sans resolve to the same family —
-         different weights carry the visual hierarchy that used to
-         depend on a serif/sans split. */
-      --font-serif: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      /* Single-family monolinear type system: Plus Jakarta Sans for
+         everything. --font-serif and --font-sans resolve to the same
+         family — different weights carry the visual hierarchy that
+         used to depend on a serif/sans split. Plus Jakarta Sans has
+         a slightly warmer, more characterful geometry than Inter —
+         fits the editorial side of a plant catalog without going
+         full-serif. */
+      --font-serif: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       --font-mono: "SF Mono", Menlo, monospace;
 
       /* Type scale (minor third 1.2) — line-height pairs */

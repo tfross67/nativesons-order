@@ -110,8 +110,13 @@ Usage:
   }
 
   let canvas, gl, program, buf, uniforms, css3dFallback;
-  let pending = null;        // queued trigger
+  let pending = null;        // queued trigger (only one — last wins)
   let animating = false;     // a sweep is currently in flight
+  let rafId = 0;             // current rAF id so we can cancel
+
+  function cancel() {
+    if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+  }
 
   function init() {
     if (canvas || css3dFallback) return;
@@ -159,7 +164,11 @@ Usage:
   }
 
   function run(opts) {
-    if (animating) { pending = opts; return; }
+    // Cancel any in-flight sweep — last trigger wins. This handles the
+    // case where a previous sweep's rAF never ran (e.g. page was hidden)
+    // and left animating stuck true, blocking all future triggers.
+    cancel();
+    pending = null;
     animating = true;
     init();
     const palName = opts.palette || 'prism';
@@ -220,7 +229,7 @@ Usage:
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       if (t < 1) {
-        requestAnimationFrame(frame);
+        rafId = requestAnimationFrame(frame);
       } else {
         // Outro — fade out the band by reducing peak alpha
         const fadeStart = performance.now();
@@ -230,19 +239,21 @@ Usage:
           gl.uniform1f(uniforms.time, eased + ft * 0.05); // drift slightly
           gl.clear(gl.COLOR_BUFFER_BIT);
           gl.drawArrays(gl.TRIANGLES, 0, 6);
-          if (ft < 1) requestAnimationFrame(fade);
-          else {
+          if (ft < 1) {
+            rafId = requestAnimationFrame(fade);
+          } else {
             canvas.style.display = 'none';
             gl.clear(gl.COLOR_BUFFER_BIT);
             animating = false;
+            rafId = 0;
             if (pending) { const p = pending; pending = null; run(p); }
             if (opts.onDone) opts.onDone();
           }
         }
-        requestAnimationFrame(fade);
+        rafId = requestAnimationFrame(fade);
       }
     }
-    requestAnimationFrame(frame);
+    rafId = requestAnimationFrame(frame);
   }
 
   // Public API

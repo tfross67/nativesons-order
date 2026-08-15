@@ -5629,6 +5629,10 @@
           sweepMs: 600,
           onDone: () => { window.location.href = a.href; },
         });
+        // Safety net: navigate after 1.2s even if the sweep didn't finish
+        // (e.g. rAF was throttled). Prevents the user from being trapped on
+        // the current page if anything goes wrong with the animation.
+        setTimeout(() => { window.location.href = a.href; }, 1200);
       });
     });
 

@@ -4078,6 +4078,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=20260808-06"></script>
   <script src="cart.js?v=20260808-06"></script>
+  <script src="glimm-vanilla.js?v=20260815-01"></script>
   <script src="availability_data.js?v=20260808-06"></script>
   <script src="masteritem_full.js?v=20260808-06"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
@@ -5611,6 +5612,20 @@
         input.focus();
       });
     });
+
+    // === Glimm sweep — view switch ===
+    // Trigger a WebGL sweep band on every navigation to the compact
+    // table view. Both the inline search-panel link and the footer
+    // nav link point to compact-list.html; this catches both. The
+    // browser performs the actual navigation — the sweep is purely
+    // visual punctuation above it. Citrus palette reads as a fresh
+    // section-level transition.
+    document.querySelectorAll('a[href="compact-list.html"]').forEach((a) => {
+      a.addEventListener('click', () => {
+        if (window.__glimm) window.__glimm.trigger({ palette: 'citrus', sweepMs: 700 });
+      });
+    });
+
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') { e.preventDefault(); run(); }
     });
@@ -7340,6 +7355,11 @@
           if (slackPost) fired.push('Slack');
           const firedSummary = fired.length ? ` · ${fired.join(', ')}` : '';
           showToast(`Order ${orderNumber} placed!${firedSummary}`);
+          // Glimm sweep on submit success — celebrates the action. Runs
+          // before the toast fades so the user feels the moment of
+          // confirmation. Prism palette (default) reads as a clean
+          // completion bar.
+          if (window.__glimm) window.__glimm.trigger({ palette: 'prism', sweepMs: 800 });
         } catch (err) {
           console.error('Order submission failed:', err);
           showToast(`Order failed: ${err.message || 'please try again.'}`);

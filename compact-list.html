@@ -323,8 +323,9 @@
       }
       /* No data-label labels in list mode */
       table.list tbody td::before { content: none; }
-      /* Line 1: botanical name, full width */
-      td.botanical {
+      /* Line 1: botanical name, full width (out-specificity the
+         td { display: inline } reset above) */
+      table.list tbody td.botanical {
         display: block;
         font-size: 14px;
         font-weight: 600;

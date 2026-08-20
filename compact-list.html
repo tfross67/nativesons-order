@@ -290,60 +290,65 @@
       font-style: normal;
     }
 
-    /* Stacked-card table on phones. A real <table> with 6 nowrap
-       columns overflows a 390px viewport; instead each row becomes a
-       card with data-label/value pairs. The data-label attributes were
-       already in the markup for exactly this treatment. */
+    /* Compact LIST on phones. No card boxes, no label/value pairs —
+       just two text lines per plant:
+         line 1: botanical name (link)
+         line 2: ❀ 5gal / 1gal · 3-4' · 3-4' · $22.00
+       Hairline dividers between rows keep it a scannable list. */
     @media (max-width: 600px) {
       table.list thead { display: none; }
-      table.list,
-      table.list tbody,
-      table.list tr,
-      table.list td {
-        display: block;
-        width: 100%;
-      }
       table.list {
         border: none;
         background: transparent;
         overflow: visible;
       }
       table.list tbody tr {
-        background: #fff;
-        border: 1px solid var(--c-line);
-        border-radius: 10px;
-        padding: 10px 14px;
-        margin-bottom: 10px;
-        box-shadow: 0 1px 3px rgba(45, 74, 43, 0.06);
+        display: block;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #efeada;
+        border-radius: 0;
+        padding: 9px 4px;
+        margin-bottom: 0;
+        box-shadow: none;
       }
-      table.list tbody tr:nth-child(even) td { background: transparent; }
+      table.list tbody tr:last-child { border-bottom: 0; }
+      table.list tbody tr:nth-child(even) td,
       table.list tbody tr:hover td { background: transparent; }
       table.list tbody td {
+        display: inline;
         border: none;
-        padding: 3px 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: 10px;
+        padding: 0;
+        font-size: 12.5px;
       }
-      table.list tbody td::before {
-        content: attr(data-label);
-        font-family: var(--font-sans);
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--c-muted);
-        flex-shrink: 0;
+      /* No data-label labels in list mode */
+      table.list tbody td::before { content: none; }
+      /* Line 1: botanical name, full width */
+      td.botanical {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: normal;
+        margin-bottom: 2px;
       }
-      td.botanical { white-space: normal; }
-      td.botanical a.plant-link { border-bottom: none; }
-      td.status {
-        justify-content: space-between;
-        padding: 3px 0;
+      /* Line 2: bloom icon + size · height · width · price.
+         Note: these separators must out-specificity the
+         td::before { content: none } reset above. */
+      table.list tbody td.status img.bloom-icon {
+        width: 15px;
+        height: 15px;
+        margin: 0 6px 0 0;
+        vertical-align: -2px;
       }
-      td.status::before { content: "Status"; }
-      td.size .size-entry { white-space: normal; }
+      table.list tbody td.height::before,
+      table.list tbody td.width::before,
+      table.list tbody td.price::before {
+        content: "·";
+        margin: 0 6px;
+        color: var(--c-line);
+      }
+      table.list tbody td.size .size-sep { margin: 0 4px; }
+      table.list tbody td.price { font-size: 12.5px; font-weight: 600; }
     }
 
     /* === Pricing gate (mirror availability.html) ===

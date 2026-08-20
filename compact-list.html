@@ -254,6 +254,98 @@
       td.common, td.section { display: none; }
     }
 
+    /* ============================================================
+       MOBILE UX FIXES (table view)
+       ============================================================ */
+
+    /* iOS auto-zoom: the toolbar search input must be 16px on phones
+       or Safari zooms the viewport on focus. */
+    @media (max-width: 600px) {
+      .toolbar input[type="search"] { font-size: 16px; }
+    }
+
+    /* Sort select — hidden on desktop (thead headers sort there);
+       shown on mobile where the thead is collapsed into cards. */
+    .sort-select {
+      display: none;
+      padding: 8px 10px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--c-ink);
+      background: #fff;
+      border: 1px solid var(--c-line);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    @media (max-width: 600px) {
+      .sort-select {
+        display: inline-block;
+        flex: 0 0 auto;
+      }
+    }
+
+    /* Botanical names upright — matches the portal typography decision
+       (non-italic botanical names, serif accent dropped). */
+    td.botanical {
+      font-style: normal;
+    }
+
+    /* Stacked-card table on phones. A real <table> with 6 nowrap
+       columns overflows a 390px viewport; instead each row becomes a
+       card with data-label/value pairs. The data-label attributes were
+       already in the markup for exactly this treatment. */
+    @media (max-width: 600px) {
+      table.list thead { display: none; }
+      table.list,
+      table.list tbody,
+      table.list tr,
+      table.list td {
+        display: block;
+        width: 100%;
+      }
+      table.list {
+        border: none;
+        background: transparent;
+        overflow: visible;
+      }
+      table.list tbody tr {
+        background: #fff;
+        border: 1px solid var(--c-line);
+        border-radius: 10px;
+        padding: 10px 14px;
+        margin-bottom: 10px;
+        box-shadow: 0 1px 3px rgba(45, 74, 43, 0.06);
+      }
+      table.list tbody tr:nth-child(even) td { background: transparent; }
+      table.list tbody tr:hover td { background: transparent; }
+      table.list tbody td {
+        border: none;
+        padding: 3px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 10px;
+      }
+      table.list tbody td::before {
+        content: attr(data-label);
+        font-family: var(--font-sans);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--c-muted);
+        flex-shrink: 0;
+      }
+      td.botanical { white-space: normal; }
+      td.botanical a.plant-link { border-bottom: none; }
+      td.status {
+        justify-content: space-between;
+        padding: 3px 0;
+      }
+      td.status::before { content: "Status"; }
+      td.size .size-entry { white-space: normal; }
+    }
+
     /* === Pricing gate (mirror availability.html) ===
        Banner up top is always the CTA. Per-row "Sign in for pricing"
        is suppressed — visitors see no price column rather than a
@@ -299,8 +391,19 @@
     </div>
 
     <div class="toolbar">
-      <input type="search" id="q" placeholder="Filter by botanical name…" autocomplete="off" spellcheck="false">
+      <input type="search" id="q" placeholder="Filter by botanical name…" autocomplete="off" spellcheck="false" enterkeyhint="search" inputmode="search">
       <span class="count" id="count"></span>
+      <!-- Mobile-only sort control: the sortable column headers are
+           hidden in stacked-card layout on phones, so sorting moves
+           here. Desktop keeps the clickable th headers. -->
+      <select id="sortSel" class="sort-select" aria-label="Sort by">
+        <option value="botanical:1">Name (A–Z)</option>
+        <option value="botanical:-1">Name (Z–A)</option>
+        <option value="price:1">Price (low → high)</option>
+        <option value="price:-1">Price (high → low)</option>
+        <option value="status:1">In bloom first</option>
+        <option value="size:1">Size (smallest first)</option>
+      </select>
     </div>
 
     <table class="list" id="t">
@@ -452,6 +555,17 @@
           render();
         });
       });
+      // Mobile sort dropdown — mirrors the thead sort keys. The select
+      // only renders on ≤600px where the thead is collapsed.
+      const sortSel = document.getElementById('sortSel');
+      if (sortSel) {
+        sortSel.addEventListener('change', () => {
+          const [k, dir] = sortSel.value.split(':');
+          SORT_KEY = k;
+          SORT_DIR = Number(dir);
+          render();
+        });
+      }
 
       render();
     }

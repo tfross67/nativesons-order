@@ -267,9 +267,13 @@
     @media (max-width: 600px) {
       .chat-test-root .hero-band { padding: 22px 18px 20px; }
       .chat-test-root .hero-headline { font-size: 26px; }
-      .chat-test-root .hero-stats { flex-direction: column; align-items: flex-start; gap: 8px; }
-      .chat-test-root .hero-stat + .hero-stat { padding-left: 0; margin-left: 0; border-left: none; }
-      .chat-test-root .hero-stat-num { font-size: 28px; }
+      /* Stats stay on ONE horizontal row on mobile (flex column was
+         eating ~120px of vertical space and pushing the search box
+         below the fold). Smaller numbers + tighter dividers keep the
+         three figures scannable in a single glance. */
+      .chat-test-root .hero-stats { flex-direction: row; align-items: baseline; gap: 0; }
+      .chat-test-root .hero-stat + .hero-stat { padding-left: 10px; margin-left: 10px; border-left: 1px solid var(--c-line, #d8d2c2); }
+      .chat-test-root .hero-stat-num { font-size: 22px; }
       .chat-test-root .hero-stat-label { font-size: 10px; }
     }
     .chat-test-root .search-shell {
@@ -635,9 +639,21 @@
         overflow-x: auto;
         border-radius: 999px;
         scrollbar-width: none;
+        /* One-thumb paging: each tab snaps into view instead of
+           free-scrolling, so a flick lands on a whole tab. */
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
       }
       .chat-test-root .sort-tabs::-webkit-scrollbar { display: none; }
-      .chat-test-root .sort-tab { white-space: nowrap; }
+      .chat-test-root .sort-tab {
+        white-space: nowrap;
+        scroll-snap-align: start;
+        /* 44px touch target — tablist sits in the sticky shell so
+           small tabs are the one touch-target miss there. */
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+      }
     }
     .chat-test-root .sort-tab {
       padding: 5px 14px;
@@ -1672,8 +1688,17 @@
       .chat-test-root .search-table-link { font-size: 11px; }
       .chat-test-root .suggested { gap: 3px 7px; }
       .chat-test-root .suggested-label { font-size: 13px; }
-      .chat-test-root .suggestion { font-size: 12.5px; padding: 1px 3px; }
+      /* Suggestion chips: modest tap padding on mobile — they live in
+         the sticky shell so 44px would double its height; 8px vertical
+         padding keeps them tappable without pushing results down. */
+      .chat-test-root .suggestion { padding: 6px 6px; font-size: 13px; }
       .chat-test-root .result { padding: 12px; }
+      /* Mobile: card body is tappable (expands details) — show a
+         light press feedback so taps feel responsive. */
+      .chat-test-root .result:active {
+        transform: scale(0.985);
+        transition: transform 0.08s ease-out;
+      }
       .chat-test-root .result-image {
         width: 72px; height: 72px;
         top: -6px; right: -6px;
@@ -3689,6 +3714,38 @@
         padding-bottom: 10px;
       }
     }
+
+    /* Full-width view-cart bar on mobile — the floating pill becomes
+       a bottom docked bar spanning the viewport (standard retail
+       pattern): bigger tap target, count left, total right. */
+    @media (max-width: 600px) {
+      body .cart-bar {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        border-radius: 14px 14px 0 0;
+        padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0));
+        justify-content: space-between;
+        gap: 12px;
+        box-shadow: 0 -4px 24px rgba(45, 74, 43, 0.22);
+      }
+      body .cart-bar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 12px;
+      }
+      body .cart-bar-text {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-left: auto;
+      }
+      body .cart-bar-total { font-size: 16px; }
+      body .cart-bar-count { font-size: 14px; }
+    }
   </style>
 </head>
 <body>
@@ -3834,7 +3891,8 @@
         </span>
         <input type="search" id="chatSearch" class="search-input"
                placeholder='e.g. "red flowers in 1gal" or "drought tolerant ceanothus"'
-               autocomplete="off" aria-label="Search plants with natural language">
+               autocomplete="off" enterkeyhint="search" inputmode="search"
+               aria-label="Search plants with natural language">
         <button type="button" id="chatClear" class="search-input-clear" aria-label="Clear search" hidden>×</button>
         <a href="compact-list.html" class="search-table-link" title="View this week's availability as a compact text-only table">
           Table view →
@@ -5743,6 +5801,28 @@
           expand.textContent = 'Hide details';
         }
         return;
+      }
+      // Mobile tap-to-expand: on touch-sized screens, tapping the card
+      // BODY (photo/name/meta — anywhere that isn't a button, stepper,
+      // checkbox, or the details panel itself) toggles the details.
+      // Desktop keeps hover + the Details button; the dead card body
+      // was wasted real estate on phones.
+      const isTouchLayout = window.matchMedia('(max-width: 600px)').matches;
+      if (isTouchLayout) {
+        const card = e.target.closest('.result');
+        if (card && !e.target.closest('[data-select], [data-select-label], [data-add-to-order], .qty-card-stepper, .result-details, .result-expand')) {
+          const details = card.querySelector('.result-details');
+          const expandBtn = card.querySelector('[data-expand]');
+          if (details) {
+            const isOpen = details.hidden === false;
+            details.hidden = isOpen;
+            if (expandBtn) {
+              expandBtn.setAttribute('aria-expanded', String(!isOpen));
+              expandBtn.textContent = isOpen ? 'Details' : 'Hide details';
+            }
+            return;
+          }
+        }
       }
       const cb = e.target.closest('[data-select]');
       const label = e.target.closest('[data-select-label]');

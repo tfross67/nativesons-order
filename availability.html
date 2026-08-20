@@ -1701,6 +1701,12 @@
       .chat-test-root .action-btn { padding: 8px 12px; font-size: 13px; }
       /* Back-to-top: smaller, centered on mobile to avoid covering card content */
       .chat-test-root .back-to-top { bottom: 12px; right: 12px; padding: 8px 14px; font-size: 12px; }
+      /* When the floating cart pill is visible (bottom-right), lift
+         back-to-top above it so the two never overlap. :has() is
+         supported in all modern browsers. */
+      body:has(.cart-bar:not([hidden])) .chat-test-root .back-to-top {
+        bottom: calc(12px + 56px + 12px);  /* cart bar height + gaps */
+      }
       /* Filter summary chips wrap */
       .chat-test-root #filterSummary .pill { font-size: 11px; padding: 3px 8px; }
     }
@@ -3624,6 +3630,64 @@
     }
     .toast.is-error {
       background: #c14e2e;
+    }
+
+    /* ============================================================
+       MOBILE UX FIXES
+       ============================================================ */
+
+    /* iOS Safari auto-zooms the viewport whenever a text input with
+       font-size < 16px receives focus. That makes form fills feel
+       broken on phones (page suddenly jumps to 2x). Force 16px on
+       ALL text-like form controls on small screens — Apple's
+       documented threshold — so tapping a field never zooms.
+       Checkboxes/radios don't trigger zoom and keep their size. */
+    @media (max-width: 600px) {
+      body input:not([type="checkbox"]):not([type="radio"]),
+      body select,
+      body textarea {
+        font-size: 16px !important;
+      }
+    }
+
+    /* Minimum 44px touch targets (Apple HIG) for the primary
+       header action and the card add-to-order affordance. */
+    @media (max-width: 600px) {
+      body .pricing-link-header {
+        padding: 12px 20px;
+        font-size: 15px;
+      }
+      .chat-test-root .add-to-order-link {
+        padding-top: 8px;
+        padding-bottom: 9px;
+        min-height: 44px;
+        align-items: center;
+        display: inline-flex;
+      }
+      /* Selection bar action buttons — give them breathing room */
+      .chat-test-root .selection-bar .action-btn {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    /* Sticky search/filter shell on mobile — the catalog is 300+
+       plants (~19 screens of scrolling). Without a sticky search
+       the user must scroll all the way back to the top to refine.
+       Stick the whole 108px shell (input + suggested + sort tabs)
+       to the top with a solid backdrop so results scroll under it. */
+    @media (max-width: 600px) {
+      .chat-test-root .search-shell {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        border-radius: 0 0 14px 14px;
+        box-shadow: 0 6px 20px rgba(45, 74, 43, 0.12);
+        padding-top: 12px;
+        padding-bottom: 10px;
+      }
     }
   </style>
 </head>

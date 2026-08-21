@@ -28,8 +28,8 @@ import openpyxl
 ROOT = Path(__file__).parent
 XLSX = Path(sys.argv[1]) if len(sys.argv) > 1 else Path('/Users/tfross/.hermes/attachments/nativesonsexcelavail81726.xlsx')
 AVAIL = ROOT / 'availability_data.js'
-WEEK_HEADER = 'Week of August 17th, 2026'
-GENERATED = '2026-08-14'
+WEEK_HEADER = 'Week of August 24th, 2026'
+GENERATED = '2026-08-21'
 
 
 def norm(s: str) -> str:

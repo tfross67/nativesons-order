@@ -257,13 +257,35 @@ def main():
     new_flag_count = sum(1 for p in merged_plants if p.get('new'))
     in_stock = len(merged_plants)
     sold_out = len(existing) - sum(1 for plist in existing.values() for p in plist if id(p) in matched_existing)
-    print(f'\u2713 Generated {AVAIL}')
+    print(f'✓ Generated {AVAIL}')
     print(f'  Plants this week: {in_stock}')
     print(f'  In bloom:         {bloom_count}')
     print(f'  Budding:          {bud_count}')
     print(f'  New:              {new_flag_count}')
     print(f'  Sold out (dropped): {sold_out}')
     print(f'  File size:        {AVAIL.stat().st_size:,} bytes')
+
+    # Backfill missing enrichment from master catalog
+    # Round 73 (2026-08-21): ships in scripts/backfill_missing_enrichment.py so weekly
+    # refreshes self-heal when the master gets new entries or weekly entries land before
+    # master keys. The script renames weekly → master canonical + fills blank fields.
+    try:
+        import subprocess
+        backfill = Path(__file__).parent / 'backfill_missing_enrichment.py'
+        if backfill.exists():
+            r = subprocess.run(
+                ['python3', str(backfill), str(AVAIL)],
+                capture_output=True, text=True, timeout=120
+            )
+            if r.returncode == 0:
+                # Show only the summary lines from backfill, not the warnings
+                for line in r.stdout.splitlines():
+                    if any(k in line for k in ('Renames applied', 'Fields filled', 'Unmatched', 'Wrote')):
+                        print(f'  backfill: {line.strip()}')
+            else:
+                print(f'  backfill warning: {r.stderr.strip().splitlines()[-1] if r.stderr else "non-zero exit"}')
+    except Exception as e:
+        print(f'  backfill skipped: {e}')
 
 
 if __name__ == '__main__':

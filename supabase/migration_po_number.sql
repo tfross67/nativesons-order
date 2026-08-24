@@ -1,15 +1,3 @@
--- ============================================================
--- Migration: PO number on orders
--- Run in the Supabase SQL editor:
---   https://supabase.com/dashboard/project/ruwyfesblmaurfuiaofw/sql
--- Adds an optional customer purchase-order number to every order
--- and threads it through the submit_order RPC.
--- ============================================================
-
-alter table public.orders add column if not exists po_number text;
-
--- Updated submit_order: new trailing optional arg keeps any cached
--- callers without it working (they just store NULL).
 create or replace function public.submit_order(
   p_order_number text,
   p_customer_name text,
@@ -36,19 +24,19 @@ declare
   v_retail_line_total numeric;
   v_default_markup numeric;
 begin
-  -- Compute the most common markup across markup-mode line items (mode of the multipliers).
-  -- If multiple distinct multipliers are used, fall back to the largest.
+  -- Typical markup across markup-mode line items (median of multipliers).
   select coalesce(
-    (mode() within group (order by count(*) desc)),
+    percentile_cont(0.5) within group (order by m.mult),
     0
   ) into v_default_markup
   from (
-    select case
-      when v_item->>'retail_mode' = 'markup' and (v_item->>'unit_price')::numeric > 0
-        then round(((v_item->>'retail_price')::numeric / (v_item->>'unit_price')::numeric)::numeric, 3)
-      else null
-    end as mult
+    select round(
+      ((t.v_item->>'retail_price')::numeric / (t.v_item->>'unit_price')::numeric)::numeric,
+      3
+    ) as mult
     from jsonb_array_elements(p_items) as t(v_item)
+    where t.v_item->>'retail_mode' = 'markup'
+      and (t.v_item->>'unit_price')::numeric > 0
   ) m
   where m.mult is not null;
 
@@ -61,7 +49,8 @@ begin
   )
   returning id into v_order_id;
 
-  for v_item in select * from jsonb_array_elements(p_items)
+  for v_item in
+    select j.item from jsonb_array_elements(p_items) as j(item)
   loop
     v_retail_mode := coalesce(v_item->>'retail_mode', 'wholesale');
     v_retail_price := coalesce(nullif(v_item->>'retail_price','')::numeric, (v_item->>'unit_price')::numeric, 0);

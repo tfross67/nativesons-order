@@ -1064,6 +1064,7 @@
           <div>
             <dt>Phone</dt><dd>${o.customer_phone ? `<a href="tel:${esc(o.customer_phone)}">${esc(o.customer_phone)}</a>` : '—'}</dd>
             <dt>Company</dt><dd>${esc(o.customer_company || '—')}</dd>
+            <dt>PO Number</dt><dd>${esc(o.po_number || '—')}</dd>
           </div>
         </dl>
         ${o.notes ? `<p><strong>Notes:</strong> ${esc(o.notes)}</p>` : ''}
@@ -1124,13 +1125,14 @@
         // office can scan "how much" without hunting.
         const metaHeaders = [
           'Order', 'Date', 'Status', 'Customer', 'Email', 'Phone', 'Company',
-          'Qty', 'Plants', 'Wholesale', 'Retail', 'Notes'
+          'Qty', 'Plants', 'Wholesale', 'Retail', 'PO Number', 'Notes'
         ];
         const metaRow = [
           o.order_number, dateStr, o.status, o.customer_name, o.customer_email,
           o.customer_phone || '', o.customer_company || '',
           totalQty, (items || []).length,
           `$${totalWhsl.toFixed(2)}`, `$${totalRetl.toFixed(2)}`,
+          o.po_number || '',
           (o.notes || '').replace(/\n/g, ' ')
         ];
         lines.push(metaHeaders.map(csvEscape).join(','));
@@ -1212,6 +1214,7 @@
           `Email:\t${o.customer_email}\n` +
           `Phone:\t${o.customer_phone || ''}\n` +
           `Company:\t${o.customer_company || ''}\n` +
+          `PO Number:\t${o.po_number || ''}\n` +
           `Status:\t${o.status}\n` +
           `Plants:\t${(items || []).length}\n` +
           `Units:\t${(items || []).reduce((s, i) => s + (i.qty || 0), 0)}\n` +
@@ -1277,7 +1280,7 @@
         alert('No orders to export.');
         return;
       }
-      const headers = ['order_number', 'created_at', 'status', 'customer_name', 'customer_email', 'customer_phone', 'customer_company', 'item_count', 'subtotal', 'notes'];
+      const headers = ['order_number', 'created_at', 'status', 'customer_name', 'customer_email', 'customer_phone', 'customer_company', 'item_count', 'subtotal', 'po_number', 'notes'];
       const csv = [
         headers.join(','),
         ...allOrders.map(o => headers.map(h => {

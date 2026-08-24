@@ -33,6 +33,7 @@ interface OrderRecord {
   customer_phone: string | null;
   customer_company: string | null;
   notes: string | null;
+  po_number?: string | null;
   status: string;
   subtotal: number;
   item_count: number;
@@ -309,6 +310,13 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
     type: "section",
     text: { type: "mrkdwn", text: footerText },
   });
+
+  if (o.po_number) {
+    blocks.push({
+      type: "context",
+      elements: [{ type: "mrkdwn", text: `🧾 PO Number: ${o.po_number}` }],
+    });
+  }
 
   if (o.notes) {
     blocks.push({

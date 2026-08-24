@@ -4067,6 +4067,10 @@
         <input type="text" name="customer_company" autocomplete="organization">
       </label>
       <label class="form-field">
+        <span>PO Number</span>
+        <input type="text" name="po_number" placeholder="Your purchase order # (optional)">
+      </label>
+      <label class="form-field">
         <span>Notes (delivery, substitutions, etc.)</span>
         <textarea name="notes" rows="3"></textarea>
       </label>
@@ -7302,6 +7306,7 @@
           p_customer_phone: (formData.customer_phone || '').trim() || null,
           p_customer_company: (formData.customer_company || '').trim() || null,
           p_notes: (formData.notes || '').trim() || null,
+          p_po_number: (formData.po_number || '').trim() || null,
           p_subtotal: subtotal,
           p_retail_subtotal: retailSubtotal,
           p_item_count: Cart.getCount(),
@@ -7383,6 +7388,7 @@
                     customer_phone: formData.customer_phone,
                     customer_company: formData.customer_company,
                     notes: formData.notes,
+                    po_number: (formData.po_number || '').trim() || null,
                     subtotal: Cart.getSubtotal(),
                     retail_subtotal: Cart.getRetailSubtotal(),
                     item_count: Cart.getCount(),
@@ -7413,6 +7419,7 @@
                 customer_phone: formData.customer_phone,
                 customer_company: formData.customer_company,
                 notes: formData.notes,
+                po_number: (formData.po_number || '').trim() || null,
                 subtotal: Cart.getSubtotal(),
                 retail_subtotal: Cart.getRetailSubtotal(),
                 item_count: Cart.getCount(),

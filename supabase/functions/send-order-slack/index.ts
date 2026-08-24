@@ -203,30 +203,34 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
       `• ${cleanName}${sz}${codeTag} ×${i.qty}${pricePortion}${upcTag}${soFlag}`
     );
 
-    // Block Kit section: 2-column fields.
-    //   Left:  "**Name** (size)" + "qty ×N" subtext
-    //   Right: "$X.XX ea / $Y.YY total" + (if markup) "retail $Z.ZZ ea" subtext
-    // SPECIAL items get a third column on the right with the badge, so the
-    // marker reads as a deliberate flag rather than noise inline with the name.
+    // Block Kit section: 2-column fields, kept lean:
+    //   Left:  "**Name** (size)" + "Item <code> · UPC <upc>" reference line
+    //   Right: single price expression "N × $X.XX = $Y.YY" (retail strike
+    //          through when marked up). No separate "Qty:"/"units" lines —
+    //          the multiplier IS the quantity, so it appears exactly once
+    //          here and once in the footer totals.
     const nameLine = `*${cleanName}${sz}*`;
-    const qtyLine = `_Qty: ${i.qty}${i.item_code ? `  ·  ${i.item_code}` : ""}${i.upc ? `  ·  UPC ${i.upc}` : ""}_`;
+    const refBits = [
+      i.item_code ? `Item \`${i.item_code}\`` : null,
+      i.upc ? `UPC \`${i.upc}\`` : null,
+    ].filter(Boolean);
     const fields: { type: string; text: string }[] = [
-      { type: "mrkdwn", text: `${nameLine}\n${qtyLine}` },
+      { type: "mrkdwn", text: `${nameLine}${refBits.length ? `\n_${refBits.join("  ·  ")}_` : ""}` },
     ];
     if (lineHasMarkup && showRetail && !internalOrder) {
       fields.push({
         type: "mrkdwn",
-        text: `*$${fmt(Number(retailUnit))} ea  →  $${fmt(Number(i.retail_line_total))}*\n_Wholesale: ~~$${fmt(i.unit_price)}~~ → $${fmt(i.line_total)}_`,
+        text: `${i.qty} × ~~$${fmt(i.unit_price)}~~ → *$${fmt(Number(retailUnit))} = $${fmt(Number(i.retail_line_total))}*${effectiveMultiplier ? ` (×${fmt(effectiveMultiplier)} markup)` : ""}`,
       });
     } else if (markupModeButZero) {
       fields.push({
         type: "mrkdwn",
-        text: `*$${fmt(i.unit_price)} ea  →  $${fmt(i.line_total)}*\n_⚠️ markup mode ×1.00 — no markup applied_`,
+        text: `${i.qty} × $${fmt(i.unit_price)} = *$${fmt(i.line_total)}*\n_⚠️ markup mode ×1.00 — no markup applied_`,
       });
     } else {
       fields.push({
         type: "mrkdwn",
-        text: `*$${fmt(i.unit_price)} ea  →  $${fmt(i.line_total)}*\n_${i.qty} units_`,
+        text: `${i.qty} × $${fmt(i.unit_price)} = *$${fmt(i.line_total)}*`,
       });
     }
     // SPECIAL badge as a third column — gives the marker a home of its own

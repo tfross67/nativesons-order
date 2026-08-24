@@ -43,6 +43,7 @@ interface OrderRecord {
   customer_phone: string | null;
   customer_company: string | null;
   notes: string | null;
+  po_number?: string | null;
   status: string;
   subtotal: number;
   retail_subtotal?: number | null;
@@ -185,6 +186,7 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
           <tr><td style="padding:4px 0;"><strong>Email</strong></td><td><a href="mailto:${esc(o.customer_email)}" style="color:#2d4a2b;">${esc(o.customer_email)}</a></td></tr>
           ${o.customer_phone ? `<tr><td style="padding:4px 0;"><strong>Phone</strong></td><td><a href="tel:${esc(o.customer_phone)}" style="color:#2d4a2b;">${esc(o.customer_phone)}</a></td></tr>` : ""}
           ${o.customer_company ? `<tr><td style="padding:4px 0;"><strong>Company</strong></td><td>${esc(o.customer_company)}</td></tr>` : ""}
+          ${o.po_number ? `<tr><td style="padding:4px 0;"><strong>PO Number</strong></td><td>${esc(o.po_number)}</td></tr>` : ""}
           ${o.notes ? `<tr><td style="padding:4px 0; vertical-align: top;"><strong>Notes</strong></td><td style="white-space: pre-wrap;">${esc(o.notes)}</td></tr>` : ""}
         </table>
         ${toCustomer
@@ -210,6 +212,7 @@ function buildEmail(o: OrderRecord, items: OrderItem[], toCustomer: boolean): { 
     `Email: ${o.customer_email}`,
     o.customer_phone ? `Phone: ${o.customer_phone}` : null,
     o.customer_company ? `Company: ${o.customer_company}` : null,
+    o.po_number ? `PO Number: ${o.po_number}` : null,
     o.notes ? `Notes: ${o.notes}` : null,
   ].filter(Boolean).join("\n");
 

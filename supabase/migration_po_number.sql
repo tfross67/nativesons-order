@@ -48,7 +48,7 @@ begin
         then round(((v_item->>'retail_price')::numeric / (v_item->>'unit_price')::numeric)::numeric, 3)
       else null
     end as mult
-    from jsonb_array_elements(p_items) v_item
+    from jsonb_array_elements(p_items) as t(v_item)
   ) m
   where m.mult is not null;
 

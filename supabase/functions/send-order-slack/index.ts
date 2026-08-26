@@ -53,7 +53,6 @@ interface OrderPayload {
 const SLACK_WEBHOOK_URL = Deno.env.get("SLACK_WEBHOOK_URL") || "";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "https://ruwyfesblmaurfuiaofw.supabase.co";
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
-const ADMIN_URL = Deno.env.get("ADMIN_URL") || "https://tfross67.github.io/nativesons-order/admin.html";
 // Where the function appends each send. Used to detect duplicates from double-clicks.
 const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") || "";
 
@@ -328,19 +327,6 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
       elements: [{ type: "mrkdwn", text: `📝 ${o.notes}` }],
     });
   }
-
-  // Action buttons: link back to the admin panel for this order.
-  blocks.push({
-    type: "actions",
-    elements: [
-      {
-        type: "button",
-        text: { type: "plain_text", text: "Open in Admin Panel", emoji: true },
-        url: `${ADMIN_URL}?order=${encodeURIComponent(o.order_number)}`,
-        style: "primary",
-      },
-    ],
-  });
 
   return { text, blocks };
 }

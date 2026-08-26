@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="styles.css?v=20260815-05">
+  <link rel="stylesheet" href="styles.css?v=20260826-01">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -3804,7 +3804,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260821-03</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260826-01</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -4150,11 +4150,11 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260808-06"></script>
-  <script src="cart.js?v=20260808-06"></script>
+  <script src="supabase-config.js?v=20260826-01"></script>
+  <script src="cart.js?v=20260826-01"></script>
   <script src="glimm-vanilla.js?v=20260815-03"></script>
-  <script src="availability_data.js?v=20260821-03"></script>
-  <script src="masteritem_full.js?v=20260821-03"></script>
+  <script src="availability_data.js?v=20260826-01"></script>
+  <script src="masteritem_full.js?v=20260826-01"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -6440,7 +6440,12 @@
           .trim();
         for (const row of list) {
           // row.c = code, row.s = size, row.u = UPC, row.d = description
-          const key = `${normKey(row.d)}|${normKey(row.s)}`;
+          // Normalize the SIZE the same way lookupItemCode does — master
+          // stores sizes as "4\"", "5g", "1g" while the availability data
+          // uses "4in", "5gal", "1gal". Without this, the index key and
+          // the query key never align and 4in/1gal/5gal plants silently
+          // resolve to null (Slack/email/PDF render "—" for item code+UPC).
+          const key = `${normKey(row.d)}|${normKey(normalizeContainerSize(row.s))}`;
           masterItemIndex.set(key, { code: row.c, upc: row.u, description: row.d });
         }
         return masterItemIndex;

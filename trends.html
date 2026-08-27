@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Native Sons — 2026 Sales Trends</title>
+<style>
+:root {
+  --c-bark: #2d4a2b;
+  --c-paper: #f7f4ec;
+  --c-clay: #4a4438;
+  --c-cta: #3a5f3a;
+  --c-sage: #5d7a4a;
+  --c-warn: #b85c38;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--c-paper);
+  color: var(--c-clay);
+  margin: 0;
+  padding: 1.5rem;
+  line-height: 1.4;
+}
+h1 {
+  color: var(--c-bark);
+  font-size: 1.6rem;
+  margin: 0 0 0.25rem;
+}
+.subtitle {
+  color: var(--c-clay);
+  opacity: 0.7;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+.totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.tile {
+  background: white;
+  border: 1px solid #e5e1d4;
+  border-left: 4px solid var(--c-sage);
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+}
+.tile .label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-clay);
+  opacity: 0.7;
+}
+.tile .value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--c-bark);
+  margin-top: 0.25rem;
+}
+section { margin-bottom: 2rem; }
+section h2 {
+  color: var(--c-bark);
+  font-size: 1.1rem;
+  margin: 0 0 0.75rem;
+  border-bottom: 1px solid #d8d3c1;
+  padding-bottom: 0.4rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-size: 0.92rem;
+}
+th, td {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #ece8db;
+}
+th {
+  background: #f0ebd9;
+  font-weight: 600;
+  color: var(--c-bark);
+}
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr:hover { background: #faf6e7; }
+.neg { color: var(--c-warn); }
+.bar {
+  display: inline-block;
+  background: var(--c-sage);
+  height: 0.85rem;
+  vertical-align: middle;
+  border-radius: 2px;
+}
+.spark-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+  height: 120px;
+  padding: 0.5rem 0;
+  background: white;
+  border: 1px solid #e5e1d4;
+  border-radius: 4px;
+  padding: 1rem;
+}
+.spark-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
+.spark-bar {
+  width: 100%;
+  background: var(--c-sage);
+  border-radius: 2px 2px 0 0;
+  min-height: 1px;
+}
+.spark-bar.peak { background: var(--c-bark); }
+.spark-label { font-size: 0.7rem; color: var(--c-clay); opacity: 0.8; }
+.spark-val { font-size: 0.65rem; color: var(--c-clay); opacity: 0.6; }
+</style>
+</head>
+<body>
+
+<h1>Native Sons — 2026 Sales Trends</h1>
+<p class="subtitle">YTD overview, monthly trend, and last 12 weeks · generated 2026-08-26</p>
+
+<div class="totals">
+  <div class="tile">
+    <div class="label">YTD revenue</div>
+    <div class="value">$2,192,259.71</div>
+  </div>
+  <div class="tile">
+    <div class="label">YTD orders</div>
+    <div class="value">2,556</div>
+  </div>
+  <div class="tile">
+    <div class="label">Customers served</div>
+    <div class="value">403</div>
+  </div>
+  <div class="tile">
+    <div class="label">Avg order</div>
+    <div class="value">$857.69</div>
+  </div>
+</div>
+
+<section>
+<h2>YTD by rep</h2>
+<table>
+<thead><tr><th>Rep</th><th class="num">Orders</th><th class="num">Revenue</th><th class="num">Share</th><th class="num">Avg order</th></tr></thead>
+<tbody>
+<tr><td>Tim</td><td class="num">819</td><td class="num">$821,903.34</td><td class="num">37.5%</td><td class="num">$1,003.54</td></tr>
+<tr><td>John</td><td class="num">647</td><td class="num">$667,958.34</td><td class="num">30.5%</td><td class="num">$1,032.39</td></tr>
+<tr><td>Matthew</td><td class="num">298</td><td class="num">$345,758.49</td><td class="num">15.8%</td><td class="num">$1,160.26</td></tr>
+<tr><td>In-House</td><td class="num">277</td><td class="num">$238,923.01</td><td class="num">10.9%</td><td class="num">$862.54</td></tr>
+<tr><td>Pick Up</td><td class="num">450</td><td class="num">$107,955.56</td><td class="num">4.9%</td><td class="num">$239.90</td></tr>
+<tr><td>Rainie</td><td class="num">42</td><td class="num">$12,045.51</td><td class="num">0.5%</td><td class="num">$286.80</td></tr>
+<tr><td>—</td><td class="num">3</td><td class="num">$571.91</td><td class="num">0.0%</td><td class="num">$190.64</td></tr>
+<tr><td>Book</td><td class="num">1</td><td class="num">$324.80</td><td class="num">0.0%</td><td class="num">$324.80</td></tr>
+<tr><td>CRMatthew</td><td class="num">4</td><td class="num">($688.35)</td><td class="num">-0.0%</td><td class="num">($172.09)</td></tr>
+<tr><td>CRTim</td><td class="num">15</td><td class="num">($2,492.90)</td><td class="num">-0.1%</td><td class="num">($166.19)</td></tr>
+</tbody>
+<tfoot>
+<tr><td><strong>Total</strong></td><td class="num"><strong>2,556</strong></td><td class="num"><strong>$2,192,259.71</strong></td><td class="num">100.0%</td><td class="num"><strong>$857.69</strong></td></tr>
+</tfoot>
+</table>
+</section>
+
+<section>
+<h2>Monthly trend</h2>
+<table>
+<thead><tr><th>Month</th><th class="num">Orders</th><th class="num">Customers</th><th class="num">Revenue</th><th></th></tr></thead>
+<tbody>
+<tr><td>2026-01</td><td class="num">286</td><td class="num">154</td><td class="num">$250,656.67</td><td><span class="bar" style="width:158px"></span></td></tr>
+<tr><td>2026-02</td><td class="num">268</td><td class="num">153</td><td class="num">$231,619.24</td><td><span class="bar" style="width:146px"></span></td></tr>
+<tr><td>2026-03</td><td class="num">395</td><td class="num">184</td><td class="num">$395,535.33</td><td><span class="bar" style="width:250px"></span></td></tr>
+<tr><td>2026-04</td><td class="num">376</td><td class="num">190</td><td class="num">$345,218.74</td><td><span class="bar" style="width:218px"></span></td></tr>
+<tr><td>2026-05</td><td class="num">279</td><td class="num">147</td><td class="num">$219,892.02</td><td><span class="bar" style="width:138px"></span></td></tr>
+<tr><td>2026-06</td><td class="num">333</td><td class="num">177</td><td class="num">$266,594.57</td><td><span class="bar" style="width:168px"></span></td></tr>
+<tr><td>2026-07</td><td class="num">306</td><td class="num">155</td><td class="num">$225,336.79</td><td><span class="bar" style="width:142px"></span></td></tr>
+<tr><td>2026-08</td><td class="num">313</td><td class="num">168</td><td class="num">$257,406.35</td><td><span class="bar" style="width:162px"></span></td></tr>
+</tbody></table>
+</section>
+
+<section>
+<h2>Last 12 weeks</h2>
+<table>
+<thead><tr><th>Week starting</th><th class="num">Orders</th><th class="num">Customers</th><th class="num">Revenue</th><th></th></tr></thead>
+<tbody>
+<tr><td>Jun 08 – Jun 14</td><td class="num">84</td><td class="num">71</td><td class="num">$74,984.32</td><td><span class="bar" style="width:228px"></span></td></tr>
+<tr><td>Jun 15 – Jun 21</td><td class="num">65</td><td class="num">55</td><td class="num">$43,279.80</td><td><span class="bar" style="width:131px"></span></td></tr>
+<tr><td>Jun 22 – Jun 28</td><td class="num">75</td><td class="num">58</td><td class="num">$54,085.84</td><td><span class="bar" style="width:164px"></span></td></tr>
+<tr><td>Jun 29 – Jul 05</td><td class="num">60</td><td class="num">48</td><td class="num">$41,393.08</td><td><span class="bar" style="width:126px"></span></td></tr>
+<tr><td>Jul 06 – Jul 12</td><td class="num">73</td><td class="num">48</td><td class="num">$58,259.69</td><td><span class="bar" style="width:177px"></span></td></tr>
+<tr><td>Jul 13 – Jul 19</td><td class="num">69</td><td class="num">58</td><td class="num">$48,993.84</td><td><span class="bar" style="width:149px"></span></td></tr>
+<tr><td>Jul 20 – Jul 26</td><td class="num">92</td><td class="num">63</td><td class="num">$61,211.50</td><td><span class="bar" style="width:186px"></span></td></tr>
+<tr><td>Jul 27 – Aug 02</td><td class="num">48</td><td class="num">43</td><td class="num">$38,851.83</td><td><span class="bar" style="width:118px"></span></td></tr>
+<tr><td>Aug 03 – Aug 09</td><td class="num">84</td><td class="num">63</td><td class="num">$82,020.75</td><td><span class="bar" style="width:250px"></span></td></tr>
+<tr><td>Aug 10 – Aug 16</td><td class="num">85</td><td class="num">64</td><td class="num">$65,292.03</td><td><span class="bar" style="width:199px"></span></td></tr>
+<tr><td>Aug 17 – Aug 23</td><td class="num">85</td><td class="num">67</td><td class="num">$68,008.12</td><td><span class="bar" style="width:207px"></span></td></tr>
+<tr><td>Aug 24 – Aug 30</td><td class="num">59</td><td class="num">50</td><td class="num">$42,085.45</td><td><span class="bar" style="width:128px"></span></td></tr>
+</tbody></table>
+</section>
+
+<section>
+<h2>Weekly sparkline</h2>
+<div class="spark-row">
+<div class="spark-col"><div class="spark-bar " style="height:100px" title="Jun 08: $74,984.32"></div><div class="spark-val">$75k</div><div class="spark-label">06/08</div></div>
+<div class="spark-col"><div class="spark-bar " style="height:58px" title="Jun 15: $43,279.80"></div><div class="spark-val">$43k</div><div class="spark-label">06/15</div></div>
+<div class="spark-col"><div class="spark-bar " style="height:72px" title="Jun 22: $54,085.84"></div><div class="spark-val">$54k</div><div class="spark-label">06/22</div></div>
+<div class="spark-col"><div class="spark-bar " style="height:55px" title="Jun 29: $41,393.08"></div><div class="spark-val">$41k</div><div class="spark-label">06/29</div></div>
+<div class="spark-col"><div class="spark-bar " style="height:78px" title="Jul 06: $58,259.69"></div><div class="spark-val">$58k</div><div class="spark-label">07/06</div></div>
+<div class="spark-col"><div class="spark-bar " style="height:65px" title="Jul 13: $48,993.84"></div><div class="spark-val">$49k</div><div class="spark-label">07/13</div></div>
+<div class="spark-col"><div class="spark-bar " style="height:82px" title="Jul 20: $61,211.50"></div><div class="spark-val">$61k</div><div class="spark-label">07/20</div></div>
+<div class="spark-col"><div class="spark-bar " style="height:52px" title="Jul 27: $38,851.83"></div><div class="spark-val">$39k</div><div class="spark-label">07/27</div></div>
+<div class="spark-col"><div class="spark-bar peak" style="height:110px" title="Aug 03: $82,020.75"></div><div class="spark-val">$82k</div><div class="spark-label">08/03</div></div>
+<div class="spark-col"><div class="spark-bar " style="height:87px" title="Aug 10: $65,292.03"></div><div class="spark-val">$65k</div><div class="spark-label">08/10</div></div>
+<div class="spark-col"><div class="spark-bar " style="height:91px" title="Aug 17: $68,008.12"></div><div class="spark-val">$68k</div><div class="spark-label">08/17</div></div>
+<div class="spark-col"><div class="spark-bar " style="height:56px" title="Aug 24: $42,085.45"></div><div class="spark-val">$42k</div><div class="spark-label">08/24</div></div>
+</div>
+</section>
+
+</body>
+</html>

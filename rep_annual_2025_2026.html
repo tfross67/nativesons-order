@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Native Sons — Per-Rep Annual Sales: 2025 + 2026 YTD</title>
+<style>
+:root {
+  --c-bark: #2d4a2b;
+  --c-paper: #f7f4ec;
+  --c-clay: #4a4438;
+  --c-cta: #3a5f3a;
+  --c-sage: #5d7a4a;
+  --c-warn: #b85c38;
+  --c-up: #3a5f3a;
+  --c-down: #b85c38;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--c-paper);
+  color: var(--c-clay);
+  margin: 0;
+  padding: 1.5rem;
+  line-height: 1.4;
+}
+h1 { color: var(--c-bark); font-size: 1.6rem; margin: 0 0 0.25rem; }
+.subtitle { color: var(--c-clay); opacity: 0.7; font-size: 0.9rem; margin-bottom: 1.5rem; }
+section { margin-bottom: 2rem; }
+section h2 {
+  color: var(--c-bark); font-size: 1.1rem; margin: 0 0 0.75rem;
+  border-bottom: 1px solid #d8d3c1; padding-bottom: 0.4rem;
+}
+.totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.tile {
+  background: white;
+  border: 1px solid #e5e1d4;
+  border-left: 4px solid var(--c-sage);
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+}
+.tile.warn { border-left-color: var(--c-warn); }
+.tile.up { border-left-color: var(--c-up); }
+.tile.down { border-left-color: var(--c-down); }
+.tile .label {
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--c-clay); opacity: 0.7;
+}
+.tile .value {
+  font-size: 1.5rem; font-weight: 600; color: var(--c-bark); margin-top: 0.25rem;
+}
+.tile .delta { font-size: 0.85rem; margin-top: 0.25rem; }
+.up { color: var(--c-up); font-weight: 600; }
+.down { color: var(--c-down); font-weight: 600; }
+.muted { opacity: 0.4; }
+table { width: 100%; border-collapse: collapse; background: white; font-size: 0.9rem; }
+th, td { text-align: right; padding: 0.45rem 0.7rem; border-bottom: 1px solid #ece8db; }
+th { background: #f0ebd9; font-weight: 600; color: var(--c-bark); }
+th.rep-col, td.rep-col { text-align: left; }
+th.year-col, td.year-col { background: #faf6e7; }
+tr:hover { background: #faf6e7; }
+tfoot td { background: #f0ebd9; font-weight: 600; color: var(--c-bark); }
+.bar { display: inline-block; background: var(--c-sage); height: 0.7rem; vertical-align: middle; border-radius: 2px; }
+.legend { font-size: 0.85rem; margin-top: 0.5rem; color: var(--c-clay); opacity: 0.7; }
+</style>
+</head>
+<body>
+
+<h1>Native Sons — Per-Rep Annual Sales</h1>
+<p class="subtitle">2025 (full year) + 2026 (Jan–Aug) · generated 2026-08-26</p>
+
+<div class="totals">
+  <div class="tile">
+    <div class="label">2025 full-year revenue</div>
+    <div class="value">$3,189,322.99</div>
+    <div class="delta">3,723 orders · 478 customers</div>
+  </div>
+  <div class="tile">
+    <div class="label">2026 Jan–Aug revenue</div>
+    <div class="value">$2,192,259.71</div>
+    <div class="delta">2,556 orders · 403 customers</div>
+  </div>
+  <div class="tile down">
+    <div class="label">2026 vs 2025 (Jan–Aug)</div>
+    <div class="value">-6.6%</div>
+    <div class="delta">vs $2,348,158 in 2025 same period</div>
+  </div>
+  <div class="tile">
+    <div class="label">Total 2025 + 2026 YTD</div>
+    <div class="value">$5,381,582.70</div>
+    <div class="delta">6,279 orders across 19 months</div>
+  </div>
+</div>
+<section>
+<h2>Per-rep annual totals</h2>
+<table>
+<thead>
+<tr>
+<th class="rep-col">Rep</th>
+<th class="year-col">2025 revenue</th>
+<th class="year-col">2025 orders</th>
+<th class="year-col">2026 revenue</th>
+<th class="year-col">2026 orders</th>
+<th class="year-col">Combined</th>
+<th class="year-col">Combined orders</th>
+<th class="year-col">Share of 2025</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="rep-col"><strong>Tim</strong></td><td class="year-col">$1,230,374.51</td><td class="year-col">1,235</td><td class="year-col">$821,903.34</td><td class="year-col">819</td><td class="year-col">$2,052,277.85</td><td class="year-col">2,054</td><td class="year-col"><span class="bar" style="width:152px"></span>38.1%</td></tr>
+<tr><td class="rep-col"><strong>John</strong></td><td class="year-col">$957,268.58</td><td class="year-col">936</td><td class="year-col">$667,958.34</td><td class="year-col">647</td><td class="year-col">$1,625,226.92</td><td class="year-col">1,583</td><td class="year-col"><span class="bar" style="width:120px"></span>30.2%</td></tr>
+<tr><td class="rep-col"><strong>Matthew</strong></td><td class="year-col">$439,346.73</td><td class="year-col">364</td><td class="year-col">$345,758.49</td><td class="year-col">298</td><td class="year-col">$785,105.22</td><td class="year-col">662</td><td class="year-col"><span class="bar" style="width:58px"></span>14.6%</td></tr>
+<tr><td class="rep-col"><strong>In-House</strong></td><td class="year-col">$388,082.57</td><td class="year-col">447</td><td class="year-col">$238,923.01</td><td class="year-col">277</td><td class="year-col">$627,005.58</td><td class="year-col">724</td><td class="year-col"><span class="bar" style="width:46px"></span>11.7%</td></tr>
+<tr><td class="rep-col"><strong>Pick Up</strong></td><td class="year-col">$159,647.37</td><td class="year-col">689</td><td class="year-col">$107,955.56</td><td class="year-col">450</td><td class="year-col">$267,602.93</td><td class="year-col">1,139</td><td class="year-col"><span class="bar" style="width:19px"></span>5.0%</td></tr>
+<tr><td class="rep-col"><strong>Rainie</strong></td><td class="year-col">$14,221.96</td><td class="year-col">47</td><td class="year-col">$12,045.51</td><td class="year-col">42</td><td class="year-col">$26,267.47</td><td class="year-col">89</td><td class="year-col"><span class="bar" style="width:1px"></span>0.5%</td></tr>
+<tr><td class="rep-col"><strong>—</strong></td><td class="year-col">$377.52</td><td class="year-col">4</td><td class="year-col">$571.91</td><td class="year-col">3</td><td class="year-col">$949.43</td><td class="year-col">7</td><td class="year-col"><span class="bar" style="width:0px"></span>0.0%</td></tr>
+<tr><td class="rep-col"><strong>Book</strong></td><td class="year-col muted">—</td><td class="year-col muted">—</td><td class="year-col">$324.80</td><td class="year-col">1</td><td class="year-col">$324.80</td><td class="year-col">1</td><td class="year-col"><span class="bar" style="width:0px"></span>0.0%</td></tr>
+<tr><td class="rep-col"><strong>Brett</strong></td><td class="year-col">$3.75</td><td class="year-col">1</td><td class="year-col muted">—</td><td class="year-col muted">—</td><td class="year-col">$3.75</td><td class="year-col">1</td><td class="year-col"><span class="bar" style="width:0px"></span>0.0%</td></tr>
+<tr><td class="rep-col"><strong>CRMatthew</strong></td><td class="year-col muted">—</td><td class="year-col muted">—</td><td class="year-col">($688.35)</td><td class="year-col">4</td><td class="year-col">($688.35)</td><td class="year-col">4</td><td class="year-col"><span class="bar" style="width:0px"></span>-0.0%</td></tr>
+<tr><td class="rep-col"><strong>CRTim</strong></td><td class="year-col muted">—</td><td class="year-col muted">—</td><td class="year-col">($2,492.90)</td><td class="year-col">15</td><td class="year-col">($2,492.90)</td><td class="year-col">15</td><td class="year-col"><span class="bar" style="width:0px"></span>-0.0%</td></tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="rep-col"><strong>TOTAL</strong></td>
+<td class="year-col">$3,189,322.99</td>
+<td class="year-col">3,723</td>
+<td class="year-col">$2,192,259.71</td>
+<td class="year-col">2,556</td>
+<td class="year-col">$5,381,582.70</td>
+<td class="year-col">6,279</td>
+<td class="year-col">100.0%</td>
+</tr>
+</tfoot>
+</table>
+<p class="legend">"Share" is each rep's combined revenue (2025 + 2026 YTD) as % of all-rep combined total · 2026 YTD is partial (Jan–Aug)</p>
+</section>
+
+</body>
+</html>

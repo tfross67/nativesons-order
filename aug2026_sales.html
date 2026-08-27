@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Native Sons — August 2026 Sales</title>
+<style>
+:root {
+  --c-bark: #2d4a2b;
+  --c-paper: #f7f4ec;
+  --c-clay: #4a4438;
+  --c-cta: #3a5f3a;
+  --c-sage: #5d7a4a;
+  --c-warn: #b85c38;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--c-paper);
+  color: var(--c-clay);
+  margin: 0;
+  padding: 1.5rem;
+  line-height: 1.4;
+}
+h1 {
+  color: var(--c-bark);
+  font-size: 1.6rem;
+  margin: 0 0 0.25rem;
+  letter-spacing: 0.01em;
+}
+.subtitle {
+  color: var(--c-clay);
+  opacity: 0.7;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+.totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.tile {
+  background: white;
+  border: 1px solid #e5e1d4;
+  border-left: 4px solid var(--c-sage);
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+}
+.tile.warn { border-left-color: var(--c-warn); }
+.tile .label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-clay);
+  opacity: 0.7;
+}
+.tile .value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--c-bark);
+  margin-top: 0.25rem;
+}
+section { margin-bottom: 2rem; }
+section h2 {
+  color: var(--c-bark);
+  font-size: 1.1rem;
+  margin: 0 0 0.75rem;
+  border-bottom: 1px solid #d8d3c1;
+  padding-bottom: 0.4rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-size: 0.92rem;
+}
+th, td {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #ece8db;
+}
+th {
+  background: #f0ebd9;
+  font-weight: 600;
+  color: var(--c-bark);
+}
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr:hover { background: #faf6e7; }
+.neg { color: var(--c-warn); }
+.muted { opacity: 0.55; }
+.bar {
+  display: inline-block;
+  background: var(--c-sage);
+  height: 0.85rem;
+  vertical-align: middle;
+  border-radius: 2px;
+  margin-right: 0.5rem;
+}
+</style>
+</head>
+<body>
+
+<h1>Native Sons — August 2026 Sales</h1>
+<p class="subtitle">Generated 2026-08-26 from FileMaker export · 313 orders across 21 active days</p>
+
+<div class="totals">
+  <div class="tile">
+    <div class="label">Total revenue</div>
+    <div class="value">$257,406.35</div>
+  </div>
+  <div class="tile">
+    <div class="label">Orders</div>
+    <div class="value">313</div>
+  </div>
+  <div class="tile">
+    <div class="label">Avg order</div>
+    <div class="value">$822.38</div>
+  </div>
+  <div class="tile">
+    <div class="label">Active days</div>
+    <div class="value">21</div>
+  </div>
+</div>
+
+<section>
+<h2>By sales rep</h2>
+<table>
+<thead><tr><th>Rep</th><th class="num">Orders</th><th class="num">Revenue</th><th class="num">Avg order</th></tr></thead>
+<tbody>
+<tr><td>Tim</td><td class="num">89</td><td class="num">$93,675.68</td><td class="num">$1,052.54</td></tr>
+<tr><td>John</td><td class="num">72</td><td class="num">$73,639.50</td><td class="num">$1,022.77</td></tr>
+<tr><td>In-House</td><td class="num">37</td><td class="num">$40,878.43</td><td class="num">$1,104.82</td></tr>
+<tr><td>Matthew</td><td class="num">36</td><td class="num">$37,868.76</td><td class="num">$1,051.91</td></tr>
+<tr><td>Pick Up</td><td class="num">57</td><td class="num">$12,156.79</td><td class="num">$213.28</td></tr>
+<tr><td>Rainie</td><td class="num">7</td><td class="num">$1,210.00</td><td class="num">$172.86</td></tr>
+<tr><td>Book</td><td class="num">1</td><td class="num">$324.80</td><td class="num">$324.80</td></tr>
+<tr><td>CRMatthew</td><td class="num">3</td><td class="num" class="neg">($452.10)</td><td class="num">($150.70)</td></tr>
+<tr><td>CRTim</td><td class="num">11</td><td class="num" class="neg">($1,895.50)</td><td class="num">($172.32)</td></tr>
+</tbody></table>
+</section>
+
+<section>
+<h2>By week</h2>
+<table>
+<thead><tr><th>Week starting</th><th class="num">Orders</th><th class="num">Revenue</th><th class="num">Avg/day</th></tr></thead>
+<tbody>
+<tr><td>Aug 03 – Aug 09</td><td class="num">84</td><td class="num">$82,020.75</td><td class="num">$16,404.15</td></tr>
+<tr><td>Aug 10 – Aug 16</td><td class="num">85</td><td class="num">$65,292.03</td><td class="num">$10,882.01</td></tr>
+<tr><td>Aug 17 – Aug 23</td><td class="num">85</td><td class="num">$68,008.12</td><td class="num">$9,715.45</td></tr>
+<tr><td>Aug 24 – Aug 30</td><td class="num">59</td><td class="num">$42,085.45</td><td class="num">$14,028.48</td></tr>
+</tbody></table>
+</section>
+
+<section>
+<h2>Daily</h2>
+<table>
+<thead><tr><th>Date</th><th class="num">Orders</th><th class="num">Revenue</th><th></th></tr></thead>
+<tbody>
+<tr><td>Mon Aug 03</td><td class="num">25</td><td class="num">$22,906.61</td><td><span class="bar" style="width:105px"></span></td></tr>
+<tr><td>Tue Aug 04</td><td class="num">16</td><td class="num">$17,675.06</td><td><span class="bar" style="width:81px"></span></td></tr>
+<tr><td>Wed Aug 05</td><td class="num">25</td><td class="num">$26,341.89</td><td><span class="bar" style="width:121px"></span></td></tr>
+<tr><td>Thu Aug 06</td><td class="num">11</td><td class="num">$10,880.05</td><td><span class="bar" style="width:50px"></span></td></tr>
+<tr><td>Fri Aug 07</td><td class="num">7</td><td class="num">$4,217.13</td><td><span class="bar" style="width:19px"></span></td></tr>
+<tr><td>Mon Aug 10</td><td class="num">35</td><td class="num">$32,606.08</td><td><span class="bar" style="width:150px"></span></td></tr>
+<tr><td>Tue Aug 11</td><td class="num">20</td><td class="num">$14,319.48</td><td><span class="bar" style="width:65px"></span></td></tr>
+<tr><td>Wed Aug 12</td><td class="num">10</td><td class="num">$4,222.95</td><td><span class="bar" style="width:19px"></span></td></tr>
+<tr><td>Thu Aug 13</td><td class="num">3</td><td class="num">$619.50</td><td><span class="bar" style="width:2px"></span></td></tr>
+<tr><td>Fri Aug 14</td><td class="num">6</td><td class="num">$1,163.51</td><td><span class="bar" style="width:5px"></span></td></tr>
+<tr><td>Sun Aug 16</td><td class="num">11</td><td class="num">$12,360.51</td><td><span class="bar" style="width:56px"></span></td></tr>
+<tr><td>Mon Aug 17</td><td class="num">30</td><td class="num">$23,958.94</td><td><span class="bar" style="width:110px"></span></td></tr>
+<tr><td>Tue Aug 18</td><td class="num">21</td><td class="num">$22,361.60</td><td><span class="bar" style="width:102px"></span></td></tr>
+<tr><td>Wed Aug 19</td><td class="num">19</td><td class="num">$12,248.26</td><td><span class="bar" style="width:56px"></span></td></tr>
+<tr><td>Thu Aug 20</td><td class="num">8</td><td class="num">$6,557.88</td><td><span class="bar" style="width:30px"></span></td></tr>
+<tr><td>Fri Aug 21</td><td class="num">4</td><td class="num">$1,281.49</td><td><span class="bar" style="width:5px"></span></td></tr>
+<tr><td>Sat Aug 22</td><td class="num">1</td><td class="num">$180.00</td><td><span class="bar" style="width:0px"></span></td></tr>
+<tr><td>Sun Aug 23</td><td class="num">2</td><td class="num">$1,419.94</td><td><span class="bar" style="width:6px"></span></td></tr>
+<tr><td>Mon Aug 24</td><td class="num">26</td><td class="num">$15,845.03</td><td><span class="bar" style="width:72px"></span></td></tr>
+<tr><td>Tue Aug 25</td><td class="num">17</td><td class="num">$11,437.96</td><td><span class="bar" style="width:52px"></span></td></tr>
+<tr><td>Wed Aug 26</td><td class="num">16</td><td class="num">$14,802.47</td><td><span class="bar" style="width:68px"></span></td></tr>
+</tbody></table>
+</section>
+
+<section>
+<h2>Top customers</h2>
+<table>
+<thead><tr><th>Customer</th><th>Code</th><th class="num">Orders</th><th class="num">Revenue</th><th class="num">Avg order</th></tr></thead>
+<tbody>
+<tr><td>JJ's Backyard</td><td>jjsbac</td><td class="num">6</td><td class="num">$10,860.76</td><td class="num">$1,810.13</td></tr>
+<tr><td>Plant Depot</td><td>pladep</td><td class="num">6</td><td class="num">$7,996.84</td><td class="num">$1,332.81</td></tr>
+<tr><td>CNL Native Plant Nursery</td><td>cnl</td><td class="num">3</td><td class="num">$6,193.42</td><td class="num">$2,064.47</td></tr>
+<tr><td>Devil Mountain Wholesale Nursery--San Ramon</td><td>dmnur</td><td class="num">6</td><td class="num">$5,853.48</td><td class="num">$975.58</td></tr>
+<tr><td>Urban Tree Farm Nursery</td><td>utfnur</td><td class="num">1</td><td class="num">$5,562.48</td><td class="num">$5,562.48</td></tr>
+<tr><td>Armstrong Garden Center--Santa Monica</td><td>arm702</td><td class="num">4</td><td class="num">$5,142.13</td><td class="num">$1,285.53</td></tr>
+<tr><td>Green Thumb Growing Grounds</td><td>gtcp</td><td class="num">2</td><td class="num">$5,040.42</td><td class="num">$2,520.21</td></tr>
+<tr><td>Armstrong Garden Center--Long Beach</td><td>arm705</td><td class="num">7</td><td class="num">$4,773.78</td><td class="num">$681.97</td></tr>
+<tr><td>Roger's Gardens</td><td>roggar</td><td class="num">4</td><td class="num">$4,579.64</td><td class="num">$1,144.91</td></tr>
+<tr><td>Certified Plant Growers - Huntington Beach</td><td>cpghb</td><td class="num">4</td><td class="num">$4,230.12</td><td class="num">$1,057.53</td></tr>
+<tr><td>Half Moon Bay Nursery</td><td>hmbnur</td><td class="num">3</td><td class="num">$4,128.90</td><td class="num">$1,376.30</td></tr>
+<tr><td>Sperber</td><td>sperber</td><td class="num">1</td><td class="num">$3,902.77</td><td class="num">$3,902.77</td></tr>
+<tr><td>Yamagami's Nursery</td><td>yamnur</td><td class="num">4</td><td class="num">$3,876.10</td><td class="num">$969.02</td></tr>
+<tr><td>Armstrong Garden Center--Torrance</td><td>arm707</td><td class="num">4</td><td class="num">$3,653.95</td><td class="num">$913.49</td></tr>
+<tr><td>Walter Andersen Nursery</td><td>wapow</td><td class="num">5</td><td class="num">$3,581.94</td><td class="num">$716.39</td></tr>
+<tr><td>C & S Nursery</td><td>csnur</td><td class="num">3</td><td class="num">$3,577.50</td><td class="num">$1,192.50</td></tr>
+<tr><td>Carol Bornstein</td><td>carbor</td><td class="num">1</td><td class="num">$3,511.20</td><td class="num">$3,511.20</td></tr>
+<tr><td>Bart O'Brien</td><td>eastbot</td><td class="num">1</td><td class="num">$3,511.20</td><td class="num">$3,511.20</td></tr>
+<tr><td>Armstrong Garden Center--H.B. South</td><td>arm736</td><td class="num">6</td><td class="num">$3,229.04</td><td class="num">$538.17</td></tr>
+<tr><td>Seaside Gardens</td><td>seagar</td><td class="num">2</td><td class="num">$3,161.81</td><td class="num">$1,580.90</td></tr>
+<tr><td>Walter Andersen Nursery</td><td>wasd</td><td class="num">2</td><td class="num">$3,063.43</td><td class="num">$1,531.71</td></tr>
+<tr><td>East Bay Nursery Inc.</td><td>ebnur</td><td class="num">3</td><td class="num">$3,042.98</td><td class="num">$1,014.33</td></tr>
+<tr><td>ProBuilding Holdings LLC.</td><td>lumgar</td><td class="num">5</td><td class="num">$2,952.11</td><td class="num">$590.42</td></tr>
+<tr><td>Planting Justice</td><td>plajus</td><td class="num">3</td><td class="num">$2,925.10</td><td class="num">$975.03</td></tr>
+<tr><td>Barrels and Branches</td><td>bbgar</td><td class="num">3</td><td class="num">$2,861.22</td><td class="num">$953.74</td></tr>
+</tbody></table>
+</section>
+
+</body>
+</html>

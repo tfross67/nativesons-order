@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Native Sons — Sales Dashboard</title>
+<style>
+:root {
+  --ink: #2d4a2b;     /* var(--c-bark) */
+  --paper: #fbfaf6;
+  --warm: #f9e9d4;
+  --warm-2: #fce0b8;
+  --warm-bd: #e8b870;
+  --rose: #c8648a;
+  --border: #e8e2cf;
+  --muted: #6b6b6b;
+  --slate: #4a4a4a;
+  --fs-h: 22px;
+  --fs-body: 14px;
+  --fs-stat: 36px;
+  --fs-pill: 11px;
+  --r: 6px;
+  --r-lg: 12px;
+}
+* { box-sizing: border-box; }
+body {
+  font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", Helvetica, Arial, sans-serif;
+  margin: 0; padding: 32px 16px 64px;
+  color: var(--ink); background: var(--paper);
+}
+.wrap { max-width: 1100px; margin: 0 auto; }
+header {
+  display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+  padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 24px;
+}
+h1 { font: 700 var(--fs-h)/1.1 Georgia, serif; margin: 0; letter-spacing: -0.01em; }
+header .sub { color: var(--muted); font-size: 13px; }
+header .meta { margin-left: auto; color: var(--muted); font-size: 12px; text-align: right; line-height: 1.5; }
+.stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 24px; }
+.stat {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 14px 18px; box-shadow: 0 1px 3px rgba(45, 74, 43, 0.04);
+}
+.stat .num { font: 700 var(--fs-stat)/1 Georgia, serif; letter-spacing: -0.02em; }
+.stat .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+.stat .yoy { display: inline-block; margin-top: 6px; padding: 1px 7px; border-radius: 999px;
+            font-size: 12px; font-weight: 600;
+            background: #eee; color: var(--ink); border: 1px solid #ccc; }
+.grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
+@media (min-width: 900px) { .grid-2 {{ grid-template-columns: 1fr 1fr; } }}
+.card {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 16px 18px 14px; box-shadow: 0 1px 3px rgba(45, 74, 43, 0.04);
+}
+.card h2 { font: 700 15px/1.2 Georgia, serif; margin: 0 0 12px 0; }
+.card .source { color: var(--muted); font-size: 11px; margin-left: 8px; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--border); }
+th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+td.num, th.num { text-align: right; font-feature-settings: 'tnum'; }
+tr:last-child td { border-bottom: none; }
+.bar { height: 8px; background: var(--warm); border-radius: 999px; min-width: 4px; }
+.legend { font-size: 12px; color: var(--muted); margin-top: 8px; }
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+.empty { color: var(--muted); font-style: italic; padding: 12px 0; }
+.chart-svg { width: 100%; height: 220px; display: block; }
+.tt { position: absolute; pointer-events: none; background: #fff; border: 1px solid var(--border); border-radius: 4px;
+      padding: 4px 8px; font-size: 11px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); white-space: nowrap; }
+</style>
+</head>
+<body>
+<!-- Password gate. JS-only client-side prompt; the dashboard contents are
+     wrapped in <div id="dash" hidden> until the user enters the password.
+     A SHA-256 of the password is baked at build time; this is NOT real
+     security (any determined attacker can read or patch the JS), but it
+     raises the bar above a view-source plaintext. -->
+<div id="gate" style="max-width:360px;margin:80px auto 0;padding:32px 28px;background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:0 1px 4px rgba(45,74,43,0.05);text-align:center;">
+  <h1 style="font:700 18px/1.3 Georgia,serif;margin:0 0 8px;color:var(--ink)">Sales Dashboard</h1>
+  <p style="margin:0 0 18px;color:var(--muted);font-size:13px">Enter the password to view.</p>
+  <form id="gateForm" autocomplete="off" style="display:flex;gap:8px">
+    <input id="pwInput" type="password" required autofocus placeholder="Password" style="flex:1;padding:8px 10px;border:1px solid var(--border);border-radius:var(--r);font:inherit">
+    <button type="submit" style="padding:8px 14px;background:var(--ink);color:var(--paper);border:0;border-radius:var(--r);font:600 13px/1 inherit;cursor:pointer">Open</button>
+  </form>
+  <p id="gateErr" style="display:none;margin:14px 0 0;color:#a23030;font-size:13px">Wrong password.</p>
+</div>
+<script>
+(() => {
+  // Hash entered value with same SHA-256 the build script used; compare.
+  // The expected hash is injected at build time as __PW_HASH__.
+  const EXPECTED = "f46b3b7c51b2d69c81b6e10ec769087051031bbf13e37f24f7ef7a969e33ca05";
+  // Sales dashboard link hint for share-URL: customer can browse the
+  // shared /sales_dashboard.html once they know the password. We DON'T
+  // write a path or guessable token here on purpose -- the gate is a soft
+  // speed bump, not real auth.
+  const form = document.getElementById('gateForm');
+  const input = document.getElementById('pwInput');
+  const err   = document.getElementById('gateErr');
+
+  async function sha256(str) {
+    const buf = new TextEncoder().encode(str);
+    const hash = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const got = await sha256(input.value);
+    if (got === EXPECTED) {
+      document.getElementById('gate').remove();
+      document.getElementById('dash').hidden = false;
+      sessionStorage.setItem("ns_dash_ok", "1");
+      // The IIFEs that drew the SVGs (renderYearly/renderMonthly) ran at
+      // parse time and painted into the still-hidden #dash -- they're
+      // already in place, unhide reveals them. No re-render needed.
+      window.scrollTo(0, 0);
+    } else {
+      err.style.display = 'block';
+      input.select();
+    }
+  });
+  // Already-unlocked-this-session convenience: if sessionStorage was set,
+  // skip the prompt. sessionStorage clears on tab close. Note: this is the
+  // browser-grade UX; the gate is otherwise always re-asked.
+  if (sessionStorage.getItem("ns_dash_ok") === "1") {
+    document.getElementById('gate').remove();
+    document.getElementById('dash').hidden = false;
+  } else {
+    // Keep the password gate focused by default
+    setTimeout(() => input && input.focus(), 0);
+  }
+})();
+</script>
+<div class="wrap" id="dash" hidden>
+  <header>
+    <h1>Native Sons — Sales Dashboard</h1>
+    <span class="sub">Invoices &amp; line items from 27January06.fmp12</span>
+    <span class="meta">
+      <span>Source: <code style="background:transparent">nssalesdata.csv</code></span><br>
+      <span>Range: 2026 – 2026 (last ship 2026-08-26)</span><br>
+      <span>Generated: 2026-08-26</span><br>
+      <span>Build: <code>20260826-01</code></span>
+    </span>
+  </header>
+
+  <section class="stat-row">
+    <div class="stat">
+      <div class="num">$33.52M</div>
+      <div class="label">Lifetime revenue (line items)</div>
+    </div>
+    <div class="stat">
+      <div class="num">37,855</div>
+      <div class="label">Invoices</div>
+    </div>
+    <div class="stat">
+      <div class="num">40,229</div>
+      <div class="label">Line items</div>
+    </div>
+    <div class="stat">
+      <div class="num">$33.52M</div>
+      <div class="label">Revenue, 2026</div>
+      
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Yearly revenue <span class="source">2016 – current</span></h2>
+    <div id="yearly-chart"></div>
+    <div class="legend">
+      <span class="swatch" style="background:#7a4818"></span> Wholesale line-item revenue, by ship year
+    </div>
+  </section>
+
+  <section class="grid grid-2" style="margin-top:22px">
+    <div class="card">
+      <h2>Top customers</h2>
+      <table>
+        <thead><tr><th>Customer</th><th class="num">Revenue</th><th class="num">Invoices</th><th class="num">Lines</th></tr></thead>
+        <tbody><tr><td><strong>fknur</strong> &nbsp;<span style="color:#666">FK Nursery - CLOSED</span></td><td class="num">$1.82M</td><td class="num">1,351</td><td class="num">1,346</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:95%"></div></td></tr>
+<tr><td><strong>dmnur</strong> &nbsp;<span style="color:#666">Devil Mountain Wholesale Nurse…</span></td><td class="num">$1.79M</td><td class="num">1,197</td><td class="num">1,192</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:94%"></div></td></tr>
+<tr><td><strong>roggar</strong> &nbsp;<span style="color:#666">Roger's Gardens</span></td><td class="num">$733.5k</td><td class="num">420</td><td class="num">456</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:38%"></div></td></tr>
+<tr><td><strong>pladep</strong> &nbsp;<span style="color:#666">Plant Depot</span></td><td class="num">$712.5k</td><td class="num">562</td><td class="num">549</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:37%"></div></td></tr>
+<tr><td><strong>pacnur</strong> &nbsp;<span style="color:#666">Pacific Nurseries</span></td><td class="num">$637.0k</td><td class="num">203</td><td class="num">201</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:33%"></div></td></tr>
+<tr><td><strong>arm707</strong> &nbsp;<span style="color:#666">Armstrong Garden Center--Torra…</span></td><td class="num">$509.4k</td><td class="num">318</td><td class="num">501</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:26%"></div></td></tr>
+<tr><td><strong>arm702</strong> &nbsp;<span style="color:#666">Armstrong Garden Center--Santa…</span></td><td class="num">$494.6k</td><td class="num">340</td><td class="num">562</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:26%"></div></td></tr>
+<tr><td><strong>csnur</strong> &nbsp;<span style="color:#666">C & S Nursery</span></td><td class="num">$438.3k</td><td class="num">242</td><td class="num">240</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:23%"></div></td></tr>
+<tr><td><strong>vilhb</strong> &nbsp;<span style="color:#666">SIteOne Landscape Supply</span></td><td class="num">$419.6k</td><td class="num">308</td><td class="num">312</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:22%"></div></td></tr>
+<tr><td><strong>arm705</strong> &nbsp;<span style="color:#666">Armstrong Garden Center--Long …</span></td><td class="num">$410.3k</td><td class="num">322</td><td class="num">489</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:21%"></div></td></tr>
+<tr><td><strong>vilorar</strong> &nbsp;<span style="color:#666">SiteOne Landscape Supply</span></td><td class="num">$407.7k</td><td class="num">295</td><td class="num">290</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:21%"></div></td></tr>
+<tr><td><strong>arm751</strong> &nbsp;<span style="color:#666">Armstrong Garden Center--Costa…</span></td><td class="num">$406.1k</td><td class="num">305</td><td class="num">404</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:21%"></div></td></tr>
+<tr><td><strong>oganur</strong> &nbsp;<span style="color:#666">Ogawa-Mune Inc.</span></td><td class="num">$383.3k</td><td class="num">307</td><td class="num">297</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:20%"></div></td></tr>
+<tr><td><strong>calflo</strong> &nbsp;<span style="color:#666">California Flora Nursery</span></td><td class="num">$355.7k</td><td class="num">173</td><td class="num">168</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:18%"></div></td></tr>
+<tr><td><strong>intgar</strong> &nbsp;<span style="color:#666">International Garden Center, I…</span></td><td class="num">$343.3k</td><td class="num">328</td><td class="num">320</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:18%"></div></td></tr>
+<tr><td><strong>winnur</strong> &nbsp;<span style="color:#666">Windmill Nursery</span></td><td class="num">$327.5k</td><td class="num">190</td><td class="num">183</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:17%"></div></td></tr>
+<tr><td><strong>wasd</strong> &nbsp;<span style="color:#666">Walter Andersen Nursery</span></td><td class="num">$325.6k</td><td class="num">263</td><td class="num">254</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:17%"></div></td></tr>
+<tr><td><strong>arm720</strong> &nbsp;<span style="color:#666">Armstrong Garden Center--Tusti…</span></td><td class="num">$303.8k</td><td class="num">276</td><td class="num">340</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:16%"></div></td></tr>
+<tr><td><strong>arm741</strong> &nbsp;<span style="color:#666">Armstrong Garden Center--Newpo…</span></td><td class="num">$303.7k</td><td class="num">263</td><td class="num">322</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:16%"></div></td></tr>
+<tr><td><strong>gtel</strong> &nbsp;<span style="color:#666">Greenthumb International Nurse…</span></td><td class="num">$298.6k</td><td class="num">236</td><td class="num">366</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:15%"></div></td></tr>
+<tr><td><strong>arm736</strong> &nbsp;<span style="color:#666">Armstrong Garden Center--H.B. …</span></td><td class="num">$298.5k</td><td class="num">322</td><td class="num">382</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:15%"></div></td></tr>
+<tr><td><strong>arm737</strong> &nbsp;<span style="color:#666">Armstrong Garden Center--Pasad…</span></td><td class="num">$292.7k</td><td class="num">211</td><td class="num">268</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:15%"></div></td></tr>
+<tr><td><strong>mdrgar</strong> &nbsp;<span style="color:#666">Marina Del Rey Garden Center</span></td><td class="num">$285.6k</td><td class="num">162</td><td class="num">158</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:15%"></div></td></tr>
+<tr><td><strong>vhnur</strong> &nbsp;<span style="color:#666">Valley Hills Nursery</span></td><td class="num">$284.7k</td><td class="num">226</td><td class="num">215</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:15%"></div></td></tr>
+<tr><td><strong>lumgar</strong> &nbsp;<span style="color:#666">ProBuilding Holdings LLC.</span></td><td class="num">$279.0k</td><td class="num">237</td><td class="num">382</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:14%"></div></td></tr>
+<tr><td><strong>arm735</strong> &nbsp;<span style="color:#666">Armstrong Garden Center--Westc…</span></td><td class="num">$278.4k</td><td class="num">280</td><td class="num">350</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:14%"></div></td></tr>
+<tr><td><strong>gtv</strong> &nbsp;<span style="color:#666">Green Thumb International Nurs…</span></td><td class="num">$250.2k</td><td class="num">191</td><td class="num">290</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:13%"></div></td></tr>
+<tr><td><strong>tsgar</strong> &nbsp;<span style="color:#666">Terra Sol Garden Center</span></td><td class="num">$245.0k</td><td class="num">278</td><td class="num">266</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:12%"></div></td></tr>
+<tr><td><strong>yamnur</strong> &nbsp;<span style="color:#666">Yamagami's Nursery</span></td><td class="num">$244.8k</td><td class="num">199</td><td class="num">187</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:12%"></div></td></tr>
+<tr><td><strong>flogc</strong> &nbsp;<span style="color:#666">Flowercraft Garden Center</span></td><td class="num">$242.8k</td><td class="num">235</td><td class="num">229</td></tr><tr><td colspan="4" style="padding:2px 8px 8px 8px"><div class="bar" style="width:12%"></div></td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Sales reps <span class="source">external account managers</span></h2>
+      <div class="legend">Wholesale line-item revenue attributed to each rep in 2026. <strong>(CR)</strong> = credit-memo entries (refunds/adjustments), shown separately so they don't inflate a rep's number.</div>
+      <table>
+        <thead><tr><th>Rep</th><th class="num">Revenue</th><th class="num">Invoices</th><th class="num">Lines</th><th class="num">Customers</th></tr></thead>
+        <tbody><tr><td><strong style='color:#7a4818'>Tim</strong></td><td class="num">$13.24M</td><td class="num">11,566</td><td class="num">13,028</td><td class="num">149</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:96%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>John</strong></td><td class="num">$9.77M</td><td class="num">9,573</td><td class="num">9,777</td><td class="num">137</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:70%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>In-House</strong></td><td class="num">$5.40M</td><td class="num">5,556</td><td class="num">5,581</td><td class="num">533</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:39%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>Matthew</strong></td><td class="num">$2.89M</td><td class="num">2,814</td><td class="num">3,023</td><td class="num">54</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:20%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>Pick Up</strong></td><td class="num">$1.84M</td><td class="num">7,606</td><td class="num">7,761</td><td class="num">541</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:13%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>Rainie</strong></td><td class="num">$76.1k</td><td class="num">289</td><td class="num">284</td><td class="num">6</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:2%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>Brett</strong></td><td class="num">$61.9k</td><td class="num">86</td><td class="num">86</td><td class="num">10</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:2%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>David Fross</strong></td><td class="num">$58.2k</td><td class="num">14</td><td class="num">424</td><td class="num">3</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:2%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>Book</strong></td><td class="num">$47.2k</td><td class="num">81</td><td class="num">81</td><td class="num">2</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:2%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>Tim (CR)</strong></td><td class="num">$970</td><td class="num">33</td><td class="num">33</td><td class="num">10</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:2%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>John (CR)</strong></td><td class="num">$719</td><td class="num">7</td><td class="num">7</td><td class="num">2</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:2%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>Bettysfield</strong></td><td class="num">$651</td><td class="num">4</td><td class="num">4</td><td class="num">1</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:2%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>Rainey</strong></td><td class="num">$340</td><td class="num">1</td><td class="num">1</td><td class="num">1</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:2%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>In-House (CR)</strong></td><td class="num">$133</td><td class="num">1</td><td class="num">1</td><td class="num">1</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:2%; background:#f9e9d4"></div></td></tr>
+<tr><td><strong style='color:#7a4818'>Pick Up (CR)</strong></td><td class="num">$75</td><td class="num">1</td><td class="num">1</td><td class="num">1</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:2%; background:#f9e9d4"></div></td></tr>
+<tr><td><em style='color:#a85565'>Matthew (CR)</em></td><td class="num">−$488</td><td class="num">2</td><td class="num">2</td><td class="num">2</td></tr><tr><td colspan="5" style="padding:2px 8px 8px 8px"><div class="bar" style="width:2%; background:#c8648a"></div></td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:22px">
+    <h2>Top plants by appearances on invoices</h2>
+    <div class="legend">How often a plant shows up as a line item across all invoices. A useful proxy for "steady seller."</div>
+    <table>
+      <thead><tr><th>Botanical</th><th class="num">Lines</th><th class="num">Units</th></tr></thead>
+      <tbody><tr><td><em style="font-style:italic;color:var(--ink)">Assorted perennials</em></td><td class="num">598</td><td class="num">23,446</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">Chondropetalum tectorum 'El Campo™'</em></td><td class="num">259</td><td class="num">3,746</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">Achillea 'Moonshine'</em></td><td class="num">236</td><td class="num">3,036</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">Acacia cognata 'Cousin Itt' (PP25,133)</em></td><td class="num">230</td><td class="num">3,203</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">Dymondia margaretae</em></td><td class="num">205</td><td class="num">12,003</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">Festuca glauca 'Elijah Blue'</em></td><td class="num">205</td><td class="num">7,231</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">Achillea x lewisii 'King Edward'</em></td><td class="num">203</td><td class="num">3,044</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">Carex praegracilis</em></td><td class="num">200</td><td class="num">21,745</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">Pittosporum tenuifolium 'Silver Sheen'</em></td><td class="num">198</td><td class="num">1,889</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">Plants</em></td><td class="num">182</td><td class="num">180</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">California Native Plants For The Garden</em></td><td class="num">174</td><td class="num">2,750</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">Sesleria autumnalis 'Campo Verde'</em></td><td class="num">173</td><td class="num">8,778</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">Achillea millefolium 'Sonoma Coast'</em></td><td class="num">172</td><td class="num">4,132</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">Festuca glauca 'Elijah Blue'</em></td><td class="num">170</td><td class="num">3,196</td></tr>
+<tr><td><em style="font-style:italic;color:var(--ink)">Asclepias fascicularis</em></td><td class="num">169</td><td class="num">10,861</td></tr></tbody>
+    </table>
+  </section>
+
+  <section class="card" style="margin-top:22px">
+    <h2>Monthly revenue, last 24 months <span class="source">seasonality</span></h2>
+    <div id="monthly-chart"></div>
+  </section>
+
+</div>
+
+<script>
+const DATA = {"meta": {"generated_at": "2026-08-26T21:22:40.333721", "source": "/Users/tfross/Sync/Orders_Tim/nssalesdata.csv", "n_orders": 37855, "n_line_items": 40229, "date_range": {"earliest": "2026-07-26", "latest": "2026-08-26"}}, "rollups": {"yearly": [{"year": 2026, "revenue": 33524017.23, "orders": 37855, "line_items": 40229}], "monthly": [{"year": 2026, "month": 7, "revenue": 33282268.52, "orders": 37556, "line_items": 39912}, {"year": 2026, "month": 8, "revenue": 241748.71, "orders": 299, "line_items": 317}], "top_customers": [{"customer_code": "fknur", "customer_name": "FK Nursery - CLOSED", "revenue": 1821803.06, "orders": 1351, "line_items": 1346}, {"customer_code": "dmnur", "customer_name": "Devil Mountain Wholesale Nursery--San Ramon", "revenue": 1791267.27, "orders": 1197, "line_items": 1192}, {"customer_code": "roggar", "customer_name": "Roger's Gardens", "revenue": 733464.16, "orders": 420, "line_items": 456}, {"customer_code": "pladep", "customer_name": "Plant Depot", "revenue": 712504.93, "orders": 562, "line_items": 549}, {"customer_code": "pacnur", "customer_name": "Pacific Nurseries", "revenue": 637028.03, "orders": 203, "line_items": 201}, {"customer_code": "arm707", "customer_name": "Armstrong Garden Center--Torrance", "revenue": 509363.88, "orders": 318, "line_items": 501}, {"customer_code": "arm702", "customer_name": "Armstrong Garden Center--Santa Monica", "revenue": 494622.35, "orders": 340, "line_items": 562}, {"customer_code": "csnur", "customer_name": "C & S Nursery", "revenue": 438272.45, "orders": 242, "line_items": 240}, {"customer_code": "vilhb", "customer_name": "SIteOne Landscape Supply", "revenue": 419624.21, "orders": 308, "line_items": 312}, {"customer_code": "arm705", "customer_name": "Armstrong Garden Center--Long Beach", "revenue": 410251.66, "orders": 322, "line_items": 489}, {"customer_code": "vilorar", "customer_name": "SiteOne Landscape Supply", "revenue": 407740.03, "orders": 295, "line_items": 290}, {"customer_code": "arm751", "customer_name": "Armstrong Garden Center--Costa Mesa", "revenue": 406068.19, "orders": 305, "line_items": 404}, {"customer_code": "oganur", "customer_name": "Ogawa-Mune Inc.", "revenue": 383320.21, "orders": 307, "line_items": 297}, {"customer_code": "calflo", "customer_name": "California Flora Nursery", "revenue": 355685.42, "orders": 173, "line_items": 168}, {"customer_code": "intgar", "customer_name": "International Garden Center, Inc.", "revenue": 343293.94, "orders": 328, "line_items": 320}, {"customer_code": "winnur", "customer_name": "Windmill Nursery", "revenue": 327478.83, "orders": 190, "line_items": 183}, {"customer_code": "wasd", "customer_name": "Walter Andersen Nursery", "revenue": 325596.13, "orders": 263, "line_items": 254}, {"customer_code": "arm720", "customer_name": "Armstrong Garden Center--Tustin", "revenue": 303754.59, "orders": 276, "line_items": 340}, {"customer_code": "arm741", "customer_name": "Armstrong Garden Center--Newport Beach", "revenue": 303737.32, "orders": 263, "line_items": 322}, {"customer_code": "gtel", "customer_name": "Greenthumb International Nursery--El Toro", "revenue": 298560.28, "orders": 236, "line_items": 366}, {"customer_code": "arm736", "customer_name": "Armstrong Garden Center--H.B. South", "revenue": 298498.51, "orders": 322, "line_items": 382}, {"customer_code": "arm737", "customer_name": "Armstrong Garden Center--Pasadena", "revenue": 292724.07, "orders": 211, "line_items": 268}, {"customer_code": "mdrgar", "customer_name": "Marina Del Rey Garden Center", "revenue": 285648.81, "orders": 162, "line_items": 158}, {"customer_code": "vhnur", "customer_name": "Valley Hills Nursery", "revenue": 284697.76, "orders": 226, "line_items": 215}, {"customer_code": "lumgar", "customer_name": "ProBuilding Holdings LLC.", "revenue": 278970.22, "orders": 237, "line_items": 382}, {"customer_code": "arm735", "customer_name": "Armstrong Garden Center--Westchester", "revenue": 278424.95, "orders": 280, "line_items": 350}, {"customer_code": "gtv", "customer_name": "Green Thumb International Nursery--Ventura", "revenue": 250238.32, "orders": 191, "line_items": 290}, {"customer_code": "tsgar", "customer_name": "Terra Sol Garden Center", "revenue": 245042.25, "orders": 278, "line_items": 266}, {"customer_code": "yamnur", "customer_name": "Yamagami's Nursery", "revenue": 244797.07, "orders": 199, "line_items": 187}, {"customer_code": "flogc", "customer_name": "Flowercraft Garden Center", "revenue": 242770.81, "orders": 235, "line_items": 229}], "top_reps": [{"rep": "Tim", "revenue": 13244582.9, "orders": 11566, "line_items": 13028, "customers": 149}, {"rep": "John", "revenue": 9765771.96, "orders": 9573, "line_items": 9777, "customers": 137}, {"rep": "In-House", "revenue": 5396546.06, "orders": 5556, "line_items": 5581, "customers": 533}, {"rep": "Matthew", "revenue": 2888155.14, "orders": 2814, "line_items": 3023, "customers": 54}, {"rep": "Pick Up", "revenue": 1844793.43, "orders": 7606, "line_items": 7761, "customers": 541}, {"rep": "Rainie", "revenue": 76106.15, "orders": 289, "line_items": 284, "customers": 6}, {"rep": "Brett", "revenue": 61872.15, "orders": 86, "line_items": 86, "customers": 10}, {"rep": "David Fross", "revenue": 58167.97, "orders": 14, "line_items": 424, "customers": 3}, {"rep": "Book", "revenue": 47162.81, "orders": 81, "line_items": 81, "customers": 2}, {"rep": "Tim (CR)", "revenue": 969.9, "orders": 33, "line_items": 33, "customers": 10}, {"rep": "John (CR)", "revenue": 718.52, "orders": 7, "line_items": 7, "customers": 2}, {"rep": "Bettysfield", "revenue": 651.24, "orders": 4, "line_items": 4, "customers": 1}, {"rep": "Rainey", "revenue": 340.0, "orders": 1, "line_items": 1, "customers": 1}, {"rep": "In-House (CR)", "revenue": 132.86, "orders": 1, "line_items": 1, "customers": 1}, {"rep": "Pick Up (CR)", "revenue": 75.42, "orders": 1, "line_items": 1, "customers": 1}, {"rep": "Matthew (CR)", "revenue": -488.25, "orders": 2, "line_items": 2, "customers": 2}], "top_items": [{"item_code": "assper4", "botanical": "Assorted perennials", "units": 23446, "appearance_count": 598, "orders": 591}, {"item_code": "choelc5", "botanical": "Chondropetalum tectorum 'El Campo\u2122'", "units": 3746, "appearance_count": 259, "orders": 258}, {"item_code": "achmos1", "botanical": "Achillea 'Moonshine'", "units": 3036, "appearance_count": 236, "orders": 236}, {"item_code": "acacou5", "botanical": "Acacia cognata 'Cousin Itt' (PP25,133)", "units": 3203, "appearance_count": 230, "orders": 229}, {"item_code": "dymmar4", "botanical": "Dymondia margaretae", "units": 12003, "appearance_count": 205, "orders": 205}, {"item_code": "feseli4", "botanical": "Festuca glauca 'Elijah Blue'", "units": 7231, "appearance_count": 205, "orders": 205}, {"item_code": "achkie4", "botanical": "Achillea x lewisii 'King Edward'", "units": 3044, "appearance_count": 203, "orders": 200}, {"item_code": "carpra4", "botanical": "Carex praegracilis", "units": 21745, "appearance_count": 200, "orders": 200}, {"item_code": "pitsil5", "botanical": "Pittosporum tenuifolium 'Silver Sheen'", "units": 1889, "appearance_count": 198, "orders": 198}, {"item_code": "", "botanical": "Plants", "units": 180, "appearance_count": 182, "orders": 182}, {"item_code": "cnsr", "botanical": "California Native Plants For The Garden", "units": 2750, "appearance_count": 174, "orders": 171}, {"item_code": "sescav1", "botanical": "Sesleria autumnalis 'Campo Verde'", "units": 8778, "appearance_count": 173, "orders": 171}, {"item_code": "achson4", "botanical": "Achillea millefolium 'Sonoma Coast'", "units": 4132, "appearance_count": 172, "orders": 172}, {"item_code": "feseli1", "botanical": "Festuca glauca 'Elijah Blue'", "units": 3196, "appearance_count": 170, "orders": 167}, {"item_code": "ascfas1", "botanical": "Asclepias fascicularis", "units": 10861, "appearance_count": 169, "orders": 168}, {"item_code": "sildru4", "botanical": "Silene uniflora 'Druett's Variegated'", "units": 4002, "appearance_count": 168, "orders": 168}, {"item_code": "achisl4", "botanical": "Achillea millefolium 'Island Pink'", "units": 2893, "appearance_count": 168, "orders": 167}, {"item_code": "consab4", "botanical": "Convolvulus sabatius", "units": 4974, "appearance_count": 158, "orders": 158}, {"item_code": "ascfas4", "botanical": "Asclepias fascicularis", "units": 12619, "appearance_count": 149, "orders": 148}, {"item_code": "romcou1", "botanical": "Romneya coulteri", "units": 2729, "appearance_count": 137, "orders": 137}, {"item_code": "erigra1", "botanical": "Eriogonum grande var. rubescens", "units": 3469, "appearance_count": 136, "orders": 136}, {"item_code": "erikar4", "botanical": "Erigeron karvinskianus", "units": 4326, "appearance_count": 132, "orders": 132}, {"item_code": "achlim4", "botanical": "Achillea millefolium 'Little Moonshine' (PP28,179)", "units": 1691, "appearance_count": 132, "orders": 132}, {"item_code": "abekal1", "botanical": "Abelia x grand. 'Kaleidoscope' (PP16,988)", "units": 1710, "appearance_count": 131, "orders": 131}, {"item_code": "litgra4", "botanical": "Lithodora diffusa 'Grace Ward'", "units": 2994, "appearance_count": 129, "orders": 129}, {"item_code": "ajucat4", "botanical": "Ajuga reptans 'Catlin's Giant'", "units": 5264, "appearance_count": 128, "orders": 127}, {"item_code": "gerbio4", "botanical": "Geranium x cantabrigiense 'Biokovo'", "units": 11163, "appearance_count": 127, "orders": 127}, {"item_code": "assspe4", "botanical": "Assorted specialty", "units": 2454, "appearance_count": 126, "orders": 126}, {"item_code": "dudbri2", "botanical": "Dudleya brittonii", "units": 1149, "appearance_count": 124, "orders": 124}, {"item_code": "cascoi5", "botanical": "Casuarina glauca 'Cousin It\u2122'", "units": 2145, "appearance_count": 123, "orders": 120}, {"item_code": "achson1", "botanical": "Achillea millefolium 'Sonoma Coast'", "units": 2538, "appearance_count": 120, "orders": 119}, {"item_code": "acacou2", "botanical": "Acacia cognata 'Cousin Itt' (PP25,133)", "units": 1090, "appearance_count": 116, "orders": 116}, {"item_code": "fessis4", "botanical": "Festuca 'Siskiyou Blue'", "units": 4400, "appearance_count": 115, "orders": 114}, {"item_code": "armros4", "botanical": "Armeria juniperifolia 'Rosa Stolz'", "units": 2283, "appearance_count": 113, "orders": 113}, {"item_code": "polmar5", "botanical": "Polygala myrtifolia 'Mariposa'", "units": 1014, "appearance_count": 113, "orders": 113}, {"item_code": "pitsil15", "botanical": "Pittosporum tenuifolium 'Silver Sheen'", "units": 626, "appearance_count": 113, "orders": 110}, {"item_code": "gerroz1", "botanical": "Geranium 'Rozanne' (PP12,175)", "units": 2506, "appearance_count": 108, "orders": 108}, {"item_code": "achisl1", "botanical": "Achillea millefolium 'Island Pink'", "units": 1443, "appearance_count": 107, "orders": 107}, {"item_code": "pitmac5", "botanical": "Pittosporum tenuifolium 'Marjorie Channon'", "units": 1115, "appearance_count": 106, "orders": 105}, {"item_code": "sescaa1", "botanical": "Sesleria hybrid 'Campo Azul'", "units": 4932, "appearance_count": 106, "orders": 105}, {"item_code": "ceayan1", "botanical": "Ceanothus thyrs. var. gris. 'Yankee Point'", "units": 2316, "appearance_count": 103, "orders": 103}, {"item_code": "thyelf4", "botanical": "Thymus serpyllum 'Elfin'", "units": 4573, "appearance_count": 96, "orders": 96}, {"item_code": "erispi4", "botanical": "Erigeron karv. 'Spindrift' (PP14,834)", "units": 2295, "appearance_count": 95, "orders": 95}, {"item_code": "lavpro1", "botanical": "Lavandula x intermedia 'Provence'", "units": 1676, "appearance_count": 95, "orders": 95}, {"item_code": "romcou5", "botanical": "Romneya coulteri", "units": 704, "appearance_count": 94, "orders": 94}, {"item_code": "dudbri1", "botanical": "Dudleya brittonii", "units": 1411, "appearance_count": 93, "orders": 93}, {"item_code": "polmun1", "botanical": "Polystichum munitum", "units": 3277, "appearance_count": 93, "orders": 93}, {"item_code": "choelc1", "botanical": "Chondropetalum tectorum 'El Campo\u2122'", "units": 2728, "appearance_count": 92, "orders": 91}, {"item_code": "lavdoa5", "botanical": "Lavandula stoe. 'Double Anouk' (PP28,264)", "units": 972, "appearance_count": 90, "orders": 90}, {"item_code": "phynow4", "botanical": "Phyla nodiflora (white)", "units": 6314, "appearance_count": 90, "orders": 90}], "yoy": null}};
+
+// ===== Helpers =====
+const fmt$ = (n) => "$" + (Math.round(n)).toLocaleString();
+const fmtK = (n) => {
+  if (Math.abs(n) >= 1e6) return "$" + (n / 1e6).toFixed(2) + "M";
+  if (Math.abs(n) >= 1e3) return "$" + (n / 1e3).toFixed(1) + "k";
+  return "$" + Math.round(n).toLocaleString();
+};
+const monthLabel = (y, m) => {
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return months[m-1] + " " + String(y).slice(2);
+};
+
+// ===== Yearly bar chart =====
+(function renderYearly() {
+  const years = DATA.rollups.yearly;
+  if (!years.length) return;
+  const max = Math.max(...years.map(y => y.revenue));
+  const min = Math.min(...years.map(y => y.revenue));
+  const padL = 64, padR = 24, padT = 16, padB = 38;
+  const W = 1080 - padL - padR;
+  const H = 220 - padT - padB;
+  const barW = Math.min(46, W / years.length * 0.6);
+  const xStep = W / years.length;
+  let svg = '<svg class="chart-svg" viewBox="0 0 ' + (W + padL + padR) + ' ' + (H + padT + padB) + '" preserveAspectRatio="none">';
+  // y-axis ticks at 0, mid, max
+  for (const t of [0, 0.5, 1]) {{
+    const y = padT + H - (H * t);
+    svg += '<line x1="' + padL + '" y1="' + y + '" x2="' + (padL + W) + '" y2="' + y + '" stroke="#eee"/>';
+    svg += '<text x="' + (padL - 6) + '" y="' + (y + 3) + '" text-anchor="end" font-size="10" fill="#888">' + fmtK(min + (max - min) * t) + '</text>';
+  }
+  // bars
+  years.forEach((y, i) => {
+    const cx = padL + xStep * i + xStep / 2;
+    const h = ((y.revenue - min) / (max - min || 1)) * H;
+    const by = padT + H - h;
+    svg += '<rect x="' + (cx - barW/2) + '" y="' + by + '" width="' + barW + '" height="' + h + '" fill="#7a4818" rx="2"/>';
+    svg += '<text x="' + cx + '" y="' + (padT + H + 16) + '" text-anchor="middle" font-size="11" fill="#444">' + y.year + '</text>';
+    svg += '<text x="' + cx + '" y="' + (by - 5) + '" text-anchor="middle" font-size="10" fill="#333">' + fmtK(y.revenue) + '</text>';
+  });
+  svg += '</svg>';
+  document.getElementById('yearly-chart').innerHTML = svg;
+}})();
+
+// ===== Monthly line chart (last 24) =====
+(function renderMonthly() {
+  const m = DATA.rollups.monthly.slice(-24);
+  if (!m.length) return;
+  const padL = 64, padR = 16, padT = 16, padB = 38;
+  const W = 1080 - padL - padR;
+  const H = 220 - padT - padB;
+  const max = Math.max(...m.map(x => x.revenue));
+  let svg = '<svg class="chart-svg" viewBox="0 0 ' + (W + padL + padR) + ' ' + (H + padT + padB) + '" preserveAspectRatio="none">';
+  // baseline + max line
+  for (const t of [0, 0.5, 1]) {{
+    const y = padT + H - (H * t);
+    svg += '<line x1="' + padL + '" y1="' + y + '" x2="' + (padL + W) + '" y2="' + y + '" stroke="#eee"/>';
+    svg += '<text x="' + (padL - 6) + '" y="' + (y + 3) + '" text-anchor="end" font-size="10" fill="#888">' + fmtK(max * t) + '</text>';
+  }
+  // line
+  const xStep = W / Math.max(m.length - 1, 1);
+  const pts = m.map((mm, i) => {
+    const x = padL + xStep * i;
+    const y = padT + H - (mm.revenue / (max || 1)) * H;
+    return [x, y];
+  });
+  // area fill under line
+  const areaD = `M ${pts[0][0]},${pts[0][1]} ` + pts.slice(1).map(p => `L ${p[0]},${p[1]}`).join(' ') + ` L ${pts[pts.length-1][0]},${padT + H} L ${pts[0][0]},${padT + H} Z`;
+  svg += '<path d="' + areaD + '" fill="#f9e9d4" opacity="0.55"/>';
+  svg += '<path d="M ' + pts[0][0] + ',' + pts[0][1] + ' ' + pts.slice(1).map(p => 'L ' + p[0] + ',' + p[1]).join(' ') + '" stroke="#7a4818" stroke-width="2" fill="none"/>';
+  // dots + month labels every 3 months
+  m.forEach((mm, i) => {
+    if (i % 2 !== 0 && i !== m.length - 1) return;  // sparse labels
+    const [x, y] = pts[i];
+    svg += '<circle cx="' + x + '" cy="' + y + '" r="3" fill="#7a4818"/>';
+    svg += '<text x="' + x + '" y="' + (padT + H + 16) + '" text-anchor="middle" font-size="10" fill="#444">' + monthLabel(mm.year, mm.month) + '</text>';
+  });
+  svg += '</svg>';
+  document.getElementById('monthly-chart').innerHTML = svg;
+}})();
+</script>
+</body>
+</html>

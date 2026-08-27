@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Native Sons — 2026 Sales by Rep & Month</title>
+<style>
+:root {
+  --c-bark: #2d4a2b;
+  --c-paper: #f7f4ec;
+  --c-clay: #4a4438;
+  --c-cta: #3a5f3a;
+  --c-sage: #5d7a4a;
+  --c-warn: #b85c38;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--c-paper);
+  color: var(--c-clay);
+  margin: 0;
+  padding: 1.5rem;
+  line-height: 1.35;
+}
+h1 { color: var(--c-bark); font-size: 1.6rem; margin: 0 0 0.25rem; }
+.subtitle { color: var(--c-clay); opacity: 0.7; font-size: 0.9rem; margin-bottom: 1.5rem; }
+section { margin-bottom: 2rem; }
+section h2 {
+  color: var(--c-bark); font-size: 1.1rem; margin: 0 0 0.75rem;
+  border-bottom: 1px solid #d8d3c1; padding-bottom: 0.4rem;
+}
+table { width: 100%; border-collapse: collapse; background: white; font-size: 0.9rem; }
+th, td { text-align: right; padding: 0.45rem 0.7rem; border-bottom: 1px solid #ece8db; }
+th { background: #f0ebd9; font-weight: 600; color: var(--c-bark); }
+th.rep-col, td.rep-col { text-align: left; font-variant-numeric: tabular-nums; }
+th.month-col, td.month-col { background: #faf6e7; }
+tr:hover { background: #faf6e7; }
+tfoot td { background: #f0ebd9; font-weight: 600; color: var(--c-bark); }
+.neg { color: var(--c-warn); }
+.muted { opacity: 0.4; }
+.best { background: #e8f0d8; }
+.bar {
+  display: inline-block;
+  background: var(--c-sage);
+  height: 0.6rem;
+  vertical-align: middle;
+  border-radius: 2px;
+  margin-left: 0.3rem;
+}
+.legend {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  color: var(--c-clay);
+  opacity: 0.7;
+}
+</style>
+</head>
+<body>
+
+<h1>Native Sons — 2026 Sales by Rep & Month</h1>
+<p class="subtitle">Revenue ($) and order counts · sorted by YTD revenue · generated 2026-08-26</p>
+
+<section>
+<h2>Revenue matrix</h2>
+<table>
+<thead>
+<tr>
+<th class="rep-col">Rep</th>
+<th class="month-col">Jan</th><th class="month-col">Feb</th><th class="month-col">Mar</th><th class="month-col">Apr</th><th class="month-col">May</th><th class="month-col">Jun</th><th class="month-col">Jul</th><th class="month-col">Aug</th><th class="month-col">YTD</th><th></th></tr></thead><tbody><tr><td class="rep-col"><strong>Tim</strong></td><td>$94,293.31<br><small>(98 ord)</small></td><td>$86,671.44<br><small>(85 ord)</small></td><td>$151,524.13<br><small>(141 ord)</small></td><td>$125,917.76<br><small>(118 ord)</small></td><td>$87,497.14<br><small>(92 ord)</small></td><td>$96,698.00<br><small>(105 ord)</small></td><td>$85,625.88<br><small>(91 ord)</small></td><td>$93,675.68<br><small>(89 ord)</small></td><td class="month-col"><strong>$821,903.34</strong><br><small>(819 ord)</small></td><td><span class="bar" style="width:300px"></span><small>100.0%</small></td></tr><tr><td class="rep-col"><strong>John</strong></td><td>$63,415.26<br><small>(63 ord)</small></td><td>$66,779.14<br><small>(71 ord)</small></td><td>$120,364.08<br><small>(106 ord)</small></td><td>$100,288.37<br><small>(93 ord)</small></td><td>$66,948.60<br><small>(71 ord)</small></td><td>$85,776.24<br><small>(86 ord)</small></td><td>$90,747.15<br><small>(85 ord)</small></td><td>$73,639.50<br><small>(72 ord)</small></td><td class="month-col"><strong>$667,958.34</strong><br><small>(647 ord)</small></td><td><span class="bar" style="width:134px"></span><small>44.8%</small></td></tr><tr><td class="rep-col"><strong>Matthew</strong></td><td>$50,941.61<br><small>(38 ord)</small></td><td>$38,686.28<br><small>(36 ord)</small></td><td>$66,665.69<br><small>(59 ord)</small></td><td>$60,195.77<br><small>(46 ord)</small></td><td>$37,889.96<br><small>(30 ord)</small></td><td>$40,710.78<br><small>(43 ord)</small></td><td>$12,799.63<br><small>(10 ord)</small></td><td>$37,868.76<br><small>(36 ord)</small></td><td class="month-col"><strong>$345,758.49</strong><br><small>(298 ord)</small></td><td><span class="bar" style="width:56px"></span><small>18.8%</small></td></tr><tr><td class="rep-col"><strong>In-House</strong></td><td>$25,810.69<br><small>(34 ord)</small></td><td>$25,818.63<br><small>(31 ord)</small></td><td>$41,875.40<br><small>(35 ord)</small></td><td>$40,623.35<br><small>(46 ord)</small></td><td>$10,864.45<br><small>(21 ord)</small></td><td>$31,004.76<br><small>(35 ord)</small></td><td>$22,047.31<br><small>(38 ord)</small></td><td>$40,878.43<br><small>(37 ord)</small></td><td class="month-col"><strong>$238,923.01</strong><br><small>(277 ord)</small></td><td><span class="bar" style="width:34px"></span><small>11.5%</small></td></tr><tr><td class="rep-col"><strong>Pick Up</strong></td><td>$16,419.01<br><small>(47 ord)</small></td><td>$13,663.75<br><small>(45 ord)</small></td><td>$13,391.03<br><small>(51 ord)</small></td><td>$16,123.98<br><small>(68 ord)</small></td><td>$13,975.86<br><small>(57 ord)</small></td><td>$9,934.79<br><small>(53 ord)</small></td><td>$12,290.36<br><small>(72 ord)</small></td><td>$12,156.79<br><small>(57 ord)</small></td><td class="month-col"><strong>$107,955.56</strong><br><small>(450 ord)</small></td><td><span class="bar" style="width:14px"></span><small>4.9%</small></td></tr><tr><td class="rep-col"><strong>Rainie</strong></td><td class="muted">—</td><td class="muted">—</td><td>$1,715.00<br><small>(3 ord)</small></td><td>$2,069.51<br><small>(5 ord)</small></td><td>$2,716.00<br><small>(8 ord)</small></td><td>$2,470.00<br><small>(11 ord)</small></td><td>$1,865.00<br><small>(8 ord)</small></td><td>$1,210.00<br><small>(7 ord)</small></td><td class="month-col"><strong>$12,045.51</strong><br><small>(42 ord)</small></td><td><span class="bar" style="width:1px"></span><small>0.5%</small></td></tr><tr><td class="rep-col"><strong>—</strong></td><td>$450.45<br><small>(2 ord)</small></td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td>$121.46<br><small>(1 ord)</small></td><td class="muted">—</td><td class="month-col"><strong>$571.91</strong><br><small>(3 ord)</small></td><td><span class="bar" style="width:0px"></span><small>0.0%</small></td></tr><tr><td class="rep-col"><strong>Book</strong></td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td>$324.80<br><small>(1 ord)</small></td><td class="month-col"><strong>$324.80</strong><br><small>(1 ord)</small></td><td><span class="bar" style="width:0px"></span><small>0.0%</small></td></tr><tr><td class="rep-col"><strong>CRMatthew</strong></td><td class="neg">($236.25)<br><small>(1 ord)</small></td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="neg">($452.10)<br><small>(3 ord)</small></td><td class="month-col"><strong>($688.35)</strong><br><small>(4 ord)</small></td><td><span class="bar" style="width:0px"></span><small>-0.0%</small></td></tr><tr><td class="rep-col"><strong>CRTim</strong></td><td class="neg">($437.40)<br><small>(3 ord)</small></td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="neg">($160.00)<br><small>(1 ord)</small></td><td class="neg">($1,895.50)<br><small>(11 ord)</small></td><td class="month-col"><strong>($2,492.90)</strong><br><small>(15 ord)</small></td><td><span class="bar" style="width:0px"></span><small>-0.1%</small></td></tr><tr><td class="rep-col"><strong>TOTAL</strong></td><td class="month-col"><strong>$250,656.67</strong><br><small>(286 ord)</small></td><td class="month-col"><strong>$231,619.24</strong><br><small>(268 ord)</small></td><td class="month-col"><strong>$395,535.33</strong><br><small>(395 ord)</small></td><td class="month-col"><strong>$345,218.74</strong><br><small>(376 ord)</small></td><td class="month-col"><strong>$219,892.02</strong><br><small>(279 ord)</small></td><td class="month-col"><strong>$266,594.57</strong><br><small>(333 ord)</small></td><td class="month-col"><strong>$225,336.79</strong><br><small>(306 ord)</small></td><td class="month-col"><strong>$257,406.35</strong><br><small>(313 ord)</small></td><td class="month-col"><strong>$2,192,259.71</strong><br><small>(2556 ord)</small></td><td></td></tr></tbody></table>
+<p class="legend">Bar shows rep's share of YTD revenue · (ord) = number of unique orders in that month</p>
+</section>
+
+<section>
+<h2>Monthly total trend</h2>
+<table>
+<thead><tr><th class="rep-col">Month</th><th class="month-col">Orders</th><th class="month-col">Customers</th><th class="month-col">Revenue</th><th></th></tr></thead>
+<tbody>
+<tr><td class="rep-col">Jan 2026</td><td class="month-col">286</td><td class="month-col">154</td><td class="month-col">$250,656.67</td><td><span class="bar" style="width:190px"></span></td></tr><tr><td class="rep-col">Feb 2026</td><td class="month-col">268</td><td class="month-col">153</td><td class="month-col">$231,619.24</td><td><span class="bar" style="width:175px"></span></td></tr><tr><td class="rep-col">Mar 2026</td><td class="month-col">395</td><td class="month-col">184</td><td class="month-col">$395,535.33</td><td><span class="bar" style="width:300px"></span></td></tr><tr><td class="rep-col">Apr 2026</td><td class="month-col">376</td><td class="month-col">190</td><td class="month-col">$345,218.74</td><td><span class="bar" style="width:261px"></span></td></tr><tr><td class="rep-col">May 2026</td><td class="month-col">279</td><td class="month-col">147</td><td class="month-col">$219,892.02</td><td><span class="bar" style="width:166px"></span></td></tr><tr><td class="rep-col">Jun 2026</td><td class="month-col">333</td><td class="month-col">177</td><td class="month-col">$266,594.57</td><td><span class="bar" style="width:202px"></span></td></tr><tr><td class="rep-col">Jul 2026</td><td class="month-col">306</td><td class="month-col">155</td><td class="month-col">$225,336.79</td><td><span class="bar" style="width:170px"></span></td></tr><tr><td class="rep-col">Aug 2026</td><td class="month-col">313</td><td class="month-col">168</td><td class="month-col">$257,406.35</td><td><span class="bar" style="width:195px"></span></td></tr></tbody></table>
+</section>
+
+</body>
+</html>

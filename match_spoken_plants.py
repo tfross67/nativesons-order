@@ -170,6 +170,20 @@ SIZE_ALIASES = {
     "plug": "plug",
 }
 
+# Hyphenated variants — Whisper and keyboard both produce "4-inch",
+# "5-gallon". Normalize hyphens to spaces before alias matching.
+SIZE_HYPHEN_ALIASES = {
+    "4-inch": "4in", "four-inch": "4in",
+    "1-gallon": "1g", "one-gallon": "1g",
+    "2-gallon": "2g", "two-gallon": "2g",
+    "5-gallon": "5g", "five-gallon": "5g",
+    "15-gallon": "15g", "fifteen-gallon": "15g",
+    "20-gallon": "20g", "twenty-gallon": "20g",
+    "7-gallon": "7g", "seven-gallon": "7g",
+    "16-gallon": "16g", "sixteen-gallon": "16g",
+    "24-gallon": "24g", "twenty-four-gallon": "24g",
+}
+
 # Numbers in speech (both "26" and "twenty six")
 NUM_WORDS = {
     "zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
@@ -276,14 +290,22 @@ def levenshtein(a, b, limit=3):
     return dp[-1]
 
 
-def match_botanical(query_tokens, size=None):
-    """Match a normalized botanical phrase against master. Returns best row or None."""
+def match_botanical(query_tokens, size=None, anchor_allowed=False):
+    """Match a normalized botanical phrase against master. Returns best row or None.
+
+    anchor_allowed=True enables the cultivar-anchored fallback (genus too
+    mangled to use, e.g. "duringium biocopo" → Biokovo). Callers should
+    enable it ONLY as a last resort, after the common-name alias path —
+    otherwise a common name that happens to be a cultivar ("lavender")
+    hijacks the match.
+    """
     q = " ".join(query_tokens)
     q_cultivar = extract_cultivar(q)
     q_genus = query_tokens[0] if query_tokens else ""
 
     candidates = GENUS_INDEX.get(q_genus, [])
     fuzzy_genus = None
+    cultivar_anchored = False
     if not candidates:
         # try fuzzy genus
         for g, idxs in GENUS_INDEX.items():
@@ -291,8 +313,21 @@ def match_botanical(query_tokens, size=None):
                 candidates = idxs
                 fuzzy_genus = g
                 break
-    if not candidates:
-        return None
+    if not candidates and anchor_allowed:
+        # Cultivar-anchored fallback: the genus may be mangled beyond
+        # recovery ("duringium" → "geranium" is 4 edits), but the cultivar
+        # token is usually still close ("biocopo" → "biokovo" is 2). Hunt
+        # every row whose cultivar is within 2 edits of ANY query token —
+        # the cultivar is the most distinctive part of a botanical name.
+        for i, r in enumerate(ROWS):
+            cl = r["cultivar_letters"]
+            if not cl or len(cl) < 5:
+                continue
+            if any(levenshtein(t, cl, 2) <= 2 for t in query_tokens):
+                candidates.append(i)
+        cultivar_anchored = bool(candidates)
+        if not candidates:
+            return None
 
     best, best_score = None, 1e9
     for i in candidates:
@@ -316,14 +351,23 @@ def match_botanical(query_tokens, size=None):
             score = 1 + nonplant_penalty
         else:
             # token overlap score (apostrophes already stripped); allow one
-            # edit per remaining token so typos like "margaritta" still hit
+            # edit per remaining token so typos like "margaritta" still hit.
+            # When the match is cultivar-anchored (genus too mangled to use),
+            # a single strong cultivar token is enough — the anchor IS the
+            # signal, and requiring 2+ tokens would reject every garbled
+            # genus case.
             dt = r["tokens"]
             qt = comp_tokens
             common = 0
+            anchor_hit = False
             for tq in qt:
-                if tq in dt or any(levenshtein(tq, td, 1) <= 1 for td in dt):
+                hit = tq in dt or any(levenshtein(tq, td, 1) <= 1 for td in dt)
+                if hit:
                     common += 1
-            if common < 2:
+                if cultivar_anchored and r["cultivar_letters"] and len(r["cultivar_letters"]) >= 5 \
+                        and levenshtein(tq, r["cultivar_letters"], 2) <= 2:
+                    anchor_hit = True
+            if common < 2 and not (cultivar_anchored and anchor_hit):
                 continue
             # cultivar must match if both present
             rc = r["cultivar"]
@@ -338,6 +382,11 @@ def match_botanical(query_tokens, size=None):
                 spoken = "".join(comp_tokens)
                 if r["cultivar_letters"] and r["cultivar_letters"] in spoken:
                     score -= 1.0
+            # Cultivar-anchored match ("duringium biocopo" → Biokovo): the
+            # genus is useless, so the cultivar anchor carries the whole
+            # match. Cut the score hard so it beats the final <= 2 gate.
+            if anchor_hit:
+                score -= 2.5
         if score < best_score:
             best_score = score
             best = r
@@ -411,11 +460,19 @@ def resolve_chunk(chunk):
     # the "5" gets eaten as a quantity and "gallon" loses its number.
     size = None
     chunk_joined = " ".join(words)
-    for alias, canonical in sorted(SIZE_ALIASES.items(), key=lambda kv: -len(kv[0])):
+    # Hyphenated sizes first ("4-inch", "5-gallon") — Whisper + typing both
+    # emit hyphens and the space-aliases below won't match them.
+    for alias, canonical in sorted(SIZE_HYPHEN_ALIASES.items(), key=lambda kv: -len(kv[0])):
         if re.search(r"\b" + re.escape(alias) + r"\b", chunk_joined, re.I):
             size = canonical
             chunk_joined = re.sub(r"\b" + re.escape(alias) + r"\b", " ", chunk_joined, flags=re.I)
             break
+    if not size:
+        for alias, canonical in sorted(SIZE_ALIASES.items(), key=lambda kv: -len(kv[0])):
+            if re.search(r"\b" + re.escape(alias) + r"\b", chunk_joined, re.I):
+                size = canonical
+                chunk_joined = re.sub(r"\b" + re.escape(alias) + r"\b", " ", chunk_joined, flags=re.I)
+                break
     words = chunk_joined.split()
 
     # Extract quantity (usually leading or trailing)
@@ -446,6 +503,11 @@ def resolve_chunk(chunk):
             if row and not size:
                 # common alias matched a genus — keep first size as default
                 pass
+    # Last resort: cultivar-anchored fuzzy (genus garbled beyond use).
+    # Runs AFTER the common-name path so a common name that is also a
+    # cultivar ("lavender" → Penstemon 'Lavender') can't hijack the match.
+    if not row:
+        row = match_botanical(words, size, anchor_allowed=True)
 
     if not row:
         return {

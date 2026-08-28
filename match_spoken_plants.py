@@ -462,8 +462,10 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
             return None
 
     best, best_score = None, 1e9
+    best_common = -1
     for i in candidates:
         r = ROWS[i]
+        common = 0
         if size and normalize_size(r["size"]) != normalize_size(size):
             continue
         d = r["norm"]
@@ -532,6 +534,13 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
         if score < best_score:
             best_score = score
             best = r
+            best_common = common
+        elif score == best_score and common > best_common:
+            # Tiebreaker: prefer the row with more exact token overlaps —
+            # sildru4 vs silvar4 both anchor (druids→druett, variegated→
+            # variegata) but sildru4 matches TWO tokens exactly.
+            best = r
+            best_common = common
     return best if best_score <= 2 else None
 
 

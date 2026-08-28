@@ -192,6 +192,18 @@ WHISPER_FILLER = {
     "right", "yeah", "and", "the", "a", "also",
 }
 
+# Short common English words that must NOT anchor a cultivar match even
+# though they're >= 5 chars — "point" must not match "Point Joe", "blue"
+# must not match "Blue Arrow". The anchor guard rejects tokens shorter
+# than 6 chars UNLESS the token isn't in this set (a 5-char distinctive
+# name fragment like "rosam" → 'Rozanne' is a real signal; "point" is not).
+ANCHOR_STOPWORDS = {
+    "point", "blue", "green", "white", "black", "gold", "silver", "pink",
+    "red", "yellow", "purple", "dwarf", "giant", "small", "large", "rose",
+    "lily", "iris", "jade", "moon", "star", "sun", "king", "queen",
+    "royal", "dutch", "french", "jap", "chin", "hardy", "sweet", "wild",
+}
+
 
 def strip_whisper_filler(tokens):
     """Drop trailing/leading Whisper fillers and empty tokens."""
@@ -498,24 +510,27 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
         # branch so a bare "ceanothus" prefers a container size over a
         # book item even when the book is an exact description match.
         nonplant_penalty = 3.0 if r["size"].lower() in ("book", "shirt", "pot", "liner", "plug") else 0.0
-        # exact / prefix
+        # exact / prefix — perfect matches beat everything
         if d == comp_q:
-            score = 0 + nonplant_penalty
+            score = -10 + nonplant_penalty
         elif d.startswith(comp_q + " ") or comp_q.startswith(d + " "):
-            score = 1 + nonplant_penalty
+            score = -8 + nonplant_penalty
         else:
             # token overlap score (apostrophes already stripped); allow one
             # edit per remaining token so typos like "margaritta" still hit.
-            # When the match is cultivar-anchored (genus too mangled to use),
-            # a single strong cultivar token is enough — the anchor IS the
-            # signal, and requiring 2+ tokens would reject every garbled
-            # genus case.
             dt = r["tokens"]
             qt = comp_tokens
             common = 0
-            anchor_hit = False
+            anchor_count = 0
+            anchor_prefix_hit = False
             cl = r["cultivar_letters"]
-            for tq in qt:
+            # The FIRST token is the genus — it has its own matching layers
+            # (exact/phonetic/edit) and must NOT participate in the cultivar
+            # anchor. "geranium"→JRNM grazes "plenum"→PLNM at metaphone
+            # distance 2, falsely anchoring every plenum/nanum-like cultivar
+            # and drowning the real signal from the cultivar token.
+            anchor_tokens = qt[1:] if len(qt) > 1 else qt
+            for tq in anchor_tokens:
                 tq_clean = tq.strip(".,;!?-")
                 hit = tq_clean in dt or any(levenshtein(tq_clean, td, 1) <= 1 for td in dt)
                 if hit:
@@ -523,27 +538,52 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
                 # Cultivar anchor — computed for EVERY row so a mangled
                 # cultivar ("biocobal" → "biokovo") can carry the match in
                 # the fuzzy-genus path too, not just the anchor-only path.
-                # Min token length 6: a 5-char common word ("point") must
+                # Min token length 6 — a 5-char common word ("point") must
                 # not anchor onto "Point Joe" via a shared 3-char prefix.
-                if cl and len(cl) >= 5 and len(tq_clean) >= 6:
+                # Exception: 5-char DISTINCTIVE fragments (not in
+                # ANCHOR_STOPWORDS) like "rosam" → 'Rozanne' are real
+                # signals and may anchor.
+                if cl and len(cl) >= 5 and len(tq_clean) >= 6 or (
+                    cl and len(cl) >= 5 and len(tq_clean) == 5
+                    and tq_clean not in ANCHOR_STOPWORDS
+                ):
                     d_anchor = levenshtein(tq_clean, cl, 4)
                     if d_anchor <= 2 or (
                         d_anchor <= 4 and len(tq_clean) >= 3 and tq_clean[:3] == cl[:3]
                     ):
-                        anchor_hit = True
+                        anchor_count += 1
                     else:
                         # Phonetic cultivar: "apoblossum" vs "appleblossom"
                         # is 4+ spelling edits but their metaphone codes
                         # (APPLSM vs APLPLSM) are only 2 edits apart.
+                        # The tq_meta minimum is 3 (a 5-char word like
+                        # "rosam" encodes to RSM — demanding >=5 would
+                        # reject every short distinctive fragment).
+                        # Require a shared 2-char code prefix: 3-char codes
+                        # graze too easily ("yankee"→ANK vs "heart"→ARS is
+                        # distance 2 but a pure coincidence — different
+                        # sounds). Same first-two consonants = same sound.
                         tq_meta = metaphone(tq_clean)
                         cl_meta = metaphone(cl)
                         if (
-                            len(tq_meta) >= 5
-                            and len(cl_meta) >= 5
+                            len(tq_meta) >= 3
+                            and len(cl_meta) >= 3
+                            and tq_meta[:2] == cl_meta[:2]
                             and levenshtein(tq_meta, cl_meta, 2) <= 2
                         ):
-                            anchor_hit = True
-            if common < 2 and not anchor_hit:
+                            anchor_count += 1
+                            # Phonetic-PREFIX: "rosam" vs "rozanne" — 'ros'
+                            # and 'roz' share the same metaphone (s/z both →
+                            # S), same SOUND at the start; "rosam" vs
+                            # "robustum" ('rob' → RP) is not. A phonetic-
+                            # prefix anchor is closer than a loose graze.
+                            if (
+                                len(tq_clean) >= 3
+                                and len(cl) >= 3
+                                and metaphone(tq_clean[:3]) == metaphone(cl[:3])
+                            ):
+                                anchor_prefix_hit = True
+            if common == 0 and anchor_count == 0:
                 continue
             # cultivar must match if both present
             rc = r["cultivar"]
@@ -551,26 +591,21 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
                 continue
             if q_cultivar and not rc:
                 continue
-            score = len(dt) - common + (0 if not q_cultivar else 0.5) + nonplant_penalty
-            # Spoken cultivar without quotes ("margarita bop") — reward a
-            # row whose letters-only cultivar appears in the spoken tokens.
-            if rc and not q_cultivar:
-                spoken = "".join(comp_tokens)
-                if r["cultivar_letters"] and r["cultivar_letters"] in spoken:
-                    score -= 1.0
-            # Cultivar-anchored match ("duringium biocopo" → Biokovo): the
-            # genus is useless, so the cultivar anchor carries the whole
-            # match. Cut the score hard so it beats the final <= 2 gate.
-            if anchor_hit:
-                score -= 2.5
+            # EXACT token overlap dominates the score: a row matching two
+            # query tokens exactly IS the plant ("yankee point" → 'Yankee
+            # Point' has common=2 and must beat any anchor-only row). Each
+            # exact/fuzzy token hit is -3; each cultivar anchor is -1.5
+            # (a garbled cultivar token); phonetic-prefix anchors get an
+            # extra -1. Non-plant SKUs pay the penalty in every branch.
+            score = -3 * common - 1.5 * anchor_count + nonplant_penalty
+            if anchor_prefix_hit:
+                score -= 1.0
         if score < best_score:
             best_score = score
             best = r
             best_common = common
         elif score == best_score and common > best_common:
-            # Tiebreaker: prefer the row with more exact token overlaps —
-            # sildru4 vs silvar4 both anchor (druids→druett, variegated→
-            # variegata) but sildru4 matches TWO tokens exactly.
+            # Tiebreaker: prefer the row with more exact token overlaps.
             best = r
             best_common = common
     return best if best_score <= 2 else None

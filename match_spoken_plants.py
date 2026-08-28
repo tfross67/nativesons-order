@@ -184,6 +184,28 @@ SIZE_HYPHEN_ALIASES = {
     "24-gallon": "24g", "twenty-four-gallon": "24g",
 }
 
+# Whisper end-of-speech / filler tokens that carry no plant meaning and
+# must be dropped before matching. Whisper emits "Stop." / "stop" when it
+# detects the speaker finished; "um", "uh", "like" are filler.
+WHISPER_FILLER = {
+    "stop", "stop.", "um", "uh", "uhh", "like", "so", "ok", "okay",
+    "right", "yeah", "and", "the", "a", "also",
+}
+
+
+def strip_whisper_filler(tokens):
+    """Drop trailing/leading Whisper fillers and empty tokens."""
+    out = []
+    for t in tokens:
+        t = t.strip(".,;!?")
+        if not t:
+            continue
+        if t.lower() in WHISPER_FILLER:
+            continue
+        out.append(t)
+    return out
+
+
 # Numbers in speech (both "26" and "twenty six")
 NUM_WORDS = {
     "zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
@@ -300,6 +322,11 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
     hijacks the match.
     """
     q = " ".join(query_tokens)
+    # Lowercase everything — Whisper capitalizes tokens ("Duranium") but
+    # the genus index is all-lowercase; a case-sensitive fuzzy compare
+    # silently rejects every capitalized name.
+    query_tokens = [t.lower() for t in query_tokens]
+    q = " ".join(query_tokens)
     q_cultivar = extract_cultivar(q)
     q_genus = query_tokens[0] if query_tokens else ""
 
@@ -307,9 +334,9 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
     fuzzy_genus = None
     cultivar_anchored = False
     if not candidates:
-        # try fuzzy genus
+        # try fuzzy genus — allow 2 edits ("duranium" → "geranium" is 2)
         for g, idxs in GENUS_INDEX.items():
-            if levenshtein(g, q_genus, 2) <= 1:
+            if levenshtein(g, q_genus, 2) <= 2:
                 candidates = idxs
                 fuzzy_genus = g
                 break
@@ -319,12 +346,22 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
         # token is usually still close ("biocopo" → "biokovo" is 2). Hunt
         # every row whose cultivar is within 2 edits of ANY query token —
         # the cultivar is the most distinctive part of a botanical name.
+        # Prefix-aware: "biocobal" → "biokovo" is 4 edits but shares the
+        # "bio" prefix, so a shared 3-char prefix bumps the allowance.
         for i, r in enumerate(ROWS):
             cl = r["cultivar_letters"]
             if not cl or len(cl) < 5:
                 continue
-            if any(levenshtein(t, cl, 2) <= 2 for t in query_tokens):
-                candidates.append(i)
+            for t in query_tokens:
+                tl = t.strip(".,;!?-")
+                d = levenshtein(tl, cl, 3)
+                if d <= 2:
+                    candidates.append(i)
+                    break
+                # shared prefix of 3+ chars → allow up to 4 edits
+                if d <= 4 and len(tl) >= 3 and len(cl) >= 3 and tl[:3] == cl[:3]:
+                    candidates.append(i)
+                    break
         cultivar_anchored = bool(candidates)
         if not candidates:
             return None
@@ -360,14 +397,22 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
             qt = comp_tokens
             common = 0
             anchor_hit = False
+            cl = r["cultivar_letters"]
             for tq in qt:
-                hit = tq in dt or any(levenshtein(tq, td, 1) <= 1 for td in dt)
+                tq_clean = tq.strip(".,;!?-")
+                hit = tq_clean in dt or any(levenshtein(tq_clean, td, 1) <= 1 for td in dt)
                 if hit:
                     common += 1
-                if cultivar_anchored and r["cultivar_letters"] and len(r["cultivar_letters"]) >= 5 \
-                        and levenshtein(tq, r["cultivar_letters"], 2) <= 2:
-                    anchor_hit = True
-            if common < 2 and not (cultivar_anchored and anchor_hit):
+                # Cultivar anchor — computed for EVERY row so a mangled
+                # cultivar ("biocobal" → "biokovo") can carry the match in
+                # the fuzzy-genus path too, not just the anchor-only path.
+                if cl and len(cl) >= 5:
+                    d_anchor = levenshtein(tq_clean, cl, 4)
+                    if d_anchor <= 2 or (
+                        d_anchor <= 4 and len(tq_clean) >= 3 and tq_clean[:3] == cl[:3]
+                    ):
+                        anchor_hit = True
+            if common < 2 and not anchor_hit:
                 continue
             # cultivar must match if both present
             rc = r["cultivar"]
@@ -475,10 +520,18 @@ def resolve_chunk(chunk):
                 break
     words = chunk_joined.split()
 
-    # Extract quantity (usually leading or trailing)
+    # Drop Whisper fillers ("Stop.", "um", "and") before matching — they
+    # carry no plant meaning and would otherwise poison the botanical match.
+    words = strip_whisper_filler(words)
+    if not words:
+        return {"query": chunk, "matched": False, "note": "Only filler words — nothing to match"}
+
+    # Extract quantity (usually leading or trailing). Handle a digit glued
+    # to the size by a hyphen ("48-4-inch") — the size extraction above
+    # consumed "4-inch" and left "48-" behind.
     qty = None
     for idx, w in enumerate(words):
-        n = parse_number([w])
+        n = parse_number([w.rstrip('-')])
         if n is not None and n <= 500:
             qty = n
             # remove the token (and a following word-number if compound)

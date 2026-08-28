@@ -242,9 +242,12 @@ def main():
             text = text[:line_start] + prev_line + text[close_abs:]
             close_abs = line_start + len(prev_line)
 
-        # Insert the new field lines right after the \n at close_abs
-        inject_text = '\n'.join(
-            f'    "{fname}": {fval},' for fname, fval in fields
+        # Insert the new field lines right after the \n at close_abs.
+        # Comma-separate the fields; the LAST field must NOT carry a trailing
+        # comma or the file becomes JS-style (invalid for strict json.loads in
+        # regen_availability.py / enrich_availability.py). Fixed round 74.
+        inject_text = ',\n'.join(
+            f'    "{fname}": {fval}' for fname, fval in fields
         ) + '\n'
         text = text[:close_abs + 1] + inject_text + text[close_abs + 1:]
         total_field_lines += len(fields)

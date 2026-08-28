@@ -264,6 +264,67 @@ def extract_cultivar(s):
     return re.sub(r"\s+", "", m.group(1).lower()) if m else None
 
 
+def consonant_skeleton(s):
+    """Vowels-only-mangled names (Whisper drops 'ea' → 'cnothis') still
+    share their consonant sequence: cnothis and ceanothus both reduce to
+    c-n-t-h-s. Compare skeletons when edit distance fails."""
+    return re.sub(r"[aeiouy]+", "", str(s or "").lower())
+
+
+def metaphone(word):
+    """Compact Double-Metaphone-ish encoder — maps a spoken name to its
+    sound code so any phonetic spelling of the same word lands on the same
+    code. 'cyanothus', 'cnothus', 'cnotus' all → KNTS, matching the real
+    'ceanothus'. Pure stdlib, no deps. Covers the Whisper garble class
+    that edit distance can't (whole-vowel and syllable reshuffles)."""
+    w = re.sub(r"[^a-z]", "", str(word or "").lower())
+    if not w:
+        return ""
+    out = []
+    i = 0
+    n = len(w)
+    while i < n:
+        c = w[i]
+        nxt = w[i + 1] if i + 1 < n else ""
+        if c in "aeiou":
+            if not out:  # leading vowel gets a placeholder consonant
+                out.append("A")
+            i += 1
+            continue
+        if c == "c":
+            if nxt in "eiy":
+                out.append("S")
+            elif nxt == "h":
+                out.append("K")
+            else:
+                out.append("K")
+        elif c in "gk":
+            out.append("J" if c == "g" and nxt in "eiy" else "K")
+        elif c in "sz":
+            out.append("S")
+        elif c in "j":
+            out.append("J")
+        elif c in "t":
+            out.append("S" if nxt in "ia" else "T")
+        elif c == "d":
+            out.append("T")
+        elif c in "fv":
+            out.append("F")
+        elif c in "pb":
+            out.append("P")
+        elif c == "m":
+            out.append("M")
+        elif c == "n":
+            out.append("N")
+        elif c == "r":
+            out.append("R")
+        elif c == "l":
+            out.append("L")
+        # h/w/y/x/q dropped (q handled as K above)
+        i += 1
+    return "".join(out)
+
+
 # Precompute per-row fields for matching speed
 ROWS = []
 for row in MASTER:
@@ -284,6 +345,8 @@ for row in MASTER:
         # Letters-only cultivar (e.g. "margaritabop") for substring checks
         # against spoken tokens that lost their apostrophes.
         "cultivar_letters": re.sub(r"[^a-z]", "", extract_cultivar(d) or ""),
+        "genus_meta": metaphone((d.split() or [""])[0]),
+        "desc_meta": metaphone(d),
     })
 
 # Genus index: first token -> rows (fast candidate filter)
@@ -291,6 +354,12 @@ GENUS_INDEX = {}
 for i, r in enumerate(ROWS):
     if r["tokens"]:
         GENUS_INDEX.setdefault(r["tokens"][0], []).append(i)
+
+# Phonetic genus index: metaphone code -> rows (sound-based fallback)
+META_INDEX = {}
+for i, r in enumerate(ROWS):
+    if r["genus_meta"]:
+        META_INDEX.setdefault(r["genus_meta"], []).append(i)
 
 
 def levenshtein(a, b, limit=3):
@@ -322,10 +391,11 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
     hijacks the match.
     """
     q = " ".join(query_tokens)
-    # Lowercase everything — Whisper capitalizes tokens ("Duranium") but
-    # the genus index is all-lowercase; a case-sensitive fuzzy compare
-    # silently rejects every capitalized name.
-    query_tokens = [t.lower() for t in query_tokens]
+    # Lowercase and strip stray hyphens/punct — Whisper capitalizes tokens
+    # ("Duranium") and glues hyphens into names ("CNOTHIS-EA") but the
+    # genus index is all-lowercase and hyphen-free; a case-sensitive or
+    # hyphenated compare silently rejects every such name.
+    query_tokens = [t.lower().strip("-—–") for t in query_tokens]
     q = " ".join(query_tokens)
     q_cultivar = extract_cultivar(q)
     q_genus = query_tokens[0] if query_tokens else ""
@@ -340,6 +410,31 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
                 candidates = idxs
                 fuzzy_genus = g
                 break
+    if not candidates:
+        # Consonant-skeleton genus: Whisper mangles vowels, so "cnothis"
+        # (from "Ceanothus") shares its consonant sequence c-n-t-h-s with
+        # the real genus even at 4+ edits. Require skeleton equality AND a
+        # shared first consonant so "point" can't skeleton-match "penstemon".
+        q_skel = consonant_skeleton(q_genus)
+        if len(q_skel) >= 4:
+            for g, idxs in GENUS_INDEX.items():
+                g_skel = consonant_skeleton(g)
+                if g_skel == q_skel and g_skel[:1] == q_skel[:1]:
+                    candidates = idxs
+                    fuzzy_genus = g
+                    break
+    if not candidates:
+        # Phonetic genus (metaphone): the LAST spelling-agnostic layer.
+        # "cyanothus", "cnothus", "cnotus" all encode to KNTS, same as the
+        # real "ceanothus" — no matter how Whisper spells what it heard,
+        # the sound code matches. This is the "recognize Latin names by
+        # pronunciation" answer.
+        q_meta = metaphone(q_genus)
+        if len(q_meta) >= 3:
+            cands = META_INDEX.get(q_meta, [])
+            if cands:
+                candidates = cands
+                fuzzy_genus = ROWS[cands[0]]["tokens"][0] if ROWS[cands[0]]["tokens"] else q_genus
     if not candidates and anchor_allowed:
         # Cultivar-anchored fallback: the genus may be mangled beyond
         # recovery ("duringium" → "geranium" is 4 edits), but the cultivar
@@ -406,7 +501,9 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
                 # Cultivar anchor — computed for EVERY row so a mangled
                 # cultivar ("biocobal" → "biokovo") can carry the match in
                 # the fuzzy-genus path too, not just the anchor-only path.
-                if cl and len(cl) >= 5:
+                # Min token length 6: a 5-char common word ("point") must
+                # not anchor onto "Point Joe" via a shared 3-char prefix.
+                if cl and len(cl) >= 5 and len(tq_clean) >= 6:
                     d_anchor = levenshtein(tq_clean, cl, 4)
                     if d_anchor <= 2 or (
                         d_anchor <= 4 and len(tq_clean) >= 3 and tq_clean[:3] == cl[:3]
@@ -517,6 +614,26 @@ def resolve_chunk(chunk):
             if re.search(r"\b" + re.escape(alias) + r"\b", chunk_joined, re.I):
                 size = canonical
                 chunk_joined = re.sub(r"\b" + re.escape(alias) + r"\b", " ", chunk_joined, flags=re.I)
+                break
+    if not size:
+        # Fuzzy size: Whisper mangles the size word too ("1-Gellen" →
+        # "1 gallon", "fove galln" → "5 gallon"). Match digit/hyphen
+        # tokens against the size-word vocabulary with 2-edit tolerance.
+        for tok in re.findall(r"\b\d{1,2}[- ]?[a-z]+", chunk_joined, re.I):
+            tokl = tok.lower().strip(".,;!?-")
+            num_part = re.match(r"(\d{1,2})", tokl)
+            word_part = re.sub(r"^[\d\- ]+", "", tokl)
+            if not num_part:
+                continue
+            for word, canonical in (("gallon", "g"), ("gal", "g"), ("inch", "in"), ("in", "in")):
+                if levenshtein(word_part, word, 2) <= 2:
+                    size = f"{num_part.group(1)}{canonical}"
+                    size = {"4in": "4in", "1g": "1g", "2g": "2g", "5g": "5g",
+                            "15g": "15g", "20g": "20g", "7g": "7g",
+                            "16g": "16g", "24g": "24g"}.get(size, size)
+                    chunk_joined = re.sub(r"\b" + re.escape(tok) + r"\b", " ", chunk_joined, flags=re.I)
+                    break
+            if size:
                 break
     words = chunk_joined.split()
 

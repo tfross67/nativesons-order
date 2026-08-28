@@ -1,8 +1,8 @@
 /* Native Sons Weekly Availability - generated */
 /*global window */
 window.AVAILABILITY = {
-  "week": "Week of August 24th, 2026",
-  "generated": "2026-08-21",
+  "week": "Week of August 31st, 2026",
+  "generated": "2026-08-28",
   "source": "Native Sons Wholesale Nursery weekly availability list",
   "contact": {"email": "orders@nativeson.com", "phone": "805.481.5996"},
   "plants": [
@@ -105,6 +105,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "2gal",
+        "price": 20.0,
+        "order": ""
+      },
+      {
         "container": "5gal",
         "price": 24.0,
         "order": ""
@@ -128,6 +133,33 @@ window.AVAILABILITY = {
     "bud": false,
     "new": false,
     "additional_info": "This low-growing Acacia forms mounds of deep green foliage.  New growth can appear slightly red tipped until maturing.  This Acacia can take occasional watering after establishment and responds well to light pruning.  The narrow leaves and weeping form make this a great plant for containers or cascading over embankments. Also known as 'Mini Cog'"
+  },
+  {
+    "botanical": "Acacia covenyi",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "5gal",
+        "price": 24.0,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "Blue Bush",
+    "origin": "Australia",
+    "height": "15-20'",
+    "width": "10-15'",
+    "hardiness": "15",
+    "exposure": "Full sun",
+    "flower_color": "Yellow",
+    "flower_time": "Spring",
+    "foliage": "Silver blue",
+    "water": "Occasional",
+    "soil": "Well drained",
+    "special_uses": "Hedge Planting\nAccent\nDry garden",
+    "plant_type": "Evergreen shrub - Small tree"
   },
   {
     "botanical": "Acacia cultriformis",
@@ -217,6 +249,33 @@ window.AVAILABILITY = {
     "new": false
   },
   {
+    "botanical": "Achillea millefolium 'Alba'",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "1gal",
+        "price": 6.0,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "Yarrow",
+    "origin": "Hybrid",
+    "height": "12-18\"",
+    "width": "8-12\"",
+    "hardiness": "0",
+    "exposure": "Full sun",
+    "flower_color": "White",
+    "flower_time": "Summer - Fall",
+    "foliage": "Green",
+    "water": "Moderate",
+    "soil": "Well drained",
+    "special_uses": "Cut Flower\nAttracts butterflies",
+    "plant_type": "Perennial"
+  },
+  {
     "botanical": "Achillea millefolium 'Pink Grapefruit'",
     "section": "General Nursery",
     "sizes": [
@@ -299,7 +358,7 @@ window.AVAILABILITY = {
     "special_uses": "Rock Garden\nCoastal Garden\nSmall area groundcover\nSmall Gardens\nCut Flower\nContainer planting\nHerb garden",
     "additional_info": "Mounding to 8\" with fine, gray foliage and large white flowers in summer. Best used in rock gardens.",
     "hardiness": "0°F",
-    "description": "Mounding to 8\" with fine, gray foliage and large white flowers in summer. Best used in rock gardens.",
+    "description": "Mounding to 8\" with fine, gray foliage and large white flowers in summer. Best used in rock gardens."
   },
   {
     "botanical": "Adenanthos 'Silver Haze'",
@@ -388,7 +447,7 @@ window.AVAILABILITY = {
     "special_uses": "Attracts Birds\nBorder Planting\nSmall Gardens\nCoastal Garden",
     "additional_info": "Dark green leaves with burgundy edges in dry situations. The blue flowers are held on a 7” inflorescence and rise to 3’.",
     "hardiness": "15°F",
-    "description": "Dark green leaves with burgundy edges in dry situations. The blue flowers are held on a 7” inflorescence and rise to 3’.",
+    "description": "Dark green leaves with burgundy edges in dry situations. The blue flowers are held on a 7” inflorescence and rise to 3’."
   },
   {
     "botanical": "Agastache 'Kudos™ Silver Blue'",
@@ -414,7 +473,7 @@ window.AVAILABILITY = {
     "foliage": "Dark green",
     "water": "Moderate",
     "soil": "Well drained",
-    "plant_type": "Perennial",
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Agave 'Blue Glow'",
@@ -580,7 +639,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Small area groundcover\nBorder planting\nContainer Planting\nCoastal Garden\nSmall Gardens",
     "plant_type": "Perennial",
-    "description": "Synonym: Ajuga reptans 'Multicolor'.",
+    "description": "Synonym: Ajuga reptans 'Multicolor'."
   },
   {
     "botanical": "Ajuga tenorii 'Princess Nadia'",
@@ -625,9 +684,9 @@ window.AVAILABILITY = {
     "flower_color": "Pink",
     "flower_time": "Spring - Summer",
     "origin": "Garden hybrid",
-    "bloom": false,
+    "bloom": true,
     "bud": false,
-    "new": true,
+    "new": false,
     "plant_type": "Perennial",
     "exposure": "Full sun - Partial shade",
     "foliage": "Green",
@@ -877,7 +936,7 @@ window.AVAILABILITY = {
     "foliage": "Green",
     "water": "Occasional",
     "soil": "Well drained",
-    "plant_type": "Evergreen shrub",
+    "plant_type": "Evergreen shrub"
   },
   {
     "botanical": "Arctostaphylos x media 'Humboldt Mystery'",
@@ -956,7 +1015,7 @@ window.AVAILABILITY = {
     "foliage": "Green",
     "water": "Moderate",
     "soil": "Well drained",
-    "plant_type": "Perennial",
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Armeria pseud. 'Dreameria™ Dreamland'",
@@ -982,7 +1041,7 @@ window.AVAILABILITY = {
     "foliage": "Green",
     "water": "Moderate",
     "soil": "Well drained",
-    "plant_type": "Perennial",
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Armeria juniperifolia 'Rosa Stolz'",
@@ -1009,7 +1068,7 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "special_uses": "Rock garden\nBorder planting\nCoastal garden\nAttracts butterflies",
-    "plant_type": "Perennial",
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Armeria maritima 'Rubrifolia'",
@@ -1021,7 +1080,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "new": false,
     "common": "Sea Pink",
@@ -1037,7 +1096,33 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Rock Garden\nContainer Planting\nSmall area groundcover\nBorder planting\nCoastal Garden",
     "plant_type": "Perennial",
-    "description": "Stunning burgundy-red winter foliage separates this Armeria from the rest. Individual plants reach 4” high (8” with bloom) with 6” spread and display hot magenta-pink flower heads in spring.  Excellent small area groundcover, particularly along the coast where it is salt-spray resistant. Hardy to 0F.",
+    "description": "Stunning burgundy-red winter foliage separates this Armeria from the rest. Individual plants reach 4” high (8” with bloom) with 6” spread and display hot magenta-pink flower heads in spring.  Excellent small area groundcover, particularly along the coast where it is salt-spray resistant. Hardy to 0F."
+  },
+  {
+    "botanical": "Armeria pseud. 'Dreameria™ Dreamland'",
+    "section": "perennials",
+    "sizes": [
+      {
+        "container": "1gal",
+        "price": 6.15,
+        "order": ""
+      }
+    ],
+    "bloom": true,
+    "bud": false,
+    "new": false,
+    "common": "Thrift, Sea Pink",
+    "origin": "Australia",
+    "height": "8-12\"",
+    "width": "8-12\"",
+    "hardiness": "0",
+    "exposure": "Full sun",
+    "flower_color": "Salmon pink",
+    "flower_time": "Spring - Summer - Fall",
+    "foliage": "Green",
+    "water": "Moderate",
+    "soil": "Well drained",
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Artemisia californica 'Montara'",
@@ -1242,34 +1327,6 @@ window.AVAILABILITY = {
     "hardiness": "20"
   },
   {
-    "botanical": "Buddleja 'Buzz™ Ivory'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.5,
-        "order": ""
-      }
-    ],
-    "common": "Butterfly bush",
-    "height": "4-6'",
-    "width": "4-6'",
-    "flower_color": "White",
-    "flower_time": "Summer",
-    "origin": "Hybrid",
-    "plant_type": "Evergreen shrub",
-    "exposure": "Full sun",
-    "foliage": "Gray green",
-    "water": "Moderate",
-    "soil": "Well drained",
-    "hardiness": "0",
-    "description": "White clusters of fragrant, tubular flowers cover this compact shrub all summer long. Attractive foliage is gray green with white, felted undersides. Growing 2 to 3 feet high and wide, it makes a perfect container specimen. 'Buzz Ivory' attracts butterflies and handles coastal conditions. Hardy to 0F.",
-    "bloom": false,
-    "bud": true,
-    "new": false,
-    "additional_info": "White clusters of fragrant, tubular flowers cover this compact shrub all summer long. Attractive foliage is gray green with white, felted undersides. Growing 2 to 3 feet high and wide, it makes a perfect container specimen. 'Buzz Ivory' attracts butterflies and handles coastal conditions. Hardy to 0F."
-  },
-  {
     "botanical": "Caesalpinia mexicana",
     "section": "General Nursery",
     "sizes": [
@@ -1321,7 +1378,7 @@ window.AVAILABILITY = {
     "soil": "Most soil types",
     "special_uses": "Border Planting\nSmall area groundcover\nSlope Planting\nRevegetation and Restoration\nCoastal Garden",
     "plant_type": "Grass/grass-like perennial",
-    "description": "Cape Mendocino reed grass is a graceful perennial with blue-gray foliage clustered into loose mounds to 18 inches tall. Many of the leaf blades have a touch of purple which adds a delightful accent to this California native.  Purple panicles appear just above the foliage in mid spring and then turn tawny blond as they mature. It is best with some summer irrigation, perhaps moderately if in full sun, and only occasionally in partial shade. Cape Mendocino reed grass is useful bordering lawns, in mixed perennial bed, massed, or as a component of a coastal meadow. We don't recommended it for hot, interior climates. Hardy to 0F.",
+    "description": "Cape Mendocino reed grass is a graceful perennial with blue-gray foliage clustered into loose mounds to 18 inches tall. Many of the leaf blades have a touch of purple which adds a delightful accent to this California native.  Purple panicles appear just above the foliage in mid spring and then turn tawny blond as they mature. It is best with some summer irrigation, perhaps moderately if in full sun, and only occasionally in partial shade. Cape Mendocino reed grass is useful bordering lawns, in mixed perennial bed, massed, or as a component of a coastal meadow. We don't recommended it for hot, interior climates. Hardy to 0F."
   },
   {
     "botanical": "Calamagrostis nutkae. x fol. 'Little Nootka'",
@@ -1433,7 +1490,7 @@ window.AVAILABILITY = {
     "special_uses": "Water Gardens\nShade Garden\nBackground Planting\nFall Color",
     "additional_info": "Spice bush. A deciduous shrub to 12’ with an 8’ spread. The bark is aromatic and the fragrant leaves turn a warm yellow in the fall. Reddish-brown flowers resembling small water lilies, 2” across, appear from April to August. Flowers smell like an aged wine barrel. Grows in full sun with some light shade in warm climates. Plant in deep, moist, humus-rich soil with moderate to occasional water. A tough, trouble-free native deserving of greater use in California gardens. Hardy to 0F. California.",
     "hardiness": "0°F",
-    "description": "Spice bush. A deciduous shrub to 12’ with an 8’ spread. The bark is aromatic and the fragrant leaves turn a warm yellow in the fall. Reddish-brown flowers resembling small water lilies, 2” across, appear from April to August. Flowers smell like an aged wine barrel. Grows in full sun with some light shade in warm climates. Plant in deep, moist, humus-rich soil with moderate to occasional water. A tough, trouble-free native deserving of greater use in California gardens. Hardy to 0F. California.",
+    "description": "Spice bush. A deciduous shrub to 12’ with an 8’ spread. The bark is aromatic and the fragrant leaves turn a warm yellow in the fall. Reddish-brown flowers resembling small water lilies, 2” across, appear from April to August. Flowers smell like an aged wine barrel. Grows in full sun with some light shade in warm climates. Plant in deep, moist, humus-rich soil with moderate to occasional water. A tough, trouble-free native deserving of greater use in California gardens. Hardy to 0F. California."
   },
   {
     "botanical": "Campanula garganica 'Dickson's Gold'",
@@ -1488,7 +1545,7 @@ window.AVAILABILITY = {
     "special_uses": "Border Planting\nSmall area groundcover",
     "hardiness": "0",
     "description": "Low-growing perennial with Vivid blue flowers that are larger and darker than the species.",
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "new": false
   },
@@ -1520,35 +1577,6 @@ window.AVAILABILITY = {
     "new": false
   },
   {
-    "botanical": "Campanula poscharskyana 'Blue Waterfall'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.5,
-        "order": ""
-      }
-    ],
-    "common": "Serbian bellflower",
-    "height": "8-12\"",
-    "width": "2-3'",
-    "flower_color": "Blue",
-    "flower_time": "Summer - Fall",
-    "origin": "Balkans",
-    "plant_type": "Perennial",
-    "exposure": "Full sun - Partial shade",
-    "foliage": "Green",
-    "water": "Regular",
-    "soil": "Well drained",
-    "special_uses": "Container Planting\nBorder Planting\nSmall area groundcover",
-    "hardiness": "15",
-    "description": "Delightful trailing perennial with darker and more abundant flowers than the species. Use between rocks, spilling over walls or out of containers, and in the foreground of perennial borders. Plants won’t grow taller than 12” but will spread up to 3’ across. Hardy to 0F.",
-    "bloom": true,
-    "bud": false,
-    "new": false,
-    "additional_info": "Delightful trailing perennial with darker and more abundant flowers than the species. Use between rocks, spilling over walls or out of containers, and in the foreground of perennial borders. Plants won’t grow taller than 12” but will spread up to 3’ across. Hardy to 0F."
-  },
-  {
     "botanical": "Campanula rotundifolia 'White Cloud'",
     "section": "General Nursery",
     "sizes": [
@@ -1564,7 +1592,7 @@ window.AVAILABILITY = {
     "flower_color": "White",
     "flower_time": "Summer",
     "origin": "North America",
-    "bloom": true,
+    "bloom": false,
     "bud": false,
     "new": false,
     "plant_type": "Perennial",
@@ -1686,33 +1714,32 @@ window.AVAILABILITY = {
     "new": false
   },
   {
-    "botanical": "Caryopteris x clandonensis 'Gold Crest'",
+    "botanical": "Carpenteria californica 'Elizabeth'",
     "section": "General Nursery",
     "sizes": [
       {
-        "container": "1gal",
-        "price": 6.25,
+        "container": "5gal",
+        "price": 24.0,
         "order": ""
       }
     ],
-    "common": "Bluebeard",
-    "height": "2-3'",
-    "width": "2-3'",
-    "flower_color": "Dark blue",
-    "flower_time": "Summer - Fall",
-    "origin": "Hybrid",
-    "bloom": true,
+    "bloom": false,
     "bud": false,
     "new": false,
-    "plant_type": "Deciduous shrub",
-    "exposure": "Full sun",
-    "foliage": "Golden yellow",
+    "common": "Bush anemone",
+    "origin": "California",
+    "height": "4-6'",
+    "width": "6-8'",
+    "hardiness": "10",
+    "exposure": "Full sun - Partial shade",
+    "flower_color": "White w/yellow stamens",
+    "flower_time": "Spring - Summer",
+    "foliage": "Green, glossy texture",
     "water": "Moderate",
-    "soil": "Well drained",
-    "special_uses": "Border planting\nContainer planting",
-    "hardiness": "20",
-    "description": "Deer and rabbit resistant.",
-    "additional_info": "Deer and rabbit resistant."
+    "soil": "Most soil types",
+    "special_uses": "Slope planting\nFormal hedge\nHedge Planting\nScreen\nAttracts butterflies\nCoastal garden\nShade garden\nCalifornia Native",
+    "plant_type": "Evergreen shrub",
+    "description": "A selected wild form, more compact than the species with smaller, more abundant blossoms. Mature plants reach 8’ high and 6’ across."
   },
   {
     "botanical": "Casuarina glauca 'Cousin It'",
@@ -1832,7 +1859,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Hedge Planting\nScreen\nCoastal Garden",
     "plant_type": "Evergreen shrub",
-    "description": "A mid-sized hybrid to 5’ tall with an arching 8’ spread. Consistent early bloomer with warty green leaves and brilliant clear blue flowers in button-like clusters. It has performed well in both partial shade and full sun with minimal supplemental water. This strong Dara Emery selection is a dependable medium-sized shrub that deserves greater attention from California gardeners. Hardy to 15F.",
+    "description": "A mid-sized hybrid to 5’ tall with an arching 8’ spread. Consistent early bloomer with warty green leaves and brilliant clear blue flowers in button-like clusters. It has performed well in both partial shade and full sun with minimal supplemental water. This strong Dara Emery selection is a dependable medium-sized shrub that deserves greater attention from California gardeners. Hardy to 15F."
   },
   {
     "botanical": "Ceanothus 'Marie Rose™'",
@@ -1860,7 +1887,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Attracts butterflies\nHedge Planting\nCoastal garden\nDry garden\nContainer planting",
     "plant_type": "Deciduous shrub",
-    "description": "Drought tolerant an deer resistant.",
+    "description": "Drought tolerant an deer resistant."
   },
   {
     "botanical": "Ceanothus 'Owlswood Blue'",
@@ -2120,7 +2147,7 @@ window.AVAILABILITY = {
     "soil": "Well drained / tolerates heavier soils",
     "special_uses": "Coastal Garden\nBackground Planting\nHedge Planting\nScreen\nSlope planting\nDry garden",
     "plant_type": "Evergreen shrub - Small tree",
-    "description": "Whirling clouds of white flowers cover this large shrub in early spring. Standing 15’ tall and 25’ wide, it is adaptable, dependable, garden tolerant and well-suited to coastal situations. Prune to control the form of this rapidly growing cultivar. A selection from the Big Sur coast that is tolerant of heavier soils. Our mother plant lived for 18 years and developed into a charming small tree. Hardy to 15F.",
+    "description": "Whirling clouds of white flowers cover this large shrub in early spring. Standing 15’ tall and 25’ wide, it is adaptable, dependable, garden tolerant and well-suited to coastal situations. Prune to control the form of this rapidly growing cultivar. A selection from the Big Sur coast that is tolerant of heavier soils. Our mother plant lived for 18 years and developed into a charming small tree. Hardy to 15F."
   },
   {
     "botanical": "Ceanothus thyrsiflorus var. griseus",
@@ -2269,35 +2296,6 @@ window.AVAILABILITY = {
     "additional_info": "Stiffly erect plants growing to 4’ with gray-green leaves and hot pink, pale-centered flowers 2-3” across."
   },
   {
-    "botanical": "Cistus ladanifer 'Blanche'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.25,
-        "order": ""
-      }
-    ],
-    "common": "Rockrose",
-    "height": "8-10'",
-    "width": "8-10'",
-    "flower_color": "White",
-    "flower_time": "Summer",
-    "origin": "Garden hybrid",
-    "plant_type": "Evergreen shrub",
-    "exposure": "Full sun",
-    "foliage": "Olive green",
-    "water": "Moderate",
-    "soil": "Most soil types",
-    "special_uses": "Dry Garden\nBackground Planting\nScreen\nSlope planting\nLarge area groundcover\nCoastal garden\nAttracts butterflies",
-    "hardiness": "10",
-    "description": "Leaves are olive-green above and blue-gray beneath, lanceolate, aromatic and pubescent. The pure white flowers are 4” in diameter. A tough and durable selection that makes an effective screen.",
-    "bloom": false,
-    "bud": false,
-    "new": false,
-    "additional_info": "Leaves are olive-green above and blue-gray beneath, lanceolate, aromatic and pubescent. The pure white flowers are 4” in diameter. A tough and durable selection that makes an effective screen."
-  },
-  {
     "botanical": "Cistus x bornetianus 'Jester'",
     "section": "General Nursery",
     "sizes": [
@@ -2350,7 +2348,7 @@ window.AVAILABILITY = {
     "foliage": "Silver gray",
     "water": "Occasional",
     "soil": "Well drained",
-    "plant_type": "Evergreen shrub",
+    "plant_type": "Evergreen shrub"
   },
   {
     "botanical": "Coleonema album",
@@ -2497,7 +2495,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Rock Garden\nCoastal Garden\nSmall area groundcover\nContainer Planting\nBorder Planting",
     "plant_type": "Perennial",
-    "description": "Compact morning glory. Evergreen perennial growing up to 8\" tall with trailing branches spreading to 12\". Deep lavender purple flowers are shown from Spring-Fall. Grows well in light gravely soil with good drainage, but will tolerate clay soil if not over watered. Use for small ground cover areras, rock coastal gardens as well as for container planting. Hardy to 25F.",
+    "description": "Compact morning glory. Evergreen perennial growing up to 8\" tall with trailing branches spreading to 12\". Deep lavender purple flowers are shown from Spring-Fall. Grows well in light gravely soil with good drainage, but will tolerate clay soil if not over watered. Use for small ground cover areras, rock coastal gardens as well as for container planting. Hardy to 25F."
   },
   {
     "botanical": "Coprosma 'Eclipse'",
@@ -2716,7 +2714,7 @@ window.AVAILABILITY = {
     "water": "Regular",
     "soil": "Well drained",
     "special_uses": "Coastal Garden\nBorder Planting",
-    "plant_type": "Evergreen shrub",
+    "plant_type": "Evergreen shrub"
   },
   {
     "botanical": "Correa reflexa 'Kangaroo Island'",
@@ -2745,33 +2743,6 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "hardiness": "25",
-    "bloom": false,
-    "bud": false,
-    "new": false
-  },
-  {
-    "botanical": "Cotinus 'Grace'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "15gal",
-        "price": 90.0,
-        "order": ""
-      }
-    ],
-    "common": "Smoke tree",
-    "height": "15-20'",
-    "width": "8-10'",
-    "flower_color": "Red brown",
-    "flower_time": "Spring - Summer",
-    "origin": "Central Europe to Central China",
-    "plant_type": "Deciduous shrub",
-    "exposure": "Full sun - Partial shade",
-    "foliage": "Purple green",
-    "water": "Regular",
-    "soil": "Most soil types",
-    "special_uses": "Border Planting",
-    "hardiness": "0",
     "bloom": false,
     "bud": false,
     "new": false
@@ -2886,7 +2857,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Container planting\nBorder planting\nCoastal garden\nShade garden",
     "plant_type": "Woody perennial/subshrub",
-    "description": "Shrubby perennial to 2’ with unique red and purple flowers resembling a small bat.",
+    "description": "Shrubby perennial to 2’ with unique red and purple flowers resembling a small bat."
   },
   {
     "botanical": "Delosperma 'Fire Spinner'",
@@ -2913,7 +2884,7 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "special_uses": "Rock garden\nCoastal garden\nDry garden\nContainer planting\nSmall area groundcover",
-    "plant_type": "Succulent",
+    "plant_type": "Succulent"
   },
   {
     "botanical": "Dorycnium hirsutum",
@@ -2999,6 +2970,33 @@ window.AVAILABILITY = {
     "hardiness": "30",
     "description": "Synonyms: Mesembryanthemum speciosum.",
     "additional_info": "Synonyms: Mesembryanthemum speciosum."
+  },
+  {
+    "botanical": "Dryopteris erythrosora",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "1gal",
+        "price": 7.25,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "Autumn fern",
+    "origin": "East Asia",
+    "height": "18-24\"",
+    "width": "18-24\"",
+    "hardiness": "10",
+    "exposure": "Shade",
+    "flower_color": "N/A",
+    "flower_time": "N/A",
+    "foliage": "Deep green w/coppery red new growth",
+    "water": "Regular",
+    "soil": "Moist",
+    "special_uses": "Border Planting\nWoodland Planting\nContainer Planting\nShade Garden",
+    "plant_type": "Fern"
   },
   {
     "botanical": "Dymondia margaretae",
@@ -3113,7 +3111,7 @@ window.AVAILABILITY = {
     "additional_info": "Brittlebush. Compact, fragrant shrub 2-4’ high, with silvery leaves, in dense clusters. 2” yellow flowers with brown centers occur in mid-spring.  Tolerant of extreme heat, aridity, wind and drought, but under severe moisture stress it will drop its leaves. California deserts."
   },
   {
-    "botanical": "Epilobium californica 'Calistoga'",
+    "botanical": "Epilobium canum ssp. latifolia 'Everett's Choice'",
     "section": "General Nursery",
     "sizes": [
       {
@@ -3122,22 +3120,23 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "California fuchsia",
-    "height": "12-18\"",
-    "width": "3-4'",
-    "flower_color": "Red orange",
-    "flower_time": "Summer - Fall",
-    "origin": "California",
-    "plant_type": "Perennial",
-    "exposure": "Full sun",
-    "foliage": "Gray",
-    "water": "Occasional",
-    "soil": "Well drained",
-    "special_uses": "Dry Garden\nBorder Planting\nSlope Planting\nAttracts Butterflies\nAttracts Birds\nSmall area groundcover",
-    "hardiness": "0",
     "bloom": false,
     "bud": false,
-    "new": false
+    "new": false,
+    "common": "California fuchsia",
+    "origin": "California",
+    "height": "6-8\"",
+    "width": "12-18\"",
+    "hardiness": "10",
+    "exposure": "Full sun",
+    "flower_color": "Red",
+    "flower_time": "Summer - Fall",
+    "foliage": "Silver gray, velvet texture",
+    "water": "Occasional",
+    "soil": "Well drained",
+    "special_uses": "Attracts Birds\nRock Garden\nDry Garden\nBorder Planting",
+    "plant_type": "Perennial",
+    "description": "Long, fluted red flowers form around the outer edges of this gray-leafed groundcover. Slow to establish itself, but worth the wait."
   },
   {
     "botanical": "Erigeron glaucus 'Compacta'",
@@ -3164,7 +3163,7 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "special_uses": "Rock garden\nCoastal garden\nContainer planting\nBorder planting\nCut Flower",
-    "plant_type": "Perennial",
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Erigeron karvinskianus",
@@ -3193,7 +3192,7 @@ window.AVAILABILITY = {
     "special_uses": "Container Planting\nBorder Planting\nSmall area groundcover\nTrellis/Wall Planting\nRock garden\nCoastal garden\nShade garden\nErosion control\nSlope planting",
     "additional_info": "Santa Barbara daisy. Graceful, spreading perennial to 3’ with dainty flower heads opening pink and fading to white so that multiple shades of color appear simultaneously. A utilitarian and trouble free plant, consider placing it in large containers, rock gardens, hanging baskets or on a dry wall. Drought tolerant. Assertive reseeder in many gardens. Shear hard annually to maintain a fresh appearance. Hardy to 0F. Mexico to Panama.",
     "hardiness": "5°F",
-    "description": "Santa Barbara daisy. Graceful, spreading perennial to 3’ with dainty flower heads opening pink and fading to white so that multiple shades of color appear simultaneously. A utilitarian and trouble free plant, consider placing it in large containers, rock gardens, hanging baskets or on a dry wall. Drought tolerant. Assertive reseeder in many gardens. Shear hard annually to maintain a fresh appearance. Hardy to 0F. Mexico to Panama.",
+    "description": "Santa Barbara daisy. Graceful, spreading perennial to 3’ with dainty flower heads opening pink and fading to white so that multiple shades of color appear simultaneously. A utilitarian and trouble free plant, consider placing it in large containers, rock gardens, hanging baskets or on a dry wall. Drought tolerant. Assertive reseeder in many gardens. Shear hard annually to maintain a fresh appearance. Hardy to 0F. Mexico to Panama."
   },
   {
     "botanical": "Eriophyllum staechadifolium",
@@ -3212,7 +3211,7 @@ window.AVAILABILITY = {
     "flower_time": "Summer",
     "origin": "California",
     "bloom": false,
-    "bud": false,
+    "bud": true,
     "new": false,
     "plant_type": "Evergreen shrub",
     "exposure": "Full sun",
@@ -3426,6 +3425,34 @@ window.AVAILABILITY = {
     "new": false
   },
   {
+    "botanical": "Euphorbia x martinii",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "1gal",
+        "price": 6.5,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "Spurge",
+    "origin": "Garden hybrid",
+    "height": "1-2'",
+    "width": "1-2'",
+    "hardiness": "0",
+    "exposure": "Full sun - Partial shade",
+    "flower_color": "Lime green",
+    "flower_time": "Spring",
+    "foliage": "Dark blue green w/red tips",
+    "water": "Moderate",
+    "soil": "Well drained",
+    "special_uses": "Container planting\nWoodland planting\nBorder planting\nShade garden",
+    "plant_type": "Perennial",
+    "description": "Compact clusters of evergreen rosettes to 2’ with red-stained leaves. The lime-green flowers with brown centers are carried over a long season. Hardy to 0F."
+  },
+  {
     "botanical": "Euphorbia x martinii 'Ascot Rainbow'",
     "section": "General Nursery",
     "sizes": [
@@ -3542,35 +3569,6 @@ window.AVAILABILITY = {
     "additional_info": "Blue fescue. The intense silver-blue foliage of this cultivar recommends it for almost any garden, where it will combine handsomely with other silvers, darkest greens and even purples. Plants form tidy mounds to 10” tall and send up silver-blue flower stalks in spring that fade to warmest gold. Provide an annual shearing to maintain a fresh appearance, and replace individual plants every 3-4 years. Hardy to below 0F."
   },
   {
-    "botanical": "Festuca rubra 'Patrick's Point'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.15,
-        "order": ""
-      }
-    ],
-    "common": "Patrick’s Point fescue",
-    "height": "8-12\"",
-    "width": "8-12\"",
-    "flower_color": "Blue",
-    "flower_time": "Summer",
-    "origin": "California",
-    "plant_type": "Grass/grass-like perennial",
-    "exposure": "Full sun - Partial shade",
-    "foliage": "Gray green",
-    "water": "Regular",
-    "soil": "Well drained",
-    "special_uses": "Rock Garden\nSmall area groundcover\nShade Garden",
-    "hardiness": "0",
-    "description": "Creeping red fescue. A handsome selection from Patrick’s Point on the California coast, it bears very fine gray-green leaves in tight, rhizomatous clumps 8-12” tall. This species could be used as a lawn substitute.",
-    "bloom": false,
-    "bud": false,
-    "new": false,
-    "additional_info": "Creeping red fescue. A handsome selection from Patrick’s Point on the California coast, it bears very fine gray-green leaves in tight, rhizomatous clumps 8-12” tall. This species could be used as a lawn substitute."
-  },
-  {
     "botanical": "Fragaria chiloensis 'Chaval'",
     "section": "General Nursery",
     "sizes": [
@@ -3600,33 +3598,18 @@ window.AVAILABILITY = {
     "additional_info": "Beach strawberry. Spreading perennial with long stolons and small, densely arranged, dark green leaves. White flowers and small, edible fruits appear in spring and summer. Prefers some shade and requires regular garden water. Exceptional selection for use in understory plantings or woodlands. Hardy to 0F. California."
   },
   {
-    "botanical": "Fragaria vesca ssp. californica 'Montana de Oro'",
-    "section": "General Nursery",
+    "botanical": "Frankenia thymifolia",
+    "section": "perennials",
     "sizes": [
       {
-        "container": "1gal",
-        "price": 6.25,
+        "container": "4in",
+        "price": 3.5,
         "order": ""
       }
     ],
-    "common": "Woodland strawberry",
-    "height": "3-6\"",
-    "width": "3-4'",
-    "flower_color": "White",
-    "flower_time": "Spring - Summer",
-    "origin": "California",
     "bloom": false,
     "bud": false,
-    "new": false,
-    "plant_type": "Perennial",
-    "exposure": "Full sun - Partial shade",
-    "foliage": "Green",
-    "water": "Moderate",
-    "soil": "Well drained",
-    "special_uses": "Coastal Garden\nShade Garden\nAttracts Birds\nAttracts Butterflies\nSlope Planting\nContainer Planting\nWoodland Planting\nSmall area groundcover\nNative Sons Selection",
-    "hardiness": "10",
-    "description": "Excellent groundcover for full sun to part shade. Vigorous and heavy blooming. Red berries are small but sweet. Excellent beneath trees or shrubs to smother weeds and add color.",
-    "additional_info": "Excellent groundcover for full sun to part shade. Vigorous and heavy blooming. Red berries are small but sweet. Excellent beneath trees or shrubs to smother weeds and add color."
+    "new": false
   },
   {
     "botanical": "Fremontodendron 'California Glory'",
@@ -3683,7 +3666,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "additional_info": "Upright and vigorous form growing to 12’ tall with long, arching branches. The leaves are 2-3” across and lobed, and the flowers are rich yellow above and below, opening rather flat. Peak bloom is late April and May, then later, sporadically blooming throughout the year.",
     "hardiness": "15°F",
-    "description": "Upright and vigorous form growing to 12’ tall with long, arching branches. The leaves are 2-3” across and lobed, and the flowers are rich yellow above and below, opening rather flat. Peak bloom is late April and May, then later, sporadically blooming throughout the year.",
+    "description": "Upright and vigorous form growing to 12’ tall with long, arching branches. The leaves are 2-3” across and lobed, and the flowers are rich yellow above and below, opening rather flat. Peak bloom is late April and May, then later, sporadically blooming throughout the year."
   },
   {
     "botanical": "Fuchsia magellanica 'Versicolor'",
@@ -3692,6 +3675,11 @@ window.AVAILABILITY = {
       {
         "container": "1gal",
         "price": 6.25,
+        "order": ""
+      },
+      {
+        "container": "5gal",
+        "price": 20.0,
         "order": ""
       }
     ],
@@ -3708,7 +3696,7 @@ window.AVAILABILITY = {
     "soil": "Rich soils",
     "hardiness": "0",
     "description": "Upright evergreen shrub growing to 2-4’ bearing unusual silver-green foliage irregularly marked with creamy white margins. In full sun or during winter chills, the foliage takes on a striking reddish-purple cast. Use in containers or in sunny borders. Scarlet and violet pendulous flowers appear along the arching branches in summer. Hardy to 0F.",
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "new": false,
     "additional_info": "Upright evergreen shrub growing to 2-4’ bearing unusual silver-green foliage irregularly marked with creamy white margins. In full sun or during winter chills, the foliage takes on a striking reddish-purple cast. Use in containers or in sunny borders. Scarlet and violet pendulous flowers appear along the arching branches in summer. Hardy to 0F."
@@ -3739,7 +3727,7 @@ window.AVAILABILITY = {
     "soil": "Most soil types",
     "additional_info": "Perennial Plant of the Year 2015",
     "hardiness": "0°F",
-    "description": "Perennial Plant of the Year 2015",
+    "description": "Perennial Plant of the Year 2015"
   },
   {
     "botanical": "Geum 'Sunkissed Lime'",
@@ -3934,7 +3922,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Border planting\nContainer Planting",
     "plant_type": "Woody perennial/subshrub",
-    "description": "Small upright woody perennial, ‘Quicksilver’ grows to 2’ or less with an equal spread. The wiry black stems hold tiny silver-gray leaves creating a lovely form for the foreground of any sunny garden. Plants tolerate pruning well, and our Field Manager here at the nursery has created a lovely potted specimen that graces the entrance to our office.",
+    "description": "Small upright woody perennial, ‘Quicksilver’ grows to 2’ or less with an equal spread. The wiry black stems hold tiny silver-gray leaves creating a lovely form for the foreground of any sunny garden. Plants tolerate pruning well, and our Field Manager here at the nursery has created a lovely potted specimen that graces the entrance to our office."
   },
   {
     "botanical": "Hebe speciosa 'Variegata'",
@@ -4027,32 +4015,6 @@ window.AVAILABILITY = {
     "additional_info": "Blue-green leaves and rose-pink blossoms."
   },
   {
-    "botanical": "Helianthemum 'Ben Hope'",
-    "section": "Perennials (4\")",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ],
-    "common": "Sunrose",
-    "height": "6-8\"",
-    "width": "18-24\"",
-    "flower_color": "Deep pink w/golden centers",
-    "flower_time": "Spring - Summer",
-    "origin": "Hybrid",
-    "plant_type": "Perennial",
-    "exposure": "Full sun",
-    "foliage": "Green",
-    "water": "Moderate",
-    "soil": "Well drained",
-    "hardiness": "0",
-    "bloom": false,
-    "bud": false,
-    "new": false
-  },
-  {
     "botanical": "Helianthemum 'Fire Dragon'",
     "section": "General Nursery",
     "sizes": [
@@ -4080,6 +4042,33 @@ window.AVAILABILITY = {
     "new": false
   },
   {
+    "botanical": "Helianthemum 'Hartswood Ruby'",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "1gal",
+        "price": 6.15,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "Sunrose",
+    "origin": "Hybrid",
+    "height": "8-12\"",
+    "width": "18-24\"",
+    "hardiness": "0",
+    "exposure": "Full sun",
+    "flower_color": "Red",
+    "flower_time": "Spring - Summer",
+    "foliage": "green",
+    "water": "Infrequent",
+    "soil": "Well drained",
+    "special_uses": "Rock Garden\nSlope Planting\nBorder Planting\nSmall area groundcover",
+    "plant_type": "Woody perennial/subshrub"
+  },
+  {
     "botanical": "Helianthemum 'Henfield Brilliant'",
     "section": "General Nursery",
     "sizes": [
@@ -4105,7 +4094,7 @@ window.AVAILABILITY = {
     "soil": "Most soil types",
     "special_uses": "Border planting",
     "plant_type": "Woody perennial/subshrub",
-    "description": "Gray-green foliage and bright orange flowers with a yellow center.",
+    "description": "Gray-green foliage and bright orange flowers with a yellow center."
   },
   {
     "botanical": "Helianthemum 'The Bride'",
@@ -4142,7 +4131,7 @@ window.AVAILABILITY = {
     "sizes": [
       {
         "container": "1gal",
-        "price": 6.15,
+        "price": 6.25,
         "order": ""
       }
     ],
@@ -4271,33 +4260,58 @@ window.AVAILABILITY = {
     "new": false
   },
   {
-    "botanical": "Juncus effusus 'Carman's Japanese'",
+    "botanical": "Heuchera micrantha",
     "section": "General Nursery",
     "sizes": [
       {
         "container": "1gal",
-        "price": 6.15,
+        "price": 7.0,
         "order": ""
       }
     ],
-    "common": "Rush",
-    "height": "3-4'",
-    "width": "3-4'",
-    "flower_color": "Rusty to tawny brown",
-    "flower_time": "Spring - Summer",
-    "origin": "Japan",
-    "plant_type": "Grass/grass-like perennial",
-    "exposure": "Full sun",
-    "foliage": "Dark green",
-    "water": "Regular",
-    "soil": "Well drained / moisture retentive",
-    "special_uses": "Water Gardens\nBog Planting\nContainer Planting\nBorder Planting",
-    "hardiness": "0",
-    "description": "A highly ornamental species selected by Ed Carman of Los Gatos, California and noted for its showy, tawny colored flower clusters that form at the tips of the foliage and cause it to bend toward the ground in a most graceful fashion. Truly a lovely sight in containers, or planted along pools and streams. Highly recommended. Hardy to 10F. Japan.",
     "bloom": false,
     "bud": false,
     "new": false,
-    "additional_info": "A highly ornamental species selected by Ed Carman of Los Gatos, California and noted for its showy, tawny colored flower clusters that form at the tips of the foliage and cause it to bend toward the ground in a most graceful fashion. Truly a lovely sight in containers, or planted along pools and streams. Highly recommended. Hardy to 10F. Japan."
+    "common": "Coral bells",
+    "origin": "Ca, Pacific Northwest, Canada",
+    "height": "18-24\"",
+    "width": "12-18\"",
+    "hardiness": "0",
+    "exposure": "Filtered shade - Shade",
+    "flower_color": "White",
+    "flower_time": "Spring - Summer",
+    "foliage": "Green",
+    "water": "Regular",
+    "soil": "Well drained / moisture retentive",
+    "special_uses": "Herb Garden",
+    "plant_type": "Perennial"
+  },
+  {
+    "botanical": "Hibiscus trionum",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "1gal",
+        "price": 6.25,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "Flower of-an-hour",
+    "origin": "Arid Old World tropics",
+    "height": "1-2'",
+    "width": "3-4’",
+    "hardiness": "30",
+    "exposure": "Full sun",
+    "flower_color": "Cream yellow w/red centers",
+    "flower_time": "Spring - Summer",
+    "foliage": "Green, irregularly lobed",
+    "water": "Regular",
+    "soil": "Well drained, fertile soil",
+    "special_uses": "Border planting\nContainer Planting",
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Juncus effusus var. pacificus 'Quartz Creek'",
@@ -4535,6 +4549,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "1gal",
+        "price": 6.5,
+        "order": ""
+      },
+      {
         "container": "2gal",
         "price": 16.5,
         "order": ""
@@ -4557,7 +4576,7 @@ window.AVAILABILITY = {
     "special_uses": "Attracts butterflies",
     "additional_info": "Mounded.",
     "hardiness": "0°F",
-    "description": "Mounded.",
+    "description": "Mounded."
   },
   {
     "botanical": "Lavandula angustifolia 'Betty Blue'",
@@ -4623,6 +4642,33 @@ window.AVAILABILITY = {
     "additional_info": "A semi-prostrate dwarf form to 18” tall with small gray-green leaves and large, deep violet-blue flowers in loose spikes. Splendid for edging pathways, it is equally suitable for use as a low hedge. Earlier blooming than many lavenders, ‘Munstead’ shows color beginning in June or July. Raised at Munstead Wood in Surrey, by Miss Gertrude Jekyll and introduced in 1916. Hardy to 0F. Deer resistant."
   },
   {
+    "botanical": "Lavandula dentata 'La Diva Imperial'",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "1gal",
+        "price": 6.35,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "French Lavender",
+    "origin": "Garden hybrid",
+    "height": "18-24\"",
+    "width": "12-18\"",
+    "hardiness": "20",
+    "exposure": "Full sun - Partial shade",
+    "flower_color": "Lavender purple",
+    "flower_time": "Summer",
+    "foliage": "Silver green",
+    "water": "Moderate",
+    "soil": "Well drained",
+    "special_uses": "Herb garden\nCut Flower\nContainer planting\nAttracts butterflies\nAttracts birds",
+    "plant_type": "Woody perennial - Subshrub"
+  },
+  {
     "botanical": "Lavandula lanata",
     "section": "General Nursery",
     "sizes": [
@@ -4678,7 +4724,7 @@ window.AVAILABILITY = {
     "special_uses": "Border Planting\nHerb Garden\nCoastal Garden",
     "additional_info": "Jagged lavender. Aromatic subshrub to 3’ tall with branched stems carrying a short, winged spike of bluish, dark purple flowers. The green-gray leaves are deeply cut and fern-like, creating a lacy appearance. Exceptional selection for drier climates, it is nearly ever-blooming in milder sections of Southern California. Hardy to 20F. Canary Islands.",
     "hardiness": "20°F",
-    "description": "Jagged lavender. Aromatic subshrub to 3’ tall with branched stems carrying a short, winged spike of bluish, dark purple flowers. The green-gray leaves are deeply cut and fern-like, creating a lacy appearance. Exceptional selection for drier climates, it is nearly ever-blooming in milder sections of Southern California. Hardy to 20F. Canary Islands.",
+    "description": "Jagged lavender. Aromatic subshrub to 3’ tall with branched stems carrying a short, winged spike of bluish, dark purple flowers. The green-gray leaves are deeply cut and fern-like, creating a lacy appearance. Exceptional selection for drier climates, it is nearly ever-blooming in milder sections of Southern California. Hardy to 20F. Canary Islands."
   },
   {
     "botanical": "Lavandula stoechas 'Anouk Supreme'",
@@ -4739,11 +4785,6 @@ window.AVAILABILITY = {
     "botanical": "Lavandula stoechas 'Primavera'",
     "section": "General Nursery",
     "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.35,
-        "order": ""
-      },
       {
         "container": "2gal",
         "price": 16.5,
@@ -4944,34 +4985,7 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "special_uses": "Border planting\nHedge Planting",
-    "plant_type": "Evergreen shrub",
-  },
-  {
-    "botanical": "Lepechinia fragrans 'El Tigre'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.5,
-        "order": ""
-      }
-    ],
-    "bloom": false,
-    "bud": false,
-    "new": false,
-    "common": "Pitcher sage",
-    "origin": "California (Channel Islands)",
-    "height": "3-4'",
-    "width": "3-4'",
-    "hardiness": "15",
-    "exposure": "Full sun - Partial shade",
-    "flower_color": "Soft lavender",
-    "flower_time": "Spring - Summer",
-    "foliage": "green",
-    "water": "Infrequent",
-    "soil": "Well drained",
-    "special_uses": "Coastal Garden\nDry Garden\nShade Garden\nWoodland Planting\nBorder Planting\nSlope Planting\nAttracts Butterflies",
-    "plant_type": "Woody perennial/subshrub",
+    "plant_type": "Evergreen shrub"
   },
   {
     "botanical": "Leptospermum 'Dark Shadows'",
@@ -5035,6 +5049,20 @@ window.AVAILABILITY = {
     "hardiness": "20",
     "description": "Shrub to about 6’ tall and 9’ wide with large, lavender-pink flowers bearing dark green centers appearing in spring. A Native Sons favorite and arguably the best Aussie in our garden. Australia.",
     "additional_info": "Shrub to about 6’ tall and 9’ wide with large, lavender-pink flowers bearing dark green centers appearing in spring. A Native Sons favorite and arguably the best Aussie in our garden. Australia."
+  },
+  {
+    "botanical": "Leucadendron 'Hawaii Sunrise'",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "5gal",
+        "price": 30.0,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false
   },
   {
     "botanical": "Leucadendron 'Inca Gold'",
@@ -5178,33 +5206,6 @@ window.AVAILABILITY = {
     "additional_info": "Leucadendron ‘Safari Sunset’ is a densely branched shrub growing up to 10 feet tall and 8 feet wide, bearing multi-colored flower bracts through fall and winter. These showy bracts open in a pale shade of red, blush deep wine, then pale from the center to a golden-yellow toward the end of the season. This plant is a tough cultivar that can handle frost, alkalinity and clay soils. A wonderful garden plant for specimen planting, flower arrangements or as a hedge or wind screen. Hardy 25F."
   },
   {
-    "botanical": "Leucadendron hybrid ROYAL HAWAIIAN® 'Hawaii Magic'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "5gal",
-        "price": 30.0,
-        "order": ""
-      }
-    ],
-    "bloom": false,
-    "bud": false,
-    "new": false,
-    "common": "Royal Hawaiian Cone Bush",
-    "origin": "Hybrid",
-    "height": "3-4'",
-    "width": "4-6'",
-    "hardiness": "25",
-    "exposure": "Full sun",
-    "flower_color": "Yellow",
-    "flower_time": "Winter - Spring",
-    "foliage": "Green to Red",
-    "water": "Occasional",
-    "soil": "Well drained",
-    "special_uses": "Container planting",
-    "plant_type": "Evergreen shrub",
-  },
-  {
     "botanical": "Leucadendron salignum 'Winter Red'",
     "section": "General Nursery",
     "sizes": [
@@ -5239,11 +5240,38 @@ window.AVAILABILITY = {
     "additional_info": "Foliage flushed deep red fall through spring.  Ideal specimen plant."
   },
   {
+    "botanical": "Leucospermum 'Hawaii Gold'",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "5gal",
+        "price": 34.0,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "Yellow Hawaiian Conebush",
+    "origin": "South Africa",
+    "height": "6-8'",
+    "width": "6-8'",
+    "hardiness": "30",
+    "exposure": "Full sun",
+    "flower_color": "Yellow to Orange",
+    "flower_time": "Spring",
+    "foliage": "Gray green",
+    "water": "Infrequent",
+    "soil": "Well drained",
+    "special_uses": "Coastal garden\nBorder planting\nRock garden",
+    "plant_type": "Evergreen shrub"
+  },
+  {
     "botanical": "Leucospermum 'High Gold'",
     "section": "General Nursery",
     "sizes": [
       {
-        "container": "2gal",
+        "container": "5gal",
         "price": 34.0,
         "order": ""
       }
@@ -5262,33 +5290,35 @@ window.AVAILABILITY = {
     "foliage": "Silver green with yellow new growth",
     "water": "Infrequent",
     "soil": "Well drained",
-    "plant_type": "Evergreen shrub",
+    "plant_type": "Evergreen shrub"
   },
   {
-    "botanical": "Lomandra 'Arctic Frost'",
+    "botanical": "Lithodora diffusa 'Grace Ward'",
     "section": "General Nursery",
     "sizes": [
       {
-        "container": "2gal",
-        "price": 20.0,
+        "container": "1gal",
+        "price": 6.35,
         "order": ""
       }
     ],
-    "common": "Arctic Frost mat rush",
-    "height": "2-3'",
-    "width": "2-3'",
-    "flower_color": "Yellow",
-    "flower_time": "Spring - Summer",
-    "origin": "Australia",
-    "plant_type": "Grass/grass-like perennial",
-    "exposure": "Sun or Shade",
-    "foliage": "Variegated, green with white edges",
-    "water": "Occasional",
-    "soil": "Well drained",
-    "hardiness": "20",
     "bloom": false,
     "bud": false,
-    "new": false
+    "new": false,
+    "common": "Trailing lithodora",
+    "origin": "France to Southwestern Europe",
+    "height": "8-12\"",
+    "width": "8-12\"",
+    "hardiness": "0",
+    "exposure": "Full sun",
+    "flower_color": "Deep azure blue",
+    "flower_time": "Spring",
+    "foliage": "Dark green, somewhat fuzzy",
+    "water": "Occasional",
+    "soil": "Well drained",
+    "special_uses": "Rock Garden\nBorder Planting\nSmall area groundcover\nContainer Planting",
+    "plant_type": "Perennial",
+    "description": "Selected for its low, trailing habit to 12” high, ‘Grace Ward’ creates a dense mat of rosemary-like, dark green foliage blanketed by long-lasting, azure-blue flowers. Blooms in spring and sometimes again in fall."
   },
   {
     "botanical": "Lomandra longifolia 'Miner's Gold'",
@@ -5316,6 +5346,33 @@ window.AVAILABILITY = {
     "bloom": false,
     "bud": false,
     "new": false
+  },
+  {
+    "botanical": "Lotus crassifolius var. otayensis",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "1gal",
+        "price": 6.5,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "Lotus",
+    "origin": "California",
+    "height": "2-3'",
+    "width": "2-3'",
+    "hardiness": "20",
+    "exposure": "Full sun - Partial shade",
+    "flower_color": "Purple and white",
+    "flower_time": "Spring - Summer",
+    "foliage": "Grey",
+    "water": "Moderate",
+    "soil": "Well drained",
+    "special_uses": "Attracts butterflies\nAttracts birds",
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Lotus maculatus 'Red Flash'",
@@ -5370,7 +5427,7 @@ window.AVAILABILITY = {
     "soil": "Most soil types",
     "special_uses": "Water Gardens\nBog Planting\nContainer Planting\nBorder Planting",
     "plant_type": "Grass/grass-like perennial",
-    "description": "Variegated water chestnut. Dramatic water-loving perennial with a strong vertical habit to 18” and narrow, sword-shaped, dark green blades marked with a golden-yellow marginal stripe. Plants form dense basal clumps and spread into healthy colonies under ideal conditions. Excellent in water gardens or boggy situations with full sun. The golden margins fade somewhat in the shade and the habit becomes less strongly vertical, but the plant still provides a graceful element. Hardy to 20F. New Zealand. Formerly Baumea rubiginosa 'Variegata'",
+    "description": "Variegated water chestnut. Dramatic water-loving perennial with a strong vertical habit to 18” and narrow, sword-shaped, dark green blades marked with a golden-yellow marginal stripe. Plants form dense basal clumps and spread into healthy colonies under ideal conditions. Excellent in water gardens or boggy situations with full sun. The golden margins fade somewhat in the shade and the habit becomes less strongly vertical, but the plant still provides a graceful element. Hardy to 20F. New Zealand. Formerly Baumea rubiginosa 'Variegata'"
   },
   {
     "botanical": "Miscanthus sinensis 'Little Miss'",
@@ -5402,33 +5459,6 @@ window.AVAILABILITY = {
     "additional_info": "Elegant graceful arching foliage emerging green in spring coloring from early may through summer into striking carmine and purple tones in October and November.  Centers of the clumps stay green giving an attractive two tone affect."
   },
   {
-    "botanical": "Muhlenbergia dubia",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.15,
-        "order": ""
-      }
-    ],
-    "common": "Pine muhly",
-    "height": "2-3'",
-    "width": "2-3'",
-    "flower_color": "Purple gray, maturing to cream",
-    "flower_time": "Summer - Fall",
-    "origin": "W Texas, New Mexico, Northern Mexico",
-    "plant_type": "Grass/grass-like perennial",
-    "exposure": "Full sun",
-    "foliage": "Light green, fine-textured",
-    "water": "Occasional",
-    "soil": "Well drained",
-    "special_uses": "Dry Garden\nBorder Planting\nSlope Planting\nAccent\nLarge area groundcover",
-    "hardiness": "0",
-    "bloom": false,
-    "bud": false,
-    "new": false
-  },
-  {
     "botanical": "Muhlenbergia reverchonii",
     "section": "General Nursery",
     "sizes": [
@@ -5453,6 +5483,62 @@ window.AVAILABILITY = {
     "bloom": false,
     "bud": false,
     "new": false
+  },
+  {
+    "botanical": "Muhlenbergia rigens",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "1gal",
+        "price": 6.15,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "Deer grass, Basket grass",
+    "origin": "California",
+    "height": "2-3'",
+    "width": "2-3'",
+    "hardiness": "0",
+    "exposure": "Full sun - Partial shade",
+    "flower_color": "Silver, maturing to buff",
+    "flower_time": "Summer",
+    "foliage": "Gray green",
+    "water": "Moderate",
+    "soil": "Most soil types",
+    "special_uses": "Small area groundcover\nBorder Planting\nDry Garden\nRevegetation and Restoration",
+    "plant_type": "Grass/grass-like perennial",
+    "description": "Deer grass or Basket grass. Stephen Edwards says in his article, Ten Splendid Grasses, “Last spring, before the largest patch in the Regional Parks Botanic Garden had developed its new flowering culms, I found a woman stretched out snoozing among and upon the inviting bunches. She was shocked when I showed her the label, over which, having failed to notice it, she had thrown her coat. She had just gotten carried away.” Among the many reasons to use this fine native grass, we can now add napping. Deer grass forms dense hummocks of bright gray-green, evergreen foliage to 4’ tall with an equal spread. Flowers emerge silver in early summer, in showy, switch-like panicles 2-3’ tall that turn buff color later in the season. Plants prefer moist, well-drained, fertile soil in full sun or part shade with regular to occasional water. Tolerant of a wide range of garden conditions, we have seen deer grass perform equally well in clay or sandy soils, as well as thriving under extreme conditions including heat, drought, and saline soils. Useful massed in meadows, as filler in median strips or as a unifying element in mixed borders. Hardy to 0F. California (from San Diego to Mount Shasta), Texas and Northern Mexico."
+  },
+  {
+    "botanical": "Myrica californica",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "15gal",
+        "price": 90.0,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "Pacific wax myrtle",
+    "origin": "California to Washington",
+    "height": "20-30'",
+    "width": "15-20’",
+    "hardiness": "0",
+    "exposure": "Full sun - Partial shade",
+    "flower_color": "Inconspicuous",
+    "flower_time": "Spring",
+    "foliage": "Dark green w/apple green new growth",
+    "water": "Moderate",
+    "soil": "Moist / well drained",
+    "special_uses": "Coastal Garden\nShade Garden\nBackground Planting\nHedge Planting\nScreen\nWoodland Planting\nCalifornia Native",
+    "plant_type": "Evergreen shrub",
+    "description": "Pacific wax myrtle. The name is derived from the Greek myrike, the Homeric name for tamarisk. An erect, densely branched evergreen shrub up to 30’ tall, the Pacific wax myrtle is usually smaller especially in garden situations. On coastal bluffs where it is subjected to heavy winds, it assumes a low, dwarfed form. Usually multi-trunked with smooth gray bark and a columnar habit, its main appeal is its clean, handsome foliage that provides a rich green element to the landscape throughout the year. The new leaves unfold bright apple-green and sparkle in the afternoon light against the mature dark green, glossy foliage. Useful as a screen, an Hedge Planting, or trained into a small formal tree. Mature plants are drought tolerant, but much more effective with regular garden water in coastal sites. Hardy to 0F. Coastal areas from California to Washington."
   },
   {
     "botanical": "Myrtus communis 'Compacta Variegata'",
@@ -5510,12 +5596,12 @@ window.AVAILABILITY = {
     "additional_info": "Flowers are followed by showy dark blue berries."
   },
   {
-    "botanical": "Nepeta 'Chartreuse on the Loose'",
-    "section": "Herbs (4\")",
+    "botanical": "Nepeta faassenii 'Whispurr Pink'",
+    "section": "herbs",
     "sizes": [
       {
         "container": "4in",
-        "price": 3.5,
+        "price": 3.15,
         "order": ""
       }
     ],
@@ -5524,17 +5610,16 @@ window.AVAILABILITY = {
     "new": false,
     "common": "Catmint",
     "origin": "Hybrid",
-    "plant_type": "Perennial",
+    "height": "2-3'",
+    "width": "2-3'",
+    "hardiness": "0",
     "exposure": "Full sun",
-    "flower_color": "Lavender blue",
-    "flower_time": "Summer - Fall",
-    "height": "8-12\"",
-    "width": "18-24\"",
-    "foliage": "Chartreuse, aromatic",
+    "flower_color": "Pink",
+    "flower_time": "Spring - Summer",
+    "foliage": "Green, aromatic",
     "water": "Moderate",
     "soil": "Well drained",
-    "special_uses": "Attracts birds\nAttracts butterflies\nBorder planting\nContainer planting\nCut Flower",
-    "hardiness": "10"
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Nepeta racemosa 'Walker's Low'",
@@ -5562,7 +5647,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Border Planting\nSmall area groundcover\nHerb Garden",
     "plant_type": "Perennial",
-    "description": "Spreading form to 2’ across holding deep lavender-blue flowers from May to September and maintaining a clean appearance throughout the season. Cut plants back in August for repeat blooming in fall. Hardy to 0F.",
+    "description": "Spreading form to 2’ across holding deep lavender-blue flowers from May to September and maintaining a clean appearance throughout the season. Cut plants back in August for repeat blooming in fall. Hardy to 0F."
   },
   {
     "botanical": "Nepeta x faassenii 'Blue Wonder'",
@@ -5590,7 +5675,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Rock Garden\nHerb Garden\nSmall area groundcover\nContainer Planting\nAttracts butterflies\nAttracts birds",
     "plant_type": "Perennial",
-    "description": "A compact selection 12-14” high with long-lasting blue flowers.",
+    "description": "A compact selection 12-14” high with long-lasting blue flowers."
   },
   {
     "botanical": "Oenothera 'Twilight'",
@@ -5618,33 +5703,6 @@ window.AVAILABILITY = {
     "bloom": false,
     "bud": false,
     "new": false
-  },
-  {
-    "botanical": "Oenothera fruticosa 'African Sun'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.5,
-        "order": ""
-      }
-    ],
-    "common": "African Sun Sundrops",
-    "height": "6-8\"",
-    "width": "18-24\"",
-    "flower_color": "Bright yellow",
-    "flower_time": "Summer",
-    "origin": "North America",
-    "bloom": false,
-    "bud": false,
-    "new": true,
-    "plant_type": "Perennial",
-    "exposure": "Full sun",
-    "foliage": "Green",
-    "water": "Occasional",
-    "soil": "Well drained",
-    "special_uses": "Container planting\nSmall area groundcover\nBorder planting\nRock garden",
-    "hardiness": "0"
   },
   {
     "botanical": "Olea europaea 'Campo Dwarf'",
@@ -5758,7 +5816,34 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Coastal Garden\nAttracts Butterflies\nDry Garden\nSlope Planting\nBorder Planting\nCut Flower",
     "plant_type": "Evergreen shrub",
-    "description": "Sago flower. A small erect, fountain-like shrub to 3 feet tall with dark pink buds that open as rose pink flowers that fade to white as summer progresses. Adaptable to most soil types, it quires full sun with occasional to regular irrigation. 'Rose' makes a good choice for cut flowers, border plantings, and coastal gardens. Hardy to 30F.",
+    "description": "Sago flower. A small erect, fountain-like shrub to 3 feet tall with dark pink buds that open as rose pink flowers that fade to white as summer progresses. Adaptable to most soil types, it quires full sun with occasional to regular irrigation. 'Rose' makes a good choice for cut flowers, border plantings, and coastal gardens. Hardy to 30F."
+  },
+  {
+    "botanical": "Pelargonium 'Bronze Little Leaf'",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "1gal",
+        "price": 6.5,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "Bronze Little Leaf Zonal Geranium",
+    "origin": "Hybrid",
+    "height": "8-12\"",
+    "width": "8-12\"",
+    "hardiness": "20",
+    "exposure": "Full sun",
+    "flower_color": "Pink",
+    "flower_time": "Summer",
+    "foliage": "Green and purple",
+    "water": "Moderate",
+    "soil": "Well drained",
+    "special_uses": "Container planting\nAttracts butterflies\nAttracts birds",
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Pelargonium 'Oldbury Duet'",
@@ -5870,7 +5955,7 @@ window.AVAILABILITY = {
     "soil": "Most soil types",
     "special_uses": "Container Planting\nCut Flower\nLarge area groundcover",
     "plant_type": "Grass/grass-like perennial",
-    "description": "Flower spikes are held 2 to 2.5 feet above foliage. Evergreen foliage goes dormant below 27 F. Greenlee selection. Parentage: orientale and alopecuroides.",
+    "description": "Flower spikes are held 2 to 2.5 feet above foliage. Evergreen foliage goes dormant below 27 F. Greenlee selection. Parentage: orientale and alopecuroides."
   },
   {
     "botanical": "Pennisetum setaceum 'Rubrum'",
@@ -5899,7 +5984,7 @@ window.AVAILABILITY = {
     "special_uses": "Container Planting\nAccent",
     "additional_info": "Purple-leafed fountain grass. A warm season grass with bold, burgundy colored foliage forming upright, arching clumps 5’ tall. Purple-red flowers form continously through the warm season on nodding 12” plumes. In the late season the rich foliage is topped with the fuzzy soft brown heads of mature flowers adding another season of interest. The foliage turns straw-colored with the first frost and the entire mass seems to melt as the storms and winds of winter tear at their form. Useful as an accent, massed in groups, or in containers. We have a large grouping of Pennisetum ‘Rubrum’ in our garden which the neighbor children use for a number of engaging games. Prefers well-drained soil in full sun. Produces only occasional seedlings. Rapid growth in the warm season and can be used as an annual color in colder areas. Hardy to 25F. Garden origin.",
     "hardiness": "25°F",
-    "description": "Purple-leafed fountain grass. A warm season grass with bold, burgundy colored foliage forming upright, arching clumps 5’ tall. Purple-red flowers form continously through the warm season on nodding 12” plumes. In the late season the rich foliage is topped with the fuzzy soft brown heads of mature flowers adding another season of interest. The foliage turns straw-colored with the first frost and the entire mass seems to melt as the storms and winds of winter tear at their form. Useful as an accent, massed in groups, or in containers. We have a large grouping of Pennisetum ‘Rubrum’ in our garden which the neighbor children use for a number of engaging games. Prefers well-drained soil in full sun. Produces only occasional seedlings. Rapid growth in the warm season and can be used as an annual color in colder areas. Hardy to 25F. Garden origin.",
+    "description": "Purple-leafed fountain grass. A warm season grass with bold, burgundy colored foliage forming upright, arching clumps 5’ tall. Purple-red flowers form continously through the warm season on nodding 12” plumes. In the late season the rich foliage is topped with the fuzzy soft brown heads of mature flowers adding another season of interest. The foliage turns straw-colored with the first frost and the entire mass seems to melt as the storms and winds of winter tear at their form. Useful as an accent, massed in groups, or in containers. We have a large grouping of Pennisetum ‘Rubrum’ in our garden which the neighbor children use for a number of engaging games. Prefers well-drained soil in full sun. Produces only occasional seedlings. Rapid growth in the warm season and can be used as an annual color in colder areas. Hardy to 25F. Garden origin."
   },
   {
     "botanical": "Pennisetum spathiolatum",
@@ -5926,7 +6011,7 @@ window.AVAILABILITY = {
     "water": "Infrequent",
     "soil": "Well drained",
     "special_uses": "Slope Planting\nDry Garden\nBorder Planting",
-    "plant_type": "Grass/grass-like perennial",
+    "plant_type": "Grass/grass-like perennial"
   },
   {
     "botanical": "Penstemon 'Apple Blossom'",
@@ -5958,6 +6043,34 @@ window.AVAILABILITY = {
     "additional_info": "One of the most popular cultivars we grow, this one reaches 2-3’ and bears numerous, free-flowering stems covered by narrow foliage. The small, pale-pink blossoms have white throats that are finely streaked with dark pink veins. Plants bloom from late spring through fall and are best with moderate watering. Hardy to 15F.\n\nCommon name synonym: Beard tongue"
   },
   {
+    "botanical": "Penstemon 'Bev Jensen'",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "1gal",
+        "price": 6.15,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "Penstemon",
+    "origin": "Garden hybrid",
+    "height": "3-4'",
+    "width": "3-4'",
+    "hardiness": "15",
+    "exposure": "Full sun",
+    "flower_color": "Magenta pink w/white throats",
+    "flower_time": "Summer - Fall",
+    "foliage": "Medium green",
+    "water": "Moderate",
+    "soil": "Well drained",
+    "special_uses": "Border planting\nWoodland Planting\nCut Flower\nAttracts Birds",
+    "plant_type": "Perennial",
+    "description": "A large leafed cultivar growing to 3-4’, ‘Bev Jensen’ has rich magenta blossoms that have a white throat. One of the sturdiest cultivars, it will bloom through summer and fall.\n\nCommon name synonym: Beard tongue"
+  },
+  {
     "botanical": "Penstemon 'Firebird'",
     "section": "General Nursery",
     "sizes": [
@@ -5987,12 +6100,45 @@ window.AVAILABILITY = {
     "additional_info": "To 3’ tall with flowers on the uppermost 8” of flower stems. Lower stem is green while upper is brownish red. Flowers are pinkish-red on upper and lower surfaces, terminating in glowing red lobes.  Lower interior is striped pale pink and dark red. Showy, dark brownish-red calyces provide attractive color contrast. Extremely floriferous, blooming for 4 months or more. Develops rapidly into a sizeable plant. A tough, durable cultivar that is tolerant of a wide range of soils and environmental conditions.\n\nCommon name synonym: Beard tongue"
   },
   {
+    "botanical": "Penstemon 'Osprey'",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "1gal",
+        "price": 6.15,
+        "order": ""
+      }
+    ],
+    "bloom": false,
+    "bud": false,
+    "new": false,
+    "common": "Penstemon",
+    "origin": "Garden hybrid",
+    "height": "3-4'",
+    "width": "3-4'",
+    "hardiness": "0",
+    "exposure": "Full sun",
+    "flower_color": "White w/pink markings",
+    "flower_time": "Spring - Summer - Fall",
+    "foliage": "Green",
+    "water": "Moderate",
+    "soil": "Well drained",
+    "special_uses": "Border planting\nContainer Planting\nCut Flower\nAttracts Birds",
+    "plant_type": "Perennial",
+    "description": "A taller cultivar, usually reaching 3-4’, with white flowers that blush pink. Plants form a loose clump and are best suited for the back of a mixed border. Full sun and regular garden water. Introduced in the 1960’s.\n\nCommon name synonym: Beard tongue"
+  },
+  {
     "botanical": "Penstemon 'Red Trumpet'",
     "section": "General Nursery",
     "sizes": [
       {
         "container": "1gal",
         "price": 6.5,
+        "order": ""
+      },
+      {
+        "container": "5gal",
+        "price": 20.0,
         "order": ""
       }
     ],
@@ -6002,8 +6148,8 @@ window.AVAILABILITY = {
     "flower_color": "Bright red",
     "flower_time": "Summer - Fall",
     "origin": "Garden hybrid",
-    "bloom": true,
-    "bud": false,
+    "bloom": false,
+    "bud": true,
     "new": false,
     "plant_type": "Perennial",
     "exposure": "Full sun",
@@ -6066,36 +6212,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Attracts Birds\nCut Flower\nContainer Planting\nBorder Planting",
     "plant_type": "Perennial",
-    "description": "Low and spreading, to 12”, with narrow, toothed leaves and handsome flowers that open blue then fade to violet-purple. This selection must have full sun or light shade in well-drained soil. A European hybrid developed from P. heterophyllus that commonly persists for 3 or 4 years, it is similar to the species, but with a slightly broader leaf.\n\nCommon name synonym: Beard tongue",
-  },
-  {
-    "botanical": "Penstemon heterophyllus 'Margarita BOP'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.25,
-        "order": ""
-      }
-    ],
-    "common": "Foothill penstemon",
-    "height": "1-2'",
-    "width": "2-3'",
-    "flower_color": "Purple blue",
-    "flower_time": "Summer",
-    "origin": "California",
-    "plant_type": "Perennial",
-    "exposure": "Full sun",
-    "foliage": "Deep green to blue green",
-    "water": "Occasional",
-    "soil": "Well drained",
-    "special_uses": "Container Planting\nBorder Planting\nAttracts Birds\nDry Garden",
-    "hardiness": "15",
-    "description": "A garden tolerant selection from Bert Wilson of Las Pilitas Nursery, with bright blue flowers bearing a rose-purple tinge. This exceptional new cultivar has performed well in a wide range of garden conditions, including heavy clay and sandy soils. In our experience it is longer-lived than other cultivars of this species. BOP means “back of porch”. A good container subject in full sun. \n\nCommon name synonym: Beard tongue",
-    "bloom": true,
-    "bud": false,
-    "new": false,
-    "additional_info": "A garden tolerant selection from Bert Wilson of Las Pilitas Nursery, with bright blue flowers bearing a rose-purple tinge. This exceptional new cultivar has performed well in a wide range of garden conditions, including heavy clay and sandy soils. In our experience it is longer-lived than other cultivars of this species. BOP means “back of porch”. A good container subject in full sun. \n\nCommon name synonym: Beard tongue"
+    "description": "Low and spreading, to 12”, with narrow, toothed leaves and handsome flowers that open blue then fade to violet-purple. This selection must have full sun or light shade in well-drained soil. A European hybrid developed from P. heterophyllus that commonly persists for 3 or 4 years, it is similar to the species, but with a slightly broader leaf.\n\nCommon name synonym: Beard tongue"
   },
   {
     "botanical": "Phlomis anatolica 'Lloyd's Variety'",
@@ -6122,7 +6239,7 @@ window.AVAILABILITY = {
     "water": "Occasional",
     "soil": "Well drained",
     "special_uses": "Coastal garden\nAttracts butterflies\nAttracts birds",
-    "plant_type": "Perennial",
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Phlomis angustifolia 'Toob'",
@@ -6151,35 +6268,6 @@ window.AVAILABILITY = {
     "hardiness": "10",
     "description": "Rounded evergreen shrub.",
     "additional_info": "Rounded evergreen shrub."
-  },
-  {
-    "botanical": "Phlomis fruticosa",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "5gal",
-        "price": 20.0,
-        "order": ""
-      }
-    ],
-    "common": "Jerusalem sage",
-    "height": "3-4'",
-    "width": "3-4'",
-    "flower_color": "Golden yellow",
-    "flower_time": "Spring - Summer - Fall",
-    "origin": "Mediterranean",
-    "plant_type": "Deciduous tree",
-    "exposure": "Full sun on coast - Shade inland",
-    "foliage": "Gray green, fuzzy",
-    "water": "Moderate",
-    "soil": "Most soil types",
-    "special_uses": "Dry Garden\nBorder Planting",
-    "hardiness": "0",
-    "description": "Shrubby, spreading perennial to 4’ high with highly-textured, sage-like leaves that are 2-3” across, grayish-white and fuzzy. Whorls of deep golden-yellow flowers appear in summer on plants that remain evergreen and are seldom out of boom. Tolerates full sun or light shade. Hardy to below 0F. Mediterranean. Deer resistant.",
-    "bloom": true,
-    "bud": false,
-    "new": false,
-    "additional_info": "Shrubby, spreading perennial to 4’ high with highly-textured, sage-like leaves that are 2-3” across, grayish-white and fuzzy. Whorls of deep golden-yellow flowers appear in summer on plants that remain evergreen and are seldom out of boom. Tolerates full sun or light shade. Hardy to below 0F. Mediterranean. Deer resistant."
   },
   {
     "botanical": "Phlomis lanata",
@@ -6353,7 +6441,7 @@ window.AVAILABILITY = {
     "foliage": "Green",
     "water": "Occasional",
     "soil": "Well drained",
-    "plant_type": "Perennial",
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Pittosporum 'Wrinkle Blue'",
@@ -6476,7 +6564,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "additional_info": "Dwarf version of P. tenuifolium. Very little pruning is required to maintain its compact and round shape. Bright mint green glossy leaves.",
     "hardiness": "20°F",
-    "description": "Dwarf version of P. tenuifolium. Very little pruning is required to maintain its compact and round shape. Bright mint green glossy leaves.",
+    "description": "Dwarf version of P. tenuifolium. Very little pruning is required to maintain its compact and round shape. Bright mint green glossy leaves."
   },
   {
     "botanical": "Pittosporum tenuifolium 'Harley Botanica'",
@@ -6598,6 +6686,11 @@ window.AVAILABILITY = {
     "botanical": "Polygala myrtifolia 'Mariposa'",
     "section": "General Nursery",
     "sizes": [
+      {
+        "container": "1gal",
+        "price": 6.5,
+        "order": ""
+      },
       {
         "container": "5gal",
         "price": 20.0,
@@ -6833,7 +6926,7 @@ window.AVAILABILITY = {
     "sizes": [
       {
         "container": "1gal",
-        "price": 6.25,
+        "price": 6.35,
         "order": ""
       }
     ],
@@ -6884,32 +6977,6 @@ window.AVAILABILITY = {
     "bud": false,
     "new": false,
     "additional_info": "Lemonade berry. Versatile, aromatic shrub generally 3-10’ high and as wide. Leaves are variable in shade, dark green and leathery to 3” long, sometimes with shallowly toothed edges. White to pink flowers appear in dense clusters from February through March. Small, flat, clustered fruit is red-orange and gummy, with acidic pulp that can be used to flavor drinks. Grows best near coast where established plants need little water. Prefers full sun, well-drained soil and is well adapted to dry summer conditions, but also accepts regular water and tolerates salt-laden winds. Useful on banks and slopes, as a windbreak, screen or clipped as hedge. Branching pattern could be used as an espalier. Hardy to 20F. Southern California."
-  },
-  {
-    "botanical": "Ribes sang. v. glutinosum 'Heart's Delight'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "5gal",
-        "price": 24.0,
-        "order": ""
-      }
-    ],
-    "common": "Pink flowering currant",
-    "height": "6-8'",
-    "width": "4-6'",
-    "flower_color": "Pink",
-    "flower_time": "Spring",
-    "origin": "California",
-    "plant_type": "Deciduous shrub",
-    "exposure": "Shade",
-    "foliage": "Green",
-    "water": "Moderate",
-    "soil": "Well drained",
-    "hardiness": "0",
-    "bloom": false,
-    "bud": false,
-    "new": false
   },
   {
     "botanical": "Romneya coulteri",
@@ -7170,35 +7237,6 @@ window.AVAILABILITY = {
     "new": false
   },
   {
-    "botanical": "Rosmarinus officinalis 'Speedy'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.15,
-        "order": ""
-      }
-    ],
-    "common": "Rosemary",
-    "height": "2-3'",
-    "width": "1-2'",
-    "flower_color": "Blue",
-    "flower_time": "Spring",
-    "origin": "Mediterranean",
-    "plant_type": "Perennial",
-    "exposure": "Full sun",
-    "foliage": "Gray green",
-    "water": "Moderate",
-    "soil": "Well drained",
-    "special_uses": "Herb garden\nContainer planting",
-    "hardiness": "15",
-    "description": "Upright, fast growing rosemary",
-    "bloom": false,
-    "bud": false,
-    "new": false,
-    "additional_info": "Upright, fast growing rosemary"
-  },
-  {
     "botanical": "Rosmarinus officinalis 'Tuscan Blue'",
     "section": "General Nursery",
     "sizes": [
@@ -7224,7 +7262,7 @@ window.AVAILABILITY = {
     "soil": "Well drained / tolerates heavier soils",
     "special_uses": "Herb Garden\nScreen\nFormal Hedge\nHedge Planting",
     "plant_type": "Evergreen shrub",
-    "description": "Rigid, upright branches grow to 4’ tall, to 6’ in favorable sites, and feature rich blue flowers in late winter. Rich green leaves are larger than the prostrate forms. Suitable as an attractive, tall, narrow screen. Deer resistant.",
+    "description": "Rigid, upright branches grow to 4’ tall, to 6’ in favorable sites, and feature rich blue flowers in late winter. Rich green leaves are larger than the prostrate forms. Suitable as an attractive, tall, narrow screen. Deer resistant."
   },
   {
     "botanical": "Ruschia lineolata",
@@ -7312,35 +7350,6 @@ window.AVAILABILITY = {
     "additional_info": "Salvia mellifera x S. sonomensis hybrid introduced in the 1980’s by Nevin Smith of Wintergreen Nursery. Growing to 3’, it is taller and more mounding than creeping sage. Features aromatic, mid-green leaves and 8” flowering spikes with tiny violet flowers held in tight whorls. Tolerates some shade and little or no water when established. Useful as bank cover, in terracotta pots, or draping over walls. Hardy to 10F. Dara Emery selection from the Santa Barbara Botanic Garden."
   },
   {
-    "botanical": "Salvia 'Hot Lips'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "5gal",
-        "price": 20.0,
-        "order": ""
-      }
-    ],
-    "common": "Sage",
-    "height": "18-24\"",
-    "width": "18-24\"",
-    "flower_color": "White w/red tips",
-    "flower_time": "Spring - Summer - Fall",
-    "origin": "Garden hybrid",
-    "plant_type": "Perennial",
-    "exposure": "Full sun",
-    "foliage": "Green",
-    "water": "Moderate",
-    "soil": "Well drained",
-    "special_uses": "Dry Garden\nBorder Planting",
-    "hardiness": "15",
-    "description": "Sage.  A unique sage which adds sparkling effect in the summer garden with its wonderful two-toned red and white flowers.  Fast growing salvia from 2' tall with an equal spread.  It can adapt to full sun as well as on part shade with minimal irrigation.  Attractive to hummingbirds and hardy to 15F.",
-    "bloom": true,
-    "bud": false,
-    "new": false,
-    "additional_info": "Sage.  A unique sage which adds sparkling effect in the summer garden with its wonderful two-toned red and white flowers.  Fast growing salvia from 2' tall with an equal spread.  It can adapt to full sun as well as on part shade with minimal irrigation.  Attractive to hummingbirds and hardy to 15F."
-  },
-  {
     "botanical": "Salvia 'Karla'",
     "section": "General Nursery",
     "sizes": [
@@ -7369,91 +7378,6 @@ window.AVAILABILITY = {
     "additional_info": "Cross between S. 'Waverly' and S. chiapensis."
   },
   {
-    "botanical": "Salvia apiana",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "5gal",
-        "price": 22.0,
-        "order": ""
-      }
-    ],
-    "common": "White sage",
-    "height": "4-6'",
-    "width": "3-4'",
-    "flower_color": "White to pale lavender",
-    "flower_time": "Fall - Winter",
-    "origin": "California to Baja California",
-    "plant_type": "Evergreen shrub",
-    "exposure": "Full sun",
-    "foliage": "Silver white",
-    "water": "Occasional",
-    "soil": "Well drained / tolerates heavier soils",
-    "special_uses": "Accent\nRevegetation and Restoration\nCoastal Garden\nDry Garden",
-    "hardiness": "10",
-    "description": "White sage. A shrubby, coarsely branched shrub to 6’ tall and 5’ wide, on a hot day its scent is often evident long before the plant comes into view. Upright, pale pink flowering stalks bearing white or lavender flowers rise above the aromatic silver-white foliage. Native Americans used the resinous leaves (either dried or fresh) for ceremonial purposes, early pioneers made a tea from them to relieve colds or congestion, and one source says they may even be used as a soapless shampoo. Beekeepers too find this plant useful, and often keep their hives in chaparral areas where white sage is found because of the strong attraction for bees. Best used in full sun with good air circulation, white sage is drought tolerant once established though completely deciduous without moderate supplemental water. Tolerant of most soil types when given adequate drainage, it is useful as a background accent with other native shrubs such as Ceanothus. Prune back flowering stalks to encourage compactness. Plants are particularly beautiful in the moonlight after a winter rain. Hardy to 10F. Santa Barbara County to Baja California.",
-    "bloom": false,
-    "bud": false,
-    "new": false,
-    "additional_info": "White sage. A shrubby, coarsely branched shrub to 6’ tall and 5’ wide, on a hot day its scent is often evident long before the plant comes into view. Upright, pale pink flowering stalks bearing white or lavender flowers rise above the aromatic silver-white foliage. Native Americans used the resinous leaves (either dried or fresh) for ceremonial purposes, early pioneers made a tea from them to relieve colds or congestion, and one source says they may even be used as a soapless shampoo. Beekeepers too find this plant useful, and often keep their hives in chaparral areas where white sage is found because of the strong attraction for bees. Best used in full sun with good air circulation, white sage is drought tolerant once established though completely deciduous without moderate supplemental water. Tolerant of most soil types when given adequate drainage, it is useful as a background accent with other native shrubs such as Ceanothus. Prune back flowering stalks to encourage compactness. Plants are particularly beautiful in the moonlight after a winter rain. Hardy to 10F. Santa Barbara County to Baja California."
-  },
-  {
-    "botanical": "Salvia brandegeei 'Pacific Blue'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.25,
-        "order": ""
-      }
-    ],
-    "common": "Brandegee's sage",
-    "height": "3-4'",
-    "width": "4-6'",
-    "flower_color": "Gentian blue",
-    "flower_time": "Spring",
-    "origin": "California",
-    "plant_type": "Woody perennial/subshrub",
-    "exposure": "Full sun",
-    "foliage": "Deep green w/white beneath",
-    "water": "Infrequent",
-    "soil": "Well drained",
-    "special_uses": "Dry Garden\nCoastal Garden\nBorder Planting\nLarge area groundcover\nSlope Planting\nAttracts Birds",
-    "hardiness": "20",
-    "description": "Santa Barbara Botanic Garden introduction. Brandegei is one parent, the other is unknown.",
-    "bloom": false,
-    "bud": false,
-    "new": false,
-    "additional_info": "Santa Barbara Botanic Garden introduction. Brandegei is one parent, the other is unknown."
-  },
-  {
-    "botanical": "Salvia coahuilensis",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.25,
-        "order": ""
-      }
-    ],
-    "bloom": false,
-    "bud": true,
-    "new": false,
-    "common": "Coahuila Sage",
-    "origin": "Mexico",
-    "plant_type": "Evergreen shrub",
-    "exposure": "Full sun",
-    "flower_color": "Blue violet",
-    "flower_time": "Summer - Fall",
-    "height": "2-3'",
-    "width": "2-3'",
-    "foliage": "Green",
-    "water": "Occasional",
-    "soil": "Well drained",
-    "special_uses": "Border planting\nContainer planting",
-    "hardiness": "25"
-  },
-  {
     "botanical": "Salvia greggii 'Amethyst Lips'",
     "section": "General Nursery",
     "sizes": [
@@ -7479,33 +7403,6 @@ window.AVAILABILITY = {
     "bloom": true,
     "bud": false,
     "new": false
-  },
-  {
-    "botanical": "Salvia greggii 'Cherry Lips'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.25,
-        "order": ""
-      }
-    ],
-    "bloom": false,
-    "bud": false,
-    "new": false,
-    "common": "Autumn sage",
-    "origin": "Hybrid",
-    "plant_type": "Woody perennial - Subshrub",
-    "exposure": "Full sun",
-    "flower_color": "Magenta",
-    "flower_time": "Summer - Fall",
-    "height": "2-3'",
-    "width": "2-3'",
-    "foliage": "Green",
-    "water": "Moderate",
-    "soil": "Well drained",
-    "special_uses": "Border planting\nContainer planting\nAttracts birds\nAttracts butterflies",
-    "hardiness": "15°F"
   },
   {
     "botanical": "Salvia greggii 'Rose Bicolor'",
@@ -7559,7 +7456,7 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "special_uses": "Container planting\nBorder planting\nAttracts butterflies\nAttracts birds",
-    "plant_type": "Evergreen shrub",
+    "plant_type": "Evergreen shrub"
   },
   {
     "botanical": "Salvia guaranitica 'Black & Blue'",
@@ -7585,7 +7482,7 @@ window.AVAILABILITY = {
     "foliage": "Green",
     "water": "Regular",
     "soil": "Well drained",
-    "plant_type": "Perennial",
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Salvia leucantha 'Santa Barbara'",
@@ -7627,7 +7524,7 @@ window.AVAILABILITY = {
       }
     ],
     "bloom": false,
-    "bud": false,
+    "bud": true,
     "new": false,
     "common": "Sage",
     "origin": "Hybrid",
@@ -7641,7 +7538,7 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "special_uses": "Border planting\nContainer planting",
-    "plant_type": "Woody perennial - Subshrub",
+    "plant_type": "Woody perennial - Subshrub"
   },
   {
     "botanical": "Salvia microphylla 'Royal Bumble'",
@@ -7695,7 +7592,34 @@ window.AVAILABILITY = {
     "water": "Occasional",
     "soil": "Well drained",
     "plant_type": "Perennial",
-    "description": "Heatwave™ series. A cross of microphylla forms with greggii varieties.  Heat and drought tolerant.  Deer resistant too.",
+    "description": "Heatwave™ series. A cross of microphylla forms with greggii varieties.  Heat and drought tolerant.  Deer resistant too."
+  },
+  {
+    "botanical": "Salvia muirii",
+    "section": "General Nursery",
+    "sizes": [
+      {
+        "container": "1gal",
+        "price": 6.25,
+        "order": ""
+      }
+    ],
+    "bloom": true,
+    "bud": false,
+    "new": false,
+    "common": "John Muir sage",
+    "origin": "South Africa",
+    "height": "8-12\"",
+    "width": "1-2'",
+    "hardiness": "25",
+    "exposure": "Full sun",
+    "flower_color": "Violet blue w/white throats",
+    "flower_time": "Spring - Summer - Fall",
+    "foliage": "Green, aromatic",
+    "water": "Moderate",
+    "soil": "Well drained",
+    "special_uses": "Border Planting\nCoastal Garden",
+    "plant_type": "Woody perennial"
   },
   {
     "botanical": "Salvia officinalis 'Silver Scent'",
@@ -7725,60 +7649,6 @@ window.AVAILABILITY = {
     "hardiness": "0"
   },
   {
-    "botanical": "Salvia oxyphora",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.25,
-        "order": ""
-      }
-    ],
-    "bloom": false,
-    "bud": false,
-    "new": false,
-    "common": "Bolivian Hummingbird sage",
-    "origin": "Bolivia",
-    "height": "3-4'",
-    "width": "3-4'",
-    "hardiness": "15",
-    "exposure": "Full sun - Partial shade",
-    "flower_color": "Magenta",
-    "flower_time": "Summer - Fall",
-    "foliage": "Green",
-    "water": "Moderate",
-    "soil": "Well drained",
-    "plant_type": "Perennial",
-  },
-  {
-    "botanical": "Salvia spathacea",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 7.75,
-        "order": ""
-      }
-    ],
-    "common": "Hummingbird sage",
-    "height": "1-2'",
-    "width": "2-3'",
-    "flower_color": "Magenta",
-    "flower_time": "Spring - Summer",
-    "origin": "California",
-    "plant_type": "Perennial",
-    "exposure": "Full sun - Partial shade",
-    "foliage": "Light green, wrinkled",
-    "water": "Occasional",
-    "soil": "Well drained",
-    "hardiness": "20",
-    "description": "It stands 2ft tall before it flowers, and its flowering stalks can add another 2 ft to the height.Spreads by  underground rhizomes. Drought and frost tolerant.",
-    "bloom": false,
-    "bud": false,
-    "new": false,
-    "additional_info": "It stands 2ft tall before it flowers, and its flowering stalks can add another 2 ft to the height.Spreads by  underground rhizomes. Drought and frost tolerant."
-  },
-  {
     "botanical": "Salvia x 'Christine Yeo'",
     "section": "perennials",
     "sizes": [
@@ -7805,7 +7675,7 @@ window.AVAILABILITY = {
     "special_uses": "Dry Garden\nBorder Planting",
     "additional_info": "S Chamaedryoides x S. microphylla",
     "hardiness": "10°F",
-    "description": "S Chamaedryoides x S. microphylla",
+    "description": "S Chamaedryoides x S. microphylla"
   },
   {
     "botanical": "Santolina 'Little Nicky'",
@@ -7837,33 +7707,6 @@ window.AVAILABILITY = {
     "additional_info": "Very compact. Very light flowering which helps to conserve its tight form."
   },
   {
-    "botanical": "Santolina 'Shades of Jade'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.15,
-        "order": ""
-      }
-    ],
-    "common": "Lavender cotton",
-    "height": "1-2'",
-    "width": "1-2'",
-    "flower_color": "Yellow",
-    "flower_time": "Summer",
-    "origin": "Mediterranean",
-    "plant_type": "Woody perennial/subshrub",
-    "exposure": "Full sun",
-    "foliage": "Jade green",
-    "water": "Moderate",
-    "soil": "Well drained",
-    "special_uses": "Herb Garden\nCoastal Garden\nDry Garden\nBorder Planting",
-    "hardiness": "0",
-    "bloom": false,
-    "bud": false,
-    "new": false
-  },
-  {
     "botanical": "Santolina chamaecyparissus 'Gray Tuft'",
     "section": "General Nursery",
     "sizes": [
@@ -7890,7 +7733,7 @@ window.AVAILABILITY = {
     "special_uses": "Rock Garden\nHerb Garden\nCoastal Garden\nDry Garden\nBorder Planting\nContainer Planting",
     "additional_info": "Deer resistant.",
     "hardiness": "0°F",
-    "description": "Deer resistant.",
+    "description": "Deer resistant."
   },
   {
     "botanical": "Santolina magonica",
@@ -8085,7 +7928,7 @@ window.AVAILABILITY = {
     "water": "Occasional",
     "soil": "Well drained",
     "plant_type": "Perennial",
-    "description": "Well adapted to hot dry locations.",
+    "description": "Well adapted to hot dry locations."
   },
   {
     "botanical": "Sedum 'Little Missy'",
@@ -8197,32 +8040,6 @@ window.AVAILABILITY = {
     "bud": false,
     "new": false,
     "additional_info": "Similar to above. Leaves flushed purple and packed into rosettes on trailing stems. Hardy to 10F. California."
-  },
-  {
-    "botanical": "Sedum kamtschaticum 'Little Miss Sunshine'",
-    "section": "Succulents (4\")",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ],
-    "common": "Stonecrop",
-    "height": "6-8\"",
-    "width": "18-24\"",
-    "flower_color": "Yellow",
-    "flower_time": "Summer",
-    "origin": "Hybrid",
-    "plant_type": "Succulent",
-    "exposure": "Full sun",
-    "foliage": "Dark green",
-    "water": "Occasional",
-    "soil": "Well drained",
-    "hardiness": "0",
-    "bloom": false,
-    "bud": false,
-    "new": false
   },
   {
     "botanical": "Sedum lineare 'Sea Urchin'",
@@ -8543,7 +8360,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Border planting\nContainer planting",
     "plant_type": "Perennial",
-    "description": "self seeding",
+    "description": "self seeding"
   },
   {
     "botanical": "Sisyrinchium bellum 'Rocky Point'",
@@ -8635,11 +8452,6 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
-        "container": "1gal",
-        "price": 6.35,
-        "order": ""
-      },
-      {
         "container": "2gal",
         "price": 18.0,
         "order": ""
@@ -8690,7 +8502,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Cut Flower\nDry garden\nAttracts butterflies",
     "plant_type": "Woody perennial - Subshrub",
-    "description": "Winter deciduous.",
+    "description": "Winter deciduous."
   },
   {
     "botanical": "Stachys byzantina 'Big Ears'",
@@ -8857,7 +8669,7 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "special_uses": "Border planting\nContainer planting",
-    "plant_type": "Perennial",
+    "plant_type": "Perennial"
   },
   {
     "botanical": "Teucrium chamaedrys",
@@ -9233,8 +9045,8 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
-        "container": "1gal",
-        "price": 6.15,
+        "container": "4in",
+        "price": 3.15,
         "order": ""
       }
     ],
@@ -9318,7 +9130,12 @@ window.AVAILABILITY = {
     "sizes": [
       {
         "container": "1gal",
-        "price": 6.25,
+        "price": 6.5,
+        "order": ""
+      },
+      {
+        "container": "5gal",
+        "price": 20.0,
         "order": ""
       }
     ],
@@ -9390,7 +9207,7 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "hardiness": "20",
     "description": "Syn. Westringia rosmariniformis",
-    "bloom": false,
+    "bloom": true,
     "bud": false,
     "new": false,
     "additional_info": "Syn. Westringia rosmariniformis"
@@ -9458,6 +9275,11 @@ window.AVAILABILITY = {
         "container": "1gal",
         "price": 6.5,
         "order": ""
+      },
+      {
+        "container": "5gal",
+        "price": 22.0,
+        "order": ""
       }
     ],
     "common": "Dwarf Coast rosemary",
@@ -9485,6 +9307,11 @@ window.AVAILABILITY = {
       {
         "container": "1gal",
         "price": 7.25,
+        "order": ""
+      },
+      {
+        "container": "2gal",
+        "price": 16.5,
         "order": ""
       }
     ],

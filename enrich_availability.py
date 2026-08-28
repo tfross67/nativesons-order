@@ -126,7 +126,9 @@ def main():
         m = re.search(r'window\.AVAILABILITY = (\{[\s\S]*?\});', text)
         if not m:
             sys.exit(f'Could not parse AVAILABILITY from {AVAIL}')
-        data = json.loads(m.group(1))
+        # Same trailing-comma tolerance as regen_availability.py (Round 74).
+        payload = re.sub(r',(\s*\n\s*[}\]])', r'\1', m.group(1))
+        data = json.loads(payload)
 
     n = enrich(data['plants'], master)
     print(f'Enriched {n}/{len(data["plants"])} plants')

@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="styles.css?v=20260826-01">
+  <link rel="stylesheet" href="styles.css?v=20260826-02">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
@@ -2919,6 +2919,20 @@
       color: #fff;
       border-color: var(--c-bark, #2d4a2b);
     }
+    /* "+ Customer request" header CTA — primary action, filled so it reads
+       as the main entry point to the customer-request picker from the main
+       screen (staff mode). Overrides the outlined staff-link look. */
+    .site-header .staff-link.staff-cta-request {
+      background: var(--c-bark, #2d4a2b);
+      color: #fff;
+      border-color: var(--c-bark, #2d4a2b);
+      font-family: var(--font-sans);
+      cursor: pointer;
+    }
+    .site-header .staff-link.staff-cta-request:hover {
+      background: #1a3019;
+      border-color: #1a3019;
+    }
     .site-header .staff-link[hidden] { display: none; }
     /* Hide 'Staff: Sign in' link from public-facing portal — staff still access via direct ?staff=1 URL.
        Override: action buttons inside .header-meta-actions are always visible when their parent is shown. */
@@ -3760,6 +3774,7 @@
         <span class="pricing-status-header" id="pricingStatusHeader" hidden></span>
         <a href="?staff=1" class="staff-link" id="staffLink" hidden>Staff: Sign in</a>
         <div class="header-meta-actions" id="staffHeaderActions" hidden>
+          <button type="button" class="staff-link staff-cta-request" id="headerCustRequestCta">+ Customer request</button>
           <a href="admin.html" class="staff-link" id="staffAdminLink">Admin →</a>
           <a href="?" class="staff-link" id="staffCustomerLink">Customer portal →</a>
           <a href="#" class="staff-link" id="staffSignOut">Staff: Sign out</a>
@@ -3804,7 +3819,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260826-01</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260826-02</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -4150,11 +4165,11 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=20260826-01"></script>
-  <script src="cart.js?v=20260826-01"></script>
+  <script src="supabase-config.js?v=20260826-02"></script>
+  <script src="cart.js?v=20260826-02"></script>
   <script src="glimm-vanilla.js?v=20260815-03"></script>
-  <script src="availability_data.js?v=20260826-01"></script>
-  <script src="masteritem_full.js?v=20260826-01"></script>
+  <script src="availability_data.js?v=20260826-02"></script>
+  <script src="masteritem_full.js?v=20260826-02"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -7931,14 +7946,15 @@
 
       // Cart empty-state CTA — wired via delegation so it works whatever
       // markup renderCartItems emits. The cart-header button (#cartHeaderCta)
-      // lives outside the cart-items host, so wire it directly.
+      // and the header button (#headerCustRequestCta) live outside the
+      // cart-items host, so wire them directly.
       document.addEventListener('click', (e) => {
         const cta = e.target.closest('.cart-empty-cta');
         if (cta && typeof window.openCustomerRequestPicker === 'function') {
           window.openCustomerRequestPicker();
           return;
         }
-        if (e.target.id === 'cartHeaderCta' && typeof window.openCustomerRequestPicker === 'function') {
+        if ((e.target.id === 'cartHeaderCta' || e.target.id === 'headerCustRequestCta') && typeof window.openCustomerRequestPicker === 'function') {
           window.openCustomerRequestPicker();
         }
       });

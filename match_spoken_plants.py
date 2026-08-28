@@ -403,46 +403,64 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
     candidates = GENUS_INDEX.get(q_genus, [])
     fuzzy_genus = None
     cultivar_anchored = False
+    # Collect candidates from EVERY genus layer (exact, phonetic, edit,
+    # skeleton) into ONE pool and let the scorer rank them. First-wins
+    # per-layer is wrong: "duranium" is 2 edits from geranium AND
+    # phonetically TRNM-something-else — the right genus is whichever row
+    # scores best overall (cultivar overlap, exact tokens), so merging the
+    # pools and scoring together beats layer precedence.
+    candidate_sets = []
     if not candidates:
-        # try fuzzy genus — allow 2 edits ("duranium" → "geranium" is 2)
+        # Phonetic genus (metaphone) — sound is the strongest garble
+        # signal. Exact, prefix (min 3 chars), or 1-edit codes.
+        q_meta = metaphone(q_genus)
+        if len(q_meta) >= 3:
+            cands = META_INDEX.get(q_meta, [])
+            if not cands:
+                for code, idxs in META_INDEX.items():
+                    if code == q_meta:
+                        continue
+                    if (code.startswith(q_meta) or q_meta.startswith(code)) and len(q_meta) >= 3:
+                        cands = idxs
+                        break
+                    if not cands and levenshtein(code, q_meta, 1) <= 1:
+                        cands = idxs
+            if cands:
+                candidate_sets.append(cands)
+                if fuzzy_genus is None:
+                    fuzzy_genus = ROWS[cands[0]]["tokens"][0] if ROWS[cands[0]]["tokens"] else q_genus
+        # fuzzy genus — allow 2 edits ("duranium" → "geranium" is 2)
         for g, idxs in GENUS_INDEX.items():
             if levenshtein(g, q_genus, 2) <= 2:
-                candidates = idxs
-                fuzzy_genus = g
+                candidate_sets.append(idxs)
+                if fuzzy_genus is None:
+                    fuzzy_genus = g
                 break
-    if not candidates:
-        # Consonant-skeleton genus: Whisper mangles vowels, so "cnothis"
-        # (from "Ceanothus") shares its consonant sequence c-n-t-h-s with
-        # the real genus even at 4+ edits. Require skeleton equality AND a
-        # shared first consonant so "point" can't skeleton-match "penstemon".
+        # Consonant-skeleton genus: "cnothis" shares c-n-t-h-s with
+        # "ceanothus" even at 4+ edits.
         q_skel = consonant_skeleton(q_genus)
         if len(q_skel) >= 4:
             for g, idxs in GENUS_INDEX.items():
                 g_skel = consonant_skeleton(g)
                 if g_skel == q_skel and g_skel[:1] == q_skel[:1]:
-                    candidates = idxs
-                    fuzzy_genus = g
+                    candidate_sets.append(idxs)
+                    if fuzzy_genus is None:
+                        fuzzy_genus = g
                     break
-    if not candidates:
-        # Phonetic genus (metaphone): the LAST spelling-agnostic layer.
-        # "cyanothus", "cnothus", "cnotus" all encode to KNTS, same as the
-        # real "ceanothus" — no matter how Whisper spells what it heard,
-        # the sound code matches. This is the "recognize Latin names by
-        # pronunciation" answer.
-        q_meta = metaphone(q_genus)
-        if len(q_meta) >= 3:
-            cands = META_INDEX.get(q_meta, [])
-            if cands:
-                candidates = cands
-                fuzzy_genus = ROWS[cands[0]]["tokens"][0] if ROWS[cands[0]]["tokens"] else q_genus
-    if not candidates and anchor_allowed:
-        # Cultivar-anchored fallback: the genus may be mangled beyond
-        # recovery ("duringium" → "geranium" is 4 edits), but the cultivar
-        # token is usually still close ("biocopo" → "biokovo" is 2). Hunt
-        # every row whose cultivar is within 2 edits of ANY query token —
-        # the cultivar is the most distinctive part of a botanical name.
-        # Prefix-aware: "biocobal" → "biokovo" is 4 edits but shares the
-        # "bio" prefix, so a shared 3-char prefix bumps the allowance.
+        # Merge, dedupe preserving order.
+        seen = set()
+        merged = []
+        for s in candidate_sets:
+            for i in s:
+                if i not in seen:
+                    seen.add(i)
+                    merged.append(i)
+        candidates = merged
+    # Cultivar-anchored candidates ALWAYS join the pool (not just when
+    # every genus layer failed). "duringium" phonetically grazes Hydrangea
+    # (TRNJ) but its cultivar anchor biocopo→biokovo is the real signal —
+    # the scorer must see gerbio4 even when a wrong genus pool exists.
+    if anchor_allowed:
         for i, r in enumerate(ROWS):
             cl = r["cultivar_letters"]
             if not cl or len(cl) < 5:
@@ -451,15 +469,17 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
                 tl = t.strip(".,;!?-")
                 d = levenshtein(tl, cl, 3)
                 if d <= 2:
-                    candidates.append(i)
+                    if i not in set(candidates):
+                        candidates.append(i)
                     break
                 # shared prefix of 3+ chars → allow up to 4 edits
                 if d <= 4 and len(tl) >= 3 and len(cl) >= 3 and tl[:3] == cl[:3]:
-                    candidates.append(i)
+                    if i not in set(candidates):
+                        candidates.append(i)
                     break
-        cultivar_anchored = bool(candidates)
-        if not candidates:
-            return None
+        cultivar_anchored = True
+    if not candidates:
+        return None
 
     best, best_score = None, 1e9
     best_common = -1
@@ -511,6 +531,18 @@ def match_botanical(query_tokens, size=None, anchor_allowed=False):
                         d_anchor <= 4 and len(tq_clean) >= 3 and tq_clean[:3] == cl[:3]
                     ):
                         anchor_hit = True
+                    else:
+                        # Phonetic cultivar: "apoblossum" vs "appleblossom"
+                        # is 4+ spelling edits but their metaphone codes
+                        # (APPLSM vs APLPLSM) are only 2 edits apart.
+                        tq_meta = metaphone(tq_clean)
+                        cl_meta = metaphone(cl)
+                        if (
+                            len(tq_meta) >= 5
+                            and len(cl_meta) >= 5
+                            and levenshtein(tq_meta, cl_meta, 2) <= 2
+                        ):
+                            anchor_hit = True
             if common < 2 and not anchor_hit:
                 continue
             # cultivar must match if both present
@@ -670,18 +702,19 @@ def resolve_chunk(chunk):
     if not words:
         return {"query": chunk, "matched": False, "note": "Empty mention"}
 
-    # Try botanical match first (with the extracted size — without it, a
+    # Common-name alias FIRST — when the query starts with a known common
+    # name ("rosemary", "california lilac") the alias is unambiguous, while
+    # the botanical path can mis-fire phonetically ("rosemary" → RSMR
+    # grazes Rhus → RS). Only fall through to botanical when no alias hits.
+    row = None
+    genus = match_common(chunk_joined)
+    if genus:
+        gwords = genus.split()
+        row = match_botanical(gwords + words[1:], size) or match_botanical(gwords, size)
+    # Try botanical match (with the extracted size — without it, a
     # "5 gallon" query can silently resolve to the 1g SKU of the same plant)
-    row = match_botanical(words, size)
-    # Try common-name alias
     if not row:
-        genus = match_common(chunk_joined)
-        if genus:
-            gwords = genus.split()
-            row = match_botanical(gwords + words[1:], size) or match_botanical(gwords, size)
-            if row and not size:
-                # common alias matched a genus — keep first size as default
-                pass
+        row = match_botanical(words, size)
     # Last resort: cultivar-anchored fuzzy (genus garbled beyond use).
     # Runs AFTER the common-name path so a common name that is also a
     # cultivar ("lavender" → Penstemon 'Lavender') can't hijack the match.

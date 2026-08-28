@@ -28,8 +28,8 @@ import openpyxl
 ROOT = Path(__file__).parent
 XLSX = Path(sys.argv[1]) if len(sys.argv) > 1 else Path('/Users/tfross/.hermes/attachments/nativesonsexcelavail81726.xlsx')
 AVAIL = ROOT / 'availability_data.js'
-WEEK_HEADER = 'Week of August 24th, 2026'
-GENERATED = '2026-08-21'
+WEEK_HEADER = 'Week of August 31st, 2026'
+GENERATED = '2026-08-28'
 
 
 def norm(s: str) -> str:
@@ -175,7 +175,12 @@ def main():
     m = re.search(r'window\.AVAILABILITY\s*=\s*(\{[\s\S]*?\});', text)
     if not m:
         raise SystemExit(f'Could not parse AVAILABILITY from {AVAIL}')
-    data = json.loads(m.group(1))
+    # backfill_missing_enrichment.py injects fields via text edits and its
+    # emitted lines used to end with a trailing comma (JS-style), which strict
+    # json.loads rejects. Strip `,<newline><ws>}` / `,<newline><ws>]` before
+    # decoding so both emitter styles round-trip. (Round 74, 2026-08-28.)
+    payload = re.sub(r',(\s*\n\s*[}\]])', r'\1', m.group(1))
+    data = json.loads(payload)
 
     # Build normalized lookup of existing plants
     existing = {}
@@ -271,7 +276,7 @@ def main():
     # master keys. The script renames weekly → master canonical + fills blank fields.
     try:
         import subprocess
-        backfill = Path(__file__).parent / 'backfill_missing_enrichment.py'
+        backfill = Path(__file__).parent / 'scripts' / 'backfill_missing_enrichment.py'
         if backfill.exists():
             r = subprocess.run(
                 ['python3', str(backfill), str(AVAIL)],

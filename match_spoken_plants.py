@@ -623,6 +623,11 @@ def match_common(phrase):
 # --------------------------------------------------------------------------
 # Chunk the transcript into plant mentions
 # --------------------------------------------------------------------------
+# Container sizes actually carried in the catalog — used to split glued
+# qty+size tokens ("31-gallon" = "3 1-gallon"): a number that isn't one of
+# these is a qty-digit glued onto a size digit.
+KNOWN_CONTAINER_SIZES = {"1g", "2g", "3g", "5g", "7g", "15g", "16g", "20g", "24g", "4in"}
+
 SIZE_RE = re.compile(
     r"\b(\d{1,2}\s*(?:gallon|gal|g|inch|in|in\.|inch pot|\")\b|"
     r"(?:four|five|one|two|fifteen|seven|sixteen|twenty|twenty[- ]four)\s*(?:gallon|inch)\b)",
@@ -707,6 +712,21 @@ def resolve_chunk(chunk):
                     size = {"4in": "4in", "1g": "1g", "2g": "2g", "5g": "5g",
                             "15g": "15g", "20g": "20g", "7g": "7g",
                             "16g": "16g", "24g": "24g"}.get(size, size)
+                    # Whisper glues qty+size into one token ("31-gallon" =
+                    # "3 1-gallon", "41-gallon" = "4 1-gallon"). If the
+                    # number isn't a container size we carry, split it:
+                    # trailing 1-2 digits that DO form a known size become
+                    # the size, the leading digits re-enter as quantity.
+                    if size not in KNOWN_CONTAINER_SIZES:
+                        digits = num_part.group(1)
+                        for cut in (1, 2):
+                            tail = digits[-cut:]
+                            if tail and f"{tail}{canonical}" in KNOWN_CONTAINER_SIZES:
+                                leading = digits[:-cut]
+                                size = f"{tail}{canonical}"
+                                if leading:
+                                    chunk_joined = f"{leading} {chunk_joined}"
+                                break
                     chunk_joined = re.sub(r"\b" + re.escape(tok) + r"\b", " ", chunk_joined, flags=re.I)
                     break
             if size:

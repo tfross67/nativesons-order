@@ -575,6 +575,115 @@
       font-size: 13px;
       color: var(--c-muted);
     }
+
+    /* ============================================================
+       SAVED FILTERS (shared with availability.html)
+       ============================================================ */
+
+    .saved-filters {
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      background: #fbfaf5;
+      border: 1px solid var(--c-line);
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .saved-filters .sf-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+    }
+    .saved-filters .sf-row + .sf-row { border-top: 1px dashed var(--c-line); }
+    .saved-filters .sf-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      margin-right: 4px;
+    }
+    .saved-filters .sf-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 6px 4px 10px;
+      background: #fff;
+      border: 1px solid var(--c-line);
+      border-radius: 999px;
+      color: var(--c-ink);
+      font-size: 13px;
+      line-height: 1;
+    }
+    .saved-filters .sf-chip.sf-slot { border-color: #c4d5b6; }
+    .saved-filters .sf-chip.sf-empty {
+      border-style: dashed;
+      color: var(--c-muted);
+      padding-left: 6px;
+    }
+    .saved-filters .sf-chip button {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+    .saved-filters .sf-chip .sf-apply:hover { color: var(--c-cta, #3a5f3a); }
+    .saved-filters .sf-chip .sf-del,
+    .saved-filters .sf-chip .sf-slot-btn {
+      color: var(--c-muted);
+      padding: 0 4px;
+      border-radius: 999px;
+    }
+    .saved-filters .sf-chip .sf-del:hover { color: #a04030; }
+    .saved-filters .sf-chip .sf-slot-btn:hover { color: var(--c-cta, #3a5f3a); }
+    .saved-filters .sf-empty-note {
+      font-size: 12px;
+      color: var(--c-muted);
+    }
+    .saved-filters .sf-tool {
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 4px;
+      border: 1px solid var(--c-line);
+      background: #fff;
+      color: var(--c-cta);
+      cursor: pointer;
+    }
+    .saved-filters .sf-tool:hover { background: #f4f0df; }
+    .saved-filters .sf-tool:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* PWA install banner — minimal bottom-right pill; dismissible */
+    #pwa-install {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      background: var(--c-ink);
+      color: #fff;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      z-index: 50;
+    }
+    #pwa-install button {
+      border: 0;
+      background: transparent;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+    #pwa-install button.install-yes { font-weight: 700; }
+    #pwa-install button.install-no { color: rgba(255,255,255,0.6); }
+    body.pwa-hidden #pwa-install { display: none; }
   </style>
 </head>
 <body>
@@ -608,6 +717,8 @@
         <option value="size:1">Size (smallest first)</option>
       </select>
     </div>
+
+    <div class="saved-filters" id="savedFilters" hidden></div>
 
     <div class="quick-order-panel" id="qoPanel">
       <h2>Quick order</h2>
@@ -646,11 +757,18 @@
 
     <div id="addToast" role="status"></div>
 
+    <div id="pwa-install" hidden>
+      <span>Install Native Sons as an app?</span>
+      <button type="button" class="install-yes">Install</button>
+      <button type="button" class="install-no" aria-label="Dismiss">×</button>
+    </div>
+
     <footer class="page" id="foot"></footer>
   </div>
 
   <script src="cart.js?v=20260826-02"></script>
   <script src="masteritem_full.js?v=20260826-02"></script>
+  <script src="saved-filters.js?v=20260828-02"></script>
 
   <script>
     // ===== Staff gate =====
@@ -971,6 +1089,76 @@
       });
       document.getElementById('qoMatch').addEventListener('click', runQuickOrder);
 
+      // ===== Saved filters wiring =====
+      // Filter state for this page: { q, sortKey, sortDir }.
+      // We pin the URL ?f= to { q, sortKey, sortDir } so a shared link
+      // recreates the exact view.
+      const sfMount = document.getElementById('savedFilters');
+      if (sfMount) sfMount.hidden = false;
+      const savedFilters = (window.SavedFilters && window.SavedFilters.create)
+        ? window.SavedFilters.create({
+            page: 'compact-list',
+            get() {
+              const qEl = document.getElementById('q');
+              const sEl = document.getElementById('sortSel');
+              return {
+                q: qEl ? qEl.value : '',
+                sort: sEl ? sEl.value : 'botanical:1',
+              };
+            },
+            apply(snap) {
+              const qEl = document.getElementById('q');
+              const sEl = document.getElementById('sortSel');
+              if (qEl) qEl.value = (snap && typeof snap.q === 'string') ? snap.q : '';
+              if (sEl) sEl.value = (snap && snap.sort) ? snap.sort : 'botanical:1';
+              // Reflect sort choice into SORT_KEY/SORT_DIR.
+              if (snap && snap.sort) {
+                const [k, dir] = String(snap.sort).split(':');
+                SORT_KEY = k || 'botanical';
+                SORT_DIR = dir ? Number(dir) : 1;
+              }
+              render();
+              // Update URL hash params for back/forward nav without reloading.
+              try {
+                const u = new URL(window.location.href);
+                if (qEl && qEl.value) {
+                  u.searchParams.set('q', qEl.value);
+                } else {
+                  u.searchParams.delete('q');
+                }
+                window.history.replaceState({}, '', u.toString());
+              } catch (e) {}
+            },
+            label(snap) {
+              const parts = [];
+              if (snap && snap.q) parts.push('"' + snap.q + '"');
+              if (snap && snap.sort && snap.sort !== 'botanical:1') parts.push(snap.sort);
+              return parts.length ? parts.join(' · ') : 'Full list';
+            },
+          }) : null;
+
+      // Reflect "settled" search into ?f= and the URL. Debounced so we
+      // don't churn the URL on every keystroke.
+      let sfInputTimer = null;
+      const sfSearchInput = document.getElementById('q');
+      sfSearchInput.addEventListener('input', () => {
+        if (!savedFilters) return;
+        clearTimeout(sfInputTimer);
+        sfInputTimer = setTimeout(() => savedFilters.commit({ skipRemember: true }), 600);
+      });
+      sfSearchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && savedFilters) savedFilters.commit({ skipRemember: true });
+      });
+      const sfSortSel = document.getElementById('sortSel');
+      sfSortSel.addEventListener('change', () => {
+        if (savedFilters) savedFilters.commit({ skipRemember: true });
+      });
+      // First commit so a freshly-loaded page already has ?f= in its URL.
+      if (savedFilters) savedFilters.commit({ skipRemember: true });
+
+      // ===== PWA install banner =====
+      installPwaBanner();
+
       updateAddBar();
       render();
     }
@@ -1196,6 +1384,55 @@
       return String(s == null ? '' : s)
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    // ===== PWA install banner =====
+    // Persist a "dismissed" flag in localStorage so the same user
+    // doesn't see the chip on every page after they've already decided.
+    function installPwaBanner() {
+      const banner = document.getElementById('pwa-install');
+      if (!banner) return;
+      if (window.matchMedia('(display-mode: standalone)').matches) return; // already installed
+      try {
+        if (localStorage.getItem('ns_pwa_install_dismissed') === '1') {
+          document.body.classList.add('pwa-hidden');
+          return;
+        }
+      } catch (e) {}
+      let promptEvent = null;
+      const show = () => { banner.hidden = false; };
+      const hide = (reason) => {
+        banner.hidden = true;
+        if (reason === 'dismiss') {
+          try { localStorage.setItem('ns_pwa_install_dismissed', '1'); } catch (e) {}
+        }
+        document.body.classList.add('pwa-hidden');
+      };
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        promptEvent = e;
+        show();
+      });
+      window.addEventListener('appinstalled', () => hide('installed'));
+      banner.querySelector('.install-yes').addEventListener('click', async () => {
+        if (!promptEvent) return;
+        promptEvent.prompt();
+        const choice = await promptEvent.userChoice;
+        hide(choice && choice.outcome === 'dismissed' ? 'dismiss' : 'installed');
+        promptEvent = null;
+      });
+      banner.querySelector('.install-no').addEventListener('click', () => hide('dismiss'));
+      // Engine the show once if the user is on a known-installed-capable
+      // platform (Android / desktop Chrome with the bit set) but the
+      // event hasn't fired yet — most desktops don't ever fire it; this
+      // is best-effort only.
+      setTimeout(() => {
+        if (!promptEvent && !document.body.classList.contains('pwa-hidden')) {
+          // Don't force-show on desktops that never fire beforeinstallprompt.
+          const ua = (navigator.userAgent || '').toLowerCase();
+          if (/android/.test(ua)) show();
+        }
+      }, 4000);
     }
   </script>
 </body>

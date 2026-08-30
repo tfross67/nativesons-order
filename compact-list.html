@@ -379,6 +379,202 @@
       margin-left: 4px;
     }
     .pricing-banner a:hover { text-decoration: underline; }
+
+    /* ============================================================
+       QUICK ORDER — per-size qty inputs + sticky add bar
+       ============================================================ */
+
+    td.size .qty-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 6px;
+      vertical-align: baseline;
+    }
+    td.size input.qty-input {
+      width: 44px;
+      padding: 3px 4px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--c-ink);
+      background: #fff;
+      border: 1px solid var(--c-line);
+      border-radius: 4px;
+      text-align: center;
+      outline: none;
+    }
+    td.size input.qty-input:focus {
+      border-color: var(--c-cta);
+      box-shadow: 0 0 0 2px rgba(58,95,58,0.15);
+    }
+    td.size input.qty-input.qty-filled {
+      border-color: var(--c-cta);
+      background: #f0f6ee;
+    }
+
+    /* Sticky add bar — collects all qty>0 rows */
+    .add-bar {
+      position: sticky;
+      bottom: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 14px;
+      padding: 12px 16px;
+      background: #fff;
+      border: 1px solid var(--c-line);
+      border-radius: 8px;
+      box-shadow: 0 -2px 12px rgba(26,46,26,0.08);
+      z-index: 20;
+    }
+    .add-bar .add-summary {
+      font-size: 13px;
+      color: var(--c-muted);
+    }
+    .add-bar .add-summary strong { color: var(--c-bark); }
+    .add-bar .add-actions { display: flex; gap: 8px; align-items: center; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid var(--c-cta);
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--c-cta);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #2f4e2f; }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-ghost {
+      background: #fff;
+      color: var(--c-cta);
+    }
+    .btn-ghost:hover { background: #f4f0df; }
+
+    /* Toast for add feedback */
+    #addToast {
+      position: fixed;
+      left: 50%;
+      bottom: 84px;
+      transform: translateX(-50%);
+      background: var(--c-ink);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      z-index: 40;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      max-width: 90vw;
+      text-align: center;
+    }
+    #addToast.show { opacity: 1; }
+
+    /* ============================================================
+       QUICK-ORDER PANEL — bulk paste / quick entry
+       ============================================================ */
+
+    .quick-order-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-right: 8px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--c-cta);
+      background: #fff;
+      border: 1px solid var(--c-line);
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .quick-order-toggle:hover { background: #f4f0df; }
+
+    .quick-order-panel {
+      display: none;
+      margin-bottom: 14px;
+      padding: 14px 16px;
+      background: #fff;
+      border: 1px solid var(--c-line);
+      border-radius: 8px;
+    }
+    .quick-order-panel.open { display: block; }
+    .quick-order-panel h2 {
+      margin: 0 0 4px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--c-bark);
+    }
+    .quick-order-panel .qo-hint {
+      margin: 0 0 10px;
+      font-size: 12px;
+      color: var(--c-muted);
+    }
+    .quick-order-panel textarea {
+      width: 100%;
+      min-height: 96px;
+      padding: 10px 12px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--c-ink);
+      background: #fbfaf5;
+      border: 1px solid var(--c-line);
+      border-radius: 6px;
+      outline: none;
+      resize: vertical;
+    }
+    .quick-order-panel textarea:focus {
+      border-color: var(--c-cta);
+      box-shadow: 0 0 0 2px rgba(58,95,58,0.15);
+    }
+    .qo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .qo-results { margin-top: 10px; }
+    .qo-results ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 13px;
+    }
+    .qo-results li {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 4px 0;
+      border-bottom: 1px solid #f0ecdf;
+    }
+    .qo-results li:last-child { border-bottom: 0; }
+    .qo-results .qo-ok { color: var(--c-ink); }
+    .qo-results .qo-ok .qo-line { color: var(--c-muted); }
+    .qo-results .qo-bad { color: #a04030; }
+    .qo-results .qo-bad .qo-line { color: #a04030; }
+    .qo-results .qo-qty {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--c-bark);
+    }
+    .qo-none {
+      font-size: 13px;
+      color: var(--c-muted);
+    }
   </style>
 </head>
 <body>
@@ -397,6 +593,7 @@
     </div>
 
     <div class="toolbar">
+      <button type="button" class="quick-order-toggle" id="qoToggle">⚡ Quick order</button>
       <input type="search" id="q" placeholder="Filter by botanical name…" autocomplete="off" spellcheck="false" enterkeyhint="search" inputmode="search">
       <span class="count" id="count"></span>
       <!-- Mobile-only sort control: the sortable column headers are
@@ -410,6 +607,17 @@
         <option value="status:1">In bloom first</option>
         <option value="size:1">Size (smallest first)</option>
       </select>
+    </div>
+
+    <div class="quick-order-panel" id="qoPanel">
+      <h2>Quick order</h2>
+      <p class="qo-hint">Paste or type one plant per line. Use a name (or item code) and a quantity — e.g. <em>Abelia 'Conti' x5</em>, <em>ceayan1 x10</em>, <em>5 × ceayan1</em>. Optionally add a size: <em>Lavandula 'Munstead' 5gal x2</em>.</p>
+      <textarea id="qoInput" placeholder="Abelia 'Conti' x5&#10;ceayan1 x10&#10;Lavandula 'Munstead' 5gal x2" spellcheck="false"></textarea>
+      <div class="qo-actions">
+        <button type="button" class="btn btn-primary" id="qoMatch">Match &amp; add to order</button>
+        <span class="qo-hint" style="margin:0">Matched lines are added to the cart; unmatched lines are listed below for correction.</span>
+      </div>
+      <div class="qo-results" id="qoResults"></div>
     </div>
 
     <table class="list" id="t">
@@ -428,8 +636,21 @@
     </table>
     <div class="empty" id="empty" hidden>No plants match your filter.</div>
 
+    <div class="add-bar" id="addBar">
+      <span class="add-summary" id="addSummary">Type a quantity next to any size, then add everything to your order.</span>
+      <span class="add-actions">
+        <a class="btn btn-ghost" href="availability.html?cart=1" id="viewOrderLink">View order (0)</a>
+        <button type="button" class="btn btn-primary" id="addAllBtn" disabled>Add to order</button>
+      </span>
+    </div>
+
+    <div id="addToast" role="status"></div>
+
     <footer class="page" id="foot"></footer>
   </div>
+
+  <script src="cart.js?v=20260826-02"></script>
+  <script src="masteritem_full.js?v=20260826-02"></script>
 
   <script>
     // ===== Staff gate =====
@@ -478,6 +699,164 @@
     let SORT_KEY = 'botanical';
     let SORT_DIR = 1;
 
+    // Container ordering + key helpers (top-level so both the table render
+    // and the quick-order matcher can use them).
+    const SIZE_ORDER = ['4in', '4"', '3in', '3"', '1gal', '2gal', '5gal', '7gal', '10gal', '15gal', '25gal', 'ea'];
+    const sizeKey = (s) => {
+      const c = (s.container || '').toLowerCase().replace(/\s+/g, '');
+      const i = SIZE_ORDER.indexOf(c);
+      return i === -1 ? 999 : i;
+    };
+    const normForMatch = (s) => String(s || '').toLowerCase()
+      .replace(/['‘’]/g, "'").replace(/[®™©]/g, '').replace(/\s+/g, ' ').trim();
+    const normSize = (s) => {
+      const v = String(s || '').toLowerCase().replace(/["\s]/g, '');
+      if (v === '4' || v === '4in') return '4in';
+      const m = v.match(/^(\d+)g$/);
+      return m ? m[1] + 'gal' : v;
+    };
+
+    let ALL_PLANTS = [];          // raw plants (for quick-order matching)
+    const PLANTS_BY_NORM = new Map(); // normalized botanical -> plant
+    const CODE_INDEX = new Map(); // item code (lowercase) -> masteritem record
+
+    function indexCatalog(plants) {
+      ALL_PLANTS = plants;
+      PLANTS_BY_NORM.clear();
+      for (const p of plants) {
+        const key = normForMatch(p.botanical);
+        if (key && !PLANTS_BY_NORM.has(key)) PLANTS_BY_NORM.set(key, p);
+      }
+      if (window.MASTER_ITEM_FULL) {
+        for (const it of window.MASTER_ITEM_FULL) {
+          if (it && it.c) CODE_INDEX.set(String(it.c).toLowerCase(), it);
+        }
+      }
+    }
+
+    // Split a botanical name into { toks, cult }: genus/species tokens plus
+    // the cultivar in quotes. Patent markers like (PP16,988) are dropped.
+    // Abbreviation tolerance: masteritem_full.js abbreviates species
+    // ("Abelia x grand. 'Conti' Confetti®") where the catalog spells it out
+    // ("Abelia x grandiflora 'Conti' Confetti®") — matching must compare
+    // genus exactly, then species by prefix, then cultivar strictly.
+    function splitBotanicalName(s) {
+      let t = normForMatch(s).replace(/\([^)]*\)/g, ' ').replace(/\s+/g, ' ').trim();
+      if (!t) return null;
+      let cult = null;
+      const cm = t.match(/['‘]([^'’]+)['’]\s*$/);
+      if (cm) { cult = cm[1]; t = t.slice(0, cm.index).trim(); }
+      return { toks: t.split(' ').filter(Boolean), cult };
+    }
+
+    // Abbreviation-tolerant species match: "grand." == "grandiflora".
+    const stripTrail = (x) => String(x || '').replace(/[.,;:]+$/, '');
+
+    function nameMatch(query, desc) {
+      const q = splitBotanicalName(query);
+      const d = splitBotanicalName(desc);
+      if (!q || !d || !q.toks.length || !d.toks.length) return false;
+      if (q.toks[0] !== d.toks[0]) return false;                 // genus
+      const qSpp = q.toks.length > 1 ? stripTrail(q.toks[1]) : '';
+      const dSpp = d.toks.length > 1 ? stripTrail(d.toks[1]) : '';
+      if (!qSpp || !dSpp) return false;
+      const sppOk = qSpp === dSpp || (qSpp.length > dSpp.length && qSpp.startsWith(dSpp)) ||
+                    (dSpp.length > qSpp.length && dSpp.startsWith(qSpp));
+      if (!sppOk) return false;
+      // Cultivar policy: both must match exactly when both present; a
+      // cultivar query cannot match a no-cultivar entry (and vice versa).
+      if (q.cult && d.cult) return q.cult === d.cult;
+      if (q.cult || d.cult) return false;
+      return true;
+    }
+
+    // Resolve a masteritem description to a catalog plant, tolerant of the
+    // species abbreviation (used by the item-code quick-order path, where
+    // the code's description may be abbreviated vs the catalog name).
+    function findPlantByDesc(desc) {
+      const exact = PLANTS_BY_NORM.get(normForMatch(desc));
+      if (exact) return exact;
+      for (const p of ALL_PLANTS) {
+        if (nameMatch(p.botanical, desc)) return p;
+      }
+      return null;
+    }
+
+    // Look up item code + UPC for (botanical, container) against
+    // masteritem_full.js — mirrors availability.html's lookupItemCode with
+    // the same abbreviation tolerance (masteritem uses "x grand." where the
+    // catalog says "x grandiflora").
+    function lookupItemCode(botanical, container) {
+      const want = normSize(container);
+      if (!window.MASTER_ITEM_FULL) return null;
+      for (const it of window.MASTER_ITEM_FULL) {
+        if (!it || !it.d) continue;
+        if (normSize(it.s) !== want) continue;
+        if (nameMatch(botanical, it.d)) return { code: it.c, upc: it.u };
+      }
+      return null;
+    }
+
+    // Add to the shared cart — same key format + payload as availability.html
+    // so both pages see one cart. plant: { botanical, sizes:[{container,price}] }
+    function addPlantToCart(botanical, container, price, qty) {
+      const key = `${botanical}|${container}`;
+      const codeInfo = lookupItemCode(botanical, container);
+      Cart.add({
+        key,
+        name: botanical,
+        size: container,
+        price: price || 0,
+        qty: qty || 1,
+        item_code: codeInfo?.code || null,
+        upc: codeInfo?.upc || null,
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('addToast');
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.classList.remove('show'), 2600);
+    }
+
+    function updateAddBar() {
+      let units = 0, lines = 0;
+      document.querySelectorAll('#rows .qty-input').forEach(inp => {
+        const q = parseInt(inp.value, 10);
+        if (q > 0) { units += q; lines++; }
+      });
+      const btn = document.getElementById('addAllBtn');
+      const sum = document.getElementById('addSummary');
+      btn.disabled = units === 0;
+      sum.textContent = units === 0
+        ? 'Type a quantity next to any size, then add everything to your order.'
+        : `${lines} plant line${lines === 1 ? '' : 's'} · ${units} unit${units === 1 ? '' : 's'} ready to add.`;
+      const cartN = (window.Cart && Cart.getCount()) || 0;
+      document.getElementById('viewOrderLink').textContent = `View order (${cartN})`;
+    }
+
+    function addAllToCart() {
+      const picks = [];
+      document.querySelectorAll('#rows .qty-input').forEach(inp => {
+        const qty = parseInt(inp.value, 10);
+        if (qty > 0) picks.push({
+          botanical: inp.dataset.botanical,
+          size: inp.dataset.size,
+          price: parseFloat(inp.dataset.price),
+          qty,
+        });
+      });
+      if (!picks.length) return;
+      picks.forEach(p => addPlantToCart(p.botanical, p.size, p.price, p.qty));
+      const units = picks.reduce((s, p) => s + p.qty, 0);
+      document.querySelectorAll('#rows .qty-input').forEach(inp => { inp.value = ''; inp.classList.remove('qty-filled'); });
+      updateAddBar();
+      showToast(`Added ${units} unit${units === 1 ? '' : 's'} to your order`);
+    }
+
     function init() {
       const data = window.AVAILABILITY || {};
       const week = data.week || '';
@@ -485,6 +864,7 @@
       const contact = data.contact || '';
       const contactStr = typeof contact === 'string' ? contact : (contact?.name || contact?.email || '');
       const plants = Array.isArray(data.plants) ? data.plants : [];
+      indexCatalog(plants);
 
       for (const p of plants) {
         const sizes = (p.sizes || []).filter(s => s && s.container && typeof s.price === 'number');
@@ -500,12 +880,7 @@
         // for a predictable read. Renders as '1gal $8.00 / 2gal $12.00 / 5gal $24.00'
         // with the smallest container's price in bold so the cheapest entry
         // is the visual anchor. Empty sizes get a dash.
-        const SIZE_ORDER = ['4in', '4"', '3in', '3"', '1gal', '2gal', '5gal', '7gal', '10gal', '15gal', '25gal', 'ea'];
-        const sizeKey = (s) => {
-          const c = (s.container || '').toLowerCase().replace(/\s+/g, '');
-          const i = SIZE_ORDER.indexOf(c);
-          return i === -1 ? 999 : i;
-        };
+        // Each size entry gets a compact qty input (quick-order column).
         const sortedSizes = [...sizes].sort((a, b) => sizeKey(a) - sizeKey(b));
         // Weights: 800 (cheapest) -> 700 -> 600 -> 500+ for the rest, so
         // the eye lands on the smallest container first. Matches the
@@ -522,6 +897,7 @@
               return `<span class="size-entry" style="--price-weight: ${w};">` +
                 `<span class="size-unit">${esc(s.container)}</span>` +
                 (showAmount ? `<span class="size-amount">$${s.price.toFixed(2)}</span>` : '') +
+                `<span class="qty-wrap"><input type="number" min="0" step="1" inputmode="numeric" class="qty-input" data-botanical="${esc(p.botanical || '')}" data-size="${esc(s.container)}" data-price="${s.price}" aria-label="Qty ${esc(s.container)} ${esc(p.botanical || '')}"></span>` +
                 `</span>`;
             }).join(' <span class="size-sep">/</span> ');
         // Cheapest price for sort. null if no sizes.
@@ -573,7 +949,166 @@
         });
       }
 
+      // ===== Quick order wiring =====
+      // Live add-bar totals as quantities are typed.
+      document.getElementById('rows').addEventListener('input', (e) => {
+        if (e.target.classList && e.target.classList.contains('qty-input')) {
+          e.target.classList.toggle('qty-filled', parseInt(e.target.value, 10) > 0);
+          updateAddBar();
+        }
+      });
+      document.getElementById('addAllBtn').addEventListener('click', addAllToCart);
+      if (window.Cart) {
+        Cart.onChange(() => updateAddBar());
+      }
+
+      const qoToggle = document.getElementById('qoToggle');
+      const qoPanel = document.getElementById('qoPanel');
+      qoToggle.addEventListener('click', () => {
+        const open = qoPanel.classList.toggle('open');
+        qoToggle.textContent = open ? '⚡ Quick order (open)' : '⚡ Quick order';
+        if (open) document.getElementById('qoInput').focus();
+      });
+      document.getElementById('qoMatch').addEventListener('click', runQuickOrder);
+
+      updateAddBar();
       render();
+    }
+
+    // ============================================================
+    // QUICK ORDER — parse pasted lines, match against the catalog,
+    // add matches to the cart, list unmatched for correction.
+    // ============================================================
+
+    // Extract { qty, size, name } from a single pasted line. Accepted forms:
+    //   Abelia 'Conti' x5        name + xN / ×N / *N / Nx
+    //   ceayan1 x10              item code + qty
+    //   5 × ceayan1              qty first
+    //   Lavandula 'Munstead' 5gal x2   name + explicit size + qty
+    //   Abelia x grandiflora     name with NO qty (defaults to 1)
+    // Note 'Abelia x grandiflora' contains a bare 'x' — only treat x/×/*
+    // as a qty marker when it is directly adjacent to digits.
+    function parseQuickLine(line) {
+      let s = String(line || '').trim();
+      if (!s) return null;
+      let qty = 1;
+      let size = null;
+
+      // Trailing qty: "name x5", "name × 5", "name *10", "name 2x"
+      let m = s.match(/(?:^|\s)[x×*]\s*(\d+)\s*$/i) || s.match(/(?:^|\s)(\d+)\s*[x×*]\s*$/i);
+      if (m) {
+        qty = parseInt(m[1], 10);
+        s = s.slice(0, m.index).trim();
+      } else {
+        // Leading qty: "5 x name", "5×name"
+        m = s.match(/^(\d+)\s*[x×*]\s+(.+)$/i);
+        if (m) {
+          qty = parseInt(m[1], 10);
+          s = m[2].trim();
+        }
+      }
+
+      // Explicit size token: 4in / 1gal / 5gal / 15gal / 1g / 5g / 4" ...
+      const sizeRe = /\b(4\s*(?:in|"|'')|1\s*gal|2\s*gal|5\s*gal|7\s*gal|10\s*gal|15\s*gal|25\s*gal|1g|2g|5g|7g|15g|25g)\b/i;
+      m = s.match(sizeRe);
+      if (m) {
+        size = normSize(m[1]);
+        s = s.replace(sizeRe, ' ').replace(/\s+/g, ' ').trim();
+      }
+
+      return { name: s, qty: Math.max(1, qty), size };
+    }
+
+    // Try item code first, then normalized exact botanical, then a
+    // loose token match (all tokens of the query must appear in the
+    // candidate's botanical or common name, in order of token overlap).
+    function matchQuickPlant(name) {
+      const q = normForMatch(name);
+      if (!q) return null;
+      // 1) Item code (e.g. ceayan1)
+      const codeHit = CODE_INDEX.get(q);
+      if (codeHit && codeHit.d) {
+        const p = findPlantByDesc(codeHit.d);
+        if (p) return { plant: p, via: 'code' };
+        return { plant: null, via: 'code', desc: codeHit.d };
+      }
+      // 2) Exact normalized botanical
+      const exact = PLANTS_BY_NORM.get(q);
+      if (exact) return { plant: exact, via: 'name' };
+      // 3) Loose token match: every query token (≥2 chars) must appear
+      //    somewhere in botanical or common name.
+      const toks = q.split(' ').filter(t => t.length >= 2);
+      if (toks.length) {
+        let best = null, bestScore = -1;
+        for (const p of ALL_PLANTS) {
+          const hay = normForMatch((p.botanical || '') + ' ' + (p.common || ''));
+          const score = toks.reduce((n, t) => n + (hay.includes(t) ? 1 : 0), 0);
+          if (score > bestScore) { bestScore = score; best = p; }
+        }
+        if (best && bestScore === toks.length) return { plant: best, via: 'fuzzy' };
+      }
+      return null;
+    }
+
+    function runQuickOrder() {
+      const input = document.getElementById('qoInput');
+      const out = document.getElementById('qoResults');
+      const lines = input.value.split('\n').map(l => l.trim()).filter(Boolean);
+      if (!lines.length) { out.innerHTML = ''; return; }
+
+      let added = 0, addedLines = 0;
+      const items = [];
+      for (const line of lines) {
+        const parsed = parseQuickLine(line);
+        if (!parsed || !parsed.name) {
+          items.push({ ok: false, line, why: 'no plant name recognized' });
+          continue;
+        }
+        const hit = matchQuickPlant(parsed.name);
+        if (!hit || !hit.plant) {
+          const via = hit && hit.desc ? ` (matches "${hit.desc}" — not in this week's list)` : '';
+          items.push({ ok: false, line, why: 'no match' + via });
+          continue;
+        }
+        const p = hit.plant;
+        const sizes = (p.sizes || []).filter(s => s && s.container && typeof s.price === 'number')
+          .sort((a, b) => sizeKey(a) - sizeKey(b));
+        if (!sizes.length) {
+          items.push({ ok: false, line, why: 'no sizes this week' });
+          continue;
+        }
+        // Resolve size: explicit size > code-implied size > smallest container.
+        let pick = null;
+        if (parsed.size) pick = sizes.find(s => normSize(s.container) === parsed.size) || null;
+        if (!pick && hit.via === 'code') {
+          const codeSize = normSize(CODE_INDEX.get(normForMatch(parsed.name))?.s);
+          if (codeSize) pick = sizes.find(s => normSize(s.container) === codeSize) || null;
+        }
+        if (!pick) pick = sizes[0];
+        if (!pick) {
+          items.push({ ok: false, line, why: 'no matching size' });
+          continue;
+        }
+        addPlantToCart(p.botanical, pick.container, pick.price, parsed.qty);
+        added += parsed.qty;
+        addedLines++;
+        items.push({ ok: true, line, plant: p.botanical, size: pick.container, qty: parsed.qty });
+      }
+
+      const html = items.map(it => it.ok
+        ? `<li class="qo-ok">✓ <span class="qo-qty">${it.qty}×</span> ${esc(it.plant)} <span class="qo-line">(${esc(it.size)})</span></li>`
+        : `<li class="qo-bad">✗ <span class="qo-line">${esc(it.line)}</span> — ${esc(it.why)}</li>`
+      ).join('');
+      const none = items.length ? '' : '<div class="qo-none">Nothing to match.</div>';
+      const summary = addedLines
+        ? `<div class="qo-none" style="margin-top:6px"><strong>${added} unit${added === 1 ? '' : 's'} added</strong>${items.some(i => !i.ok) ? ' — fix the lines above and click again' : ' to your order.'}</div>`
+        : '';
+      out.innerHTML = `<ul>${html}</ul>${summary}${none}`;
+      if (added) {
+        input.value = '';  // clear successful batch; unmatched lines stay visible in results
+        showToast(`Added ${added} unit${added === 1 ? '' : 's'} to your order`);
+        updateAddBar();
+      }
     }
 
     function sortKey(row) {
@@ -610,6 +1145,16 @@
       const empty = document.getElementById('empty');
       const count = document.getElementById('count');
 
+      // Preserve typed quantities across re-renders (filter/sort rebuilds
+      // the tbody). Keyed by botanical|size so values survive re-sorts.
+      const savedQtys = new Map();
+      tbody.querySelectorAll('.qty-input').forEach(inp => {
+        const v = inp.value;
+        if (v && parseInt(v, 10) > 0) {
+          savedQtys.set(`${inp.dataset.botanical}|${inp.dataset.size}`, v);
+        }
+      });
+
       if (filtered.length === 0) {
         tbody.innerHTML = '';
         empty.hidden = false;
@@ -637,8 +1182,14 @@
           '</tr>';
         }).join('');
         tbody.innerHTML = html;
+        // Restore saved quantities onto the freshly-rendered inputs.
+        tbody.querySelectorAll('.qty-input').forEach(inp => {
+          const v = savedQtys.get(`${inp.dataset.botanical}|${inp.dataset.size}`);
+          if (v) { inp.value = v; inp.classList.add('qty-filled'); }
+        });
       }
       count.textContent = filtered.length + ' of ' + ALL_ROWS.length + (q ? ' (filtered)' : '');
+      updateAddBar();
     }
 
     function esc(s) {

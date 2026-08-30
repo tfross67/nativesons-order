@@ -3819,7 +3819,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260828-01</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260828-02</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -5775,6 +5775,16 @@
         if (!hasPlantParam) {
           input.value = '';
           run();
+        }
+
+        // === ?cart=1 deep link (from compact-list.html quick order) ===
+        // Opens the cart drawer on load so staff land straight on their
+        // order after batch-adding from the table view.
+        const hasCartParam = (() => { try { return new URLSearchParams(window.location.search).get('cart') === '1'; } catch (e) { return false; } })();
+        if (hasCartParam && typeof openCart === 'function') {
+          // Defer one tick so the cart bar / panel are mounted and the
+          // drawer opens after the first paint.
+          setTimeout(() => { try { openCart(); } catch (e) { console.warn('cart deep-link open failed', e); } }, 60);
         }
 
         // === Back-to-top button: appears after scrolling 600px ===

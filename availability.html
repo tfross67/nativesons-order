@@ -1198,6 +1198,112 @@
       font-size: 13px;
       padding: 6px 14px;
     }
+
+    /* === Saved filters (shared with compact-list) === */
+    .chat-test-root .saved-filters {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 0 0 12px;
+      padding: 10px 12px;
+      background: var(--c-paper, #f7f4ec);
+      border: 1px solid var(--c-line, #d8d2c2);
+      border-radius: 6px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+    }
+    .chat-test-root .saved-filters .sf-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    .chat-test-root .saved-filters .sf-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-muted, #6b6256);
+      margin-right: 2px;
+    }
+    .chat-test-root .saved-filters .sf-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 4px 4px 10px;
+      background: #fff;
+      border: 1px solid var(--c-line, #d8d2c2);
+      border-radius: 999px;
+      color: var(--c-ink, #1a2e1a);
+      font-size: 13px;
+      line-height: 1;
+    }
+    .chat-test-root .saved-filters .sf-chip.sf-slot { border-color: #c4d5b6; }
+    .chat-test-root .saved-filters .sf-chip.sf-empty {
+      border-style: dashed;
+      color: var(--c-muted, #6b6256);
+      padding-left: 6px;
+    }
+    .chat-test-root .saved-filters .sf-chip button {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+    .chat-test-root .saved-filters .sf-chip .sf-apply:hover { color: var(--c-cta, #3a5f3a); }
+    .chat-test-root .saved-filters .sf-chip .sf-del,
+    .chat-test-root .saved-filters .sf-chip .sf-slot-btn {
+      color: var(--c-muted, #6b6256);
+      padding: 0 4px;
+      border-radius: 999px;
+    }
+    .chat-test-root .saved-filters .sf-chip .sf-del:hover { color: #a04030; }
+    .chat-test-root .saved-filters .sf-chip .sf-slot-btn:hover { color: var(--c-cta, #3a5f3a); }
+    .chat-test-root .saved-filters .sf-empty-note { font-size: 12px; color: var(--c-muted, #6b6256); }
+    .chat-test-root .saved-filters .sf-tool {
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 4px;
+      border: 1px solid var(--c-line, #d8d2c2);
+      background: #fff;
+      color: var(--c-cta, #3a5f3a);
+      cursor: pointer;
+    }
+    .chat-test-root .saved-filters .sf-tool:hover { background: #f4f0df; }
+    .chat-test-root .saved-filters .sf-tool:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* PWA install banner — minimal bottom-right pill (mirrors compact-list) */
+    #pwa-install {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      background: var(--c-ink, #1a2e1a);
+      color: #fff;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      z-index: 50;
+    }
+    #pwa-install button {
+      border: 0;
+      background: transparent;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+    #pwa-install button.install-yes { font-weight: 700; }
+    #pwa-install button.install-no { color: rgba(255,255,255,0.6); }
+    body.pwa-hidden #pwa-install { display: none; }
+
     .chat-test-root .match-hl {
       background: var(--c-sage-soft);
       border-radius: 3px;
@@ -3819,7 +3925,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260828-02</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20260828-03</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -3930,6 +4036,7 @@
     </div>
 
     <div id="filterSummary" class="filter-summary" hidden></div>
+    <div class="saved-filters" id="savedFilters" hidden></div>
 
     <div class="results-toolbar" id="resultsToolbar" hidden>
       <span class="results-toolbar-label">Filter by type:</span>
@@ -4163,13 +4270,20 @@
   <!-- Order confirmation toast -->
   <div class="cart-toast" id="cartToast" role="status" aria-live="polite"></div>
 
+  <div id="pwa-install" hidden>
+    <span>Install Native Sons as an app?</span>
+    <button type="button" class="install-yes">Install</button>
+    <button type="button" class="install-no" aria-label="Dismiss">×</button>
+  </div>
+
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js?v=20260826-02"></script>
   <script src="cart.js?v=20260826-02"></script>
+  <script src="masteritem_full.js?v=20260826-02"></script>
+  <script src="saved-filters.js?v=20260828-02"></script>
   <script src="glimm-vanilla.js?v=20260815-03"></script>
   <script src="availability_data.js?v=20260828-01"></script>
-  <script src="masteritem_full.js?v=20260826-02"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -5786,6 +5900,82 @@
           // drawer opens after the first paint.
           setTimeout(() => { try { openCart(); } catch (e) { console.warn('cart deep-link open failed', e); } }, 60);
         }
+
+        // === Saved filters wiring (shared with compact-list) ===
+        // State on this page is the chat-input value — parseQuery() turns
+        // free text into structured filters (colors/types/exposures/etc.),
+        // so the snapshot is just the query string. apply() sets input.value
+        // and re-runs the catalog.
+        const savedFilters = (window.SavedFilters && window.SavedFilters.create)
+          ? window.SavedFilters.create({
+              page: 'availability',
+              get() { return { q: input.value || '' }; },
+              apply(snap) {
+                if (snap && typeof snap.q === 'string') input.value = snap.q;
+                else input.value = '';
+                try { run(true); } catch (e) { console.warn('[saved-filters] run failed', e); }
+              },
+              label(snap) {
+                const q = (snap && snap.q || '').trim();
+                return q || 'Browse all';
+              },
+            }) : null;
+        if (savedFilters) {
+          const sfMount = document.getElementById('savedFilters');
+          if (sfMount) sfMount.hidden = false;
+          let sfTimer = null;
+          // Commit on Enter / settle (1s after last keystroke).
+          input.addEventListener('input', () => {
+            clearTimeout(sfTimer);
+            sfTimer = setTimeout(() => savedFilters.commit({ skipRemember: true }), 1000);
+          });
+          input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') savedFilters.commit({ skipRemember: true });
+          });
+          savedFilters.commit({ skipRemember: true });
+        }
+
+        // === PWA install banner ===
+        (function installPwaBanner() {
+          const banner = document.getElementById('pwa-install');
+          if (!banner) return;
+          if (window.matchMedia('(display-mode: standalone)').matches) return;
+          try {
+            if (localStorage.getItem('ns_pwa_install_dismissed') === '1') {
+              document.body.classList.add('pwa-hidden');
+              return;
+            }
+          } catch (e) {}
+          let promptEvent = null;
+          const show = () => { banner.hidden = false; };
+          const hide = (reason) => {
+            banner.hidden = true;
+            if (reason === 'dismiss') {
+              try { localStorage.setItem('ns_pwa_install_dismissed', '1'); } catch (e) {}
+            }
+            document.body.classList.add('pwa-hidden');
+          };
+          window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            promptEvent = e;
+            show();
+          });
+          window.addEventListener('appinstalled', () => hide('installed'));
+          banner.querySelector('.install-yes').addEventListener('click', async () => {
+            if (!promptEvent) return;
+            promptEvent.prompt();
+            const choice = await promptEvent.userChoice;
+            hide(choice && choice.outcome === 'dismissed' ? 'dismiss' : 'installed');
+            promptEvent = null;
+          });
+          banner.querySelector('.install-no').addEventListener('click', () => hide('dismiss'));
+          setTimeout(() => {
+            if (!promptEvent && !document.body.classList.contains('pwa-hidden')) {
+              const ua = (navigator.userAgent || '').toLowerCase();
+              if (/android/.test(ua)) show();
+            }
+          }, 4000);
+        })();
 
         // === Back-to-top button: appears after scrolling 600px ===
         const backToTop = $('backToTop');

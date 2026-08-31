@@ -1376,8 +1376,11 @@ body { padding-bottom: 80px; }
    so "BROWSE" / "THIS LIST" land on the same y as the tagline's first
    line, and the heading's border-bottom sits where the tagline's
    natural bottom would be. */
-.site-footer-tagline { min-height: 36px; box-sizing: border-box; }
-.site-footer-heading { min-height: 36px; box-sizing: border-box; }
+.site-footer-tagline,
+.site-footer-heading {
+  min-height: 36px;
+  box-sizing: border-box;
+}
 .site-footer-logo {
   display: block;
   height: 36px;
@@ -1394,6 +1397,8 @@ body { padding-bottom: 80px; }
   color: var(--c-bark, #2d4a2b);
   margin: 0 0 12px;
   max-width: 360px;
+  min-height: 36px;
+  box-sizing: border-box;
 }
 .site-footer-contact {
   font-size: 13px;
@@ -1419,6 +1424,8 @@ body { padding-bottom: 80px; }
   margin: 0 0 12px;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--c-line, #d8d2c2);
+  min-height: 36px;
+  box-sizing: border-box;
 }
 .site-footer-list {
   list-style: none;

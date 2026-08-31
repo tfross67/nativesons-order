@@ -3840,18 +3840,26 @@
       }
     }
 
-    /* Sticky search/filter shell on mobile — the catalog is 300+
-       plants (~19 screens of scrolling). Without a sticky search
-       the user must scroll all the way back to the top to refine.
-       Stick the whole 108px shell (input + suggested + sort tabs)
-       to the top with a solid backdrop so results scroll under it. */
+    /* Sticky search/filter shell — the catalog is 300+ plants (~19
+       screens of scrolling). Without a sticky toolbar the user has
+       to scroll all the way back to the top to refine. Same rule
+       applies at tablet/desktop, not just mobile. */
+    .chat-test-root .search-shell {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background-color: var(--c-paper, #f7f4ec);
+      /* Subtle separation between sticky shell and scrolling
+         results; soft shadow at the bottom edge. */
+      box-shadow: 0 6px 18px rgba(45, 74, 43, 0.08);
+      padding: 12px 16px 10px;
+    }
+    /* On mobile, full-bleed the sticky shell across the viewport
+       edge so the background spans the screen and the radius
+       drips off the corners. */
     @media (max-width: 600px) {
       .chat-test-root .search-shell {
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        border-radius: 0 0 14px 14px;
-        box-shadow: 0 6px 20px rgba(45, 74, 43, 0.12);
+        border-radius: 0;
         padding-top: 12px;
         padding-bottom: 10px;
       }

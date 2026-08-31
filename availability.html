@@ -1297,11 +1297,15 @@
     .chat-test-root .saved-filters .sf-tool:hover { background: #f4f0df; }
     .chat-test-root .saved-filters .sf-tool:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* PWA install banner — minimal bottom-right pill (mirrors compact-list) */
+    /* PWA install banner — top-right pill with enough offset to sit
+       below the site-header band (which is ~76px tall). Mirrored on
+       compact-list, where the header is shorter; both pages use
+       top:90px so the pill sits in the gap between header content
+       and the search shell. */
     #pwa-install {
       position: fixed;
-      right: 12px;
-      bottom: 12px;
+      top: 90px;
+      right: 14px;
       display: inline-flex;
       align-items: center;
       gap: 8px;

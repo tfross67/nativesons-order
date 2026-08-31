@@ -184,28 +184,100 @@
         if (!Array.isArray(rows) || rows.length === 0) {
           return { added: [], skipped: [], notFound: true };
         }
-        const { catalog, codeIndex } = getCatalogAndCodes();
-        const resolved = rows.map((r) => ({ raw: r, ...resolveItem(r, catalog, codeIndex) }));
-        const ok = resolved.filter((r) => r.status === 'ok');
-        const skip = resolved.filter((r) => r.status !== 'ok');
-        if (ok.length) writeCart(ok);
-        return {
-          added: ok.map((r) => ({
-            key: r.key,
-            name: r.plant.botanical,
-            size: r.plant.size || '',
-            qty: r.qty,
-            fuzzy_name: !!r.fuzzy_name,
-          })),
-          skipped: skip.map((r) => ({
-            name: r.raw.plant_name,
-            size: r.raw.plant_size,
-            qty: r.raw.qty,
-            reason: r.reason,
-          })),
-          notFound: false,
-        };
+        return resolveRows(rows).then(buildSummary);
       });
     },
+    // Staff-side reorder: rows already loaded via service_role (no email
+    // gate). Same resolver path, same return shape.
+    reorderFromRows(rows) {
+      return resolveRows(rows).then(function (r) { return buildSummary(r); });
+    },
+    // Dry-run version of the above: resolves against the current week's
+    // catalog but does NOT write to localStorage. Returns the same
+    // {added, skipped, notFound} shape — staff can preview what's in
+    // stock before deciding to hydrate the cart.
+    previewFromRows(rows) {
+      return resolveRows(rows).then(function (r) { return shapeResult(r); });
+    },
+    // Render the HTML summary block used by both surfaces. Kept external
+    // so admin.html can render into its existing dialog without the
+    // confirmation page's helper. Returns { html, okCount, skipCount }.
+    renderSummaryHTML(result) {
+      const esc = (s) => String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      const html = [];
+      const ok = result.added || [];
+      const skip = result.skipped || [];
+      if (result.notFound) {
+        html.push('<div class="empty">No items in this order.</div>');
+        return { html: html.join(''), okCount: 0, skipCount: 0 };
+      }
+      if (ok.length) {
+        html.push('<div><strong>' + ok.length + '</strong> item' +
+          (ok.length === 1 ? '' : 's') + ' ready to add to cart:');
+        html.push('<ul>');
+        for (const a of ok) {
+          html.push('<li>' + esc(a.qty) + ' × ' + esc(a.name) +
+            ' <em>(' + esc(a.size) + ')</em>' +
+            (a.fuzzy_name ? ' <span class="empty">(closest match)</span>' : '') + '</li>');
+        }
+        html.push('</ul></div>');
+      } else {
+        html.push('<div class="empty">None of the items in this order are in stock this week.</div>');
+      }
+      if (skip.length) {
+        html.push('<div style="margin-top:14px"><strong style="color:#a04030">' +
+          skip.length + '</strong> item' + (skip.length === 1 ? '' : 's') +
+          ' couldn\'t be added:');
+        html.push('<ul class="skipped">');
+        for (const s of skip) {
+          html.push('<li>' + esc(s.qty) + ' × ' + esc(s.name) +
+            ' (' + esc(s.size) + ') — ' + esc(s.reason) + '</li>');
+        }
+        html.push('</ul></div>');
+      }
+      return { html: html.join(''), okCount: ok.length, skipCount: skip.length };
+    },
   };
+
+  function buildSummary(resolved) {
+    const ok = resolved.filter((r) => r.status === 'ok');
+    const skip = resolved.filter((r) => r.status !== 'ok');
+    if (ok.length) writeCart(ok);
+    return shapeResult(resolved);
+  }
+  function shapeResult(resolved) {
+    const ok = resolved.filter((r) => r.status === 'ok');
+    const skip = resolved.filter((r) => r.status !== 'ok');
+    return {
+      notFound: false,
+      added: ok.map((r) => ({
+        key: r.key,
+        name: r.plant.botanical,
+        size: r.plant.size || '',
+        qty: r.qty,
+        fuzzy_name: !!r.fuzzy_name,
+      })),
+      skipped: skip.map((r) => ({
+        name: r.raw.plant_name,
+        size: r.raw.plant_size,
+        qty: r.raw.qty,
+        reason: r.reason,
+      })),
+    };
+  }
+  function resolveRows(rows) {
+    if (!Array.isArray(rows) || rows.length === 0) {
+      return Promise.resolve([]);
+    }
+    const { catalog, codeIndex } = getCatalogAndCodes();
+    const normalized = rows.map((r) => ({
+      plant_name: r.plant_name,
+      plant_size: r.plant_size,
+      unit_price: r.unit_price,
+      qty: r.qty,
+    }));
+    return Promise.resolve(normalized.map((r) => ({ raw: r, ...resolveItem(r, catalog, codeIndex) })));
+  }
 })();

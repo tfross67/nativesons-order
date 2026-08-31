@@ -679,6 +679,28 @@
       font-weight: 600;
       box-shadow: 0 1px 3px rgba(45, 74, 43, 0.18);
     }
+    /* Count badge inside each type tab — shows how many plants the
+       filter would return. Pinned to type:* tabs only ("All" stays a
+       plain word). Muted when inactive, white-ish when active. */
+    .chat-test-root .sort-tab-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 18px;
+      padding: 0 5px;
+      margin-left: 6px;
+      font-size: 10.5px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      line-height: 16px;
+      border-radius: 999px;
+      color: var(--c-muted, #6b6256);
+      background: rgba(45, 74, 43, 0.08);
+    }
+    .chat-test-root .sort-tab.active .sort-tab-count {
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+    }
     .chat-test-root .result {
       background: #fff;
       border: 1px solid var(--c-line, #e3dccb);
@@ -4515,7 +4537,42 @@
       const deduped = Array.from(seen.values());
       renderHero(deduped);
       renderFooter();
+      renderSortTabCounts(deduped);
       return deduped;
+    }
+
+    // === Sort-tab plant-type counts ===
+    // Each "type:*" tab gets a small count badge so a user sees how many
+    // plants a filter would return before clicking it. Computed once per
+    // catalog render — TYPE_PATTERNS stays in sync with the matching code
+    // inside sortResults() below. Pinned to type:* tabs only; "All" stays
+    // a plain word (its count == deduped.length and lives in the hero).
+    let lastSortTabCounts = null;
+    function renderSortTabCounts(plants) {
+      if (!Array.isArray(plants)) return;
+      const sig = plants.length + '|' + plants.map(p => (p.plant_type || '').slice(0, 40)).join('|');
+      if (sig === lastSortTabCounts) return;
+      lastSortTabCounts = sig;
+      const counts = { perennial: 0, shrub: 0, grass: 0, succulent: 0, tree: 0 };
+      for (const p of plants) {
+        const t = String(p.plant_type || '').toLowerCase();
+        for (const cat of Object.keys(counts)) {
+          if ((TYPE_PATTERNS[cat] || []).some(x => t.includes(x))) counts[cat]++;
+        }
+      }
+      const tabs = document.querySelectorAll('.sort-tab[data-sort^="type:"]');
+      tabs.forEach(tab => {
+        const cat = tab.dataset.sort.slice(5);
+        const n = counts[cat];
+        if (n == null) return;
+        let badge = tab.querySelector('.sort-tab-count');
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'sort-tab-count';
+          tab.appendChild(badge);
+        }
+        badge.textContent = String(n);
+      });
     }
 
     // === Hero band renderer ===

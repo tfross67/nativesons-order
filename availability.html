@@ -4642,12 +4642,28 @@
         genEl.textContent = `Generated ${data.generated}`;
       }
       if (buildEl) {
-        // Pull the build stamp from the <meta name="build"> or from a
-        // data-attribute on the document, falling back to the date the
-        // file was last published.
+        // Footer's "Build <stamp>" mirrors the actual catalog upload so it
+        // can never go stale. Priority: (1) <meta name="build" data-stamp=…>
+        // override (only honored if explicitly tagged, since the literal
+        // meta tag value tends to drift out of sync on deploys); (2) data
+        // generated date from availability_data.js (always fresh);
+        // (3) fallback to the date the file was last published.
         const meta = document.querySelector('meta[name="build"]');
-        if (meta && meta.content) buildEl.textContent = meta.content;
-        else if (data.generated) buildEl.textContent = data.generated.replace(/-/g, '');
+        let stamped = false;
+        // Honor meta override only when author set data-stamp="manual" —
+        // prevents drift from old meta tags that just happened to be on
+        // the page.
+        if (meta && meta.dataset && meta.dataset.stamp === 'manual') {
+          buildEl.textContent = meta.content;
+          stamped = true;
+        }
+        if (!stamped && data.generated) {
+          buildEl.textContent = String(data.generated).replace(/-/g, '');
+          stamped = true;
+        }
+        if (!stamped && meta && meta.content) {
+          buildEl.textContent = meta.content;
+        }
       }
       if (contactEl) {
         const c = data.contact;

@@ -4533,7 +4533,7 @@
       const total = plants.length;
       // Update only the text span — leaves the inline flower img intact
       // (would be wiped if we used headline.textContent)
-      if (headlineText) headlineText.textContent = `${inBloom} plants in bloom this week`;
+      if (headlineText) headlineText.textContent = `${inBloom} ${inBloom === 1 ? 'plant' : 'plants'} in bloom this week`;
 
       // Skip DOM update if values are unchanged
       const sig = `${total}|${inBloom}|${natives}`;

@@ -1400,7 +1400,18 @@
       const banner = document.getElementById('pwa-install');
       if (!banner) return;
       if (window.matchMedia('(display-mode: standalone)').matches) return; // already installed
+      // ?reset-pwa=1 — clear the dismissed flag so a user who dismissed
+      // earlier can re-decide. Useful when testing or when the user
+      // changes their mind. URL-only; doesn't affect anyone else.
       try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('reset-pwa') === '1') {
+          localStorage.removeItem('ns_pwa_install_dismissed');
+          params.delete('reset-pwa');
+          const next = params.toString();
+          const url = window.location.pathname + (next ? '?' + next : '') + window.location.hash;
+          window.history.replaceState({}, '', url);
+        }
         if (localStorage.getItem('ns_pwa_install_dismissed') === '1') {
           document.body.classList.add('pwa-hidden');
           return;

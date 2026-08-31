@@ -9,6 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="styles.css?v=20260815-05">
+  <script src="supabase-config.js?v=20260826-02"></script>
+  <script src="availability_data.js?v=20260828-01"></script>
+  <script src="masteritem_full.js?v=20260826-02"></script>
+  <script src="reorder.js?v=20260830-01"></script>
   <style>
     .confirmation {
       max-width: 560px;
@@ -68,6 +72,36 @@
       justify-content: center;
       flex-wrap: wrap;
     }
+
+    /* Reorder panel — collapsed by default, slides open with results */
+    .reorder-panel {
+      display: none;
+      margin: 28px 0 0;
+      padding: 16px 18px;
+      background: var(--c-paper);
+      border: 1px solid var(--c-line);
+      border-radius: var(--r-md);
+      text-align: left;
+    }
+    .reorder-panel.shown { display: block; }
+    .reorder-panel h2 {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      margin: 0 0 8px;
+      color: var(--c-sage-deep);
+    }
+    .reorder-panel ul {
+      margin: 8px 0 0;
+      padding: 0 0 0 18px;
+      list-style: disc;
+      color: var(--c-ink-soft);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .reorder-panel ul.skipped { color: #a04030; }
+    .reorder-panel .actions-row { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .reorder-panel .empty { color: var(--c-muted); font-size: 14px; }
+    .reorder-panel.error { color: #a04030; font-size: 14px; }
   </style>
 </head>
 <body>
@@ -87,15 +121,105 @@
     </p>
     <div class="actions">
       <a class="btn btn-ghost" href="index.html">Back to availability</a>
+      <button type="button" class="btn btn-primary" id="reorderBtn" style="display:none">↻ Reorder these items</button>
+    </div>
+
+    <div class="reorder-panel" id="reorderPanel" aria-live="polite">
+      <h2>Reorder</h2>
+      <div id="reorderBody"></div>
+      <div class="actions-row">
+        <a class="btn btn-primary" id="reorderGoBtn" href="availability.html?cart=1" style="display:none">Open the cart →</a>
+        <button type="button" class="btn btn-ghost" id="reorderCloseBtn">Close</button>
+      </div>
     </div>
   </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    document.getElementById('orderNumber').textContent = params.get('n') || '—';
-    document.getElementById('email').textContent = params.get('e') || 'your email';
-    // Clear any leftover cart state
+    const orderNumber = params.get('n') || '';
+    const email = params.get('e') || '';
+    document.getElementById('orderNumber').textContent = orderNumber || '—';
+    document.getElementById('email').textContent = email || 'your email';
+    // Clear any leftover cart state. The reorder flow below will write a
+    // fresh cart if the user clicks the Reorder button, so we keep this
+    // here for non-reorder visitors (who navigated directly to the URL).
     try { localStorage.removeItem('nativesons_cart_v1'); } catch (_) {}
+
+    // === Reorder ===
+    const reorderBtn = document.getElementById('reorderBtn');
+    const panel = document.getElementById('reorderPanel');
+    const body = document.getElementById('reorderBody');
+    const goBtn = document.getElementById('reorderGoBtn');
+    const closeBtn = document.getElementById('reorderCloseBtn');
+    closeBtn.addEventListener('click', () => panel.classList.remove('shown'));
+
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    if (orderNumber && email && window.Reorder) {
+      reorderBtn.style.display = '';
+      reorderBtn.addEventListener('click', () => {
+        reorderBtn.disabled = true;
+        reorderBtn.textContent = 'Checking…';
+        panel.classList.add('shown');
+        body.innerHTML = '<div class="empty">Looking up order…</div>';
+        goBtn.style.display = 'none';
+        window.Reorder.reorderIntoCart(orderNumber, email).then((res) => {
+          reorderBtn.disabled = false;
+          reorderBtn.textContent = '↻ Reorder these items';
+          if (res.notFound) {
+            body.innerHTML =
+              '<div class="empty">We couldn\'t find this order. ' +
+              'Double-check the order number and email you used, or ' +
+              '<a href="mailto:orders@nativeson.com">email the office</a> for help.</div>';
+            return;
+          }
+          if (res.error) {
+            body.innerHTML =
+              '<div class="error">Couldn\'t reach the order service right now. ' +
+              'Try again in a moment or place a fresh order via the catalog.</div>';
+            return;
+          }
+          const ok = res.added;
+          const skip = res.skipped;
+          const html = [];
+          if (ok.length) {
+            html.push('<div><strong>' + ok.length + '</strong> item' +
+              (ok.length === 1 ? '' : 's') + ' ready to add to your cart:');
+            html.push('<ul>');
+            for (const a of ok) {
+              html.push('<li>' + esc(a.qty) + ' × ' + esc(a.name) +
+                ' <em>(' + esc(a.size) + ')</em>' +
+                (a.fuzzy_name ? ' <span class="empty">(closest match)</span>' : '') + '</li>');
+            }
+            html.push('</ul></div>');
+            goBtn.style.display = '';
+          } else {
+            html.push('<div class="empty">None of the items in this order are in stock this week.</div>');
+          }
+          if (skip.length) {
+            html.push('<div style="margin-top: 14px"><strong style="color:#a04030">' +
+              skip.length + '</strong> item' + (skip.length === 1 ? '' : 's') +
+              ' couldn\'t be added:');
+            html.push('<ul class="skipped">');
+            for (const s of skip) {
+              html.push('<li>' + esc(s.qty) + ' × ' + esc(s.name) +
+                ' (' + esc(s.size) + ') — ' + esc(s.reason) + '</li>');
+            }
+            html.push('</ul></div>');
+          }
+          body.innerHTML = html.join('');
+        }).catch((err) => {
+          reorderBtn.disabled = false;
+          reorderBtn.textContent = '↻ Reorder these items';
+          body.innerHTML = '<div class="error">Something went wrong: ' +
+            esc(err && err.message || 'unknown error') + '</div>';
+        });
+      });
+    }
   </script>
 </body>
 </html>

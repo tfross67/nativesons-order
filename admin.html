@@ -440,6 +440,9 @@
   <script src="supabase-config.js"></script>
   <script src="masteritem_data.js"></script>
   <script src="masteritem_full.js"></script>
+  <script src="availability_data.js"></script>
+  <script src="cart.js"></script>
+  <script src="reorder.js?v=20260830-02"></script>
   <script src="match_order_codes.js"></script>
   <script>
     // ============================================================
@@ -1077,12 +1080,14 @@
           ${o.status === 'new' ? `<button class="btn btn-primary" data-set-status="confirmed">Mark confirmed</button>` : ''}
           ${o.status !== 'fulfilled' && o.status !== 'cancelled' ? `<button class="btn btn-primary" data-set-status="fulfilled">Mark fulfilled</button>` : ''}
           ${o.status !== 'cancelled' ? `<button class="btn btn-ghost" data-set-status="cancelled">Cancel order</button>` : ''}
+          <button class="btn btn-primary" data-action="reorder">↻ Reorder into cart</button>
           <button class="btn btn-ghost" data-action="copy-csv">Copy CSV</button>
           <button class="btn btn-ghost" data-action="download-csv">Download CSV</button>
           <button class="btn btn-ghost" data-action="email-office">Email office</button>
           <button class="btn btn-ghost" data-action="send-slack">Send to Slack</button>
           <a class="btn btn-ghost" href="mailto:${esc(o.customer_email)}?subject=Re: Order ${encodeURIComponent(o.order_number)}">Email customer</a>
         </div>
+        <div id="reorderSummary" style="display:none; margin-top:16px;"></div>
       `;
 
       orderDetail.querySelectorAll('[data-set-status]').forEach(btn => {
@@ -1191,6 +1196,100 @@
         }
       }
 
+      orderDetail.querySelector('[data-action="reorder"]')?.addEventListener('click', async () => {
+        if (!window.Reorder) {
+          alert('Reorder module not loaded yet; refresh the page.');
+          return;
+        }
+        function previewCountLabel(p) {
+          if (!p || p.notFound) return '↻ Reorder';
+          const ok = (p.added || []).length;
+          const skip = (p.skipped || []).length;
+          return '↻ Reorder (' + ok + ' in stock' +
+            (skip ? ' · ' + skip + ' out' : '') + ')';
+        }
+        const btn = orderDetail.querySelector('[data-action="reorder"]');
+        const summaryEl = orderDetail.querySelector('#reorderSummary');
+        btn.disabled = true;
+        btn.textContent = 'Checking stock…';
+        summaryEl.style.display = 'none';
+        let preview = null;
+        try {
+          preview = window.Reorder.previewFromRows(items || []);
+          summaryEl.innerHTML = preview.notFound
+            ? '<div class="empty">No items in this order.</div>'
+            : window.Reorder.renderSummaryHTML(preview).html;
+          summaryEl.insertAdjacentHTML('beforeend',
+            '<div style="margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;">' +
+              '<button class="btn btn-primary" data-reorder-send="' + esc(o.customer_email) + '" data-reorder-order="' + esc(o.order_number) + '">' +
+                '📋 Generate re-order link for ' + esc(o.customer_name) +
+              '</button>' +
+              '<button class="btn btn-ghost" data-reorder-fill>Fill my cart here</button>' +
+            '</div>' +
+            '<div id="reorderLink" style="margin-top:10px;"></div>'
+          );
+          summaryEl.style.display = '';
+          btn.textContent = previewCountLabel(preview);
+
+          // Wire the two action buttons in the inline HTML above.
+          const sendBtn = summaryEl.querySelector('[data-reorder-send]');
+          const fillBtn = summaryEl.querySelector('[data-reorder-fill]');
+          const linkEl = summaryEl.querySelector('#reorderLink');
+
+          // 'Generate re-order link' — give staff a deep-link the
+          // customer can open on their device. Confirmation page
+          // already understands (order_number, email) via get_reorder_items.
+          sendBtn?.addEventListener('click', () => {
+            const url = 'https://nativesonsnursery.com/confirmation.html?n=' +
+              encodeURIComponent(o.order_number) + '&e=' +
+              encodeURIComponent(o.customer_email || '');
+            linkEl.innerHTML =
+              '<input type="text" id="reorderUrl" value="' + esc(url) +
+              '" style="width:100%; padding:6px 8px; font-family:monospace; font-size:12px;"/> ' +
+              '<button class="btn btn-ghost" id="reorderCopy">Copy</button>' +
+              '<div style="margin-top:6px; color:var(--c-muted); font-size:12px;">Paste this in your reply to the customer. When they open the link on their device, the confirmation page offers a one-click Reorder into their cart.</div>';
+            const inp = linkEl.querySelector('#reorderUrl');
+            const copyBtn = linkEl.querySelector('#reorderCopy');
+            inp.select();
+            copyBtn.addEventListener('click', () => {
+              try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  navigator.clipboard.writeText(url).then(() => {
+                    copyBtn.textContent = '✓ Copied';
+                    setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+                  });
+                } else {
+                  inp.select();
+                  document.execCommand('copy');
+                  copyBtn.textContent = '✓ Copied';
+                }
+              } catch (e) { copyBtn.textContent = 'Copy failed'; }
+            });
+          });
+
+          // 'Fill my cart here' — put the in-stock items into THIS
+          // browser's cart. Useful when staff places an order on
+          // behalf of the customer at their desk.
+          fillBtn?.addEventListener('click', () => {
+            const result = window.Reorder.reorderFromRows(items || []);
+            if (result.added.length) {
+              fillBtn.textContent = '✓ Added ' + result.added.length + ' to cart';
+              fillBtn.disabled = true;
+            } else {
+              fillBtn.textContent = 'Nothing was in stock';
+              fillBtn.disabled = true;
+            }
+          });
+
+        } catch (e) {
+          summaryEl.innerHTML = '<div class="empty">Reorder preview failed: ' +
+            (e && e.message ? e.message : 'unknown error') + '</div>';
+          summaryEl.style.display = '';
+          btn.textContent = '↻ Reorder';
+        } finally {
+          btn.disabled = false;
+        }
+      });
       orderDetail.querySelector('[data-action="copy-csv"]')?.addEventListener('click', () => {
         flashCopied(buildOrderCsv());
       });

@@ -1,77 +1,67 @@
 {
   "meta": {
-    "generated_at": "2026-08-26T21:54:19.278684",
+    "generated_at": "2026-09-01T07:14:16",
     "period": "2025 + 2026 YTD (Jan-Aug)"
   },
   "rep_year": {
-    "Tim": {
+    "Pick Up": {
       "2025": {
-        "revenue": 1230374.51,
-        "orders": 1235
+        "revenue": 162567.4,
+        "orders": 700
       },
       "2026": {
-        "revenue": 821903.34,
-        "orders": 819
+        "revenue": 106107.32,
+        "orders": 439
       }
     },
     "John": {
       "2025": {
-        "revenue": 957268.58,
-        "orders": 936
+        "revenue": 957937.32,
+        "orders": 934
       },
       "2026": {
-        "revenue": 667958.34,
-        "orders": 647
+        "revenue": 665424.39,
+        "orders": 644
+      }
+    },
+    "Tim": {
+      "2025": {
+        "revenue": 1230909.39,
+        "orders": 1230
+      },
+      "2026": {
+        "revenue": 822977.29,
+        "orders": 803
       }
     },
     "Matthew": {
       "2025": {
-        "revenue": 439346.73,
-        "orders": 364
+        "revenue": 440740.93,
+        "orders": 366
       },
       "2026": {
-        "revenue": 345758.49,
-        "orders": 298
+        "revenue": 345913.99,
+        "orders": 296
       }
     },
     "In-House": {
       "2025": {
-        "revenue": 388082.57,
-        "orders": 447
+        "revenue": 391788.92,
+        "orders": 448
       },
       "2026": {
-        "revenue": 238923.01,
+        "revenue": 239191.31,
         "orders": 277
-      }
-    },
-    "Pick Up": {
-      "2025": {
-        "revenue": 159647.37,
-        "orders": 689
-      },
-      "2026": {
-        "revenue": 107955.56,
-        "orders": 450
       }
     },
     "Rainie": {
       "2025": {
-        "revenue": 14221.96,
-        "orders": 47
+        "revenue": 14486.96,
+        "orders": 49
       },
       "2026": {
         "revenue": 12045.51,
-        "orders": 42
-      }
-    },
-    "": {
-      "2025": {
-        "revenue": 377.52,
-        "orders": 4
-      },
-      "2026": {
-        "revenue": 571.91,
-        "orders": 3
+        "orders": 41
       }
     },
     "Book": {
@@ -84,6 +74,26 @@
         "orders": 1
       }
     },
+    "(unknown)": {
+      "2025": {
+        "revenue": 30569.12,
+        "orders": 12
+      },
+      "2026": {
+        "revenue": 14733.91,
+        "orders": 9
+      }
+    },
+    "Rainey": {
+      "2025": {
+        "revenue": 0.0,
+        "orders": 0
+      },
+      "2026": {
+        "revenue": 340.0,
+        "orders": 1
+      }
+    },
     "Brett": {
       "2025": {
         "revenue": 3.75,
@@ -93,38 +103,16 @@
         "revenue": 0.0,
         "orders": 0
       }
-    },
-    "CRMatthew": {
-      "2025": {
-        "revenue": 0.0,
-        "orders": 0
-      },
-      "2026": {
-        "revenue": -688.35,
-        "orders": 4
-      }
-    },
-    "CRTim": {
-      "2025": {
-        "revenue": 0.0,
-        "orders": 0
-      },
-      "2026": {
-        "revenue": -2492.9,
-        "orders": 15
-      }
     }
   },
   "year_totals": {
     "2025": {
-      "revenue": 3189322.99,
-      "orders": 3723,
-      "customers": 478
+      "revenue": 3229003.79,
+      "orders": 3740
     },
     "2026": {
-      "revenue": 2192259.71,
-      "orders": 2556,
-      "customers": 403
+      "revenue": 2207058.52,
+      "orders": 2511
     }
   }
 }

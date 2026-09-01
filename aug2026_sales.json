@@ -1,968 +1,1432 @@
 {
   "meta": {
-    "generated_at": "2026-08-26T21:42:58.847874",
+    "generated_at": "2026-09-01T07:14:16",
     "source": "/Users/tfross/Sync/Orders_Tim/nssalesdata.csv",
     "period": "August 2026",
-    "n_orders": 313,
-    "total_revenue": 257406.35
+    "n_orders": 296,
+    "total_revenue": 259766.45
   },
   "orders": [
     {
-      "invoice": "166790",
-      "date": "2026-08-03",
-      "total": 1568.56,
-      "rep": "Tim",
-      "customer_code": "uplnur",
-      "customer_name": "Upland Nursery"
-    },
-    {
-      "invoice": "166791",
-      "date": "2026-08-03",
-      "total": 1678.104,
-      "rep": "In-House",
-      "customer_code": "sbbgar",
-      "customer_name": "Santa Barbara Botanic Garden"
-    },
-    {
-      "invoice": "166792",
-      "date": "2026-08-03",
-      "total": 324.8,
-      "rep": "Book",
-      "customer_code": "sbbgar",
-      "customer_name": "Santa Barbara Botanic Garden"
-    },
-    {
-      "invoice": "166793",
-      "date": "2026-08-03",
-      "total": 814.776,
-      "rep": "Tim",
-      "customer_code": "arm705",
-      "customer_name": "Armstrong Garden Center--Long Beach"
-    },
-    {
-      "invoice": "166794",
-      "date": "2026-08-03",
-      "total": 1770.708,
-      "rep": "Tim",
-      "customer_code": "jjsbac",
-      "customer_name": "JJ's Backyard"
-    },
-    {
-      "invoice": "166795",
-      "date": "2026-08-03",
-      "total": 1342.11,
-      "rep": "Tim",
-      "customer_code": "ortgar",
-      "customer_name": "Orta Garden Supply"
-    },
-    {
-      "invoice": "166796",
-      "date": "2026-08-03",
-      "total": 498.927,
+      "invoice": "167103",
+      "date": "2026-08-26",
+      "total": 525.81,
       "rep": "Pick Up",
-      "customer_code": "rhyroo",
-      "customer_name": "Rhythm & Roots Landscape"
+      "customer_code": "ecolan",
+      "customer_name": "Ecotones-Landscape Design & Installation"
     },
     {
-      "invoice": "166797",
-      "date": "2026-08-03",
-      "total": 43.2432,
-      "rep": "Pick Up",
-      "customer_code": "rhyroo",
-      "customer_name": "Rhythm & Roots Landscape"
-    },
-    {
-      "invoice": "166798",
-      "date": "2026-08-03",
-      "total": 1168.048,
-      "rep": "Matthew",
-      "customer_code": "hasnur",
-      "customer_name": "Hashimoto Nursery"
-    },
-    {
-      "invoice": "166799",
-      "date": "2026-08-03",
-      "total": 360.0,
-      "rep": "Rainie",
-      "customer_code": "Betty",
-      "customer_name": "Betty's Field"
-    },
-    {
-      "invoice": "166800",
-      "date": "2026-08-03",
-      "total": 35.0,
-      "rep": "Matthew",
-      "customer_code": "hasnur",
-      "customer_name": "Hashimoto Nursery"
-    },
-    {
-      "invoice": "166801",
-      "date": "2026-08-03",
-      "total": 120.0,
-      "rep": "Rainie",
-      "customer_code": "Betty",
-      "customer_name": "Betty's Field"
-    },
-    {
-      "invoice": "166802",
-      "date": "2026-08-03",
-      "total": 1506.642,
-      "rep": "Tim",
-      "customer_code": "arm702",
-      "customer_name": "Armstrong Garden Center--Santa Monica"
-    },
-    {
-      "invoice": "166803",
-      "date": "2026-08-03",
-      "total": 519.792,
-      "rep": "Tim",
-      "customer_code": "arm702",
-      "customer_name": "Armstrong Garden Center--Santa Monica"
-    },
-    {
-      "invoice": "166804",
-      "date": "2026-08-03",
-      "total": 1882.66,
-      "rep": "Tim",
-      "customer_code": "csnur",
-      "customer_name": "C & S Nursery"
-    },
-    {
-      "invoice": "166805",
-      "date": "2026-08-03",
-      "total": 1289.512,
-      "rep": "Matthew",
-      "customer_code": "sbnur",
-      "customer_name": "Sunset Boulevard Nursery, Inc."
-    },
-    {
-      "invoice": "166806",
-      "date": "2026-08-03",
-      "total": 1225.112,
+      "invoice": "167102",
+      "date": "2026-08-26",
+      "total": 1115.37,
       "rep": "John",
-      "customer_code": "flogc",
-      "customer_name": "Flowercraft Garden Center"
+      "customer_code": "mahmb",
+      "customer_name": "Miner's Ace Hardware--Morro Bay"
     },
     {
-      "invoice": "166807",
-      "date": "2026-08-03",
-      "total": 745.0,
-      "rep": "John",
-      "customer_code": "flownur",
-      "customer_name": "Flowerland"
-    },
-    {
-      "invoice": "166808",
-      "date": "2026-08-03",
-      "total": 1046.163,
-      "rep": "Tim",
-      "customer_code": "arm735",
-      "customer_name": "Armstrong Garden Center--Westchester"
-    },
-    {
-      "invoice": "166809",
-      "date": "2026-08-03",
-      "total": 1670.964,
-      "rep": "Tim",
-      "customer_code": "arm707",
-      "customer_name": "Armstrong Garden Center--Torrance"
-    },
-    {
-      "invoice": "166810",
-      "date": "2026-08-03",
-      "total": 927.52,
-      "rep": "Tim",
-      "customer_code": "roggar",
-      "customer_name": "Roger's Gardens"
-    },
-    {
-      "invoice": "166811",
-      "date": "2026-08-03",
-      "total": 51.408,
-      "rep": "Tim",
-      "customer_code": "arm707",
-      "customer_name": "Armstrong Garden Center--Torrance"
-    },
-    {
-      "invoice": "166812",
-      "date": "2026-08-03",
-      "total": 486.0,
-      "rep": "In-House",
-      "customer_code": "wcnur",
-      "customer_name": "West Covina Wholesale Nursery"
-    },
-    {
-      "invoice": "166813",
-      "date": "2026-08-03",
-      "total": 1066.869,
-      "rep": "Tim",
-      "customer_code": "arm705",
-      "customer_name": "Armstrong Garden Center--Long Beach"
-    },
-    {
-      "invoice": "166814",
-      "date": "2026-08-03",
-      "total": 764.694,
-      "rep": "Tim",
-      "customer_code": "arm751",
-      "customer_name": "Armstrong Garden Center--Costa Mesa"
-    },
-    {
-      "invoice": "166815",
-      "date": "2026-08-04",
-      "total": 1947.232,
+      "invoice": "167100",
+      "date": "2026-08-26",
+      "total": 1887.0,
       "rep": "John",
       "customer_code": "hmbnur",
       "customer_name": "Half Moon Bay Nursery"
     },
     {
-      "invoice": "166816",
-      "date": "2026-08-04",
-      "total": 1595.104,
+      "invoice": "167099",
+      "date": "2026-08-26",
+      "total": 492.65,
       "rep": "Tim",
-      "customer_code": "gtel",
-      "customer_name": "Greenthumb International Nursery--El Toro"
+      "customer_code": "cpghb",
+      "customer_name": "Certified Plant Growers - Huntington Beach"
     },
     {
-      "invoice": "166817",
-      "date": "2026-08-04",
-      "total": 1037.008,
-      "rep": "Tim",
-      "customer_code": "gtel",
-      "customer_name": "Greenthumb International Nursery--El Toro"
-    },
-    {
-      "invoice": "166818",
-      "date": "2026-08-04",
-      "total": 59.53,
-      "rep": "Pick Up",
-      "customer_code": "selan",
-      "customer_name": "Sage Ecological Landscape"
-    },
-    {
-      "invoice": "166819",
-      "date": "2026-08-04",
-      "total": 163.33,
-      "rep": "Pick Up",
-      "customer_code": "elides",
-      "customer_name": "Elizabeth Luis Designs"
-    },
-    {
-      "invoice": "166820",
-      "date": "2026-08-04",
-      "total": 1582.0,
-      "rep": "Tim",
-      "customer_code": "pladep",
-      "customer_name": "Plant Depot"
-    },
-    {
-      "invoice": "166821",
-      "date": "2026-08-04",
-      "total": 1853.768,
-      "rep": "Tim",
-      "customer_code": "pladep",
-      "customer_name": "Plant Depot"
-    },
-    {
-      "invoice": "166822",
-      "date": "2026-08-04",
-      "total": 294.672,
-      "rep": "John",
-      "customer_code": "hmbnur",
-      "customer_name": "Half Moon Bay Nursery"
-    },
-    {
-      "invoice": "166823",
-      "date": "2026-08-04",
-      "total": 1224.408,
-      "rep": "Tim",
-      "customer_code": "seagro",
-      "customer_name": "Seaside Growers Nursery"
-    },
-    {
-      "invoice": "166824",
-      "date": "2026-08-04",
-      "total": 2958.76,
-      "rep": "John",
-      "customer_code": "cnl",
-      "customer_name": "CNL Native Plant Nursery"
-    },
-    {
-      "invoice": "166825",
-      "date": "2026-08-04",
-      "total": 1079.262,
-      "rep": "Tim",
-      "customer_code": "arm761",
-      "customer_name": "Armstrong Garden Center--San Juan Capistrano"
-    },
-    {
-      "invoice": "166826",
-      "date": "2026-08-04",
-      "total": -66.0,
-      "rep": "CRTim",
-      "customer_code": "arm736",
-      "customer_name": "Armstrong Garden Center--H.B. South"
-    },
-    {
-      "invoice": "166827",
-      "date": "2026-08-04",
-      "total": 1106.95,
-      "rep": "John",
-      "customer_code": "oganur",
-      "customer_name": "Ogawa-Mune Inc."
-    },
-    {
-      "invoice": "166828",
-      "date": "2026-08-04",
-      "total": 1600.032,
-      "rep": "Tim",
-      "customer_code": "dpnur",
-      "customer_name": "Dana Point Nursery Inc."
-    },
-    {
-      "invoice": "166829",
-      "date": "2026-08-04",
-      "total": 84.672,
-      "rep": "Tim",
-      "customer_code": "dpnur",
-      "customer_name": "Dana Point Nursery Inc."
-    },
-    {
-      "invoice": "166830",
-      "date": "2026-08-04",
-      "total": 1154.334,
-      "rep": "Tim",
-      "customer_code": "arm736",
-      "customer_name": "Armstrong Garden Center--H.B. South"
-    },
-    {
-      "invoice": "166831",
-      "date": "2026-08-05",
-      "total": 1096.928,
-      "rep": "John",
-      "customer_code": "harpen",
-      "customer_name": "Harmony Farm Supply and Nursery #2"
-    },
-    {
-      "invoice": "166832",
-      "date": "2026-08-05",
-      "total": 488.768,
-      "rep": "John",
-      "customer_code": "harpen",
-      "customer_name": "Harmony Farm Supply and Nursery #2"
-    },
-    {
-      "invoice": "166833",
-      "date": "2026-08-05",
-      "total": 1188.0,
-      "rep": "In-House",
-      "customer_code": "celcon",
-      "customer_name": "Celadon"
-    },
-    {
-      "invoice": "166834",
-      "date": "2026-08-05",
-      "total": 1532.832,
-      "rep": "John",
-      "customer_code": "ebnur",
-      "customer_name": "East Bay Nursery Inc."
-    },
-    {
-      "invoice": "166835",
-      "date": "2026-08-05",
-      "total": 1175.346,
-      "rep": "Tim",
-      "customer_code": "arm728",
-      "customer_name": "Armstrong Garden Center--La Canada"
-    },
-    {
-      "invoice": "166836",
-      "date": "2026-08-05",
-      "total": 1105.44,
-      "rep": "Tim",
-      "customer_code": "lanur",
-      "customer_name": "Lincoln Avenue Nursery"
-    },
-    {
-      "invoice": "166837",
-      "date": "2026-08-05",
-      "total": 1284.69,
-      "rep": "Tim",
-      "customer_code": "arm737",
-      "customer_name": "Armstrong Garden Center--Pasadena"
-    },
-    {
-      "invoice": "166838",
-      "date": "2026-08-05",
-      "total": 100.761375,
-      "rep": "Pick Up",
-      "customer_code": "balmar",
-      "customer_name": "Baldo Martinez"
-    },
-    {
-      "invoice": "166839",
-      "date": "2026-08-05",
-      "total": 1369.5,
-      "rep": "In-House",
-      "customer_code": "cnpsmbc",
-      "customer_name": "California Native Plant Society--Monterey Bay"
-    },
-    {
-      "invoice": "166840",
-      "date": "2026-08-05",
-      "total": 2513.28,
-      "rep": "Matthew",
-      "customer_code": "lcnur",
-      "customer_name": "La Crescenta Nursery"
-    },
-    {
-      "invoice": "166841",
-      "date": "2026-08-05",
-      "total": 37.638,
-      "rep": "Tim",
-      "customer_code": "arm736",
-      "customer_name": "Armstrong Garden Center--H.B. South"
-    },
-    {
-      "invoice": "166842",
-      "date": "2026-08-05",
-      "total": 991.083,
-      "rep": "Tim",
-      "customer_code": "arm741",
-      "customer_name": "Armstrong Garden Center--Newport Beach"
-    },
-    {
-      "invoice": "166843",
-      "date": "2026-08-05",
-      "total": 1065.288,
-      "rep": "Matthew",
-      "customer_code": "arm722",
-      "customer_name": "Armstrong Garden Center--North Hollywood"
-    },
-    {
-      "invoice": "166844",
-      "date": "2026-08-05",
-      "total": 981.65,
-      "rep": "John",
-      "customer_code": "drnur",
-      "customer_name": "Drought Resistant Nurseries, Inc."
-    },
-    {
-      "invoice": "166845",
-      "date": "2026-08-05",
-      "total": 1362.257325,
-      "rep": "Pick Up",
-      "customer_code": "calpolyls",
-      "customer_name": "Cal Poly - Landscape Services"
-    },
-    {
-      "invoice": "166846",
-      "date": "2026-08-05",
-      "total": 1618.176,
-      "rep": "John",
-      "customer_code": "yamnur",
-      "customer_name": "Yamagami's Nursery"
-    },
-    {
-      "invoice": "166847",
-      "date": "2026-08-05",
-      "total": 313.6,
-      "rep": "John",
-      "customer_code": "yamnur",
-      "customer_name": "Yamagami's Nursery"
-    },
-    {
-      "invoice": "166848",
-      "date": "2026-08-05",
-      "total": 1821.008,
-      "rep": "Matthew",
-      "customer_code": "gtsh",
-      "customer_name": "Greenthumb International Nursery--Sherman Way"
-    },
-    {
-      "invoice": "166849",
-      "date": "2026-08-05",
-      "total": 1972.93,
-      "rep": "Matthew",
-      "customer_code": "gtcp",
-      "customer_name": "Green Thumb Growing Grounds"
-    },
-    {
-      "invoice": "166850",
-      "date": "2026-08-05",
-      "total": 765.968,
-      "rep": "Tim",
-      "customer_code": "mmnur",
-      "customer_name": "M&M Nursery"
-    },
-    {
-      "invoice": "166851",
-      "date": "2026-08-05",
-      "total": 61.486425,
+      "invoice": "167098",
+      "date": "2026-08-26",
+      "total": 67.8,
       "rep": "Pick Up",
       "customer_code": "jdlan",
       "customer_name": "J. Doyle Landscaping"
     },
     {
-      "invoice": "166852",
-      "date": "2026-08-05",
-      "total": 534.61,
-      "rep": "Tim",
-      "customer_code": "tpshom",
-      "customer_name": "TPS Home and Garden"
-    },
-    {
-      "invoice": "166853",
-      "date": "2026-08-05",
-      "total": 20.4,
-      "rep": "Tim",
-      "customer_code": "arm712",
-      "customer_name": "Armstrong Garden Center--Yorba Linda"
-    },
-    {
-      "invoice": "166854",
-      "date": "2026-08-05",
-      "total": 1783.062,
-      "rep": "Tim",
-      "customer_code": "arm720",
-      "customer_name": "Armstrong Garden Center--Tustin"
-    },
-    {
-      "invoice": "166855",
-      "date": "2026-08-05",
-      "total": 1157.19,
-      "rep": "Tim",
-      "customer_code": "arm720",
-      "customer_name": "Armstrong Garden Center--Tustin"
-    },
-    {
-      "invoice": "166856",
-      "date": "2026-08-06",
-      "total": 169.51935,
-      "rep": "Pick Up",
-      "customer_code": "rtlan",
-      "customer_name": "Red Tail Landscaping (credit $1.19)"
-    },
-    {
-      "invoice": "166857",
-      "date": "2026-08-06",
-      "total": 3351.6,
-      "rep": "Tim",
-      "customer_code": "jjsbac",
-      "customer_name": "JJ's Backyard"
-    },
-    {
-      "invoice": "166858",
-      "date": "2026-08-06",
-      "total": 642.096,
-      "rep": "In-House",
-      "customer_code": "dmnur",
-      "customer_name": "Devil Mountain Wholesale Nursery--San Ramon"
-    },
-    {
-      "invoice": "166859",
-      "date": "2026-08-06",
-      "total": 2748.9,
-      "rep": "In-House",
-      "customer_code": "dmnur",
-      "customer_name": "Devil Mountain Wholesale Nursery--San Ramon"
-    },
-    {
-      "invoice": "166860",
-      "date": "2026-08-06",
-      "total": 1441.09,
-      "rep": "Tim",
-      "customer_code": "cpghb",
-      "customer_name": "Certified Plant Growers - Huntington Beach"
-    },
-    {
-      "invoice": "166861",
-      "date": "2026-08-06",
-      "total": 1144.44,
-      "rep": "Matthew",
-      "customer_code": "arm704",
-      "customer_name": "Armstrong Garden Center--Thousand Oaks"
-    },
-    {
-      "invoice": "166862",
-      "date": "2026-08-06",
-      "total": 811.60375,
-      "rep": "In-House",
-      "customer_code": "curedw",
-      "customer_name": "Curtis Edward Dennison Landscape"
-    },
-    {
-      "invoice": "166864",
-      "date": "2026-08-06",
-      "total": 0.0,
-      "rep": "Matthew",
-      "customer_code": "arm727",
-      "customer_name": "Armstrong Garden Center--Glendale"
-    },
-    {
-      "invoice": "166865",
-      "date": "2026-08-06",
-      "total": 49.603125,
-      "rep": "Pick Up",
-      "customer_code": "mmlan",
-      "customer_name": "Arroyo Grande Montessori School"
-    },
-    {
-      "invoice": "166866",
-      "date": "2026-08-06",
-      "total": 378.726,
-      "rep": "Matthew",
-      "customer_code": "arm727",
-      "customer_name": "Armstrong Garden Center--Glendale"
-    },
-    {
-      "invoice": "166867",
-      "date": "2026-08-06",
-      "total": 142.4709,
-      "rep": "Pick Up",
-      "customer_code": "nslan",
-      "customer_name": "Nichols and Smyth Landscape Co."
-    },
-    {
-      "invoice": "166868",
-      "date": "2026-08-07",
-      "total": 1297.072,
-      "rep": "John",
-      "customer_code": "hanur",
-      "customer_name": "Harmony Farm Supply and Nursery #1"
-    },
-    {
-      "invoice": "166869",
-      "date": "2026-08-07",
-      "total": 917.0,
-      "rep": "John",
-      "customer_code": "hanur",
-      "customer_name": "Harmony Farm Supply and Nursery #1"
-    },
-    {
-      "invoice": "166870",
-      "date": "2026-08-07",
-      "total": 1299.646125,
-      "rep": "In-House",
-      "customer_code": "perland",
-      "customer_name": "Native Coast Landscapes"
-    },
-    {
-      "invoice": "166871",
-      "date": "2026-08-07",
-      "total": 570.46275,
-      "rep": "In-House",
-      "customer_code": "rrm",
-      "customer_name": "RRM Design Group"
-    },
-    {
-      "invoice": "166872",
-      "date": "2026-08-07",
-      "total": 97.24,
-      "rep": "Pick Up",
-      "customer_code": "elides",
-      "customer_name": "Elizabeth Luis Designs"
-    },
-    {
-      "invoice": "166873",
-      "date": "2026-08-07",
-      "total": -116.55,
-      "rep": "CRTim",
-      "customer_code": "ARM702",
-      "customer_name": "Armstrong Garden Center--Santa Monica"
-    },
-    {
-      "invoice": "166874",
-      "date": "2026-08-07",
-      "total": 152.262825,
-      "rep": "Pick Up",
-      "customer_code": "luciamar",
-      "customer_name": "Lucia Mar Unified School District"
-    },
-    {
-      "invoice": "166875",
-      "date": "2026-08-10",
-      "total": 975.05,
-      "rep": "John",
-      "customer_code": "lumgar",
-      "customer_name": "ProBuilding Holdings LLC."
-    },
-    {
-      "invoice": "166876",
-      "date": "2026-08-10",
-      "total": 1221.966,
-      "rep": "In-House",
-      "customer_code": "villacreek",
-      "customer_name": "Villa Creek Cellars"
-    },
-    {
-      "invoice": "166877",
-      "date": "2026-08-10",
-      "total": 2222.805125,
-      "rep": "Pick Up",
-      "customer_code": "asdesign",
-      "customer_name": "All Scape Design & Installation"
-    },
-    {
-      "invoice": "166878",
-      "date": "2026-08-10",
-      "total": 1517.367,
-      "rep": "Tim",
-      "customer_code": "garcul",
-      "customer_name": "Garden Culture"
-    },
-    {
-      "invoice": "166879",
-      "date": "2026-08-10",
-      "total": 590.6,
-      "rep": "John",
-      "customer_code": "fspr",
-      "customer_name": "Farm Supply Co.--Paso Robles"
-    },
-    {
-      "invoice": "166880",
-      "date": "2026-08-10",
-      "total": 908.532,
-      "rep": "John",
-      "customer_code": "blgar",
-      "customer_name": "Bay Laurel Nursery and Garden Center, Inc."
-    },
-    {
-      "invoice": "166881",
-      "date": "2026-08-10",
-      "total": 1167.084,
-      "rep": "Matthew",
-      "customer_code": "arm715",
-      "customer_name": "Armstrong Garden Center--Del Mar"
-    },
-    {
-      "invoice": "166882",
-      "date": "2026-08-10",
-      "total": 5562.48,
-      "rep": "In-House",
-      "customer_code": "utfnur",
-      "customer_name": "Urban Tree Farm Nursery"
-    },
-    {
-      "invoice": "166883",
-      "date": "2026-08-10",
-      "total": 852.336,
-      "rep": "John",
-      "customer_code": "seagar",
-      "customer_name": "Seaside Gardens"
-    },
-    {
-      "invoice": "166884",
-      "date": "2026-08-10",
-      "total": 1071.63,
-      "rep": "John",
-      "customer_code": "camnur",
-      "customer_name": "Cambria Nursery/Cambria Pines Lodge"
-    },
-    {
-      "invoice": "166885",
-      "date": "2026-08-10",
-      "total": 1148.336,
-      "rep": "In-House",
-      "customer_code": "plajus",
-      "customer_name": "Planting Justice"
-    },
-    {
-      "invoice": "166886",
-      "date": "2026-08-10",
-      "total": 1135.904,
-      "rep": "In-House",
-      "customer_code": "plajus",
-      "customer_name": "Planting Justice"
-    },
-    {
-      "invoice": "166887",
-      "date": "2026-08-10",
-      "total": 640.864,
-      "rep": "In-House",
-      "customer_code": "plajus",
-      "customer_name": "Planting Justice"
-    },
-    {
-      "invoice": "166888",
-      "date": "2026-08-10",
-      "total": 24.3243,
-      "rep": "In-House",
-      "customer_code": "greheart",
-      "customer_name": "Greenheart"
-    },
-    {
-      "invoice": "166889",
-      "date": "2026-08-10",
-      "total": 215.0,
-      "rep": "Rainie",
-      "customer_code": "betty",
-      "customer_name": "Betty's Field"
-    },
-    {
-      "invoice": "166890",
-      "date": "2026-08-10",
-      "total": 1443.468,
-      "rep": "In-House",
-      "customer_code": "theget",
-      "customer_name": "The Getty Center"
-    },
-    {
-      "invoice": "166891",
-      "date": "2026-08-10",
-      "total": 747.3015,
-      "rep": "In-House",
-      "customer_code": "theget",
-      "customer_name": "The Getty Center"
-    },
-    {
-      "invoice": "166892",
-      "date": "2026-08-10",
-      "total": 407.132,
-      "rep": "In-House",
-      "customer_code": "theget",
-      "customer_name": "The Getty Center"
-    },
-    {
-      "invoice": "166893",
-      "date": "2026-08-10",
-      "total": 85.0,
-      "rep": "Rainie",
-      "customer_code": "betty",
-      "customer_name": "Betty's Field"
-    },
-    {
-      "invoice": "166895",
-      "date": "2026-08-10",
-      "total": 20.961,
-      "rep": "Tim",
-      "customer_code": "arm304",
-      "customer_name": "Armstrong Garden Center-La Canada yard"
-    },
-    {
-      "invoice": "166896",
-      "date": "2026-08-10",
-      "total": 1862.418,
-      "rep": "Tim",
-      "customer_code": "ARM751",
-      "customer_name": "Armstrong Garden Center--Costa Mesa"
-    },
-    {
-      "invoice": "166897",
-      "date": "2026-08-10",
-      "total": 106.445625,
-      "rep": "Pick Up",
-      "customer_code": "mmlan",
-      "customer_name": "Arroyo Grande Montessori School"
-    },
-    {
-      "invoice": "166898",
-      "date": "2026-08-10",
-      "total": 1090.2,
-      "rep": "In-House",
-      "customer_code": "swelan",
-      "customer_name": "Sweet Lane Wholesale Nursery"
-    },
-    {
-      "invoice": "166899",
-      "date": "2026-08-10",
-      "total": 270.09,
-      "rep": "Pick Up",
-      "customer_code": "elides",
-      "customer_name": "Elizabeth Luis Designs"
-    },
-    {
-      "invoice": "166900",
-      "date": "2026-08-10",
-      "total": 571.6,
-      "rep": "John",
-      "customer_code": "ronnur",
-      "customer_name": "Ron's Nursery"
-    },
-    {
-      "invoice": "166901",
-      "date": "2026-08-10",
-      "total": 1431.48,
+      "invoice": "167097",
+      "date": "2026-08-26",
+      "total": 1631.95,
       "rep": "Matthew",
       "customer_code": "wasd",
       "customer_name": "Walter Andersen Nursery"
     },
     {
-      "invoice": "166902",
-      "date": "2026-08-10",
-      "total": 680.442,
-      "rep": "Matthew",
-      "customer_code": "arm716",
-      "customer_name": "Armstrong Garden Center--Encinitas"
+      "invoice": "167096",
+      "date": "2026-08-26",
+      "total": 153.76,
+      "rep": "Tim",
+      "customer_code": "arm305",
+      "customer_name": "Armstrong Garden Center--Tustin yard"
     },
     {
-      "invoice": "166903",
-      "date": "2026-08-10",
-      "total": 1384.42,
+      "invoice": "167095",
+      "date": "2026-08-26",
+      "total": 654.36,
+      "rep": "Tim",
+      "customer_code": "csnur",
+      "customer_name": "C & S Nursery"
+    },
+    {
+      "invoice": "167094",
+      "date": "2026-08-26",
+      "total": 516.94,
+      "rep": "Tim",
+      "customer_code": "arm712",
+      "customer_name": "Armstrong Garden Center--Yorba Linda"
+    },
+    {
+      "invoice": "167093",
+      "date": "2026-08-26",
+      "total": 1796.6,
+      "rep": "John",
+      "customer_code": "winnur",
+      "customer_name": "Windmill Nursery"
+    },
+    {
+      "invoice": "167092",
+      "date": "2026-08-26",
+      "total": 329.34,
       "rep": "Matthew",
       "customer_code": "bbgar",
       "customer_name": "Barrels and Branches"
     },
     {
-      "invoice": "166904",
-      "date": "2026-08-10",
-      "total": 1412.19,
+      "invoice": "167091",
+      "date": "2026-08-26",
+      "total": 1147.46,
       "rep": "Matthew",
-      "customer_code": "arm752",
-      "customer_name": "Armstrong Garden Center--Morena"
+      "customer_code": "bbgar",
+      "customer_name": "Barrels and Branches"
     },
     {
-      "invoice": "166905",
-      "date": "2026-08-10",
-      "total": 825.384,
-      "rep": "Matthew",
-      "customer_code": "arm752",
-      "customer_name": "Armstrong Garden Center--Morena"
+      "invoice": "167090",
+      "date": "2026-08-26",
+      "total": 2281.05,
+      "rep": "Tim",
+      "customer_code": "jjsbac",
+      "customer_name": "JJ's Backyard"
     },
     {
-      "invoice": "166906",
-      "date": "2026-08-10",
-      "total": 738.612,
+      "invoice": "167089",
+      "date": "2026-08-26",
+      "total": 2309.47,
+      "rep": "John",
+      "customer_code": "seagar",
+      "customer_name": "Seaside Gardens"
+    },
+    {
+      "invoice": "167087",
+      "date": "2026-08-25",
+      "total": 943.09,
+      "rep": "Tim",
+      "customer_code": "arm723",
+      "customer_name": "Armstrong Garden Center--Glendora"
+    },
+    {
+      "invoice": "167086",
+      "date": "2026-08-25",
+      "total": 104.73,
+      "rep": "Pick Up",
+      "customer_code": "botnov",
+      "customer_name": "Botanica Nova"
+    },
+    {
+      "invoice": "167085",
+      "date": "2026-08-25",
+      "total": 394.94,
+      "rep": "Matthew",
+      "customer_code": "wapow",
+      "customer_name": "Walter Andersen Nursery"
+    },
+    {
+      "invoice": "167084",
+      "date": "2026-08-25",
+      "total": 40.8,
+      "rep": "Matthew",
+      "customer_code": "arm715",
+      "customer_name": "Armstrong Garden Center--Del Mar"
+    },
+    {
+      "invoice": "167083",
+      "date": "2026-08-25",
+      "total": 843.24,
+      "rep": "John",
+      "customer_code": "abenur",
+      "customer_name": "Abe Nursery, Inc."
+    },
+    {
+      "invoice": "167082",
+      "date": "2026-08-25",
+      "total": 1409.51,
+      "rep": "Matthew",
+      "customer_code": "wapow",
+      "customer_name": "Walter Andersen Nursery"
+    },
+    {
+      "invoice": "167081",
+      "date": "2026-08-25",
+      "total": 904.0,
+      "rep": "Matthew",
+      "customer_code": "pargar",
+      "customer_name": "Paradise Garden Center"
+    },
+    {
+      "invoice": "167080",
+      "date": "2026-08-25",
+      "total": 259.94,
+      "rep": "Pick Up",
+      "customer_code": "botnov",
+      "customer_name": "Botanica Nova"
+    },
+    {
+      "invoice": "167079",
+      "date": "2026-08-25",
+      "total": 653.85,
+      "rep": "Pick Up",
+      "customer_code": "forlan",
+      "customer_name": "Fortini, Inc."
+    },
+    {
+      "invoice": "167078",
+      "date": "2026-08-25",
+      "total": 389.25,
+      "rep": "Pick Up",
+      "customer_code": "forlan",
+      "customer_name": "Fortini, Inc."
+    },
+    {
+      "invoice": "167077",
+      "date": "2026-08-25",
+      "total": 1001.13,
+      "rep": "Tim",
+      "customer_code": "arm712",
+      "customer_name": "Armstrong Garden Center--Yorba Linda"
+    },
+    {
+      "invoice": "167076",
+      "date": "2026-08-25",
+      "total": 253.3,
+      "rep": "Pick Up",
+      "customer_code": "elides",
+      "customer_name": "Elizabeth Luis Designs"
+    },
+    {
+      "invoice": "167075",
+      "date": "2026-08-25",
+      "total": 543.85,
+      "rep": "John",
+      "customer_code": "carpvalley",
+      "customer_name": "Carpinteria Valley Lumber Company"
+    },
+    {
+      "invoice": "167074",
+      "date": "2026-08-25",
+      "total": 87.84,
+      "rep": "Pick Up",
+      "customer_code": "mmlan",
+      "customer_name": "Arroyo Grande Montessori School"
+    },
+    {
+      "invoice": "167073",
+      "date": "2026-08-25",
+      "total": 373.55,
+      "rep": "In-House",
+      "customer_code": "rrm",
+      "customer_name": "RRM Design Group"
+    },
+    {
+      "invoice": "167072",
+      "date": "2026-08-25",
+      "total": 1099.55,
+      "rep": "John",
+      "customer_code": "tsgar",
+      "customer_name": "Terra Sol Garden Center"
+    },
+    {
+      "invoice": "167071",
+      "date": "2026-08-25",
+      "total": 2135.39,
+      "rep": "John",
+      "customer_code": "Sloat1",
+      "customer_name": "Sloat Garden Center--Sloat Boulevard"
+    },
+    {
+      "invoice": "167070",
+      "date": "2026-08-24",
+      "total": 688.9,
+      "rep": "Tim",
+      "customer_code": "pladep",
+      "customer_name": "Plant Depot"
+    },
+    {
+      "invoice": "167069",
+      "date": "2026-08-24",
+      "total": 1133.83,
+      "rep": "Matthew",
+      "customer_code": "arm716",
+      "customer_name": "Armstrong Garden Center--Encinitas"
+    },
+    {
+      "invoice": "167068",
+      "date": "2026-08-24",
+      "total": 970.22,
+      "rep": "John",
+      "customer_code": "blgar",
+      "customer_name": "Bay Laurel Nursery and Garden Center, Inc."
+    },
+    {
+      "invoice": "167067",
+      "date": "2026-08-24",
+      "total": 980.69,
       "rep": "John",
       "customer_code": "fsslo",
       "customer_name": "Farm Supply Co.--S.L.O."
     },
     {
-      "invoice": "166907",
-      "date": "2026-08-10",
-      "total": 100.98,
-      "rep": "Tim",
-      "customer_code": "arm751",
-      "customer_name": "Armstrong Garden Center--Costa Mesa"
+      "invoice": "167066",
+      "date": "2026-08-24",
+      "total": 1060.67,
+      "rep": "John",
+      "customer_code": "lovnur",
+      "customer_name": "Los Osos Valley Nursery"
     },
     {
-      "invoice": "166908",
-      "date": "2026-08-10",
-      "total": 120.0,
-      "rep": "Tim",
-      "customer_code": "cpghb",
-      "customer_name": "Certified Plant Growers - Huntington Beach"
+      "invoice": "167063",
+      "date": "2026-08-24",
+      "total": 1336.56,
+      "rep": "Matthew",
+      "customer_code": "alcnur",
+      "customer_name": "Anderson's La Costa Nursery"
     },
     {
-      "invoice": "166909",
-      "date": "2026-08-10",
-      "total": 46.332,
+      "invoice": "167062",
+      "date": "2026-08-24",
+      "total": 929.94,
+      "rep": "Tim",
+      "customer_code": "roggar",
+      "customer_name": "Roger's Gardens"
+    },
+    {
+      "invoice": "167061",
+      "date": "2026-08-24",
+      "total": 50.48,
+      "rep": "John",
+      "customer_code": "lumgar",
+      "customer_name": "ProBuilding Holdings LLC."
+    },
+    {
+      "invoice": "167060",
+      "date": "2026-08-24",
+      "total": 357.56,
+      "rep": "John",
+      "customer_code": "ebnur",
+      "customer_name": "East Bay Nursery Inc."
+    },
+    {
+      "invoice": "167059",
+      "date": "2026-08-24",
+      "total": 586.01,
+      "rep": "Pick Up",
+      "customer_code": "rhyroo",
+      "customer_name": "Rhythm & Roots Landscape"
+    },
+    {
+      "invoice": "167058",
+      "date": "2026-08-24",
+      "total": 389.62,
+      "rep": "Pick Up",
+      "customer_code": "grolan",
+      "customer_name": "Groundworks Landscape Co."
+    },
+    {
+      "invoice": "167057",
+      "date": "2026-08-24",
+      "total": 897.96,
+      "rep": "John",
+      "customer_code": "lumgar",
+      "customer_name": "ProBuilding Holdings LLC."
+    },
+    {
+      "invoice": "167056",
+      "date": "2026-08-24",
+      "total": 1172.4,
+      "rep": "John",
+      "customer_code": "calflo",
+      "customer_name": "California Flora Nursery"
+    },
+    {
+      "invoice": "167055",
+      "date": "2026-08-24",
+      "total": 799.1,
+      "rep": "John",
+      "customer_code": "ednur",
+      "customer_name": "Eye of the Day"
+    },
+    {
+      "invoice": "167054",
+      "date": "2026-08-24",
+      "total": 115.8,
+      "rep": "John",
+      "customer_code": "ednur",
+      "customer_name": "Eye of the Day"
+    },
+    {
+      "invoice": "167053",
+      "date": "2026-08-24",
+      "total": 179.15,
+      "rep": "In-House",
+      "customer_code": "norwin",
+      "customer_name": "North Winds Consulting"
+    },
+    {
+      "invoice": "167051",
+      "date": "2026-08-24",
+      "total": 210.0,
+      "rep": "Rainie",
+      "customer_code": "betty",
+      "customer_name": "Betty's Field"
+    },
+    {
+      "invoice": "167050",
+      "date": "2026-08-24",
+      "total": 109.0,
+      "rep": "John",
+      "customer_code": "prihea",
+      "customer_name": "Prickett's Nursery"
+    },
+    {
+      "invoice": "167049",
+      "date": "2026-08-24",
+      "total": 158.3,
+      "rep": "Pick Up",
+      "customer_code": "jbmer",
+      "customer_name": "J & B Mercado Landscape"
+    },
+    {
+      "invoice": "167048",
+      "date": "2026-08-24",
+      "total": 942.82,
+      "rep": "John",
+      "customer_code": "gjgar",
+      "customer_name": "Green Jeans Garden Supply"
+    },
+    {
+      "invoice": "167047",
+      "date": "2026-08-24",
+      "total": 1223.82,
+      "rep": "John",
+      "customer_code": "Sloat17",
+      "customer_name": "Sloat Garden Center--Alhambra"
+    },
+    {
+      "invoice": "167046",
+      "date": "2026-08-24",
+      "total": 72.17,
+      "rep": "Tim",
+      "customer_code": "arm302",
+      "customer_name": "Armstrong Garden Center-Morena yard"
+    },
+    {
+      "invoice": "167045",
+      "date": "2026-08-24",
+      "total": 1423.86,
+      "rep": "John",
+      "customer_code": "oaknat",
+      "customer_name": "Oaktown Native Plant Nursery"
+    },
+    {
+      "invoice": "167044",
+      "date": "2026-08-24",
+      "total": 256.27,
+      "rep": "Pick Up",
+      "customer_code": "drsam",
+      "customer_name": "Samantha Dowdall"
+    },
+    {
+      "invoice": "167043",
+      "date": "2026-08-23",
+      "total": 25.09,
+      "rep": "Tim",
+      "customer_code": "arm726",
+      "customer_name": "Armstrong Garden Center--Monrovia"
+    },
+    {
+      "invoice": "167042",
+      "date": "2026-08-23",
+      "total": 1394.85,
+      "rep": "Tim",
+      "customer_code": "arm726",
+      "customer_name": "Armstrong Garden Center--Monrovia"
+    },
+    {
+      "invoice": "167052",
+      "date": "2026-08-22",
+      "total": 180.0,
+      "rep": "Rainie",
+      "customer_code": "betty",
+      "customer_name": "Betty's Field"
+    },
+    {
+      "invoice": "167041",
+      "date": "2026-08-21",
+      "total": 714.0,
+      "rep": "Tim",
+      "customer_code": "arm705",
+      "customer_name": "Armstrong Garden Center--Long Beach"
+    },
+    {
+      "invoice": "167040",
+      "date": "2026-08-21",
+      "total": 99.21,
+      "rep": "Pick Up",
+      "customer_code": "nomhot",
+      "customer_name": "Nomada Hotel Group"
+    },
+    {
+      "invoice": "167039",
+      "date": "2026-08-21",
+      "total": 20.99,
+      "rep": "Pick Up",
+      "customer_code": "robbro",
+      "customer_name": "Robert Bronte"
+    },
+    {
+      "invoice": "167038",
+      "date": "2026-08-21",
+      "total": 447.3,
+      "rep": "Pick Up",
+      "customer_code": "wilblo",
+      "customer_name": "Wild Bloom Sustainable Landscaping & Design"
+    },
+    {
+      "invoice": "167037",
+      "date": "2026-08-20",
+      "total": 65.35,
+      "rep": "Pick Up",
+      "customer_code": "thegre",
+      "customer_name": "The Green Vase"
+    },
+    {
+      "invoice": "167036",
+      "date": "2026-08-20",
+      "total": 1226.78,
+      "rep": "John",
+      "customer_code": "cvnur",
+      "customer_name": "Griggs Nursery Carmel Valley"
+    },
+    {
+      "invoice": "167034",
+      "date": "2026-08-20",
+      "total": 1790.03,
+      "rep": "John",
+      "customer_code": "vhnur",
+      "customer_name": "Valley Hills Nursery"
+    },
+    {
+      "invoice": "167033",
+      "date": "2026-08-20",
+      "total": 1346.58,
+      "rep": "John",
+      "customer_code": "prihea",
+      "customer_name": "Prickett's Nursery"
+    },
+    {
+      "invoice": "167032",
+      "date": "2026-08-20",
+      "total": 20.59,
+      "rep": "Pick Up",
+      "customer_code": "jwhlan",
+      "customer_name": "Jeff White Landscape"
+    },
+    {
+      "invoice": "167031",
+      "date": "2026-08-20",
+      "total": 1249.64,
+      "rep": "John",
+      "customer_code": "prihea",
+      "customer_name": "Prickett's Nursery"
+    },
+    {
+      "invoice": "167030",
+      "date": "2026-08-20",
+      "total": 902.42,
+      "rep": "John",
+      "customer_code": "lumgar",
+      "customer_name": "ProBuilding Holdings LLC."
+    },
+    {
+      "invoice": "167029",
+      "date": "2026-08-19",
+      "total": 366.91,
+      "rep": "John",
+      "customer_code": "flownur",
+      "customer_name": "Flowerland"
+    },
+    {
+      "invoice": "167028",
+      "date": "2026-08-19",
+      "total": 1059.3,
+      "rep": "John",
+      "customer_code": "flownur",
+      "customer_name": "Flowerland"
+    },
+    {
+      "invoice": "167027",
+      "date": "2026-08-19",
+      "total": 660.8,
+      "rep": "John",
+      "customer_code": "yamnur",
+      "customer_name": "Yamagami's Nursery"
+    },
+    {
+      "invoice": "167026",
+      "date": "2026-08-19",
+      "total": 1283.52,
+      "rep": "John",
+      "customer_code": "yamnur",
+      "customer_name": "Yamagami's Nursery"
+    },
+    {
+      "invoice": "167025",
+      "date": "2026-08-19",
+      "total": 30.89,
       "rep": "Pick Up",
       "customer_code": "seelan",
       "customer_name": "Seelos Design & Construction"
     },
     {
-      "invoice": "166910",
-      "date": "2026-08-10",
-      "total": 7.346625,
-      "rep": "Pick Up",
-      "customer_code": "siegar",
-      "customer_name": "Sierra Landscape Management"
+      "invoice": "167024",
+      "date": "2026-08-19",
+      "total": 313.39,
+      "rep": "Matthew",
+      "customer_code": "arm704",
+      "customer_name": "Armstrong Garden Center--Thousand Oaks"
     },
     {
-      "invoice": "166863",
+      "invoice": "167023",
+      "date": "2026-08-19",
+      "total": 1134.04,
+      "rep": "Matthew",
+      "customer_code": "arm704",
+      "customer_name": "Armstrong Garden Center--Thousand Oaks"
+    },
+    {
+      "invoice": "167021",
+      "date": "2026-08-19",
+      "total": 361.97,
+      "rep": "In-House",
+      "customer_code": "raucon",
+      "customer_name": "Raudes Construction"
+    },
+    {
+      "invoice": "167020",
+      "date": "2026-08-19",
+      "total": 40.54,
+      "rep": "Pick Up",
+      "customer_code": "togar",
+      "customer_name": "Tolosa Gardens and Landscapes, Inc."
+    },
+    {
+      "invoice": "167019",
+      "date": "2026-08-19",
+      "total": 1189.73,
+      "rep": "Tim",
+      "customer_code": "arm737",
+      "customer_name": "Armstrong Garden Center--Pasadena"
+    },
+    {
+      "invoice": "167018",
+      "date": "2026-08-19",
+      "total": 1003.17,
+      "rep": "Tim",
+      "customer_code": "arm728",
+      "customer_name": "Armstrong Garden Center--La Canada"
+    },
+    {
+      "invoice": "167017",
+      "date": "2026-08-19",
+      "total": 970.93,
+      "rep": "Tim",
+      "customer_code": "lanur",
+      "customer_name": "Lincoln Avenue Nursery"
+    },
+    {
+      "invoice": "167016",
+      "date": "2026-08-19",
+      "total": 44.83,
+      "rep": "Pick Up",
+      "customer_code": "jdlan",
+      "customer_name": "J. Doyle Landscaping"
+    },
+    {
+      "invoice": "167015",
+      "date": "2026-08-19",
+      "total": 1152.59,
+      "rep": "John",
+      "customer_code": "ebnur",
+      "customer_name": "East Bay Nursery Inc."
+    },
+    {
+      "invoice": "167014",
+      "date": "2026-08-19",
+      "total": 398.76,
+      "rep": "Tim",
+      "customer_code": "jjsbac",
+      "customer_name": "JJ's Backyard"
+    },
+    {
+      "invoice": "167013",
+      "date": "2026-08-19",
+      "total": 672.36,
+      "rep": "In-House",
+      "customer_code": "paulgar",
+      "customer_name": "Paul's Gardening & Maintenance $2.59 Credit"
+    },
+    {
+      "invoice": "167012",
+      "date": "2026-08-19",
+      "total": 1157.2,
+      "rep": "In-House",
+      "customer_code": "dmnur",
+      "customer_name": "Devil Mountain Wholesale Nursery--San Ramon"
+    },
+    {
+      "invoice": "167011",
+      "date": "2026-08-19",
+      "total": 419.83,
+      "rep": "In-House",
+      "customer_code": "dmnur",
+      "customer_name": "Devil Mountain Wholesale Nursery--San Ramon"
+    },
+    {
+      "invoice": "167009",
+      "date": "2026-08-18",
+      "total": 3247.16,
+      "rep": "John",
+      "customer_code": "cnl",
+      "customer_name": "CNL Native Plant Nursery"
+    },
+    {
+      "invoice": "167008",
+      "date": "2026-08-18",
+      "total": 30.64,
+      "rep": "Pick Up",
+      "customer_code": "aslan",
+      "customer_name": "All Seasons Landscape"
+    },
+    {
+      "invoice": "167007",
+      "date": "2026-08-18",
+      "total": 227.33,
+      "rep": "Pick Up",
+      "customer_code": "rhyroo",
+      "customer_name": "Rhythm & Roots Landscape"
+    },
+    {
+      "invoice": "167006",
+      "date": "2026-08-18",
+      "total": 36.68,
+      "rep": "Pick Up",
+      "customer_code": "quilan",
+      "customer_name": "Quintana's Landscape"
+    },
+    {
+      "invoice": "167004",
+      "date": "2026-08-18",
+      "total": 56.45,
+      "rep": "Tim",
+      "customer_code": "pladep",
+      "customer_name": "Plant Depot"
+    },
+    {
+      "invoice": "167003",
+      "date": "2026-08-18",
+      "total": 80.44,
+      "rep": "Pick Up",
+      "customer_code": "balmar",
+      "customer_name": "Baldo Martinez"
+    },
+    {
+      "invoice": "167002",
+      "date": "2026-08-18",
+      "total": 3902.77,
+      "rep": "Tim",
+      "customer_code": "sperber",
+      "customer_name": "Sperber"
+    },
+    {
+      "invoice": "167001",
+      "date": "2026-08-18",
+      "total": 1252.76,
+      "rep": "Tim",
+      "customer_code": "arm761",
+      "customer_name": "Armstrong Garden Center--San Juan Capistrano"
+    },
+    {
+      "invoice": "166999",
+      "date": "2026-08-18",
+      "total": 821.62,
+      "rep": "Tim",
+      "customer_code": "seagro",
+      "customer_name": "Seaside Growers Nursery"
+    },
+    {
+      "invoice": "166998",
+      "date": "2026-08-18",
+      "total": 2396.91,
+      "rep": "Tim",
+      "customer_code": "pladep",
+      "customer_name": "Plant Depot"
+    },
+    {
+      "invoice": "166997",
+      "date": "2026-08-18",
+      "total": 1418.82,
+      "rep": "Tim",
+      "customer_code": "pladep",
+      "customer_name": "Plant Depot"
+    },
+    {
+      "invoice": "166995",
+      "date": "2026-08-18",
+      "total": 3511.2,
+      "rep": "In-House",
+      "customer_code": "eastbot",
+      "customer_name": "Bart O'Brien"
+    },
+    {
+      "invoice": "166994",
+      "date": "2026-08-18",
+      "total": 3511.2,
+      "rep": "In-House",
+      "customer_code": "carbor",
+      "customer_name": "Carol Bornstein"
+    },
+    {
+      "invoice": "166991",
+      "date": "2026-08-18",
+      "total": 2176.38,
+      "rep": "Tim",
+      "customer_code": "cpghb",
+      "customer_name": "Certified Plant Growers - Huntington Beach"
+    },
+    {
+      "invoice": "166990",
+      "date": "2026-08-18",
+      "total": 1162.9,
+      "rep": "John",
+      "customer_code": "capnur",
+      "customer_name": "Capitol Wholesale Nursery"
+    },
+    {
+      "invoice": "166989",
+      "date": "2026-08-17",
+      "total": 776.91,
+      "rep": "Tim",
+      "customer_code": "roggar",
+      "customer_name": "Roger's Gardens"
+    },
+    {
+      "invoice": "166988",
+      "date": "2026-08-17",
+      "total": 3.86,
+      "rep": "Pick Up",
+      "customer_code": "siegar",
+      "customer_name": "Sierra Landscape Management (CREDIT OF $2.65)"
+    },
+    {
+      "invoice": "166987",
+      "date": "2026-08-17",
+      "total": 1251.6,
+      "rep": "John",
+      "customer_code": "flogc",
+      "customer_name": "Flowercraft Garden Center"
+    },
+    {
+      "invoice": "166986",
+      "date": "2026-08-17",
+      "total": 236.33,
+      "rep": "Tim",
+      "customer_code": "arm307",
+      "customer_name": "Armstrong Garden Center--Long Beach yard"
+    },
+    {
+      "invoice": "166985",
+      "date": "2026-08-17",
+      "total": 72.24,
+      "rep": "Pick Up",
+      "customer_code": "taklan",
+      "customer_name": "Takahashi Landscaping and Maintenance"
+    },
+    {
+      "invoice": "166984",
+      "date": "2026-08-17",
+      "total": 1112.82,
+      "rep": "Tim",
+      "customer_code": "arm705",
+      "customer_name": "Armstrong Garden Center--Long Beach"
+    },
+    {
+      "invoice": "166983",
+      "date": "2026-08-17",
+      "total": 36.2,
+      "rep": "Pick Up",
+      "customer_code": "parenv",
+      "customer_name": "Paradise Environments"
+    },
+    {
+      "invoice": "166982",
+      "date": "2026-08-17",
+      "total": 38.61,
+      "rep": "Pick Up",
+      "customer_code": "parenv",
+      "customer_name": "Paradise Environments"
+    },
+    {
+      "invoice": "166981",
+      "date": "2026-08-17",
+      "total": 830.23,
+      "rep": "In-House",
+      "customer_code": "lusdry",
+      "customer_name": "Lush Dry Gardens"
+    },
+    {
+      "invoice": "166980",
+      "date": "2026-08-17",
+      "total": 1269.8,
+      "rep": "John",
+      "customer_code": "Sloat16",
+      "customer_name": "Sloat Garden Center--Camino Ramon"
+    },
+    {
+      "invoice": "166979",
+      "date": "2026-08-17",
+      "total": 207.98,
+      "rep": "Tim",
+      "customer_code": "arm751",
+      "customer_name": "Armstrong Garden Center--Costa Mesa"
+    },
+    {
+      "invoice": "166978",
+      "date": "2026-08-17",
+      "total": 1482.88,
+      "rep": "Matthew",
+      "customer_code": "sgnur",
+      "customer_name": "San Gabriel Nursery and Florist"
+    },
+    {
+      "invoice": "166977",
+      "date": "2026-08-17",
+      "total": 1048.37,
+      "rep": "Tim",
+      "customer_code": "ortgar",
+      "customer_name": "Orta Garden Supply"
+    },
+    {
+      "invoice": "166976",
+      "date": "2026-08-17",
+      "total": 85.42,
+      "rep": "In-House",
+      "customer_code": "kggardens",
+      "customer_name": "K & G Gardens"
+    },
+    {
+      "invoice": "166975",
+      "date": "2026-08-17",
+      "total": 288.12,
+      "rep": "John",
+      "customer_code": "glace",
+      "customer_name": "Grand Lake Ace Hardware Inc. and Garden Center"
+    },
+    {
+      "invoice": "166974",
+      "date": "2026-08-17",
+      "total": 1051.23,
+      "rep": "John",
+      "customer_code": "glace",
+      "customer_name": "Grand Lake Ace Hardware Inc. and Garden Center"
+    },
+    {
+      "invoice": "166973",
+      "date": "2026-08-17",
+      "total": 900.35,
+      "rep": "Tim",
+      "customer_code": "hhnur",
+      "customer_name": "H & H Nursery"
+    },
+    {
+      "invoice": "166972",
+      "date": "2026-08-17",
+      "total": 3067.49,
+      "rep": "Matthew",
+      "customer_code": "gtcp",
+      "customer_name": "Green Thumb Growing Grounds"
+    },
+    {
+      "invoice": "166971",
+      "date": "2026-08-17",
+      "total": 1209.06,
+      "rep": "In-House",
+      "customer_code": "dmpet",
+      "customer_name": "Devil Mountain Wholesale Nursery--Petaluma"
+    },
+    {
+      "invoice": "166970",
+      "date": "2026-08-17",
+      "total": 961.3,
+      "rep": "Tim",
+      "customer_code": "arm714",
+      "customer_name": "Armstrong Garden Center--La Habra"
+    },
+    {
+      "invoice": "166969",
+      "date": "2026-08-17",
+      "total": 314.48,
+      "rep": "In-House",
+      "customer_code": "rrm",
+      "customer_name": "RRM Design Group"
+    },
+    {
+      "invoice": "166968",
+      "date": "2026-08-17",
+      "total": 50.19,
+      "rep": "Pick Up",
+      "customer_code": "dglan",
+      "customer_name": "Danny George Landscape Contractor"
+    },
+    {
+      "invoice": "166967",
+      "date": "2026-08-17",
+      "total": 40.0,
+      "rep": "Rainie",
+      "customer_code": "betty",
+      "customer_name": "Betty's Field"
+    },
+    {
+      "invoice": "166966",
+      "date": "2026-08-17",
+      "total": 1093.4,
+      "rep": "In-House",
+      "customer_code": "sumpal",
+      "customer_name": "SummerWinds Garden Centers, Inc."
+    },
+    {
+      "invoice": "166965",
+      "date": "2026-08-17",
+      "total": 966.11,
+      "rep": "John",
+      "customer_code": "ladgar",
+      "customer_name": "Ladera Garden Center"
+    },
+    {
+      "invoice": "166964",
+      "date": "2026-08-17",
+      "total": 31.88,
+      "rep": "Tim",
+      "customer_code": "arm303",
+      "customer_name": "Armstrong Garden Center-San Juan Capistrano yard"
+    },
+    {
+      "invoice": "166963",
+      "date": "2026-08-17",
+      "total": 1073.91,
+      "rep": "Tim",
+      "customer_code": "arm705",
+      "customer_name": "Armstrong Garden Center--Long Beach"
+    },
+    {
+      "invoice": "166962",
+      "date": "2026-08-17",
+      "total": 2392.98,
+      "rep": "Tim",
+      "customer_code": "jjsbac",
+      "customer_name": "JJ's Backyard"
+    },
+    {
+      "invoice": "166961",
+      "date": "2026-08-17",
+      "total": 1229.93,
+      "rep": "In-House",
+      "customer_code": "ucirv",
+      "customer_name": "University of California Irvine Arboretum"
+    },
+    {
+      "invoice": "166960",
+      "date": "2026-08-17",
+      "total": 835.25,
+      "rep": "John",
+      "customer_code": "paynur",
+      "customer_name": "Payless Nursery"
+    },
+    {
+      "invoice": "166959",
+      "date": "2026-08-16",
+      "total": 502.86,
+      "rep": "Tim",
+      "customer_code": "arm707",
+      "customer_name": "Armstrong Garden Center--Torrance"
+    },
+    {
+      "invoice": "166958",
+      "date": "2026-08-16",
+      "total": 1428.71,
+      "rep": "Tim",
+      "customer_code": "arm707",
+      "customer_name": "Armstrong Garden Center--Torrance"
+    },
+    {
+      "invoice": "166957",
+      "date": "2026-08-16",
+      "total": 460.04,
+      "rep": "Tim",
+      "customer_code": "intgar",
+      "customer_name": "International Garden Center, Inc."
+    },
+    {
+      "invoice": "166956",
+      "date": "2026-08-16",
+      "total": 1586.42,
+      "rep": "Tim",
+      "customer_code": "intgar",
+      "customer_name": "International Garden Center, Inc."
+    },
+    {
+      "invoice": "166955",
+      "date": "2026-08-16",
+      "total": 152.9,
+      "rep": "Tim",
+      "customer_code": "arm735",
+      "customer_name": "Armstrong Garden Center--Westchester"
+    },
+    {
+      "invoice": "166954",
+      "date": "2026-08-16",
+      "total": 1542.19,
+      "rep": "Tim",
+      "customer_code": "arm735",
+      "customer_name": "Armstrong Garden Center--Westchester"
+    },
+    {
+      "invoice": "166953",
+      "date": "2026-08-16",
+      "total": 1408.62,
+      "rep": "Tim",
+      "customer_code": "arm702",
+      "customer_name": "Armstrong Garden Center--Santa Monica"
+    },
+    {
+      "invoice": "166952",
+      "date": "2026-08-16",
+      "total": 1707.07,
+      "rep": "Tim",
+      "customer_code": "arm702",
+      "customer_name": "Armstrong Garden Center--Santa Monica"
+    },
+    {
+      "invoice": "166951",
+      "date": "2026-08-16",
+      "total": 644.84,
+      "rep": "Tim",
+      "customer_code": "arm736",
+      "customer_name": "Armstrong Garden Center--H.B. South"
+    },
+    {
+      "invoice": "166950",
+      "date": "2026-08-16",
+      "total": 1546.42,
+      "rep": "Tim",
+      "customer_code": "arm736",
+      "customer_name": "Armstrong Garden Center--H.B. South"
+    },
+    {
+      "invoice": "166949",
+      "date": "2026-08-16",
+      "total": 1380.43,
+      "rep": "Tim",
+      "customer_code": "arm751",
+      "customer_name": "Armstrong Garden Center--Costa Mesa"
+    },
+    {
+      "invoice": "166948",
+      "date": "2026-08-14",
+      "total": 290.06,
+      "rep": "Pick Up",
+      "customer_code": "livdes",
+      "customer_name": "Living Design"
+    },
+    {
+      "invoice": "166947",
+      "date": "2026-08-14",
+      "total": 54.05,
+      "rep": "Pick Up",
+      "customer_code": "janlan",
+      "customer_name": "Jane's Landscaping"
+    },
+    {
+      "invoice": "166946",
+      "date": "2026-08-14",
+      "total": 585.16,
+      "rep": "In-House",
+      "customer_code": "rogped",
+      "customer_name": "Rogers and Pedersen Construction, Inc."
+    },
+    {
+      "invoice": "166945",
+      "date": "2026-08-14",
+      "total": 67.89,
+      "rep": "Pick Up",
+      "customer_code": "cityart",
+      "customer_name": "City Art Plant Studio"
+    },
+    {
+      "invoice": "166944",
+      "date": "2026-08-14",
+      "total": 139.43,
+      "rep": "Pick Up",
+      "customer_code": "earland",
+      "customer_name": "Earthtones Landscaping"
+    },
+    {
+      "invoice": "166943",
+      "date": "2026-08-14",
+      "total": 26.93,
+      "rep": "Pick Up",
+      "customer_code": "aslan",
+      "customer_name": "All Seasons Landscape"
+    },
+    {
+      "invoice": "166942",
+      "date": "2026-08-13",
+      "total": 60.81,
+      "rep": "Pick Up",
+      "customer_code": "nslan",
+      "customer_name": "Nichols and Smyth Landscape Co."
+    },
+    {
+      "invoice": "166941",
+      "date": "2026-08-13",
+      "total": 450.58,
+      "rep": "Pick Up",
+      "customer_code": "soland",
+      "customer_name": "Kilcoyne Landscapes (Sustainable Organic)"
+    },
+    {
+      "invoice": "166940",
+      "date": "2026-08-13",
+      "total": 108.11,
+      "rep": "Pick Up",
+      "customer_code": "lowh2O",
+      "customer_name": "Low H2O Landscaping"
+    },
+    {
+      "invoice": "166939",
+      "date": "2026-08-12",
+      "total": 74.09,
+      "rep": "In-House",
+      "customer_code": "dmnur",
+      "customer_name": "Devil Mountain Wholesale Nursery--San Ramon"
+    },
+    {
+      "invoice": "166938",
+      "date": "2026-08-12",
+      "total": 811.36,
+      "rep": "In-House",
+      "customer_code": "dmnur",
+      "customer_name": "Devil Mountain Wholesale Nursery--San Ramon"
+    },
+    {
+      "invoice": "166937",
+      "date": "2026-08-12",
+      "total": 919.51,
+      "rep": "John",
+      "customer_code": "mahmb",
+      "customer_name": "Miner's Ace Hardware--Morro Bay"
+    },
+    {
+      "invoice": "166936",
+      "date": "2026-08-12",
+      "total": 15.44,
+      "rep": "Pick Up",
+      "customer_code": "stevmul",
+      "customer_name": "Steve Mullany"
+    },
+    {
+      "invoice": "166935",
+      "date": "2026-08-12",
+      "total": 126.2,
+      "rep": "John",
+      "customer_code": "lumgar",
+      "customer_name": "ProBuilding Holdings LLC."
+    },
+    {
+      "invoice": "166934",
+      "date": "2026-08-12",
+      "total": 867.46,
+      "rep": "John",
+      "customer_code": "aghg",
+      "customer_name": "True Value Arroyo Grande Home & Garden"
+    },
+    {
+      "invoice": "166933",
+      "date": "2026-08-12",
+      "total": 163.3,
+      "rep": "John",
+      "customer_code": "tsgar",
+      "customer_name": "Terra Sol Garden Center"
+    },
+    {
+      "invoice": "166931",
+      "date": "2026-08-12",
+      "total": 140.4,
+      "rep": "John",
+      "customer_code": "gtv",
+      "customer_name": "Green Thumb International Nursery--Ventura"
+    },
+    {
+      "invoice": "166930",
+      "date": "2026-08-12",
+      "total": 1417.14,
+      "rep": "John",
+      "customer_code": "gtv",
+      "customer_name": "Green Thumb International Nursery--Ventura"
+    },
+    {
+      "invoice": "166929",
       "date": "2026-08-11",
-      "total": 88.9875,
+      "total": 1235.77,
+      "rep": "Matthew",
+      "customer_code": "cheval",
+      "customer_name": "Cherry Valley Nursery"
+    },
+    {
+      "invoice": "166928",
+      "date": "2026-08-11",
+      "total": 1161.32,
+      "rep": "Matthew",
+      "customer_code": "arm709",
+      "customer_name": "Armstrong Garden Center--Temecula"
+    },
+    {
+      "invoice": "166927",
+      "date": "2026-08-11",
+      "total": 665.66,
+      "rep": "Tim",
+      "customer_code": "jjsbac",
+      "customer_name": "JJ's Backyard"
+    },
+    {
+      "invoice": "166926",
+      "date": "2026-08-11",
+      "total": 915.65,
+      "rep": "John",
+      "customer_code": "meioak",
+      "customer_name": "Meiners Oak Nursery"
+    },
+    {
+      "invoice": "166925",
+      "date": "2026-08-11",
+      "total": 900.05,
+      "rep": "Matthew",
+      "customer_code": "Lounur",
+      "customer_name": "Louie's Nursery #2"
+    },
+    {
+      "invoice": "166924",
+      "date": "2026-08-11",
+      "total": 1319.21,
+      "rep": "John",
+      "customer_code": "flogard",
+      "customer_name": "Flora Gardens"
+    },
+    {
+      "invoice": "166923",
+      "date": "2026-08-11",
+      "total": 512.35,
+      "rep": "John",
+      "customer_code": "carpvalley",
+      "customer_name": "Carpinteria Valley Lumber Company"
+    },
+    {
+      "invoice": "166922",
+      "date": "2026-08-11",
+      "total": 51.41,
+      "rep": "Tim",
+      "customer_code": "arm705",
+      "customer_name": "Armstrong Garden Center--Long Beach"
+    },
+    {
+      "invoice": "166921",
+      "date": "2026-08-11",
+      "total": 173.19,
+      "rep": "Pick Up",
+      "customer_code": "elides",
+      "customer_name": "Elizabeth Luis Designs"
+    },
+    {
+      "invoice": "166920",
+      "date": "2026-08-11",
+      "total": 242.55,
+      "rep": "In-House",
+      "customer_code": "davarb",
+      "customer_name": "UC Davis Arboretum - Nursery"
+    },
+    {
+      "invoice": "166919",
+      "date": "2026-08-11",
+      "total": 1307.12,
+      "rep": "John",
+      "customer_code": "tsgar",
+      "customer_name": "Terra Sol Garden Center"
+    },
+    {
+      "invoice": "166918",
+      "date": "2026-08-11",
+      "total": 138.03,
+      "rep": "Pick Up",
+      "customer_code": "aslan",
+      "customer_name": "All Seasons Landscape"
+    },
+    {
+      "invoice": "166917",
+      "date": "2026-08-11",
+      "total": 785.97,
+      "rep": "John",
+      "customer_code": "lspat",
+      "customer_name": "La Sumida Patterson"
+    },
+    {
+      "invoice": "166915",
+      "date": "2026-08-11",
+      "total": 1040.48,
+      "rep": "Tim",
+      "customer_code": "csnur",
+      "customer_name": "C & S Nursery"
+    },
+    {
+      "invoice": "166914",
+      "date": "2026-08-11",
+      "total": 653.93,
+      "rep": "Matthew",
+      "customer_code": "wapow",
+      "customer_name": "Walter Andersen Nursery"
+    },
+    {
+      "invoice": "166913",
+      "date": "2026-08-11",
+      "total": 178.7,
+      "rep": "Matthew",
+      "customer_code": "arm759",
+      "customer_name": "Armstrong Garden Center-Rancho Penasquitos"
+    },
+    {
+      "invoice": "166912",
+      "date": "2026-08-11",
+      "total": 1034.57,
       "rep": "Matthew",
       "customer_code": "wapow",
       "customer_name": "Walter Andersen Nursery"
@@ -976,1621 +1440,1021 @@
       "customer_name": "Roger's Gardens"
     },
     {
-      "invoice": "166912",
+      "invoice": "166863",
       "date": "2026-08-11",
-      "total": 1034.57,
+      "total": 88.99,
       "rep": "Matthew",
       "customer_code": "wapow",
       "customer_name": "Walter Andersen Nursery"
     },
     {
-      "invoice": "166913",
-      "date": "2026-08-11",
-      "total": 178.704,
-      "rep": "Matthew",
-      "customer_code": "arm759",
-      "customer_name": "Armstrong Garden Center-Rancho Penasquitos"
-    },
-    {
-      "invoice": "166914",
-      "date": "2026-08-11",
-      "total": 653.93,
-      "rep": "Matthew",
-      "customer_code": "wapow",
-      "customer_name": "Walter Andersen Nursery"
-    },
-    {
-      "invoice": "166915",
-      "date": "2026-08-11",
-      "total": 1040.48,
-      "rep": "Tim",
-      "customer_code": "csnur",
-      "customer_name": "C & S Nursery"
-    },
-    {
-      "invoice": "166916",
-      "date": "2026-08-11",
-      "total": -30.75,
-      "rep": "CRTim",
-      "customer_code": "arm720",
-      "customer_name": "Armstrong Garden Center--Tustin"
-    },
-    {
-      "invoice": "166917",
-      "date": "2026-08-11",
-      "total": 785.97,
-      "rep": "John",
-      "customer_code": "lspat",
-      "customer_name": "La Sumida Patterson"
-    },
-    {
-      "invoice": "166918",
-      "date": "2026-08-11",
-      "total": 138.03075,
-      "rep": "Pick Up",
-      "customer_code": "aslan",
-      "customer_name": "All Seasons Landscape"
-    },
-    {
-      "invoice": "166919",
-      "date": "2026-08-11",
-      "total": 1307.124,
-      "rep": "John",
-      "customer_code": "tsgar",
-      "customer_name": "Terra Sol Garden Center"
-    },
-    {
-      "invoice": "166920",
-      "date": "2026-08-11",
-      "total": 242.55,
-      "rep": "In-House",
-      "customer_code": "davarb",
-      "customer_name": "UC Davis Arboretum - Nursery"
-    },
-    {
-      "invoice": "166921",
-      "date": "2026-08-11",
-      "total": 173.19,
-      "rep": "Pick Up",
-      "customer_code": "elides",
-      "customer_name": "Elizabeth Luis Designs"
-    },
-    {
-      "invoice": "166922",
-      "date": "2026-08-11",
-      "total": 51.408,
-      "rep": "Tim",
-      "customer_code": "arm705",
-      "customer_name": "Armstrong Garden Center--Long Beach"
-    },
-    {
-      "invoice": "166923",
-      "date": "2026-08-11",
-      "total": 512.35,
-      "rep": "John",
-      "customer_code": "carpvalley",
-      "customer_name": "Carpinteria Valley Lumber Company"
-    },
-    {
-      "invoice": "166924",
-      "date": "2026-08-11",
-      "total": 1319.212,
-      "rep": "John",
-      "customer_code": "flogard",
-      "customer_name": "Flora Gardens"
-    },
-    {
-      "invoice": "166925",
-      "date": "2026-08-11",
-      "total": 900.05,
-      "rep": "Matthew",
-      "customer_code": "lounur",
-      "customer_name": "Louie's Nursery #2"
-    },
-    {
-      "invoice": "166926",
-      "date": "2026-08-11",
-      "total": 915.654,
-      "rep": "John",
-      "customer_code": "meioak",
-      "customer_name": "Meiners Oak Nursery"
-    },
-    {
-      "invoice": "166927",
-      "date": "2026-08-11",
-      "total": 665.66,
-      "rep": "Tim",
-      "customer_code": "jjsbac",
-      "customer_name": "JJ's Backyard"
-    },
-    {
-      "invoice": "166928",
-      "date": "2026-08-11",
-      "total": 1161.321,
-      "rep": "Matthew",
-      "customer_code": "arm709",
-      "customer_name": "Armstrong Garden Center--Temecula"
-    },
-    {
-      "invoice": "166929",
-      "date": "2026-08-11",
-      "total": 1235.77,
-      "rep": "Matthew",
-      "customer_code": "cheval",
-      "customer_name": "Cherry Valley Nursery"
-    },
-    {
-      "invoice": "166930",
-      "date": "2026-08-12",
-      "total": 1417.14,
-      "rep": "John",
-      "customer_code": "gtv",
-      "customer_name": "Green Thumb International Nursery--Ventura"
-    },
-    {
-      "invoice": "166931",
-      "date": "2026-08-12",
-      "total": 140.4,
-      "rep": "John",
-      "customer_code": "gtv",
-      "customer_name": "Green Thumb International Nursery--Ventura"
-    },
-    {
-      "invoice": "166932",
-      "date": "2026-08-12",
-      "total": -311.95,
-      "rep": "CRTim",
-      "customer_code": "arm751",
-      "customer_name": "Armstrong Garden Center--Costa Mesa"
-    },
-    {
-      "invoice": "166933",
-      "date": "2026-08-12",
-      "total": 163.296,
-      "rep": "John",
-      "customer_code": "tsgar",
-      "customer_name": "Terra Sol Garden Center"
-    },
-    {
-      "invoice": "166934",
-      "date": "2026-08-12",
-      "total": 867.456,
-      "rep": "John",
-      "customer_code": "aghg",
-      "customer_name": "True Value Arroyo Grande Home & Garden"
-    },
-    {
-      "invoice": "166935",
-      "date": "2026-08-12",
-      "total": 126.2,
-      "rep": "John",
-      "customer_code": "lumgar",
-      "customer_name": "ProBuilding Holdings LLC."
-    },
-    {
-      "invoice": "166936",
-      "date": "2026-08-12",
-      "total": 15.444,
-      "rep": "Pick Up",
-      "customer_code": "stevmul",
-      "customer_name": "Steve Mullany"
-    },
-    {
-      "invoice": "166937",
-      "date": "2026-08-12",
-      "total": 919.512,
-      "rep": "John",
-      "customer_code": "mahmb",
-      "customer_name": "Miner's Ace Hardware--Morro Bay"
-    },
-    {
-      "invoice": "166938",
-      "date": "2026-08-12",
-      "total": 811.36,
-      "rep": "In-House",
-      "customer_code": "dmnur",
-      "customer_name": "Devil Mountain Wholesale Nursery--San Ramon"
-    },
-    {
-      "invoice": "166939",
-      "date": "2026-08-12",
-      "total": 74.088,
-      "rep": "In-House",
-      "customer_code": "dmnur",
-      "customer_name": "Devil Mountain Wholesale Nursery--San Ramon"
-    },
-    {
-      "invoice": "166940",
-      "date": "2026-08-13",
-      "total": 108.108,
-      "rep": "Pick Up",
-      "customer_code": "lowh2o",
-      "customer_name": "Low H2O Landscaping"
-    },
-    {
-      "invoice": "166941",
-      "date": "2026-08-13",
-      "total": 450.5787,
-      "rep": "Pick Up",
-      "customer_code": "soland",
-      "customer_name": "Kilcoyne Landscapes (Sustainable Organic)"
-    },
-    {
-      "invoice": "166942",
-      "date": "2026-08-13",
-      "total": 60.81075,
-      "rep": "Pick Up",
-      "customer_code": "nslan",
-      "customer_name": "Nichols and Smyth Landscape Co."
-    },
-    {
-      "invoice": "166943",
-      "date": "2026-08-14",
-      "total": 26.930475,
-      "rep": "Pick Up",
-      "customer_code": "aslan",
-      "customer_name": "All Seasons Landscape"
-    },
-    {
-      "invoice": "166944",
-      "date": "2026-08-14",
-      "total": 139.425,
-      "rep": "Pick Up",
-      "customer_code": "earland",
-      "customer_name": "Earthtones Landscaping"
-    },
-    {
-      "invoice": "166945",
-      "date": "2026-08-14",
-      "total": 67.88925,
-      "rep": "Pick Up",
-      "customer_code": "cityart",
-      "customer_name": "City Art Plant Studio"
-    },
-    {
-      "invoice": "166946",
-      "date": "2026-08-14",
-      "total": 585.156,
-      "rep": "In-House",
-      "customer_code": "rogped",
-      "customer_name": "Rogers and Pedersen Construction, Inc."
-    },
-    {
-      "invoice": "166947",
-      "date": "2026-08-14",
-      "total": 54.054,
-      "rep": "Pick Up",
-      "customer_code": "janlan",
-      "customer_name": "Jane's Landscaping"
-    },
-    {
-      "invoice": "166948",
-      "date": "2026-08-14",
-      "total": 290.057625,
-      "rep": "Pick Up",
-      "customer_code": "livdes",
-      "customer_name": "Living Design"
-    },
-    {
-      "invoice": "166949",
-      "date": "2026-08-16",
-      "total": 1380.432,
-      "rep": "Tim",
-      "customer_code": "arm751",
-      "customer_name": "Armstrong Garden Center--Costa Mesa"
-    },
-    {
-      "invoice": "166950",
-      "date": "2026-08-16",
-      "total": 1546.422,
-      "rep": "Tim",
-      "customer_code": "arm736",
-      "customer_name": "Armstrong Garden Center--H.B. South"
-    },
-    {
-      "invoice": "166951",
-      "date": "2026-08-16",
-      "total": 644.844,
-      "rep": "Tim",
-      "customer_code": "arm736",
-      "customer_name": "Armstrong Garden Center--H.B. South"
-    },
-    {
-      "invoice": "166952",
-      "date": "2026-08-16",
-      "total": 1707.072,
-      "rep": "Tim",
-      "customer_code": "arm702",
-      "customer_name": "Armstrong Garden Center--Santa Monica"
-    },
-    {
-      "invoice": "166953",
-      "date": "2026-08-16",
-      "total": 1408.62,
-      "rep": "Tim",
-      "customer_code": "arm702",
-      "customer_name": "Armstrong Garden Center--Santa Monica"
-    },
-    {
-      "invoice": "166954",
-      "date": "2026-08-16",
-      "total": 1542.189,
-      "rep": "Tim",
-      "customer_code": "arm735",
-      "customer_name": "Armstrong Garden Center--Westchester"
-    },
-    {
-      "invoice": "166955",
-      "date": "2026-08-16",
-      "total": 152.898,
-      "rep": "Tim",
-      "customer_code": "arm735",
-      "customer_name": "Armstrong Garden Center--Westchester"
-    },
-    {
-      "invoice": "166956",
-      "date": "2026-08-16",
-      "total": 1586.424,
-      "rep": "Tim",
-      "customer_code": "intgar",
-      "customer_name": "International Garden Center, Inc."
-    },
-    {
-      "invoice": "166957",
-      "date": "2026-08-16",
-      "total": 460.04,
-      "rep": "Tim",
-      "customer_code": "intgar",
-      "customer_name": "International Garden Center, Inc."
-    },
-    {
-      "invoice": "166958",
-      "date": "2026-08-16",
-      "total": 1428.714,
-      "rep": "Tim",
-      "customer_code": "arm707",
-      "customer_name": "Armstrong Garden Center--Torrance"
-    },
-    {
-      "invoice": "166959",
-      "date": "2026-08-16",
-      "total": 502.86,
-      "rep": "Tim",
-      "customer_code": "arm707",
-      "customer_name": "Armstrong Garden Center--Torrance"
-    },
-    {
-      "invoice": "166960",
-      "date": "2026-08-17",
-      "total": 835.25,
-      "rep": "John",
-      "customer_code": "paynur",
-      "customer_name": "Payless Nursery"
-    },
-    {
-      "invoice": "166961",
-      "date": "2026-08-17",
-      "total": 1229.928,
-      "rep": "In-House",
-      "customer_code": "ucirv",
-      "customer_name": "University of California Irvine Arboretum"
-    },
-    {
-      "invoice": "166962",
-      "date": "2026-08-17",
-      "total": 2392.984,
-      "rep": "Tim",
-      "customer_code": "jjsbac",
-      "customer_name": "JJ's Backyard"
-    },
-    {
-      "invoice": "166963",
-      "date": "2026-08-17",
-      "total": 1073.907,
-      "rep": "Tim",
-      "customer_code": "arm705",
-      "customer_name": "Armstrong Garden Center--Long Beach"
-    },
-    {
-      "invoice": "166964",
-      "date": "2026-08-17",
-      "total": 31.875,
-      "rep": "Tim",
-      "customer_code": "arm303",
-      "customer_name": "Armstrong Garden Center-San Juan Capistrano yard"
-    },
-    {
-      "invoice": "166965",
-      "date": "2026-08-17",
-      "total": 966.112,
-      "rep": "John",
-      "customer_code": "ladgar",
-      "customer_name": "Ladera Garden Center"
-    },
-    {
-      "invoice": "166966",
-      "date": "2026-08-17",
-      "total": 1093.4,
-      "rep": "In-House",
-      "customer_code": "sumpal",
-      "customer_name": "SummerWinds Garden Centers, Inc."
-    },
-    {
-      "invoice": "166967",
-      "date": "2026-08-17",
-      "total": 40.0,
-      "rep": "Rainie",
-      "customer_code": "Betty",
-      "customer_name": "Betty's Field"
-    },
-    {
-      "invoice": "166968",
-      "date": "2026-08-17",
-      "total": 50.193,
-      "rep": "Pick Up",
-      "customer_code": "dglan",
-      "customer_name": "Danny George Landscape Contractor"
-    },
-    {
-      "invoice": "166969",
-      "date": "2026-08-17",
-      "total": 314.47845,
-      "rep": "In-House",
-      "customer_code": "rrm",
-      "customer_name": "RRM Design Group"
-    },
-    {
-      "invoice": "166970",
-      "date": "2026-08-17",
-      "total": 961.299,
-      "rep": "Tim",
-      "customer_code": "arm714",
-      "customer_name": "Armstrong Garden Center--La Habra"
-    },
-    {
-      "invoice": "166971",
-      "date": "2026-08-17",
-      "total": 1209.064,
-      "rep": "In-House",
-      "customer_code": "dmpet",
-      "customer_name": "Devil Mountain Wholesale Nursery--Petaluma"
-    },
-    {
-      "invoice": "166972",
-      "date": "2026-08-17",
-      "total": 3067.492,
-      "rep": "Matthew",
-      "customer_code": "gtcp",
-      "customer_name": "Green Thumb Growing Grounds"
-    },
-    {
-      "invoice": "166973",
-      "date": "2026-08-17",
-      "total": 900.35,
-      "rep": "Tim",
-      "customer_code": "hhnur",
-      "customer_name": "H & H Nursery"
-    },
-    {
-      "invoice": "166974",
-      "date": "2026-08-17",
-      "total": 1051.232,
-      "rep": "John",
-      "customer_code": "glace",
-      "customer_name": "Grand Lake Ace Hardware Inc. and Garden Center"
-    },
-    {
-      "invoice": "166975",
-      "date": "2026-08-17",
-      "total": 288.12,
-      "rep": "John",
-      "customer_code": "glace",
-      "customer_name": "Grand Lake Ace Hardware Inc. and Garden Center"
-    },
-    {
-      "invoice": "166976",
-      "date": "2026-08-17",
-      "total": 85.424625,
-      "rep": "In-House",
-      "customer_code": "kggardens",
-      "customer_name": "K & G Gardens"
-    },
-    {
-      "invoice": "166977",
-      "date": "2026-08-17",
-      "total": 1048.37,
-      "rep": "Tim",
-      "customer_code": "ortgar",
-      "customer_name": "Orta Garden Supply"
-    },
-    {
-      "invoice": "166978",
-      "date": "2026-08-17",
-      "total": 1482.88,
-      "rep": "Matthew",
-      "customer_code": "sgnur",
-      "customer_name": "San Gabriel Nursery and Florist"
-    },
-    {
-      "invoice": "166979",
-      "date": "2026-08-17",
-      "total": 207.978,
-      "rep": "Tim",
-      "customer_code": "arm751",
-      "customer_name": "Armstrong Garden Center--Costa Mesa"
-    },
-    {
-      "invoice": "166980",
-      "date": "2026-08-17",
-      "total": 1269.8,
-      "rep": "John",
-      "customer_code": "sloat16",
-      "customer_name": "Sloat Garden Center--Camino Ramon"
-    },
-    {
-      "invoice": "166981",
-      "date": "2026-08-17",
-      "total": 830.227,
-      "rep": "In-House",
-      "customer_code": "lusdry",
-      "customer_name": "Lush Dry Gardens"
-    },
-    {
-      "invoice": "166982",
-      "date": "2026-08-17",
-      "total": 38.61,
-      "rep": "Pick Up",
-      "customer_code": "parenv",
-      "customer_name": "Paradise Environments"
-    },
-    {
-      "invoice": "166983",
-      "date": "2026-08-17",
-      "total": 36.196875,
-      "rep": "Pick Up",
-      "customer_code": "parenv",
-      "customer_name": "Paradise Environments"
-    },
-    {
-      "invoice": "166984",
-      "date": "2026-08-17",
-      "total": 1112.82,
-      "rep": "Tim",
-      "customer_code": "arm705",
-      "customer_name": "Armstrong Garden Center--Long Beach"
-    },
-    {
-      "invoice": "166985",
-      "date": "2026-08-17",
-      "total": 72.2436,
-      "rep": "Pick Up",
-      "customer_code": "taklan",
-      "customer_name": "Takahashi Landscaping and Maintenance"
-    },
-    {
-      "invoice": "166986",
-      "date": "2026-08-17",
-      "total": 236.334,
-      "rep": "Tim",
-      "customer_code": "arm307",
-      "customer_name": "Armstrong Garden Center--Long Beach yard"
-    },
-    {
-      "invoice": "166987",
-      "date": "2026-08-17",
-      "total": 1251.6,
-      "rep": "John",
-      "customer_code": "flogc",
-      "customer_name": "Flowercraft Garden Center"
-    },
-    {
-      "invoice": "166988",
-      "date": "2026-08-17",
-      "total": 3.861,
+      "invoice": "166910",
+      "date": "2026-08-10",
+      "total": 7.35,
       "rep": "Pick Up",
       "customer_code": "siegar",
-      "customer_name": "Sierra Landscape Management (CREDIT OF $2.65)"
+      "customer_name": "Sierra Landscape Management"
     },
     {
-      "invoice": "166989",
-      "date": "2026-08-17",
-      "total": 776.91,
-      "rep": "Tim",
-      "customer_code": "roggar",
-      "customer_name": "Roger's Gardens"
-    },
-    {
-      "invoice": "166990",
-      "date": "2026-08-18",
-      "total": 1162.896,
-      "rep": "John",
-      "customer_code": "capnur",
-      "customer_name": "Capitol Wholesale Nursery"
-    },
-    {
-      "invoice": "166991",
-      "date": "2026-08-18",
-      "total": 2176.384,
-      "rep": "Tim",
-      "customer_code": "cpghb",
-      "customer_name": "Certified Plant Growers - Huntington Beach"
-    },
-    {
-      "invoice": "166992",
-      "date": "2026-08-18",
-      "total": -721.35,
-      "rep": "CRTim",
-      "customer_code": "arm720",
-      "customer_name": "Armstrong Garden Center--Tustin"
-    },
-    {
-      "invoice": "166993",
-      "date": "2026-08-18",
-      "total": -252.0,
-      "rep": "CRMatthew",
-      "customer_code": "arm752",
-      "customer_name": "Armstrong Garden Center--Morena"
-    },
-    {
-      "invoice": "166994",
-      "date": "2026-08-18",
-      "total": 3511.2,
-      "rep": "In-House",
-      "customer_code": "carbor",
-      "customer_name": "Carol Bornstein"
-    },
-    {
-      "invoice": "166995",
-      "date": "2026-08-18",
-      "total": 3511.2,
-      "rep": "In-House",
-      "customer_code": "eastbot",
-      "customer_name": "Bart O'Brien"
-    },
-    {
-      "invoice": "166996",
-      "date": "2026-08-18",
-      "total": -88.2,
-      "rep": "CRTim",
-      "customer_code": "arm736",
-      "customer_name": "Armstrong Garden Center--H.B. South"
-    },
-    {
-      "invoice": "166997",
-      "date": "2026-08-18",
-      "total": 1418.816,
-      "rep": "Tim",
-      "customer_code": "pladep",
-      "customer_name": "Plant Depot"
-    },
-    {
-      "invoice": "166998",
-      "date": "2026-08-18",
-      "total": 2396.912,
-      "rep": "Tim",
-      "customer_code": "pladep",
-      "customer_name": "Plant Depot"
-    },
-    {
-      "invoice": "166999",
-      "date": "2026-08-18",
-      "total": 821.62,
-      "rep": "Tim",
-      "customer_code": "seagro",
-      "customer_name": "Seaside Growers Nursery"
-    },
-    {
-      "invoice": "167000",
-      "date": "2026-08-18",
-      "total": -170.1,
-      "rep": "CRTim",
-      "customer_code": "arm723",
-      "customer_name": "Armstrong Garden Center--Glendora"
-    },
-    {
-      "invoice": "167001",
-      "date": "2026-08-18",
-      "total": 1252.764,
-      "rep": "Tim",
-      "customer_code": "arm761",
-      "customer_name": "Armstrong Garden Center--San Juan Capistrano"
-    },
-    {
-      "invoice": "167002",
-      "date": "2026-08-18",
-      "total": 3902.765625,
-      "rep": "Tim",
-      "customer_code": "sperber",
-      "customer_name": "Sperber"
-    },
-    {
-      "invoice": "167003",
-      "date": "2026-08-18",
-      "total": 80.4375,
-      "rep": "Pick Up",
-      "customer_code": "balmar",
-      "customer_name": "Baldo Martinez"
-    },
-    {
-      "invoice": "167004",
-      "date": "2026-08-18",
-      "total": 56.448,
-      "rep": "Tim",
-      "customer_code": "pladep",
-      "customer_name": "Plant Depot"
-    },
-    {
-      "invoice": "167005",
-      "date": "2026-08-18",
-      "total": -60.0,
-      "rep": "CRTim",
-      "customer_code": "arm705",
-      "customer_name": "Armstrong Garden Center--Long Beach"
-    },
-    {
-      "invoice": "167006",
-      "date": "2026-08-18",
-      "total": 36.6795,
-      "rep": "Pick Up",
-      "customer_code": "quilan",
-      "customer_name": "Quintana's Landscape"
-    },
-    {
-      "invoice": "167007",
-      "date": "2026-08-18",
-      "total": 227.3271,
-      "rep": "Pick Up",
-      "customer_code": "rhyroo",
-      "customer_name": "Rhythm & Roots Landscape"
-    },
-    {
-      "invoice": "167008",
-      "date": "2026-08-18",
-      "total": 30.641325,
-      "rep": "Pick Up",
-      "customer_code": "aslan",
-      "customer_name": "All Seasons Landscape"
-    },
-    {
-      "invoice": "167009",
-      "date": "2026-08-18",
-      "total": 3247.16,
-      "rep": "John",
-      "customer_code": "cnl",
-      "customer_name": "CNL Native Plant Nursery"
-    },
-    {
-      "invoice": "167010",
-      "date": "2026-08-18",
-      "total": -180.0,
-      "rep": "CRTim",
-      "customer_code": "arm751",
-      "customer_name": "Armstrong Garden Center--Costa Mesa"
-    },
-    {
-      "invoice": "167011",
-      "date": "2026-08-19",
-      "total": 419.832,
-      "rep": "In-House",
-      "customer_code": "dmnur",
-      "customer_name": "Devil Mountain Wholesale Nursery--San Ramon"
-    },
-    {
-      "invoice": "167012",
-      "date": "2026-08-19",
-      "total": 1157.2,
-      "rep": "In-House",
-      "customer_code": "dmnur",
-      "customer_name": "Devil Mountain Wholesale Nursery--San Ramon"
-    },
-    {
-      "invoice": "167013",
-      "date": "2026-08-19",
-      "total": 672.360975,
-      "rep": "In-House",
-      "customer_code": "paulgar",
-      "customer_name": "Paul's Gardening & Maintenance $2.59 Credit"
-    },
-    {
-      "invoice": "167014",
-      "date": "2026-08-19",
-      "total": 398.762,
-      "rep": "Tim",
-      "customer_code": "jjsbac",
-      "customer_name": "JJ's Backyard"
-    },
-    {
-      "invoice": "167015",
-      "date": "2026-08-19",
-      "total": 1152.592,
-      "rep": "John",
-      "customer_code": "ebnur",
-      "customer_name": "East Bay Nursery Inc."
-    },
-    {
-      "invoice": "167016",
-      "date": "2026-08-19",
-      "total": 44.8305,
-      "rep": "Pick Up",
-      "customer_code": "jdlan",
-      "customer_name": "J. Doyle Landscaping"
-    },
-    {
-      "invoice": "167017",
-      "date": "2026-08-19",
-      "total": 970.928,
-      "rep": "Tim",
-      "customer_code": "lanur",
-      "customer_name": "Lincoln Avenue Nursery"
-    },
-    {
-      "invoice": "167018",
-      "date": "2026-08-19",
-      "total": 1003.17,
-      "rep": "Tim",
-      "customer_code": "arm728",
-      "customer_name": "Armstrong Garden Center--La Canada"
-    },
-    {
-      "invoice": "167019",
-      "date": "2026-08-19",
-      "total": 1189.728,
-      "rep": "Tim",
-      "customer_code": "arm737",
-      "customer_name": "Armstrong Garden Center--Pasadena"
-    },
-    {
-      "invoice": "167020",
-      "date": "2026-08-19",
-      "total": 40.5405,
-      "rep": "Pick Up",
-      "customer_code": "togar",
-      "customer_name": "Tolosa Gardens and Landscapes, Inc."
-    },
-    {
-      "invoice": "167021",
-      "date": "2026-08-19",
-      "total": 361.96875,
-      "rep": "In-House",
-      "customer_code": "raucon",
-      "customer_name": "Raudes Construction"
-    },
-    {
-      "invoice": "167022",
-      "date": "2026-08-19",
-      "total": -12.5,
-      "rep": "John",
-      "customer_code": "cnl",
-      "customer_name": "CNL Native Plant Nursery"
-    },
-    {
-      "invoice": "167023",
-      "date": "2026-08-19",
-      "total": 1134.036,
-      "rep": "Matthew",
-      "customer_code": "arm704",
-      "customer_name": "Armstrong Garden Center--Thousand Oaks"
-    },
-    {
-      "invoice": "167024",
-      "date": "2026-08-19",
-      "total": 313.395,
-      "rep": "Matthew",
-      "customer_code": "arm704",
-      "customer_name": "Armstrong Garden Center--Thousand Oaks"
-    },
-    {
-      "invoice": "167025",
-      "date": "2026-08-19",
-      "total": 30.888,
+      "invoice": "166909",
+      "date": "2026-08-10",
+      "total": 46.33,
       "rep": "Pick Up",
       "customer_code": "seelan",
       "customer_name": "Seelos Design & Construction"
     },
     {
-      "invoice": "167026",
-      "date": "2026-08-19",
-      "total": 1283.52,
-      "rep": "John",
-      "customer_code": "yamnur",
-      "customer_name": "Yamagami's Nursery"
-    },
-    {
-      "invoice": "167027",
-      "date": "2026-08-19",
-      "total": 660.8,
-      "rep": "John",
-      "customer_code": "yamnur",
-      "customer_name": "Yamagami's Nursery"
-    },
-    {
-      "invoice": "167028",
-      "date": "2026-08-19",
-      "total": 1059.296,
-      "rep": "John",
-      "customer_code": "flownur",
-      "customer_name": "Flowerland"
-    },
-    {
-      "invoice": "167029",
-      "date": "2026-08-19",
-      "total": 366.912,
-      "rep": "John",
-      "customer_code": "flownur",
-      "customer_name": "Flowerland"
-    },
-    {
-      "invoice": "167030",
-      "date": "2026-08-20",
-      "total": 902.42,
-      "rep": "John",
-      "customer_code": "lumgar",
-      "customer_name": "ProBuilding Holdings LLC."
-    },
-    {
-      "invoice": "167031",
-      "date": "2026-08-20",
-      "total": 1249.64,
-      "rep": "John",
-      "customer_code": "prihea",
-      "customer_name": "Prickett's Nursery"
-    },
-    {
-      "invoice": "167032",
-      "date": "2026-08-20",
-      "total": 20.592,
-      "rep": "Pick Up",
-      "customer_code": "jwhlan",
-      "customer_name": "Jeff White Landscape"
-    },
-    {
-      "invoice": "167033",
-      "date": "2026-08-20",
-      "total": 1346.576,
-      "rep": "John",
-      "customer_code": "prihea",
-      "customer_name": "Prickett's Nursery"
-    },
-    {
-      "invoice": "167034",
-      "date": "2026-08-20",
-      "total": 1790.03,
-      "rep": "John",
-      "customer_code": "vhnur",
-      "customer_name": "Valley Hills Nursery"
-    },
-    {
-      "invoice": "167035",
-      "date": "2026-08-20",
-      "total": -43.5,
-      "rep": "CRTim",
-      "customer_code": "arm728",
-      "customer_name": "Armstrong Garden Center--La Canada"
-    },
-    {
-      "invoice": "167036",
-      "date": "2026-08-20",
-      "total": 1226.775,
-      "rep": "John",
-      "customer_code": "cvnur",
-      "customer_name": "Griggs Nursery Carmel Valley"
-    },
-    {
-      "invoice": "167037",
-      "date": "2026-08-20",
-      "total": 65.35,
-      "rep": "Pick Up",
-      "customer_code": "thegre",
-      "customer_name": "The Green Vase"
-    },
-    {
-      "invoice": "167038",
-      "date": "2026-08-21",
-      "total": 447.29685,
-      "rep": "Pick Up",
-      "customer_code": "wilblo",
-      "customer_name": "Wild Bloom Sustainable Landscaping & Design"
-    },
-    {
-      "invoice": "167039",
-      "date": "2026-08-21",
-      "total": 20.988825,
-      "rep": "Pick Up",
-      "customer_code": "robbro",
-      "customer_name": "Robert Bronte"
-    },
-    {
-      "invoice": "167040",
-      "date": "2026-08-21",
-      "total": 99.20625,
-      "rep": "Pick Up",
-      "customer_code": "nomhot",
-      "customer_name": "Nomada Hotel Group"
-    },
-    {
-      "invoice": "167041",
-      "date": "2026-08-21",
-      "total": 714.0,
-      "rep": "Tim",
-      "customer_code": "arm705",
-      "customer_name": "Armstrong Garden Center--Long Beach"
-    },
-    {
-      "invoice": "167052",
-      "date": "2026-08-22",
-      "total": 180.0,
-      "rep": "Rainie",
-      "customer_code": "Betty",
-      "customer_name": "Betty's Field"
-    },
-    {
-      "invoice": "167042",
-      "date": "2026-08-23",
-      "total": 1394.85,
-      "rep": "Tim",
-      "customer_code": "arm726",
-      "customer_name": "Armstrong Garden Center--Monrovia"
-    },
-    {
-      "invoice": "167043",
-      "date": "2026-08-23",
-      "total": 25.092,
-      "rep": "Tim",
-      "customer_code": "arm726",
-      "customer_name": "Armstrong Garden Center--Monrovia"
-    },
-    {
-      "invoice": "167044",
-      "date": "2026-08-24",
-      "total": 256.273875,
-      "rep": "Pick Up",
-      "customer_code": "drsam",
-      "customer_name": "Samantha Dowdall"
-    },
-    {
-      "invoice": "167045",
-      "date": "2026-08-24",
-      "total": 1423.856,
-      "rep": "John",
-      "customer_code": "oaknat",
-      "customer_name": "Oaktown Native Plant Nursery"
-    },
-    {
-      "invoice": "167046",
-      "date": "2026-08-24",
-      "total": 72.165,
-      "rep": "Tim",
-      "customer_code": "arm302",
-      "customer_name": "Armstrong Garden Center-Morena yard"
-    },
-    {
-      "invoice": "167047",
-      "date": "2026-08-24",
-      "total": 1223.824,
-      "rep": "John",
-      "customer_code": "sloat17",
-      "customer_name": "Sloat Garden Center--Alhambra"
-    },
-    {
-      "invoice": "167048",
-      "date": "2026-08-24",
-      "total": 942.816,
-      "rep": "John",
-      "customer_code": "gjgar",
-      "customer_name": "Green Jeans Garden Supply"
-    },
-    {
-      "invoice": "167049",
-      "date": "2026-08-24",
-      "total": 158.301,
-      "rep": "Pick Up",
-      "customer_code": "jbmer",
-      "customer_name": "J & B Mercado Landscape"
-    },
-    {
-      "invoice": "167050",
-      "date": "2026-08-24",
-      "total": 109.0,
-      "rep": "John",
-      "customer_code": "prihea",
-      "customer_name": "Prickett's Nursery"
-    },
-    {
-      "invoice": "167051",
-      "date": "2026-08-24",
-      "total": 210.0,
-      "rep": "Rainie",
-      "customer_code": "Betty",
-      "customer_name": "Betty's Field"
-    },
-    {
-      "invoice": "167053",
-      "date": "2026-08-24",
-      "total": 179.1504,
-      "rep": "In-House",
-      "customer_code": "norwin",
-      "customer_name": "North Winds Consulting"
-    },
-    {
-      "invoice": "167054",
-      "date": "2026-08-24",
-      "total": 115.8,
-      "rep": "John",
-      "customer_code": "ednur",
-      "customer_name": "Eye of the Day"
-    },
-    {
-      "invoice": "167055",
-      "date": "2026-08-24",
-      "total": 799.1,
-      "rep": "John",
-      "customer_code": "ednur",
-      "customer_name": "Eye of the Day"
-    },
-    {
-      "invoice": "167056",
-      "date": "2026-08-24",
-      "total": 1172.4,
-      "rep": "John",
-      "customer_code": "calflo",
-      "customer_name": "California Flora Nursery"
-    },
-    {
-      "invoice": "167057",
-      "date": "2026-08-24",
-      "total": 897.96,
-      "rep": "John",
-      "customer_code": "lumgar",
-      "customer_name": "ProBuilding Holdings LLC."
-    },
-    {
-      "invoice": "167058",
-      "date": "2026-08-24",
-      "total": 389.6178,
-      "rep": "Pick Up",
-      "customer_code": "grolan",
-      "customer_name": "Groundworks Landscape Co."
-    },
-    {
-      "invoice": "167059",
-      "date": "2026-08-24",
-      "total": 586.014,
-      "rep": "Pick Up",
-      "customer_code": "rhyroo",
-      "customer_name": "Rhythm & Roots Landscape"
-    },
-    {
-      "invoice": "167060",
-      "date": "2026-08-24",
-      "total": 357.56,
-      "rep": "John",
-      "customer_code": "ebnur",
-      "customer_name": "East Bay Nursery Inc."
-    },
-    {
-      "invoice": "167061",
-      "date": "2026-08-24",
-      "total": 50.48,
-      "rep": "John",
-      "customer_code": "lumgar",
-      "customer_name": "ProBuilding Holdings LLC."
-    },
-    {
-      "invoice": "167062",
-      "date": "2026-08-24",
-      "total": 929.94,
-      "rep": "Tim",
-      "customer_code": "roggar",
-      "customer_name": "Roger's Gardens"
-    },
-    {
-      "invoice": "167063",
-      "date": "2026-08-24",
-      "total": 1336.56,
-      "rep": "Matthew",
-      "customer_code": "alcnur",
-      "customer_name": "Anderson's La Costa Nursery"
-    },
-    {
-      "invoice": "167064",
-      "date": "2026-08-24",
-      "total": -140.1,
-      "rep": "CRMatthew",
-      "customer_code": "arm716",
-      "customer_name": "Armstrong Garden Center--Encinitas"
-    },
-    {
-      "invoice": "167065",
-      "date": "2026-08-24",
-      "total": -60.0,
-      "rep": "CRMatthew",
-      "customer_code": "arm709",
-      "customer_name": "Armstrong Garden Center--Temecula"
-    },
-    {
-      "invoice": "167066",
-      "date": "2026-08-24",
-      "total": 1060.668,
-      "rep": "John",
-      "customer_code": "lovnur",
-      "customer_name": "Los Osos Valley Nursery"
-    },
-    {
-      "invoice": "167067",
-      "date": "2026-08-24",
-      "total": 980.694,
-      "rep": "John",
-      "customer_code": "fsslo",
-      "customer_name": "Farm Supply Co.--S.L.O."
-    },
-    {
-      "invoice": "167068",
-      "date": "2026-08-24",
-      "total": 970.218,
-      "rep": "John",
-      "customer_code": "blgar",
-      "customer_name": "Bay Laurel Nursery and Garden Center, Inc."
-    },
-    {
-      "invoice": "167069",
-      "date": "2026-08-24",
-      "total": 1133.832,
-      "rep": "Matthew",
-      "customer_code": "arm716",
-      "customer_name": "Armstrong Garden Center--Encinitas"
-    },
-    {
-      "invoice": "167070",
-      "date": "2026-08-24",
-      "total": 688.9,
-      "rep": "Tim",
-      "customer_code": "pladep",
-      "customer_name": "Plant Depot"
-    },
-    {
-      "invoice": "167071",
-      "date": "2026-08-25",
-      "total": 2135.392,
-      "rep": "John",
-      "customer_code": "sloat1",
-      "customer_name": "Sloat Garden Center--Sloat Boulevard"
-    },
-    {
-      "invoice": "167072",
-      "date": "2026-08-25",
-      "total": 1099.548,
-      "rep": "John",
-      "customer_code": "tsgar",
-      "customer_name": "Terra Sol Garden Center"
-    },
-    {
-      "invoice": "167073",
-      "date": "2026-08-25",
-      "total": 373.55175,
-      "rep": "In-House",
-      "customer_code": "rrm",
-      "customer_name": "RRM Design Group"
-    },
-    {
-      "invoice": "167074",
-      "date": "2026-08-25",
-      "total": 87.83775,
-      "rep": "Pick Up",
-      "customer_code": "mmlan",
-      "customer_name": "Arroyo Grande Montessori School"
-    },
-    {
-      "invoice": "167075",
-      "date": "2026-08-25",
-      "total": 543.85,
-      "rep": "John",
-      "customer_code": "carpvalley",
-      "customer_name": "Carpinteria Valley Lumber Company"
-    },
-    {
-      "invoice": "167076",
-      "date": "2026-08-25",
-      "total": 253.3,
-      "rep": "Pick Up",
-      "customer_code": "elides",
-      "customer_name": "Elizabeth Luis Designs"
-    },
-    {
-      "invoice": "167077",
-      "date": "2026-08-25",
-      "total": 1001.13,
-      "rep": "Tim",
-      "customer_code": "arm712",
-      "customer_name": "Armstrong Garden Center--Yorba Linda"
-    },
-    {
-      "invoice": "167078",
-      "date": "2026-08-25",
-      "total": 389.25,
-      "rep": "Pick Up",
-      "customer_code": "forlan",
-      "customer_name": "Fortini, Inc."
-    },
-    {
-      "invoice": "167079",
-      "date": "2026-08-25",
-      "total": 653.85,
-      "rep": "Pick Up",
-      "customer_code": "forlan",
-      "customer_name": "Fortini, Inc."
-    },
-    {
-      "invoice": "167080",
-      "date": "2026-08-25",
-      "total": 259.941825,
-      "rep": "Pick Up",
-      "customer_code": "botnov",
-      "customer_name": "Botanica Nova"
-    },
-    {
-      "invoice": "167081",
-      "date": "2026-08-25",
-      "total": 904.0,
-      "rep": "Matthew",
-      "customer_code": "pargar",
-      "customer_name": "Paradise Garden Center"
-    },
-    {
-      "invoice": "167082",
-      "date": "2026-08-25",
-      "total": 1409.51,
-      "rep": "Matthew",
-      "customer_code": "wapow",
-      "customer_name": "Walter Andersen Nursery"
-    },
-    {
-      "invoice": "167083",
-      "date": "2026-08-25",
-      "total": 843.236,
-      "rep": "John",
-      "customer_code": "abenur",
-      "customer_name": "Abe Nursery, Inc."
-    },
-    {
-      "invoice": "167084",
-      "date": "2026-08-25",
-      "total": 40.8,
-      "rep": "Matthew",
-      "customer_code": "arm715",
-      "customer_name": "Armstrong Garden Center--Del Mar"
-    },
-    {
-      "invoice": "167085",
-      "date": "2026-08-25",
-      "total": 394.94,
-      "rep": "Matthew",
-      "customer_code": "wapow",
-      "customer_name": "Walter Andersen Nursery"
-    },
-    {
-      "invoice": "167086",
-      "date": "2026-08-25",
-      "total": 104.729625,
-      "rep": "Pick Up",
-      "customer_code": "botnov",
-      "customer_name": "Botanica Nova"
-    },
-    {
-      "invoice": "167087",
-      "date": "2026-08-25",
-      "total": 943.092,
-      "rep": "Tim",
-      "customer_code": "arm723",
-      "customer_name": "Armstrong Garden Center--Glendora"
-    },
-    {
-      "invoice": "167088",
-      "date": "2026-08-26",
-      "total": -107.1,
-      "rep": "CRTim",
-      "customer_code": "arm723",
-      "customer_name": "Armstrong Garden Center--Glendora"
-    },
-    {
-      "invoice": "167089",
-      "date": "2026-08-26",
-      "total": 2309.472,
-      "rep": "John",
-      "customer_code": "seagar",
-      "customer_name": "Seaside Gardens"
-    },
-    {
-      "invoice": "167090",
-      "date": "2026-08-26",
-      "total": 2281.048,
-      "rep": "Tim",
-      "customer_code": "jjsbac",
-      "customer_name": "JJ's Backyard"
-    },
-    {
-      "invoice": "167091",
-      "date": "2026-08-26",
-      "total": 1147.46,
-      "rep": "Matthew",
-      "customer_code": "bbgar",
-      "customer_name": "Barrels and Branches"
-    },
-    {
-      "invoice": "167092",
-      "date": "2026-08-26",
-      "total": 329.34,
-      "rep": "Matthew",
-      "customer_code": "bbgar",
-      "customer_name": "Barrels and Branches"
-    },
-    {
-      "invoice": "167093",
-      "date": "2026-08-26",
-      "total": 1796.6,
-      "rep": "John",
-      "customer_code": "winnur",
-      "customer_name": "Windmill Nursery"
-    },
-    {
-      "invoice": "167094",
-      "date": "2026-08-26",
-      "total": 516.936,
-      "rep": "Tim",
-      "customer_code": "arm712",
-      "customer_name": "Armstrong Garden Center--Yorba Linda"
-    },
-    {
-      "invoice": "167095",
-      "date": "2026-08-26",
-      "total": 654.36,
-      "rep": "Tim",
-      "customer_code": "csnur",
-      "customer_name": "C & S Nursery"
-    },
-    {
-      "invoice": "167096",
-      "date": "2026-08-26",
-      "total": 153.765,
-      "rep": "Tim",
-      "customer_code": "arm305",
-      "customer_name": "Armstrong Garden Center--Tustin yard"
-    },
-    {
-      "invoice": "167097",
-      "date": "2026-08-26",
-      "total": 1631.95,
-      "rep": "Matthew",
-      "customer_code": "wasd",
-      "customer_name": "Walter Andersen Nursery"
-    },
-    {
-      "invoice": "167098",
-      "date": "2026-08-26",
-      "total": 67.80345,
-      "rep": "Pick Up",
-      "customer_code": "jdlan",
-      "customer_name": "J. Doyle Landscaping"
-    },
-    {
-      "invoice": "167099",
-      "date": "2026-08-26",
-      "total": 492.646,
+      "invoice": "166908",
+      "date": "2026-08-10",
+      "total": 120.0,
       "rep": "Tim",
       "customer_code": "cpghb",
       "customer_name": "Certified Plant Growers - Huntington Beach"
     },
     {
-      "invoice": "167100",
-      "date": "2026-08-26",
-      "total": 1887.0,
+      "invoice": "166907",
+      "date": "2026-08-10",
+      "total": 100.98,
+      "rep": "Tim",
+      "customer_code": "arm751",
+      "customer_name": "Armstrong Garden Center--Costa Mesa"
+    },
+    {
+      "invoice": "166906",
+      "date": "2026-08-10",
+      "total": 738.61,
+      "rep": "John",
+      "customer_code": "fsslo",
+      "customer_name": "Farm Supply Co.--S.L.O."
+    },
+    {
+      "invoice": "166905",
+      "date": "2026-08-10",
+      "total": 825.38,
+      "rep": "Matthew",
+      "customer_code": "arm752",
+      "customer_name": "Armstrong Garden Center--Morena"
+    },
+    {
+      "invoice": "166904",
+      "date": "2026-08-10",
+      "total": 1412.19,
+      "rep": "Matthew",
+      "customer_code": "arm752",
+      "customer_name": "Armstrong Garden Center--Morena"
+    },
+    {
+      "invoice": "166903",
+      "date": "2026-08-10",
+      "total": 1384.42,
+      "rep": "Matthew",
+      "customer_code": "bbgar",
+      "customer_name": "Barrels and Branches"
+    },
+    {
+      "invoice": "166902",
+      "date": "2026-08-10",
+      "total": 680.44,
+      "rep": "Matthew",
+      "customer_code": "arm716",
+      "customer_name": "Armstrong Garden Center--Encinitas"
+    },
+    {
+      "invoice": "166901",
+      "date": "2026-08-10",
+      "total": 1431.48,
+      "rep": "Matthew",
+      "customer_code": "wasd",
+      "customer_name": "Walter Andersen Nursery"
+    },
+    {
+      "invoice": "166900",
+      "date": "2026-08-10",
+      "total": 571.6,
+      "rep": "John",
+      "customer_code": "ronnur",
+      "customer_name": "Ron's Nursery"
+    },
+    {
+      "invoice": "166899",
+      "date": "2026-08-10",
+      "total": 270.09,
+      "rep": "Pick Up",
+      "customer_code": "elides",
+      "customer_name": "Elizabeth Luis Designs"
+    },
+    {
+      "invoice": "166898",
+      "date": "2026-08-10",
+      "total": 1090.2,
+      "rep": "In-House",
+      "customer_code": "swelan",
+      "customer_name": "Sweet Lane Wholesale Nursery"
+    },
+    {
+      "invoice": "166897",
+      "date": "2026-08-10",
+      "total": 106.45,
+      "rep": "Pick Up",
+      "customer_code": "mmlan",
+      "customer_name": "Arroyo Grande Montessori School"
+    },
+    {
+      "invoice": "166896",
+      "date": "2026-08-10",
+      "total": 1862.42,
+      "rep": "Tim",
+      "customer_code": "arm751",
+      "customer_name": "Armstrong Garden Center--Costa Mesa"
+    },
+    {
+      "invoice": "166895",
+      "date": "2026-08-10",
+      "total": 20.96,
+      "rep": "Tim",
+      "customer_code": "arm304",
+      "customer_name": "Armstrong Garden Center-La Canada yard"
+    },
+    {
+      "invoice": "166893",
+      "date": "2026-08-10",
+      "total": 85.0,
+      "rep": "Rainie",
+      "customer_code": "betty",
+      "customer_name": "Betty's Field"
+    },
+    {
+      "invoice": "166892",
+      "date": "2026-08-10",
+      "total": 407.13,
+      "rep": "In-House",
+      "customer_code": "theget",
+      "customer_name": "The Getty Center"
+    },
+    {
+      "invoice": "166891",
+      "date": "2026-08-10",
+      "total": 747.3,
+      "rep": "In-House",
+      "customer_code": "theget",
+      "customer_name": "The Getty Center"
+    },
+    {
+      "invoice": "166890",
+      "date": "2026-08-10",
+      "total": 1443.47,
+      "rep": "In-House",
+      "customer_code": "theget",
+      "customer_name": "The Getty Center"
+    },
+    {
+      "invoice": "166889",
+      "date": "2026-08-10",
+      "total": 215.0,
+      "rep": "Rainie",
+      "customer_code": "betty",
+      "customer_name": "Betty's Field"
+    },
+    {
+      "invoice": "166888",
+      "date": "2026-08-10",
+      "total": 24.32,
+      "rep": "In-House",
+      "customer_code": "greheart",
+      "customer_name": "Greenheart"
+    },
+    {
+      "invoice": "166887",
+      "date": "2026-08-10",
+      "total": 640.86,
+      "rep": "In-House",
+      "customer_code": "plajus",
+      "customer_name": "Planting Justice"
+    },
+    {
+      "invoice": "166886",
+      "date": "2026-08-10",
+      "total": 1135.9,
+      "rep": "In-House",
+      "customer_code": "plajus",
+      "customer_name": "Planting Justice"
+    },
+    {
+      "invoice": "166885",
+      "date": "2026-08-10",
+      "total": 1148.34,
+      "rep": "In-House",
+      "customer_code": "plajus",
+      "customer_name": "Planting Justice"
+    },
+    {
+      "invoice": "166884",
+      "date": "2026-08-10",
+      "total": 1071.63,
+      "rep": "John",
+      "customer_code": "camnur",
+      "customer_name": "Cambria Nursery/Cambria Pines Lodge"
+    },
+    {
+      "invoice": "166883",
+      "date": "2026-08-10",
+      "total": 852.34,
+      "rep": "John",
+      "customer_code": "seagar",
+      "customer_name": "Seaside Gardens"
+    },
+    {
+      "invoice": "166882",
+      "date": "2026-08-10",
+      "total": 5562.48,
+      "rep": "In-House",
+      "customer_code": "utfnur",
+      "customer_name": "Urban Tree Farm Nursery"
+    },
+    {
+      "invoice": "166881",
+      "date": "2026-08-10",
+      "total": 1167.08,
+      "rep": "Matthew",
+      "customer_code": "arm715",
+      "customer_name": "Armstrong Garden Center--Del Mar"
+    },
+    {
+      "invoice": "166880",
+      "date": "2026-08-10",
+      "total": 908.53,
+      "rep": "John",
+      "customer_code": "blgar",
+      "customer_name": "Bay Laurel Nursery and Garden Center, Inc."
+    },
+    {
+      "invoice": "166879",
+      "date": "2026-08-10",
+      "total": 590.6,
+      "rep": "John",
+      "customer_code": "fspr",
+      "customer_name": "Farm Supply Co.--Paso Robles"
+    },
+    {
+      "invoice": "166878",
+      "date": "2026-08-10",
+      "total": 1517.37,
+      "rep": "Tim",
+      "customer_code": "garcul",
+      "customer_name": "Garden Culture"
+    },
+    {
+      "invoice": "166877",
+      "date": "2026-08-10",
+      "total": 2222.81,
+      "rep": "Pick Up",
+      "customer_code": "asdesign",
+      "customer_name": "All Scape Design & Installation"
+    },
+    {
+      "invoice": "166876",
+      "date": "2026-08-10",
+      "total": 1221.97,
+      "rep": "In-House",
+      "customer_code": "villacreek",
+      "customer_name": "Villa Creek Cellars"
+    },
+    {
+      "invoice": "166875",
+      "date": "2026-08-10",
+      "total": 975.05,
+      "rep": "John",
+      "customer_code": "lumgar",
+      "customer_name": "ProBuilding Holdings LLC."
+    },
+    {
+      "invoice": "166874",
+      "date": "2026-08-07",
+      "total": 152.26,
+      "rep": "Pick Up",
+      "customer_code": "luciamar",
+      "customer_name": "Lucia Mar Unified School District"
+    },
+    {
+      "invoice": "166872",
+      "date": "2026-08-07",
+      "total": 97.24,
+      "rep": "Pick Up",
+      "customer_code": "elides",
+      "customer_name": "Elizabeth Luis Designs"
+    },
+    {
+      "invoice": "166871",
+      "date": "2026-08-07",
+      "total": 570.46,
+      "rep": "In-House",
+      "customer_code": "rrm",
+      "customer_name": "RRM Design Group"
+    },
+    {
+      "invoice": "166870",
+      "date": "2026-08-07",
+      "total": 1299.65,
+      "rep": "In-House",
+      "customer_code": "perland",
+      "customer_name": "Native Coast Landscapes"
+    },
+    {
+      "invoice": "166869",
+      "date": "2026-08-07",
+      "total": 917.0,
+      "rep": "John",
+      "customer_code": "hanur",
+      "customer_name": "Harmony Farm Supply and Nursery #1"
+    },
+    {
+      "invoice": "166868",
+      "date": "2026-08-07",
+      "total": 1297.07,
+      "rep": "John",
+      "customer_code": "hanur",
+      "customer_name": "Harmony Farm Supply and Nursery #1"
+    },
+    {
+      "invoice": "166867",
+      "date": "2026-08-06",
+      "total": 142.47,
+      "rep": "Pick Up",
+      "customer_code": "nslan",
+      "customer_name": "Nichols and Smyth Landscape Co."
+    },
+    {
+      "invoice": "166866",
+      "date": "2026-08-06",
+      "total": 378.73,
+      "rep": "Matthew",
+      "customer_code": "arm727",
+      "customer_name": "Armstrong Garden Center--Glendale"
+    },
+    {
+      "invoice": "166865",
+      "date": "2026-08-06",
+      "total": 49.6,
+      "rep": "Pick Up",
+      "customer_code": "mmlan",
+      "customer_name": "Arroyo Grande Montessori School"
+    },
+    {
+      "invoice": "166862",
+      "date": "2026-08-06",
+      "total": 811.6,
+      "rep": "In-House",
+      "customer_code": "curedw",
+      "customer_name": "Curtis Edward Dennison Landscape"
+    },
+    {
+      "invoice": "166861",
+      "date": "2026-08-06",
+      "total": 1144.44,
+      "rep": "Matthew",
+      "customer_code": "arm704",
+      "customer_name": "Armstrong Garden Center--Thousand Oaks"
+    },
+    {
+      "invoice": "166860",
+      "date": "2026-08-06",
+      "total": 1441.09,
+      "rep": "Tim",
+      "customer_code": "cpghb",
+      "customer_name": "Certified Plant Growers - Huntington Beach"
+    },
+    {
+      "invoice": "166859",
+      "date": "2026-08-06",
+      "total": 2748.9,
+      "rep": "In-House",
+      "customer_code": "dmnur",
+      "customer_name": "Devil Mountain Wholesale Nursery--San Ramon"
+    },
+    {
+      "invoice": "166858",
+      "date": "2026-08-06",
+      "total": 642.1,
+      "rep": "In-House",
+      "customer_code": "dmnur",
+      "customer_name": "Devil Mountain Wholesale Nursery--San Ramon"
+    },
+    {
+      "invoice": "166857",
+      "date": "2026-08-06",
+      "total": 3351.6,
+      "rep": "Tim",
+      "customer_code": "jjsbac",
+      "customer_name": "JJ's Backyard"
+    },
+    {
+      "invoice": "166856",
+      "date": "2026-08-06",
+      "total": 169.52,
+      "rep": "Pick Up",
+      "customer_code": "rtlan",
+      "customer_name": "Red Tail Landscaping (credit $1.19)"
+    },
+    {
+      "invoice": "166855",
+      "date": "2026-08-05",
+      "total": 1157.19,
+      "rep": "Tim",
+      "customer_code": "arm720",
+      "customer_name": "Armstrong Garden Center--Tustin"
+    },
+    {
+      "invoice": "166854",
+      "date": "2026-08-05",
+      "total": 1783.06,
+      "rep": "Tim",
+      "customer_code": "arm720",
+      "customer_name": "Armstrong Garden Center--Tustin"
+    },
+    {
+      "invoice": "166853",
+      "date": "2026-08-05",
+      "total": 20.4,
+      "rep": "Tim",
+      "customer_code": "arm712",
+      "customer_name": "Armstrong Garden Center--Yorba Linda"
+    },
+    {
+      "invoice": "166852",
+      "date": "2026-08-05",
+      "total": 534.61,
+      "rep": "Tim",
+      "customer_code": "tpshom",
+      "customer_name": "TPS Home and Garden"
+    },
+    {
+      "invoice": "166851",
+      "date": "2026-08-05",
+      "total": 61.49,
+      "rep": "Pick Up",
+      "customer_code": "jdlan",
+      "customer_name": "J. Doyle Landscaping"
+    },
+    {
+      "invoice": "166850",
+      "date": "2026-08-05",
+      "total": 765.97,
+      "rep": "Tim",
+      "customer_code": "mmnur",
+      "customer_name": "M&M Nursery"
+    },
+    {
+      "invoice": "166849",
+      "date": "2026-08-05",
+      "total": 1972.93,
+      "rep": "Matthew",
+      "customer_code": "gtcp",
+      "customer_name": "Green Thumb Growing Grounds"
+    },
+    {
+      "invoice": "166848",
+      "date": "2026-08-05",
+      "total": 1821.01,
+      "rep": "Matthew",
+      "customer_code": "gtsh",
+      "customer_name": "Greenthumb International Nursery--Sherman Way"
+    },
+    {
+      "invoice": "166847",
+      "date": "2026-08-05",
+      "total": 313.6,
+      "rep": "John",
+      "customer_code": "yamnur",
+      "customer_name": "Yamagami's Nursery"
+    },
+    {
+      "invoice": "166846",
+      "date": "2026-08-05",
+      "total": 1618.18,
+      "rep": "John",
+      "customer_code": "yamnur",
+      "customer_name": "Yamagami's Nursery"
+    },
+    {
+      "invoice": "166845",
+      "date": "2026-08-05",
+      "total": 1362.26,
+      "rep": "Pick Up",
+      "customer_code": "calpolyls",
+      "customer_name": "Cal Poly - Landscape Services"
+    },
+    {
+      "invoice": "166844",
+      "date": "2026-08-05",
+      "total": 981.65,
+      "rep": "John",
+      "customer_code": "drnur",
+      "customer_name": "Drought Resistant Nurseries, Inc."
+    },
+    {
+      "invoice": "166843",
+      "date": "2026-08-05",
+      "total": 1065.29,
+      "rep": "Matthew",
+      "customer_code": "arm722",
+      "customer_name": "Armstrong Garden Center--North Hollywood"
+    },
+    {
+      "invoice": "166842",
+      "date": "2026-08-05",
+      "total": 991.08,
+      "rep": "Tim",
+      "customer_code": "arm741",
+      "customer_name": "Armstrong Garden Center--Newport Beach"
+    },
+    {
+      "invoice": "166841",
+      "date": "2026-08-05",
+      "total": 37.64,
+      "rep": "Tim",
+      "customer_code": "arm736",
+      "customer_name": "Armstrong Garden Center--H.B. South"
+    },
+    {
+      "invoice": "166840",
+      "date": "2026-08-05",
+      "total": 2513.28,
+      "rep": "Matthew",
+      "customer_code": "lcnur",
+      "customer_name": "La Crescenta Nursery"
+    },
+    {
+      "invoice": "166839",
+      "date": "2026-08-05",
+      "total": 1369.5,
+      "rep": "In-House",
+      "customer_code": "cnpsmbc",
+      "customer_name": "California Native Plant Society--Monterey Bay"
+    },
+    {
+      "invoice": "166838",
+      "date": "2026-08-05",
+      "total": 100.76,
+      "rep": "Pick Up",
+      "customer_code": "balmar",
+      "customer_name": "Baldo Martinez"
+    },
+    {
+      "invoice": "166837",
+      "date": "2026-08-05",
+      "total": 1284.69,
+      "rep": "Tim",
+      "customer_code": "arm737",
+      "customer_name": "Armstrong Garden Center--Pasadena"
+    },
+    {
+      "invoice": "166836",
+      "date": "2026-08-05",
+      "total": 1105.44,
+      "rep": "Tim",
+      "customer_code": "lanur",
+      "customer_name": "Lincoln Avenue Nursery"
+    },
+    {
+      "invoice": "166835",
+      "date": "2026-08-05",
+      "total": 1175.35,
+      "rep": "Tim",
+      "customer_code": "arm728",
+      "customer_name": "Armstrong Garden Center--La Canada"
+    },
+    {
+      "invoice": "166834",
+      "date": "2026-08-05",
+      "total": 1532.83,
+      "rep": "John",
+      "customer_code": "ebnur",
+      "customer_name": "East Bay Nursery Inc."
+    },
+    {
+      "invoice": "166833",
+      "date": "2026-08-05",
+      "total": 1188.0,
+      "rep": "In-House",
+      "customer_code": "celcon",
+      "customer_name": "Celadon"
+    },
+    {
+      "invoice": "166832",
+      "date": "2026-08-05",
+      "total": 488.77,
+      "rep": "John",
+      "customer_code": "harpen",
+      "customer_name": "Harmony Farm Supply and Nursery #2"
+    },
+    {
+      "invoice": "166831",
+      "date": "2026-08-05",
+      "total": 1096.93,
+      "rep": "John",
+      "customer_code": "harpen",
+      "customer_name": "Harmony Farm Supply and Nursery #2"
+    },
+    {
+      "invoice": "166830",
+      "date": "2026-08-04",
+      "total": 1154.33,
+      "rep": "Tim",
+      "customer_code": "arm736",
+      "customer_name": "Armstrong Garden Center--H.B. South"
+    },
+    {
+      "invoice": "166829",
+      "date": "2026-08-04",
+      "total": 84.67,
+      "rep": "Tim",
+      "customer_code": "dpnur",
+      "customer_name": "Dana Point Nursery Inc."
+    },
+    {
+      "invoice": "166828",
+      "date": "2026-08-04",
+      "total": 1600.03,
+      "rep": "Tim",
+      "customer_code": "dpnur",
+      "customer_name": "Dana Point Nursery Inc."
+    },
+    {
+      "invoice": "166827",
+      "date": "2026-08-04",
+      "total": 1106.95,
+      "rep": "John",
+      "customer_code": "oganur",
+      "customer_name": "Ogawa-Mune Inc."
+    },
+    {
+      "invoice": "166825",
+      "date": "2026-08-04",
+      "total": 1079.26,
+      "rep": "Tim",
+      "customer_code": "arm761",
+      "customer_name": "Armstrong Garden Center--San Juan Capistrano"
+    },
+    {
+      "invoice": "166824",
+      "date": "2026-08-04",
+      "total": 2958.76,
+      "rep": "John",
+      "customer_code": "cnl",
+      "customer_name": "CNL Native Plant Nursery"
+    },
+    {
+      "invoice": "166823",
+      "date": "2026-08-04",
+      "total": 1224.41,
+      "rep": "Tim",
+      "customer_code": "seagro",
+      "customer_name": "Seaside Growers Nursery"
+    },
+    {
+      "invoice": "166822",
+      "date": "2026-08-04",
+      "total": 294.67,
       "rep": "John",
       "customer_code": "hmbnur",
       "customer_name": "Half Moon Bay Nursery"
     },
     {
-      "invoice": "167101",
-      "date": "2026-08-26",
-      "total": 0.0,
+      "invoice": "166821",
+      "date": "2026-08-04",
+      "total": 1853.77,
       "rep": "Tim",
-      "customer_code": "cg",
-      "customer_name": "Christine Gilstrap"
+      "customer_code": "pladep",
+      "customer_name": "Plant Depot"
     },
     {
-      "invoice": "167102",
-      "date": "2026-08-26",
-      "total": 1115.37,
-      "rep": "John",
-      "customer_code": "mahmb",
-      "customer_name": "Miner's Ace Hardware--Morro Bay"
+      "invoice": "166820",
+      "date": "2026-08-04",
+      "total": 1582.0,
+      "rep": "Tim",
+      "customer_code": "pladep",
+      "customer_name": "Plant Depot"
     },
     {
-      "invoice": "167103",
-      "date": "2026-08-26",
-      "total": 525.814575,
+      "invoice": "166819",
+      "date": "2026-08-04",
+      "total": 163.33,
       "rep": "Pick Up",
-      "customer_code": "ecolan",
-      "customer_name": "Ecotones-Landscape Design & Installation"
+      "customer_code": "elides",
+      "customer_name": "Elizabeth Luis Designs"
+    },
+    {
+      "invoice": "166818",
+      "date": "2026-08-04",
+      "total": 59.53,
+      "rep": "Pick Up",
+      "customer_code": "selan",
+      "customer_name": "Sage Ecological Landscape"
+    },
+    {
+      "invoice": "166817",
+      "date": "2026-08-04",
+      "total": 1037.01,
+      "rep": "Tim",
+      "customer_code": "gtel",
+      "customer_name": "Greenthumb International Nursery--El Toro"
+    },
+    {
+      "invoice": "166816",
+      "date": "2026-08-04",
+      "total": 1595.1,
+      "rep": "Tim",
+      "customer_code": "gtel",
+      "customer_name": "Greenthumb International Nursery--El Toro"
+    },
+    {
+      "invoice": "166815",
+      "date": "2026-08-04",
+      "total": 1947.23,
+      "rep": "John",
+      "customer_code": "hmbnur",
+      "customer_name": "Half Moon Bay Nursery"
+    },
+    {
+      "invoice": "166814",
+      "date": "2026-08-03",
+      "total": 764.69,
+      "rep": "Tim",
+      "customer_code": "arm751",
+      "customer_name": "Armstrong Garden Center--Costa Mesa"
+    },
+    {
+      "invoice": "166813",
+      "date": "2026-08-03",
+      "total": 1066.87,
+      "rep": "Tim",
+      "customer_code": "arm705",
+      "customer_name": "Armstrong Garden Center--Long Beach"
+    },
+    {
+      "invoice": "166812",
+      "date": "2026-08-03",
+      "total": 486.0,
+      "rep": "In-House",
+      "customer_code": "wcnur",
+      "customer_name": "West Covina Wholesale Nursery"
+    },
+    {
+      "invoice": "166811",
+      "date": "2026-08-03",
+      "total": 51.41,
+      "rep": "Tim",
+      "customer_code": "arm707",
+      "customer_name": "Armstrong Garden Center--Torrance"
+    },
+    {
+      "invoice": "166810",
+      "date": "2026-08-03",
+      "total": 927.52,
+      "rep": "Tim",
+      "customer_code": "roggar",
+      "customer_name": "Roger's Gardens"
+    },
+    {
+      "invoice": "166809",
+      "date": "2026-08-03",
+      "total": 1670.96,
+      "rep": "Tim",
+      "customer_code": "arm707",
+      "customer_name": "Armstrong Garden Center--Torrance"
+    },
+    {
+      "invoice": "166808",
+      "date": "2026-08-03",
+      "total": 1046.16,
+      "rep": "Tim",
+      "customer_code": "arm735",
+      "customer_name": "Armstrong Garden Center--Westchester"
+    },
+    {
+      "invoice": "166807",
+      "date": "2026-08-03",
+      "total": 745.0,
+      "rep": "John",
+      "customer_code": "flownur",
+      "customer_name": "Flowerland"
+    },
+    {
+      "invoice": "166806",
+      "date": "2026-08-03",
+      "total": 1225.11,
+      "rep": "John",
+      "customer_code": "flogc",
+      "customer_name": "Flowercraft Garden Center"
+    },
+    {
+      "invoice": "166805",
+      "date": "2026-08-03",
+      "total": 1289.51,
+      "rep": "Matthew",
+      "customer_code": "sbnur",
+      "customer_name": "Sunset Boulevard Nursery, Inc."
+    },
+    {
+      "invoice": "166804",
+      "date": "2026-08-03",
+      "total": 1882.66,
+      "rep": "Tim",
+      "customer_code": "csnur",
+      "customer_name": "C & S Nursery"
+    },
+    {
+      "invoice": "166803",
+      "date": "2026-08-03",
+      "total": 519.79,
+      "rep": "Tim",
+      "customer_code": "arm702",
+      "customer_name": "Armstrong Garden Center--Santa Monica"
+    },
+    {
+      "invoice": "166802",
+      "date": "2026-08-03",
+      "total": 1506.64,
+      "rep": "Tim",
+      "customer_code": "arm702",
+      "customer_name": "Armstrong Garden Center--Santa Monica"
+    },
+    {
+      "invoice": "166801",
+      "date": "2026-08-03",
+      "total": 120.0,
+      "rep": "Rainie",
+      "customer_code": "betty",
+      "customer_name": "Betty's Field"
+    },
+    {
+      "invoice": "166800",
+      "date": "2026-08-03",
+      "total": 35.0,
+      "rep": "Matthew",
+      "customer_code": "hasnur",
+      "customer_name": "Hashimoto Nursery"
+    },
+    {
+      "invoice": "166799",
+      "date": "2026-08-03",
+      "total": 360.0,
+      "rep": "Rainie",
+      "customer_code": "betty",
+      "customer_name": "Betty's Field"
+    },
+    {
+      "invoice": "166798",
+      "date": "2026-08-03",
+      "total": 1168.05,
+      "rep": "Matthew",
+      "customer_code": "hasnur",
+      "customer_name": "Hashimoto Nursery"
+    },
+    {
+      "invoice": "166797",
+      "date": "2026-08-03",
+      "total": 43.24,
+      "rep": "Pick Up",
+      "customer_code": "rhyroo",
+      "customer_name": "Rhythm & Roots Landscape"
+    },
+    {
+      "invoice": "166796",
+      "date": "2026-08-03",
+      "total": 498.93,
+      "rep": "Pick Up",
+      "customer_code": "rhyroo",
+      "customer_name": "Rhythm & Roots Landscape"
+    },
+    {
+      "invoice": "166795",
+      "date": "2026-08-03",
+      "total": 1342.11,
+      "rep": "Tim",
+      "customer_code": "ortgar",
+      "customer_name": "Orta Garden Supply"
+    },
+    {
+      "invoice": "166794",
+      "date": "2026-08-03",
+      "total": 1770.71,
+      "rep": "Tim",
+      "customer_code": "jjsbac",
+      "customer_name": "JJ's Backyard"
+    },
+    {
+      "invoice": "166793",
+      "date": "2026-08-03",
+      "total": 814.78,
+      "rep": "Tim",
+      "customer_code": "arm705",
+      "customer_name": "Armstrong Garden Center--Long Beach"
+    },
+    {
+      "invoice": "166792",
+      "date": "2026-08-03",
+      "total": 324.8,
+      "rep": "Book",
+      "customer_code": "sbbgar",
+      "customer_name": "Santa Barbara Botanic Garden"
+    },
+    {
+      "invoice": "166791",
+      "date": "2026-08-03",
+      "total": 1678.1,
+      "rep": "In-House",
+      "customer_code": "sbbgar",
+      "customer_name": "Santa Barbara Botanic Garden"
+    },
+    {
+      "invoice": "166790",
+      "date": "2026-08-03",
+      "total": 1568.56,
+      "rep": "Tim",
+      "customer_code": "uplnur",
+      "customer_name": "Upland Nursery"
     }
   ],
   "daily": [
     {
       "date": "2026-08-03",
-      "revenue": 22906.6122,
+      "revenue": 22906.61,
       "orders": 25
     },
     {
       "date": "2026-08-04",
-      "revenue": 17675.061999999998,
-      "orders": 16
+      "revenue": 17741.06,
+      "orders": 15
     },
     {
       "date": "2026-08-05",
-      "revenue": 26341.892125000002,
+      "revenue": 26341.89,
       "orders": 25
     },
     {
       "date": "2026-08-06",
-      "revenue": 10880.049125000001,
-      "orders": 11
+      "revenue": 10880.05,
+      "orders": 10
     },
     {
       "date": "2026-08-07",
-      "revenue": 4217.1337,
-      "orders": 7
+      "revenue": 4333.68,
+      "orders": 6
     },
     {
       "date": "2026-08-10",
-      "revenue": 32606.081175,
+      "revenue": 32606.08,
       "orders": 35
     },
     {
       "date": "2026-08-11",
-      "revenue": 14319.48125,
-      "orders": 20
+      "revenue": 14350.23,
+      "orders": 19
     },
     {
       "date": "2026-08-12",
-      "revenue": 4222.945999999999,
-      "orders": 10
+      "revenue": 4534.9,
+      "orders": 9
     },
     {
       "date": "2026-08-13",
-      "revenue": 619.49745,
+      "revenue": 619.5,
       "orders": 3
     },
     {
       "date": "2026-08-14",
-      "revenue": 1163.51235,
+      "revenue": 1163.51,
       "orders": 6
     },
     {
       "date": "2026-08-16",
-      "revenue": 12360.515,
+      "revenue": 12360.52,
       "orders": 11
     },
     {
       "date": "2026-08-17",
-      "revenue": 23958.93955,
+      "revenue": 23958.94,
       "orders": 30
     },
     {
       "date": "2026-08-18",
-      "revenue": 22361.601049999997,
-      "orders": 21
+      "revenue": 23833.25,
+      "orders": 15
     },
     {
       "date": "2026-08-19",
-      "revenue": 12248.259725000004,
-      "orders": 19
+      "revenue": 12260.76,
+      "orders": 18
     },
     {
       "date": "2026-08-20",
-      "revenue": 6557.883,
-      "orders": 8
+      "revenue": 6601.38,
+      "orders": 7
     },
     {
       "date": "2026-08-21",
-      "revenue": 1281.491925,
+      "revenue": 1281.49,
       "orders": 4
     },
     {
@@ -2600,70 +2464,60 @@
     },
     {
       "date": "2026-08-23",
-      "revenue": 1419.942,
+      "revenue": 1419.94,
       "orders": 2
     },
     {
       "date": "2026-08-24",
-      "revenue": 15845.030075,
-      "orders": 26
+      "revenue": 16045.13,
+      "orders": 24
     },
     {
       "date": "2026-08-25",
-      "revenue": 11437.958950000002,
+      "revenue": 11437.96,
       "orders": 17
     },
     {
       "date": "2026-08-26",
-      "revenue": 14802.465025000001,
-      "orders": 16
+      "revenue": 14909.57,
+      "orders": 14
     }
   ],
   "by_rep": [
     {
       "rep": "Tim",
-      "orders": 89,
-      "revenue": 93675.68
+      "revenue": 93675.68,
+      "orders": 88
     },
     {
       "rep": "John",
-      "orders": 72,
-      "revenue": 73639.5
+      "revenue": 73652.0,
+      "orders": 71
     },
     {
       "rep": "In-House",
-      "orders": 37,
-      "revenue": 40878.43
+      "revenue": 40878.43,
+      "orders": 37
     },
     {
       "rep": "Matthew",
-      "orders": 36,
-      "revenue": 37868.76
+      "revenue": 37868.76,
+      "orders": 35
     },
     {
       "rep": "Pick Up",
-      "orders": 57,
-      "revenue": 12156.79
+      "revenue": 12156.79,
+      "orders": 57
     },
     {
       "rep": "Rainie",
-      "orders": 7,
-      "revenue": 1210.0
+      "revenue": 1210.0,
+      "orders": 7
     },
     {
       "rep": "Book",
-      "orders": 1,
-      "revenue": 324.8
-    },
-    {
-      "rep": "CRMatthew",
-      "orders": 3,
-      "revenue": -452.1
-    },
-    {
-      "rep": "CRTim",
-      "orders": 11,
-      "revenue": -1895.5
+      "revenue": 324.8,
+      "orders": 1
     }
   ],
   "top_customers": [
@@ -2682,8 +2536,8 @@
     {
       "customer_code": "cnl",
       "customer_name": "CNL Native Plant Nursery",
-      "revenue": 6193.42,
-      "orders": 3
+      "revenue": 6205.92,
+      "orders": 2
     },
     {
       "customer_code": "dmnur",
@@ -2712,14 +2566,20 @@
     {
       "customer_code": "arm705",
       "customer_name": "Armstrong Garden Center--Long Beach",
-      "revenue": 4773.78,
-      "orders": 7
+      "revenue": 4833.78,
+      "orders": 6
     },
     {
       "customer_code": "roggar",
       "customer_name": "Roger's Gardens",
       "revenue": 4579.64,
       "orders": 4
+    },
+    {
+      "customer_code": "arm751",
+      "customer_name": "Armstrong Garden Center--Costa Mesa",
+      "revenue": 4316.5,
+      "orders": 5
     },
     {
       "customer_code": "cpghb",
@@ -2750,72 +2610,6 @@
       "customer_name": "Armstrong Garden Center--Torrance",
       "revenue": 3653.95,
       "orders": 4
-    },
-    {
-      "customer_code": "wapow",
-      "customer_name": "Walter Andersen Nursery",
-      "revenue": 3581.94,
-      "orders": 5
-    },
-    {
-      "customer_code": "csnur",
-      "customer_name": "C & S Nursery",
-      "revenue": 3577.5,
-      "orders": 3
-    },
-    {
-      "customer_code": "carbor",
-      "customer_name": "Carol Bornstein",
-      "revenue": 3511.2,
-      "orders": 1
-    },
-    {
-      "customer_code": "eastbot",
-      "customer_name": "Bart O'Brien",
-      "revenue": 3511.2,
-      "orders": 1
-    },
-    {
-      "customer_code": "arm736",
-      "customer_name": "Armstrong Garden Center--H.B. South",
-      "revenue": 3229.04,
-      "orders": 6
-    },
-    {
-      "customer_code": "seagar",
-      "customer_name": "Seaside Gardens",
-      "revenue": 3161.81,
-      "orders": 2
-    },
-    {
-      "customer_code": "wasd",
-      "customer_name": "Walter Andersen Nursery",
-      "revenue": 3063.43,
-      "orders": 2
-    },
-    {
-      "customer_code": "ebnur",
-      "customer_name": "East Bay Nursery Inc.",
-      "revenue": 3042.98,
-      "orders": 3
-    },
-    {
-      "customer_code": "lumgar",
-      "customer_name": "ProBuilding Holdings LLC.",
-      "revenue": 2952.11,
-      "orders": 5
-    },
-    {
-      "customer_code": "plajus",
-      "customer_name": "Planting Justice",
-      "revenue": 2925.1,
-      "orders": 3
-    },
-    {
-      "customer_code": "bbgar",
-      "customer_name": "Barrels and Branches",
-      "revenue": 2861.22,
-      "orders": 3
     }
   ]
 }

@@ -1,903 +1,189 @@
 {
   "meta": {
-    "generated_at": "2026-08-26T21:45:35.849962",
+    "generated_at": "2026-09-01T07:14:16",
     "source": "/Users/tfross/Sync/Orders_Tim/nssalesdata.csv",
     "period": "2026 YTD + Last 12 weeks"
   },
   "ytd": {
-    "revenue": 2192259.71,
-    "orders": 2556,
-    "customers": 403,
+    "revenue": 2207058.52,
+    "orders": 2511,
+    "customers": 385,
     "reps": [
       {
         "rep": "Tim",
-        "orders": 819,
-        "revenue": 821903.34
+        "revenue": 822977.29,
+        "orders": 803,
+        "customers": 56
       },
       {
         "rep": "John",
-        "orders": 647,
-        "revenue": 667958.34
+        "revenue": 665424.39,
+        "orders": 644,
+        "customers": 76
       },
       {
         "rep": "Matthew",
-        "orders": 298,
-        "revenue": 345758.49
+        "revenue": 345913.99,
+        "orders": 296,
+        "customers": 35
       },
       {
         "rep": "In-House",
+        "revenue": 239191.31,
         "orders": 277,
-        "revenue": 238923.01
+        "customers": 95
       },
       {
         "rep": "Pick Up",
-        "orders": 450,
-        "revenue": 107955.56
+        "revenue": 106107.32,
+        "orders": 439,
+        "customers": 121
+      },
+      {
+        "rep": "(unknown)",
+        "revenue": 14733.91,
+        "orders": 9,
+        "customers": 2
       },
       {
         "rep": "Rainie",
-        "orders": 42,
-        "revenue": 12045.51
+        "revenue": 12045.51,
+        "orders": 41,
+        "customers": 1
       },
       {
-        "rep": "",
-        "orders": 3,
-        "revenue": 571.91
+        "rep": "Rainey",
+        "revenue": 340.0,
+        "orders": 1,
+        "customers": 0
       },
       {
         "rep": "Book",
+        "revenue": 324.8,
         "orders": 1,
-        "revenue": 324.8
-      },
-      {
-        "rep": "CRMatthew",
-        "orders": 4,
-        "revenue": -688.35
-      },
-      {
-        "rep": "CRTim",
-        "orders": 15,
-        "revenue": -2492.9
+        "customers": 1
       }
     ]
   },
   "weekly": [
     {
-      "week_start": "2026-06-08",
-      "revenue": 74984.32,
-      "orders": 84,
-      "customers": 71,
-      "reps": [
-        {
-          "rep": "John",
-          "orders": 26,
-          "revenue": 29755.1
-        },
-        {
-          "rep": "Tim",
-          "orders": 28,
-          "revenue": 27717.52
-        },
-        {
-          "rep": "Matthew",
-          "orders": 8,
-          "revenue": 8364.96
-        },
-        {
-          "rep": "In-House",
-          "orders": 9,
-          "revenue": 7111.75
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 11,
-          "revenue": 1659.99
-        },
-        {
-          "rep": "Rainie",
-          "orders": 2,
-          "revenue": 375.0
-        }
-      ]
+      "week_start": "2026-06-10",
+      "week_end": "2026-06-16",
+      "revenue": 60650.27,
+      "orders": 82
     },
     {
-      "week_start": "2026-06-15",
-      "revenue": 43279.8,
-      "orders": 65,
-      "customers": 55,
-      "reps": [
-        {
-          "rep": "Tim",
-          "orders": 19,
-          "revenue": 15990.15
-        },
-        {
-          "rep": "Matthew",
-          "orders": 14,
-          "revenue": 12616.9
-        },
-        {
-          "rep": "John",
-          "orders": 11,
-          "revenue": 9465.14
-        },
-        {
-          "rep": "In-House",
-          "orders": 8,
-          "revenue": 3007.31
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 10,
-          "revenue": 1785.32
-        },
-        {
-          "rep": "Rainie",
-          "orders": 3,
-          "revenue": 415.0
-        }
-      ]
+      "week_start": "2026-06-17",
+      "week_end": "2026-06-23",
+      "revenue": 52046.41,
+      "orders": 67
     },
     {
-      "week_start": "2026-06-22",
-      "revenue": 54085.84,
-      "orders": 75,
-      "customers": 58,
-      "reps": [
-        {
-          "rep": "Tim",
-          "orders": 31,
-          "revenue": 28863.49
-        },
-        {
-          "rep": "John",
-          "orders": 10,
-          "revenue": 12645.96
-        },
-        {
-          "rep": "In-House",
-          "orders": 10,
-          "revenue": 6631.05
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 18,
-          "revenue": 2872.91
-        },
-        {
-          "rep": "Matthew",
-          "orders": 4,
-          "revenue": 2392.42
-        },
-        {
-          "rep": "Rainie",
-          "orders": 2,
-          "revenue": 680.0
-        }
-      ]
+      "week_start": "2026-06-24",
+      "week_end": "2026-06-30",
+      "revenue": 41948.65,
+      "orders": 69
     },
     {
-      "week_start": "2026-06-29",
-      "revenue": 41393.08,
-      "orders": 60,
-      "customers": 48,
-      "reps": [
-        {
-          "rep": "John",
-          "orders": 24,
-          "revenue": 19645.79
-        },
-        {
-          "rep": "Tim",
-          "orders": 19,
-          "revenue": 14838.3
-        },
-        {
-          "rep": "Matthew",
-          "orders": 3,
-          "revenue": 4082.18
-        },
-        {
-          "rep": "In-House",
-          "orders": 5,
-          "revenue": 1573.95
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 8,
-          "revenue": 1162.86
-        },
-        {
-          "rep": "Rainie",
-          "orders": 1,
-          "revenue": 90.0
-        }
-      ]
+      "week_start": "2026-07-01",
+      "week_end": "2026-07-07",
+      "revenue": 51735.38,
+      "orders": 64
     },
     {
-      "week_start": "2026-07-06",
-      "revenue": 58259.69,
-      "orders": 73,
-      "customers": 48,
-      "reps": [
-        {
-          "rep": "Tim",
-          "orders": 26,
-          "revenue": 29268.44
-        },
-        {
-          "rep": "John",
-          "orders": 19,
-          "revenue": 20780.22
-        },
-        {
-          "rep": "In-House",
-          "orders": 9,
-          "revenue": 4890.86
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 14,
-          "revenue": 1421.92
-        },
-        {
-          "rep": "Matthew",
-          "orders": 2,
-          "revenue": 1401.79
-        },
-        {
-          "rep": "Rainie",
-          "orders": 2,
-          "revenue": 375.0
-        },
-        {
-          "rep": "",
-          "orders": 1,
-          "revenue": 121.46
-        }
-      ]
+      "week_start": "2026-07-08",
+      "week_end": "2026-07-14",
+      "revenue": 49912.69,
+      "orders": 64
     },
     {
-      "week_start": "2026-07-13",
-      "revenue": 48993.84,
-      "orders": 69,
-      "customers": 58,
-      "reps": [
-        {
-          "rep": "John",
-          "orders": 19,
-          "revenue": 20595.45
-        },
-        {
-          "rep": "Tim",
-          "orders": 23,
-          "revenue": 14496.55
-        },
-        {
-          "rep": "In-House",
-          "orders": 7,
-          "revenue": 5257.14
-        },
-        {
-          "rep": "Matthew",
-          "orders": 2,
-          "revenue": 4029.19
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 16,
-          "revenue": 3635.51
-        },
-        {
-          "rep": "Rainie",
-          "orders": 2,
-          "revenue": 980.0
-        }
-      ]
+      "week_start": "2026-07-15",
+      "week_end": "2026-07-21",
+      "revenue": 57158.54,
+      "orders": 72
     },
     {
-      "week_start": "2026-07-20",
-      "revenue": 61211.5,
-      "orders": 92,
-      "customers": 63,
-      "reps": [
-        {
-          "rep": "John",
-          "orders": 22,
-          "revenue": 24158.55
-        },
-        {
-          "rep": "Tim",
-          "orders": 21,
-          "revenue": 20151.22
-        },
-        {
-          "rep": "In-House",
-          "orders": 13,
-          "revenue": 6134.1
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 30,
-          "revenue": 5667.7
-        },
-        {
-          "rep": "Matthew",
-          "orders": 3,
-          "revenue": 4629.93
-        },
-        {
-          "rep": "Rainie",
-          "orders": 3,
-          "revenue": 470.0
-        }
-      ]
+      "week_start": "2026-07-22",
+      "week_end": "2026-07-28",
+      "revenue": 52828.73,
+      "orders": 67
     },
     {
-      "week_start": "2026-07-27",
-      "revenue": 38851.83,
-      "orders": 48,
-      "customers": 43,
-      "reps": [
-        {
-          "rep": "John",
-          "orders": 18,
-          "revenue": 18929.33
-        },
-        {
-          "rep": "Tim",
-          "orders": 10,
-          "revenue": 11216.3
-        },
-        {
-          "rep": "In-House",
-          "orders": 8,
-          "revenue": 5372.36
-        },
-        {
-          "rep": "Matthew",
-          "orders": 3,
-          "revenue": 2738.72
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 7,
-          "revenue": 715.12
-        },
-        {
-          "rep": "Rainie",
-          "orders": 1,
-          "revenue": 40.0
-        },
-        {
-          "rep": "CRTim",
-          "orders": 1,
-          "revenue": -160.0
-        }
-      ]
+      "week_start": "2026-07-29",
+      "week_end": "2026-08-04",
+      "revenue": 47253.44,
+      "orders": 54
     },
     {
-      "week_start": "2026-08-03",
-      "revenue": 82020.75,
-      "orders": 84,
-      "customers": 63,
-      "reps": [
-        {
-          "rep": "Tim",
-          "orders": 34,
-          "revenue": 39791.57
-        },
-        {
-          "rep": "John",
-          "orders": 14,
-          "revenue": 16523.75
-        },
-        {
-          "rep": "Matthew",
-          "orders": 10,
-          "revenue": 11388.23
-        },
-        {
-          "rep": "In-House",
-          "orders": 9,
-          "revenue": 10794.31
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 12,
-          "revenue": 2900.63
-        },
-        {
-          "rep": "Rainie",
-          "orders": 2,
-          "revenue": 480.0
-        },
-        {
-          "rep": "Book",
-          "orders": 1,
-          "revenue": 324.8
-        },
-        {
-          "rep": "CRTim",
-          "orders": 2,
-          "revenue": -182.55
-        }
-      ]
+      "week_start": "2026-08-05",
+      "week_end": "2026-08-11",
+      "revenue": 88511.94,
+      "orders": 95
     },
     {
-      "week_start": "2026-08-10",
-      "revenue": 65292.03,
-      "orders": 85,
-      "customers": 64,
-      "reps": [
-        {
-          "rep": "Tim",
-          "orders": 20,
-          "revenue": 19685.06
-        },
-        {
-          "rep": "In-House",
-          "orders": 14,
-          "revenue": 15135.13
-        },
-        {
-          "rep": "John",
-          "orders": 18,
-          "revenue": 14182.67
-        },
-        {
-          "rep": "Matthew",
-          "orders": 13,
-          "revenue": 12154.33
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 16,
-          "revenue": 4177.54
-        },
-        {
-          "rep": "Rainie",
-          "orders": 2,
-          "revenue": 300.0
-        },
-        {
-          "rep": "CRTim",
-          "orders": 2,
-          "revenue": -342.7
-        }
-      ]
+      "week_start": "2026-08-12",
+      "week_end": "2026-08-18",
+      "revenue": 66470.61,
+      "orders": 74
     },
     {
-      "week_start": "2026-08-17",
-      "revenue": 68008.12,
-      "orders": 85,
-      "customers": 67,
-      "reps": [
-        {
-          "rep": "Tim",
-          "orders": 24,
-          "revenue": 26465.07
-        },
-        {
-          "rep": "John",
-          "orders": 19,
-          "revenue": 21098.23
-        },
-        {
-          "rep": "In-House",
-          "orders": 12,
-          "revenue": 14396.28
-        },
-        {
-          "rep": "Matthew",
-          "orders": 4,
-          "revenue": 5997.8
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 17,
-          "revenue": 1345.88
-        },
-        {
-          "rep": "Rainie",
-          "orders": 2,
-          "revenue": 220.0
-        },
-        {
-          "rep": "CRMatthew",
-          "orders": 1,
-          "revenue": -252.0
-        },
-        {
-          "rep": "CRTim",
-          "orders": 6,
-          "revenue": -1263.15
-        }
-      ]
+      "week_start": "2026-08-19",
+      "week_end": "2026-08-25",
+      "revenue": 49226.67,
+      "orders": 73
     },
     {
-      "week_start": "2026-08-24",
-      "revenue": 42085.45,
-      "orders": 59,
-      "customers": 50,
-      "reps": [
-        {
-          "rep": "John",
-          "orders": 21,
-          "revenue": 21834.84
-        },
-        {
-          "rep": "Matthew",
-          "orders": 9,
-          "revenue": 8328.39
-        },
-        {
-          "rep": "Tim",
-          "orders": 11,
-          "revenue": 7733.98
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 12,
-          "revenue": 3732.73
-        },
-        {
-          "rep": "In-House",
-          "orders": 2,
-          "revenue": 552.7
-        },
-        {
-          "rep": "Rainie",
-          "orders": 1,
-          "revenue": 210.0
-        },
-        {
-          "rep": "CRTim",
-          "orders": 1,
-          "revenue": -107.1
-        },
-        {
-          "rep": "CRMatthew",
-          "orders": 2,
-          "revenue": -200.1
-        }
-      ]
+      "week_start": "2026-08-26",
+      "week_end": "2026-09-01",
+      "revenue": 14909.57,
+      "orders": 14
     }
   ],
   "monthly": [
     {
       "month": "2026-01",
-      "revenue": 250656.67,
-      "orders": 286,
-      "customers": 154,
-      "reps": [
-        {
-          "rep": "Tim",
-          "orders": 98,
-          "revenue": 94293.31
-        },
-        {
-          "rep": "John",
-          "orders": 63,
-          "revenue": 63415.26
-        },
-        {
-          "rep": "Matthew",
-          "orders": 38,
-          "revenue": 50941.61
-        },
-        {
-          "rep": "In-House",
-          "orders": 34,
-          "revenue": 25810.69
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 47,
-          "revenue": 16419.01
-        },
-        {
-          "rep": "",
-          "orders": 2,
-          "revenue": 450.45
-        },
-        {
-          "rep": "CRMatthew",
-          "orders": 1,
-          "revenue": -236.25
-        },
-        {
-          "rep": "CRTim",
-          "orders": 3,
-          "revenue": -437.4
-        }
-      ]
+      "revenue": 253916.36,
+      "orders": 277
     },
     {
       "month": "2026-02",
-      "revenue": 231619.24,
-      "orders": 268,
-      "customers": 153,
-      "reps": [
-        {
-          "rep": "Tim",
-          "orders": 85,
-          "revenue": 86671.44
-        },
-        {
-          "rep": "John",
-          "orders": 71,
-          "revenue": 66779.14
-        },
-        {
-          "rep": "Matthew",
-          "orders": 36,
-          "revenue": 38686.28
-        },
-        {
-          "rep": "In-House",
-          "orders": 31,
-          "revenue": 25818.63
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 45,
-          "revenue": 13663.75
-        }
-      ]
+      "revenue": 231814.44,
+      "orders": 268
     },
     {
       "month": "2026-03",
-      "revenue": 395535.33,
-      "orders": 395,
-      "customers": 184,
-      "reps": [
-        {
-          "rep": "Tim",
-          "orders": 141,
-          "revenue": 151524.13
-        },
-        {
-          "rep": "John",
-          "orders": 106,
-          "revenue": 120364.08
-        },
-        {
-          "rep": "Matthew",
-          "orders": 59,
-          "revenue": 66665.69
-        },
-        {
-          "rep": "In-House",
-          "orders": 35,
-          "revenue": 41875.4
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 51,
-          "revenue": 13391.03
-        },
-        {
-          "rep": "Rainie",
-          "orders": 3,
-          "revenue": 1715.0
-        }
-      ]
+      "revenue": 396494.09,
+      "orders": 396
     },
     {
       "month": "2026-04",
-      "revenue": 345218.74,
-      "orders": 376,
-      "customers": 190,
-      "reps": [
-        {
-          "rep": "Tim",
-          "orders": 118,
-          "revenue": 125917.76
-        },
-        {
-          "rep": "John",
-          "orders": 93,
-          "revenue": 100288.37
-        },
-        {
-          "rep": "Matthew",
-          "orders": 46,
-          "revenue": 60195.77
-        },
-        {
-          "rep": "In-House",
-          "orders": 46,
-          "revenue": 40623.35
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 68,
-          "revenue": 16123.98
-        },
-        {
-          "rep": "Rainie",
-          "orders": 5,
-          "revenue": 2069.51
-        }
-      ]
+      "revenue": 359604.49,
+      "orders": 379
     },
     {
       "month": "2026-05",
-      "revenue": 219892.02,
-      "orders": 279,
-      "customers": 147,
-      "reps": [
-        {
-          "rep": "Tim",
-          "orders": 92,
-          "revenue": 87497.14
-        },
-        {
-          "rep": "John",
-          "orders": 71,
-          "revenue": 66948.6
-        },
-        {
-          "rep": "Matthew",
-          "orders": 30,
-          "revenue": 37889.96
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 57,
-          "revenue": 13975.86
-        },
-        {
-          "rep": "In-House",
-          "orders": 21,
-          "revenue": 10864.45
-        },
-        {
-          "rep": "Rainie",
-          "orders": 8,
-          "revenue": 2716.0
-        }
-      ]
+      "revenue": 220452.02,
+      "orders": 281
     },
     {
       "month": "2026-06",
-      "revenue": 266594.57,
-      "orders": 333,
-      "customers": 177,
-      "reps": [
-        {
-          "rep": "Tim",
-          "orders": 105,
-          "revenue": 96698.0
-        },
-        {
-          "rep": "John",
-          "orders": 86,
-          "revenue": 85776.24
-        },
-        {
-          "rep": "Matthew",
-          "orders": 43,
-          "revenue": 40710.78
-        },
-        {
-          "rep": "In-House",
-          "orders": 35,
-          "revenue": 31004.76
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 53,
-          "revenue": 9934.79
-        },
-        {
-          "rep": "Rainie",
-          "orders": 11,
-          "revenue": 2470.0
-        }
-      ]
+      "revenue": 266769.57,
+      "orders": 333
     },
     {
       "month": "2026-07",
-      "revenue": 225336.79,
-      "orders": 306,
-      "customers": 155,
-      "reps": [
-        {
-          "rep": "John",
-          "orders": 85,
-          "revenue": 90747.15
-        },
-        {
-          "rep": "Tim",
-          "orders": 91,
-          "revenue": 85625.88
-        },
-        {
-          "rep": "In-House",
-          "orders": 38,
-          "revenue": 22047.31
-        },
-        {
-          "rep": "Matthew",
-          "orders": 10,
-          "revenue": 12799.63
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 72,
-          "revenue": 12290.36
-        },
-        {
-          "rep": "Rainie",
-          "orders": 8,
-          "revenue": 1865.0
-        },
-        {
-          "rep": "",
-          "orders": 1,
-          "revenue": 121.46
-        },
-        {
-          "rep": "CRTim",
-          "orders": 1,
-          "revenue": -160.0
-        }
-      ]
+      "revenue": 218241.1,
+      "orders": 281
     },
     {
       "month": "2026-08",
-      "revenue": 257406.35,
-      "orders": 313,
-      "customers": 168,
-      "reps": [
-        {
-          "rep": "Tim",
-          "orders": 89,
-          "revenue": 93675.68
-        },
-        {
-          "rep": "John",
-          "orders": 72,
-          "revenue": 73639.5
-        },
-        {
-          "rep": "In-House",
-          "orders": 37,
-          "revenue": 40878.43
-        },
-        {
-          "rep": "Matthew",
-          "orders": 36,
-          "revenue": 37868.76
-        },
-        {
-          "rep": "Pick Up",
-          "orders": 57,
-          "revenue": 12156.79
-        },
-        {
-          "rep": "Rainie",
-          "orders": 7,
-          "revenue": 1210.0
-        },
-        {
-          "rep": "Book",
-          "orders": 1,
-          "revenue": 324.8
-        },
-        {
-          "rep": "CRMatthew",
-          "orders": 3,
-          "revenue": -452.1
-        },
-        {
-          "rep": "CRTim",
-          "orders": 11,
-          "revenue": -1895.5
-        }
-      ]
+      "revenue": 259766.45,
+      "orders": 296
     }
-  ]
+  ],
+  "yoy": {
+    "year": "2025",
+    "revenue": 2385125.54,
+    "orders": 2715
+  }
 }

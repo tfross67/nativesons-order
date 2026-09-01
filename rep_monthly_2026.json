@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-26T21:48:42.527787",
+    "generated_at": "2026-09-01T07:14:16",
     "period": "2026 YTD"
   },
   "months": [
@@ -15,243 +15,9 @@
   ],
   "reps": [
     {
-      "rep": "Tim",
-      "ytd_revenue": 821903.34,
-      "ytd_orders": 819,
-      "monthly": {
-        "2026-01": {
-          "revenue": 94293.31,
-          "orders": 98
-        },
-        "2026-02": {
-          "revenue": 86671.44,
-          "orders": 85
-        },
-        "2026-03": {
-          "revenue": 151524.13,
-          "orders": 141
-        },
-        "2026-04": {
-          "revenue": 125917.76,
-          "orders": 118
-        },
-        "2026-05": {
-          "revenue": 87497.14,
-          "orders": 92
-        },
-        "2026-06": {
-          "revenue": 96698.0,
-          "orders": 105
-        },
-        "2026-07": {
-          "revenue": 85625.88,
-          "orders": 91
-        },
-        "2026-08": {
-          "revenue": 93675.68,
-          "orders": 89
-        }
-      }
-    },
-    {
-      "rep": "John",
-      "ytd_revenue": 667958.34,
-      "ytd_orders": 647,
-      "monthly": {
-        "2026-01": {
-          "revenue": 63415.26,
-          "orders": 63
-        },
-        "2026-02": {
-          "revenue": 66779.14,
-          "orders": 71
-        },
-        "2026-03": {
-          "revenue": 120364.08,
-          "orders": 106
-        },
-        "2026-04": {
-          "revenue": 100288.37,
-          "orders": 93
-        },
-        "2026-05": {
-          "revenue": 66948.6,
-          "orders": 71
-        },
-        "2026-06": {
-          "revenue": 85776.24,
-          "orders": 86
-        },
-        "2026-07": {
-          "revenue": 90747.15,
-          "orders": 85
-        },
-        "2026-08": {
-          "revenue": 73639.5,
-          "orders": 72
-        }
-      }
-    },
-    {
-      "rep": "Matthew",
-      "ytd_revenue": 345758.49,
-      "ytd_orders": 298,
-      "monthly": {
-        "2026-01": {
-          "revenue": 50941.61,
-          "orders": 38
-        },
-        "2026-02": {
-          "revenue": 38686.28,
-          "orders": 36
-        },
-        "2026-03": {
-          "revenue": 66665.69,
-          "orders": 59
-        },
-        "2026-04": {
-          "revenue": 60195.77,
-          "orders": 46
-        },
-        "2026-05": {
-          "revenue": 37889.96,
-          "orders": 30
-        },
-        "2026-06": {
-          "revenue": 40710.78,
-          "orders": 43
-        },
-        "2026-07": {
-          "revenue": 12799.63,
-          "orders": 10
-        },
-        "2026-08": {
-          "revenue": 37868.76,
-          "orders": 36
-        }
-      }
-    },
-    {
-      "rep": "In-House",
-      "ytd_revenue": 238923.01,
-      "ytd_orders": 277,
-      "monthly": {
-        "2026-01": {
-          "revenue": 25810.69,
-          "orders": 34
-        },
-        "2026-02": {
-          "revenue": 25818.63,
-          "orders": 31
-        },
-        "2026-03": {
-          "revenue": 41875.4,
-          "orders": 35
-        },
-        "2026-04": {
-          "revenue": 40623.35,
-          "orders": 46
-        },
-        "2026-05": {
-          "revenue": 10864.45,
-          "orders": 21
-        },
-        "2026-06": {
-          "revenue": 31004.76,
-          "orders": 35
-        },
-        "2026-07": {
-          "revenue": 22047.31,
-          "orders": 38
-        },
-        "2026-08": {
-          "revenue": 40878.43,
-          "orders": 37
-        }
-      }
-    },
-    {
-      "rep": "Pick Up",
-      "ytd_revenue": 107955.56,
-      "ytd_orders": 450,
-      "monthly": {
-        "2026-01": {
-          "revenue": 16419.01,
-          "orders": 47
-        },
-        "2026-02": {
-          "revenue": 13663.75,
-          "orders": 45
-        },
-        "2026-03": {
-          "revenue": 13391.03,
-          "orders": 51
-        },
-        "2026-04": {
-          "revenue": 16123.98,
-          "orders": 68
-        },
-        "2026-05": {
-          "revenue": 13975.86,
-          "orders": 57
-        },
-        "2026-06": {
-          "revenue": 9934.79,
-          "orders": 53
-        },
-        "2026-07": {
-          "revenue": 12290.36,
-          "orders": 72
-        },
-        "2026-08": {
-          "revenue": 12156.79,
-          "orders": 57
-        }
-      }
-    },
-    {
-      "rep": "Rainie",
-      "ytd_revenue": 12045.51,
-      "ytd_orders": 42,
-      "monthly": {
-        "2026-01": {
-          "revenue": 0.0,
-          "orders": 0
-        },
-        "2026-02": {
-          "revenue": 0.0,
-          "orders": 0
-        },
-        "2026-03": {
-          "revenue": 1715.0,
-          "orders": 3
-        },
-        "2026-04": {
-          "revenue": 2069.51,
-          "orders": 5
-        },
-        "2026-05": {
-          "revenue": 2716.0,
-          "orders": 8
-        },
-        "2026-06": {
-          "revenue": 2470.0,
-          "orders": 11
-        },
-        "2026-07": {
-          "revenue": 1865.0,
-          "orders": 8
-        },
-        "2026-08": {
-          "revenue": 1210.0,
-          "orders": 7
-        }
-      }
-    },
-    {
-      "rep": "",
-      "ytd_revenue": 571.91,
-      "ytd_orders": 3,
+      "rep": "(unknown)",
+      "ytd_revenue": 14733.91,
+      "ytd_orders": 9,
       "monthly": {
         "2026-01": {
           "revenue": 450.45,
@@ -266,16 +32,16 @@
           "orders": 0
         },
         "2026-04": {
-          "revenue": 0.0,
-          "orders": 0
+          "revenue": 13967.0,
+          "orders": 4
         },
         "2026-05": {
-          "revenue": 0.0,
-          "orders": 0
+          "revenue": 20.0,
+          "orders": 1
         },
         "2026-06": {
-          "revenue": 0.0,
-          "orders": 0
+          "revenue": 175.0,
+          "orders": 1
         },
         "2026-07": {
           "revenue": 121.46,
@@ -327,52 +93,169 @@
       }
     },
     {
-      "rep": "CRMatthew",
-      "ytd_revenue": -688.35,
-      "ytd_orders": 4,
+      "rep": "In-House",
+      "ytd_revenue": 239191.31,
+      "ytd_orders": 277,
       "monthly": {
         "2026-01": {
-          "revenue": -236.25,
-          "orders": 1
+          "revenue": 26829.19,
+          "orders": 36
         },
         "2026-02": {
-          "revenue": 0.0,
-          "orders": 0
+          "revenue": 25818.63,
+          "orders": 31
         },
         "2026-03": {
-          "revenue": 0.0,
-          "orders": 0
+          "revenue": 41875.4,
+          "orders": 35
         },
         "2026-04": {
-          "revenue": 0.0,
-          "orders": 0
+          "revenue": 40623.35,
+          "orders": 46
         },
         "2026-05": {
-          "revenue": 0.0,
-          "orders": 0
+          "revenue": 10864.45,
+          "orders": 21
         },
         "2026-06": {
-          "revenue": 0.0,
-          "orders": 0
+          "revenue": 31004.76,
+          "orders": 35
         },
         "2026-07": {
-          "revenue": 0.0,
-          "orders": 0
+          "revenue": 21297.11,
+          "orders": 36
         },
         "2026-08": {
-          "revenue": -452.1,
-          "orders": 3
+          "revenue": 40878.43,
+          "orders": 37
         }
       }
     },
     {
-      "rep": "CRTim",
-      "ytd_revenue": -2492.9,
-      "ytd_orders": 15,
+      "rep": "John",
+      "ytd_revenue": 665424.39,
+      "ytd_orders": 644,
       "monthly": {
         "2026-01": {
-          "revenue": -437.4,
-          "orders": 3
+          "revenue": 63415.26,
+          "orders": 63
+        },
+        "2026-02": {
+          "revenue": 66779.14,
+          "orders": 71
+        },
+        "2026-03": {
+          "revenue": 120364.08,
+          "orders": 106
+        },
+        "2026-04": {
+          "revenue": 100288.37,
+          "orders": 93
+        },
+        "2026-05": {
+          "revenue": 66948.6,
+          "orders": 71
+        },
+        "2026-06": {
+          "revenue": 85776.24,
+          "orders": 86
+        },
+        "2026-07": {
+          "revenue": 88200.7,
+          "orders": 83
+        },
+        "2026-08": {
+          "revenue": 73652.0,
+          "orders": 71
+        }
+      }
+    },
+    {
+      "rep": "Matthew",
+      "ytd_revenue": 345913.99,
+      "ytd_orders": 296,
+      "monthly": {
+        "2026-01": {
+          "revenue": 51097.11,
+          "orders": 37
+        },
+        "2026-02": {
+          "revenue": 38686.28,
+          "orders": 36
+        },
+        "2026-03": {
+          "revenue": 66665.69,
+          "orders": 59
+        },
+        "2026-04": {
+          "revenue": 60195.77,
+          "orders": 46
+        },
+        "2026-05": {
+          "revenue": 37889.96,
+          "orders": 30
+        },
+        "2026-06": {
+          "revenue": 40710.78,
+          "orders": 43
+        },
+        "2026-07": {
+          "revenue": 12799.63,
+          "orders": 10
+        },
+        "2026-08": {
+          "revenue": 37868.76,
+          "orders": 35
+        }
+      }
+    },
+    {
+      "rep": "Pick Up",
+      "ytd_revenue": 106107.32,
+      "ytd_orders": 439,
+      "monthly": {
+        "2026-01": {
+          "revenue": 16538.64,
+          "orders": 48
+        },
+        "2026-02": {
+          "revenue": 13714.05,
+          "orders": 46
+        },
+        "2026-03": {
+          "revenue": 14349.79,
+          "orders": 52
+        },
+        "2026-04": {
+          "revenue": 16123.98,
+          "orders": 68
+        },
+        "2026-05": {
+          "revenue": 13975.86,
+          "orders": 57
+        },
+        "2026-06": {
+          "revenue": 9934.79,
+          "orders": 53
+        },
+        "2026-07": {
+          "revenue": 9313.43,
+          "orders": 58
+        },
+        "2026-08": {
+          "revenue": 12156.79,
+          "orders": 57
+        }
+      }
+    },
+    {
+      "rep": "Rainey",
+      "ytd_revenue": 340.0,
+      "ytd_orders": 1,
+      "monthly": {
+        "2026-01": {
+          "revenue": 0.0,
+          "orders": 0
         },
         "2026-02": {
           "revenue": 0.0,
@@ -383,8 +266,8 @@
           "orders": 0
         },
         "2026-04": {
-          "revenue": 0.0,
-          "orders": 0
+          "revenue": 340.0,
+          "orders": 1
         },
         "2026-05": {
           "revenue": 0.0,
@@ -395,48 +278,126 @@
           "orders": 0
         },
         "2026-07": {
-          "revenue": -160.0,
-          "orders": 1
+          "revenue": 0.0,
+          "orders": 0
         },
         "2026-08": {
-          "revenue": -1895.5,
+          "revenue": 0.0,
+          "orders": 0
+        }
+      }
+    },
+    {
+      "rep": "Rainie",
+      "ytd_revenue": 12045.51,
+      "ytd_orders": 41,
+      "monthly": {
+        "2026-01": {
+          "revenue": 0.0,
+          "orders": 0
+        },
+        "2026-02": {
+          "revenue": 0.0,
+          "orders": 0
+        },
+        "2026-03": {
+          "revenue": 1715.0,
+          "orders": 3
+        },
+        "2026-04": {
+          "revenue": 2069.51,
+          "orders": 4
+        },
+        "2026-05": {
+          "revenue": 2716.0,
+          "orders": 8
+        },
+        "2026-06": {
+          "revenue": 2470.0,
           "orders": 11
+        },
+        "2026-07": {
+          "revenue": 1865.0,
+          "orders": 8
+        },
+        "2026-08": {
+          "revenue": 1210.0,
+          "orders": 7
+        }
+      }
+    },
+    {
+      "rep": "Tim",
+      "ytd_revenue": 822977.29,
+      "ytd_orders": 803,
+      "monthly": {
+        "2026-01": {
+          "revenue": 95585.71,
+          "orders": 91
+        },
+        "2026-02": {
+          "revenue": 86816.34,
+          "orders": 84
+        },
+        "2026-03": {
+          "revenue": 151524.13,
+          "orders": 141
+        },
+        "2026-04": {
+          "revenue": 125996.51,
+          "orders": 117
+        },
+        "2026-05": {
+          "revenue": 88037.14,
+          "orders": 93
+        },
+        "2026-06": {
+          "revenue": 96698.0,
+          "orders": 104
+        },
+        "2026-07": {
+          "revenue": 84643.78,
+          "orders": 85
+        },
+        "2026-08": {
+          "revenue": 93675.68,
+          "orders": 88
         }
       }
     }
   ],
   "month_totals": {
     "2026-01": {
-      "revenue": 250656.67,
-      "orders": 286
+      "revenue": 253916.36,
+      "orders": 277
     },
     "2026-02": {
-      "revenue": 231619.24,
+      "revenue": 231814.44,
       "orders": 268
     },
     "2026-03": {
-      "revenue": 395535.33,
-      "orders": 395
+      "revenue": 396494.09,
+      "orders": 396
     },
     "2026-04": {
-      "revenue": 345218.74,
-      "orders": 376
+      "revenue": 359604.49,
+      "orders": 379
     },
     "2026-05": {
-      "revenue": 219892.02,
-      "orders": 279
+      "revenue": 220452.02,
+      "orders": 281
     },
     "2026-06": {
-      "revenue": 266594.57,
+      "revenue": 266769.57,
       "orders": 333
     },
     "2026-07": {
-      "revenue": 225336.79,
-      "orders": 306
+      "revenue": 218241.1,
+      "orders": 281
     },
     "2026-08": {
-      "revenue": 257406.35,
-      "orders": 313
+      "revenue": 259766.45,
+      "orders": 296
     }
   }
 }

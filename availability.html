@@ -18,79 +18,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="styles.css?v=20260830-05">
+  <link rel="stylesheet" href="tokens.css?v=20260902-01">
+  <link rel="stylesheet" href="styles.css?v=20260902-02">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
-    /* === Typography CSS variables (also on :root so sidebar/cart can use them) === */
-    :root, .chat-test-root {
-      /* Single-family monolinear type system: Plus Jakarta Sans for
-         everything. --font-serif and --font-sans resolve to the same
-         family — different weights carry the visual hierarchy that
-         used to depend on a serif/sans split. Plus Jakarta Sans has
-         a slightly warmer, more characterful geometry than Inter —
-         fits the editorial side of a plant catalog without going
-         full-serif. */
-      --font-serif: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      --font-mono: "SF Mono", Menlo, monospace;
+    /* === Typography + color tokens now live in styles.css (:root) === */
+    /* === (2026-09-02: extracted from this file to remove drift)    === */
 
-      /* Type scale (minor third 1.2) — line-height pairs */
-      --fs-eyebrow: 11px;
-      --fs-body:    14px;
-      --fs-card:    15px;
-      --fs-stat:    36px;
-      --fs-headline: 32px;
-
-      --lh-tight:  1.15;
-      --lh-snug:   1.3;
-      --lh-normal: 1.5;
-
-      --ls-tight: -0.01em;
-      --ls-normal: 0;
-      --ls-wide:  0.04em;
-      --ls-xwide: 0.12em;
-
-      /* === Color tokens (modernized 2026-09-02) ===
-       *
-       * The warm cream palette (#ffffff / #f5f5f4 / #ffffff) read as
-       * 'nursery catalogue' but felt overdone after several rounds of
-       * refinement. Moved the canvas to a near-flat white surface with
-       * cooler neutrals, kept the green identity but deepened it, and
-       * pushed the CTA green up in saturation so primary actions pop.
-       * The California-poppy gold stays as the brand accent; just a
-       * warmer shade so it doesn't fight the cooler neutrals.
-       *
-       * Page/card backgrounds: pure white #ffffff for cards, with the
-       * body gradient using a very faint #ffffff → #f7f6f2 fade so the
-       * canvas isn't completely flat. Cards rely on border + shadow
-       * for elevation, not color shifts.
-       *
-       * --c-bark is now #1f3a1f (deeper forest) for stronger contrast
-       * against the white surface. The CTA green (.cta-primary) is a
-       * saturated #1f6b3a — modern, vivid, reads as a real action.
-       */
-      --c-bark: #1f3a1f;
-      --c-paper: #ffffff;
-      --c-line: #e5e3dd;
-      --c-muted: #6b6256;
-      --c-ink: #1a2e1a;
-      --c-clay: #4a4438;     /* darker warm gray for readable body text */
-      --c-body: #2d2820;     /* alias kept for legacy references */
-      --c-cta: #1f6b3a;      /* vivid green for filled buttons */
-      /* Extended palette — same tokens as styles.css :root so the inline
-         stylesheet can reference sage / clay accents that match the
-         shared stylesheet. Inline-only components without equivalents
-         in styles.css continue to use the legacy tokens above. */
-      --c-sage: #5d7a4a;
-      --c-sage-deep: #1f3a1f;
-      --c-sage-soft: #e7f0e8;
-      --c-bg-soft: #f5f5f4;
-      --c-paper-pure: #ffffff;
-      /* California-poppy gold — warmer amber so it pairs with the
-         cooler neutrals. Used for hero-band top hairline, search-shell
-         left gradient, and the in-bloom poppy icon. */
-      --c-bud: #e88c1d;
-    }
     .chat-test-root {
       max-width: 1080px;
       margin: 0 auto;

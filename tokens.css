@@ -1,0 +1,79 @@
+/* ============================================================
+   Native Sons — Design Tokens (2026-09-02)
+   Canonical source of truth for the modernized portal palette.
+   All HTML pages should load this BEFORE their inline <style>
+   so any page-specific rules can reference the same var(--c-*)
+   names without redefining them inline.
+   ============================================================ */
+
+:root {
+  /* Palette — modernized 2026-09-02
+     Was sage / clay / cream; now cool neutrals on white, deeper
+     green, vivid CTA. California-poppy gold is a warmer amber so
+     it pairs with the cooler neutrals. */
+
+  /* Surfaces */
+  --c-bg:         #ffffff;  /* page canvas (also used for some component bgs) */
+  --c-bg-soft:    #f5f5f4;  /* cool stone-50 */
+  --c-paper:      #ffffff;  /* cards */
+  --c-paper-pure: #ffffff;  /* alias for explicit "pure white" intent */
+  --c-line:       #e5e3dd;  /* hairline borders */
+
+  /* Type */
+  --c-ink:        #1a2e1a;  /* body text */
+  --c-body:       #1a2e1a;  /* legacy alias for --c-ink */
+  --c-ink-soft:   #4a5546;  /* muted body */
+  --c-muted:      #6b6256;  /* secondary text */
+  --c-clay:       #4a4438;  /* warm gray for body text — DO NOT COLLIDE
+                               with --c-terracotta (the actual terracotta
+                               accent was previously named --c-clay in
+                               styles.css; renamed to --c-terracotta
+                               2026-09-02 to disambiguate) */
+
+  /* Greens */
+  --c-bark:       #1f3a1f;  /* deep forest — titles */
+  --c-sage:       #5d7a4a;  /* mid sage — secondary text/chips */
+  --c-sage-deep:  #1f3a1f;  /* tracks --c-bark */
+  --c-sage-soft:  #e7f0e8;  /* soft mint */
+  --c-cta:        #1f6b3a;  /* vivid "go" green — primary buttons */
+
+  /* Warm accents */
+  --c-terracotta:      #b85c38;  /* retail/external-link accent */
+  --c-terracotta-soft: #f4e0d4;
+  --c-clay-soft:       #f5f5f4;
+  --c-bloom:           #c44d56;  /* rose — in-bloom badge */
+  --c-bloom-soft:      #f7dde0;
+  --c-bud:             #e88c1d;  /* California poppy — warmer amber */
+  --c-bud-soft:        #f8ebcd;
+
+  /* Shadows */
+  --c-shadow:    0 1px 2px rgba(31, 58, 31, 0.05), 0 4px 16px rgba(31, 58, 31, 0.06);
+  --c-shadow-lg: 0 8px 32px rgba(31, 58, 31, 0.18);
+
+  /* Type scale (minor third 1.2) — line-height pairs */
+  --fs-eyebrow:  11px;
+  --fs-body:     14px;
+  --fs-card:     15px;
+  --fs-stat:     36px;
+  --fs-headline: 32px;
+
+  --lh-tight:  1.15;
+  --lh-snug:   1.3;
+  --lh-normal: 1.5;
+
+  --ls-tight:  -0.01em;
+  --ls-normal: 0;
+  --ls-wide:   0.04em;
+  --ls-xwide:  0.12em;
+
+  /* Radii */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+
+  /* Typography (single-family monolinear — Plus Jakarta Sans) */
+  --font-serif: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-sans:  'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono:  "SF Mono", Menlo, monospace;
+}

@@ -3,33 +3,9 @@
    Custom CSS. Earthy, hand-tuned, plant-forward.
    ============================================================ */
 
-:root {
-  /* Palette — sage / clay / cream */
-  --c-bg: #f7f4ec;
-  --c-bg-soft: #efe9da;
-  --c-paper: #ffffff;
-  --c-ink: #1f2a1c;
-  --c-ink-soft: #4a5546;
-  --c-muted: #8a8a7c;
-  --c-line: #e3dccb;
-  --c-sage: #5d7a4a;
-  --c-sage-deep: #2d4a2b;
-  --c-sage-soft: #e3ecd9;
-  --c-clay: #b85c38;
-  --c-clay-soft: #f4e0d4;
-  --c-bloom: #c44d56;
-  --c-bloom-soft: #f7dde0;
-  --c-bud: #d6a23e;
-  --c-bud-soft: #f8ebcd;
-  --c-shadow: 0 1px 2px rgba(31, 42, 28, 0.05), 0 4px 16px rgba(31, 42, 28, 0.06);
-  --c-shadow-lg: 0 8px 32px rgba(31, 42, 28, 0.18);
-  --r-sm: 6px;
-  --r-md: 10px;
-  --r-lg: 16px;
-  --r-xl: 22px;
-  --font-serif: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-}
+/* Design tokens now live in tokens.css — see that file for the
+   canonical :root. This file only carries actual style rules. */
+
 
 * { box-sizing: border-box; }
 
@@ -590,7 +566,7 @@ body { padding-bottom: 80px; }
 .cart-item-total-retail {
   font-size: 11px;
   font-weight: 500;
-  color: var(--c-clay);
+  color: var(--c-terracotta);
   margin-top: 2px;
   font-variant-numeric: tabular-nums;
 }
@@ -688,7 +664,7 @@ body { padding-bottom: 80px; }
 .pricing-input-result {
   font-size: 12px;
   font-weight: 500;
-  color: var(--c-clay);
+  color: var(--c-terracotta);
   margin-left: 4px;
   font-variant-numeric: tabular-nums;
 }
@@ -791,7 +767,7 @@ body { padding-bottom: 80px; }
   justify-content: space-between;
   font-size: 14px;
   font-weight: 500;
-  color: var(--c-clay);
+  color: var(--c-terracotta);
   margin: -2px 0 10px;
   padding-top: 6px;
   border-top: 1px dashed var(--c-line);
@@ -847,7 +823,7 @@ body { padding-bottom: 80px; }
   color: var(--c-ink-soft);
   margin-bottom: 4px;
 }
-.form-field em { color: var(--c-clay); font-style: normal; }
+.form-field em { color: var(--c-terracotta); font-style: normal; }
 .form-field input, .form-field textarea {
   width: 100%;
   border: 1px solid var(--c-line);
@@ -916,7 +892,7 @@ body { padding-bottom: 80px; }
   display: inline-block;
   margin-top: 8px;
   font-size: 13px;
-  color: var(--c-clay);
+  color: var(--c-terracotta);
   text-decoration: none;
   border-bottom: 1px dotted var(--c-clay);
   transition: color 0.15s, border-color 0.15s;

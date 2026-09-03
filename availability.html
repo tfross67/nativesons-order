@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20260902-02">
+  <meta name="build" content="20260902-03">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
@@ -73,7 +73,14 @@
       grid-template-columns: minmax(0, 1fr) auto;
       column-gap: 48px;
       row-gap: 0;
-      align-items: center;
+      /* Stats sit at the top of the column, then are pushed down to
+         the headline baseline via margin-top on .hero-stats. Reads as
+         'the numbers back up the headline' — strongest visual link
+         between the brand statement (60 plants in bloom) and the
+         supporting data (328 / 60 / 55). The earlier 'center'
+         floated them mid-line and 'end' anchored them to the sub,
+         both of which read as detached. */
+      align-items: start;
     }
     /* Thin gold rule across the top — single accent line in the
        California-poppy bud color. Replaces the previous 4-stop gradient
@@ -181,6 +188,13 @@
       padding-top: 0;
       border-top: none;
       justify-content: flex-end;
+      /* Push stats down to align with the headline baseline. With
+         align-items: start on .hero-band, both columns start at the
+         band padding-top. The eyebrow row above the headline adds
+         ~24px of vertical offset (eyebrow font-size 11px + line-height
+         + margin-bottom 14px ≈ 24px). 22px gets us close to the
+         headline top; tweak if the screenshot still looks off. */
+      margin-top: 22px;
     }
     .chat-test-root .hero-stat {
       background: transparent;

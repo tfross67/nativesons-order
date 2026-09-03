@@ -643,6 +643,29 @@
       font-size: 12px;
       color: var(--c-muted);
     }
+    .saved-filters .sf-recent-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+      margin: 0 4px 0 10px;
+    }
+    .saved-filters .sf-divider {
+      display: inline-block;
+      width: 1px;
+      height: 16px;
+      background: var(--c-line);
+      margin: 0 8px 0 4px;
+      flex-shrink: 0;
+    }
+    .saved-filters .sf-row-main {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    .saved-filters .sf-row-main .sf-divider + .sf-tool { margin-left: 4px; }
     .saved-filters .sf-tool {
       padding: 5px 10px;
       font-size: 12px;
@@ -775,7 +798,7 @@
 
   <script src="cart.js?v=20260826-02"></script>
   <script src="masteritem_full.js?v=20260826-02"></script>
-  <script src="saved-filters.js?v=20260828-02"></script>
+  <script src="saved-filters.js?v=20260902-01"></script>
 
   <script>
     // ===== Staff gate =====

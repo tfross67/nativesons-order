@@ -1284,6 +1284,33 @@
     .chat-test-root .saved-filters .sf-chip .sf-del:hover { color: #a04030; }
     .chat-test-root .saved-filters .sf-chip .sf-slot-btn:hover { color: var(--c-cta, #3a5f3a); }
     .chat-test-root .saved-filters .sf-empty-note { font-size: 12px; color: var(--c-muted, #6b6256); }
+    .chat-test-root .saved-filters .sf-recent-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-muted, #6b6256);
+      margin: 0 4px 0 10px;
+    }
+    .chat-test-root .saved-filters .sf-divider {
+      display: inline-block;
+      width: 1px;
+      height: 16px;
+      background: var(--c-line, #d8d2c2);
+      margin: 0 8px 0 4px;
+      flex-shrink: 0;
+    }
+    /* Inline-row layout: chips + tools all share the same flex-wrap line
+       so a long chip list wraps naturally. Push the tools right via
+       margin-left:auto so they sit at the far end of the card. */
+    .chat-test-root .saved-filters .sf-row-main {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    .chat-test-root .saved-filters .sf-row-main .sf-tool { margin-left: 0; }
+    .chat-test-root .saved-filters .sf-row-main .sf-divider + .sf-tool { margin-left: 4px; }
     .chat-test-root .saved-filters .sf-tool {
       padding: 5px 10px;
       font-size: 12px;
@@ -4315,7 +4342,7 @@
   <script src="supabase-config.js?v=20260826-02"></script>
   <script src="cart.js?v=20260826-02"></script>
   <script src="masteritem_full.js?v=20260826-02"></script>
-  <script src="saved-filters.js?v=20260828-02"></script>
+  <script src="saved-filters.js?v=20260902-01"></script>
   <script src="glimm-vanilla.js?v=20260815-03"></script>
   <script src="availability_data.js?v=20260828-01"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()

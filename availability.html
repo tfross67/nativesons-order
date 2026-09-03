@@ -89,15 +89,9 @@
       max-width: 1080px;
       margin: 0 auto;
       padding: 24px 16px 64px;
-      background-color: #fafaf5;
-      background-image:
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'><g fill='none' stroke='%232d4a2b' stroke-width='0.6' stroke-opacity='0.06'><path d='M0 100 Q150 60 300 110 T600 90'/><path d='M0 140 Q150 100 300 150 T600 130'/><path d='M0 180 Q150 140 300 190 T600 170'/><path d='M0 220 Q150 180 300 230 T600 210'/><path d='M0 260 Q150 220 300 270 T600 250'/><path d='M0 300 Q150 260 300 310 T600 290'/><path d='M0 340 Q150 300 300 350 T600 330'/><path d='M0 380 Q150 340 300 390 T600 370'/><path d='M0 420 Q150 380 300 430 T600 410'/><path d='M0 460 Q150 420 300 470 T600 450'/><path d='M0 500 Q150 460 300 510 T600 490'/><path d='M0 540 Q150 500 300 550 T600 530'/><circle cx='120' cy='200' r='40'/><circle cx='120' cy='200' r='80'/><circle cx='120' cy='200' r='120'/><circle cx='420' cy='380' r='60'/><circle cx='420' cy='380' r='100'/><circle cx='420' cy='380' r='140'/></g></svg>"),
-        linear-gradient(180deg, #fafaf5 0%, #f0ece1 100%);
-      background-repeat: repeat, no-repeat;
-      background-size: 600px 600px, 100% 100%;
-      background-position: 0 0, 0 0;
-      background-attachment: scroll, scroll;
-      min-height: 100vh;
+      /* Background moved to body (2026-09-02) so the cream gradient
+         and topo SVG lines span the full viewport. This container is
+         now transparent — the body canvas shows through. */
 
       /* === Typography system (vars inherited from :root above) === */
       font-family: var(--font-sans);
@@ -3592,7 +3586,30 @@
        win on elements that live OUTSIDE .chat-test-root (cart panel, modals).
        These unscoped overrides restore the chat-search design system.
        =================================================================== */
-    body { font-family: var(--font-sans); color: var(--c-ink, #1a2e1a); }
+    body {
+      font-family: var(--font-sans);
+      color: var(--c-ink, #1a2e1a);
+      /* Cream gradient + topographic SVG lines — moved here from
+         .chat-test-root (2026-09-02) so the brand landscape spans the
+         full viewport, not just the 1080px content container. On wide
+         monitors the cream previously only filled the middle column,
+         leaving white gutters on either side that read as a floating
+         card in space. Now the canvas is one continuous surface. */
+      background-color: #fafaf5;
+      background-image:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'><g fill='none' stroke='%232d4a2b' stroke-width='0.6' stroke-opacity='0.06'><path d='M0 100 Q150 60 300 110 T600 90'/><path d='M0 140 Q150 100 300 150 T600 130'/><path d='M0 180 Q150 140 300 190 T600 170'/><path d='M0 220 Q150 180 300 230 T600 210'/><path d='M0 260 Q150 220 300 270 T600 250'/><path d='M0 300 Q150 260 300 310 T600 290'/><path d='M0 340 Q150 300 300 350 T600 330'/><path d='M0 380 Q150 340 300 390 T600 370'/><path d='M0 420 Q150 380 300 430 T600 410'/><path d='M0 460 Q150 420 300 470 T600 450'/><path d='M0 500 Q150 460 300 510 T600 490'/><path d='M0 540 Q150 500 300 550 T600 530'/><circle cx='120' cy='200' r='40'/><circle cx='120' cy='200' r='80'/><circle cx='120' cy='200' r='120'/><circle cx='420' cy='380' r='60'/><circle cx='420' cy='380' r='100'/><circle cx='420' cy='380' r='140'/></g></svg>"),
+        linear-gradient(180deg, #fafaf5 0%, #f0ece1 100%);
+      background-repeat: repeat, no-repeat;
+      background-size: 600px 600px, 100% 100%;
+      background-position: 0 0, 0 0;
+      /* background-attachment: fixed for the gradient (the topo SVG
+         stays scroll-attached so it tiles as the page scrolls). With
+         fixed attachment, the cream gradient is viewport-relative
+         — the bottom of a long document doesn't get stretched to
+         the dark #f0ece1 stop, it just shows the same cream as the
+         top. */
+      background-attachment: scroll, fixed;
+    }
     /* Modal title — sans 18px regular, --c-bark */
     .modal-header h2 {
       font-family: var(--font-sans);

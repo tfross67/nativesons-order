@@ -344,6 +344,16 @@
       line-height: 1.4;
       color: var(--c-bark, #2d4a2b);
       transition: border-color 0.2s ease;
+      /* Safari focus-ring + tap-highlight suppression. Without these,
+         Safari draws a magenta accent line on the leading edge of
+         any focused text input, and tints the row on tap. Force the
+         accent color to brand green and zero the tap highlight. */
+      -webkit-appearance: none;
+      appearance: none;
+      accent-color: var(--c-bark, #2d4a2b);
+      caret-color: var(--c-bark, #2d4a2b);
+      -webkit-tap-highlight-color: transparent;
+      -webkit-text-fill-color: var(--c-bark, #2d4a2b);
     }
     .chat-test-root .search-input::placeholder {
       color: var(--c-muted, #6b6256);

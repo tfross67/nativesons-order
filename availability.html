@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20260902-01">
+  <meta name="build" content="20260902-02">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
@@ -53,7 +53,13 @@
          tint overlay. The warm cream gradient was reading as
          'nursery catalogue'. Now reads as 'modern product hero' —
          the gold hairline at the top (::before) carries the brand
-         warmth, the body is clean white. */
+         warmth, the body is clean white.
+
+         2026-09-02 (later): two-column layout — text content (eyebrow
+         + headline + sub) on the left, stats (328 / 60 / 55) on the
+         right. Saves ~70px of vertical real estate vs the previous
+         stacked layout. Single-column on mobile (≤720px) where the
+         stats drop back below the headline. */
       background:
         linear-gradient(135deg, rgba(31, 107, 58, 0.03) 0%, transparent 60%),
         linear-gradient(180deg, #ffffff 0%, #fafaf7 100%);
@@ -63,6 +69,11 @@
       box-shadow: 0 1px 3px rgba(31, 58, 31, 0.04), 0 6px 18px rgba(31, 58, 31, 0.05);
       position: relative;
       overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: 48px;
+      row-gap: 0;
+      align-items: center;
     }
     /* Thin gold rule across the top — single accent line in the
        California-poppy bud color. Replaces the previous 4-stop gradient
@@ -74,7 +85,10 @@
       top: 0; left: 0; right: 0; height: 1px;
       background: var(--c-bud, #e88c1d);
     }
-    .chat-test-root .hero-content { display: block; }
+    .chat-test-root .hero-content {
+      display: block;
+      min-width: 0;  /* prevent grid blowout from long content */
+    }
     .chat-test-root .hero-eyebrow {
       font-family: var(--font-sans);
       font-size: var(--fs-eyebrow);
@@ -154,16 +168,19 @@
       line-height: 1.45;
       max-width: 560px;
     }
-    /* Stats now sit inline below the sub, not as a separate column.
-       Treat them as a typographic row, not as cards. Each stat is a
-       number + label pair separated by typographic dots. */
+    /* Stats now sit in the right column of the two-column hero band,
+       not as a separate row below the sub. They're vertically centered
+       against the text content. Each stat is a number + label pair,
+       laid out as a tight horizontal row with typographic dividers.
+       The border-top is gone — the column gap does that work. */
     .chat-test-root .hero-stats {
       display: flex;
       align-items: baseline;
       gap: 0;
-      flex-wrap: wrap;
-      padding-top: 14px;
-      border-top: 1px solid var(--c-line, #e5e3dd);
+      flex-wrap: nowrap;
+      padding-top: 0;
+      border-top: none;
+      justify-content: flex-end;
     }
     .chat-test-root .hero-stat {
       background: transparent;
@@ -181,7 +198,7 @@
     }
     .chat-test-root .hero-stat-num {
       font-family: var(--font-serif);
-      font-size: var(--fs-stat);
+      font-size: 28px;
       font-weight: 400;
       font-style: normal;
       color: var(--c-bark, #1f3a1f);
@@ -189,7 +206,7 @@
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
       display: inline-block;
-      margin-right: 8px;
+      margin-right: 6px;
     }
     .chat-test-root .hero-stat-label {
       font-family: var(--font-sans);
@@ -202,6 +219,24 @@
       display: inline-block;
       position: relative;
       top: -3px;
+    }
+    @media (max-width: 720px) {
+      /* Two-column hero collapses to single column below 720px — the
+         stats drop back below the headline, full-width, like the
+         original stacked layout. The border-top divider is reinstated
+         so the stats visually separate from the sub. */
+      .chat-test-root .hero-band {
+        grid-template-columns: minmax(0, 1fr);
+        column-gap: 0;
+        row-gap: 18px;
+        align-items: stretch;
+      }
+      .chat-test-root .hero-stats {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        padding-top: 16px;
+        border-top: 1px solid var(--c-line, #e5e3dd);
+      }
     }
     @media (max-width: 600px) {
       .chat-test-root .hero-band { padding: 22px 18px 20px; }

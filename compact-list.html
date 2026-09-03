@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#2d4a2b">
+  <meta name="theme-color" content="#1f3a1f">
   <title>Native Sons — Quick Availability</title>
   <meta name="description" content="Fast, text-only availability list. Botanical name, common name, size, height, width, and price.">
   <link rel="manifest" href="manifest.webmanifest">
@@ -15,13 +15,23 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
   <style>
     :root {
-      --c-bark: #2d4a2b;
-      --c-paper: #f7f4ec;
-      --c-line: #d8d2c2;
+      /* Modernized 2026-09-02 to match availability.html — drop warm
+         cream, deepen green, vivid CTA, warmer amber. See availability.html
+         :root block for the full rationale. */
+      --c-bark: #1f3a1f;
+      --c-paper: #ffffff;
+      --c-line: #e5e3dd;
       --c-muted: #6b6256;
       --c-ink: #1a2e1a;
       --c-clay: #4a4438;
-      --c-cta: #3a5f3a;
+      --c-body: #2d2820;
+      --c-cta: #1f6b3a;
+      --c-sage: #5d7a4a;
+      --c-sage-deep: #1f3a1f;
+      --c-sage-soft: #e7f0e8;
+      --c-bg-soft: #f5f5f4;
+      --c-paper-pure: #ffffff;
+      --c-bud: #e88c1d;
       --font-serif: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       --font-mono: "SF Mono", Menlo, monospace;
@@ -36,7 +46,18 @@
       font-size: 14px;
       line-height: 1.5;
       color: var(--c-ink);
-      background: #fafaf5;
+      /* Modernized 2026-09-02 — match availability.html body canvas:
+         pure white with very faint warm fade, desaturated topo SVG
+         at 3%. background-attachment fixed on the gradient so a
+         long document doesn't stretch the dark stop to the bottom. */
+      background-color: #ffffff;
+      background-image:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'><g fill='none' stroke='%231f3a1f' stroke-width='0.6' stroke-opacity='0.03'><path d='M0 100 Q150 60 300 110 T600 90'/><path d='M0 140 Q150 100 300 150 T600 130'/><path d='M0 180 Q150 140 300 190 T600 170'/><path d='M0 220 Q150 180 300 230 T600 210'/><path d='M0 260 Q150 220 300 270 T600 250'/><path d='M0 300 Q150 260 300 310 T600 290'/><path d='M0 340 Q150 300 300 350 T600 330'/><path d='M0 380 Q150 340 300 390 T600 370'/><path d='M0 420 Q150 380 300 430 T600 410'/><path d='M0 460 Q150 420 300 470 T600 450'/><path d='M0 500 Q150 460 300 510 T600 490'/><path d='M0 540 Q150 500 300 550 T600 530'/><circle cx='120' cy='200' r='40'/><circle cx='120' cy='200' r='80'/><circle cx='120' cy='200' r='120'/><circle cx='420' cy='380' r='60'/><circle cx='420' cy='380' r='100'/><circle cx='420' cy='380' r='140'/></g></svg>"),
+        linear-gradient(180deg, #ffffff 0%, #f7f6f2 100%);
+      background-repeat: repeat, no-repeat;
+      background-size: 600px 600px, 100% 100%;
+      background-position: 0 0, 0 0;
+      background-attachment: scroll, fixed;
       min-height: 100vh;
     }
 
@@ -123,7 +144,7 @@
       text-align: left;
       font-weight: 500;
       color: var(--c-muted);
-      background: #f3efe2;
+      background: #f5f5f4;
       padding: 12px 16px;
       border-bottom: 1px solid var(--c-line);
       font-size: 11px;
@@ -135,19 +156,19 @@
       position: sticky;
       top: 0;
     }
-    table.list thead th:hover { background: #ebe6d4; }
+    table.list thead th:hover { background: #e5e3dd; }
     table.list thead th .arrow { color: var(--c-muted); margin-left: 4px; font-size: 10px; }
     /* Centered Status column — match the cell alignment */
     table.list thead th[data-sort="status"] { text-align: center; }
 
     table.list tbody td {
       padding: 10px 16px;
-      border-bottom: 1px solid #efeada;
+      border-bottom: 1px solid #e5e3dd;
       vertical-align: middle;
     }
     table.list tbody tr:last-child td { border-bottom: 0; }
-    table.list tbody tr:nth-child(even) td { background: #fbfaf3; }
-    table.list tbody tr:hover td { background: #f4f0df; }
+    table.list tbody tr:nth-child(even) td { background: #fafaf7; }
+    table.list tbody tr:hover td { background: #f5f5f4; }
 
     td.botanical {
       font-style: italic;
@@ -161,8 +182,8 @@
       border-bottom: 1px dotted var(--c-line);
     }
     td.botanical a.plant-link:hover {
-      color: var(--c-cta, #3a5f3a);
-      border-bottom-color: var(--c-cta, #3a5f3a);
+      color: var(--c-cta, #1f6b3a);
+      border-bottom-color: var(--c-cta, #1f6b3a);
     }
     td.size, td.height, td.width {
       font-family: var(--font-mono);
@@ -306,7 +327,7 @@
         display: block;
         background: transparent;
         border: none;
-        border-bottom: 1px solid #efeada;
+        border-bottom: 1px solid #e5e3dd;
         border-radius: 0;
         padding: 9px 4px;
         margin-bottom: 0;
@@ -373,7 +394,7 @@
     }
     body.pricing-locked .pricing-banner { display: block; }
     .pricing-banner a {
-      color: var(--c-cta, #3a5f3a);
+      color: var(--c-cta, #1f6b3a);
       font-weight: 500;
       text-decoration: none;
       margin-left: 4px;
@@ -458,7 +479,7 @@
       background: #fff;
       color: var(--c-cta);
     }
-    .btn-ghost:hover { background: #f4f0df; }
+    .btn-ghost:hover { background: #f5f5f4; }
 
     /* Toast for add feedback */
     #addToast {
@@ -500,7 +521,7 @@
       cursor: pointer;
       white-space: nowrap;
     }
-    .quick-order-toggle:hover { background: #f4f0df; }
+    .quick-order-toggle:hover { background: #f5f5f4; }
 
     .quick-order-panel {
       display: none;
@@ -530,7 +551,7 @@
       font-size: 13px;
       line-height: 1.5;
       color: var(--c-ink);
-      background: #fbfaf5;
+      background: #ffffff;
       border: 1px solid var(--c-line);
       border-radius: 6px;
       outline: none;
@@ -559,7 +580,7 @@
       align-items: baseline;
       gap: 8px;
       padding: 4px 0;
-      border-bottom: 1px solid #f0ecdf;
+      border-bottom: 1px solid #f5f5f4;
     }
     .qo-results li:last-child { border-bottom: 0; }
     .qo-results .qo-ok { color: var(--c-ink); }
@@ -583,7 +604,7 @@
     .saved-filters {
       margin-bottom: 12px;
       padding: 10px 12px;
-      background: #fbfaf5;
+      background: #ffffff;
       border: 1px solid var(--c-line);
       border-radius: 6px;
       font-size: 13px;
@@ -630,7 +651,7 @@
       color: inherit;
       cursor: pointer;
     }
-    .saved-filters .sf-chip .sf-apply:hover { color: var(--c-cta, #3a5f3a); }
+    .saved-filters .sf-chip .sf-apply:hover { color: var(--c-cta, #1f6b3a); }
     .saved-filters .sf-chip .sf-del,
     .saved-filters .sf-chip .sf-slot-btn {
       color: var(--c-muted);
@@ -638,7 +659,7 @@
       border-radius: 999px;
     }
     .saved-filters .sf-chip .sf-del:hover { color: #a04030; }
-    .saved-filters .sf-chip .sf-slot-btn:hover { color: var(--c-cta, #3a5f3a); }
+    .saved-filters .sf-chip .sf-slot-btn:hover { color: var(--c-cta, #1f6b3a); }
     .saved-filters .sf-empty-note {
       font-size: 12px;
       color: var(--c-muted);
@@ -676,7 +697,7 @@
       color: var(--c-cta);
       cursor: pointer;
     }
-    .saved-filters .sf-tool:hover { background: #f4f0df; }
+    .saved-filters .sf-tool:hover { background: #f5f5f4; }
     .saved-filters .sf-tool:disabled { opacity: 0.4; cursor: not-allowed; }
 
     /* PWA install banner — top-right pill. Moved from bottom-right

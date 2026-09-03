@@ -124,14 +124,20 @@
   function renderInto(mount, store, page) {
     const slotsHtml = store.slots.map((s, i) => buildChip(i, s, 'slot')).join('');
     const recentsHtml = store.recents.map((r, i) => buildRecentChip(r, i)).join('');
+    // Compact inline layout — chips + tools on a single row, separated by
+    // a thin divider. Empty slots render as a single "★ Star" placeholder
+    // chip so the user understands they're there to fill. Recents collapse
+    // into the same row, prefixed by "Recent:" only when non-empty.
+    const recentsSection = recentsHtml
+      ? '<span class="sf-recent-label">Recent:</span>' + recentsHtml
+      : '';
     mount.innerHTML =
-      `<div class="sf-row sf-row-slots"><span class="sf-label">Saved</span>${slotsHtml}</div>` +
-      `<div class="sf-row sf-row-recents"><span class="sf-label">Recent</span>` +
-      (recentsHtml || '<span class="sf-empty-note">No recent filters yet.</span>') +
-      `</div>` +
-      `<div class="sf-row sf-row-tools">` +
-      `<button type="button" class="sf-tool sf-save" title="Save the current filter to a slot">＋ Save current view</button>` +
-      `<button type="button" class="sf-tool sf-share" title="Copy a link to this view">🔗 Share this view</button>` +
+      `<div class="sf-row sf-row-main">` +
+        `<span class="sf-label">Saved:</span>${slotsHtml}` +
+        recentsSection +
+        `<span class="sf-divider" aria-hidden="true"></span>` +
+        `<button type="button" class="sf-tool sf-save" title="Save the current filter to a slot">＋ Save view</button>` +
+        `<button type="button" class="sf-tool sf-share" title="Copy a link to this view">🔗 Share</button>` +
       `</div>`;
   }
 

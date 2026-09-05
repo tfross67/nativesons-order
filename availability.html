@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20260905-01">
+  <meta name="build" content="20260905-02">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
@@ -4395,6 +4395,14 @@
     const SEL_KEY = 'ns_chat_selection_v1';
     let selection = loadSelection();
 
+    // Active-customer persistence — declared here (top of the outer IIFE)
+    // so it's initialized BEFORE initStaffMode() runs and calls
+    // _restoreActiveCustomer() later in this same IIFE. The
+    // _refreshCompactListLinks / _persistActiveCustomer / _restoreActiveCustomer
+    // functions live next to pickCustomer() in the staff-customer-picker
+    // block (they need access to `selectedCustomer` and `allCustomers`).
+    const ACTIVE_CUSTOMER_KEY = 'ns_staff_active_customer';
+
     function loadSelection() {
       try {
         const raw = localStorage.getItem(SEL_KEY);
@@ -6409,6 +6417,9 @@
           });
         }
       } catch (e) { /* ignore */ }
+      // Restore the previously-selected customer (if any) once staff mode
+      // is established. Safe no-op for first-time visitors.
+      try { _restoreActiveCustomer(); } catch (e) { /* ignore — non-critical */ }
     })();
 
     // Hook called by the sign-in form's inline onsubmit when password matches.
@@ -6438,6 +6449,10 @@
         // Customer database loads lazily on first use of the picker —
         // don't block sign-in on it (see loadStaffCustomerData for rationale).
         if (typeof renderCart === 'function') renderCart();
+        // Restore the previously-selected customer (if any) now that staff
+        // mode is established. Async — we don't need to wait for it
+        // before showing the page.
+        try { _restoreActiveCustomer(); } catch (e) { /* ignore */ }
       } catch (e) { console.error(e); }
     };
 
@@ -7883,8 +7898,66 @@
         results.classList.add('is-open');
       }
 
+      // Active-customer persistence (see also compact-list.html).
+      // The user picks a customer in the picker; this writes their full
+      // record to localStorage so it survives any cross-page navigation
+      // (regular view ↔ table view). It also injects ?cust=<code> into
+      // every "compact-list.html" link so compact-list can look up and
+      // display the same customer without re-picking. The
+      // ACTIVE_CUSTOMER_KEY constant lives at the top of this IIFE so
+      // it's initialized before initStaffMode() calls _restoreActiveCustomer().
+      function _refreshCompactListLinks() {
+        document.querySelectorAll('a[href="compact-list.html"]').forEach((a) => {
+          if (selectedCustomer && selectedCustomer.customer_code) {
+            a.href = `compact-list.html?cust=${encodeURIComponent(selectedCustomer.customer_code)}`;
+          } else {
+            a.href = 'compact-list.html';
+          }
+        });
+      }
+
+      function _persistActiveCustomer(c) {
+        try {
+          if (c && c.customer_code) {
+            // Strip the runtime-computed `_s` search index field to keep
+            // localStorage tidy — it's rebuilt on each lazy-load.
+            const { _s, ...persistable } = c;
+            localStorage.setItem(ACTIVE_CUSTOMER_KEY, JSON.stringify(persistable));
+          } else {
+            localStorage.removeItem(ACTIVE_CUSTOMER_KEY);
+          }
+        } catch (e) { /* private mode etc. — fail silently, customer just won't persist */ }
+      }
+
+      // Restore a previously-picked customer when the page loads while
+      // staff is signed in. Looks up the customer code in the cached
+      // office_customers.json data (loads it on demand if not yet loaded).
+      async function _restoreActiveCustomer() {
+        let raw;
+        try { raw = localStorage.getItem(ACTIVE_CUSTOMER_KEY); } catch (e) { return; }
+        if (!raw) return;
+        let saved;
+        try { saved = JSON.parse(raw); } catch (e) { return; }
+        if (!saved || !saved.customer_code) return;
+        // Make sure the picker is loaded so we can look up the full record
+        // (the saved object should already be complete, but if the schema
+        // shifts between deploys we want a fresh one).
+        await window.loadStaffCustomerData();
+        const fresh = (allCustomers || []).find(c => c.customer_code === saved.customer_code);
+        const c = fresh || saved;
+        pickCustomer(c);
+        // If we didn't find the customer in the loaded DB, surface a tiny
+        // warning so staff knows the record may be stale.
+        if (!fresh) {
+          const nameEl = $('selCustName');
+          if (nameEl) nameEl.title = '(Restored from cache — code not found in current customer DB)';
+        }
+      }
+
       function pickCustomer(c) {
         selectedCustomer = c;
+        _persistActiveCustomer(c);
+        _refreshCompactListLinks();
         const nameEl = $('selCustName');
         const metaEl = $('selCustMeta');
         const markupEl = $('selCustMarkup');
@@ -7940,6 +8013,8 @@
 
       function clearSelectedCustomer() {
         selectedCustomer = null;
+        _persistActiveCustomer(null);
+        _refreshCompactListLinks();
         defaultMarkupMultiplier = 1.0;
         const card = $('selectedCust');
         const markupEl = $('selCustMarkup');

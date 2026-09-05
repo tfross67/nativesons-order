@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20260905-03">
+  <meta name="build" content="20260905-04">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
@@ -7912,8 +7912,10 @@
       // display the same customer without re-picking. The
       // ACTIVE_CUSTOMER_KEY constant lives at the top of this IIFE so
       // it's initialized before initStaffMode() calls _restoreActiveCustomer().
+      // Selects both the bare href AND any previously-injected ?cust=… form,
+      // because the second pass needs to reset what the first pass set.
       function _refreshCompactListLinks() {
-        document.querySelectorAll('a[href="compact-list.html"]').forEach((a) => {
+        document.querySelectorAll('a[href^="compact-list.html"]').forEach((a) => {
           if (selectedCustomer && selectedCustomer.customer_code) {
             a.href = `compact-list.html?cust=${encodeURIComponent(selectedCustomer.customer_code)}`;
           } else {

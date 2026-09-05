@@ -3491,86 +3491,111 @@
     }
 
     /* ============================================================ */
-    /* === Staff-mode 3-column layout (sidebar | results | cart) === */
+    /* === Staff-mode topbar layout                              === */
     /* ============================================================ */
+    /* Replaces the prior left-sidebar (280px fixed column). The
+       customer panel is now a horizontal strip across the top of
+       <main> — catalog gets the full viewport width below it. The
+       sidebar's form fieldset is gone; checkout modal is the only
+       form, and it auto-fills via pickCustomer(). */
+    .staff-sidebar { /* alias kept so existing rules still apply */ }
+    .chat-test-root .staff-sidebar,
+    .staff-sidebar,
+    .chat-test-root .staff-topbar,
+    .staff-topbar {
+      position: sticky;       /* sit at top of scroll on desktop */
+      top: 0;
+      z-index: 70;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--c-line);
+      padding: 14px 20px;
+      margin: 0 0 16px;
+      box-shadow: 0 1px 6px rgba(45, 74, 43, 0.06);
+    }
+    .staff-topbar-inner,
+    .staff-sidebar-inner {
+      display: grid;
+      grid-template-columns: minmax(260px, 1.4fr) auto;
+      gap: 24px;
+      align-items: center;
+    }
+    /* Push the catalog padding-left off (was needed for fixed sidebar). */
     body.staff-mode #mainApp,
     body.staff-mode .chat-test-root {
-      padding-left: 308px !important;        /* 280px sidebar + 28px gutter — staff-mode build 2026-07-14, change forces CDN cache bust */
+      padding-left: 0 !important;
       padding-right: 16px;
-      margin-left: 0 !important;             /* override default centering so the main content fills from sidebar edge to viewport edge */
+      margin-left: 0 !important;
       margin-right: 0;
-      max-width: none;            /* override default 1080px cap in staff mode */
-    }
-    .chat-test-root .staff-sidebar,
-    .staff-sidebar {
-      position: fixed;
-      top: 0;                     /* full-height, sits over the header */
-      left: 0;
-      bottom: 0;
-      width: 280px;
-      background: #fff;
-      border-right: 1px solid #e5e3dd;
-      padding: 88px 16px 24px;    /* 88px clears the site header */
-      overflow-y: auto;
-      z-index: 80;
-      box-shadow: 2px 0 8px rgba(45, 74, 43, 0.05);
+      max-width: none;
     }
     .chat-test-root .staff-sidebar h2,
-    .staff-sidebar h2 {
+    .staff-sidebar h2,
+    .staff-topbar .staff-section-title {
       font-family: var(--font-sans);
-      font-size: var(--fs-eyebrow);
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: var(--ls-xwide);
+      letter-spacing: 0.12em;
       color: var(--c-bark, #1f3a1f);
-      margin: 0 0 10px;
+      margin: 0 0 6px;
+      display: block;
     }
-    /* Selected customer — pinned at the bottom of the sidebar */
+    /* Selected customer card now lives inline to the right of the picker */
+    .chat-test-root .staff-sidebar-inner > #selectedCust,
+    .staff-sidebar-inner > #selectedCust,
+    .staff-topbar-selected {
+      margin: 0;
+      min-width: 0;
+    }
     .chat-test-root .staff-sidebar .selected-cust-bottom,
     .staff-sidebar .selected-cust-bottom {
-      margin-top: auto;
+      margin-top: 0;
     }
-    .chat-test-root .staff-sidebar-inner,
-    .staff-sidebar-inner {
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
+    /* Selected customer card visual */
+    #selectedCust .selected-cust {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 8px 14px;
+      align-items: baseline;
+      padding: 10px 14px;
+      background: var(--c-sage-soft, #e7f0e8);
+      border: 1px solid var(--c-line);
+      border-left: 3px solid var(--c-cta);
+      border-radius: 6px;
+      min-width: 0;
     }
-    /* Make the sidebar's cust-picker-results drop down on top of results */
-    body .staff-sidebar .cust-picker-results, 
-    .staff-sidebar .cust-picker-results {
-      z-index: 85;
+    /* Don't pin the dropdown below the picker — it should now anchor
+       under the picker input inside the topbar. */
+    body .staff-sidebar .cust-picker-results,
+    .staff-sidebar .cust-picker-results,
+    .staff-topbar .cust-picker-results {
+      position: absolute;
+      z-index: 100;
+      left: 0;
+      right: 0;
+    }
+    /* Picker wrap is the positioning context for its dropdown */
+    .staff-topbar .cust-picker-wrap,
+    .staff-sidebar-inner .cust-picker-wrap {
+      position: relative;
     }
 
-    /* Mobile: collapse to top strip */
-    @media (max-width: 900px) {
-      body.staff-mode #mainApp {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        max-width: 100% !important;
-        padding-top: 92px;
+    /* Mobile: stack picker above selected card (no horizontal split) */
+    @media (max-width: 720px) {
+      .staff-sidebar,
+      .staff-topbar {
+        padding: 12px 14px;
+        margin-bottom: 12px;
       }
-      body.staff-mode .chat-test-root {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        max-width: 100% !important;
-      }
-      .chat-test-root .staff-sidebar,
-      .staff-sidebar {
-        position: static;
-        width: auto;
-        border-right: none;
-        border-bottom: 1px solid #e5e3dd;
-        padding: 16px;
-        box-shadow: none;
-      }
-      .chat-test-root .staff-sidebar-inner,
+      .staff-topbar-inner,
       .staff-sidebar-inner {
-        min-height: 0;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      #selectedCust .selected-cust {
+        grid-template-columns: 1fr;
+        gap: 4px;
       }
     }
     /* ===================================================================
@@ -4022,54 +4047,31 @@
 
   <!-- Staff-only customer sidebar (visible only when body has .staff-mode).
        Sits as a fixed left column on desktop; collapses to a top strip on mobile. -->
-  <aside class="staff-sidebar staff-only" id="staffSidebar" aria-label="Customer lookup">
-    <div class="staff-sidebar-inner">
-      <h2 class="staff-section-title">Customer</h2>
-      <div class="cust-picker-wrap">
-        <input type="search" id="custPickerInput" class="cust-picker-input"
-               placeholder="Search customers…" autocomplete="off">
-        <button class="cust-picker-clear" id="custPickerClear" type="button" title="Clear">✕</button>
-        <div class="cust-picker-results" id="custPickerResults"></div>
-      </div>
+  <section class="staff-topbar staff-only staff-sidebar" id="staffTopbar" aria-label="Customer lookup">
+      <div class="staff-topbar-inner staff-sidebar-inner">
+        <div class="staff-topbar-picker">
+          <label class="staff-section-title" for="custPickerInput">Customer</label>
+          <div class="cust-picker-wrap">
+            <input type="search" id="custPickerInput" class="cust-picker-input"
+                   placeholder="Search customers…" autocomplete="off">
+            <button class="cust-picker-clear" id="custPickerClear" type="button" title="Clear">✕</button>
+            <div class="cust-picker-results" id="custPickerResults"></div>
+          </div>
+        </div>
 
-      <div id="selectedCust" hidden>
-        <div class="selected-cust">
-          <div class="selected-cust-name" id="selCustName">—</div>
-          <div class="selected-cust-meta" id="selCustMeta"></div>
-          <div class="selected-cust-actions">
-            <span class="markup-pill" id="selCustMarkup" hidden>+0% markup</span>
-            <button type="button" class="btn btn-ghost" id="selCustClear">× Clear</button>
+        <div id="selectedCust" class="staff-topbar-selected" hidden>
+          <div class="selected-cust">
+            <span class="staff-section-title">Working for</span>
+            <div class="selected-cust-name" id="selCustName">—</div>
+            <div class="selected-cust-meta" id="selCustMeta"></div>
+            <div class="selected-cust-actions">
+              <span class="markup-pill" id="selCustMarkup" hidden>+0% markup</span>
+              <button type="button" class="btn btn-ghost" id="selCustClear">Switch customer</button>
+            </div>
           </div>
         </div>
       </div>
-
-      <details class="cust-details" id="custDetails" open>
-        <summary class="cust-details-summary" aria-label="Toggle customer details">Customer details</summary>
-        <div class="cust-details-body">
-          <label class="cust-form-field">
-            <span>Name</span>
-            <input type="text" id="sideCustName" autocomplete="name">
-          </label>
-          <label class="cust-form-field">
-            <span>Email</span>
-            <input type="email" id="sideCustEmail" autocomplete="email">
-          </label>
-          <label class="cust-form-field">
-            <span>Phone</span>
-            <input type="tel" id="sideCustPhone" autocomplete="tel">
-          </label>
-          <label class="cust-form-field">
-            <span>Company</span>
-            <input type="text" id="sideCustCompany" autocomplete="organization">
-          </label>
-          <label class="cust-form-field">
-            <span>Notes</span>
-            <textarea id="sideCustNotes" rows="2" placeholder="delivery, substitutions…"></textarea>
-          </label>
-        </div>
-      </details>
-    </div>
-  </aside>
+    </section>
 
   <main class="chat-test-root" id="mainApp">
     <div class="hero-band">
@@ -7983,17 +7985,9 @@
         }
         if (card) card.hidden = false;
 
-        // Fill sidebar customer-details form fields
-        const sName = $('sideCustName');
-        const sEmail = $('sideCustEmail');
-        const sPhone = $('sideCustPhone');
-        const sCompany = $('sideCustCompany');
-        if (sName) sName.value = c.name || '';
-        if (sEmail) sEmail.value = c.email || '';
-        if (sPhone) sPhone.value = c.phone || '';
-        if (sCompany) sCompany.value = (c.ship_to_name && c.ship_to_name !== c.name) ? c.ship_to_name : (c.name || '');
-
-        // Sync the checkout form fields too (if user opens checkout mid-flow)
+        // Sync the checkout form fields (the only form on the page now that the
+        // sidebar's customer-details fieldset is gone). pickedCustomer → form
+        // happens here, and the user can still edit the form freely afterward.
         const form = $('checkoutForm');
         if (form) {
           form.customer_name.value = c.name || '';
@@ -8024,12 +8018,8 @@
         const markupEl = $('selCustMarkup');
         if (card) card.hidden = true;
         if (markupEl) markupEl.hidden = true;
-        // Clear sidebar fields
-        ['sideCustName', 'sideCustEmail', 'sideCustPhone', 'sideCustCompany', 'sideCustNotes'].forEach(id => {
-          const el = $(id);
-          if (el) el.value = '';
-        });
-        // Clear checkout form fields
+        // Clear checkout form fields (the sidebar's customer-details fieldset
+        // is gone in this build; the modal is the only form on the page).
         const form = $('checkoutForm');
         if (form) {
           form.customer_name.value = '';
@@ -8037,29 +8027,6 @@
           form.customer_phone.value = '';
           form.customer_company.value = '';
         }
-      }
-
-      // Sync sidebar → checkout form fields whenever the user edits the sidebar
-      ['sideCustName', 'sideCustEmail', 'sideCustPhone', 'sideCustCompany'].forEach(id => {
-        const el = $(id);
-        if (!el) return;
-        el.addEventListener('input', () => {
-          const fieldName = id.replace(/^sideCust/, 'customer_').toLowerCase();
-          const form = $('checkoutForm');
-          if (!form) return;
-          const target = form.querySelector(`[name="${fieldName}"]`);
-          if (target) target.value = el.value;
-        });
-      });
-      // Notes has a different form field name (`notes`, not `customer_notes`)
-      const sideNotesEl = $('sideCustNotes');
-      if (sideNotesEl) {
-        sideNotesEl.addEventListener('input', () => {
-          const form = $('checkoutForm');
-          if (!form) return;
-          const target = form.querySelector('[name="notes"]');
-          if (target) target.value = sideNotesEl.value;
-        });
       }
 
       // Wire customer picker (delegated — the elements only exist in staff mode)

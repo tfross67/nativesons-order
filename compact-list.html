@@ -120,6 +120,10 @@
       color: var(--c-cta);
       text-decoration: none;
       border-bottom: 1px solid transparent;
+      /* Push the "Change" link to the right edge of the banner even when
+         the meta span is the only flex-1 sibling. */
+      margin-left: auto;
+      flex-shrink: 0;
     }
     .active-customer-banner-change:hover {
       border-bottom-color: var(--c-cta);

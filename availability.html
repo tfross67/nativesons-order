@@ -4478,15 +4478,6 @@
       return imageMapPromise;
     }
 
-    // Find a working image URL for a plant from the static map
-    function findPlantImage(botanical) {
-      // Static map from JSON takes priority
-      if (imageCache._map && imageCache._map[botanical]) {
-        return imageCache._map[botanical];
-      }
-      return null;
-    }
-
     const imageObserver = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
@@ -5121,20 +5112,8 @@
       }[c]));
     }
 
-    function fmtSize(s) {
-      const c = s.container || '?';
-      // Convert 4" (4-inch) to the typographic prime symbol so it doesn't
-      // need HTML escaping and looks nicer than a plain quote.
-      const cDisplay = c.replace(/^4"$/, '4\u2033').replace(/^3"$/, '3\u2033').replace(/^20"$/, '20\u2033');
-      const p = Number(s.price || 0);
-      return p ? `${cDisplay} $${p.toFixed(2)}` : cDisplay;
-    }
-
     // Renders one size as a pair of unit + amount spans with a per-size
-    // weight that de-emphasizes larger containers. The first size (cheapest)
-    // stays at 800 weight, each subsequent size drops 100 weight so the eye
-    // lands on the smallest container first.
-    // priceIndex is 0-based.
+    // weight that de-emphasizes larger containers (priceIndex 0-based).
     function fmtSizeRich(s, priceIndex) {
       const c = s.container || '?';
       const cDisplay = c.replace(/^4"$/, '4\u2033').replace(/^3"$/, '3\u2033').replace(/^20"$/, '20\u2033');
@@ -5163,37 +5142,10 @@
       return `https://www.nativeson.com/product/${slug}`;
     }
 
-    // Image URL pattern. Drupal serves product images at a thumbnail style path.
-    // The actual filename doesn't always match the slug exactly (image filenames
-    // include a content hash), so we attempt a slug-based guess and fall back to
-    // a styled placeholder if the image 404s. We try the most common style
-    // (grid_thumbnail_custom_user_wide_1x); other styles may also work.
-    function plantImageUrl(botanical) {
-      if (!botanical) return '';
-      const slug = String(botanical)
-        .toLowerCase()
-        .replace(/[®™©]/g, '')
-        .replace(/[''‛`]/g, '')
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '')
-        .replace(/-+/g, '');
-      return `https://www.nativeson.com/sites/default/files/styles/grid_thumbnail_custom_user_wide_1x/public/product_images/${slug}.jpg`;
-    }
-
     // Fallback image for plants whose real image can't be loaded (404, missing, etc.).
     // Uses the Native Sons logo cropped to a circle via CSS. Browsers that can't
     // load this (e.g. file:// origin) will show broken-image glyph — fine for now.
     const PLACEHOLDER_IMG = 'logo.jpg';
-
-    // Pre-load an image and resolve when it loads (or fails)
-    function loadImage(url) {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => resolve(url);
-        img.onerror = () => resolve(null);
-        img.src = url;
-      });
-    }
 
     // Is the plant's origin in our CA/Western-US native range?
     function isNativeOrigin(origin) {

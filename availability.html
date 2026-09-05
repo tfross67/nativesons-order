@@ -6419,7 +6419,11 @@
       } catch (e) { /* ignore */ }
       // Restore the previously-selected customer (if any) once staff mode
       // is established. Safe no-op for first-time visitors.
-      try { _restoreActiveCustomer(); } catch (e) { /* ignore — non-critical */ }
+      // Defer to initCart's window-exposed __nsRestoreActiveCustomer (the
+      // helpers are IIFE-scoped inside initCart, so they're not callable
+      // from this initStaffMode IIFE). If initCart hasn't loaded yet, the
+      // call is a no-op and the restore is scheduled at the end of initCart.
+      try { window.__nsRestoreActiveCustomer && window.__nsRestoreActiveCustomer(); } catch (e) { /* ignore */ }
     })();
 
     // Hook called by the sign-in form's inline onsubmit when password matches.
@@ -6450,9 +6454,9 @@
         // don't block sign-in on it (see loadStaffCustomerData for rationale).
         if (typeof renderCart === 'function') renderCart();
         // Restore the previously-selected customer (if any) now that staff
-        // mode is established. Async — we don't need to wait for it
-        // before showing the page.
-        try { _restoreActiveCustomer(); } catch (e) { /* ignore */ }
+        // mode is established. Goes through the window-exposed helper inside
+        // initCart (the helpers are IIFE-scoped there).
+        try { window.__nsRestoreActiveCustomer && window.__nsRestoreActiveCustomer(); } catch (e) { /* ignore */ }
       } catch (e) { console.error(e); }
     };
 
@@ -8095,6 +8099,32 @@
         });
       }
       wireStaffCustomerPicker();
+
+      // === Expose customer-picker helpers on window for cross-IIFE access ===
+      // initStaffMode() runs and finishes BEFORE initCart() runs, so any
+      // customer-related helpers declared inside initCart's IIFE are not
+      // callable from initStaffMode's IIFE scope (function declarations
+      // are hoisted to ENCLOSING function scope, not across IIFE
+      // boundaries). Bridge this by exposing the helpers on window so
+      // initStaffMode (and __onStaffSignIn) can call them through
+      // `window.__nsRestoreActiveCustomer()` etc.
+      // Also: schedule an initial restore so a staff member who's already
+      // signed in (sessionStorage nativesons_admin=1) sees their last
+      // customer immediately, without needing to sign in again.
+      window.__nsAllCustomers = () => allCustomers;
+      window.__nsSelectedCustomer = () => selectedCustomer;
+      window.__nsPickCustomer = (c) => pickCustomer(c);
+      window.__nsClearSelectedCustomer = () => clearSelectedCustomer();
+      window.__nsRefreshCompactListLinks = () => _refreshCompactListLinks();
+      window.__nsRestoreActiveCustomer = () => _restoreActiveCustomer();
+      if (typeof _restoreActiveCustomer === 'function') {
+        // Schedule the restore for staff who're already signed in. The call
+        // is async (fetches customer DB on demand); user doesn't wait.
+        try {
+          const isSignedIn = sessionStorage.getItem('nativesons_admin') === '1';
+          if (isSignedIn) _restoreActiveCustomer();
+        } catch (e) { /* ignore */ }
+      }
 
       // ============================================================
       // Customer request picker — staff adds plants NOT in this week's

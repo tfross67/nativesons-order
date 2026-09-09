@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20260905-04">
+  <meta name="build" content="20260905-05">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
@@ -1353,6 +1353,14 @@
     }
     #pwa-install button.install-yes { font-weight: 700; }
     #pwa-install button.install-no { color: rgba(255,255,255,0.6); }
+    #pwa-install .install-instructions {
+      font-size: 12px;
+      color: #fff;
+      line-height: 1.3;
+    }
+    #pwa-install .install-instructions strong {
+      font-weight: 700;
+    }
     body.pwa-hidden #pwa-install { display: none; }
 
     .chat-test-root .match-hl {
@@ -4354,9 +4362,14 @@
   <!-- Order confirmation toast -->
   <div class="cart-toast" id="cartToast" role="status" aria-live="polite"></div>
 
+  <!-- PWA install banner. The button works on Android Chrome / Edge
+       (where `beforeinstallprompt` fires); on iOS Safari that event
+       never fires, so the button is replaced with text instructions
+       (Tap Share → Add to Home Screen) injected by JS. -->
   <div id="pwa-install" hidden>
-    <span>Install Native Sons as an app?</span>
+    <span class="pwa-install-label">Install Native Sons as an app?</span>
     <button type="button" class="install-yes">Install</button>
+    <span class="install-instructions" hidden>Tap <strong>Share</strong> → <strong>Add to Home Screen</strong></span>
     <button type="button" class="install-no" aria-label="Dismiss">×</button>
   </div>
 
@@ -6035,6 +6048,36 @@
           const banner = document.getElementById('pwa-install');
           if (!banner) return;
           if (window.matchMedia('(display-mode: standalone)').matches) return;
+          // Platform detection: on iOS Safari, `beforeinstallprompt` is
+          // unimplemented (Apple never built it), so the Install button
+          // would do nothing. Replace it with text instructions for the
+          // actual iOS install path: Share → Add to Home Screen.
+          // On Android Chrome / desktop Chromium, the button works via
+          // the standard `beforeinstallprompt` flow.
+          const ua = (navigator.userAgent || '').toLowerCase();
+          // Crios / Chrome-iOS / FxiOS webviews aren't real iOS Safari
+          // (they handle beforeinstallprompt differently). Only flag
+          // genuine WebKit iOS as the installation fallback target.
+          const isIosSafari = /iphone|ipad|ipod/.test(ua)
+            && /safari/.test(ua)
+            && !/crios|fxios|chrome|android/.test(ua);
+          if (isIosSafari) {
+            const yes = banner.querySelector('.install-yes');
+            const instr = banner.querySelector('.install-instructions');
+            if (yes) yes.hidden = true;
+            if (instr) instr.hidden = false;
+            // Show the banner after 4s (same cadence as the Android fallback).
+            setTimeout(() => {
+              if (!document.body.classList.contains('pwa-hidden')) banner.hidden = false;
+            }, 4000);
+            // × dismiss still works via the existing listener below.
+            banner.querySelector('.install-no').addEventListener('click', () => {
+              banner.hidden = true;
+              try { localStorage.setItem('ns_pwa_install_dismissed', '1'); } catch (e) {}
+              document.body.classList.add('pwa-hidden');
+            });
+            return;
+          }
           // ?reset-pwa=1 — clear the dismissed flag so a user who dismissed
           // earlier can re-decide. URL-only; doesn't affect anyone else.
           try {

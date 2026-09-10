@@ -1302,8 +1302,7 @@
       // First commit so a freshly-loaded page already has ?f= in its URL.
       if (savedFilters) savedFilters.commit({ skipRemember: true });
 
-      // ===== PWA install banner =====
-      installPwaBanner();
+      // ===== PWA install banner ===== (init moved to a later block, after pwa-install.js loads)
 
       updateAddBar();
       render();

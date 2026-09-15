@@ -586,12 +586,23 @@
     .chat-test-root .filter-summary .clear-all-btn:active {
       transform: scale(0.96);
     }
+    /* Card grid moved to .view-cards-wrap — the #results container is
+       now a transparent wrapper holding two view slots (#viewCards and
+       #viewTable), so the grid has to live on the cards slot itself.
+       Without this, the grid lays out ONE child (the wrapper) and the
+       cards stack in a single column. */
     .chat-test-root .results {
+      display: block;
+      margin-top: 18px;
+    }
+    .chat-test-root .view-cards-wrap {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       align-items: start;
       gap: 18px;
-      margin-top: 18px;
+    }
+    .chat-test-root .view-table-wrap {
+      display: block;
     }
     .chat-test-root .results-toolbar {
       display: flex;
@@ -1845,6 +1856,7 @@
          treatment — the brand-mark span now occupies the right slot). */
       .chat-test-root .header-meta { flex: 1 1 auto; min-width: 0; }
       .chat-test-root .results { grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
+      .chat-test-root .view-cards-wrap { grid-template-columns: 1fr; gap: 14px; }
       .chat-test-root .hero-headline { font-size: 22px; }
       .chat-test-root .hero-band { padding: 16px 18px; }
       .chat-test-root .hero-stats { width: 100%; }

@@ -4315,6 +4315,91 @@
       border-radius: 999px;
       padding: 1px 7px;
     }
+    /* Qty input + stepper on each popover row. Mirrors compact-list.html's
+       td.size .qty-wrap pattern: a small numeric input next to the size,
+       plus a +/- stepper so buyers can add 24 of a 5gal in one click instead
+       of clicking the size row 24 times. */
+    .row-size-option-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 5px;
+      transition: background-color 80ms ease;
+    }
+    .row-size-option-row:hover,
+    .row-size-option-row:focus-within {
+      background: var(--c-sage-soft, #e7f0e8);
+    }
+    .row-size-option-add {
+      appearance: none;
+      -webkit-appearance: none;
+      border: 1px solid var(--c-cta, #1f6b3a);
+      background: #fff;
+      color: var(--c-cta, #1f6b3a);
+      padding: 4px 10px;
+      font: inherit;
+      font-size: 11.5px;
+      font-weight: 600;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background-color 80ms ease, color 80ms ease;
+      white-space: nowrap;
+    }
+    .row-size-option-add:hover,
+    .row-size-option-add:focus-visible {
+      background: var(--c-cta, #1f6b3a);
+      color: #fff;
+      outline: none;
+    }
+    .row-size-option-stepper {
+      display: inline-flex;
+      align-items: stretch;
+      border: 1px solid var(--c-line, #d9d2c4);
+      border-radius: 5px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .row-size-option-step {
+      appearance: none;
+      -webkit-appearance: none;
+      border: 0;
+      background: transparent;
+      padding: 0 6px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--c-clay, #4a4438);
+      cursor: pointer;
+      line-height: 1;
+    }
+    .row-size-option-step:hover {
+      background: var(--c-sage-soft, #e7f0e8);
+    }
+    .row-size-option-qty {
+      width: 36px;
+      padding: 3px 2px;
+      border: 0;
+      border-left: 1px solid var(--c-line, #d9d2c4);
+      border-right: 1px solid var(--c-line, #d9d2c4);
+      font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
+      font-size: 12px;
+      text-align: center;
+      color: var(--c-ink, #2b3a2a);
+      outline: none;
+      background: #fff;
+      -moz-appearance: textfield;
+    }
+    .row-size-option-qty::-webkit-outer-spin-button,
+    .row-size-option-qty::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .row-size-option-qty:focus {
+      background: #fafaf7;
+    }
 
     /* The td.add-cell needs to be `position: relative` so the absolute
        popover anchors under the row's button (not the page viewport). */
@@ -6578,6 +6663,33 @@
         });
       }
 
+      // Re-read cart and update the "N in cart" badge on a popover row.
+      // The cart updates on Cart.onChange but the popover is outside that
+      // listener's scope (it appends to the row, not #results), so we
+      // bump the badge manually after each add so the user sees their
+      // count go up without closing the popover.
+      function bumpBadge(priceEl, container, botanical) {
+        const items = (window.Cart && window.Cart.getItems) ? window.Cart.getItems() : [];
+        let total = 0;
+        for (const it of items) {
+          if ((it.name || '').toLowerCase() === botanical.toLowerCase() &&
+              (it.size || '').toLowerCase() === container.toLowerCase()) {
+            total += (it.qty || 0);
+          }
+        }
+        let badge = priceEl.querySelector('.row-size-option-already');
+        if (total > 0) {
+          if (!badge) {
+            badge = document.createElement('span');
+            badge.className = 'row-size-option-already';
+            priceEl.appendChild(badge);
+          }
+          badge.textContent = `${total} in cart`;
+        } else if (badge) {
+          badge.parentNode.removeChild(badge);
+        }
+      }
+
       // Build the popover element. `addCell` is the <td> the button
       // sits in; popover is appended there and positioned absolute.
       function buildPopover(plant, sortedSizes, anchorBtn, addCell) {
@@ -6602,39 +6714,135 @@
         }
 
         for (const s of sortedSizes) {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'row-size-option';
-          btn.setAttribute('role', 'menuitem');
-          btn.dataset.size = s.container;
+          // Each size gets its own row: [size label + price] [qty stepper] [Add]
+          // The row is a <div>, not a <button>, because it contains interactive
+          // children (qty input, +/- buttons, Add). Clicking the size label
+          // area adds 1 of that size as a quick path (matches the old
+          // single-click behavior).
+          const row = document.createElement('div');
+          row.className = 'row-size-option-row';
+          row.setAttribute('role', 'group');
+          row.dataset.size = s.container;
 
-          const sizeSpan = document.createElement('span');
-          sizeSpan.className = 'row-size-option-size';
-          sizeSpan.textContent = s.container;
-          btn.appendChild(sizeSpan);
+          // Left side — size label, price, and "N in cart" badge.
+          const left = document.createElement('div');
+          left.className = 'row-size-option-left';
+          // Inner click target: a button that adds 1 of this size.
+          const sizeBtn = document.createElement('button');
+          sizeBtn.type = 'button';
+          sizeBtn.className = 'row-size-option-size-btn';
+          sizeBtn.dataset.size = s.container;
+          sizeBtn.setAttribute('aria-label', `Add 1 of ${s.container} ($${s.price.toFixed(2)})`);
 
-          const right = document.createElement('span');
-          right.className = 'row-size-option-price';
-          right.textContent = `$${s.price.toFixed(2)}`;
+          const sizeLabel = document.createElement('span');
+          sizeLabel.className = 'row-size-option-size';
+          sizeLabel.textContent = s.container;
+          sizeBtn.appendChild(sizeLabel);
+
+          const price = document.createElement('span');
+          price.className = 'row-size-option-price';
+          price.textContent = `$${s.price.toFixed(2)}`;
+          sizeBtn.appendChild(price);
+
           const existing = qtyBySize.get(s.container.toLowerCase()) || 0;
           if (existing > 0) {
             const badge = document.createElement('span');
             badge.className = 'row-size-option-already';
             badge.textContent = `${existing} in cart`;
-            right.appendChild(badge);
+            price.appendChild(badge);
           }
-          btn.appendChild(right);
+          left.appendChild(sizeBtn);
+          row.appendChild(left);
 
-          btn.addEventListener('click', (ev) => {
+          // Qty stepper: [-] [qty input] [+]
+          const stepper = document.createElement('div');
+          stepper.className = 'row-size-option-stepper';
+          const minusBtn = document.createElement('button');
+          minusBtn.type = 'button';
+          minusBtn.className = 'row-size-option-step row-size-option-step-minus';
+          minusBtn.setAttribute('aria-label', `Decrease qty for ${s.container}`);
+          minusBtn.textContent = '−';
+          const qtyInput = document.createElement('input');
+          qtyInput.type = 'number';
+          qtyInput.min = '0';
+          qtyInput.step = '1';
+          qtyInput.inputMode = 'numeric';
+          qtyInput.className = 'row-size-option-qty';
+          qtyInput.value = '1';
+          qtyInput.setAttribute('aria-label', `Quantity for ${s.container}`);
+          const plusBtn = document.createElement('button');
+          plusBtn.type = 'button';
+          plusBtn.className = 'row-size-option-step row-size-option-step-plus';
+          plusBtn.setAttribute('aria-label', `Increase qty for ${s.container}`);
+          plusBtn.textContent = '+';
+          stepper.appendChild(minusBtn);
+          stepper.appendChild(qtyInput);
+          stepper.appendChild(plusBtn);
+          row.appendChild(stepper);
+
+          // Right side — Add button (uses the qty in the input).
+          const addBtn = document.createElement('button');
+          addBtn.type = 'button';
+          addBtn.className = 'row-size-option-add';
+          addBtn.textContent = 'Add';
+          addBtn.setAttribute('aria-label', `Add ${s.container} to order`);
+          row.appendChild(addBtn);
+
+          // Wire interactions
+          const getQty = () => {
+            const v = parseInt(qtyInput.value, 10);
+            return Number.isFinite(v) && v > 0 ? v : 1;
+          };
+          const setQty = (v) => {
+            v = parseInt(v, 10);
+            if (!Number.isFinite(v) || v < 1) v = 1;
+            qtyInput.value = String(v);
+          };
+          minusBtn.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            setQty(Math.max(1, getQty() - 1));
+          });
+          plusBtn.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            setQty(getQty() + 1);
+          });
+          qtyInput.addEventListener('input', () => {
+            // Clamp to >= 1 on every keystroke; users typing "0" or "" are
+            // about to fix it on the next key, so don't reset to 1 eagerly.
+            const v = parseInt(qtyInput.value, 10);
+            if (!Number.isFinite(v) || v < 1) return; // allow temporary empty/zero
+            setQty(v);
+          });
+          // Clicking the size label / price area adds 1 (quick path).
+          sizeBtn.addEventListener('click', (ev) => {
             ev.preventDefault();
             ev.stopPropagation();
             addSize(plant.botanical, s.container, s.price, 1);
-            closePopover();
-            // Brief flash on the row's main button for feedback.
-            anchorBtn.classList.add('added-flash');
-            setTimeout(() => anchorBtn.classList.remove('added-flash'), 600);
+            // Don't close the popover — buyers often want to add multiple
+            // sizes in one open. Just bump the "N in cart" badge and reset qty.
+            bumpBadge(price, s.container, plant.botanical);
+            qtyInput.value = '1';
           });
-          pop.appendChild(btn);
+          // Clicking Add adds the typed quantity.
+          addBtn.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            const q = getQty();
+            addSize(plant.botanical, s.container, s.price, q);
+            bumpBadge(price, s.container, plant.botanical);
+            qtyInput.value = '1';
+          });
+          // Enter in qty input triggers Add.
+          qtyInput.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter') {
+              ev.preventDefault();
+              addBtn.click();
+            }
+          });
+
+          pop.appendChild(row);
         }
 
         // Position: top-right of the add-cell so it sits under/over the

@@ -6623,6 +6623,12 @@
         // up the active mode naturally.
         if (lastParsed && lastResults.length) {
           renderResults(lastParsed, lastResults);
+          // Re-observe images for the freshly-rendered cards. The initial
+          // run() called observeCardImages() in table mode where there
+          // are no .result-image elements (only table rows), so the
+          // cards that appear after a toggle never got observed without
+          // this call.
+          if (typeof observeCardImages === 'function') observeCardImages();
           updateAddedState();
         }
       });

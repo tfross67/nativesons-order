@@ -6452,45 +6452,45 @@
     (function initTableRowAdds() {
       const table = $('viewTable');
       if (!table) return;
+      // Per-row "+ Add" click handler.
+      //
+      // The card view's `.add-to-order-link` opens a size picker modal.
+      // We don't reimplement that picker here — instead, the row's button
+      // adds the smallest available size directly to the cart. Users who
+      // want a specific size can switch to card view and click the card's
+      // picker. Same trade the table makes everywhere else: one quick
+      // action, not the full picker flow.
+      //
+      // NOTE on cross-IIFE: `addPlantToCart` (the helper that does the
+      // lookup + cart.add + showToast) lives in a different IIFE from
+      // this listener, so we can't call it directly. `window.Cart` is
+      // set globally by cart.js, so we use it instead. The cart pill
+      // updates via Cart.onChange → updateAddedState() (already wired).
       table.addEventListener('click', (e) => {
         const btn = e.target.closest('.row-add-btn');
         if (!btn) return;
         const botanical = btn.dataset.rowAdd;
         if (!botanical) return;
-        // Find the matching card (may be in DOM but display:none) and
-        // click its add button. Click triggers the size picker, which
-        // is the same UX as clicking from the card view.
-        // cssEscape may not exist in older browsers (added 2017) —
-        // botanical names can contain apostrophes which break the
-        // attribute selector, so fall back to a manual filter.
-        const sel = typeof CSS !== 'undefined' && CSS.escape
-          ? `.result[data-botanical="${CSS.escape(botanical)}"]`
-          : null;
-        const cards = sel
-          ? resultsEl.querySelectorAll(sel)
-          : Array.from(resultsEl.querySelectorAll('.result[data-botanical]'))
-              .filter(r => r.dataset.botanical === botanical);
-        const card = cards[0];
-        if (card) {
-          const cardBtn = card.querySelector('.add-to-order-link, .qty-card-stepper button');
-          if (cardBtn) {
-            cardBtn.click();
-            // Brief flash on the table button for visual feedback
-            btn.classList.add('added-flash');
-            setTimeout(() => btn.classList.remove('added-flash'), 600);
-            return;
-          }
-        }
-        // Fallback — synthesize a cart add with the smallest size.
         const plant = getCatalog().find(p => p.botanical === botanical);
         const sizes = (plant && plant.sizes || []).filter(s => s && s.container && typeof s.price === 'number');
+        if (!sizes.length) return;
         const sorted = sizes.slice().sort((a, b) => tableSizeKey(a) - tableSizeKey(b));
-        if (sorted.length && typeof addPlantToCart === 'function') {
-          addPlantToCart(plant, sorted[0], 1);
-          if (typeof showToast === 'function') {
-            showToast(`${plant.botanical} (${sorted[0].container}) added to your order`);
-          }
+        const pick = sorted[0];
+        if (window.Cart && typeof window.Cart.add === 'function') {
+          window.Cart.add({
+            key: `${botanical}|${pick.container}`,
+            name: botanical,
+            size: pick.container,
+            price: pick.price,
+            qty: 1,
+          });
         }
+        // Brief flash on the table button for visual feedback. The cart
+        // pill + row's `.in-cart` class update via the existing
+        // Cart.onChange → updateAddedState() wiring, so we don't need
+        // to manipulate either here.
+        btn.classList.add('added-flash');
+        setTimeout(() => btn.classList.remove('added-flash'), 600);
       });
     })();
 

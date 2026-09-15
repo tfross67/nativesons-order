@@ -4239,6 +4239,96 @@
       color: var(--c-cta, #1f6b3a);
     }
 
+    /* === Row-level size picker popover ===
+       Anchored under the + Add button when a plant has 2+ sizes.
+       Mirrors the size-list visual from compact-list.html: size label
+       on the left, price on the right, hover state on the row. */
+    .row-size-popover {
+      position: absolute;
+      z-index: 30;
+      min-width: 180px;
+      background: #fff;
+      border: 1px solid var(--c-line, #d9d2c4);
+      border-radius: 8px;
+      box-shadow: 0 6px 20px rgba(26, 46, 26, 0.16), 0 2px 4px rgba(26, 46, 26, 0.06);
+      padding: 6px;
+      font-family: var(--font-sans, inherit);
+      font-size: 13px;
+      color: var(--c-ink, #2b3a2a);
+      /* Open animation — slide down + fade */
+      animation: row-popover-in 120ms ease-out;
+    }
+    @keyframes row-popover-in {
+      from { opacity: 0; transform: translateY(-4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .row-size-popover-header {
+      padding: 4px 8px 6px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--c-muted, #6b6256);
+      border-bottom: 1px solid var(--c-line, #d9d2c4);
+      margin-bottom: 4px;
+    }
+    .row-size-option {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+      padding: 7px 10px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 5px;
+      font: inherit;
+      color: inherit;
+      text-align: left;
+      transition: background-color 80ms ease;
+    }
+    .row-size-option:hover,
+    .row-size-option:focus-visible {
+      background: var(--c-sage-soft, #e7f0e8);
+      outline: none;
+    }
+    .row-size-option-size {
+      font-weight: 600;
+      color: var(--c-bark, #2b3a2a);
+      font-size: 12.5px;
+      letter-spacing: 0.02em;
+    }
+    .row-size-option-price {
+      font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
+      font-weight: 600;
+      color: var(--c-bark, #2b3a2a);
+      font-variant-numeric: tabular-nums;
+      font-size: 13px;
+    }
+    .row-size-option-already {
+      margin-left: 6px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--c-cta, #1f6b3a);
+      background: var(--c-sage-soft, #e7f0e8);
+      border-radius: 999px;
+      padding: 1px 7px;
+    }
+
+    /* The td.add-cell needs to be `position: relative` so the absolute
+       popover anchors under the row's button (not the page viewport). */
+    body .chat-test-root td.add-cell { position: relative; }
+
+    /* Mobile — popover stays right-anchored (won't overflow viewport
+       on phones). Width auto-fits. */
+    @media (max-width: 720px) {
+      .row-size-popover {
+        right: 0;
+        min-width: 150px;
+      }
+    }
+
     /* Mobile table — ≤720px collapses the table to a stacked list per
        row. Botanical name on line 1, smaller metadata on line 2. Same
        pattern as compact-list.html's mobile treatment. */
@@ -6453,56 +6543,188 @@
       });
     })();
 
-    // === Table-row add button ===
-    // Each table row has a "+ Add" button. Clicking it delegates to the
-    // matching card's add-to-order button so the size picker (which
-    // lives on the card view) opens with the same UX as clicking the
-    // card. The card itself may be hidden (we're in table mode), but
-    // its event handler is still wired — we just synthesize a click.
-    // Fallback: if no matching card exists yet (rare race), call
-    // addPlantToCart with the smallest available size.
+    // === Table-row add button + row-level size picker popover ===
+    // Each row's "+ Add" button opens a small popover listing each
+    // available size with its price (when the plant has 2+ sizes), or
+    // adds the only size directly (when there's just one). Click a size
+    // to add 1 of it; click outside or press Escape to dismiss.
+    //
+    // The popover is row-scoped — it's appended to the row's <td.add-cell>
+    // (which is position:relative) so it anchors under the + Add button
+    // and never overflows into other rows.
+    //
+    // NOTE on cross-IIFE: the card view's size-picker modal lives in a
+    // nested IIFE we can't reach. window.Cart is exposed by cart.js and
+    // is the same target the picker flow ultimately calls, so we use it
+    // directly. Cart.onChange → updateAddedState() handles cart pill +
+    // row in-cart class updates.
     (function initTableRowAdds() {
       const table = $('viewTable');
       if (!table) return;
-      // Per-row "+ Add" click handler.
-      //
-      // The card view's `.add-to-order-link` opens a size picker modal.
-      // We don't reimplement that picker here — instead, the row's button
-      // adds the smallest available size directly to the cart. Users who
-      // want a specific size can switch to card view and click the card's
-      // picker. Same trade the table makes everywhere else: one quick
-      // action, not the full picker flow.
-      //
-      // NOTE on cross-IIFE: `addPlantToCart` (the helper that does the
-      // lookup + cart.add + showToast) lives in a different IIFE from
-      // this listener, so we can't call it directly. `window.Cart` is
-      // set globally by cart.js, so we use it instead. The cart pill
-      // updates via Cart.onChange → updateAddedState() (already wired).
+
+      // Single active popover at a time. Closing one opens nothing else.
+      let activePopover = null;
+
+      // Add a single size line to the cart. Builds the same key shape
+      // cart.js uses so dedup is consistent across views.
+      function addSize(botanical, container, price, qty = 1) {
+        if (!window.Cart || typeof window.Cart.add !== 'function') return;
+        window.Cart.add({
+          key: `${botanical}|${container}`,
+          name: botanical,
+          size: container,
+          price,
+          qty,
+        });
+      }
+
+      // Build the popover element. `addCell` is the <td> the button
+      // sits in; popover is appended there and positioned absolute.
+      function buildPopover(plant, sortedSizes, anchorBtn, addCell) {
+        const pop = document.createElement('div');
+        pop.className = 'row-size-popover';
+        pop.setAttribute('role', 'menu');
+        pop.setAttribute('aria-label', `Pick a size for ${plant.botanical}`);
+
+        const header = document.createElement('div');
+        header.className = 'row-size-popover-header';
+        header.textContent = `Pick size — ${plant.botanical.length > 30 ? plant.botanical.slice(0, 28) + '…' : plant.botanical}`;
+        pop.appendChild(header);
+
+        // Track which sizes are already in the cart so we can show a
+        // small badge. Cheap O(n×m) — n is small (3-5 sizes max).
+        const cartItems = (window.Cart && window.Cart.getItems) ? window.Cart.getItems() : [];
+        const qtyBySize = new Map();
+        for (const it of cartItems) {
+          if ((it.name || '').toLowerCase() === plant.botanical.toLowerCase()) {
+            qtyBySize.set((it.size || '').toLowerCase(), (qtyBySize.get((it.size || '').toLowerCase()) || 0) + (it.qty || 0));
+          }
+        }
+
+        for (const s of sortedSizes) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'row-size-option';
+          btn.setAttribute('role', 'menuitem');
+          btn.dataset.size = s.container;
+
+          const sizeSpan = document.createElement('span');
+          sizeSpan.className = 'row-size-option-size';
+          sizeSpan.textContent = s.container;
+          btn.appendChild(sizeSpan);
+
+          const right = document.createElement('span');
+          right.className = 'row-size-option-price';
+          right.textContent = `$${s.price.toFixed(2)}`;
+          const existing = qtyBySize.get(s.container.toLowerCase()) || 0;
+          if (existing > 0) {
+            const badge = document.createElement('span');
+            badge.className = 'row-size-option-already';
+            badge.textContent = `${existing} in cart`;
+            right.appendChild(badge);
+          }
+          btn.appendChild(right);
+
+          btn.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            addSize(plant.botanical, s.container, s.price, 1);
+            closePopover();
+            // Brief flash on the row's main button for feedback.
+            anchorBtn.classList.add('added-flash');
+            setTimeout(() => anchorBtn.classList.remove('added-flash'), 600);
+          });
+          pop.appendChild(btn);
+        }
+
+        // Position: top-right of the add-cell so it sits under/over the
+        // button. Default open direction is DOWN — if there's not enough
+        // room below the button (last row of the visible area), open UP
+        // by setting bottom instead of top.
+        pop.style.position = 'absolute';
+        pop.style.top = 'calc(100% + 4px)';
+        pop.style.right = '0';
+        // Read the addCell's bottom vs viewport — approximate via row's
+        // getBoundingClientRect; if the row is in the bottom 220px of
+        // the viewport, flip to opening upward.
+        requestAnimationFrame(() => {
+          const rect = addCell.getBoundingClientRect();
+          if (rect.bottom > window.innerHeight - 240) {
+            pop.style.top = '';
+            pop.style.bottom = 'calc(100% + 4px)';
+          }
+        });
+
+        addCell.appendChild(pop);
+        return pop;
+      }
+
+      function closePopover() {
+        if (activePopover && activePopover.parentNode) {
+          activePopover.parentNode.removeChild(activePopover);
+        }
+        activePopover = null;
+      }
+
       table.addEventListener('click', (e) => {
         const btn = e.target.closest('.row-add-btn');
         if (!btn) return;
+        e.preventDefault();
+        e.stopPropagation();
         const botanical = btn.dataset.rowAdd;
         if (!botanical) return;
+
+        // If a popover is already open for THIS button, treat as toggle.
+        // If it's open for a DIFFERENT button, close it and reopen on this one.
+        const cell = btn.closest('td.add-cell');
+        if (activePopover) {
+          if (cell && activePopover.parentNode === cell) {
+            closePopover();
+            return;
+          }
+          closePopover();
+        }
+
         const plant = getCatalog().find(p => p.botanical === botanical);
         const sizes = (plant && plant.sizes || []).filter(s => s && s.container && typeof s.price === 'number');
         if (!sizes.length) return;
         const sorted = sizes.slice().sort((a, b) => tableSizeKey(a) - tableSizeKey(b));
-        const pick = sorted[0];
-        if (window.Cart && typeof window.Cart.add === 'function') {
-          window.Cart.add({
-            key: `${botanical}|${pick.container}`,
-            name: botanical,
-            size: pick.container,
-            price: pick.price,
-            qty: 1,
-          });
+
+        // Single-size shortcut — no popover needed.
+        if (sorted.length === 1) {
+          addSize(botanical, sorted[0].container, sorted[0].price, 1);
+          btn.classList.add('added-flash');
+          setTimeout(() => btn.classList.remove('added-flash'), 600);
+          return;
         }
-        // Brief flash on the table button for visual feedback. The cart
-        // pill + row's `.in-cart` class update via the existing
-        // Cart.onChange → updateAddedState() wiring, so we don't need
-        // to manipulate either here.
-        btn.classList.add('added-flash');
-        setTimeout(() => btn.classList.remove('added-flash'), 600);
+
+        // Multi-size — open the popover.
+        if (!cell) return;
+        activePopover = buildPopover(plant, sorted, btn, cell);
+        // Auto-focus the first option so keyboard users can pick immediately.
+        setTimeout(() => {
+          const firstOpt = activePopover && activePopover.querySelector('.row-size-option');
+          if (firstOpt) firstOpt.focus();
+        }, 30);
+      });
+
+      // Click outside any popover or row-add button → close.
+      // Bound to document so it catches clicks on the table, the toolbar,
+      // and anywhere else. Bound at this scope (one listener for the
+      // page's lifetime) — not per-click.
+      document.addEventListener('click', (e) => {
+        if (!activePopover) return;
+        if (e.target.closest('.row-size-popover')) return;
+        if (e.target.closest('.row-add-btn')) return; // table handler will manage it
+        closePopover();
+      });
+
+      // Escape closes the popover.
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && activePopover) {
+          e.preventDefault();
+          closePopover();
+        }
       });
     })();
 

@@ -449,7 +449,9 @@
     .chat-test-root .suggested {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px 8px;
+      /* Slightly wider gaps so suggestion chips don't read as a single
+         string — 4/8 was too tight on desktop. */
+      gap: 6px 14px;
       margin-top: 14px;
       align-items: baseline;
     }
@@ -4019,6 +4021,19 @@
       border-radius: 999px;
       box-shadow: inset 0 1px 2px rgba(26, 46, 26, 0.04);
     }
+    /* Hairline divider between the two states of the segmented control.
+       The "off" button is transparent against the sage-soft pill bg;
+       without a divider the buttons read as one continuous block rather
+       than two distinct options. Subtle but worth a beat. */
+    .search-input-row .view-toggle-btn + .view-toggle-btn {
+      border-left: 1px solid rgba(26, 46, 26, 0.12);
+    }
+    .search-input-row .view-toggle-btn[aria-pressed="true"] + .view-toggle-btn,
+    .search-input-row .view-toggle-btn + .view-toggle-btn[aria-pressed="true"] {
+      /* Don't draw a divider against the active state — its solid
+         green background already separates it from the inactive side. */
+      border-left-color: transparent;
+    }
     .search-input-row .view-toggle-btn {
       appearance: none;
       -webkit-appearance: none;
@@ -4113,6 +4128,11 @@
       color: var(--c-bark, #2b3a2a);
       font-weight: 400;
       white-space: nowrap;
+      /* Tightened from the inherited 1.55 so the "Abelia x grandiflora
+         'Conti' Confetti®" line doesn't wrap to two lines on narrower
+         viewports — single-line botanical names are easier to scan in a
+         dense table. */
+      line-height: 1.35;
     }
     body .chat-test-root td.botanical a.plant-link {
       color: var(--c-bark, #2b3a2a);
@@ -4162,8 +4182,11 @@
       font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
       font-weight: 600;
       color: var(--c-bark, #2b3a2a);
-      font-size: 14px;
+      font-size: 15px;
       white-space: nowrap;
+      /* Letter-spacing nudges Plus Jakarta Sans's `$` glyph away from
+         the digit so "$22.00" doesn't read as "$22.00". */
+      letter-spacing: 0.01em;
     }
     body .chat-test-root td.price .price-from {
       font-size: 10.5px;
@@ -4171,7 +4194,7 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--c-muted, #6b6256);
-      margin-right: 4px;
+      margin-right: 6px;
     }
 
     body .chat-test-root td.status {

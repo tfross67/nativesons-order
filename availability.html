@@ -4241,8 +4241,16 @@
       font-weight: 600;
       border-radius: 999px;
       cursor: pointer;
-      transition: background-color 120ms ease, color 120ms ease;
+      transition: background-color 120ms ease, color 120ms ease, transform 80ms ease;
       white-space: nowrap;
+    }
+    /* Instant click feedback — a brief scale-down on :active so the
+       user sees the click register even before the popover opens.
+       Without this, multi-size rows near the bottom of the viewport
+       can feel unresponsive because the popover positioning math runs
+       async and the button stays visually static for ~100ms. */
+    body .chat-test-root .row-add-btn:active {
+      transform: scale(0.94);
     }
     body .chat-test-root .row-add-btn:hover {
       background: var(--c-cta, #1f6b3a);
@@ -6901,8 +6909,24 @@
       }
 
       function closePopover() {
-        if (activePopover && activePopover.parentNode) {
-          activePopover.parentNode.removeChild(activePopover);
+        if (activePopover) {
+          // Capture the cell reference BEFORE removing the popover,
+          // so we can clean up any inline styles the popover may have
+          // left on its parent (e.g. position:absolute offsets, focus
+          // traps). Without this, the row's + Add button can appear
+          // blank on the last visible row if the smooth-scroll math
+          // misaligns with the popover's bounding-rect read.
+          const cell = activePopover.parentNode;
+          if (cell && cell.classList && cell.classList.contains('add-cell')) {
+            // Defensive: clear any inline styles the popover may have
+            // left on the cell when it was appended.
+            cell.style.removeProperty('position');
+            cell.style.removeProperty('top');
+            cell.style.removeProperty('bottom');
+          }
+          if (cell && cell.removeChild) {
+            cell.removeChild(activePopover);
+          }
         }
         activePopover = null;
       }
@@ -6945,13 +6969,16 @@
         // the row is near the bottom of the viewport, the popover opens
         // downward and renders entirely below the viewport fold —
         // the user clicks but sees no feedback and concludes the button
-        // is broken. Scroll into the vertical center so the popover has
-        // room to open in either direction. Use 'nearest' first to avoid
-        // unnecessary scroll when the row is already well-positioned.
+        // is broken. Bring the row into view synchronously so the
+        // popover's getBoundingClientRect (used for the open-up flip)
+        // reflects the final position. 'auto' is instant on modern
+        // browsers; 'smooth' would race with the popover's
+        // positioning math and produce the popover opening behind a
+        // still-scrolling viewport.
         const cellRect = cell.getBoundingClientRect();
         const inLowerHalf = cellRect.top > window.innerHeight * 0.55;
         if (inLowerHalf) {
-          btn.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          btn.scrollIntoView({ block: 'center', behavior: 'auto' });
         }
         activePopover = buildPopover(plant, sorted, btn, cell);
         // Auto-focus the first option so keyboard users can pick immediately.

@@ -6686,6 +6686,10 @@
 
       // Single active popover at a time. Closing one opens nothing else.
       let activePopover = null;
+      // Track which button the active popover was opened from, so clicking
+      // the same button again toggles it closed (the popover lives on
+      // document.body now, so we can't use parentNode to find its anchor).
+      let activePopoverBtn = null;
 
       // Add a single size line to the cart. Builds the same key shape
       // cart.js uses so dedup is consistent across views.
@@ -6882,53 +6886,57 @@
           pop.appendChild(row);
         }
 
-        // Position: top-right of the add-cell so it sits under/over the
-        // button. Default open direction is DOWN — if there's not enough
-        // room below the button (last row of the visible area), open UP
-        // by setting bottom instead of top.
-        pop.style.position = 'absolute';
-        pop.style.top = 'calc(100% + 4px)';
-        pop.style.right = '0';
-        // Read the addCell's bottom vs viewport — approximate via row's
-        // getBoundingClientRect. The popover is ~180px tall; if the row
-        // is in the bottom 220px of the viewport, flip to opening upward
-        // so the popover stays in view. The scrollIntoView() in the
-        // click handler should have already moved the button to a
-        // comfortable position by the time this fires, but we keep
-        // the flip as a safety net for edge cases.
-        requestAnimationFrame(() => {
-          const rect = addCell.getBoundingClientRect();
-          if (rect.bottom > window.innerHeight - 220) {
-            pop.style.top = '';
-            pop.style.bottom = 'calc(100% + 4px)';
-          }
-        });
+        // Position: anchor to the cell using position:fixed so the popover
+        // escapes the table's overflow:hidden (which clips it to the table's
+        // rounded-corner bounds). The popover is appended to document.body
+        // for the same reason. This matches the standard popover pattern
+        // (Floating UI, Tippy) and is robust to ancestor transforms,
+        // overflow:hidden, and z-index stacking contexts.
+        //
+        // top/left are computed from the cell's getBoundingClientRect() so
+        // they reflect the CURRENT scroll position. We pick open direction
+        // based on available viewport space below the cell.
+        pop.style.position = 'fixed';
+        pop.style.zIndex = '90';
+        const cellRect = addCell.getBoundingClientRect();
+        const POPOVER_W_EST = 200;  // min-width:180 + padding
+        let top = cellRect.bottom + 4;  // default: open DOWN
+        // If not enough room below, open UP
+        const POPOVER_H_EST = 180;
+        if (top + POPOVER_H_EST > window.innerHeight) {
+          // Flip up — anchor bottom of popover to top of cell, with 4px gap
+          top = cellRect.top - POPOVER_H_EST - 4;
+        }
+        pop.style.top = `${top}px`;
+        // Right-anchor to the cell, but never extend past the viewport's
+        // left edge — the popover is wider than the cell (~93px) so we
+        // clamp to viewport-relative positioning.
+        let left = cellRect.right - POPOVER_W_EST;
+        if (left < 8) left = 8;
+        if (left + POPOVER_W_EST > window.innerWidth - 8) {
+          left = window.innerWidth - POPOVER_W_EST - 8;
+        }
+        pop.style.left = `${left}px`;
 
-        addCell.appendChild(pop);
+        // Append to body so table.list { overflow: hidden } doesn't
+        // clip the popover.
+        document.body.appendChild(pop);
         return pop;
       }
 
       function closePopover() {
         if (activePopover) {
-          // Capture the cell reference BEFORE removing the popover,
-          // so we can clean up any inline styles the popover may have
-          // left on its parent (e.g. position:absolute offsets, focus
-          // traps). Without this, the row's + Add button can appear
-          // blank on the last visible row if the smooth-scroll math
-          // misaligns with the popover's bounding-rect read.
-          const cell = activePopover.parentNode;
-          if (cell && cell.classList && cell.classList.contains('add-cell')) {
-            // Defensive: clear any inline styles the popover may have
-            // left on the cell when it was appended.
-            cell.style.removeProperty('position');
-            cell.style.removeProperty('top');
-            cell.style.removeProperty('bottom');
-          }
-          if (cell && cell.removeChild) {
-            cell.removeChild(activePopover);
+          // The popover is appended to document.body (not the cell) so it
+          // escapes the table's overflow:hidden. Remove from body, not
+          // from any cell. Fall back to parentNode.removeChild for safety
+          // if it was relocated.
+          const parent = activePopover.parentNode;
+          if (parent) {
+            parent.removeChild(activePopover);
           }
         }
         activePopover = null;
+        activePopoverBtn = null;
       }
 
       table.addEventListener('click', (e) => {
@@ -6943,7 +6951,7 @@
         // If it's open for a DIFFERENT button, close it and reopen on this one.
         const cell = btn.closest('td.add-cell');
         if (activePopover) {
-          if (cell && activePopover.parentNode === cell) {
+          if (activePopoverBtn === btn) {
             closePopover();
             return;
           }
@@ -6981,6 +6989,7 @@
           btn.scrollIntoView({ block: 'center', behavior: 'auto' });
         }
         activePopover = buildPopover(plant, sorted, btn, cell);
+        activePopoverBtn = btn;
         // Auto-focus the first option so keyboard users can pick immediately.
         setTimeout(() => {
           const firstOpt = activePopover && activePopover.querySelector('.row-size-option');

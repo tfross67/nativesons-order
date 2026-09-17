@@ -130,6 +130,17 @@ body { padding-bottom: 80px; }
   .search-input-row {
     flex-wrap: wrap;
   }
+  /* Header overflow: the "Wholesale Availability" lockup next to the
+     logo doesn't fit on a 360px viewport — the logo is ~230px wide
+     and the lockup adds another ~180px. Hide the lockup on mobile;
+     the logo is already enough to identify the site. */
+  .brand-mark { display: none; }
+  /* Logo can be a bit smaller too so it doesn't dominate the header. */
+  .brand-logo { height: 40px; }
+  /* Header meta (Get trade pricing, etc.) needs full width so it can
+     wrap onto its own line below the logo. */
+  .header-inner { gap: 8px; }
+  .header-meta { align-items: flex-start; }
 }
 .brand-text h1 {
   font-family: var(--font-serif);

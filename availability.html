@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20260917-01">
+  <meta name="build" content="20260917-02">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -8873,6 +8873,13 @@
       // --- Checkout
       function openCheckout() {
         closeCart();
+        // Re-fill the customer fields if a customer is currently
+        // selected. Cart.clear() + checkoutForm.reset() in the submit
+        // handler wipes the form, but selectedCustomer stays in
+        // memory — re-fill so the customer is shown in the checkout
+        // modal after each submit. Falls back to empty form if no
+        // customer is selected.
+        fillCheckoutFormFromCustomer(selectedCustomer);
         checkoutOverlay.hidden = false;
         checkoutModal.hidden = false;
         setTimeout(() => checkoutForm.querySelector('[name="customer_name"]').focus(), 100);
@@ -9244,6 +9251,22 @@
         }
       }
 
+      // Pre-fill the checkout modal's customer fields from a customer record.
+      // Called from pickCustomer when staff selects a customer, AND from
+      // openCheckout when re-opening the modal after a previous submit
+      // (Cart.clear() + checkoutForm.reset() wipes the form, but the
+      // selectedCustomer stays — so we re-fill the form from the active
+      // customer every time the modal opens).
+      function fillCheckoutFormFromCustomer(c) {
+        if (!c) return;
+        const form = $('checkoutForm');
+        if (!form) return;
+        form.customer_name.value = c.name || '';
+        form.customer_email.value = c.email || '';
+        form.customer_phone.value = c.phone || '';
+        form.customer_company.value = (c.ship_to_name && c.ship_to_name !== c.name) ? c.ship_to_name : (c.name || '');
+      }
+
       function pickCustomer(c) {
         selectedCustomer = c;
         _persistActiveCustomer(c);
@@ -9272,13 +9295,7 @@
         // Sync the checkout form fields (the only form on the page now that the
         // sidebar's customer-details fieldset is gone). pickedCustomer → form
         // happens here, and the user can still edit the form freely afterward.
-        const form = $('checkoutForm');
-        if (form) {
-          form.customer_name.value = c.name || '';
-          form.customer_email.value = c.email || '';
-          form.customer_phone.value = c.phone || '';
-          form.customer_company.value = (c.ship_to_name && c.ship_to_name !== c.name) ? c.ship_to_name : (c.name || '');
-        }
+        fillCheckoutFormFromCustomer(c);
         // Close picker
         const input = $('custPickerInput');
         const results = $('custPickerResults');

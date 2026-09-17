@@ -310,6 +310,97 @@
       position: relative;
       overflow: hidden;
     }
+    /* === Compact sticky search bar ===
+       Shown only after the user scrolls past the natural bottom of the
+       bulkier search shell. Replaces it (the bulkier one is hidden) so
+       you get the search box + view toggle at the top of the viewport
+       without losing table visibility to a 230px-tall sticky bar.
+
+       Lives inside .chat-test-root so the existing global-rule selectors
+       (.sticky-search-bar, not .chat-test-root .sticky-search-bar) are
+       enough — and we deliberately set position:fixed with high z-index.
+       We use a class selector with the same specificity as the inline
+       rules rather than `.chat-test-root .sticky-search-bar` so the
+       "is visible" class still works without specificity wars. */
+    .chat-test-root .sticky-search-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100vw;
+      max-width: 100vw;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--c-line, #e5e3dd);
+      box-shadow: 0 2px 8px rgba(45, 74, 43, 0.08);
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 220ms ease-out, opacity 220ms ease-out;
+    }
+    .sticky-search-bar.is-visible {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .chat-test-root .sticky-search-inner {
+      position: relative;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .chat-test-root .sticky-search-bar .search-input {
+      flex: 1 1 auto;
+      min-width: 0;
+      max-width: 640px;
+      padding: 8px 14px 8px 44px;
+      font-size: 14px;
+      border: 1px solid #c4c1b8;
+      border-radius: 999px;
+      background: #fff;
+    }
+    .chat-test-root .sticky-search-bar .search-input:focus {
+      outline: none;
+      border-color: var(--c-cta, #1f6b3a);
+      box-shadow: 0 0 0 3px rgba(31, 107, 58, 0.12);
+    }
+    .chat-test-root .sticky-search-bar .search-input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--c-clay, #6b6256);
+      pointer-events: none;
+    }
+    .sticky-search-bar .search-input-clear {
+      position: absolute;
+      right: 200px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .sticky-search-bar .view-toggle {
+      flex: 0 0 auto;
+      align-self: center;
+      margin-left: auto;
+    }
+    .sticky-search-bar .view-toggle-btn {
+      padding: 4px 12px;
+      font-size: 12px;
+    }
+    @media (max-width: 600px) {
+      .sticky-search-inner { flex-wrap: wrap; gap: 8px; padding: 8px 14px; }
+      .sticky-search-bar .search-input { flex: 1 1 100%; }
+      .sticky-search-bar .view-toggle { flex: 1 1 auto; justify-content: center; }
+    }
+
+
     .chat-test-root .search-shell::before {
       /* Left gradient strip — kept for brand identity (matches the
          hero band treatment). Slightly slimmer than before so it
@@ -4808,7 +4899,26 @@
       <div class="hero-stats" id="heroStats"></div>
     </div>
 
-    <div class="search-shell">
+          <div class="sticky-search-bar" id="stickySearchBar" aria-hidden="true">
+        <div class="sticky-search-inner">
+          <span class="search-input-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" width="18" height="18" focusable="false">
+              <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.6" fill="none"/>
+              <line x1="13.5" y1="13.5" x2="17.5" y2="17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <input type="search" id="chatSearchSticky" class="search-input" placeholder="Search…"
+                 autocomplete="off" enterkeyhint="search" inputmode="search"
+                 aria-label="Search plants with natural language">
+          <button type="button" id="chatClearSticky" class="search-input-clear" aria-label="Clear search" hidden>×</button>
+          <div class="view-toggle" role="group" aria-label="View mode (sticky)">
+            <button type="button" class="view-toggle-btn" data-view="table" aria-pressed="true">Table</button>
+            <button type="button" class="view-toggle-btn" data-view="card" aria-pressed="false">Cards</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="search-shell">
       <div class="search-input-row">
         <span class="search-input-icon" aria-hidden="true">
           <svg viewBox="0 0 20 20" width="18" height="18" focusable="false">
@@ -4832,6 +4942,15 @@
           <button type="button" class="view-toggle-btn" data-view="card" aria-pressed="false">Cards</button>
         </div>
       </div>
+
+      <!-- === Sticky condensed search bar ===
+           Appears once the user scrolls past the main search shell, so
+           the search input stays in reach when you're deep in the table.
+           Mirrors the main input's value both ways (typing in either
+           updates the other). Includes the segmented control so the user
+           can switch views without scrolling back up. Hidden by default;
+           toggled by a scroll listener (initStickySearchBar) below. -->
+
       <div class="suggested">
         <span class="suggested-label">Try</span>
         <button class="suggestion" data-q="4&Prime;">4&Prime;</button>
@@ -6844,6 +6963,128 @@
           updateAddedState();
         }
       });
+    })();
+
+    // === Compact sticky search bar ===
+    // The bulkier search-shell (with suggested chips, saved filters, etc.)
+    // is sticky at the top of the viewport when scrolling — but it's
+    // ~230px tall, which eats a quarter of the screen. When the user
+    // has scrolled past the shell's natural position, we swap it for
+    // this compact 56px bar that just has search + view-toggle + back-to-top.
+    // The bar mirrors the main input's value (typing in either updates
+    // the other) and reuses the existing search/view-toggle logic.
+    (function initStickySearchBar() {
+      const bar = $('stickySearchBar');
+      const stickyInput = $('chatSearchSticky');
+      const stickyClear = $('chatClearSticky');
+      const mainShell = document.querySelector('.search-shell');
+      const mainInput = $('chatSearch');
+      const mainClear = $('chatClear');
+      if (!bar || !stickyInput || !mainShell || !mainInput) return;
+
+      // Capture the shell's NATURAL position (where it would be in
+      // document flow without sticky). We need this because once the
+      // shell becomes position:sticky, its getBoundingClientRect().bottom
+      // is always near the viewport top (sticky keeps it there), so we
+      // can't reliably detect "did the user scroll past it" from rect
+      // alone. offsetTop + offsetHeight gives us the position from
+      // document flow, independent of sticky behavior.
+      const shellNaturalTop = mainShell.offsetTop;
+      const shellNaturalBottom = shellNaturalTop + mainShell.offsetHeight;
+
+      // The bar starts hidden. Show it once the user's scroll position
+      // passes the shell's NATURAL bottom — meaning the user has scrolled
+      // past where the shell would naturally sit. Hide it again when
+      // scrolling back up.
+      let ticking = false;
+      function update() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          // Trigger: window scrollY has passed the shell's natural bottom.
+          // Use a small negative threshold (-10) so we show the bar
+          // slightly before the user reaches the exact transition point.
+          const shouldShow = window.scrollY > (shellNaturalBottom - 10);
+          if (shouldShow) {
+            bar.classList.add('is-visible');
+            bar.setAttribute('aria-hidden', 'false');
+            // Hide the bulkier shell so it doesn't double up with our
+            // compact bar. Important: pointer-events:none so it doesn't
+            // block clicks on the bar below.
+            mainShell.style.visibility = 'hidden';
+          } else {
+            bar.classList.remove('is-visible');
+            bar.setAttribute('aria-hidden', 'true');
+            mainShell.style.visibility = '';
+          }
+        });
+      }
+
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update, { passive: true });
+      update();  // initial state
+
+      // Sync input value both directions. Typing in the main input
+      // updates the sticky; typing in the sticky updates the main.
+      // Run a fresh search() after each change since the main handler
+      // is debounced. We mirror the value manually and dispatch input
+      // events to trigger the existing run() pipeline.
+      stickyInput.addEventListener('input', () => {
+        mainInput.value = stickyInput.value;
+        // Show/hide the clear button on the main input to match the sticky.
+        mainClear.hidden = !stickyInput.value;
+        mainInput.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+      mainInput.addEventListener('input', () => {
+        stickyInput.value = mainInput.value;
+        stickyClear.hidden = !stickyInput.value;
+      });
+      stickyClear.addEventListener('click', () => {
+        stickyInput.value = '';
+        mainInput.value = '';
+        stickyClear.hidden = true;
+        mainClear.hidden = true;
+        mainInput.dispatchEvent(new Event('input', { bubbles: true }));
+        stickyInput.focus();
+      });
+
+      // Sync the segmented control's aria-pressed with the main one.
+      // The sticky bar has its own buttons; we keep their state in sync
+      // by reading the body.view-table/view-card class.
+      const stickyToggles = bar.querySelectorAll('.view-toggle-btn');
+      function syncToggles() {
+        const mode = document.body.classList.contains('view-card') ? 'card' : 'table';
+        stickyToggles.forEach(btn => {
+          btn.setAttribute('aria-pressed', String(btn.dataset.view === mode));
+        });
+      }
+      syncToggles();
+      // Observe body class changes for the toggle state.
+      const observer = new MutationObserver(syncToggles);
+      observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+      // Click handlers for the sticky's toggle buttons — same logic
+      // as the main toggle's click handler but scoped to sticky.
+      stickyToggles.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          // Mirror: find the main button with the same data-view and click it.
+          const mainBtn = document.querySelector(`.search-input-row .view-toggle-btn[data-view="${btn.dataset.view}"]:not(.sticky-search-bar .view-toggle-btn)`);
+          // Simpler: directly toggle body class + re-render — the main
+          // toggle handler also runs renderResults with lastResults.
+          // But to keep the cart/etc in sync, fire the click on the main.
+          // Use querySelectorAll to find the main button (which is not
+          // inside the sticky bar).
+          const mainBtns = document.querySelectorAll('.search-input-row .view-toggle-btn');
+          for (const b of mainBtns) {
+            if (b.dataset.view === btn.dataset.view) { b.click(); break; }
+          }
+        });
+      });
+
+      // Back-to-top is handled by the page's existing #backToTop button at
+      // viewport bottom-right; we don't need a duplicate in the sticky bar.
     })();
 
     // === Table-row add button + row-level size picker popover ===

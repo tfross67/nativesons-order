@@ -6958,37 +6958,48 @@
     // re-running parseQuery/matchPlant. The choice persists in
     // localStorage so the next page load lands in the same mode.
     (function initViewToggle() {
-      const tgl = document.querySelector('.view-toggle');
-      if (!tgl) return;
-      tgl.addEventListener('click', (e) => {
-        const btn = e.target.closest('.view-toggle-btn');
-        if (!btn) return;
-        const mode = btn.dataset.view;
-        if (mode !== 'table' && mode !== 'card') return;
-        // No-op if already in this mode.
-        const classOn = mode === 'table' ? 'view-table' : 'view-card';
-        if (document.body.classList.contains(classOn)) return;
-        document.body.classList.toggle('view-table', mode === 'table');
-        document.body.classList.toggle('view-card',  mode === 'card');
-        tgl.querySelectorAll('.view-toggle-btn').forEach((b) => {
-          b.setAttribute('aria-pressed', String(b === btn));
-        });
-        try { localStorage.setItem('ns_view_mode', mode); } catch (e) {}
-        // Re-render with the cached results. If nothing has been
-        // searched yet (lastParsed is null), the next run() will pick
-        // up the active mode naturally.
-        if (lastParsed && lastResults.length) {
-          renderResults(lastParsed, lastResults);
-          // Re-observe images for the freshly-rendered cards. The initial
-          // run() called observeCardImages() in table mode where there
-          // are no .result-image elements (only table rows), so the
-          // cards that appear after a toggle never got observed without
-          // this call.
-          if (typeof observeCardImages === 'function') observeCardImages();
-          updateAddedState();
-        }
-      });
-    })();
+          // Bind to ALL .view-toggle groups — there are two on the page now:
+          // one inside the main search shell (.search-input-row) and one
+          // inside the compact sticky bar (.sticky-search-bar). The earlier
+          // `document.querySelector('.view-toggle')` only bound the FIRST
+          // node, which (after the sticky bar was added earlier in the
+          // document) ended up being the sticky one — so clicks on the
+          // main shell's buttons were silently ignored. Bind every group.
+          const tgls = document.querySelectorAll('.view-toggle');
+          if (!tgls.length) return;
+          tgls.forEach((tgl) => {
+            tgl.addEventListener('click', (e) => {
+              const btn = e.target.closest('.view-toggle-btn');
+              if (!btn) return;
+              const mode = btn.dataset.view;
+              if (mode !== 'table' && mode !== 'card') return;
+              // No-op if already in this mode.
+              const classOn = mode === 'table' ? 'view-table' : 'view-card';
+              if (document.body.classList.contains(classOn)) return;
+              document.body.classList.toggle('view-table', mode === 'table');
+              document.body.classList.toggle('view-card',  mode === 'card');
+              // Keep BOTH toggle groups in sync (aria-pressed + dataset) so the
+              // sticky bar reflects the actual state.
+              document.querySelectorAll('.view-toggle .view-toggle-btn').forEach((b) => {
+                b.setAttribute('aria-pressed', String(b.dataset.view === mode));
+              });
+              try { localStorage.setItem('ns_view_mode', mode); } catch (e) {}
+              // Re-render with the cached results. If nothing has been
+              // searched yet (lastParsed is null), the next run() will pick
+              // up the active mode naturally.
+              if (typeof renderResults === 'function' && lastParsed && lastResults.length) {
+                renderResults(lastParsed, lastResults);
+                // Re-observe images for the freshly-rendered cards. The initial
+                // run() called observeCardImages() in table mode where there
+                // are no .result-image elements (only table rows), so the
+                // cards that appear after a toggle never got observed without
+                // this call.
+                if (typeof observeCardImages === 'function') observeCardImages();
+              }
+              updateAddedState();
+            });
+          });
+        })();
 
     // === Compact sticky search bar ===
     // The bulkier search-shell (with suggested chips, saved filters, etc.)
@@ -7089,24 +7100,11 @@
       const observer = new MutationObserver(syncToggles);
       observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
-      // Click handlers for the sticky's toggle buttons — same logic
-      // as the main toggle's click handler but scoped to sticky.
-      stickyToggles.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          // Mirror: find the main button with the same data-view and click it.
-          const mainBtn = document.querySelector(`.search-input-row .view-toggle-btn[data-view="${btn.dataset.view}"]:not(.sticky-search-bar .view-toggle-btn)`);
-          // Simpler: directly toggle body class + re-render — the main
-          // toggle handler also runs renderResults with lastResults.
-          // But to keep the cart/etc in sync, fire the click on the main.
-          // Use querySelectorAll to find the main button (which is not
-          // inside the sticky bar).
-          const mainBtns = document.querySelectorAll('.search-input-row .view-toggle-btn');
-          for (const b of mainBtns) {
-            if (b.dataset.view === btn.dataset.view) { b.click(); break; }
-          }
-        });
-      });
+      // No per-sticky-button click handler needed: initViewToggle now binds
+      // its delegated listener to BOTH .view-toggle groups, so clicking a
+      // sticky button directly drives the body class + re-render. The
+      // MutationObserver above keeps the sticky bar's aria-pressed in sync
+      // with whatever mode is active.
 
       // Back-to-top is handled by the page's existing #backToTop button at
       // viewport bottom-right; we don't need a duplicate in the sticky bar.

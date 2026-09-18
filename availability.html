@@ -1050,6 +1050,23 @@
       border-color: #e8b870;
       color: #7a4818;
     }
+    /* New! pill — bright pinkish-magenta to read as a fresh-arrival signal,
+       distinct from the warm amber of the bloom/bud pills. The ✨ in the
+       text makes the meaning clear even if colors don't convey it. */
+    .meta-pill.cat-new {
+      background: #fff0f3;
+      border-color: #ff9eb4;
+      color: #b81b48;
+    }
+    /* Inline ✨ marker for the table view's Status column. Sized so it
+       matches the poppy icon vertically and is the same brand pink as
+       the New! pill. */
+    .row-new-tag {
+      font-size: 16px;
+      color: #b81b48;
+      line-height: 1;
+      display: inline-block;
+    }
     /* Bloom icon (16x16 marker) inside any meta pill — sits inline-flex
        with the text. */
     .chat-test-root .meta-pill .bloom-icon {
@@ -6368,6 +6385,11 @@
                   : '';
                 let meta = [];
                 if (plant.bud && !plant.bloom) meta.push(pill('🌿 budding', matched.bloom.includes('budding'), 'bloom'));
+                // NEW! pill — shows on plants flagged as a fresh addition this
+                // week. Reads plant.new (set by sync_bloom_flags / regen_availability
+                // from the weekly xlsx Status column "New!"). Uses the warm
+                // accent so it stands out from the bloom/bud pills.
+                if (plant.new) meta.push(pill('✨ New', false, 'new'));
                 if (flowerColorHTML) {
                   const fcFirst = String(plant.flower_color).toLowerCase().split(/[ ,(]/)[0];
                   const isColorMatch = matched.colors.some(c => plant.flower_color.toLowerCase().includes(c));
@@ -6521,11 +6543,14 @@
         `<span class="size-amount">$${s.price.toFixed(2)}</span>` +
         `</span>`;
         }).join(' <span class="size-sep">/</span> ');
-        // Status — poppy icon for bloomers, &nbsp; otherwise (reserves
-        // column width even when no icon is present).
+        // Status — poppy icon for bloomers, ✨ New marker for fresh arrivals
+        // (read by sync_bloom_flags from weekly xlsx Status="New!"), otherwise
+        // &nbsp; (reserves column width even when no icon is present).
         const statusHTML = isBloom
-        ? '<img src="popppy-flower.png" alt="In bloom" class="bloom-icon" aria-hidden="true">'
-        : '&nbsp;';
+          ? '<img src="popppy-flower.png" alt="In bloom" class="bloom-icon" aria-hidden="true">'
+          : (plant.new
+              ? '<span class="row-new-tag" title="New this week">✨</span>'
+              : '&nbsp;');
         // Botanical link → opens the plant in the main portal so users
         // can drill into the details page (same target as the cards).
         const plantLink = `<a class="plant-link" href="${tblEsc(plantUrl(plant.botanical))}" target="_blank" rel="noopener" aria-label="More info on ${tblEsc(plant.botanical)} on nativeson.com">${highlight(plant.botanical, highlightTerms)}</a>`;

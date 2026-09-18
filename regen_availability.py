@@ -26,10 +26,10 @@ from pathlib import Path
 import openpyxl
 
 ROOT = Path(__file__).parent
-XLSX = Path(sys.argv[1]) if len(sys.argv) > 1 else Path('/Users/tfross/.hermes/attachments/nativesonsexcelavail81726.xlsx')
+XLSX = Path(sys.argv[1]) if len(sys.argv) > 1 else Path('/Users/tfross/.hermes/attachments/nativesonsexcelavail92126.xlsx')
 AVAIL = ROOT / 'availability_data.js'
-WEEK_HEADER = 'Week of September 14th, 2026'
-GENERATED = '2026-09-11'
+WEEK_HEADER = 'Week of September 21st, 2026'
+GENERATED = '2026-09-17'
 
 
 def norm(s: str) -> str:

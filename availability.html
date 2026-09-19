@@ -2408,26 +2408,13 @@
     body .cart-overlay[hidden] { display: none; }
 
     /* Slide-out cart panel */
-    /* Desktop only — on mobile (<=767px) the styles.css bottom-sheet rule
-       takes over (top: auto, bottom: 0, full-width, rounded top corners,
-       slide-up transform). The styles.css mobile rule needs to win on
-       mobile so the cart pops up from the bottom instead of appearing as
-       a fixed top-left rectangle. */
-    @media (min-width: 768px) {
-      body .cart-panel {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 380px;
-        max-width: 100%;
-        background: #fff;
-        box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
-        z-index: 100;
-        display: flex;
-        flex-direction: column;
-        font-family: var(--font-sans);
-      }
+    /* === Cart panel: centered modal on all viewports ===
+       styles.css defines .cart-panel as a centered modal (top/left 50%,
+       translate to center). No size override needed here — desktop rule
+       scoped to min-width: 768px was removed since centering is universal. */
+    body .cart-panel {
+      /* Reserved for cart-panel specific tweaks; positioning lives in
+         styles.css so the same rule works for any page that uses .cart-panel. */
     }
     body .cart-panel[hidden] { display: none; }
     body .cart-header {

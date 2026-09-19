@@ -7473,6 +7473,24 @@
         header.textContent = `Pick size — ${plant.botanical.length > 30 ? plant.botanical.slice(0, 28) + '…' : plant.botanical}`;
         pop.appendChild(header);
 
+        // Quantity preset chips — shared across all size rows. One click sets
+        // the qty on every per-row input below, so the next Add uses that
+        // value regardless of which size is being added.
+        const qtyChips = document.createElement('div');
+        qtyChips.className = 'row-size-qty-chips';
+        qtyChips.setAttribute('role', 'group');
+        qtyChips.setAttribute('aria-label', 'Set quantity');
+        for (const q of [1, 5, 10, 25, 50, 100]) {
+          const chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = 'row-size-qty-chip';
+          chip.textContent = String(q);
+          chip.dataset.popoverQty = String(q);
+          chip.setAttribute('aria-label', `Set quantity to ${q}`);
+          qtyChips.appendChild(chip);
+        }
+        pop.appendChild(qtyChips);
+
         // Track which sizes are already in the cart so we can show a
         // small badge. Cheap O(n×m) — n is small (3-5 sizes max).
         const cartItems = (window.Cart && window.Cart.getItems) ? window.Cart.getItems() : [];

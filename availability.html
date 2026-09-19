@@ -8966,7 +8966,12 @@
           return;
         }
         // Picker "Add {size} × {qty} to Order" button — adds current selection,
-        // keeps modal open so the user can add more sizes
+        // keeps modal open so the user can add more sizes.
+        // The qty is NOT reset after add: many wholesale orders are "give me
+        // 10 of this 5gal" or "20 of that 1gal" — resetting to 1 forces the
+        // user to re-pick the qty on every click, which is the worst
+        // possible flow for bulk orders. If the user wants a different qty
+        // they can click a chip or use the stepper.
         const pickerAddBtn = e.target.closest('#pickerAddBtn');
         if (pickerAddBtn) {
           const sel = getPickerSelection();
@@ -8978,10 +8983,9 @@
             total: sel.size.price * sel.qty,
           });
           renderPickerTally();
-          // Reset qty to 1 and refocus for the next add
+          // Refocus the qty input so keyboard users can adjust for the next add.
           const qi = $('pickerQtyInput');
           if (qi) {
-            qi.value = 1;
             qi.focus();
             qi.select();
           }
@@ -9072,7 +9076,8 @@
           updatePickerLineTotal();
         }
       });
-      // Enter on qty input adds (and keeps modal open for more sizes)
+      // Enter on qty input adds (and keeps modal open for more sizes).
+      // The qty is intentionally NOT reset — see Add-to-Order handler for rationale.
       sizePickerBody.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && e.target.id === 'pickerQtyInput') {
           e.preventDefault();
@@ -9086,7 +9091,7 @@
           });
           renderPickerTally();
           const qi = $('pickerQtyInput');
-          if (qi) { qi.value = 1; qi.focus(); qi.select(); }
+          if (qi) { qi.focus(); qi.select(); }
           updatePickerLineTotal();
         }
       });

@@ -5241,6 +5241,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="pwa-install.js?v=20260905-01"></script>
   <script src="supabase-config.js?v=20260826-02"></script>
+  <script src="typesafe-client.js?v=20260918-01"></script>
   <script src="cart.js?v=20260826-02"></script>
   <script src="masteritem_full.js?v=20260904-01"></script>
   <script src="saved-filters.js?v=20260902-01"></script>
@@ -6757,7 +6758,13 @@
           saveImageCache();
         }
       } catch (e) { /* fall back to placeholder */ }
-      const parsed = useExisting && lastParsed ? lastParsed : parseQuery(q);
+      // Parse the query. parseQueryJev() wraps parseQuery() — it tries Jev
+      // first for the structured filter categories, then merges with the
+      // fallback's free-text tokens. If Jev is disabled, missing a key, or
+      // returns low-confidence, it returns the fallback unchanged.
+      const parsed = useExisting && lastParsed
+        ? lastParsed
+        : await window.TypesafeClient.parseQueryJev(q, parseQuery);
       lastParsed = parsed;
 
       if (!parsed.active) {

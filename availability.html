@@ -8336,6 +8336,9 @@
           if (cartHint) cartHint.hidden = false;
           cartPanel.hidden = true;
           cartOverlay.hidden = true;
+          // Hide the clear button when empty.
+          const clearBtnEarly = document.getElementById('cartClearBtn');
+          if (clearBtnEarly) clearBtnEarly.hidden = true;
           return;
         }
 
@@ -8344,6 +8347,9 @@
         if (cartHint) cartHint.hidden = true;
         cartCount.textContent = String(count);
         cartTotal.textContent = fmtPrice(retailSubtotal);
+        // Has items → show the clear button.
+        const clearBtnHasItems = document.getElementById('cartClearBtn');
+        if (clearBtnHasItems) clearBtnHasItems.hidden = false;
         // If no markup applied, retail == wholesale — collapse to a single
         // "Subtotal" row (no separate retail line, no markup banner).
         const noMarkup = Math.abs(retailSubtotal - subtotal) < 0.005
@@ -8363,14 +8369,12 @@
           cartItems.innerHTML = '<p class="cart-empty">Cart is empty. Add plants from the search results, or use the customer-request picker for items not on this week\'s list.</p>'
             + '<button type="button" class="cart-empty-cta" id="cartEmptyCta">+ Customer request</button>';
           cartSummary.hidden = true;
-          // No items → no clear button.
+          // Hide the clear button (also handled earlier, but keep this in
+          // sync in case items.length === 0 but count > 0 from rounding).
           const clearBtn = document.getElementById('cartClearBtn');
           if (clearBtn) clearBtn.hidden = true;
           return;
         }
-        // Has items → show the clear button.
-        const clearBtn0 = document.getElementById('cartClearBtn');
-        if (clearBtn0) clearBtn0.hidden = false;
 
         const html = items.map(it => {
           const sizeLine = it.size ? `<div class="cart-item-meta">${esc(it.size)} · $${fmtPrice(it.price)} wholesale</div>` : '';

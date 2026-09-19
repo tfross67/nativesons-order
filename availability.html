@@ -7613,14 +7613,19 @@
           minusBtn.addEventListener('click', (ev) => {
             ev.preventDefault();
             ev.stopPropagation();
+            setActiveInput(qtyInput);
             setQty(Math.max(1, getQty() - 1));
           });
           plusBtn.addEventListener('click', (ev) => {
             ev.preventDefault();
             ev.stopPropagation();
+            setActiveInput(qtyInput);
             setQty(getQty() + 1);
           });
           qtyInput.addEventListener('input', () => {
+            // Typing in a row makes that row the chip target — covers
+            // users who reach for the keyboard without clicking first.
+            setActiveInput(qtyInput);
             // Clamp to >= 1 on every keystroke; users typing "0" or "" are
             // about to fix it on the next key, so don't reset to 1 eagerly.
             const v = parseInt(qtyInput.value, 10);

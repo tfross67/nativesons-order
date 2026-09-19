@@ -5984,6 +5984,40 @@
       score += matchedFreeText.length;
       score += (plant.bloom ? 1 : 0);
 
+      // === Name-match boost (Jev-gated) ===
+      // When Jev classifies the query as a plant name AND the user typed at
+      // least one free-text token, score plants whose botanical/common name
+      // overlaps the query much higher than the generic free-text count.
+      // This is what makes "salvia clevelandii" put Salvia clevelandii at
+      // row 1 instead of in the middle of the catalog.
+      if (filters.isPlantName && freeText.length) {
+        const queryTokens = freeText.map(t => t.toLowerCase());
+        const bot = (plant.botanical || '').toLowerCase();
+        const botParts = bot
+          .replace(/[''\u2018\u2019`]/g, '')
+          .split(/[\s×x]+/)
+          .filter(Boolean);
+        const genus = botParts[0] || '';
+        const epithet = botParts[1] || '';
+        const cultivar = botParts.slice(2).join(' ') || '';
+
+        const common = (plant.common || '').toLowerCase();
+        const commonTokens = common.split(/[\s,]+/).filter(Boolean);
+
+        // Genus match: query contains the genus word
+        if (genus && queryTokens.includes(genus)) score += 30;
+        // Species epithet match
+        if (epithet && queryTokens.includes(epithet)) score += 20;
+        // Cultivar word match (only count once even if multiple words hit)
+        const cultivarHit = cultivar && cultivar.split(/[\s,]+/).some(
+          cw => cw.length > 1 && queryTokens.includes(cw)
+        );
+        if (cultivarHit) score += 15;
+        // Common name token match
+        const commonHit = commonTokens.some(ct => ct.length > 2 && queryTokens.includes(ct));
+        if (commonHit) score += 10;
+      }
+
       return {
         score,
         matched: {

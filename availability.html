@@ -7024,7 +7024,8 @@
             jev_ms: meta.jevMs || null,
             jev_used: !!meta.jevUsed,
           };
-          const cfg = window.SUPABASE_CONFIG || {};
+          console.log("[analytics] logSearch called for:", query, "results:", results.length);
+           const cfg = window.SUPABASE_CONFIG || {};
           fetch(cfg.url + '/rest/v1/search_analytics', {
             method: 'POST',
             headers: {

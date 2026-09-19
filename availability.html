@@ -4660,6 +4660,14 @@
       border-radius: 5px;
       transition: background-color 80ms ease;
     }
+    /* The chips row lives inside the row's grid. Span the full width so the
+       6 chips sit on their own line beneath [size+price] [stepper] [Add]. */
+    .row-size-option-row > .row-size-qty-chips {
+      grid-column: 1 / -1;
+      border-bottom: 0;
+      padding: 0;
+      margin-top: 2px;
+    }
     .row-size-option-row:hover,
     .row-size-option-row:focus-within {
       background: var(--c-sage-soft, #e7f0e8);
@@ -7576,6 +7584,39 @@
           addBtn.setAttribute('aria-label', `Add ${s.container} to order`);
           row.appendChild(addBtn);
 
+          // Per-row qty preset chips — own row beneath [size + stepper + Add].
+          // Each size has its own chips so a user can request 10 of 1gal and
+          // 25 of 5gal in the same popover without resetting the other size.
+          const chips = document.createElement('div');
+          chips.className = 'row-size-qty-chips';
+          chips.setAttribute('role', 'group');
+          chips.setAttribute('aria-label', `Set quantity for ${s.container}`);
+          for (const q of [1, 5, 10, 25, 50, 100]) {
+            const chip = document.createElement('button');
+            chip.type = 'button';
+            chip.className = 'row-size-qty-chip';
+            chip.textContent = String(q);
+            chip.dataset.rowQty = String(q);
+            chip.setAttribute('aria-label', `Set quantity to ${q} for ${s.container}`);
+            chips.appendChild(chip);
+          }
+          row.appendChild(chips);
+
+          // Wire per-row chip click → set THIS row's qty input only.
+          chips.addEventListener('click', (ev) => {
+            const chip = ev.target.closest('.row-size-qty-chip');
+            if (!chip) return;
+            const q = parseInt(chip.dataset.rowQty, 10) || 1;
+            setQty(q);
+            chips.querySelectorAll('.row-size-qty-chip').forEach(c => {
+              c.classList.toggle('is-active', c === chip);
+            });
+          });
+          // Stepper or manual edit clears this row's chip highlight.
+          qtyInput.addEventListener('input', () => {
+            chips.querySelectorAll('.row-size-qty-chip.is-active').forEach(c => c.classList.remove('is-active'));
+          });
+
           // Wire interactions
           const getQty = () => {
             const v = parseInt(qtyInput.value, 10);
@@ -7655,7 +7696,7 @@
         const POPOVER_W_EST = 290;  // min-width:280 + padding
         let top = cellRect.bottom + 4;  // default: open DOWN
         // If not enough room below, open UP
-        const POPOVER_H_EST = 220;  // header + qty chips + 2-3 size rows
+        const POPOVER_H_EST = 280;  // header + per-row chips + 2-3 size rows (each is now 2 lines)
         if (top + POPOVER_H_EST > window.innerHeight) {
           // Flip up — anchor bottom of popover to top of cell, with 4px gap
           top = cellRect.top - POPOVER_H_EST - 4;
@@ -7686,31 +7727,6 @@
         // Append to body so table.list { overflow: hidden } doesn't
         // clip the popover.
         document.body.appendChild(pop);
-
-        // Wire the qty preset chips: one click sets the qty on every
-        // per-row input in this popover so the next Add (on any size)
-        // uses that value. Active chip gets highlighted.
-        pop.addEventListener('click', (ev) => {
-          const chip = ev.target.closest('.row-size-qty-chip');
-          if (!chip) return;
-          const q = parseInt(chip.dataset.popoverQty, 10) || 1;
-          pop.querySelectorAll('.row-size-option-qty').forEach(inp => {
-            inp.value = String(q);
-          });
-          pop.querySelectorAll('.row-size-qty-chip').forEach(c => {
-            c.classList.toggle('is-active', c === chip);
-          });
-          // Move focus to the first row's qty so keyboard users can keep going.
-          const firstQty = pop.querySelector('.row-size-option-qty');
-          if (firstQty) firstQty.focus();
-        });
-        // Manual edit or stepper click clears the chip highlight (matches the
-        // modal picker behavior).
-        pop.addEventListener('input', (ev) => {
-          if (ev.target.classList && ev.target.classList.contains('row-size-option-qty')) {
-            pop.querySelectorAll('.row-size-qty-chip.is-active').forEach(c => c.classList.remove('is-active'));
-          }
-        });
 
         return pop;
       }

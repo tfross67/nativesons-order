@@ -7034,10 +7034,10 @@
               'Prefer': 'return=minimal',
             },
             body: JSON.stringify(body),
-          }).catch(() => { /* silent */ });
-        } catch (e) {
-          // silent
-        }
+          }).catch((e) => { console.error('[analytics] fetch failed:', e); });
+          } catch (e) {
+          console.error('[analytics] build failed:', e);
+          }
       }
 
       // === Sort results according to user selection ===

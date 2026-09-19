@@ -296,10 +296,18 @@
          eating ~120px of vertical space and pushing the search box
          below the fold). Smaller numbers + tighter dividers keep the
          three figures scannable in a single glance. */
-      .chat-test-root .hero-stats { flex-direction: row; align-items: baseline; gap: 0; }
+      .chat-test-root .hero-stats { flex-direction: row; align-items: baseline; gap: 0; padding-top: 10px; opacity: 0.7; }
       .chat-test-root .hero-stat + .hero-stat { padding-left: 10px; margin-left: 10px; border-left: 1px solid var(--c-line, #e5e3dd); }
       .chat-test-root .hero-stat-num { font-size: 22px; }
       .chat-test-root .hero-stat-label { font-size: 10px; }
+    }
+    @media (max-width: 480px) {
+      /* Below 480px the stats become truly secondary: even smaller,
+         muted, and on a single line. The search-shell is the only
+         dominant element above the fold. */
+      .chat-test-root .hero-stats { padding-top: 6px; opacity: 0.55; }
+      .chat-test-root .hero-stat-num { font-size: 18px; }
+      .chat-test-root .hero-stat-label { font-size: 9px; letter-spacing: 0.08em; }
     }
     .chat-test-root .search-shell {
       background: #fff;
@@ -773,6 +781,11 @@
       max-width: 100%;
       /* Hide scrollbar visually but keep scroll functionality on mobile. */
       scrollbar-width: none;
+    }
+    .chat-test-root .sort-tabs > .sort-tab {
+      /* Comfortable tap target so a thumb lands cleanly. */
+      min-height: 32px;
+      padding: 6px 14px;
     }
     .chat-test-root .sort-tabs::-webkit-scrollbar { display: none; }
     @media (max-width: 600px) {

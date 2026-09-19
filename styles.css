@@ -1079,7 +1079,7 @@ body { padding-bottom: 80px; }
     left: 0;
     width: 100%;
     max-width: 100%;
-    max-height: 92vh;
+    max-height: 75vh;
     background: var(--c-paper);
     z-index: 100;
     display: flex;

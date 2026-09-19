@@ -41,7 +41,7 @@ interface AnalyticsRequest {
 
 async function queryView(view: string, rangeDays: number): Promise<any[]> {
   const since = new Date(Date.now() - rangeDays * 24 * 60 * 60 * 1000).toISOString();
-  const url = `${SUPABASE_URL}/rest/v1/${view}?select=*&ts=gte.${since}&order=day.desc&limit=${rangeDays}`;
+  const url = `${SUPABASE_URL}/rest/v1/${view}?select=*&day=gte.${since}&order=day.desc&limit=${rangeDays}`;
   const res = await fetch(url, {
     headers: {
       "apikey": SUPABASE_SERVICE_ROLE_KEY,
@@ -55,9 +55,9 @@ async function queryView(view: string, rangeDays: number): Promise<any[]> {
   return await res.json();
 }
 
-async function queryTable(table: string, select: string, rangeDays: number, limit: number): Promise<any[]> {
+async function queryTable(table: string, select: string, rangeDays: number, limit: number, dateColumn: string = 'ts'): Promise<any[]> {
   const since = new Date(Date.now() - rangeDays * 24 * 60 * 60 * 1000).toISOString();
-  const url = `${SUPABASE_URL}/rest/v1/${table}?select=${select}&ts=gte.${since}&order=ts.desc&limit=${limit}`;
+  const url = `${SUPABASE_URL}/rest/v1/${table}?select=${select}&${dateColumn}=gte.${since}&order=${dateColumn}.desc&limit=${limit}`;
   const res = await fetch(url, {
     headers: {
       "apikey": SUPABASE_SERVICE_ROLE_KEY,
@@ -114,12 +114,12 @@ Deno.serve(async (req: Request) => {
       const topQueries = await queryTable(
         "search_analytics_top_queries",
         "query,search_count,avg_results,last_seen",
-        rangeDays, 100
+        rangeDays, 100, "last_seen"
       );
       const failedQueries = await queryTable(
         "search_analytics_failed_queries",
         "query,failure_count,last_seen",
-        rangeDays, 50
+        rangeDays, 50, "last_seen"
       );
       result.top_queries = topQueries;
       result.failed_queries = failedQueries;

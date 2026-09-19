@@ -6470,6 +6470,16 @@
       // === Highlight terms (color + free-text tokens) ===
       const highlightTerms = [...(parsed.filters.colors||[]), ...(parsed.freeText||[])];
 
+      // === Section column visibility ===
+      // Only show the Section column when at least one row has a meaningful
+      // (non-"General Nursery") section value. Otherwise the column is dead
+      // weight. Must be computed BEFORE the forEach below because
+      // buildTableRow() reads it.
+      const hasMeaningfulSection = results.some(p => {
+        const s = (p.plant.section || '').trim();
+        return s && s !== 'General Nursery';
+      });
+
       // === Cards ===
       results.forEach(({ plant, match }) => {
         const card = document.createElement('article');
@@ -6617,6 +6627,12 @@
         const inner = empty
         ? `<tr class="table-empty-row"><td colspan="${isStaffMode() ? 7 : 6}">No plants match your filter.</td></tr>`
         : tableRows.join('');
+        // Section column header — only show when at least one row has a
+        // meaningful (non-"General Nursery") section value. The variable
+        // hasMeaningfulSection was computed earlier in renderResults().
+        const sectionHeader = (isStaffMode() && hasMeaningfulSection)
+         ? '<th data-sort="section" class="col-section">Section<span class="arrow"></span></th>'
+         : '';
         tableSlot.innerHTML = `<table class="list">
         <thead>
         <tr>
@@ -6626,16 +6642,6 @@
         <th data-sort="height">Height<span class="arrow"></span></th>
         <th data-sort="width">Width<span class="arrow"></span></th>
         <th data-sort="price" class="col-price">Price from<span class="arrow"></span></th>
-        // Section column — only show the header AND cells when at least one
-        // row in the result set has a meaningful (non-"General Nursery")
-        // section value. Otherwise the column is dead weight.
-        const hasMeaningfulSection = results.some(p => {
-         const s = (p.plant.section || '').trim();
-         return s && s !== 'General Nursery';
-        });
-        const sectionHeader = (isStaffMode() && hasMeaningfulSection)
-         ? '<th data-sort="section" class="col-section">Section<span class="arrow"></span></th>'
-         : '';
         ${sectionHeader}
         </tr>
         </thead>

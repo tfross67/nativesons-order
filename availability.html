@@ -4660,14 +4660,6 @@
       border-radius: 5px;
       transition: background-color 80ms ease;
     }
-    /* The chips row lives inside the row's grid. Span the full width so the
-       6 chips sit on their own line beneath [size+price] [stepper] [Add]. */
-    .row-size-option-row > .row-size-qty-chips {
-      grid-column: 1 / -1;
-      border-bottom: 0;
-      padding: 0;
-      margin-top: 2px;
-    }
     .row-size-option-row:hover,
     .row-size-option-row:focus-within {
       background: var(--c-sage-soft, #e7f0e8);
@@ -4855,6 +4847,15 @@
       background: var(--c-bark, #2b3a2a);
       color: #fff;
       border-color: var(--c-bark, #2b3a2a);
+    }
+    /* The "active" size row (the one the shared chip row will affect) gets
+       a subtle outline so the user knows which row the chips target.
+       First row on open, then switches when user focuses a different row's
+       qty input or clicks that row's stepper / Add. */
+    .row-size-option-row.is-active-row {
+      outline: 2px solid var(--c-cta, #1f6b3a);
+      outline-offset: -2px;
+      background: var(--c-sage-soft, #e7f0e8);
     }
     .row-size-popover[data-sheet="mobile"] .row-size-option-left {
       display: flex;
@@ -7481,13 +7482,14 @@
         header.textContent = `Pick size — ${plant.botanical.length > 30 ? plant.botanical.slice(0, 28) + '…' : plant.botanical}`;
         pop.appendChild(header);
 
-        // Quantity preset chips — shared across all size rows. One click sets
-        // the qty on every per-row input below, so the next Add uses that
-        // value regardless of which size is being added.
-        const qtyChips = document.createElement('div');
-        qtyChips.className = 'row-size-qty-chips';
-        qtyChips.setAttribute('role', 'group');
-        qtyChips.setAttribute('aria-label', 'Set quantity');
+        // Single shared chip row — sets qty on whichever size row is
+        // currently "active" (last focused/clicked). When the popover
+        // opens, no row is active; the user clicks a size's qty input
+        // or stepper to select it, then clicks a chip to set its qty.
+        const qtyChipsRow = document.createElement('div');
+        qtyChipsRow.className = 'row-size-qty-chips';
+        qtyChipsRow.setAttribute('role', 'group');
+        qtyChipsRow.setAttribute('aria-label', 'Set quantity for selected size');
         for (const q of [1, 5, 10, 25, 50, 100]) {
           const chip = document.createElement('button');
           chip.type = 'button';
@@ -7495,9 +7497,23 @@
           chip.textContent = String(q);
           chip.dataset.popoverQty = String(q);
           chip.setAttribute('aria-label', `Set quantity to ${q}`);
-          qtyChips.appendChild(chip);
+          qtyChipsRow.appendChild(chip);
         }
-        pop.appendChild(qtyChips);
+        pop.appendChild(qtyChipsRow);
+
+        // Active-row tracking: chip clicks set qty on whichever row's
+        // qty input was last touched. Defaults to the FIRST row when
+        // the popover opens so single-size plants still get chips.
+        let activeQtyInput = null;
+        const setActiveInput = (inp) => {
+          activeQtyInput = inp;
+          // Visual hint: outline the row that's currently active.
+          pop.querySelectorAll('.row-size-option-row.is-active-row').forEach(r => r.classList.remove('is-active-row'));
+          if (inp) {
+            const row = inp.closest('.row-size-option-row');
+            if (row) row.classList.add('is-active-row');
+          }
+        };
 
         // Track which sizes are already in the cart so we can show a
         // small badge. Cheap O(n×m) — n is small (3-5 sizes max).
@@ -7566,6 +7582,8 @@
           qtyInput.className = 'row-size-option-qty';
           qtyInput.value = '1';
           qtyInput.setAttribute('aria-label', `Quantity for ${s.container}`);
+          // Mark this row's qty input as the chip target when focused.
+          qtyInput.addEventListener('focus', () => setActiveInput(qtyInput));
           const plusBtn = document.createElement('button');
           plusBtn.type = 'button';
           plusBtn.className = 'row-size-option-step row-size-option-step-plus';
@@ -7582,41 +7600,6 @@
           addBtn.className = 'row-size-option-add';
           addBtn.textContent = 'Add';
           addBtn.setAttribute('aria-label', `Add ${s.container} to order`);
-          row.appendChild(addBtn);
-
-          // Per-row qty preset chips — own row beneath [size + stepper + Add].
-          // Each size has its own chips so a user can request 10 of 1gal and
-          // 25 of 5gal in the same popover without resetting the other size.
-          const chips = document.createElement('div');
-          chips.className = 'row-size-qty-chips';
-          chips.setAttribute('role', 'group');
-          chips.setAttribute('aria-label', `Set quantity for ${s.container}`);
-          for (const q of [1, 5, 10, 25, 50, 100]) {
-            const chip = document.createElement('button');
-            chip.type = 'button';
-            chip.className = 'row-size-qty-chip';
-            chip.textContent = String(q);
-            chip.dataset.rowQty = String(q);
-            chip.setAttribute('aria-label', `Set quantity to ${q} for ${s.container}`);
-            chips.appendChild(chip);
-          }
-          row.appendChild(chips);
-
-          // Wire per-row chip click → set THIS row's qty input only.
-          chips.addEventListener('click', (ev) => {
-            const chip = ev.target.closest('.row-size-qty-chip');
-            if (!chip) return;
-            const q = parseInt(chip.dataset.rowQty, 10) || 1;
-            setQty(q);
-            chips.querySelectorAll('.row-size-qty-chip').forEach(c => {
-              c.classList.toggle('is-active', c === chip);
-            });
-          });
-          // Stepper or manual edit clears this row's chip highlight.
-          qtyInput.addEventListener('input', () => {
-            chips.querySelectorAll('.row-size-qty-chip.is-active').forEach(c => c.classList.remove('is-active'));
-          });
-
           // Wire interactions
           const getQty = () => {
             const v = parseInt(qtyInput.value, 10);
@@ -7651,6 +7634,7 @@
           sizeBtn.addEventListener('click', (ev) => {
             ev.preventDefault();
             ev.stopPropagation();
+            setActiveInput(qtyInput);
             addSize(plant.botanical, s.container, s.price, getQty());
             // Don't close the popover — buyers often want to add multiple
             // sizes in one open. Just bump the "N in cart" badge.
@@ -7661,6 +7645,7 @@
           addBtn.addEventListener('click', (ev) => {
             ev.preventDefault();
             ev.stopPropagation();
+            setActiveInput(qtyInput);
             const q = getQty();
             addSize(plant.botanical, s.container, s.price, q);
             bumpBadge(price, s.container, plant.botanical);
@@ -7696,7 +7681,7 @@
         const POPOVER_W_EST = 290;  // min-width:280 + padding
         let top = cellRect.bottom + 4;  // default: open DOWN
         // If not enough room below, open UP
-        const POPOVER_H_EST = 280;  // header + per-row chips + 2-3 size rows (each is now 2 lines)
+        const POPOVER_H_EST = 180;  // header + shared chip row + 2-3 size rows
         if (top + POPOVER_H_EST > window.innerHeight) {
           // Flip up — anchor bottom of popover to top of cell, with 4px gap
           top = cellRect.top - POPOVER_H_EST - 4;
@@ -7727,6 +7712,30 @@
         // Append to body so table.list { overflow: hidden } doesn't
         // clip the popover.
         document.body.appendChild(pop);
+
+        // Default the active row to the FIRST size row so single-size plants
+        // still get chips on first open. Multi-size users click a stepper to
+        // switch active row before clicking a chip.
+        const firstQty = pop.querySelector('.row-size-option-qty');
+        if (firstQty) setActiveInput(firstQty);
+
+        // Wire the chip row → set qty on the active row's input.
+        qtyChipsRow.addEventListener('click', (ev) => {
+          const chip = ev.target.closest('.row-size-qty-chip');
+          if (!chip) return;
+          const q = parseInt(chip.dataset.popoverQty, 10) || 1;
+          const target = activeQtyInput || firstQty;
+          if (target) {
+            const v = Math.max(1, q);
+            target.value = String(v);
+            target.focus();
+            target.select();
+            target.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          qtyChipsRow.querySelectorAll('.row-size-qty-chip').forEach(c => {
+            c.classList.toggle('is-active', c === chip);
+          });
+        });
 
         return pop;
       }

@@ -485,12 +485,7 @@ body { padding-bottom: 80px; }
   flex-direction: column;
   border-radius: 18px;
   box-shadow: var(--c-shadow-lg);
-  animation: cartPopIn 0.2s ease-out;
   overflow: hidden;
-}
-@keyframes cartPopIn {
-  from { transform: translate(-50%, -50%) scale(0.95); opacity: 0; }
-  to   { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 .cart-header, .modal-header {
   display: flex;

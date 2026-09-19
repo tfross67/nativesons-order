@@ -574,6 +574,32 @@
       font-size: 13px;
       user-select: none;
     }
+    /* Grouped suggestion rows — Plants vs Sizes. The inline label clarifies
+       what each cluster means for first-time visitors, the divider
+       provides a visual separator between groups. */
+    .chat-test-root .suggested-group {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0 8px;
+    }
+    .chat-test-root .suggested-group-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--c-clay, #6b6256);
+      margin-right: 4px;
+    }
+    .chat-test-root .suggested-divider {
+      display: inline-block;
+      width: 1px;
+      height: 14px;
+      background: var(--c-line, #e5e3dd);
+      margin: 0 4px;
+      vertical-align: middle;
+    }
     /* Each suggestion is now a soft token — no background, no border.
        Just an italic-feeling chip with a dotted underline on hover.
        Drastically lighter than the previous heavy pill treatment. */
@@ -5012,17 +5038,23 @@
 
       <div class="suggested">
         <span class="suggested-label">Try</span>
-        <button class="suggestion" data-q="4&Prime;">4&Prime;</button>
-        <button class="suggestion" data-q="1g">1g</button>
-        <button class="suggestion" data-q="2g">2g</button>
-        <button class="suggestion" data-q="5g">5g</button>
-        <button class="suggestion" data-q="15g">15g</button>
-        <span class="suggested-sep" aria-hidden="true">·</span>
-        <button class="suggestion" data-q="ca native">ca native</button>
-        <button class="suggestion" data-q="shade">shade</button>
-        <button class="suggestion" data-q="succulent">succulent</button>
-        <button class="suggestion" data-q="in bloom">in bloom</button>
-        <button class="suggestion" data-q="pollinators">pollinators</button>
+        <span class="suggested-group">
+          <span class="suggested-group-label" aria-hidden="true">Plants</span>
+          <button class="suggestion" data-q="ca native">ca native</button>
+          <button class="suggestion" data-q="shade">shade</button>
+          <button class="suggestion" data-q="succulent">succulent</button>
+          <button class="suggestion" data-q="in bloom">in bloom</button>
+          <button class="suggestion" data-q="pollinators">pollinators</button>
+        </span>
+        <span class="suggested-divider" aria-hidden="true"></span>
+        <span class="suggested-group">
+          <span class="suggested-group-label" aria-hidden="true">Sizes</span>
+          <button class="suggestion" data-q="4&Prime;">4&Prime;</button>
+          <button class="suggestion" data-q="1g">1g</button>
+          <button class="suggestion" data-q="2g">2g</button>
+          <button class="suggestion" data-q="5g">5g</button>
+          <button class="suggestion" data-q="15g">15g</button>
+        </span>
       </div>
     </div>
 

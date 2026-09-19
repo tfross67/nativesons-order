@@ -6989,9 +6989,14 @@
       }
       // Set up lazy image loading for the new cards
       observeCardImages();
+      console.log('[run] post-observeCardImages');
       // Mark cards whose plant is already in the cart (call after the cards
       // are in the DOM so we can update each .result node).
-      updateAddedState();
+      try {
+        updateAddedState();
+      } catch (e) {
+        console.warn('[run] updateAddedState failed:', e);
+      }
       console.log('[run] results path, about to call logSearch q=' + JSON.stringify(q));
       // Log this search for analytics — fire-and-forget so a slow log
       // endpoint never blocks the UI.

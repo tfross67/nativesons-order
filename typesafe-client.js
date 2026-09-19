@@ -88,11 +88,13 @@
       inBloom:    !!filters.inBloom,
       budding:    !!filters.budding,
       pollinator: !!filters.pollinator,
+      isPlantName: !!filters.isPlantName,
     };
     const anySignal =
       out.colors.length || out.exposures.length || out.water.length ||
       out.types.length || out.container.length || out.origin.length ||
-      out.heightBand || out.inBloom || out.budding || out.pollinator;
+      out.heightBand || out.inBloom || out.budding || out.pollinator ||
+      out.isPlantName;
     return anySignal ? out : null;
   }
 
@@ -123,13 +125,23 @@
         return fallback;
       }
 
-      // Merge: Jev wins for structured fields where it expressed a signal;
-      // fallback fills the rest (freeText tokens, origin list, anything Jev
-      // didn't cover).
+      // Merge: Jev always wins where it expressed a signal. The fallback
+      // (regex parser) only fills empty slots — it doesn't overwrite Jev's
+      // structured answers. Critical for heightBand: the regex only matches
+      // "under 1'" (apostrophe) not "under 1 foot", so Jev's "under1" must
+      // not be overwritten by fallback's null.
       const merged = {
         filters: {
-          ...fallback.filters,
-          ...filters,
+          colors:     filters.colors.length     ? filters.colors     : fallback.filters.colors,
+          exposures:  filters.exposures.length  ? filters.exposures  : fallback.filters.exposures,
+          water:      filters.water.length      ? filters.water      : fallback.filters.water,
+          types:      filters.types.length      ? filters.types      : fallback.filters.types,
+          container:  filters.container.length  ? filters.container  : fallback.filters.container,
+          origin:     filters.origin.length     ? filters.origin     : fallback.filters.origin,
+          heightBand: filters.heightBand || fallback.filters.heightBand,
+          inBloom:    filters.inBloom    || fallback.filters.inBloom,
+          budding:    filters.budding    || fallback.filters.budding,
+          pollinator: filters.pollinator || fallback.filters.pollinator,
         },
         freeText: fallback.freeText,
       };

@@ -14,7 +14,7 @@
 
 const TYPESAFE_API_KEY = Deno.env.get("TYPESAFE_API_KEY") || "";
 const TYPESAFE_MODEL = Deno.env.get("TYPESAFE_MODEL") || "jev-latest";
-const TYPESAFE_URL = "https://api.typesafe.ai/v1/system_one";
+const TYPESAFE_URL = "https://api.typesafe.ai/v1/systemone";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -58,6 +58,15 @@ function buildQuestions() {
   // say "no filter expressed" rather than guessing. JSON criteria help Jev
   // tell similar options apart (yellow=color vs. yellow=highlight).
   return {
+    // Noul first: gates whether to attempt plant-name matching at all.
+    is_plant_name: {
+      type: 'noul',
+      instructions: 'Does this query name a specific plant (genus, species, cultivar, or common name)?',
+      criteria: {
+        true: 'Query names a plant the user is looking for',
+        false: 'Query describes attributes (color, size, water) without naming a plant',
+      },
+    },
     colors: {
       type: 'choice',
       instructions: 'Which flower color (if any) does the user ask about?',
@@ -176,12 +185,15 @@ function answersToFilters(answers: Record<string, any>): Record<string, any> | n
   const out: Record<string, any> = {
     colors: [], exposures: [], water: [], types: [], container: [],
     origin: [], heightBand: null, inBloom: false, budding: false, pollinator: false,
+    isPlantName: false,
   };
   let anySignal = false;
   for (const [id, ans] of Object.entries(answers || {})) {
-    if (!ans || typeof ans.choice !== 'string') continue;
-    const v = ans.choice;
+    if (!ans) continue;
+    const v = ans.choice !== undefined ? ans.choice : (ans.noul !== undefined ? ans.noul : null);
+    if (v === null) continue;
     switch (id) {
+      case 'is_plant_name': if (v === true || v === 'true' || v >= 0.7) { out.isPlantName = true; anySignal = true; } break;
       case 'colors':     if (v !== 'none') { out.colors.push(v); anySignal = true; } break;
       case 'exposures':  if (v !== 'none') { out.exposures.push(v); anySignal = true; } break;
       case 'water':      if (v !== 'none') { out.water.push(v); anySignal = true; } break;

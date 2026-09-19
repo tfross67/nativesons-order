@@ -4385,6 +4385,35 @@
       line-height: 1;
       margin: 0 16px;
     }
+    /* Status pill — icon + text label so first-time visitors don't have
+       to guess what the symbol means. Both bloom and new states get
+       the same treatment. */
+    body .chat-test-root td.status .status-bloom,
+    body .chat-test-root td.status .status-new {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+      white-space: nowrap;
+    }
+    body .chat-test-root td.status .status-bloom {
+      background: rgba(255, 196, 102, 0.18);
+      color: #7a4d00;
+    }
+    body .chat-test-root td.status .status-new {
+      background: rgba(184, 27, 72, 0.10);
+      color: #b81b48;
+    }
+    body .chat-test-root td.status .status-bloom img.bloom-icon {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+    }
     @media (max-width: 720px) {
       body .chat-test-root td.status img.bloom-icon { width: 26px; height: 26px; }
     }
@@ -6593,11 +6622,13 @@
         }).join(' <span class="size-sep">/</span> ');
         // Status — poppy icon for bloomers, ✨ New marker for fresh arrivals
         // (read by sync_bloom_flags from weekly xlsx Status="New!"), otherwise
-        // &nbsp; (reserves column width even when no icon is present).
+        // &nbsp; (reserves column width even when no icon is present). Each
+        // status has a visible text label alongside the icon so first-time
+        // visitors don't have to guess what the symbol means.
         const statusHTML = isBloom
-          ? '<img src="popppy-flower.png" alt="In bloom" class="bloom-icon" aria-hidden="true">'
+          ? '<span class="status-bloom"><img src="popppy-flower.png" alt="" class="bloom-icon" aria-hidden="true"><span class="status-label">In bloom</span></span>'
           : (plant.new
-              ? '<span class="row-new-tag" title="New this week">✨</span>'
+              ? '<span class="status-new" title="New this week"><span aria-hidden="true">✨</span><span class="status-label">New</span></span>'
               : '&nbsp;');
         // Botanical link → opens the plant in the main portal so users
         // can drill into the details page (same target as the cards).

@@ -2968,6 +2968,38 @@
       font-size: 15px;
       padding: 6px 0;
     }
+    /* Quantity preset chips — one click sets the qty to that value.
+       Lighter visual weight than the flat chips (which add to the count)
+       so the two rows don't look identical. */
+    .modal .picker-qty-chips{
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .modal .picker-qty-chip{
+      flex: 1 1 0;
+      padding: 6px 0;
+      background: transparent;
+      border: 1px solid #d4c89c;
+      border-radius: 6px;
+      color: var(--c-bark, #1f3a1f);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .modal .picker-qty-chip:hover{
+      background: #f4ecd8;
+      border-color: var(--c-bark, #1f3a1f);
+    }
+    .modal .picker-qty-chip.is-active{
+      background: var(--c-bark, #1f3a1f);
+      color: #fff;
+      border-color: var(--c-bark, #1f3a1f);
+    }
     .modal .picker-line-total{
       font-family: var(--font-sans);
       font-size: 18px;
@@ -8712,6 +8744,14 @@
             </div>
             <span class="picker-line-total" id="pickerLineTotal">$${fmtPrice(sizes[0].price)}</span>
           </div>
+          <div class="picker-qty-chips" role="group" aria-label="Set quantity">
+            <button type="button" class="picker-qty-chip" data-picker-qty="1">1</button>
+            <button type="button" class="picker-qty-chip" data-picker-qty="5">5</button>
+            <button type="button" class="picker-qty-chip" data-picker-qty="10">10</button>
+            <button type="button" class="picker-qty-chip" data-picker-qty="25">25</button>
+            <button type="button" class="picker-qty-chip" data-picker-qty="50">50</button>
+            <button type="button" class="picker-qty-chip" data-picker-qty="100">100</button>
+          </div>
           <button type="button" class="btn btn-primary btn-block" id="pickerAddBtn" style="margin-top:18px;">
             Add to Order
           </button>
@@ -8954,12 +8994,36 @@
           const cur = Math.max(1, parseInt(input.value, 10) || 1);
           input.value = String(cur + delta);
           updatePickerLineTotal();
+          // Manual change — clear any active chip highlight
+          sizePickerBody.querySelectorAll('.picker-qty-chip.is-active').forEach(c => c.classList.remove('is-active'));
         }
+      });
+      // Picker qty preset chips — one click SETS the qty to the chip value
+      // (does NOT add to the current value, like the flat chips do).
+      sizePickerBody.addEventListener('click', (e) => {
+        const chip = e.target.closest('[data-picker-qty]');
+        if (!chip) return;
+        const target = parseInt(chip.dataset.pickerQty, 10) || 1;
+        const input = $('pickerQtyInput');
+        if (input) {
+          input.value = String(target);
+          input.focus();
+          input.select();
+        }
+        // Highlight the active chip; clear others
+        sizePickerBody.querySelectorAll('.picker-qty-chip').forEach(c => {
+          c.classList.toggle('is-active', c === chip);
+        });
+        updatePickerLineTotal();
       });
       // Update line total when qty or size changes
       sizePickerBody.addEventListener('input', (e) => {
         if (e.target.id === 'pickerQtyInput' || e.target.name === 'pickerSize') {
           updatePickerLineTotal();
+          // Manual edit of qty — clear any chip highlight
+          if (e.target.id === 'pickerQtyInput') {
+            sizePickerBody.querySelectorAll('.picker-qty-chip.is-active').forEach(c => c.classList.remove('is-active'));
+          }
         }
       });
       sizePickerBody.addEventListener('change', (e) => {

@@ -3537,6 +3537,22 @@
     }
     .staff-sidebar .cust-picker-results.is-open,
     body .cust-picker-results.is-open{ display: block; }
+    /* Hint text shown below the picker input explaining what to type.
+       Subtle italic so it doesn't compete with the input itself. */
+    body .cust-picker-hint {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 12px;
+      color: var(--c-clay, #6b6256);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    /* When the picker results dropdown is open, hide the hint — the
+       dropdown is self-explanatory and the hint just adds noise. */
+    body .cust-picker-wrap:focus-within .cust-picker-hint,
+    body .cust-picker-results.is-open ~ .cust-picker-hint {
+      opacity: 0.5;
+    }
     .staff-sidebar .cust-result,
     .chat-test-root .cust-result {
       padding: 10px 14px;
@@ -4946,30 +4962,31 @@
   <!-- Staff-only customer sidebar (visible only when body has .staff-mode).
        Sits as a fixed left column on desktop; collapses to a top strip on mobile. -->
   <section class="staff-topbar staff-only staff-sidebar" id="staffTopbar" aria-label="Customer lookup">
-      <div class="staff-topbar-inner staff-sidebar-inner">
-        <div class="staff-topbar-picker">
-          <label class="staff-section-title" for="custPickerInput">Customer</label>
-          <div class="cust-picker-wrap">
-            <input type="search" id="custPickerInput" class="cust-picker-input"
-                   placeholder="Search customers…" autocomplete="off">
-            <button class="cust-picker-clear" id="custPickerClear" type="button" title="Clear">✕</button>
-            <div class="cust-picker-results" id="custPickerResults"></div>
-          </div>
+    <div class="staff-topbar-inner staff-sidebar-inner">
+      <div class="staff-topbar-picker">
+        <label class="staff-section-title" for="custPickerInput">Customer</label>
+        <div class="cust-picker-wrap">
+          <input type="search" id="custPickerInput" class="cust-picker-input"
+                 placeholder="Type a name, code, or city…" autocomplete="off">
+          <button class="cust-picker-clear" id="custPickerClear" type="button" title="Clear" hidden>✕</button>
+          <div class="cust-picker-hint" id="custPickerHint">Start typing to find a customer — order will be billed to them</div>
+          <div class="cust-picker-results" id="custPickerResults"></div>
         </div>
+      </div>
 
-        <div id="selectedCust" class="staff-topbar-selected" hidden>
-          <div class="selected-cust">
-            <span class="staff-section-title">Working for</span>
-            <div class="selected-cust-name" id="selCustName">—</div>
-            <div class="selected-cust-meta" id="selCustMeta"></div>
-            <div class="selected-cust-actions">
-              <span class="markup-pill" id="selCustMarkup" hidden>+0% markup</span>
-              <button type="button" class="btn btn-ghost" id="selCustClear">Switch customer</button>
-            </div>
+      <div id="selectedCust" class="staff-topbar-selected" hidden>
+        <div class="selected-cust">
+          <span class="staff-section-title">Working for</span>
+          <div class="selected-cust-name" id="selCustName">—</div>
+          <div class="selected-cust-meta" id="selCustMeta"></div>
+          <div class="selected-cust-actions">
+            <span class="markup-pill" id="selCustMarkup" hidden>+0% markup</span>
+            <button type="button" class="btn btn-ghost" id="selCustClear">Switch customer</button>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
   <main class="chat-test-root" id="mainApp">
     <div class="hero-band">
@@ -9739,6 +9756,8 @@
           // message until the JSON arrives (see renderCustomerPicker).
           if (typeof loadStaffCustomerData === 'function') loadStaffCustomerData();
           scheduleCustomerPicker();
+          // Show the clear button only when there's text to clear.
+          if (clear) clear.hidden = !input.value;
         });
         input.addEventListener('focus', () => {
           if (typeof loadStaffCustomerData === 'function') loadStaffCustomerData();

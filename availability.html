@@ -2408,19 +2408,26 @@
     body .cart-overlay[hidden] { display: none; }
 
     /* Slide-out cart panel */
-    body .cart-panel {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 380px;
-      max-width: 100%;
-      background: #fff;
-      box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      font-family: var(--font-sans);
+    /* Desktop only — on mobile (<=767px) the styles.css bottom-sheet rule
+       takes over (top: auto, bottom: 0, full-width, rounded top corners,
+       slide-up transform). The styles.css mobile rule needs to win on
+       mobile so the cart pops up from the bottom instead of appearing as
+       a fixed top-left rectangle. */
+    @media (min-width: 768px) {
+      body .cart-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 380px;
+        max-width: 100%;
+        background: #fff;
+        box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        font-family: var(--font-sans);
+      }
     }
     body .cart-panel[hidden] { display: none; }
     body .cart-header {

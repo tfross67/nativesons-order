@@ -69,33 +69,30 @@
   }
 
   /**
-   * Map Jev's answer shape to the parseQuery() filter shape.
-   * Returns null if confidence is too low on any individual answer or if
-   * every answer was 'none' (meaning Jev saw nothing parseable).
+   * Sanitize the Edge Function's already-mapped filter shape.
+   * Returns null if no filter signal — caller treats that as "fall back".
    */
-  function answersToFilters(answers) {
+  function answersToFilters(filters) {
+    if (!filters || typeof filters !== 'object') return null;
+    // The Edge Function already maps Jev's answers into the parseQuery filter
+    // shape and returns it as `filters`. We just sanitize the shape here and
+    // return it as-is for the merger in parseQueryJev.
     const out = {
-      colors: [], exposures: [], water: [], types: [], container: [],
-      origin: [], heightBand: null, inBloom: false, budding: false, pollinator: false,
+      colors:     Array.isArray(filters.colors)     ? filters.colors     : [],
+      exposures:  Array.isArray(filters.exposures)  ? filters.exposures  : [],
+      water:      Array.isArray(filters.water)      ? filters.water      : [],
+      types:      Array.isArray(filters.types)      ? filters.types      : [],
+      container:  Array.isArray(filters.container)  ? filters.container  : [],
+      origin:     Array.isArray(filters.origin)     ? filters.origin     : [],
+      heightBand: filters.heightBand || null,
+      inBloom:    !!filters.inBloom,
+      budding:    !!filters.budding,
+      pollinator: !!filters.pollinator,
     };
-    let anySignal = false;
-    for (const [id, ans] of Object.entries(answers)) {
-      if (!ans || typeof ans.choice !== 'string') continue;
-      if ((ans.confidence || 0) < DEFAULTS.confidenceFloor) continue;
-      const v = ans.choice;
-      switch (id) {
-        case 'colors':     if (v !== 'none') { out.colors.push(v); anySignal = true; } break;
-        case 'exposures':  if (v !== 'none') { out.exposures.push(v); anySignal = true; } break;
-        case 'water':      if (v !== 'none') { out.water.push(v); anySignal = true; } break;
-        case 'types':      if (v !== 'none') { out.types.push(v); anySignal = true; } break;
-        case 'container':  if (v !== 'none') { out.container.push(v); anySignal = true; } break;
-        case 'origin':     if (v !== 'none') { out.origin.push(v); anySignal = true; } break;
-        case 'height_band':if (v !== 'none') { out.heightBand = v; anySignal = true; } break;
-        case 'in_bloom':   if (v === 'yes') { out.inBloom = true; anySignal = true; } break;
-        case 'budding':    if (v === 'yes') { out.budding = true; anySignal = true; } break;
-        case 'pollinator': if (v === 'yes') { out.pollinator = true; anySignal = true; } break;
-      }
-    }
+    const anySignal =
+      out.colors.length || out.exposures.length || out.water.length ||
+      out.types.length || out.container.length || out.origin.length ||
+      out.heightBand || out.inBloom || out.budding || out.pollinator;
     return anySignal ? out : null;
   }
 
@@ -120,7 +117,7 @@
     try {
       const data = await callJev(rawQuery);
       log('response', data);
-      const filters = answersToFilters(data.answers || {});
+      const filters = answersToFilters(data?.filters);
       if (!filters) {
         // Jev saw nothing — trust fallback entirely (especially freeText).
         return fallback;

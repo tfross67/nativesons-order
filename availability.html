@@ -5332,7 +5332,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="pwa-install.js?v=20260905-01"></script>
   <script src="supabase-config.js?v=20260826-02"></script>
-  <script src="typesafe-client.js?v=20260918-02"></script>
+  <script src="typesafe-client.js?v=20260919-01"></script>
   <script src="cart.js?v=20260826-02"></script>
   <script src="masteritem_full.js?v=20260904-01"></script>
   <script src="saved-filters.js?v=20260902-01"></script>
@@ -6891,6 +6891,7 @@
 
     async function run(useExisting) {
       const q = input.value;
+      const startedAt = Date.now();
       const catalog = getCatalog();
       // Wait for image_map.json so the first render can use real images.
       // The fetch is memoized; this is fast on subsequent calls.
@@ -6917,6 +6918,10 @@
         sortResults(allResults, currentSort);
         renderResults(parsed, allResults);
         observeCardImages();
+        // Log the empty query too — gives us a baseline of "browse" activity
+        // vs. typed-search activity. Filtered out in the dashboard view if
+        // not useful.
+        logSearch(q, allResults, parsed, startedAt);
         return;
       }
 
@@ -6985,17 +6990,65 @@
       // Mark cards whose plant is already in the cart (call after the cards
       // are in the DOM so we can update each .result node).
       updateAddedState();
-    }
+      // Log this search for analytics — fire-and-forget so a slow log
+      // endpoint never blocks the UI.
+      logSearch(q, results, parsed, startedAt);
+      }
 
-    // === Sort results according to user selection ===
-    let currentSort = 'name-asc';
-    function sortResults(results, mode) {
-      // mode can be:
-      //   'relevance'        — by match.score desc
-      //   'type:<category>'  — narrow by plant type, then sort by relevance
-      //   'name-asc/desc'    — alphabetical
-      //   'price-asc/desc'   — by lowest size price
-      //   'bloom-first'      — plants flagged bloom=true first, then by relevance
+      // === Search analytics logger ===
+      // Fires one INSERT per parseQuery() cycle. Fire-and-forget so a slow
+      // Supabase response never blocks the UI. Errors are silent — analytics
+      // must never break the page.
+      function logSearch(query, results, parsed, startedAt) {
+        try {
+          const parseMs = Date.now() - startedAt;
+          const meta = parsed.__meta || { jevMs: 0, jevUsed: false };
+          const body = {
+            query: query || '',
+            result_count: results.length,
+            filters_used: {
+              colors: parsed.filters.colors,
+              exposures: parsed.filters.exposures,
+              water: parsed.filters.water,
+              types: parsed.filters.types,
+              container: parsed.filters.container,
+              origin: parsed.filters.origin,
+              height_band: parsed.filters.heightBand || null,
+              in_bloom: !!parsed.filters.inBloom,
+              budding: !!parsed.filters.budding,
+              pollinator: !!parsed.filters.pollinator,
+            },
+            free_text: parsed.freeText || [],
+            is_plant_name: !!parsed.filters.isPlantName,
+            parse_ms: parseMs,
+            jev_ms: meta.jevMs || null,
+            jev_used: !!meta.jevUsed,
+          };
+          const cfg = window.SUPABASE_CONFIG || {};
+          fetch(cfg.url + '/rest/v1/search_analytics', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': cfg.anonKey || '',
+              'Authorization': 'Bearer ' + (cfg.anonKey || ''),
+              'Prefer': 'return=minimal',
+            },
+            body: JSON.stringify(body),
+          }).catch(() => { /* silent */ });
+        } catch (e) {
+          // silent
+        }
+      }
+
+      // === Sort results according to user selection ===
+      let currentSort = 'name-asc';
+      function sortResults(results, mode) {
+        // mode can be:
+        //   'relevance'        — by match.score desc
+        //   'type:<category>'  — narrow by plant type, then sort by relevance
+        //   'name-asc/desc'    — alphabetical
+        //   'price-asc/desc'   — by lowest size price
+        //   'bloom-first'      — plants flagged bloom=true first, then by relevance
       if (mode && mode.startsWith('type:')) {
         const category = mode.slice(5);
         const patterns = TYPE_PATTERNS[category] || [];

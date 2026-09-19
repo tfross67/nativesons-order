@@ -56,13 +56,22 @@
     const supabase = await getSupabase();
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), DEFAULTS.timeoutMs);
+    const startedAt = Date.now();
     try {
       const { data, error } = await supabase.functions.invoke('jev-classify', {
         body: { query: rawQuery },
       });
+      const ms = Date.now() - startedAt;
       if (error) throw new Error(error.message || 'jev-classify error');
       if (controller.signal.aborted) throw new Error('aborted');
+      // Attach timing + a "used" flag so parseQueryJev can log it for analytics.
+      if (data && typeof data === 'object') {
+        data.__meta = { jevMs: ms, jevUsed: true };
+      }
       return data;
+    } catch (e) {
+      const ms = Date.now() - startedAt;
+      throw Object.assign(e, { __meta: { jevMs: ms, jevUsed: true, error: true } });
     } finally {
       clearTimeout(timer);
     }
@@ -113,6 +122,8 @@
     const fallback = fallbackParse(rawQuery);
 
     if (!DEFAULTS.enabled) {
+      // Jev disabled — explicitly mark meta so analytics knows we skipped it.
+      fallback.__meta = { jevMs: 0, jevUsed: false };
       return fallback;
     }
 
@@ -151,9 +162,13 @@
                      merged.filters.inBloom || merged.filters.budding ||
                      merged.filters.pollinator || merged.filters.origin.length ||
                      merged.freeText.length;
-      return { filters: merged.filters, freeText: merged.freeText, active };
+      // Attach timing meta so availability.html can log per-search analytics.
+      return { filters: merged.filters, freeText: merged.freeText, active, __meta: data?.__meta };
     } catch (e) {
       log('error, falling back', e);
+      // Even on failure, surface the timing meta (with error flag) so analytics
+      // can record that Jev was attempted but failed.
+      fallback.__meta = e.__meta || { jevMs: 0, jevUsed: true, error: true };
       return fallback;
     }
   }

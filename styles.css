@@ -473,7 +473,7 @@ body { padding-bottom: 80px; }
 .cart-panel {
   position: fixed;
   top: 0; right: 0; bottom: 0;
-  width: 100%;
+  width: auto;
   max-width: 420px;
   background: var(--c-paper);
   z-index: 100;

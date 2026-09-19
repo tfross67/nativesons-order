@@ -2439,6 +2439,31 @@
       margin: 0;
       letter-spacing: var(--ls-tight);
     }
+    /* "Clear all" — destructive, only shown when cart has items. Sits
+       between the "Customer request" CTA and the close (✕) button.
+       Subtle ghost style so it doesn't compete with the primary CTA. */
+    body .cart-clear-btn {
+      margin-left: auto;
+      background: transparent;
+      border: 1px solid var(--c-clay, #6b6256);
+      color: var(--c-clay, #6b6256);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: var(--ls-tight);
+      padding: 5px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    body .cart-clear-btn:hover {
+      background: var(--c-clay, #6b6256);
+      color: #fff;
+    }
+    body .cart-clear-btn:focus-visible {
+      outline: 2px solid var(--c-clay, #6b6256);
+      outline-offset: 2px;
+    }
     .chat-test-root .icon-btn {
       background: none;
       border: none;
@@ -5199,6 +5224,7 @@
     <header class="cart-header">
       <h2>Your Order</h2>
       <button type="button" class="cart-header-cta" id="cartHeaderCta">+ Customer request</button>
+      <button type="button" class="cart-clear-btn" id="cartClearBtn" hidden aria-label="Clear all items from cart">Clear all</button>
       <button type="button" class="icon-btn" id="closeCart" aria-label="Close cart">✕</button>
     </header>
     <div class="cart-items" id="cartItems">
@@ -8337,8 +8363,14 @@
           cartItems.innerHTML = '<p class="cart-empty">Cart is empty. Add plants from the search results, or use the customer-request picker for items not on this week\'s list.</p>'
             + '<button type="button" class="cart-empty-cta" id="cartEmptyCta">+ Customer request</button>';
           cartSummary.hidden = true;
+          // No items → no clear button.
+          const clearBtn = document.getElementById('cartClearBtn');
+          if (clearBtn) clearBtn.hidden = true;
           return;
         }
+        // Has items → show the clear button.
+        const clearBtn0 = document.getElementById('cartClearBtn');
+        if (clearBtn0) clearBtn0.hidden = false;
 
         const html = items.map(it => {
           const sizeLine = it.size ? `<div class="cart-item-meta">${esc(it.size)} · $${fmtPrice(it.price)} wholesale</div>` : '';
@@ -9145,6 +9177,26 @@
       // visitors see the empty state and discover the +Customer request CTA.
       if (cartHint) cartHint.addEventListener('click', openCart);
       closeCartBtn.addEventListener('click', closeCart);
+
+      // Clear all cart items — destructive, so it confirms before wiping.
+      // The button itself is hidden by renderCart() when the cart is empty.
+      const cartClearBtn = document.getElementById('cartClearBtn');
+      if (cartClearBtn) {
+        cartClearBtn.addEventListener('click', () => {
+          const items = (window.Cart && window.Cart.getItems) ? window.Cart.getItems() : [];
+          if (items.length === 0) return;
+          const count = items.length;
+          const word = count === 1 ? 'item' : 'items';
+          const ok = window.confirm(`Clear all ${count} ${word} from your order? This can't be undone.`);
+          if (!ok) return;
+          if (window.Cart && typeof window.Cart.clear === 'function') {
+            window.Cart.clear();
+          }
+          if (typeof renderCart === 'function') renderCart();
+          if (typeof updateAddedState === 'function') updateAddedState();
+          if (typeof showToast === 'function') showToast('Cart cleared');
+        });
+      }
 
       // Quantity stepper inside cart
       cartItems.addEventListener('click', (e) => {

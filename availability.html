@@ -6469,16 +6469,6 @@
       // === Highlight terms (color + free-text tokens) ===
       const highlightTerms = [...(parsed.filters.colors||[]), ...(parsed.freeText||[])];
 
-      // === Section column visibility ===
-      // Only show the Section column when at least one row has a meaningful
-      // (non-"General Nursery") section value. Otherwise the column is dead
-      // weight. Must be computed BEFORE the forEach below because
-      // buildTableRow() reads it.
-      const hasMeaningfulSection = results.some(p => {
-        const s = (p.plant.section || '').trim();
-        return s && s !== 'General Nursery';
-      });
-
       // === Cards ===
       results.forEach(({ plant, match }) => {
         const card = document.createElement('article');
@@ -6614,7 +6604,7 @@
         if (tableMode) {
         // Render into the table slot. We collect all rows then set
         // innerHTML once at the end so we don't reflow per row.
-        tableRows.push(buildTableRow(plant, match, highlightTerms, isStaffMode(), hasMeaningfulSection));
+        tableRows.push(buildTableRow(plant, match, highlightTerms, isStaffMode()));
         } else {
         cardsSlot.appendChild(card);
         }
@@ -6624,14 +6614,8 @@
         if (tableMode) {
         const empty = results.length === 0;
         const inner = empty
-        ? `<tr class="table-empty-row"><td colspan="${isStaffMode() ? 7 : 6}">No plants match your filter.</td></tr>`
+        ? `<tr class="table-empty-row"><td colspan="${isStaffMode() ? 6 : 5}">No plants match your filter.</td></tr>`
         : tableRows.join('');
-        // Section column header — only show when at least one row has a
-        // meaningful (non-"General Nursery") section value. The variable
-        // hasMeaningfulSection was computed earlier in renderResults().
-        const sectionHeader = (isStaffMode() && hasMeaningfulSection)
-         ? '<th data-sort="section" class="col-section">Section<span class="arrow"></span></th>'
-         : '';
         tableSlot.innerHTML = `<table class="list">
         <thead>
         <tr>
@@ -6640,8 +6624,6 @@
         <th data-sort="size">Size<span class="arrow"></span></th>
         <th data-sort="height">Height<span class="arrow"></span></th>
         <th data-sort="width">Width<span class="arrow"></span></th>
-        <th data-sort="price" class="col-price">Price from<span class="arrow"></span></th>
-        ${sectionHeader}
         </tr>
         </thead>
         <tbody>${inner}</tbody>
@@ -6665,13 +6647,9 @@
         .filter(s => s && s.container && typeof s.price === 'number')
         .sort((a, b) => tableSizeKey(a) - tableSizeKey(b));
 
-        function buildTableRow(plant, match, highlightTerms, staff, hasMeaningfulSection) {
+        function buildTableRow(plant, match, highlightTerms, staff) {
         const sizes = tableSortedSizes(plant);
         const isBloom = plant.bloom === true || plant.bloom === 'True' || plant.bloom === 'true';
-        // Cheapest price for the "from" column; null if no sizes.
-        const cheapestPrice = sizes.length
-        ? Math.min(...sizes.map(s => s.price))
-        : null;
         // Match the cell layout: "1gal $7.00 / 5gal $22.00", smallest
         // weight first. Mirrors compact-list's weights.
         const weights = [800, 700, 600, 500, 500];
@@ -6697,24 +6675,6 @@
         // Botanical link → opens the plant in the main portal so users
         // can drill into the details page (same target as the cards).
         const plantLink = `<a class="plant-link" href="${tblEsc(plantUrl(plant.botanical))}" target="_blank" rel="noopener" aria-label="More info on ${tblEsc(plant.botanical)} on nativeson.com">${highlight(plant.botanical, highlightTerms)}</a>`;
-        // Price cell — show "from $X" only when there's actually a price;
-        // visitors without trade pricing see nothing here (column hidden
-        // by body.pricing-locked).
-        const priceCell = cheapestPrice == null
-        ? '<span class="price-value">—</span>'
-        : `<span class="price-from">from</span><span class="price-value">$${cheapestPrice.toFixed(2)}</span>`;
-        // Section cell — only render the cell when the header was rendered
-        // (hasMeaningfulSection is true). The cell content is empty for
-        // "General Nursery" rows so the table stays column-aligned even
-        // though most rows in the column are blank.
-        const sectionCell = staff && hasMeaningfulSection
-          ? `<td class="section col-section" data-label="Section">${
-              tblEsc((plant.section && plant.section !== 'General Nursery') ? plant.section : '')
-            }</td>`
-          : '';
-        // Add-to-order button per row. Opens the existing size picker
-        // by dispatching a click on the matching card's add button so
-        // we don't have to replicate the picker flow here.
         const addCell = `<td class="add-cell" data-label=""><button type="button" class="row-add-btn" data-row-add="${tblEsc(plant.botanical)}" aria-label="Add ${tblEsc(plant.botanical)} to your order">+ Add</button></td>`;
         return `<tr data-botanical="${tblEsc(plant.botanical)}">
         <td class="botanical" data-label="Botanical">${plantLink}</td>
@@ -6722,8 +6682,6 @@
         <td class="size" data-label="Size">${sizeCell}</td>
         <td class="height" data-label="Height">${tblEsc(plant.height || '')}</td>
         <td class="width" data-label="Width">${tblEsc(plant.width || '')}</td>
-        <td class="price" data-label="Price from">${priceCell}</td>
-        ${sectionCell}
         ${addCell}
         </tr>`;
         }

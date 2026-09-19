@@ -6892,6 +6892,7 @@
     async function run(useExisting) {
       const q = input.value;
       const startedAt = Date.now();
+      console.log('[run] start q=' + JSON.stringify(q) + ' useExisting=' + useExisting);
       const catalog = getCatalog();
       // Wait for image_map.json so the first render can use real images.
       // The fetch is memoized; this is fast on subsequent calls.
@@ -6918,6 +6919,7 @@
         sortResults(allResults, currentSort);
         renderResults(parsed, allResults);
         observeCardImages();
+        console.log('[run] empty-query path, calling logSearch');
         // Log the empty query too — gives us a baseline of "browse" activity
         // vs. typed-search activity. Filtered out in the dashboard view if
         // not useful.
@@ -6990,6 +6992,7 @@
       // Mark cards whose plant is already in the cart (call after the cards
       // are in the DOM so we can update each .result node).
       updateAddedState();
+      console.log('[run] results path, about to call logSearch q=' + JSON.stringify(q));
       // Log this search for analytics — fire-and-forget so a slow log
       // endpoint never blocks the UI.
       logSearch(q, results, parsed, startedAt);

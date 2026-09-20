@@ -4223,8 +4223,10 @@
     /* === Mobile full-width bottom cart bar ===
        Standard retail pattern: full-width strip docked to viewport
        bottom, count left + total right, safe-area-inset padding for
-       notched phones. Reset transform/left so the centered-pill from
-       styles.css doesn't pull the bar off-screen on mobile widths. */
+       notched phones. Reset transform/left/width/animation so the
+       centered-pill from styles.css (which uses left: 50%; transform:
+       translateX(-50%); animation: cartBarIn) doesn't pull the bar
+       off-screen or replay the desktop slide-in animation. */
     @media (max-width: 767px) {
       body .cart-bar {
         /* Full-width bottom bar — overrides the centered-pill from
@@ -4235,6 +4237,7 @@
         bottom: 0;
         width: 100%;
         transform: none;
+        animation: none;
         border-radius: 14px 14px 0 0;
         padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0));
         justify-content: space-between;

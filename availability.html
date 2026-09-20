@@ -5001,9 +5001,21 @@
       }
       body .chat-test-root table.list tbody td.size .size-sep { margin: 0 4px; }
       body .chat-test-root table.list tbody td.price { font-size: 12.5px; font-weight: 600; }
+      /* On mobile the +Add button gets its own line so it's always
+         tappable without horizontal scroll. The row already shows the
+         botanical name on top and the size/price inline below it. */
       body .chat-test-root table.list tbody td.add-cell {
-        display: inline-block;
-        float: right;
+        display: block;
+        float: none;
+        margin-top: 8px;
+      }
+      body .chat-test-root table.list tbody td.add-cell .row-add-btn {
+        display: inline-flex;
+        width: 100%;
+        justify-content: center;
+        padding: 8px 16px;
+        min-height: 40px;
+        font-size: 13px;
       }
     }
 

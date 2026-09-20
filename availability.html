@@ -4222,10 +4222,14 @@
        pattern): bigger tap target, count left, total right. */
     @media (max-width: 600px) {
       body .cart-bar {
+        /* Full-width bottom bar — overrides the centered-pill from
+           styles.css. Reset left/transform so the box isn't pulled
+           off-screen by the desktop centering logic. */
         left: 0;
         right: 0;
         bottom: 0;
         width: 100%;
+        transform: none;
         border-radius: 14px 14px 0 0;
         padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0));
         justify-content: space-between;

@@ -4220,7 +4220,12 @@
     /* Full-width view-cart bar on mobile — the floating pill becomes
        a bottom docked bar spanning the viewport (standard retail
        pattern): bigger tap target, count left, total right. */
-    @media (max-width: 600px) {
+    /* === Mobile full-width bottom cart bar ===
+       Standard retail pattern: full-width strip docked to viewport
+       bottom, count left + total right, safe-area-inset padding for
+       notched phones. Reset transform/left so the centered-pill from
+       styles.css doesn't pull the bar off-screen on mobile widths. */
+    @media (max-width: 767px) {
       body .cart-bar {
         /* Full-width bottom bar — overrides the centered-pill from
            styles.css. Reset left/transform so the box isn't pulled

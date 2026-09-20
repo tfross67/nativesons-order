@@ -4950,6 +4950,11 @@
       body .chat-test-root table.list { font-size: 12px; }
       body .chat-test-root table.list thead th,
       body .chat-test-root table.list tbody td { padding: 6px 8px; }
+      /* Reset white-space on the size cell so multi-size rows
+         (e.g. "1gal $8 / 5gal $22") wrap to multiple lines on narrow
+         screens instead of stretching the table to 1000+px wide. The
+         base rule sets white-space: nowrap for tabular alignment. */
+      body .chat-test-root td.size { white-space: normal; }
       body .chat-test-root td.height,
       body .chat-test-root td.width,
       body .chat-test-root td.section,
@@ -4957,8 +4962,11 @@
       /* Mobile row-collapse layout — the column headers don't correspond
          to a table grid anymore (each row is a stacked block with the
          botanical name on top). Hide the entire thead so we don't leave
-         ghost column labels with no cells under them. */
+         ghost column labels with no cells under them. The wrap clips
+         horizontal overflow so a multi-size cell that briefly exceeds
+         the row width doesn't push the whole page wider. */
       body .chat-test-root table.list thead { display: none; }
+      body .chat-test-root .view-table-wrap { overflow-x: hidden; max-width: 100%; }
       body .chat-test-root table.list tbody tr {
         display: block;
         background: transparent;

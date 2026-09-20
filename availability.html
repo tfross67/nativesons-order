@@ -4346,6 +4346,20 @@
         min-height: 32px;
       }
     }
+    /* On mobile, the staff-topbar's sticky + z-index:70 fights the
+       iOS Safari virtual keyboard: when the user taps the chat input
+       the keyboard pushes the page up but the sticky topbar stays at
+       top:0, covering the chat input — the next tap lands on the
+       customer input area visually on top, so focus "jumps" to it.
+       Disable sticky on mobile so the topbar scrolls naturally with
+       the page. Desktop keeps the sticky behavior so the customer
+       picker stays visible while scrolling the plant list. */
+    @media (max-width: 767px) {
+      body .staff-topbar {
+        position: static;
+        z-index: auto;
+      }
+    }
     @media (max-width: 520px) {
       .search-input-row .view-toggle-btn { padding: 7px 11px; font-size: 12px; }
     }

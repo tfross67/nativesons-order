@@ -22,13 +22,19 @@
        (added near the search input) flips the same classes. -->
   <script>
     (function () {
+      // Default to table on desktop, card on mobile. Cards stack nicely
+      // on narrow viewports; the table is a desktop pattern that needs
+      // horizontal scroll on phones (the +Add button ends up off-screen).
+      // Respects the user's saved preference if they've explicitly chosen.
       var mode = 'table';
       try {
+        var narrow = window.matchMedia('(max-width: 720px)').matches;
+        mode = narrow ? 'card' : 'table';
         var saved = localStorage.getItem('ns_view_mode');
         if (saved === 'card' || saved === 'table') mode = saved;
       } catch (e) {}
-      // Hide everything until body is ready, then reveal with the
-      // chosen view class. Prevents a card-grid flash on table mode.
+      // Hide everything until body is ready, then reveal with the chosen
+      // view class. Prevents a card-grid flash on table mode.
       var style = document.createElement('style');
       style.id = 'view-preinit';
       style.textContent = 'html.view-preinit body { visibility: hidden; }';

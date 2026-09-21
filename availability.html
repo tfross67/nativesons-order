@@ -443,6 +443,14 @@
       .chat-test-root .search-input-row {
         flex-wrap: wrap;
       }
+      /* On narrow screens the segmented Table/Cards toggle is wide
+         enough to squeeze the chat input to ~165px (almost unusable).
+         Force it onto its own line so the chat input gets the full
+         remaining width. */
+      .search-input-row .view-toggle {
+        flex-basis: 100%;
+        justify-content: center;
+      }
     }
     .chat-test-root .search-input-icon {
       flex-shrink: 0;

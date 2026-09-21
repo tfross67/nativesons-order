@@ -98,12 +98,18 @@
       budding:    !!filters.budding,
       pollinator: !!filters.pollinator,
       isPlantName: !!filters.isPlantName,
+      // Score primitive output (2026-09-20 pilot): scale the name-match
+      // boost by score (0..4) and confidence (0..1) instead of applying a
+      // hard binary threshold. null when Edge Function returns neither
+      // (older deployments / fallback path).
+      plantNameScore: Number.isFinite(filters.plantNameScore) ? filters.plantNameScore : null,
+      plantNameConfidence: Number.isFinite(filters.plantNameConfidence) ? filters.plantNameConfidence : null,
     };
     const anySignal =
       out.colors.length || out.exposures.length || out.water.length ||
       out.types.length || out.container.length || out.origin.length ||
       out.heightBand || out.inBloom || out.budding || out.pollinator ||
-      out.isPlantName;
+      out.isPlantName || out.plantNameScore !== null;
     return anySignal ? out : null;
   }
 
@@ -153,6 +159,9 @@
           inBloom:    filters.inBloom    || fallback.filters.inBloom,
           budding:    filters.budding    || fallback.filters.budding,
           pollinator: filters.pollinator || fallback.filters.pollinator,
+          isPlantName: filters.isPlantName || fallback.filters.isPlantName,
+          plantNameScore: filters.plantNameScore ?? fallback.filters.plantNameScore ?? null,
+          plantNameConfidence: filters.plantNameConfidence ?? fallback.filters.plantNameConfidence ?? null,
         },
         freeText: fallback.freeText,
       };

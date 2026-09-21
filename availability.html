@@ -6260,13 +6260,44 @@
       score += matchedFreeText.length;
       score += (plant.bloom ? 1 : 0);
 
-      // === Name-match boost (Jev-gated) ===
-      // When Jev classifies the query as a plant name AND the user typed at
-      // least one free-text token, score plants whose botanical/common name
-      // overlaps the query much higher than the generic free-text count.
-      // This is what makes "salvia clevelandii" put Salvia clevelandii at
-      // row 1 instead of in the middle of the catalog.
-      if (filters.isPlantName && freeText.length) {
+      // === Name-match boost (Jev Score primitive, 2026-09-20 pilot) ===
+      // The Score primitive returns 0..4 with per-level probabilities and
+      // a confidence. We map that to a continuous weight in [0, 1] so the
+      // boost scales smoothly with how "name-like" the query is, rather
+      // than snapping on at a hard threshold:
+      //   score 0 (pure attribute) → 0.0   no name boost at all
+      //   score 1 (mostly attr)    → 0.25  faint hint, just so single-word
+      //                                     attributes + a plant word still
+      //                                     nudge the right plant
+      //   score 2 (mixed)          → 0.5   moderate boost
+      //                                     scaled up by confidence
+      //   score 3 (mostly name)    → 0.75  strong boost
+      //   score 4 (pure name)      → 1.0   full boost (old behavior)
+      // The conf cap kicks in only on "mixed" (score 2) — high confidence
+      // there says "the model is sure this is genuinely mixed", which is
+      // exactly when we want some name matching. For unambiguous scores
+      // (0, 1, 3, 4), confidence is less load-bearing.
+      const pScore = Number.isFinite(filters.plantNameScore) ? filters.plantNameScore : null;
+      const pConf  = Number.isFinite(filters.plantNameConfidence) ? filters.plantNameConfidence : 1.0;
+      let nameWeight = 0;
+      if (pScore !== null) {
+        if (pScore <= 0)      nameWeight = 0;
+        else if (pScore <= 1) nameWeight = 0.25;
+        else if (pScore <= 2) nameWeight = 0.5  * (0.5 + 0.5 * pConf);   // mixed: scale by conf
+        else if (pScore <= 3) nameWeight = 0.75;
+        else                  nameWeight = 1.0;
+      } else if (filters.isPlantName) {
+        // Legacy path — old binary Noul, no score returned. Use full boost.
+        nameWeight = 1.0;
+      }
+
+      // === Name-match boost ===
+      // When the score says the query is name-leaning, score plants whose
+      // botanical/common name overlaps the query much higher than the
+      // generic free-text count. This is what makes "salvia clevelandii"
+      // put Salvia clevelandii at row 1 instead of in the middle of the
+      // catalog. The weight from above scales every boost component.
+      if (nameWeight > 0 && freeText.length) {
         const queryTokens = freeText.map(t => t.toLowerCase());
         const bot = (plant.botanical || '').toLowerCase();
         const botParts = bot
@@ -6281,17 +6312,17 @@
         const commonTokens = common.split(/[\s,]+/).filter(Boolean);
 
         // Genus match: query contains the genus word
-        if (genus && queryTokens.includes(genus)) score += 30;
+        if (genus && queryTokens.includes(genus)) score += 30 * nameWeight;
         // Species epithet match
-        if (epithet && queryTokens.includes(epithet)) score += 20;
+        if (epithet && queryTokens.includes(epithet)) score += 20 * nameWeight;
         // Cultivar word match (only count once even if multiple words hit)
         const cultivarHit = cultivar && cultivar.split(/[\s,]+/).some(
           cw => cw.length > 1 && queryTokens.includes(cw)
         );
-        if (cultivarHit) score += 15;
+        if (cultivarHit) score += 15 * nameWeight;
         // Common name token match
         const commonHit = commonTokens.some(ct => ct.length > 2 && queryTokens.includes(ct));
-        if (commonHit) score += 10;
+        if (commonHit) score += 10 * nameWeight;
       }
 
       return {

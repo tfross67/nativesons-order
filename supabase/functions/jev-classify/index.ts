@@ -58,14 +58,29 @@ function buildQuestions() {
   // say "no filter expressed" rather than guessing. JSON criteria help Jev
   // tell similar options apart (yellow=color vs. yellow=highlight).
   return {
-    // Noul first: gates whether to attempt plant-name matching at all.
-    is_plant_name: {
-      type: 'noul',
-      instructions: 'Does this query name a specific plant (genus, species, cultivar, or common name)?',
-      criteria: {
-        true: 'Query names a plant the user is looking for',
-        false: 'Query describes attributes (color, size, water) without naming a plant',
-      },
+    // Score primitive (replaces former is_plant_name Noul, 2026-09-20):
+    // How much does this query look like a plant name vs. an attribute
+    // query? Returns 0..4 with per-level probabilities and a confidence
+    // so the client can scale name-match boosts instead of applying a
+    // hard binary threshold. Levels:
+    //   0 = pure attribute query (color, size, water, etc.)
+    //   1 = mostly attribute (attribute words + maybe a plant word)
+    //   2 = mixed (hard to tell, could be either)
+    //   3 = mostly name (a plant name, possibly with attributes)
+    //   4 = pure name (genus/species/cultivar/common, no attributes)
+    plant_name_score: {
+      type: 'score',
+      instructions: 'How much of this query is a plant name (genus, species, cultivar, or common name) versus an attribute filter (color, size, sun, water, etc.)?',
+      // Score primitive expects an ordered ARRAY of level descriptions (0..N-1),
+      // not a dict like Choice. Each level is judged independently against
+      // the state. The first entry is the low end of the scale, last is high.
+      criteria: [
+        { what: 'Pure attribute query — only colors, sizes, sun, water, soil, or other plant characteristics; no plant name' },
+        { what: 'Mostly attribute — attribute words dominate, possibly a qualifying plant word' },
+        { what: 'Mixed — could reasonably be either; needs both name matching and attribute filtering' },
+        { what: 'Mostly name — a plant name is the main signal, possibly with a minor attribute' },
+        { what: 'Pure name — a specific plant (genus, species, cultivar, or common name), no attributes' },
+      ],
     },
     colors: {
       type: 'choice',
@@ -186,24 +201,52 @@ function answersToFilters(answers: Record<string, any>): Record<string, any> | n
     colors: [], exposures: [], water: [], types: [], container: [],
     origin: [], heightBand: null, inBloom: false, budding: false, pollinator: false,
     isPlantName: false,
+    // plant_name_score (0..4) and plant_name_confidence (0..1) are the raw
+    // Score-primitive outputs. isPlantName is derived: score >= 3 (mostly
+    // name or higher) at any confidence, or score == 2 with confidence >= 0.6
+    // (we treat a high-confidence mixed query as name-leaning).
+    plantNameScore: null,
+    plantNameConfidence: null,
   };
   let anySignal = false;
   for (const [id, ans] of Object.entries(answers || {})) {
     if (!ans) continue;
-    const v = ans.choice !== undefined ? ans.choice : (ans.noul !== undefined ? ans.noul : null);
-    if (v === null) continue;
+    // Each primitive answer has a typed shape: Choice has {choice, distribution,
+    // confidence}; Noul has {noul, confidence}; Score has {score, probabilities,
+    // confidence}. We dispatch by question id, not by primitive type, so the
+    // mapping stays explicit and refactors safely.
+    const choice = ans.choice !== undefined ? ans.choice : null;
+    const noul   = ans.noul   !== undefined ? ans.noul   : null;
+    const score  = ans.score  !== undefined ? ans.score  : null;
+    const confidence = typeof ans.confidence === 'number' ? ans.confidence : null;
     switch (id) {
-      case 'is_plant_name': if (v === true || v === 'true' || v >= 0.7) { out.isPlantName = true; anySignal = true; } break;
-      case 'colors':     if (v !== 'none') { out.colors.push(v); anySignal = true; } break;
-      case 'exposures':  if (v !== 'none') { out.exposures.push(v); anySignal = true; } break;
-      case 'water':      if (v !== 'none') { out.water.push(v); anySignal = true; } break;
-      case 'types':      if (v !== 'none') { out.types.push(v); anySignal = true; } break;
-      case 'container':  if (v !== 'none') { out.container.push(v); anySignal = true; } break;
-      case 'origin':     if (v !== 'none') { out.origin.push(v); anySignal = true; } break;
-      case 'height_band':if (v !== 'none') { out.heightBand = v; anySignal = true; } break;
-      case 'in_bloom':   if (v === 'yes') { out.inBloom = true; anySignal = true; } break;
-      case 'budding':    if (v === 'yes') { out.budding = true; anySignal = true; } break;
-      case 'pollinator': if (v === 'yes') { out.pollinator = true; anySignal = true; } break;
+      case 'plant_name_score': {
+        if (score === null) break;
+        out.plantNameScore = score;
+        out.plantNameConfidence = confidence;
+        // Derive isPlantName for backwards compat with clients that still
+        // use the binary flag. "Mixed with high confidence" counts as
+        // name-leaning so the user gets name matching even on ambiguous
+        // queries like "drought tolerant salvia".
+        if (score >= 3)                       { out.isPlantName = true; anySignal = true; }
+        else if (score === 2 && confidence !== null && confidence >= 0.6) {
+          out.isPlantName = true; anySignal = true;
+        }
+        break;
+      }
+      case 'colors':     if (choice !== null && choice !== 'none') { out.colors.push(choice); anySignal = true; } break;
+      case 'exposures':  if (choice !== null && choice !== 'none') { out.exposures.push(choice); anySignal = true; } break;
+      case 'water':      if (choice !== null && choice !== 'none') { out.water.push(choice); anySignal = true; } break;
+      case 'types':      if (choice !== null && choice !== 'none') { out.types.push(choice); anySignal = true; } break;
+      case 'container':  if (choice !== null && choice !== 'none') { out.container.push(choice); anySignal = true; } break;
+      case 'origin':     if (choice !== null && choice !== 'none') { out.origin.push(choice); anySignal = true; } break;
+      case 'height_band':if (choice !== null && choice !== 'none') { out.heightBand = choice; anySignal = true; } break;
+      case 'in_bloom':   if (choice === 'yes') { out.inBloom = true; anySignal = true; } break;
+      case 'budding':    if (choice === 'yes') { out.budding = true; anySignal = true; } break;
+      case 'pollinator': if (choice === 'yes') { out.pollinator = true; anySignal = true; } break;
+      // Legacy is_plant_name from older deployments — keep parsing so a
+      // cached Edge Function response still works while clients roll over.
+      case 'is_plant_name': if (noul === true || noul >= 0.7) { out.isPlantName = true; anySignal = true; } break;
     }
   }
   return anySignal ? out : null;

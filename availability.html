@@ -8031,9 +8031,10 @@
         if (savedFilters) {
           // saved-filters.js handles its own visibility — empty stores hide
           // the mount so first-time visitors don't see 3 empty "★ Star"
-          // placeholders eating 83px of mobile vertical space.
+          // placeholders eating 83px of mobile vertical space. Setting
+          // hidden=false here would undo that.
           const sfMount = document.getElementById('savedFilters');
-          if (sfMount) sfMount.hidden = false; // let the JS decide
+          // (intentionally not setting sfMount.hidden here)
           let sfTimer = null;
           // Commit on Enter / settle (1s after last keystroke).
           input.addEventListener('input', () => {

@@ -8029,8 +8029,11 @@
               },
             }) : null;
         if (savedFilters) {
+          // saved-filters.js handles its own visibility — empty stores hide
+          // the mount so first-time visitors don't see 3 empty "★ Star"
+          // placeholders eating 83px of mobile vertical space.
           const sfMount = document.getElementById('savedFilters');
-          if (sfMount) sfMount.hidden = false;
+          if (sfMount) sfMount.hidden = false; // let the JS decide
           let sfTimer = null;
           // Commit on Enter / settle (1s after last keystroke).
           input.addEventListener('input', () => {

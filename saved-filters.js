@@ -131,6 +131,19 @@
     const recentsSection = recentsHtml
       ? '<span class="sf-recent-label">Recent:</span>' + recentsHtml
       : '';
+    // Hide the entire row when nothing is saved AND nothing is recent.
+    // Power users still see the full bar after they save something; new
+    // visitors don't waste 83px of mobile vertical space on 3 empty
+    // "★ Star" placeholders. A non-empty slot has class "sf-slot" without
+    // the "sf-empty" companion class.
+    const allEmpty = store.slots.every(s => !s);
+    const hasRecents = !!recentsHtml;
+    if (allEmpty && !hasRecents) {
+      mount.innerHTML = '';
+      mount.hidden = true;
+      return;
+    }
+    mount.hidden = false;
     mount.innerHTML =
       `<div class="sf-row sf-row-main">` +
         `<span class="sf-label">Saved:</span>${slotsHtml}` +

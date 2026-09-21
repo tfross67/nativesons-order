@@ -2110,7 +2110,11 @@
          back-to-top above it so the two never overlap. :has() is
          supported in all modern browsers. */
       body:has(.cart-bar:not([hidden])) .chat-test-root .back-to-top {
-        bottom: calc(12px + 56px + 12px);  /* cart bar height + gaps */
+        /* Cart bar is full-width on mobile (75px tall = padding + content)
+           and is anchored to viewport bottom. Lift back-to-top above it
+           so the two never visually overlap. The 12px gap gives the
+           buttons enough breathing room. */
+        bottom: calc(12px + 75px + 12px);
       }
       /* Filter summary chips wrap */
       .chat-test-root #filterSummary .pill { font-size: 11px; padding: 3px 8px; }

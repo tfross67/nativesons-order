@@ -7691,6 +7691,16 @@
           addBtn.className = 'row-size-option-add';
           addBtn.textContent = 'Add';
           addBtn.setAttribute('aria-label', `Add ${s.container} to order`);
+          // The row needs the Add button physically appended to it for the
+          // click event to fire (events bubble from a node that's not in
+          // the DOM to nothing). Pop the click handler onto the button
+          // BEFORE appending so the listener is bound before first paint.
+          // (Regression guard: an earlier refactor in commit 1af4223
+          // dropped the appendChild line, leaving the Add button orphaned
+          // in memory. Users could click the size label (still worked) but
+          // the explicit Add button — and the chip-driven "set qty, then
+          // Add" flow — silently did nothing.)
+          row.appendChild(addBtn);
           // Wire interactions
           const getQty = () => {
             const v = parseInt(qtyInput.value, 10);

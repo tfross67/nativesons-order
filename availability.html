@@ -446,10 +446,11 @@
       /* On narrow screens the segmented Table/Cards toggle is wide
          enough to squeeze the chat input to ~165px (almost unusable).
          Force it onto its own line so the chat input gets the full
-         remaining width. The flex shorthand (0 0 auto) on the base
-         rule would override flex-basis alone, so we set all three. */
+         remaining width. The .search-input-row .view-toggle base
+         rule has flex: 0 0 auto which would win on equal specificity;
+         use !important to ensure the mobile wrap actually applies. */
       .search-input-row .view-toggle {
-        flex: 0 0 100%;
+        flex: 0 0 100% !important;
         justify-content: center;
       }
     }

@@ -7539,8 +7539,13 @@
         // Look up the master item code + UPC so the submitted order carries
         // them through (Slack/email/PDF render these columns). Without this,
         // every row added via the row-add-btn or popover Add button shipped
-        // item_code:null/upc:null — see audit 2026-09-21.
-        const codeInfo = lookupItemCode(botanical, container);
+        // item_code:null/upc:null — see audit 2026-09-21. addSize lives in
+        // the inner IIFE (initTableRowAdds) so it must reach the helper via
+        // window.lookupItemCode (exported from the chat-test-root outer
+        // IIFE, per pitfall U).
+        const codeInfo = (typeof window.lookupItemCode === 'function')
+          ? window.lookupItemCode(botanical, container)
+          : null;
         window.Cart.add({
           key: `${botanical}|${container}`,
           name: botanical,
@@ -10206,6 +10211,13 @@
       window.__nsClearSelectedCustomer = () => clearSelectedCustomer();
       window.__nsRefreshCompactListLinks = () => _refreshCompactListLinks();
       window.__nsRestoreActiveCustomer = () => _restoreActiveCustomer();
+      // Expose lookupItemCode so the table-row-popover IIFE
+      // (initTableRowAdds, line ~7525) can populate item_code + upc on
+      // addSize(). Without this, an inner IIFE referencing lookupItemCode
+      // throws ReferenceError per pitfall U (cross-IIFE helper isolation).
+      // Audit 2026-09-21 — every Cart.add from the row-add-btn shipped
+      // item_code:null/upc:null until this export was wired.
+      window.lookupItemCode = lookupItemCode;
       if (typeof _restoreActiveCustomer === 'function') {
         // Schedule the restore for staff who're already signed in. The call
         // is async (fetches customer DB on demand); user doesn't wait.

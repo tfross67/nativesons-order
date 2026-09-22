@@ -6543,9 +6543,21 @@
     // === Highlight matched terms in a string ===
     function highlight(text, terms) {
       if (!text) return '';
-      if (!terms || !terms.length) return escapeHTML(text);
+      // Strip any prior highlight markup before re-running. Without this,
+      // a string already containing <span class="match-hl">x</span> gets
+      // re-processed by escapeHTML + the regex pass: the literal "match-hl"
+      // inside the prior wrapper becomes part of the escaped output, and a
+      // new term that matches "match" wraps the already-injected markup
+      // again. Symptom in audit 2026-09-21: row 2 was displayed as
+      // "Baccharus pilularis 'San Bru<span class=&quot;&lt;span class=
+      // &quot;&gt;match</span>-hl&quot;&gt;no Lady'" after the multi-query
+      // sequence: lavandula → "" → "match" → "" → "xyz no match exists".
+      const rePrior = /<span class="match-hl">([^<]*)<\/span>/g;
+      const hasPrior = rePrior.test(text);
+      const inner = hasPrior ? text.replace(rePrior, '$1') : text;
+      if (!terms || !terms.length) return escapeHTML(inner);
       // Escape first, then wrap matches
-      let out = escapeHTML(text);
+      let out = escapeHTML(inner);
       const seen = new Set();
       for (const raw of terms) {
         const t = String(raw).toLowerCase().trim();
@@ -7524,12 +7536,19 @@
       // cart.js uses so dedup is consistent across views.
       function addSize(botanical, container, price, qty = 1) {
         if (!window.Cart || typeof window.Cart.add !== 'function') return;
+        // Look up the master item code + UPC so the submitted order carries
+        // them through (Slack/email/PDF render these columns). Without this,
+        // every row added via the row-add-btn or popover Add button shipped
+        // item_code:null/upc:null — see audit 2026-09-21.
+        const codeInfo = lookupItemCode(botanical, container);
         window.Cart.add({
           key: `${botanical}|${container}`,
           name: botanical,
           size: container,
           price,
           qty,
+          item_code: codeInfo?.code || null,
+          upc: codeInfo?.upc || null,
         });
       }
 

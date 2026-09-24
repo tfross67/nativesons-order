@@ -848,12 +848,47 @@
         position: relative;
       }
       .chat-test-root .sort-tabs::-webkit-scrollbar { display: none; }
-      /* Fade indicator — only visible when the tabs overflow. Uses
-         mask-image so the fade tracks the actual scroll position
-         (works whether scroll is at start, middle, or end). */
+      /* Fade indicator + scroll chevron — only visible when the tabs
+         overflow. Uses mask-image so the fade tracks the actual scroll
+         position (works whether scroll is at start, middle, or end).
+         The 48px right-side fade gives the chevron somewhere to live
+         — the previous 28px fade was too subtle to be obvious at
+         iPhone arms-reach distance. The chevron is a small › arrow
+         pinned to the right edge; JS toggles .at-end on the wrap so
+         we hide it when scrolled to the end. */
       .chat-test-root .sort-tabs {
-        -webkit-mask-image: linear-gradient(to right, black 0, black calc(100% - 28px), transparent 100%);
-        mask-image: linear-gradient(to right, black 0, black calc(100% - 28px), transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%);
+        mask-image: linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%);
+        padding-right: 32px;
+      }
+      .chat-test-root .results-toolbar {
+        position: relative;
+      }
+      /* The chevron sits on the toolbar (the scroll container's parent)
+         so it doesn't scroll with the chips. pointer-events:none keeps
+         taps reaching the chips underneath. Hidden via JS when the tabs
+         fit on screen or when scrolled to the end. */
+      .chat-test-root .results-toolbar::after {
+        content: "›";
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(20%);
+        font-size: 24px;
+        font-weight: 800;
+        line-height: 1;
+        color: var(--c-muted, #6b6256);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 180ms;
+        /* Lift above the toolbar but below page chrome. */
+        z-index: 1;
+      }
+      .chat-test-root .results-toolbar.tab-chips-overflow::after {
+        opacity: 0.65;
+      }
+      .chat-test-root .results-toolbar.tab-chips-at-end::after {
+        opacity: 0;
       }
       .chat-test-root .sort-tab {
         white-space: nowrap;
@@ -5166,6 +5201,32 @@
         min-height: 40px;
         font-size: 13px;
       }
+
+      /* Mobile filter chrome: the floating cart FAB lives at the bottom
+         of the viewport on phones and would otherwise visually sit on top
+         of the last filter chips. Add a soft padding-bottom so the
+         content scrolls past the FAB without losing the last chip
+         behind the pill. Stays at zero on tablet/anything wider. Also
+         nudge up by the FAB's actual height (~76px) so the very last
+         row is comfortably above the FAB on iPhone X+. */
+      .chat-test-root .results-toolbar,
+      .chat-test-root .results,
+      .chat-test-root .no-results,
+      .chat-test-root .results-footer {
+        scroll-margin-bottom: 84px;
+      }
+    }
+    @media (max-width: 900px) and (min-width: 0) {
+      /* If the cart FAB is visible (only on mobile widths where we
+         have it set fixed:bottom), reserve vertical space at the end
+         of the results list so tapping the last item's "+ Add" isn't
+         blocked by the FAB. FAB height ≈ 60px + safe-area inset. */
+      .chat-test-root .results {
+        padding-bottom: 76px;
+      }
+      .chat-test-root .results-toolbar:last-child {
+        margin-bottom: 12px;
+      }
     }
 
     /* Safety-net scroll indicator — if the table is ever wider than the
@@ -5916,6 +5977,27 @@
       renderFooter();
       renderSortTabCounts(deduped);
       return deduped;
+    }
+
+    // Run a quick synchronous scan across the catalog so the empty-state
+    // fallback chips can show real result counts (instead of guessing).
+    // The count is what the user would see if they tapped the chip.
+    // No network round-trip — keeps the suggestion list rendering
+    // synchronously with the noResults message. Cached so re-renders
+    // don't redo the scan.
+    const _altCountCache = new Map();
+    function catalog_countForLabel(catalog, label) {
+      if (_altCountCache.has(label)) return _altCountCache.get(label);
+      const needle = label.toLowerCase();
+      let count = 0;
+      for (const p of catalog) {
+        const hay = ((p.botanical || '') + ' ' + (p.common || '') + ' ' +
+          (p.flower_color || '') + ' ' + (p.exposure || '') + ' ' +
+          (p.water || '') + (p.tags || []).join(' ') + ' ' + (p.sizes || '').join(' ')).toLowerCase();
+        if (hay.includes(needle)) count++;
+      }
+      _altCountCache.set(label, count);
+      return count;
     }
 
     // === Sort-tab plant-type counts ===
@@ -6822,12 +6904,39 @@
       // === No-match suggestions ===
       if (results.length === 0 && parsed.active) {
         const alts = suggestAlternatives(getCatalog(), parsed);
-        const altChips = alts.map(a =>
+
+        // Add a small set of generic fallback chips when Jev-derived
+        // alternatives are sparse (≤2). These are the queries staff
+        // have noticed work well for empty-result recovery, and they
+        // give the user something to tap without forcing them to
+        // rephrase on a phone keyboard.
+        const genericFallbacks = [];
+        if (alts.length <= 2) {
+          for (const fallback of ['ca native', 'in bloom', 'heat tolerant', 'low water', '1g']) {
+            // Skip if it duplicates one of the Jev alts by label
+            const lowerAlts = alts.map(a => a.label.toLowerCase());
+            if (lowerAlts.includes(fallback)) continue;
+            genericFallbacks.push({
+              label: fallback,
+              count: catalog_countForLabel(getCatalog(), fallback),
+              parsed: { term: fallback, active: true, intent: 'fallback', filters: {} }
+            });
+            if (genericFallbacks.length >= 3) break;
+          }
+        }
+
+        const allChips = [...alts, ...genericFallbacks];
+        const altChips = allChips.map(a =>
           `<button class="suggestion" data-alt='${escapeHTML(JSON.stringify(a.parsed))}'>${escapeHTML(a.label)} <small style="color:#9a8c7a">(${a.count})</small></button>`
         ).join('');
+
+        const introLine = alts.length
+          ? (genericFallbacks.length ? 'Or one of these common searches:' : 'Try one of these instead:')
+          : (genericFallbacks.length ? 'Try one of these common searches:' : 'Try different words or fewer filters.');
+
         noResultsEl.innerHTML = `
           <h3>No plants match <em>"${escapeHTML(input.value)}"</em></h3>
-          <p>${alts.length ? 'Try one of these instead:' : 'Try different words or fewer filters.'}</p>
+          <p>${introLine}</p>
           <div class="suggestions">${altChips}</div>
         `;
         // Wire up the suggestion chips (they emit a custom event the main listener handles)
@@ -7634,6 +7743,34 @@
       const overflowObserver = new MutationObserver(updateTableOverflow);
       if (tableWrap) overflowObserver.observe(tableWrap, { childList: true, subtree: true });
       updateTableOverflow();
+
+      // === Filter-chip overflow indicator ===
+      // Toggles .tab-chips-overflow / .tab-chips-at-end on the toolbar
+      // so the CSS chevron + fade show only when there's more to scroll.
+      // (The CSS fade is always-on via mask-image; the chevron needs the
+      // class to appear.)
+      function updateFilterChipsOverflow() {
+        const tabs = document.querySelector('.sort-tabs');
+        const toolbar = document.querySelector('.results-toolbar');
+        if (!tabs || !toolbar) return;
+        const overflows = tabs.scrollWidth > tabs.clientWidth + 4;
+        const atEnd = tabs.scrollLeft + tabs.clientWidth >= tabs.scrollWidth - 2;
+        toolbar.classList.toggle('tab-chips-overflow', overflows && !atEnd);
+        toolbar.classList.toggle('tab-chips-at-end', overflows && atEnd);
+      }
+      const sortTabsEl = document.querySelector('.sort-tabs');
+      sortTabsEl?.addEventListener('scroll', updateFilterChipsOverflow, { passive: true });
+      window.addEventListener('resize', updateFilterChipsOverflow, { passive: true });
+      // Re-evaluate when the toolbar's visibility changes (no-results
+      // hides the toolbar — once results return the chevron should
+      // reflect the new chip set).
+      const resultsToolbarEl = document.getElementById('resultsToolbar');
+      if (resultsToolbarEl) {
+        new MutationObserver(updateFilterChipsOverflow).observe(
+          resultsToolbarEl, { attributes: true, attributeFilter: ['hidden'] }
+        );
+      }
+      updateFilterChipsOverflow();
 
       // Sync input value both directions. Typing in the main input
       // updates the sticky; typing in the sticky updates the main.

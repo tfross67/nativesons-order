@@ -94,7 +94,11 @@
       .chat-test-root {
         max-width: 1500px;
       }
-      .site-header .container,
+      /* Header container — match the content column. Two specificity
+         bumps (`body .` + `:not([hidden])`) so this wins against the
+         unconditional `.site-header .container { max-width: 1080px }`
+         rule further down. */
+      body .site-header .container,
       body.staff-mode .site-header .container {
         max-width: 1500px;
       }

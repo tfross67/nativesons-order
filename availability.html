@@ -2126,6 +2126,65 @@
     /* === Cart bar / slide-out / size picker / checkout modal    === */
     /* ============================================================ */
 
+    /* On mobile the cart is treated as a bottom-sheet: full width, anchored
+       to the bottom, drag handle on top. Header stacks title + close on
+       row 1, the CTAs (Customer request, Clear all) drop to row 2. */
+    @media (max-width: 767px) {
+      body .cart-panel {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transform: none;
+        width: 100%;
+        max-width: 100%;
+        max-height: 85vh;
+        border-radius: 18px 18px 0 0;
+        padding-bottom: env(safe-area-inset-bottom, 0);
+      }
+      body .cart-header {
+        flex-wrap: wrap;
+        row-gap: 8px;
+        padding: 14px 18px;
+      }
+      body .cart-header h2 {
+        font-size: 19px;
+        flex: 1 1 auto;
+        white-space: nowrap;
+      }
+      body .cart-header-cta,
+      body .cart-clear-btn {
+        flex: 1 1 auto;
+        font-size: 13px;
+        padding: 8px 10px;
+        min-height: 36px;
+      }
+      body #closeCart {
+        order: -1;
+        margin-right: 8px;
+      }
+    }
+    /* On larger mobile (tablet portrait) keep centered modal style. */
+    @media (min-width: 520px) and (max-width: 767px) {
+      body .cart-panel {
+        top: 50%;
+        bottom: auto;
+        left: 50%;
+        right: auto;
+        transform: translate(-50%, -50%);
+        width: min(420px, calc(100vw - 32px));
+        max-width: calc(100vw - 32px);
+        max-height: calc(100vh - 32px);
+        border-radius: 18px;
+        padding-bottom: 0;
+      }
+      body .cart-header {
+        flex-wrap: nowrap;
+        row-gap: 0;
+      }
+      body #closeCart { order: 0; margin-right: 0; }
+    }
+
     /* Add-to-order link on each card — text-link treatment, sits in
        the card-actions row right-aligned. Reads as the primary action
        without dominating the card. */

@@ -5998,6 +5998,15 @@
       'low water': ['low water', 'drought'],
       'heat tolerant': ['heat tolerant', 'heat'],
     };
+    // Some chips need a field-specific check rather than a string scan.
+    // Hero stat "68 IN BLOOM" comes from `p.bloom === true`, and
+    // "53 CA NATIVE" comes from origin matching /california/i (not
+    // special_uses). Mirror those exact rules here.
+    const ALT_COUNT_FIELD_RULES = {
+      'in bloom': (p) => p.bloom === true,
+      'ca native': (p) => /california/i.test(p.origin || '') ||
+                          /california native/i.test(p.special_uses || ''),
+    };
     function catalog_countForLabel(catalog, label) {
       if (_altCountCatalogRef !== catalog && _altCountCache.has(label)) {
         // Catalog reload — old entries would be stale counts.
@@ -6006,14 +6015,16 @@
       _altCountCatalogRef = catalog;
       if (_altCountCache.has(label)) return _altCountCache.get(label);
       const needle = label.toLowerCase();
+      const fieldRule = ALT_COUNT_FIELD_RULES[needle];
+      if (fieldRule) {
+        let count = 0;
+        for (const p of catalog) if (fieldRule(p)) count++;
+        _altCountCache.set(label, count);
+        return count;
+      }
       const needles = ALT_COUNT_SYNONYMS[needle] || [needle];
       let count = 0;
       for (const p of catalog) {
-        // Concatenate every visible field. Including `origin` is
-        // important — California-only plants show "California" in
-        // origin (no "native" token), but "California Native" shows
-        // up in special_uses for many of them, so synonym-matching
-        // both keeps the chip honest.
         const parts = [
           p.botanical, p.common, p.flower_color, p.flower_time,
           p.origin, p.plant_type, p.exposure, p.foliage,

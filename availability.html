@@ -5083,13 +5083,13 @@
       }
     }
     /* Mobile table layout — same idea as compact-list.html's mobile treatment.
-       Applied at ≤900px so iPad portrait (768-900px) and large landscape
+       Applied at ≤1100px so iPad portrait AND landscape (768-1100px) get the stacked-row
        phones also get the stacked-row treatment. The earlier ≤720px
        breakpoint missed iPad mini and phone landscape. Each row becomes a
        stacked block: botanical on top, size+price inline below, add
        button full-width on its own line so it's always tappable without
        horizontal scroll. */
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
       /* Reset the table itself to block layout. Browsers treat
          <table>, <tr>, <td> as `display: table*` regardless of what
          you set them to in CSS unless you also reset the table
@@ -5174,7 +5174,7 @@
        is off-screen. CSS-only via background-attachment. The indicator
        sits over the wrap with pointer-events:none so it doesn't block
        row clicks. */
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
       body .chat-test-root .view-table-wrap {
         position: relative;
       }

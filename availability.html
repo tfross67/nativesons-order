@@ -85,6 +85,23 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+    /* Wide-desktop: lift the 1080px content column so the card grid can
+       expand to 4-5 columns on a 1440-1920px viewport. 1500px keeps a
+       comfortable line length for the hero copy and matches the staff
+       sidebar layout breakpoint (901px). Below 1400px stays at the
+       original 1080px so the existing 3-column tablet feel is unchanged. */
+    @media (min-width: 1400px) {
+      .chat-test-root {
+        max-width: 1500px;
+      }
+      .site-header .container,
+      body.staff-mode .site-header .container {
+        max-width: 1500px;
+      }
+      /* The card grid stays `auto-fill minmax(280px, 1fr)` so wider
+         containers naturally fill with more columns — at 1500px we
+         get 4 cards/row instead of 3. */
+    }
     .chat-test-root .tabular {
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;

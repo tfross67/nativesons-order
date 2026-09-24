@@ -5081,14 +5081,27 @@
         padding: 0 10px;
         font-size: 16px;
       }
-    }as compact-list.html's mobile treatment. */
-    /* Mobile table layout — applied at ≤900px so iPad portrait (768-900px)
-       and large landscape phones also get the stacked-row treatment. The
-       earlier ≤720px breakpoint missed iPad mini and phone landscape. Each
-       row becomes a stacked block: botanical on top, size+price inline
-       below, add button full-width on its own line so it's always tappable
-       without horizontal scroll. */
+    }
+    /* Mobile table layout — same idea as compact-list.html's mobile treatment.
+       Applied at ≤900px so iPad portrait (768-900px) and large landscape
+       phones also get the stacked-row treatment. The earlier ≤720px
+       breakpoint missed iPad mini and phone landscape. Each row becomes a
+       stacked block: botanical on top, size+price inline below, add
+       button full-width on its own line so it's always tappable without
+       horizontal scroll. */
     @media (max-width: 900px) {
+      /* Reset the table itself to block layout. Browsers treat
+         <table>, <tr>, <td> as `display: table*` regardless of what
+         you set them to in CSS unless you also reset the table
+         container. Without these `display: block` rules on tr/td,
+         Chrome will silently keep the table-row/table-cell layout
+         even though it parsed our rules. */
+      body .chat-test-root table.list,
+      body .chat-test-root table.list thead,
+      body .chat-test-root table.list tbody,
+      body .chat-test-root table.list tr {
+        display: block;
+      }
       body .chat-test-root table.list { font-size: 12px; }
       body .chat-test-root table.list thead th,
       body .chat-test-root table.list tbody td { padding: 6px 8px; }

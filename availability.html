@@ -6957,10 +6957,37 @@
             // Skip if it duplicates one of the Jev alts by label
             const lowerAlts = alts.map(a => a.label.toLowerCase());
             if (lowerAlts.includes(fallback)) continue;
+            // Build a parsed query that BOTH describesParsed() can
+            // turn into input text AND the run() pipeline can run
+            // directly. describeParsed reads freeText + filters.* —
+            // so put the label in freeText and also nudge the most
+            // relevant filter field (origin / inBloom) so the parser
+            // doesn't have to round-trip the input string back through
+            // TypesafeClient.
+            const fbParsed = {
+              active: true,
+              intent: 'fallback',
+              freeText: [fallback],
+              filters: {
+                colors: [], exposures: [], water: [], types: [],
+                container: [], origin: [],
+                heightBand: null,
+                inBloom: fallback === 'in bloom',
+                budding: false,
+                pollinator: false,
+                plantNameScore: 0,
+                plantNameConfidence: 1,
+              },
+            };
+            // 'ca native' → mark origin filter as well so the search
+            // path picks it up cleanly without re-parsing the label.
+            if (fallback === 'ca native') {
+              fbParsed.filters.origin = ['california'];
+            }
             genericFallbacks.push({
               label: fallback,
               count: catalog_countForLabel(getCatalog(), fallback),
-              parsed: { term: fallback, active: true, intent: 'fallback', filters: {} }
+              parsed: fbParsed
             });
             if (genericFallbacks.length >= 3) break;
           }

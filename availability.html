@@ -5999,12 +5999,14 @@
       'heat tolerant': ['heat tolerant', 'heat'],
     };
     // Some chips need a field-specific check rather than a string scan.
-    // Hero stat "68 IN BLOOM" comes from `p.bloom === true`, and
-    // "53 CA NATIVE" comes from origin matching /california/i (not
-    // special_uses). Mirror those exact rules here.
+    // Hero stat "53 CA NATIVE" comes from isNativeOrigin() which
+    // matches western-North-America origins (California, Baja,
+    // Oregon, Pacific Northwest, etc.), and "68 IN BLOOM" from
+    // p.bloom === true. Reuse the same functions so chip count
+    // matches the headline the user just saw.
     const ALT_COUNT_FIELD_RULES = {
       'in bloom': (p) => p.bloom === true,
-      'ca native': (p) => /california/i.test(p.origin || '') ||
+      'ca native': (p) => isNativeOrigin(p.origin) ||
                           /california native/i.test(p.special_uses || ''),
     };
     function catalog_countForLabel(catalog, label) {

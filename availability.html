@@ -5082,7 +5082,13 @@
         font-size: 16px;
       }
     }as compact-list.html's mobile treatment. */
-    @media (max-width: 720px) {
+    /* Mobile table layout — applied at ≤900px so iPad portrait (768-900px)
+       and large landscape phones also get the stacked-row treatment. The
+       earlier ≤720px breakpoint missed iPad mini and phone landscape. Each
+       row becomes a stacked block: botanical on top, size+price inline
+       below, add button full-width on its own line so it's always tappable
+       without horizontal scroll. */
+    @media (max-width: 900px) {
       body .chat-test-root table.list { font-size: 12px; }
       body .chat-test-root table.list thead th,
       body .chat-test-root table.list tbody td { padding: 6px 8px; }
@@ -5146,6 +5152,46 @@
         padding: 8px 16px;
         min-height: 40px;
         font-size: 13px;
+      }
+    }
+
+    /* Safety-net scroll indicator — if the table is ever wider than the
+       viewport (new column added, very long botanical name, etc), show a
+       gradient fade on the right edge + an arrow to indicate more content
+       is off-screen. CSS-only via background-attachment. The indicator
+       sits over the wrap with pointer-events:none so it doesn't block
+       row clicks. */
+    @media (max-width: 900px) {
+      body .chat-test-root .view-table-wrap {
+        position: relative;
+      }
+      body .chat-test-root .view-table-wrap::after {
+        content: '›';
+        position: absolute;
+        top: 50%;
+        right: 4px;
+        transform: translateY(-50%);
+        width: 26px;
+        height: 26px;
+        line-height: 24px;
+        text-align: center;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--c-muted, #6b6256);
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid var(--c-line, #e3dccb);
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      /* Only show the arrow when the table actually overflows the wrap.
+         JS toggles .has-overflow on the wrap when scrollWidth > clientWidth
+         AND the user hasn't scrolled to the end yet. CSS alone can't
+         detect scroll position, so we pair this with the scroll listener
+         in chat-test-root.js. */
+      body .chat-test-root .view-table-wrap.has-overflow:not(.scrolled-end)::after {
+        opacity: 0.9;
       }
     }
 
@@ -7546,6 +7592,35 @@
       window.addEventListener('scroll', update, { passive: true });
       window.addEventListener('resize', update, { passive: true });
       update();  // initial state
+
+      // === Mobile table overflow indicator ===
+      // On viewports ≤900px the table collapses to a stacked-row layout
+      // and the +Add button drops below the row content. If a future
+      // change (new column, very long botanical) makes the table wider
+      // than the wrap, this listener flips .has-overflow on the wrap so
+      // the CSS can render a › arrow as a scroll hint. We also flip
+      // .scrolled-end when the user reaches the right edge to hide the
+      // arrow.
+      const tableWrap = document.getElementById('viewTable');
+      const tableEl = () => tableWrap?.querySelector('table.list');
+      function updateTableOverflow() {
+        if (!tableWrap || window.innerWidth > 900) {
+          tableWrap?.classList.remove('has-overflow', 'scrolled-end');
+          return;
+        }
+        const tbl = tableEl();
+        if (!tbl) return;
+        const overflows = tbl.scrollWidth > tableWrap.clientWidth + 1;
+        const atEnd = tableWrap.scrollLeft + tableWrap.clientWidth >= tbl.scrollWidth - 2;
+        tableWrap.classList.toggle('has-overflow', overflows && !atEnd);
+        tableWrap.classList.toggle('scrolled-end', overflows && atEnd);
+      }
+      tableWrap?.addEventListener('scroll', updateTableOverflow, { passive: true });
+      window.addEventListener('resize', updateTableOverflow, { passive: true });
+      // Re-evaluate when the table is rebuilt (search results change).
+      const overflowObserver = new MutationObserver(updateTableOverflow);
+      if (tableWrap) overflowObserver.observe(tableWrap, { childList: true, subtree: true });
+      updateTableOverflow();
 
       // Sync input value both directions. Typing in the main input
       // updates the sticky; typing in the sticky updates the main.

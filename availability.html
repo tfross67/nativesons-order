@@ -5987,6 +5987,17 @@
     // don't redo the scan.
     const _altCountCache = new Map();
     let _altCountCatalogRef = null;  // invalidate cache when the catalog array changes
+    // Synonym map — empty-state fallback chip labels sometimes read
+    // better as jargon ("ca native") but the catalog uses formal text
+    // ("California Native" in special_uses, or just "California" in
+    // origin). Translate the chip label into the patterns that
+    // actually appear in plant data so the count is realistic.
+    const ALT_COUNT_SYNONYMS = {
+      'ca native': ['california native', 'ca native'],
+      'in bloom':  ['bloom'],
+      'low water': ['low water', 'drought'],
+      'heat tolerant': ['heat tolerant', 'heat'],
+    };
     function catalog_countForLabel(catalog, label) {
       if (_altCountCatalogRef !== catalog && _altCountCache.has(label)) {
         // Catalog reload — old entries would be stale counts.
@@ -5995,12 +6006,14 @@
       _altCountCatalogRef = catalog;
       if (_altCountCache.has(label)) return _altCountCache.get(label);
       const needle = label.toLowerCase();
+      const needles = ALT_COUNT_SYNONYMS[needle] || [needle];
       let count = 0;
       for (const p of catalog) {
         // Concatenate every visible field. Including `origin` is
-        // important — 'ca native' only matches if the catalog's
-        // `origin` field contains "California native". Bloom is
-        // a boolean so it contributes the literal token "bloom".
+        // important — California-only plants show "California" in
+        // origin (no "native" token), but "California Native" shows
+        // up in special_uses for many of them, so synonym-matching
+        // both keeps the chip honest.
         const parts = [
           p.botanical, p.common, p.flower_color, p.flower_time,
           p.origin, p.plant_type, p.exposure, p.foliage,
@@ -6009,7 +6022,7 @@
           p.bloom ? 'bloom' : '', p.new ? 'new' : '', p.bud ? 'bud' : ''
         ];
         const hay = parts.join(' ').toLowerCase();
-        if (hay.includes(needle)) count++;
+        if (needles.some(n => hay.includes(n))) count++;
       }
       _altCountCache.set(label, count);
       return count;

@@ -5986,14 +5986,29 @@
     // synchronously with the noResults message. Cached so re-renders
     // don't redo the scan.
     const _altCountCache = new Map();
+    let _altCountCatalogRef = null;  // invalidate cache when the catalog array changes
     function catalog_countForLabel(catalog, label) {
+      if (_altCountCatalogRef !== catalog && _altCountCache.has(label)) {
+        // Catalog reload — old entries would be stale counts.
+        _altCountCache.clear();
+      }
+      _altCountCatalogRef = catalog;
       if (_altCountCache.has(label)) return _altCountCache.get(label);
       const needle = label.toLowerCase();
       let count = 0;
       for (const p of catalog) {
-        const hay = ((p.botanical || '') + ' ' + (p.common || '') + ' ' +
-          (p.flower_color || '') + ' ' + (p.exposure || '') + ' ' +
-          (p.water || '') + (p.tags || []).join(' ') + ' ' + (p.sizes || '').join(' ')).toLowerCase();
+        // Concatenate every visible field. Including `origin` is
+        // important — 'ca native' only matches if the catalog's
+        // `origin` field contains "California native". Bloom is
+        // a boolean so it contributes the literal token "bloom".
+        const parts = [
+          p.botanical, p.common, p.flower_color, p.flower_time,
+          p.origin, p.plant_type, p.exposure, p.foliage,
+          p.water, p.soil, p.special_uses, p.hardiness,
+          p.section, Array.isArray(p.tags) ? p.tags.join(' ') : '',
+          p.bloom ? 'bloom' : '', p.new ? 'new' : '', p.bud ? 'bud' : ''
+        ];
+        const hay = parts.join(' ').toLowerCase();
         if (hay.includes(needle)) count++;
       }
       _altCountCache.set(label, count);

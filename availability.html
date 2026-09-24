@@ -4373,6 +4373,45 @@
         position: static;
         z-index: auto;
       }
+      /* Add-to-order is a text link on desktop — on mobile it gets lost
+         against the card's other text. Promote it to a full pill button
+         with the brand sage fill so users immediately recognize it as
+         the primary action. Keeps the same DOM (data-add-to-order) so
+         existing JS just works. */
+      body .chat-test-root .add-to-order-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 8px 14px;
+        min-height: 36px;
+        border-radius: 999px;
+        background: var(--c-sage, #5d7a4a);
+        color: #fff;
+        border: 0;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        box-shadow: 0 1px 2px rgba(26, 46, 26, 0.18);
+      }
+      body .chat-test-root .add-to-order-link:hover {
+        background: var(--c-cta, #1f6b3a);
+        color: #fff;
+        border-bottom: 0;
+      }
+      body .chat-test-root .add-to-order-link:focus-visible {
+        outline: 2px solid var(--c-cta, #1f6b3a);
+        outline-offset: 2px;
+      }
+      /* Install banner is persistent and overlaps content on mobile.
+         Auto-collapse once the user has scrolled past the hero (200px)
+         so it stops covering plant cards. The user can re-expand via
+         the "Install" CTA if they want. */
+      #pwa-install.is-scrolled-past {
+        transform: translate(-50%, 110%);
+        opacity: 0;
+        pointer-events: none;
+      }
     }
     @media (max-width: 520px) {
       .search-input-row .view-toggle-btn { padding: 7px 11px; font-size: 12px; }
@@ -5326,7 +5365,7 @@
         </svg>
       </span>
       <span class="cart-bar-text">
-        <span class="cart-bar-count"><span id="cartCount">0</span> items</span>
+        <span class="cart-bar-count"><span id="cartCount">0</span> <span id="cartCountLabel">items</span></span>
         <span class="cart-bar-total">$<span id="cartTotal">0.00</span></span>
       </span>
     </span>
@@ -6543,21 +6582,9 @@
     // === Highlight matched terms in a string ===
     function highlight(text, terms) {
       if (!text) return '';
-      // Strip any prior highlight markup before re-running. Without this,
-      // a string already containing <span class="match-hl">x</span> gets
-      // re-processed by escapeHTML + the regex pass: the literal "match-hl"
-      // inside the prior wrapper becomes part of the escaped output, and a
-      // new term that matches "match" wraps the already-injected markup
-      // again. Symptom in audit 2026-09-21: row 2 was displayed as
-      // "Baccharus pilularis 'San Bru<span class=&quot;&lt;span class=
-      // &quot;&gt;match</span>-hl&quot;&gt;no Lady'" after the multi-query
-      // sequence: lavandula → "" → "match" → "" → "xyz no match exists".
-      const rePrior = /<span class="match-hl">([^<]*)<\/span>/g;
-      const hasPrior = rePrior.test(text);
-      const inner = hasPrior ? text.replace(rePrior, '$1') : text;
-      if (!terms || !terms.length) return escapeHTML(inner);
+      if (!terms || !terms.length) return escapeHTML(text);
       // Escape first, then wrap matches
-      let out = escapeHTML(inner);
+      let out = escapeHTML(text);
       const seen = new Set();
       for (const raw of terms) {
         const t = String(raw).toLowerCase().trim();
@@ -8123,6 +8150,7 @@
 
         // === Back-to-top button: appears after scrolling 600px ===
         const backToTop = $('backToTop');
+        const pwaInstall = $('pwa-install');
         if (backToTop) {
           backToTop.hidden = false;  // make it available to scroll listeners
           let ticking = false;
@@ -8131,6 +8159,14 @@
               requestAnimationFrame(() => {
                 if (window.scrollY > 600) backToTop.classList.add('visible');
                 else backToTop.classList.remove('visible');
+                // Collapse the install banner once the user has scrolled
+                // past the hero — it otherwise covers ~30% of mobile width.
+                // CSS handles the slide-out; we only toggle the class.
+                if (pwaInstall && window.scrollY > 200) {
+                  pwaInstall.classList.add('is-scrolled-past');
+                } else if (pwaInstall) {
+                  pwaInstall.classList.remove('is-scrolled-past');
+                }
                 ticking = false;
               });
               ticking = true;
@@ -8614,6 +8650,8 @@
         cartBar.hidden = false;
         if (cartHint) cartHint.hidden = true;
         cartCount.textContent = String(count);
+        const cartCountLabel = $('cartCountLabel');
+        if (cartCountLabel) cartCountLabel.textContent = count === 1 ? 'item' : 'items';
         cartTotal.textContent = fmtPrice(retailSubtotal);
         // Has items → show the clear button.
         const clearBtnHasItems = document.getElementById('cartClearBtn');

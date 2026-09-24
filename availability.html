@@ -5243,11 +5243,23 @@
         scroll-margin-bottom: 84px;
       }
     }
+    /* Cart-bar clearance — the FAB lives at the bottom-left of the viewport
+       on every width where cart-bar.position === fixed (mobile through
+       desktop). It used to only get a padding-bottom below 900px, which
+       left cards at 1024px+ being clipped behind the cart pill. Apply
+       the same 76px clearance globally so the last row is always fully
+       scrollable above the FAB on any viewport. */
+    .chat-test-root .results {
+      padding-bottom: 76px;
+    }
+    .chat-test-root .results-toolbar:last-child {
+      margin-bottom: 12px;
+    }
     @media (max-width: 900px) and (min-width: 0) {
-      /* If the cart FAB is visible (only on mobile widths where we
-         have it set fixed:bottom), reserve vertical space at the end
-         of the results list so tapping the last item's "+ Add" isn't
-         blocked by the FAB. FAB height ≈ 60px + safe-area inset. */
+      /* Legacy mobile-only block — kept for historical reference. The
+         global .results { padding-bottom: 76px } rule above covers
+         mobile too, but leave the explicit mobile block in case a future
+         tweak wants different mobile clearance. */
       .chat-test-root .results {
         padding-bottom: 76px;
       }

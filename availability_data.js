@@ -239,12 +239,17 @@ window.AVAILABILITY = {
     "new": false
   },
   {
-    "botanical": "Achillea 'Terra Cotta'",
+    "botanical": "Achillea millefolium 'Terra Cotta'",
     "section": "General Nursery",
     "sizes": [
       {
         "container": "1gal",
         "price": 6.0,
+        "order": ""
+      },
+      {
+        "container": "4in",
+        "price": 3.15,
         "order": ""
       }
     ],
@@ -319,20 +324,6 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Dry garden\nAttracts butterflies",
     "hardiness": "0",
-    "bloom": false,
-    "bud": false,
-    "new": false
-  },
-  {
-    "botanical": "Achillea millefolium 'Terra Cotta'",
-    "section": "perennials",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ],
     "bloom": false,
     "bud": false,
     "new": false

@@ -322,9 +322,13 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
   }
 
   if (o.notes) {
+    // Section block (regular size) with a bold "Notes:" label instead
+    // of context (small secondary text). Staff were missing the notes
+    // because the previous context block rendered as tiny grey text
+    // that disappeared beneath the totals footer.
     blocks.push({
-      type: "context",
-      elements: [{ type: "mrkdwn", text: `📝 ${o.notes}` }],
+      type: "section",
+      text: { type: "mrkdwn", text: `*📝 Notes:*  ${o.notes}` },
     });
   }
 

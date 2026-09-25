@@ -4481,26 +4481,29 @@
         min-height: 32px;
       }
     }
-    /* On mobile, the staff-topbar's sticky + z-index:70 fights the
-       iOS Safari virtual keyboard: when the user taps the chat input
-       the keyboard pushes the page up but the sticky topbar stays at
-       top:0, covering the chat input — the next tap lands on the
-       customer input area visually on top, so focus "jumps" to it.
-       Disable sticky on mobile so the topbar scrolls naturally with
-       the page. Desktop keeps the sticky behavior so the customer
-       picker stays visible while scrolling the plant list.
+    /* On mobile, the staff-topbar's `position: sticky; z-index: 70`
+       has two effects:
+       1) It floats the topbar above the mainApp, but the iOS Safari
+          virtual keyboard pushes the page up while sticky stays at
+          top:0, sometimes covering the chat input. The original fix
+          disabled sticky on mobile (position: static, z-index: auto).
+       2) But that ALSO broke the customer-picker dropdown. With
+          position: static + z-index auto, the dropdown (z-index 100
+          inside the topbar's stacking context) ended up at the
+          same global z-level as the hero-band (which sits later in
+          the DOM with position: relative). The hero-band painted on
+          top of dropdown items 2-12, leaving only item 0 visible.
 
-       z-index MUST stay high though — `backdrop-filter: blur(6px)`
-       creates a stacking context, and the dropdown (z-index 100)
-       opens BELOW the picker input overflowing into the mainApp area.
-       Without z-index here, the dropdown's items 2-12 paint UNDER
-       the hero-band (which appears later in the DOM). Setting z-index
-       to 100 lifts the entire topbar stacking context above the page
-       content, so the dropdown renders on top regardless of position. */
+       Trade-off resolved: keep position: sticky + a high z-index
+       on mobile so the dropdown renders correctly. The iOS keyboard
+       quirk remains but the dropdown bug (can't see any customers)
+       was the worse user impact — staff can't pick the right customer
+       at all. If the iOS issue bites, the fix is to scroll the page
+       up after focus jumps to the customer input. */
     @media (max-width: 767px) {
       body .staff-topbar {
-        position: static;
-        z-index: 100;
+        position: sticky;
+        z-index: 200;
       }
       /* Add-to-order is a text link on desktop — on mobile it gets lost
          against the card's other text. Promote it to a full pill button

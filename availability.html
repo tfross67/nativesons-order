@@ -4488,11 +4488,19 @@
        customer input area visually on top, so focus "jumps" to it.
        Disable sticky on mobile so the topbar scrolls naturally with
        the page. Desktop keeps the sticky behavior so the customer
-       picker stays visible while scrolling the plant list. */
+       picker stays visible while scrolling the plant list.
+
+       z-index MUST stay high though — `backdrop-filter: blur(6px)`
+       creates a stacking context, and the dropdown (z-index 100)
+       opens BELOW the picker input overflowing into the mainApp area.
+       Without z-index here, the dropdown's items 2-12 paint UNDER
+       the hero-band (which appears later in the DOM). Setting z-index
+       to 100 lifts the entire topbar stacking context above the page
+       content, so the dropdown renders on top regardless of position. */
     @media (max-width: 767px) {
       body .staff-topbar {
         position: static;
-        z-index: auto;
+        z-index: 100;
       }
       /* Add-to-order is a text link on desktop — on mobile it gets lost
          against the card's other text. Promote it to a full pill button

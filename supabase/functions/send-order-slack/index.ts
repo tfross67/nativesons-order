@@ -315,9 +315,12 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
   });
 
   if (o.po_number) {
+    // Section block (regular size) with a bold "PO Number:" label
+    // instead of context (small secondary text). Same treatment as the
+    // notes block above — the old context style was unreadable.
     blocks.push({
-      type: "context",
-      elements: [{ type: "mrkdwn", text: `🧾 PO Number: ${o.po_number}` }],
+      type: "section",
+      text: { type: "mrkdwn", text: `*🧾 PO Number:*  ${o.po_number}` },
     });
   }
 

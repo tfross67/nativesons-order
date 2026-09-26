@@ -10404,6 +10404,10 @@
             // 2,938 customers' search_text on every keystroke.
             allCustomers = arr.map(c => {
               c._s = (c.search_text || '').toLowerCase();
+              // Per-field word index for the token-rank search (name prefix
+              // matching + per-field weight scoring). Built once per
+              // customer so the keystroke path is pure comparisons.
+              c._idx = _buildCustomerIndex(c);
               return c;
             });
             renderCustomerPicker();
@@ -10440,8 +10444,20 @@
           results.classList.remove('is-open');
           return;
         }
-        // Use pre-lowercased _s field — much faster than lowercasing on every search
-        const matches = allCustomers.filter(c => c._s.includes(q)).slice(0, 12);
+        // Token-rank search: split query into whitespace-separated words,
+        // match each independently (any order), then rank by
+        //   (a) prefix-hit on the customer name (a strong "starts-with" wins)
+        //   (b) per-token weight — name > customer_code > city > email/contact
+        //   (c) number of distinct query tokens that matched
+        // (was: c._s.includes(q) — order-dependent substring, no ranking,
+        //  "smith garden" never matched "Garden Smith LLC".)
+        const tokens = q.split(/\s+/).filter(t => t.length >= 2);
+        // Single-token short query: fall back to fast substring filter so a
+        // quick "sm" still gets the prefix matches in <1 ms.
+        const ranked = tokens.length
+          ? rankCustomers(allCustomers, tokens)
+          : allCustomers.filter(c => c._s.includes(q)).slice(0, 12);
+        const matches = ranked.slice(0, 12);
         if (!matches.length) {
           results.innerHTML = '<div class="cust-result-empty">No matches</div>';
         } else {
@@ -10459,6 +10475,87 @@
           });
         }
         results.classList.add('is-open');
+      }
+
+      // Per-token weights — tuned so a name hit always beats an email hit,
+      // a code hit always beats a city hit, and a prefix-hit on the name
+      // is the single strongest signal (what users mean when they type).
+      // Field-keyed index is built once per customer at load time (see
+      // _buildCustomerIndex below) so this stays O(N·tokens) on every
+      // keystroke, not O(N·tokens·fields).
+      const TOKEN_WEIGHTS = {
+        namePrefix: 100,   // token starts the customer name (e.g. typing "sm" matches "Smith Bros")
+        nameHit:    30,    // token appears anywhere in the name
+        codeHit:    25,    // customer_code contains token (codes are short — exact or strong prefix)
+        cityHit:    12,    // city contains token
+        contactHit: 8,     // contact_name contains token
+        emailHit:   6,     // email contains token
+        addressHit: 4,     // address contains token
+        metaHit:    3,     // any other indexed field
+      };
+
+      // Build a per-customer token index once, at load. Splits the lowercased
+      // search_text into word-position buckets so we can do prefix-matches on
+      // the customer name without re-splitting on every keystroke.
+      function _buildCustomerIndex(c) {
+        // Per-word lowercase tokens for the NAME field only (prefix matches).
+        const nameWords = String(c.name || '').toLowerCase().split(/\s+/).filter(Boolean);
+        // Single combined haystack for substring checks across the other fields.
+        // Reuse the existing precomputed `_s` field (already lowercase) for those.
+        return {
+          nameWords,
+          // Cache the name as a single lowercased string for `nameHit` scoring.
+          _nameLc: String(c.name || '').toLowerCase(),
+          _codeLc: String(c.customer_code || '').toLowerCase(),
+          _cityLc: String(c.city || '').toLowerCase(),
+          _contactLc: String(c.contact_name || '').toLowerCase(),
+          _emailLc: String(c.email || '').toLowerCase(),
+          _addressLc: String(c.address || '').toLowerCase(),
+        };
+      }
+
+      // Score one customer against one query-token. Returns 0 if no match.
+      function _scoreToken(idx, tok) {
+        let s = 0;
+        // Name prefix: tok starts any word in the name. Strongest signal —
+        // if you type "sm" you almost always mean a name that begins with "sm".
+        if (idx.nameWords.some(w => w.startsWith(tok))) s += TOKEN_WEIGHTS.namePrefix;
+        // Name substring (anywhere).
+        if (s < TOKEN_WEIGHTS.namePrefix && idx._nameLc.includes(tok)) s += TOKEN_WEIGHTS.nameHit;
+        // Code: a code hit is also high-signal — codes are short identifiers.
+        if (idx._codeLc.includes(tok)) s += TOKEN_WEIGHTS.codeHit;
+        if (idx._cityLc.includes(tok)) s += TOKEN_WEIGHTS.cityHit;
+        if (idx._contactLc.includes(tok)) s += TOKEN_WEIGHTS.contactHit;
+        if (idx._emailLc.includes(tok)) s += TOKEN_WEIGHTS.emailHit;
+        if (idx._addressLc.includes(tok)) s += TOKEN_WEIGHTS.addressHit;
+        // Fallback: search_text already combines everything else.
+        if (!s && /* already-included fields */ false) s += TOKEN_WEIGHTS.metaHit;
+        return s;
+      }
+
+      // Rank all customers by aggregate token score. Returns descending.
+      // A customer with 0 score across all tokens is dropped (didn't match anything).
+      function rankCustomers(customers, tokens) {
+        const out = [];
+        for (let i = 0; i < customers.length; i++) {
+          const c = customers[i];
+          const idx = c._idx;
+          if (!idx) continue;
+          let score = 0;
+          let matchedTokens = 0;
+          for (let t = 0; t < tokens.length; t++) {
+            const ts = _scoreToken(idx, tokens[t]);
+            if (ts > 0) { score += ts; matchedTokens++; }
+          }
+          if (matchedTokens > 0) {
+            // Boost customers that matched ALL query tokens vs only some —
+            // ties broken toward the more-complete match.
+            score += matchedTokens * 5;
+            out.push({ c, score });
+          }
+        }
+        out.sort((a, b) => b.score - a.score);
+        return out.map(r => r.c);
       }
 
       // Active-customer persistence (see also compact-list.html).

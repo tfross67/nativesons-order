@@ -648,6 +648,39 @@
       margin: 0 4px;
       vertical-align: middle;
     }
+    /* Mobile-only "Show examples" toggle. The .suggested row is hidden by
+       default on narrow screens to save ~60px of vertical real estate
+       (about 8% of an iPhone 14 viewport); tapping the toggle reveals
+       it without scroll-jacking. JS toggles body.suggestions-open. */
+    .chat-test-root .suggested-toggle {
+      display: none;
+      appearance: none;
+      background: transparent;
+      border: 1px solid var(--c-line, #e5e3dd);
+      color: var(--c-clay, #4a4438);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 6px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .chat-test-root .suggested-toggle:hover {
+      background: var(--c-sage-soft);
+      color: var(--c-bark, #1f3a1f);
+      border-color: var(--c-sage, #c5d2bf);
+    }
+    @media (max-width: 600px) {
+      .chat-test-root .suggested-toggle { display: inline-flex; }
+      .chat-test-root .suggested { display: none; }
+      body.suggestions-open .chat-test-root .suggested {
+        display: flex;
+        margin-top: 6px;
+      }
+    }
     /* Each suggestion is now a soft token — no background, no border.
        Just an italic-feeling chip with a dotted underline on hover.
        Drastically lighter than the previous heavy pill treatment. */
@@ -797,6 +830,12 @@
       height: 22px;
       background: #e5e3dd;
       margin: 0 4px;
+    }
+    /* Mobile clearance for the cart-hint pill — it's pinned
+       bottom-left and would otherwise overlap the sort dropdown.
+       72px covers the pill (40px) + safe gap + iOS home indicator. */
+    @media (max-width: 600px) {
+      .chat-test-root .results-toolbar { padding-bottom: 72px; }
     }
     .chat-test-root .sort-select-label {
       display: inline-flex;
@@ -5520,7 +5559,7 @@
            can switch views without scrolling back up. Hidden by default;
            toggled by a scroll listener (initStickySearchBar) below. -->
 
-      <div class="suggested">
+      <div class="suggested" id="suggestedRow">
         <span class="suggested-label">Try</span>
         <span class="suggested-group">
           <span class="suggested-group-label" aria-hidden="true">Plants</span>
@@ -5540,6 +5579,13 @@
           <button class="suggestion" data-q="15g">15g</button>
         </span>
       </div>
+      <!-- Hidden on mobile by default (.suggested { display: none }) →
+           collapsed behind this toggle to save vertical real estate. JS
+           (initSuggestedToggle) toggles body.suggestions-open. -->
+      <button type="button" class="suggested-toggle" id="suggestedToggle"
+              aria-expanded="false" aria-controls="suggestedRow">
+        <span class="suggested-toggle-text">Show examples</span>
+      </button>
     </div>
 
     <div id="filterSummary" class="filter-summary" aria-live="polite" hidden></div>
@@ -7783,6 +7829,34 @@
             });
           });
         })();
+
+    // === "Show examples" toggle (mobile) ===
+    // The .suggested row would otherwise take ~60px on a 390px viewport
+    // and crowd the search shell. Below 600px we hide it behind this
+    // toggle; tapping reveals the chip rows without scroll-jacking.
+    (function initSuggestedToggle() {
+      const btn = $('suggestedToggle');
+      const row = $('suggestedRow');
+      if (!btn || !row) return;
+      const KEY = 'ns.suggestionsOpen.v1';
+      const btnText = btn.querySelector('.suggested-toggle-text');
+      // Restore prior preference (default closed on small screens).
+      let open = false;
+      try {
+        open = sessionStorage.getItem(KEY) === '1' && window.matchMedia('(max-width: 600px)').matches;
+      } catch (_) { /* ignore */ }
+      if (open) {
+        document.body.classList.add('suggestions-open');
+        btn.setAttribute('aria-expanded', 'true');
+        if (btnText) btnText.textContent = 'Hide examples';
+      }
+      btn.addEventListener('click', () => {
+        const isOpen = document.body.classList.toggle('suggestions-open');
+        btn.setAttribute('aria-expanded', String(isOpen));
+        if (btnText) btnText.textContent = isOpen ? 'Hide examples' : 'Show examples';
+        try { sessionStorage.setItem(KEY, isOpen ? '1' : '0'); } catch (_) { /* ignore */ }
+      });
+    })();
 
     // === Compact sticky search bar ===
     // The bulkier search-shell (with suggested chips, saved filters, etc.)

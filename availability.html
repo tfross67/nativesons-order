@@ -715,6 +715,27 @@
       font-weight: 400;
       color: var(--c-clay, #6b6256);
       line-height: var(--lh-snug);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 14px;
+    }
+    .chat-test-root .filter-summary .results-count {
+      font-family: var(--font-sans);
+      color: var(--c-clay, #6b6256);
+      white-space: nowrap;
+      /* Dot separator styling — leaves a 6px breathing room around it
+         before the chip cluster starts. */
+    }
+    .chat-test-root .filter-summary .results-count strong {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--c-bark, #1f3a1f);
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "kern" 1;
+      margin-right: 4px;
+      vertical-align: -1px;
     }
     .chat-test-root .filter-summary strong {
       font-family: var(--font-serif);
@@ -722,6 +743,12 @@
       color: var(--c-bark, #1f3a1f);
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
+    }
+    .chat-test-root .filter-summary .pill-cluster {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
     }
     .chat-test-root .filter-summary .pill {
       display: inline-flex;
@@ -975,7 +1002,7 @@
       padding: 5px 14px;
       border: 1px solid transparent;
       background: transparent;
-      color: var(--c-clay, #6b6256);
+      color: var(--c-bark, #1f3a1f);  /* was clay — too washed out next to the sage-deep active state */
       font-family: var(--font-sans);
       font-size: 12.5px;
       font-weight: 500;
@@ -4670,6 +4697,18 @@
          dense table. */
       line-height: 1.35;
     }
+    /* Trademark / copyright marks in the botanical column baseline-align
+       visibly lower than the proper superscript position. Reset to a true
+       superscript so 'Confetti®' reads as a tight mark, not a dangling
+       descender stub. */
+    body .chat-test-root td.botanical sup,
+    body .chat-test-root td.botanical .botanical-tm,
+    body .chat-test-root td.botanical a sup {
+      font-size: 0.55em;
+      line-height: 0;
+      vertical-align: super;
+      margin-left: 1px;
+    }
     body .chat-test-root td.botanical a.plant-link {
       color: var(--c-bark, #2b3a2a);
       text-decoration: none;
@@ -4806,7 +4845,8 @@
       font-weight: 600;
       border-radius: 999px;
       cursor: pointer;
-      transition: background-color 120ms ease, color 120ms ease, transform 80ms ease;
+      transition: background-color 120ms ease, color 120ms ease,
+                  transform 80ms ease, box-shadow 160ms ease;
       white-space: nowrap;
     }
     /* Instant click feedback — a brief scale-down on :active so the
@@ -4820,6 +4860,8 @@
     body .chat-test-root .row-add-btn:hover {
       background: var(--c-cta, #1f6b3a);
       color: #fff;
+      box-shadow: 0 2px 8px rgba(31, 107, 58, 0.18);  /* lift on hover for affordance */
+      transform: translateY(-1px);
     }
     body .chat-test-root .row-add-btn.added-flash {
       background: var(--c-cta, #1f6b3a);
@@ -5498,7 +5540,10 @@
     <div class="hero-band">
       <div class="hero-content">
         <div class="hero-eyebrow-row">
-          <div class="hero-eyebrow">This week's availability</div>
+          <!-- Removed "This week's availability" text label — the
+               calendar-icon week pill below already conveys the context,
+               and the stats row ("318 / 65 / 60") keeps the headline
+               anchored to the catalog. -->
           <span class="hero-week-pill" id="heroWeekLabel" hidden></span>
         </div>
         <h2 class="hero-headline" id="heroHeadline"><span id="heroHeadlineText">50+ plants in bloom</span> <img src="popppy-flower.png" alt="" class="hero-accent" aria-hidden="true"></h2>
@@ -6972,6 +7017,21 @@
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
+    // Promote trademark / copyright marks into a <sup> wrap so they
+    // render as proper superscripts in the botanical column. Without
+    // this, 'Confetti®' baseline-aligns at character height and looks
+    // like a stretched descender stub in the dense table layout.
+    // The sup class name is also a CSS hook for tighter font-size +
+    // vertical-align (see td.botanical sup above).
+    //
+    // IMPORTANT: input is HTML-escaped (highlight() already called
+    // escapeHTML upstream), so we only wrap — never re-escape, or
+    // apostrophes etc. become double-escaped into &amp;#39;.
+    const supTrademarks = (s) => String(s == null ? '' : s)
+      .replace(/®/g, '<sup class="botanical-tm">®</sup>')
+      .replace(/™/g, '<sup class="botanical-tm">™</sup>')
+      .replace(/©/g, '<sup class="botanical-tm">©</sup>');
+
     function renderResults(parsed, results) {
       // Cache for the toggle handler.
       lastResults = results;
@@ -7042,8 +7102,11 @@
           ? `<button type="button" class="clear-all-btn" data-clear-all>Clear all</button>`
           : '';
         filterSummaryEl.innerHTML =
-          `<strong>${results.length}</strong> result${results.length === 1 ? '' : 's'} — ` +
-          chips.join('') + clearAll;
+          `<span class="results-count"><strong>${results.length}</strong> result${results.length === 1 ? '' : 's'}</span>` +
+          (chips.length
+            ? `<span class="pill-cluster">` + chips.join('') + `</span>`
+            : '') +
+          clearAll;
       }
       // Show sort toolbar when there are results
       const sortToolbar = $('resultsToolbar');
@@ -7336,7 +7399,7 @@
               : '&nbsp;');
         // Botanical link → opens the plant in the main portal so users
         // can drill into the details page (same target as the cards).
-        const plantLink = `<a class="plant-link" href="${tblEsc(plantUrl(plant.botanical))}" target="_blank" rel="noopener" aria-label="More info on ${tblEsc(plant.botanical)} on nativeson.com">${highlight(plant.botanical, highlightTerms)}</a>`;
+        const plantLink = `<a class="plant-link" href="${tblEsc(plantUrl(plant.botanical))}" target="_blank" rel="noopener" aria-label="More info on ${tblEsc(plant.botanical)} on nativeson.com">${supTrademarks(highlight(plant.botanical, highlightTerms))}</a>`;
         const addCell = `<td class="add-cell" data-label=""><button type="button" class="row-add-btn" data-row-add="${tblEsc(plant.botanical)}" aria-label="Add ${tblEsc(plant.botanical)} to your order">+ Add</button></td>`;
         return `<tr data-botanical="${tblEsc(plant.botanical)}">
         <td class="botanical" data-label="Botanical">${plantLink}</td>

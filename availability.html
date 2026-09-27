@@ -11058,6 +11058,59 @@
         }
 
         let renderToken = 0;
+        // Common-name → genus lookup for the most-typed plants in this catalog.
+        // The master file is botanical-only, so plain substring matching on
+        // `d` won't resolve "lavender" → "Lavandula". Token-rank + this
+        // dictionary covers both forms. Add entries as staff surface them.
+        const COMMON_NAME_TO_GENUS = {
+          lavender: 'lavandula',
+          rosemary: 'rosmarinus',
+          sage: 'salvia',
+          maple: 'acer',
+          'japanese maple': 'acer palmatum',
+          oak: 'quercus',
+          elm: 'ulmus',
+          boxwood: 'buxus',
+          box: 'buxus',
+          camellia: 'camellia',
+          hydrangea: 'hydrangea',
+          rose: 'rosa',
+          gardenia: 'gardenia',
+          azalea: 'rhododendron',
+          fern: 'polystichum',
+          bamboo: 'fargesia',
+          lily: 'lilium',
+          liriope: 'liriope',
+          iris: 'iris',
+          hosta: 'hosta',
+          daylily: 'hemerocallis',
+          yucca: 'yucca',
+          agave: 'agave',
+          cacti: 'cactus',
+          cactus: 'cactus',
+          grass: 'pennisetum',
+          euphorbia: 'euphorbia',
+          hebe: 'hebe',
+          salvia: 'salvia',
+          'rosemary plant': 'rosmarinus',
+          daisy: 'osteospermum',
+          'rosemary officinalis': 'rosmarinus',
+        };
+        // Build a per-row field index once (used by token-rank).
+        // Each row gets _idx: { d: lower, c: lower, s: lower, dg: genus token }
+        let _rowIdx = null;
+        function ensureRowIndex() {
+          if (_rowIdx) return;
+          _rowIdx = inMasterNotInWeek.map(row => {
+            const d = (row.d || '').toLowerCase();
+            const c = (row.c || '').toLowerCase();
+            const s = (row.s || '').toLowerCase();
+            // First token of d, normalized, is the genus candidate
+            const dg = d.split(/\s+/)[0] || '';
+            return { row, d, c, s, dg };
+          });
+        }
+
         function renderResults() {
           const q = searchInput.value.trim().toLowerCase();
           const token = ++renderToken;
@@ -11065,39 +11118,70 @@
             resultsHost.innerHTML = '<p class="cust-request-empty">Type at least 2 characters to search.</p>';
             return;
           }
-          // Simple substring match across description, code, and size.
-          // Sort by relevance: startsWith > includes in description, fall through.
-          const rows = [];
-          for (const row of inMasterNotInWeek) {
-            const d = (row.d || '').toLowerCase();
-            const c = (row.c || '').toLowerCase();
-            const s = (row.s || '').toLowerCase();
-            if ((d && d.includes(q)) || (c && c.includes(q)) || (s && s.includes(q))) {
-              if (d) rows.push(row);
+          ensureRowIndex();
+
+          // Resolve common names BEFORE tokenization so "lavender" → "lavandula"
+          // and "japanese maple" → "acer palmatum" before we score against the
+          // master catalog's botanical names.
+          let searchText = q;
+          for (const [common, genus] of Object.entries(COMMON_NAME_TO_GENUS)) {
+            // Replace whole-word matches only (don't mangle substrings).
+            const re = new RegExp('\\b' + common.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi');
+            if (re.test(searchText)) {
+              searchText = searchText.replace(re, genus);
             }
           }
-          // Cap at 50 hits to keep the DOM small.
-          rows.length = Math.min(rows.length, 50);
-
-          if (rows.length === 0) {
+          const tokens = searchText.split(/[\s,;]+/).filter(Boolean);
+          if (tokens.length === 0) {
             resultsHost.innerHTML = '<p class="cust-request-empty">No matches in the master catalog. Try a different spelling.</p>';
             return;
           }
 
-          // Sort: descriptions that start with q first, then includes.
-          rows.sort((a, b) => {
-            const ad = (a.d || '').toLowerCase();
-            const bd = (b.d || '').toLowerCase();
-            const aStarts = ad.startsWith(q) ? 0 : 1;
-            const bStarts = bd.startsWith(q) ? 0 : 1;
-            if (aStarts !== bStarts) return aStarts - bStarts;
-            if (ad < bd) return -1;
-            if (ad > bd) return 1;
-            return 0;
-          });
+          // Token-rank against the index. Each row scores per-token; an additional
+          // bonus per matched token so multi-token queries prefer rows matching
+          // all tokens (e.g. "terra cotta" → Terra Cotta cultivars not just any
+          // "terra" hit).
+          const rows = [];
+          for (const entry of _rowIdx) {
+            let score = 0;
+            let matchedTokens = 0;
+            for (const t of tokens) {
+              let tokenScore = 0;
+              // Description startsWith: strong (genus prefix)
+              if (entry.d.startsWith(t)) tokenScore = Math.max(tokenScore, 100);
+              // Description word-boundary (genus match after common-name resolve)
+              else if (new RegExp('\\b' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).test(entry.d)) tokenScore = Math.max(tokenScore, 70);
+              // Description substring anywhere (e.g. cultivar in single quotes)
+              else if (entry.d.includes(t)) tokenScore = Math.max(tokenScore, 30);
+              // Item code prefix
+              if (entry.c.startsWith(t)) tokenScore = Math.max(tokenScore, 25);
+              else if (entry.c.includes(t)) tokenScore = Math.max(tokenScore, 12);
+              if (tokenScore > 0) {
+                matchedTokens++;
+                score += tokenScore + 5; // +5 bonus per matched token
+              }
+            }
+            // Require at least one strong match (don't return rows that only
+            // got bonus points) AND require most tokens to be matched.
+            if (matchedTokens > 0 && matchedTokens >= Math.ceil(tokens.length * 0.5)) {
+              rows.push({ entry, score, matchedTokens });
+            }
+          }
 
-          // Build the result list.
-          const html = rows.map(row => {
+          // Cap at 50 hits.
+          rows.sort((a, b) => b.score - a.score);
+          const top = rows.slice(0, 50);
+
+          if (top.length === 0) {
+            resultsHost.innerHTML = '<p class="cust-request-empty">No matches in the master catalog. Try a different spelling.</p>';
+            return;
+          }
+          // Ignore stale renders.
+          if (token !== renderToken) return;
+
+          // Build the result list from top-ranked entries.
+          const html = top.map(({ entry }) => {
+            const row = entry.row;
             const pickedCls = (pickedRow === row) ? ' is-focused' : '';
             const code = row.c ? `<span class="code">${escapeHtml(row.c)}</span>` : '';
             const price = (row.p != null) ? '$' + Number(row.p).toFixed(2) : '';
@@ -11113,7 +11197,7 @@
                 </div>
               </div>`;
           }).join('');
-          resultsHost.innerHTML = html + `<div class="cust-request-result-count">${rows.length} match${rows.length === 1 ? '' : 'es'} in master (not in this week's list)</div>`;
+          resultsHost.innerHTML = html + `<div class="cust-request-result-count">${top.length} match${top.length === 1 ? '' : 'es'} in master (not in this week's list)</div>`;
         }
 
         function escapeHtml(s) {

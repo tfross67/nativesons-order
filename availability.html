@@ -3110,6 +3110,15 @@
         border-radius: 14px 14px 0 0;
         padding-bottom: env(safe-area-inset-bottom, 0);
       }
+      /* The sticky .staff-topbar (z=200, set by v87's mobile rule) sits
+         ABOVE the modal-overlay (z=110) and .modal (z=115) at baseline,
+         so on Safari iOS the staff-topbar's customer picker area paints
+         over the open Customer-request modal — the dialog appears
+         non-functional because its search field is covered. Bump modal +
+         overlay above 200 in a separate body class so we don't disturb
+         desktop where the staff-topbar is a normal header at z=70. */
+      .modal { z-index: 260; }
+      .modal-overlay { z-index: 250; }
     }
     .modal[hidden] { display: none; }
     .modal .modal-header{

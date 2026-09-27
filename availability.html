@@ -376,6 +376,19 @@
       max-width: 100vw;
       z-index: 50;
       background: rgba(255, 255, 255, 0.96);
+      /* On staff-mobile (≤767px), the sticky staff-topbar (z=200, set by
+         v87) pins to top:0 when scrolled. Without an offset here, both
+         elements want top:0 and the staff-topbar covers the chat-search
+         input (audit F-002, P1). JS measures #staffTopbar's height into
+         --staff-topbar-h; on staff-mobile we sit just below it.
+         Desktop + non-staff mobile: --staff-topbar-h is unset, top:0 wins. */
+      transition: top 160ms ease;
+    }
+    @media (max-width: 767px) {
+      body.staff-mode .chat-test-root .sticky-search-bar {
+        top: var(--staff-topbar-h, 0);
+      }
+    }
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--c-line, #e5e3dd);
@@ -8027,6 +8040,57 @@
       window.addEventListener('scroll', update, { passive: true });
       window.addEventListener('resize', update, { passive: true });
       update();  // initial state
+
+      // === Staff-mobile: measure staff-topbar height into a CSS var so
+      // the sticky search bar can sit BELOW it instead of being covered
+      // (audit F-002, P1). Without this, when scrolled past the page
+      // header on staff-mobile, both #staffTopbar (z=200, sticky) and
+      // #stickySearchBar (z=50, fixed top:0) want top:0 — staff-topbar
+      // wins by z-index and the chat-search input becomes unreachable.
+      // Stack them vertically by setting --staff-topbar-h on body and
+      // using it as the search bar's top offset on staff-mobile. Skip on
+      // desktop and non-staff mobile (sticky search bar already works
+      // there).
+      function updateStaffTopbarVar() {
+        if (!document.body.classList.contains('staff-mode')) {
+          document.documentElement.style.removeProperty('--staff-topbar-h');
+          return;
+        }
+        const tb = document.getElementById('staffTopbar');
+        if (!tb) return;
+        // Sticky element is "pinned" once its rect.top is at or above the
+        // viewport top (0). We compare against the natural topbar height
+        // captured once at init — after pinning, getBoundingClientRect().top
+        // stays at 0 because position:sticky pins it. When the page hasn't
+        // scrolled past the topbar's natural position, rect.top > 0 (the
+        // topbar is in flow and below the viewport top). offsetTop on a
+        // sticky element changes after it pins (offsetParent may differ),
+        // so we can't use it — captured naturalTop once at init instead.
+        const pinned = _naturalStaffTopbarTop !== null
+          && window.scrollY >= _naturalStaffTopbarTop;
+        const h = pinned ? tb.offsetHeight : 0;
+        document.documentElement.style.setProperty('--staff-topbar-h', h + 'px');
+      }
+      // Capture the staff-topbar's natural document position ONCE before
+      // any scroll. position:sticky changes offsetTop after pinning so
+      // this snapshot is the only reliable check for "has the user scrolled
+      // past where it would naturally sit".
+      let _naturalStaffTopbarTop = null;
+      {
+        const tb0 = document.getElementById('staffTopbar');
+        if (tb0) _naturalStaffTopbarTop = tb0.offsetTop;
+      }
+      updateStaffTopbarVar();
+      window.addEventListener('scroll', updateStaffTopbarVar, { passive: true });
+      window.addEventListener('resize', updateStaffTopbarVar, { passive: true });
+      // The selected-cust element toggles hidden which changes staff-topbar
+      // height — observe so the var stays in sync.
+      const selectedCust = document.getElementById('selectedCust');
+      if (selectedCust && window.MutationObserver) {
+        new MutationObserver(updateStaffTopbarVar).observe(selectedCust, {
+          attributes: true, attributeFilter: ['hidden'],
+        });
+      }
 
       // === Mobile table overflow indicator ===
       // On viewports ≤900px the table collapses to a stacked-row layout

@@ -6390,13 +6390,79 @@
 
     // === Synonyms / canonicalisation maps ===
     // Maps user-friendly terms to canonical keys and values used in the catalog.
+    // Common-name → genus lookup for the main search. When the user types
+    // a common name like "lavender" or "rosemary", we want Lavandula /
+    // Rosmarinus plants to top the results, not plants whose flower_color
+    // happens to contain the color name. Words like "lavender" used to
+    // live in COLOR_SYNONYMS.purple which ranked them by color match —
+    // this dictionary + the COLOR_SYNONYMS edit below restores name-first
+    // behavior. Same dictionary as the cust-request modal search so both
+    // surfaces resolve identically.
+    const COMMON_NAME_TO_GENUS = {
+      lavender: ['lavandula'],
+      rosemary: ['rosmarinus'],
+      sage:     ['salvia'],
+      maple:    ['acer'],
+      'japanese maple': ['acer palmatum'],
+      oak:      ['quercus'],
+      elm:      ['ulmus'],
+      boxwood:  ['buxus'],
+      box:      ['buxus'],
+      camellia: ['camellia'],
+      hydrangea:['hydrangea'],
+      rose:     ['rosa'],
+      gardenia: ['gardenia'],
+      azalea:   ['rhododendron'],
+      fern:     ['polystichum'],
+      bamboo:   ['fargesia'],
+      lily:     ['lilium'],
+      liriope:  ['liriope'],
+      iris:     ['iris'],
+      hosta:    ['hosta'],
+      daylily:  ['hemerocallis'],
+      yucca:    ['yucca'],
+      agave:    ['agave'],
+      cacti:    ['cactus'],
+      cactus:   ['cactus'],
+      euphorbia:['euphorbia'],
+      hebe:     ['hebe'],
+      daisy:    ['osteospermum'],
+      violets:  ['viola'],
+      violet:   ['viola'],
+      lilac:    ['syringa'],
+    };
+    function expandCommonNames(tokens) {
+      // For each token (and each adjacent pair for multi-word entries like
+      // "japanese maple"), if it matches a common name, prepend the
+      // corresponding genus tokens. The original common-name tokens stay in
+      // freeText so plants with that exact common name still match.
+      const out = tokens.slice();
+      for (let i = 0; i < tokens.length; i++) {
+        for (const [common, genera] of Object.entries(COMMON_NAME_TO_GENUS)) {
+          const parts = common.split(' ');
+          // Match single-token keys directly
+          if (parts.length === 1 && tokens[i] === parts[0]) {
+            for (const g of genera) out.push(g);
+          }
+          // Match multi-word keys (e.g. "japanese maple" → "acer palmatum")
+          if (parts.length > 1 && tokens.slice(i, i + parts.length).join(' ') === common) {
+            for (const g of genera) out.push(g);
+          }
+        }
+      }
+      return out;
+    }
     const COLOR_SYNONYMS = {
-      red:    ['red', 'scarlet', 'crimson', 'burgundy', 'rose', 'magenta', 'pink-red'],
+      red:    ['red', 'scarlet', 'crimson', 'burgundy', 'magenta', 'pink-red'],
       pink:   ['pink', 'rose-pink', 'blush'],
       white:  ['white', 'cream', 'ivory', 'pale'],
       yellow: ['yellow', 'gold', 'golden'],
       blue:   ['blue', 'sky blue', 'powder blue', 'cobalt'],
-      purple: ['purple', 'violet', 'lavender', 'lilac'],
+      // 'lavender', 'rose', 'violet', 'lilac' removed — these are plant
+      // common names (Lavandula, Rosa, Viola, Syringa) that staff will
+      // type to find those plants, not the colors. Users wanting the
+      // purple color family can still type "purple" or "violet purple".
+      purple: ['purple', 'violet purple'],
       orange: ['orange', 'tangerine', 'apricot'],
       green:  ['green', 'chartreuse'],
     };
@@ -6544,7 +6610,14 @@
         'gal','inch','under','over','less','more','than','below','above','max','min','native','natives','california','oregon','red','white','bloom','blooming','budding','in','at','$',
       ];
       const tokens = q.split(/[^a-z0-9]+/).filter(Boolean);
-      filters.freeText = tokens.filter(t =>
+      // Augment tokens with the genus equivalents of any common names the
+      // user typed. "lavender" alone becomes ["lavender", "lavandula"];
+      // "japanese maple" becomes ["japanese", "maple", "acer", "palmatum"].
+      // The original tokens stay so plants with the literal common name
+      // (e.g. "Lavender" in the common field) still match — the genus
+      // tokens just lift the corresponding plants' rank.
+      const augmented = expandCommonNames(tokens);
+      filters.freeText = augmented.filter(t =>
         !stopwords.has(t) &&
         !allKnown.some(k => k.replace(/\s+/g, '').includes(t)) &&
         t.length > 1
@@ -7663,6 +7736,7 @@
         // Empty query — render the full catalog so the page has tiles on first load
         const emptyMatch = { score: 1, reasons: [], matched: { colors: [], exposures: [], water: [], types: [], container: [], bloom: [], budding: [], freeText: [], origin: [], height: [], width: [] } };
         const allResults = catalog.map(plant => ({ plant, match: emptyMatch }));
+        // Empty-query browse keeps the user's stored sort (typically name-asc).
         sortResults(allResults, currentSort);
         renderResults(parsed, allResults);
         observeCardImages();
@@ -7729,8 +7803,8 @@
         }
         renderResults(parsed, tiered);
       } else {
-        // Apply user-selected sort, default relevance
-        sortResults(results, currentSort);
+        // Apply user-selected sort, default relevance when there's a query
+        sortResults(results, effectiveSort(parsed, currentSort));
         renderResults(parsed, results);
       }
       // Set up lazy image loading for the new cards
@@ -7790,7 +7864,16 @@
       }
 
       // === Sort results according to user selection ===
+      // Default sort is 'name-asc' for empty-query browsing. When the
+      // user types a query, run() temporarily switches the sort mode
+      // to 'relevance' (without overwriting the user's stored pref) so
+      // the most-relevant plants bubble to the top. Empty queries and
+      // the explicit 'name-asc' tab both still alphabetize.
       let currentSort = 'name-asc';
+      function effectiveSort(parsed, userSort) {
+        if (parsed.active && userSort === 'name-asc') return 'relevance';
+        return userSort;
+      }
       function sortResults(results, mode) {
         // mode can be:
         //   'relevance'        — by match.score desc

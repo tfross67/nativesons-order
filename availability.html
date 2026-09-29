@@ -382,21 +382,26 @@
          input (audit F-002, P1). JS measures #staffTopbar's height into
          --staff-topbar-h; on staff-mobile we sit just below it.
          Desktop + non-staff mobile: --staff-topbar-h is unset, top:0 wins. */
-      transition: top 160ms ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--c-line, #e5e3dd);
+      box-shadow: 0 2px 8px rgba(45, 74, 43, 0.08);
+      /* Default state — bar is parked above the viewport until JS flips
+         .is-visible once the user scrolls past the main search shell's
+         natural position. The original transform/opacity got orphaned
+         outside this rule by an earlier patch, making the bar render at
+         top:0 in its un-toggled state (visible on first paint). This is
+         the corrected structure. */
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 220ms ease-out, opacity 220ms ease-out,
+                  top 160ms ease;
     }
     @media (max-width: 767px) {
       body.staff-mode .chat-test-root .sticky-search-bar {
         top: var(--staff-topbar-h, 0);
       }
-    }
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--c-line, #e5e3dd);
-      box-shadow: 0 2px 8px rgba(45, 74, 43, 0.08);
-      transform: translateY(-100%);
-      opacity: 0;
-      pointer-events: none;
-      transition: transform 220ms ease-out, opacity 220ms ease-out;
     }
     .sticky-search-bar.is-visible {
       transform: translateY(0);

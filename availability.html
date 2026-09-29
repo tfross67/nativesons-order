@@ -4604,6 +4604,14 @@
        was the worse user impact — staff can't pick the right customer
        at all. If the iOS issue bites, the fix is to scroll the page
        up after focus jumps to the customer input. */
+      /* Hide the mobile-only Customer request CTA on desktop so staff
+         don't see a stale duplicate of the site-header version. The
+         @media (max-width: 767px) block below flips it to inline-flex
+         on mobile. Same intent as the v95 commit but the hide-by-
+         default rule was originally scoped inside the @media, which
+         means on desktop nothing hid the button and it rendered at
+         default block under the customer section. */
+      #headerCustRequestCtaMobile { display: none; }
     @media (max-width: 767px) {
       body .staff-topbar {
         position: sticky;

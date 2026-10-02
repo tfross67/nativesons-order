@@ -5560,6 +5560,81 @@
        JS runs. */
     body.view-table .view-cards-wrap { display: none; }
     body.view-card  .view-table-wrap { display: none; }
+
+    /* === Tap-target pass (2026-10-01) ===
+       Audit at 390x844 found 76 controls under 44px — the primary commerce
+       CTA (Add to order, 36px) and the card Details toggle (24px) among
+       them; desktop had 148. Everything here raises the HIT AREA; the
+       resting appearance is unchanged except where noted.
+
+       !important is deliberate, not defensive: several of these have base
+       rules later in this stylesheet or with higher specificity
+       (body .chat-test-root …, table.list tbody td.add-cell …), so a plain
+       override silently loses the cascade. */
+    .chat-test-root .add-to-order-link,
+    body .chat-test-root .add-to-order-link {
+      min-height: 44px !important;
+      align-items: center;
+    }
+    .chat-test-root .result-expand {
+      min-height: 44px !important;
+      align-items: center;
+      padding: 12px 0 !important;
+    }
+    .chat-test-root .sort-tabs > .sort-tab {
+      min-height: 44px !important;
+    }
+    .chat-test-root .sort-select {
+      min-height: 44px !important;
+      padding-top: 11px !important;
+      padding-bottom: 11px !important;
+    }
+    /* The 'Get trade pricing' CTA in the header — the main conversion
+       control for a locked visitor, and it measured 38px. */
+    .chat-test-root .pricing-link-header,
+    .pricing-link-header {
+      min-height: 44px !important;
+      display: inline-flex;
+      align-items: center;
+    }
+    /* Table view: let the plant-name link fill its cell so the whole cell is
+       tappable (it measured 236x19 inside a 48px row), and give the row's
+       Add button a comfortable height. */
+    body .chat-test-root td.botanical a.plant-link {
+      display: inline-block;
+      padding: 13px 0;
+    }
+    body .chat-test-root .row-add-btn,
+    body .chat-test-root table.list tbody td.add-cell .row-add-btn {
+      min-height: 44px !important;
+      padding: 10px 14px !important;
+    }
+    /* Footer nav links measured 19px tall. Inline-block + vertical padding
+       gives each a full-height hit area without changing the footer's look. */
+    footer a,
+    .site-footer a,
+    .chat-test-root footer a {
+      display: inline-block;
+      padding: 12px 0;
+    }
+    /* Search suggestion chips — deliberately NOT taken to 44px: they sit in
+       the sticky search shell, and doubling their height pushes the first
+       result further down the page. A modest bump is the trade-off. */
+    .chat-test-root .suggestion { padding: 8px 9px !important; }
+    .chat-test-root .view-toggle-btn { min-height: 36px !important; }
+    /* Floating bottom chrome */
+    .chat-test-root .back-to-top {
+      min-height: 44px !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    body .cart-hint {
+      min-height: 44px !important;
+    }
+    @media (max-width: 600px) {
+      .chat-test-root .suggested-toggle { min-height: 36px !important; }
+    }
   </style>
 </head>
 <body>
@@ -5619,7 +5694,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-03</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-04</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

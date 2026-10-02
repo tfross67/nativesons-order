@@ -5635,6 +5635,31 @@
     @media (max-width: 600px) {
       .chat-test-root .suggested-toggle { min-height: 36px !important; }
     }
+
+    /* === Type-scale pass (2026-10-01) ===
+       Small text skewed hard to 11px — 443 leaf elements on desktop and
+       1,599 on mobile — including the card meta pills that carry the actual
+       growing facts (size, exposure, water, flower colour) and the hero stat
+       labels. Each moves up ~1-1.5px: enough to read at laptop distance
+       without re-flowing the layout. The var(--fs-eyebrow) token is left
+       alone deliberately so this commit stays inside one file. */
+    .chat-test-root .meta-pill { font-size: 12px !important; }
+    .chat-test-root .hero-stat-label { font-size: 11.5px !important; }
+    .chat-test-root .sort-tab-count { font-size: 11.5px !important; }
+    body .chat-test-root td.size .size-unit { font-size: 11.5px !important; }
+    body .chat-test-root .status-label { font-size: 12px !important; }
+    .chat-test-root .results-toolbar-label { font-size: 12px !important; }
+    .chat-test-root .ca-badge { font-size: 11.5px !important; }
+    .chat-test-root .suggested-group-label { font-size: 11.5px !important; }
+    /* "Sort by" sits in its own <span> inside .sort-select-label. */
+    .chat-test-root .sort-select-label > span { font-size: 12px !important; }
+    /* The footer is outside .chat-test-root (it's a sibling of <main>), so
+       these are deliberately unscoped. */
+    .site-footer-heading { font-size: 12.5px !important; }
+    @media (max-width: 600px) {
+      /* The ≤600px block drops hero stat labels to 10px; lift that floor. */
+      .chat-test-root .hero-stat-label { font-size: 11px !important; }
+    }
   </style>
 </head>
 <body>
@@ -5694,7 +5719,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-04</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-05</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

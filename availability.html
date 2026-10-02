@@ -1013,8 +1013,11 @@
          pinned to the right edge; JS toggles .at-end on the wrap so
          we hide it when scrolled to the end. */
       .chat-test-root .sort-tabs {
-        -webkit-mask-image: linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%);
-        mask-image: linear-gradient(to right, black 0, black calc(100% - 48px), transparent 100%);
+        /* Fade the trailing chips out over the last 64px so the scroll
+           chevron has clean space to sit in — at 48px the last chip still
+           rendered under the arrow and the two collided. */
+        -webkit-mask-image: linear-gradient(to right, black 0, black calc(100% - 64px), transparent calc(100% - 10px));
+        mask-image: linear-gradient(to right, black 0, black calc(100% - 64px), transparent calc(100% - 10px));
         padding-right: 32px;
       }
       .chat-test-root .results-toolbar {
@@ -1023,25 +1026,45 @@
       /* The chevron sits on the toolbar (the scroll container's parent)
          so it doesn't scroll with the chips. pointer-events:none keeps
          taps reaching the chips underneath. Hidden via JS when the tabs
-         fit on screen or when scrolled to the end. */
+         fit on screen or when scrolled to the end.
+
+         Vertical position comes from --tab-rail-mid, which
+         updateFilterChipsOverflow() sets to the chip rail's centre inside
+         the toolbar. The toolbar is flex-wrap and breaks into up to three
+         rows on a phone (label / chips / sort), so `top: 50%` centred the
+         arrow on the whole stack — it rendered level with the SORT BY row,
+         pointing at nothing. translateY(-50%) is the correct centring;
+         the previous translateY(20%) pushed it further down. */
       .chat-test-root .results-toolbar::after {
         content: "›";
         position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(20%);
-        font-size: 24px;
+        right: 6px;
+        top: var(--tab-rail-mid, 50%);
+        transform: translateY(-50%);
+        /* A small round button matching the rail's own chrome, so the arrow
+           reads as part of the filter control rather than a stray glyph. */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        font-size: 18px;
         font-weight: 800;
         line-height: 1;
-        color: var(--c-muted, #6b6256);
+        color: var(--c-bark, #1f3a1f);
+        background: #fafaf7;
+        border: 1px solid #e8e2cf;
+        border-radius: 999px;
+        box-shadow: 0 1px 4px rgba(45, 74, 43, 0.10);
         pointer-events: none;
         opacity: 0;
         transition: opacity 180ms;
-        /* Lift above the toolbar but below page chrome. */
-        z-index: 1;
+        z-index: 2;
       }
       .chat-test-root .results-toolbar.tab-chips-overflow::after {
-        opacity: 0.65;
+        /* Full opacity now that the arrow has its own chip-style backing;
+           0.65 was tuned for a bare glyph over the page background. */
+        opacity: 1;
       }
       .chat-test-root .results-toolbar.tab-chips-at-end::after {
         opacity: 0;
@@ -5771,7 +5794,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-07</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-08</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -8563,6 +8586,13 @@
         const atEnd = tabs.scrollLeft + tabs.clientWidth >= tabs.scrollWidth - 2;
         toolbar.classList.toggle('tab-chips-overflow', overflows && !atEnd);
         toolbar.classList.toggle('tab-chips-at-end', overflows && atEnd);
+        // Pin the scroll-hint chevron to the chip rail's centre line. The
+        // toolbar wraps into up to three rows on a phone, so a plain
+        // top:50% put the arrow level with the SORT BY row.
+        const tbRect = toolbar.getBoundingClientRect();
+        const railRect = tabs.getBoundingClientRect();
+        const railMid = Math.round(railRect.top - tbRect.top + railRect.height / 2);
+        toolbar.style.setProperty('--tab-rail-mid', railMid + 'px');
       }
       const sortTabsEl = document.querySelector('.sort-tabs');
       sortTabsEl?.addEventListener('scroll', updateFilterChipsOverflow, { passive: true });

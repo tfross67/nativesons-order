@@ -861,6 +861,39 @@
       align-items: start;
       gap: 18px;
     }
+    /* === Pagination control ===
+       Sits below both view slots. Centred stack: a muted "Showing N of M"
+       line and a pill button. 44px min height keeps it a comfortable tap
+       target on phones (and matches the rest of the mobile tap-target pass). */
+    .chat-test-root .load-more-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin: 24px 0 6px;
+    }
+    .chat-test-root .load-more-count {
+      font-size: 13px;
+      color: var(--c-clay, #6b6256);
+    }
+    .chat-test-root .load-more-count strong { color: var(--c-bark, #1f3a1f); }
+    .chat-test-root .load-more-btn {
+      font: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      min-height: 44px;
+      padding: 12px 28px;
+      border: 1px solid var(--c-bark, #1f3a1f);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--c-bark, #1f3a1f);
+      cursor: pointer;
+      transition: background .15s ease, color .15s ease;
+    }
+    .chat-test-root .load-more-btn:hover {
+      background: var(--c-bark, #1f3a1f);
+      color: #fff;
+    }
     .chat-test-root .view-table-wrap {
       display: block;
     }
@@ -5586,7 +5619,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-02</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-03</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -5768,6 +5801,10 @@
            the surrounding toolbar / no-results state. -->
       <div class="view-cards-wrap" id="viewCards"></div>
       <div class="view-table-wrap" id="viewTable"></div>
+      <!-- Pagination control. The catalog is ~320 plants; rendering every
+           card at once produced a 72,000px page on a phone, so we render a
+           page at a time and append on demand. -->
+      <div id="loadMoreWrap" class="load-more-wrap" hidden></div>
     </div>
     <div id="noResults" class="no-results" hidden>No plants match your search. Try fewer words or different terms.</div>
 
@@ -7238,6 +7275,47 @@
     // the in-memory results instead of re-running parseQuery/matchPlant.
     let lastResults = [];
 
+    // Pagination window. The catalog is ~320 plants and every one used to
+    // render on load, which made a 72,000px page on a phone (and 16,000px on
+    // desktop) with the first plant still below the fold. Instead we render
+    // one page and append on demand. resetRenderWindow() runs at the start
+    // of each new query; a view toggle deliberately keeps the current window
+    // so switching table/cards doesn't throw away what the user loaded.
+    const RENDER_PAGE = { card: 30, table: 60 };
+    let renderLimit = 0;
+    function currentPageSize() {
+      return document.body.classList.contains('view-table')
+        ? RENDER_PAGE.table : RENDER_PAGE.card;
+    }
+    function resetRenderWindow() {
+      renderLimit = currentPageSize();
+    }
+
+    // Render the "Showing N of M" + Show more control. Lives outside both
+    // view slots so it survives a table/cards swap.
+    function renderLoadMore(total) {
+      const wrap = $('loadMoreWrap');
+      if (!wrap) return;
+      if (total <= renderLimit) {
+        wrap.hidden = true;
+        wrap.innerHTML = '';
+        return;
+      }
+      const shown = Math.min(renderLimit, total);
+      const next = Math.min(currentPageSize(), total - shown);
+      wrap.hidden = false;
+      wrap.innerHTML =
+        `<div class="load-more-count">Showing <strong>${shown}</strong> of <strong>${total}</strong> plants</div>` +
+        `<button type="button" class="load-more-btn" data-load-more>Show ${next} more</button>`;
+      if (!wrap._wired) {
+        wrap._wired = true;
+        wrap.addEventListener('click', (e) => {
+          if (!e.target.closest('[data-load-more]')) return;
+          renderLimit += currentPageSize();
+          if (lastParsed) renderResults(lastParsed, lastResults);
+        });
+      }
+    }
     // Staff-mode is detected once at boot (see body.staff-mode gate
     // elsewhere). The table mirrors compact-list's behavior: staff
     // sees the Section column; everyone else doesn't.
@@ -7427,7 +7505,11 @@
       const highlightTerms = [...(parsed.filters.colors||[]), ...(parsed.freeText||[])];
 
       // === Cards ===
-      results.forEach(({ plant, match }) => {
+      // Render only the current page of results; the remainder is appended
+      // by the Load more control below.
+      if (!renderLimit) resetRenderWindow();
+      const pageResults = results.slice(0, renderLimit);
+      pageResults.forEach(({ plant, match }) => {
         const card = document.createElement('article');
         card.className = 'result';
         const sizes = plant.sizes || [];
@@ -7586,6 +7668,12 @@
         <tbody>${inner}</tbody>
         </table>`;
         }
+
+        // === Pagination control ===
+        // With the 2-view layout this element lives outside both slots, so
+        // it has to be filled on every render (and cleared when the whole
+        // result set fits in one page).
+        renderLoadMore(results.length);
         }
 
         // ============================================================
@@ -7812,6 +7900,13 @@
     async function run(useExisting) {
       const q = input.value;
       const startedAt = Date.now();
+      // New query → start the result list at one page again. Set to 0 so
+      // renderResults computes the page size at render time, by which point
+      // body.view-table / body.view-card is definitely applied (reading it
+      // here would size a desktop table page as if it were the card view).
+      // A view toggle does NOT go through run(), so it preserves however far
+      // the user already expanded.
+      renderLimit = 0;
       const catalog = getCatalog();
       // Wait for image_map.json so the first render can use real images.
       // The fetch is memoized; this is fast on subsequent calls.

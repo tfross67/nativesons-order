@@ -5660,6 +5660,24 @@
       /* The ≤600px block drops hero stat labels to 10px; lift that floor. */
       .chat-test-root .hero-stat-label { font-size: 11px !important; }
     }
+
+    /* === Suggestion chip affordance (2026-10-01) ===
+       These chips had no resting affordance at all — transparent, borderless,
+       no underline — so the "Try PLANTS | SIZES" row rendered as a line of
+       static words and the only cue that they were clickable was the cursor
+       changing on hover.
+
+       A previous pass deliberately dropped the heavy pill treatment for these
+       ("soft token, no background, no border"), so a pill is NOT the fix —
+       that would undo a decision already made. Instead keep the light
+       treatment and make the dotted underline visible at rest, using the
+       --c-sage token that the design system already assigns to chips. */
+    .chat-test-root .suggestion {
+      border-bottom-color: var(--c-sage, #5d7a4a) !important;
+    }
+    .chat-test-root .suggestion:hover {
+      border-bottom-color: var(--c-cta, #1f6b3a) !important;
+    }
   </style>
 </head>
 <body>
@@ -5719,7 +5737,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-05</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-06</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

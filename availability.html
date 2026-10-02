@@ -1975,6 +1975,14 @@
       padding: 10px;
       background: #fafaf7;
     }
+    /* Growth-type glyph (plants with no photo). No padding here — the inset
+       is baked into the SVG's viewBox, because percentage padding on an
+       absolutely-positioned box resolves against the *card* width and would
+       blow the badge up. */
+    .chat-test-root .result-image[data-glyph] {
+      object-fit: contain;
+      background: #fafaf7;
+    }
     .chat-test-root .result:hover .result-image {
       opacity: 1;
       transform: scale(1) translateY(0);
@@ -5578,7 +5586,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-01</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-02</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -6135,16 +6143,26 @@
       document.querySelectorAll('.result-image:not([data-loaded])').forEach(img => {
         const botanical = img.dataset.botanical;
         if (!botanical) return;
+        // No photo in the map → draw the growth-type glyph instead of
+        // leaving PLACEHOLDER_IMG (the wordmark) in place.
+        const applyFallback = (map) => {
+          if (map[botanical]) {
+            img.src = map[botanical];
+          } else {
+            img.src = typeGlyphDataUri(img.dataset.plantType);
+            img.dataset.glyph = '1';
+          }
+        };
         // If the map is already loaded, set src synchronously
-        if (imageCache._map && imageCache._map[botanical]) {
-          img.src = imageCache._map[botanical];
+        if (imageCache._map) {
+          applyFallback(imageCache._map);
           img.dataset.loaded = '1';
           return;
         }
         // If not loaded yet, fetch and update
         loadImageMap().then(map => {
           imageCache._map = map;
-          if (map[botanical]) img.src = map[botanical];
+          applyFallback(map);
           img.dataset.loaded = '1';
         });
       });
@@ -6979,6 +6997,54 @@
     // load this (e.g. file:// origin) will show broken-image glyph — fine for now.
     const PLACEHOLDER_IMG = 'logo.jpg';
 
+    // Type glyph for plants with no photo at all.
+    //
+    // 95 of the 320 catalog plants have no image in image_map.json, and
+    // nativeson.com has no photo to backfill them from (404 or
+    // photo-unavailable.jpg), so every one of those cards used to repeat the
+    // Native Sons wordmark. At badge size that carries the same visual weight
+    // as a real photo while telling the buyer nothing. Instead, draw the
+    // plant's growth type as a line glyph — a shrub, grass, fern, tree,
+    // succulent, perennial or plain leaf — so the corner still informs.
+    //
+    // Inline data-URI SVGs: no extra requests, no new files, crisp at any
+    // badge size, and they inherit nothing from the logo-fallback CSS rules.
+    const TYPE_GLYPH_PATHS = {
+      shrub: '<path d="M4.5 17.5a4 4 0 0 1 .6-7.95 6 6 0 0 1 11.55-1.2A4.3 4.3 0 0 1 19.5 17.5z"/><path d="M12 17.5V21"/><path d="M8.5 21h7"/>',
+      tree: '<path d="M12 3 5.5 13.5h13z"/><path d="M12 13.5V20"/><path d="M8.5 20h7"/>',
+      grass: '<path d="M12 20V7"/><path d="M8 20c0-4.5.8-7.5 2.8-9.5"/><path d="M16 20c0-4.5-.8-7.5-2.8-9.5"/><path d="M5.5 20c0-3 .5-5 1.8-6.3"/><path d="M18.5 20c0-3-.5-5-1.8-6.3"/>',
+      fern: '<path d="M12 21V4"/><path d="M12 8 8 6M12 8l4-2M12 12l-5-2.5M12 12l5-2.5M12 16l-4.5-2.5M12 16l4.5-2.5"/>',
+      succulent: '<path d="M12 12C10.7 9.7 10.7 6 12 3.8c1.3 2.2 1.3 5.9 0 8.2Z"/><path d="M12 12C10.7 9.7 10.7 6 12 3.8c1.3 2.2 1.3 5.9 0 8.2Z" transform="rotate(60 12 12)"/><path d="M12 12C10.7 9.7 10.7 6 12 3.8c1.3 2.2 1.3 5.9 0 8.2Z" transform="rotate(120 12 12)"/><path d="M12 12C10.7 9.7 10.7 6 12 3.8c1.3 2.2 1.3 5.9 0 8.2Z" transform="rotate(180 12 12)"/><path d="M12 12C10.7 9.7 10.7 6 12 3.8c1.3 2.2 1.3 5.9 0 8.2Z" transform="rotate(240 12 12)"/><path d="M12 12C10.7 9.7 10.7 6 12 3.8c1.3 2.2 1.3 5.9 0 8.2Z" transform="rotate(300 12 12)"/>',
+      perennial: '<path d="M12 21V10"/><path d="M12 15c-2.5 0-4-1.5-4-3.5 2.5 0 4 1.5 4 3.5z"/><path d="M12 15c2.5 0 4-1.5 4-3.5-2.5 0-4 1.5-4 3.5z"/><circle cx="12" cy="7" r="3"/>',
+      leaf: '<path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14z"/><path d="M5 19 15 9"/>',
+    };
+
+    // Growth-type → glyph key. Shrub is tested before tree so that the
+    // combined catalog labels ("Evergreen shrub - Small tree") pick the
+    // dominant habit rather than the trailing qualifier.
+    function plantTypeGlyphKey(plantType) {
+      const t = (plantType || '').toLowerCase();
+      if (/succulent/.test(t)) return 'succulent';
+      if (/fern/.test(t)) return 'fern';
+      if (/restio|grass/.test(t)) return 'grass';
+      if (/shrub|groundcover/.test(t)) return 'shrub';
+      if (/tree/.test(t)) return 'tree';
+      if (/perennial|subshrub|herb/.test(t)) return 'perennial';
+      return 'leaf';
+    }
+
+    function typeGlyphDataUri(plantType) {
+      const key = plantTypeGlyphKey(plantType);
+      // 32×32 viewBox with the 24-unit art translated to (4,4): the inset is
+      // baked in, so no CSS padding is needed and the glyph can't be clipped
+      // or blown up by percentage-padding resolution.
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"'
+        + ' fill="none" stroke="#2F5D3F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'
+        + '<g transform="translate(4 4)">'
+        + TYPE_GLYPH_PATHS[key] + '</g></svg>';
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    }
+
     // Is the plant's origin in our CA/Western-US native range?
     function isNativeOrigin(origin) {
       if (!origin) return false;
@@ -7469,7 +7535,7 @@
 
                 card.innerHTML = `
                   <a class="result-link" href="${plantUrl(plant.botanical)}" target="_blank" rel="noopener" aria-label="More info on ${escapeHTML(plant.botanical)} on nativeson.com"></a>
-                  <img class="result-image" data-botanical="${escapeHTML(plant.botanical)}" src="${PLACEHOLDER_IMG}" alt="${escapeHTML(plant.botanical)}${plant.common ? ' (' + escapeHTML(plant.common) + ')' : ''}" loading="lazy">
+                  <img class="result-image" data-botanical="${escapeHTML(plant.botanical)}" data-plant-type="${escapeHTML(plant.plant_type || '')}" src="${PLACEHOLDER_IMG}" alt="${escapeHTML(plant.botanical)}${plant.common ? ' (' + escapeHTML(plant.common) + ')' : ''}" loading="lazy">
                   <div class="result-botanical">${highlight(plant.botanical, highlightTerms)}</div>
                   <div class="result-common">${highlight(plant.common || '', highlightTerms)}</div>
                   ${typeOriginHTML}

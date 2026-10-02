@@ -21,6 +21,7 @@ import json
 import re
 import sys
 import unicodedata
+from datetime import date
 from pathlib import Path
 
 import openpyxl
@@ -28,8 +29,41 @@ import openpyxl
 ROOT = Path(__file__).parent
 XLSX = Path(sys.argv[1]) if len(sys.argv) > 1 else Path('/Users/tfross/.hermes/attachments/nativesonsexcelavail92126.xlsx')
 AVAIL = ROOT / 'availability_data.js'
-WEEK_HEADER = 'Week of September 28th, 2026'
-GENERATED = '2026-09-25'
+
+# Week label + generated date.
+# These were two hand-edited constants, and forgetting them shipped a new week's
+# data under the previous week's label — a silent wrong on a customer-facing page
+# (see the "WEEK_HEADER silent failure" note in the weekly-refresh references).
+# Derive the label from the workbook's own title row instead
+# ('Availability Listing October 5th, 2026' in the '1g and larger' sheet's A1);
+# the constant below is only a fallback when that row is missing/unparseable.
+FALLBACK_WEEK_HEADER = 'Week of September 28th, 2026'
+
+
+def derive_week_header(xlsx: Path) -> str:
+    """Week label from the workbook's own title row, e.g. 'Week of October 5th, 2026'."""
+    try:
+        wb_t = openpyxl.load_workbook(xlsx, read_only=True, data_only=True)
+        title = ''
+        for name in ('1g and larger', 'Large Specimens', '4" material'):
+            if name in wb_t.sheetnames:
+                title = str(wb_t[name].cell(row=1, column=1).value or '').strip()
+                if title:
+                    break
+        wb_t.close()
+        m = re.search(r'([A-Z][a-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s*(\d{4})', title)
+        if m:
+            mon, day, yr = m.group(1), int(m.group(2)), int(m.group(3))
+            suf = 'th' if 11 <= day % 100 <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(day % 10, 'th')
+            return f'Week of {mon} {day}{suf}, {yr}'
+        print(f'  week-header: no date in title row ({title!r}); using fallback')
+    except Exception as e:
+        print(f'  week-header: derivation failed ({e}); using fallback')
+    return FALLBACK_WEEK_HEADER
+
+
+WEEK_HEADER = derive_week_header(XLSX)
+GENERATED = date.today().isoformat()
 
 
 def norm(s: str) -> str:
@@ -263,6 +297,8 @@ def main():
     in_stock = len(merged_plants)
     sold_out = len(existing) - sum(1 for plist in existing.values() for p in plist if id(p) in matched_existing)
     print(f'✓ Generated {AVAIL}')
+    print(f'  Week header:      {WEEK_HEADER}')
+    print(f'  Generated date:   {GENERATED}')
     print(f'  Plants this week: {in_stock}')
     print(f'  In bloom:         {bloom_count}')
     print(f'  Budding:          {bud_count}')
@@ -291,6 +327,29 @@ def main():
                 print(f'  backfill warning: {r.stderr.strip().splitlines()[-1] if r.stderr else "non-zero exit"}')
     except Exception as e:
         print(f'  backfill skipped: {e}')
+
+    # Merge duplicate records created by cross-sheet name mismatches
+    # ("Achillea 'Terra Cotta'" in the 1g sheet vs "Achillea millefolium 'Terra
+    # Cotta'" in the 4" sheet — two normalized keys, two customer-facing rows).
+    # Runs AFTER backfill because backfill's RENAMES can collapse one weekly
+    # name onto another entry's canonical name and create a duplicate.
+    # See scripts/dedupe_availability_plants.py for the merge rule.
+    try:
+        import subprocess
+        dedupe = Path(__file__).parent / 'scripts' / 'dedupe_availability_plants.py'
+        if dedupe.exists():
+            r = subprocess.run(
+                ['python3', str(dedupe), str(AVAIL)],
+                capture_output=True, text=True, timeout=120
+            )
+            if r.returncode == 0:
+                for line in r.stdout.splitlines():
+                    if line.strip():
+                        print(f'  {line.strip()}')
+            else:
+                print(f'  dedupe warning: {r.stderr.strip().splitlines()[-1] if r.stderr else "non-zero exit"}')
+    except Exception as e:
+        print(f'  dedupe skipped: {e}')
 
 
 if __name__ == '__main__':

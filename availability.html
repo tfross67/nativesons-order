@@ -5678,6 +5678,40 @@
     .chat-test-root .suggestion:hover {
       border-bottom-color: var(--c-cta, #1f6b3a) !important;
     }
+
+    /* === Table column allocation (2026-10-01) ===
+       At 1440px the auto layout gave Size a 443px column for a ~40px value
+       ("5gal" — the price half is hidden by the pricing gate), while Botanical
+       got 462px. Roughly 400px of the widest table on the site was empty
+       space in the middle of the row.
+
+       Widths are declared on the header cells plus the (header-less) add
+       column, and scoped to >=721px because below that the table becomes the
+       stacked-card layout and these widths don't apply. */
+    @media (min-width: 721px) {
+      /* table-layout: fixed is required, not incidental — with the default
+         auto layout a declared width is only a preference and the browser
+         redistributes the surplus, which is why percentage widths left Size
+         at 346px for a ~40px value.
+         Botanical is left auto so it absorbs the slack (it carries the only
+         variable-width content); the rest are pinned.
+         Its cell is nowrap by default, so allow wrapping here as a guard:
+         a name longer than the column wraps instead of spilling. */
+      body .chat-test-root table.list { table-layout: fixed; }
+      /* Botanical is declared explicitly rather than left `auto`. In fixed
+         layout the column widths come from the FIRST row — which is the
+         thead, and the thead has 5 cells while the body rows have 6 (the
+         add button has no header). A 6th column with no declared width
+         simply absorbs whatever is left, so leaving Botanical auto handed
+         the surplus to the add column instead (359px for a 64px button). */
+      body .chat-test-root table.list th[data-sort="botanical"] { width: 40%; }
+      body .chat-test-root table.list td.botanical { white-space: normal; }
+      body .chat-test-root table.list th.col-status          { width: 170px; }
+      body .chat-test-root table.list th[data-sort="size"]   { width: 260px; }
+      body .chat-test-root table.list th[data-sort="height"] { width: 130px; }
+      body .chat-test-root table.list th[data-sort="width"]  { width: 130px; }
+      body .chat-test-root table.list tbody td.add-cell      { width: 150px; }
+    }
   </style>
 </head>
 <body>
@@ -5737,7 +5771,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-06</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261001-07</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

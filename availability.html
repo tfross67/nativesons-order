@@ -4207,21 +4207,24 @@
 
     /* === Staff-mobile: stop persistent top chrome covering page controls ===
        Measured in WebKit at 390x844 with a customer selected. The staff topbar
-       is 346px tall — 41% of an 844px viewport — and sticky at z=200, so
-       anything fixed near the top ends up underneath it:
-         * #pwa-install is fixed at top:90px, putting its Dismiss button at
-           y=119, inside the topbar's 85..431 span and unreachable.
-         * The customer card reflows to four rows, wasting the screen.
-       The sticky search bar already solves this via --staff-topbar-h (JS
-       measures #staffTopbar into it in updateStaffTopbarVar). Reuse that
-       variable rather than measuring again — one source of truth for the
-       topbar height.
+       is sticky at z=200, so anything fixed near the top ends up underneath it:
+         * #pwa-install is fixed at top:90px, putting its Dismiss button inside
+           the topbar's span and unreachable.
+         * The customer card used to reflow to four rows, wasting the screen.
+       The sticky search bar handles this via --staff-topbar-h (JS measures
+       #staffTopbar into it in updateStaffTopbarVar) — that variable is the one
+       source of truth for the topbar height.
+       The install prompt is customer acquisition chrome, and even offset below
+       the topbar it still sat 5px over the hero headline's GLYPHS at scroll 0.
+       Staff are already inside the tool they would be installing, so it is
+       suppressed on this surface. It still renders for customers (top:90px,
+       untouched) and staff can still use Share -> Add to Home Screen.
        NOTE: a control inside a hidden ancestor (opacity:0 /
        pointer-events:none) is NOT "covered" — verify with an ancestor-walking
        visibility check, not just the element's own styles. */
     @media (max-width: 767px) {
       body.staff-mode #pwa-install {
-        top: calc(var(--staff-topbar-bottom, var(--staff-topbar-h, 0px)) + 12px);
+        display: none;
       }
       /* The hint is empty-state instruction. Once a customer is chosen it is
          just a line of noise above the card. */
@@ -8589,7 +8592,6 @@
       function updateStaffTopbarVar() {
         if (!document.body.classList.contains('staff-mode')) {
           document.documentElement.style.removeProperty('--staff-topbar-h');
-          document.documentElement.style.removeProperty('--staff-topbar-bottom');
           return;
         }
         const tb = document.getElementById('staffTopbar');
@@ -8606,12 +8608,6 @@
           && window.scrollY >= _naturalStaffTopbarTop;
         const h = pinned ? tb.offsetHeight : 0;
         document.documentElement.style.setProperty('--staff-topbar-h', h + 'px');
-        // Publish the topbar's BOTTOM EDGE too, not just its height. At
-        // scroll 0 the topbar sits below the site header, so height alone
-        // under-clears it and anything fixed near the top (e.g. #pwa-install)
-        // lands back underneath. The bottom edge is correct in every state.
-        const bottom = Math.max(0, Math.round(tb.getBoundingClientRect().bottom));
-        document.documentElement.style.setProperty('--staff-topbar-bottom', bottom + 'px');
       }
       // Capture the staff-topbar's natural document position ONCE before
       // any scroll. position:sticky changes offsetTop after pinning so

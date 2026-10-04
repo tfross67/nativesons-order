@@ -3191,6 +3191,30 @@
       z-index: 110;
     }
     body .modal-overlay[hidden]{ display: none; }
+
+    /* === Mobile cart sheet vs. the sticky staff-topbar (same collision as
+       the Customer-request modal fix just above) ===
+       The staff-topbar is bumped to z=200 on mobile so its customer dropdown
+       paints above the hero band. The Customer-request modal was given a
+       matching bump (z=260/250). The CART never was: it resolves to
+       .cart-overlay 95 and .cart-panel 100 (styles.css, plus the top-level
+       `body .cart-*` rules earlier in this sheet) — both BELOW the topbar's
+       200. So on a phone the sticky topbar painted over the open cart and
+       covered its top content, leaving controls visible but untappable.
+       Raise the cart above the topbar, and keep the modal scrim above the
+       cart so a modal opened FROM the cart still dims it. The modal pair
+       stays on top (260 / 250 declared above; note the top-level
+       `body .modal-overlay { z-index: 110 }` above out-specifies the
+       bare `.modal-overlay { 250 }`, so the scrim is restated here with
+       matching specificity).
+       Declared here, after those rules, on purpose: same specificity, so
+       source order decides. Desktop is untouched — the topbar is a normal
+       header at z=70 there. */
+    @media (max-width: 767px) {
+      body .cart-overlay   { z-index: 220; }
+      body .cart-panel     { z-index: 230; }
+      body .modal-overlay  { z-index: 250; }
+    }
     .modal {
       position: fixed;
       top: 50%;

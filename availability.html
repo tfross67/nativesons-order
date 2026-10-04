@@ -1398,7 +1398,12 @@
     }
     .result-price .result-price-size .price-unit {
       font-family: var(--font-sans);
-      font-size: 10.5px;
+      /* 10.5px was the only visible text on any mobile surface below 11px
+         (audit 2026-10-04, 36 instances — one per card). The unit says which
+         SIZE the price applies to, so misreading it means ordering the wrong
+         size. 12px keeps it clearly subordinate to the 19px price while
+         staying legible. */
+      font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -2907,6 +2912,10 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      /* The visually small control here is the 14x14 checkbox, but the LABEL
+         is what a finger actually hits — and it measured 114x21. Bring the
+         whole label up to the 36px icon tier so the toggle is tappable. */
+      min-height: 36px;
       margin-top: 8px;
       padding: 4px 10px 4px 8px;
       font-family: var(--font-sans);

@@ -113,13 +113,13 @@
          containers naturally fill with more columns — at 1500px we
          get 4 cards/row instead of 3. */
     }
-    .chat-test-root .tabular {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .tabular {
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
     }
     /* Site header sits OUTSIDE .chat-test-root, so any rule here needs
        to be unscoped (no .chat-test-root prefix). */
-    .chat-test-root .hero-band {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-band {
       /* Modernized 2026-09-02: white surface with very faint green
          tint overlay. The warm cream gradient was reading as
          'nursery catalogue'. Now reads as 'modern product hero' —
@@ -157,17 +157,17 @@
        California-poppy bud color. Replaces the previous 4-stop gradient
        strip (which read as decorative noise against the editorial hero
        layout). 1px height so it sits as a hairline accent, not a band. */
-    .chat-test-root .hero-band::before {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-band::before {
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; height: 1px;
       background: var(--c-bud, #e88c1d);
     }
-    .chat-test-root .hero-content {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-content {
       display: block;
       min-width: 0;  /* prevent grid blowout from long content */
     }
-    .chat-test-root .hero-eyebrow {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-eyebrow {
       font-family: var(--font-sans);
       font-size: var(--fs-eyebrow);
       font-weight: 700;
@@ -177,17 +177,17 @@
       margin-bottom: 14px;
       display: inline;
     }
-    .chat-test-root .hero-eyebrow-row {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-eyebrow-row {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
       margin-bottom: 0;
     }
-    .chat-test-root .hero-eyebrow-row .hero-eyebrow {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-eyebrow-row .hero-eyebrow {
       margin-bottom: 0;
     }
-    .chat-test-root .hero-eyebrow-row::after {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-eyebrow-row::after {
       /* En-dash separator between eyebrow and week pill, so the two
          read as a single masthead row: 'THIS WEEK · AUGUST 10, 2026' */
       content: "·";
@@ -196,7 +196,7 @@
       font-weight: 400;
       margin: 0 6px 0 2px;
     }
-    .chat-test-root .hero-week-pill {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-week-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -212,7 +212,7 @@
       padding: 0;
       white-space: nowrap;
     }
-    .chat-test-root .hero-week-pill::before {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-week-pill::before {
       content: "";
       width: 11px;
       height: 11px;
@@ -222,11 +222,11 @@
       background-repeat: no-repeat;
       background-position: center;
     }
-    .chat-test-root .hero-week-pill[hidden] { display: none; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-week-pill[hidden] { display: none; }
     /* Editorial serif headline — italic for that magazine-opener feel.
        Sits on its own line with a tight top margin so it reads as
        a single composed block, not a banner competing with the sub. */
-    .chat-test-root .hero-headline {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-headline {
       font-family: var(--font-serif);
       font-size: var(--fs-headline);
       font-weight: 400;
@@ -237,7 +237,7 @@
       letter-spacing: -0.015em;
       max-width: 720px;
     }
-    .chat-test-root .hero-sub {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-sub {
       font-family: var(--font-sans);
       font-size: 15px;
       font-weight: 400;
@@ -251,7 +251,7 @@
        against the text content. Each stat is a number + label pair,
        laid out as a tight horizontal row with typographic dividers.
        The border-top is gone — the column gap does that work. */
-    .chat-test-root .hero-stats {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stats {
       display: flex;
       align-items: baseline;
       gap: 0;
@@ -267,7 +267,7 @@
          headline top; tweak if the screenshot still looks off. */
       margin-top: 22px;
     }
-    .chat-test-root .hero-stat {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat {
       background: transparent;
       border: none;
       border-radius: 0;
@@ -276,12 +276,12 @@
       min-width: 0;
       flex: 1 1 auto;
     }
-    .chat-test-root .hero-stat + .hero-stat {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat + .hero-stat {
       padding-left: 18px;
       margin-left: 18px;
       border-left: 1px solid var(--c-line, #e5e3dd);
     }
-    .chat-test-root .hero-stat-num {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat-num {
       font-family: var(--font-serif);
       font-size: 34px;          /* bumped from 28 — hero stat needs presence */
       font-weight: 400;
@@ -293,7 +293,7 @@
       display: inline-block;
       margin-right: 6px;
     }
-    .chat-test-root .hero-stat-label {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat-label {
       font-family: var(--font-sans);
       font-size: 11px;
       font-weight: 600;         /* tightened from 700 */
@@ -320,13 +320,13 @@
          stats drop back below the headline, full-width, like the
          original stacked layout. The border-top divider is reinstated
          so the stats visually separate from the sub. */
-      .chat-test-root .hero-band {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-band {
         grid-template-columns: minmax(0, 1fr);
         column-gap: 0;
         row-gap: 18px;
         align-items: stretch;
       }
-      .chat-test-root .hero-stats {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stats {
         flex-wrap: wrap;
         justify-content: flex-start;
         padding-top: 16px;
@@ -334,26 +334,26 @@
       }
     }
     @media (max-width: 600px) {
-      .chat-test-root .hero-band { padding: 22px 18px 20px; }
-      .chat-test-root .hero-headline { font-size: 26px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-band { padding: 22px 18px 20px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-headline { font-size: 26px; }
       /* Stats stay on ONE horizontal row on mobile (flex column was
          eating ~120px of vertical space and pushing the search box
          below the fold). Smaller numbers + tighter dividers keep the
          three figures scannable in a single glance. */
-      .chat-test-root .hero-stats { flex-direction: row; align-items: baseline; gap: 0; padding-top: 10px; opacity: 0.7; }
-      .chat-test-root .hero-stat + .hero-stat { padding-left: 10px; margin-left: 10px; border-left: 1px solid var(--c-line, #e5e3dd); }
-      .chat-test-root .hero-stat-num { font-size: 22px; }
-      .chat-test-root .hero-stat-label { font-size: 10px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stats { flex-direction: row; align-items: baseline; gap: 0; padding-top: 10px; opacity: 0.7; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat + .hero-stat { padding-left: 10px; margin-left: 10px; border-left: 1px solid var(--c-line, #e5e3dd); }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat-num { font-size: 22px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat-label { font-size: 10px; }
     }
     @media (max-width: 480px) {
       /* Below 480px the stats become truly secondary: even smaller,
          muted, and on a single line. The search-shell is the only
          dominant element above the fold. */
-      .chat-test-root .hero-stats { padding-top: 6px; opacity: 0.55; }
-      .chat-test-root .hero-stat-num { font-size: 18px; }
-      .chat-test-root .hero-stat-label { font-size: 9px; letter-spacing: 0.08em; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stats { padding-top: 6px; opacity: 0.55; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat-num { font-size: 18px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat-label { font-size: 9px; letter-spacing: 0.08em; }
     }
-    .chat-test-root .search-shell {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-shell {
       background: #fff;
       border: none;
       border-radius: 14px;
@@ -374,7 +374,7 @@
        We use a class selector with the same specificity as the inline
        rules rather than `.chat-test-root .sticky-search-bar` so the
        "is visible" class still works without specificity wars. */
-    .chat-test-root .sticky-search-bar {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sticky-search-bar {
       position: fixed;
       top: 0;
       left: 0;
@@ -406,7 +406,7 @@
                   top 160ms ease;
     }
     @media (max-width: 767px) {
-      body.staff-mode .chat-test-root .sticky-search-bar {
+      body.staff-mode :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sticky-search-bar {
         top: var(--staff-topbar-h, 0);
       }
     }
@@ -415,7 +415,7 @@
       opacity: 1;
       pointer-events: auto;
     }
-    .chat-test-root .sticky-search-inner {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sticky-search-inner {
       position: relative;
       max-width: 1400px;
       margin: 0 auto;
@@ -426,7 +426,7 @@
       width: 100%;
       box-sizing: border-box;
     }
-    .chat-test-root .sticky-search-bar .search-input {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sticky-search-bar .search-input {
       flex: 1 1 auto;
       min-width: 0;
       max-width: 640px;
@@ -436,12 +436,12 @@
       border-radius: 999px;
       background: #fff;
     }
-    .chat-test-root .sticky-search-bar .search-input:focus {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sticky-search-bar .search-input:focus {
       outline: none;
       border-color: var(--c-cta, #1f6b3a);
       box-shadow: 0 0 0 3px rgba(31, 107, 58, 0.12);
     }
-    .chat-test-root .sticky-search-bar .search-input-icon {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sticky-search-bar .search-input-icon {
       position: absolute;
       left: 14px;
       top: 50%;
@@ -471,7 +471,7 @@
     }
 
 
-    .chat-test-root .search-shell::before {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-shell::before {
       /* Left gradient strip — kept for brand identity (matches the
          hero band treatment). Slightly slimmer than before so it
          doesn't compete with the search content. */
@@ -486,17 +486,17 @@
        the hero band treatment and added visual noise. The search
        shell now reads as a single composed zone with just the left
        edge accent. */
-    .chat-test-root .search-shell > * {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-shell > * {
       position: relative;
       z-index: 2;
     }
-    .chat-test-root .search-input-row {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-input-row {
       display: flex;
       gap: 10px;
       align-items: center;
     }
     @media (max-width: 720px) {
-      .chat-test-root .search-input-row {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-input-row {
         flex-wrap: wrap;
       }
       /* On narrow screens the segmented Table/Cards toggle is wide
@@ -510,7 +510,7 @@
         justify-content: center;
       }
     }
-    .chat-test-root .search-input-icon {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-input-icon {
       flex-shrink: 0;
       display: inline-flex;
       align-items: center;
@@ -521,11 +521,11 @@
       opacity: 1;
       transition: color 160ms ease;
     }
-    .chat-test-root .search-input-row:focus-within .search-input-icon {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-input-row:focus-within .search-input-icon {
       color: var(--c-sage-deep, #1f3a1f);
       opacity: 1;
     }
-    .chat-test-root .search-input {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-input {
       flex: 1;
       min-width: 0;
       font-family: var(--font-sans);
@@ -552,20 +552,20 @@
       -webkit-tap-highlight-color: transparent;
       -webkit-text-fill-color: var(--c-bark, #1f3a1f);
     }
-    .chat-test-root .search-input::placeholder {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-input::placeholder {
       color: var(--c-muted, #6b6256);
       font-style: italic;
       opacity: 0.7;
     }
-    .chat-test-root .search-input:focus {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-input:focus {
       border-bottom-color: var(--c-bark, #1f3a1f);
       box-shadow: none;
     }
     /* Webkit search clear button — we provide our own × via .search-input-clear. */
-    .chat-test-root .search-input::-webkit-search-cancel-button { display: none; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-input::-webkit-search-cancel-button { display: none; }
     /* Inline clear × inside the input row. Only visible when input has
        a value (toggled via .hidden attribute from updateClearButton). */
-    .chat-test-root .search-input-clear {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-input-clear {
       flex-shrink: 0;
       appearance: none;
       border: none;
@@ -585,18 +585,18 @@
       transition: background 0.15s, color 0.15s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
       font-family: var(--font-sans);
     }
-    .chat-test-root .search-input-clear[hidden] { display: none; }
-    .chat-test-root .search-input-clear:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-input-clear[hidden] { display: none; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-input-clear:hover {
       background: var(--c-sage-deep, #1f3a1f);
       color: #fff;
     }
-    .chat-test-root .search-input-clear:active {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-input-clear:active {
       transform: scale(0.92);
       transition: transform 0.08s ease-out;
     }
     /* Secondary action — text link to the table view. De-emphasized
        so it doesn't compete with the search input. */
-    .chat-test-root .search-table-link {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-table-link {
       flex-shrink: 0;
       font-family: var(--font-sans);
       font-size: 11.5px;
@@ -610,15 +610,15 @@
       transition: color 0.15s;
       white-space: nowrap;
     }
-    .chat-test-root .search-table-link:hover { color: var(--c-cta, #1f6b3a); }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-table-link:hover { color: var(--c-cta, #1f6b3a); }
     @media (max-width: 720px) {
-      .chat-test-root .search-table-link {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-table-link {
         border-left: none;
         padding-left: 0;
         margin-left: auto;
       }
     }
-    .chat-test-root .suggested {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested {
       display: flex;
       flex-wrap: wrap;
       /* Slightly wider gaps so suggestion chips don't read as a single
@@ -630,7 +630,7 @@
     /* Editorial "Try" label — serif italic to match the rest of the
        page's editorial language. Reads as a hand-set "try these"
        rather than a UI label. */
-    .chat-test-root .suggested-label {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested-label {
       font-family: var(--font-serif);
       font-style: italic;
       font-size: 14px;
@@ -640,7 +640,7 @@
       letter-spacing: 0;
       text-transform: none;
     }
-    .chat-test-root .suggested-sep {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested-sep {
       display: inline-block;
       color: var(--c-line, #e5e3dd);
       margin: 0 6px;
@@ -650,13 +650,13 @@
     /* Grouped suggestion rows — Plants vs Sizes. The inline label clarifies
        what each cluster means for first-time visitors, the divider
        provides a visual separator between groups. */
-    .chat-test-root .suggested-group {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested-group {
       display: inline-flex;
       flex-wrap: wrap;
       align-items: baseline;
       gap: 0 8px;
     }
-    .chat-test-root .suggested-group-label {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested-group-label {
       font-family: var(--font-sans);
       font-size: 11px;
       font-weight: 600;
@@ -665,7 +665,7 @@
       color: var(--c-clay, #6b6256);
       margin-right: 4px;
     }
-    .chat-test-root .suggested-divider {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested-divider {
       display: inline-block;
       width: 1px;
       height: 14px;
@@ -677,7 +677,7 @@
        default on narrow screens to save ~60px of vertical real estate
        (about 8% of an iPhone 14 viewport); tapping the toggle reveals
        it without scroll-jacking. JS toggles body.suggestions-open. */
-    .chat-test-root .suggested-toggle {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested-toggle {
       display: none;
       appearance: none;
       background: transparent;
@@ -693,15 +693,15 @@
       margin-top: 8px;
       transition: background 0.15s, color 0.15s, border-color 0.15s;
     }
-    .chat-test-root .suggested-toggle:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested-toggle:hover {
       background: var(--c-sage-soft);
       color: var(--c-bark, #1f3a1f);
       border-color: var(--c-sage, #c5d2bf);
     }
     @media (max-width: 600px) {
-      .chat-test-root .suggested-toggle { display: inline-flex; }
-      .chat-test-root .suggested { display: none; }
-      body.suggestions-open .chat-test-root .suggested {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested-toggle { display: inline-flex; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested { display: none; }
+      body.suggestions-open :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested {
         display: flex;
         margin-top: 6px;
       }
@@ -709,7 +709,7 @@
     /* Each suggestion is now a soft token — no background, no border.
        Just an italic-feeling chip with a dotted underline on hover.
        Drastically lighter than the previous heavy pill treatment. */
-    .chat-test-root .suggestion {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggestion {
       font-family: var(--font-sans);
       background: transparent;
       border: none;
@@ -725,15 +725,15 @@
       font-family: var(--font-sans);
       line-height: 1.4;
     }
-    .chat-test-root .suggestion:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggestion:hover {
       color: var(--c-cta, #1f6b3a);
       border-bottom-color: var(--c-cta, #1f6b3a);
     }
-    .chat-test-root .suggestion:active {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggestion:active {
       transform: scale(0.94);
       transition: transform 0.08s ease-out;
     }
-    .chat-test-root .filter-summary {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .filter-summary {
       margin: 18px 0 12px;
       font-family: var(--font-sans);
       font-size: 13px;
@@ -745,14 +745,14 @@
       align-items: center;
       gap: 10px 14px;
     }
-    .chat-test-root .filter-summary .results-count {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .filter-summary .results-count {
       font-family: var(--font-sans);
       color: var(--c-clay, #6b6256);
       white-space: nowrap;
       /* Dot separator styling — leaves a 6px breathing room around it
          before the chip cluster starts. */
     }
-    .chat-test-root .filter-summary .results-count strong {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .filter-summary .results-count strong {
       font-family: var(--font-serif);
       font-size: 18px;
       font-weight: 400;
@@ -762,20 +762,20 @@
       margin-right: 4px;
       vertical-align: -1px;
     }
-    .chat-test-root .filter-summary strong {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .filter-summary strong {
       font-family: var(--font-serif);
       font-weight: 400;
       color: var(--c-bark, #1f3a1f);
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
     }
-    .chat-test-root .filter-summary .pill-cluster {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .filter-summary .pill-cluster {
       display: inline-flex;
       flex-wrap: wrap;
       gap: 6px;
       align-items: center;
     }
-    .chat-test-root .filter-summary .pill {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .filter-summary .pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -792,11 +792,11 @@
       transition: background 0.15s, border-color 0.15s;
       cursor: pointer;
     }
-    .chat-test-root .filter-summary .pill:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .filter-summary .pill:hover {
       background: var(--c-sage-soft, #e7f0e8);
       border-color: var(--c-sage, #5d7a4a);
     }
-    .chat-test-root .filter-summary .pill-x {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .filter-summary .pill-x {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -813,14 +813,14 @@
       padding: 0;
       transition: background 0.15s, color 0.15s, transform 0.1s;
     }
-    .chat-test-root .filter-summary .pill-x:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .filter-summary .pill-x:hover {
       background: #c14e2e;
       color: #fff;
     }
-    .chat-test-root .filter-summary .pill-x:active {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .filter-summary .pill-x:active {
       transform: scale(0.9);
     }
-    .chat-test-root .filter-summary .clear-all-btn {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .filter-summary .clear-all-btn {
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -838,12 +838,12 @@
       cursor: pointer;
       transition: background 0.15s, color 0.15s, border-color 0.15s;
     }
-    .chat-test-root .filter-summary .clear-all-btn:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .filter-summary .clear-all-btn:hover {
       background: var(--c-bark, #1f3a1f);
       color: #fff;
       border-color: var(--c-bark, #1f3a1f);
     }
-    .chat-test-root .filter-summary .clear-all-btn:active {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .filter-summary .clear-all-btn:active {
       transform: scale(0.96);
     }
     /* Card grid moved to .view-cards-wrap — the #results container is
@@ -851,11 +851,11 @@
        #viewTable), so the grid has to live on the cards slot itself.
        Without this, the grid lays out ONE child (the wrapper) and the
        cards stack in a single column. */
-    .chat-test-root .results {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results {
       display: block;
       margin-top: 18px;
     }
-    .chat-test-root .view-cards-wrap {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .view-cards-wrap {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       align-items: start;
@@ -865,19 +865,19 @@
        Sits below both view slots. Centred stack: a muted "Showing N of M"
        line and a pill button. 44px min height keeps it a comfortable tap
        target on phones (and matches the rest of the mobile tap-target pass). */
-    .chat-test-root .load-more-wrap {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .load-more-wrap {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 10px;
       margin: 24px 0 6px;
     }
-    .chat-test-root .load-more-count {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .load-more-count {
       font-size: 13px;
       color: var(--c-clay, #6b6256);
     }
-    .chat-test-root .load-more-count strong { color: var(--c-bark, #1f3a1f); }
-    .chat-test-root .load-more-btn {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .load-more-count strong { color: var(--c-bark, #1f3a1f); }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .load-more-btn {
       font: inherit;
       font-size: 14px;
       font-weight: 600;
@@ -890,14 +890,14 @@
       cursor: pointer;
       transition: background .15s ease, color .15s ease;
     }
-    .chat-test-root .load-more-btn:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .load-more-btn:hover {
       background: var(--c-bark, #1f3a1f);
       color: #fff;
     }
-    .chat-test-root .view-table-wrap {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .view-table-wrap {
       display: block;
     }
-    .chat-test-root .results-toolbar {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results-toolbar {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -910,7 +910,7 @@
       color: var(--c-clay, #6b6256);
       flex-wrap: wrap;
     }
-    .chat-test-root .toolbar-divider {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .toolbar-divider {
       width: 1px;
       height: 22px;
       background: #e5e3dd;
@@ -920,9 +920,9 @@
        bottom-left and would otherwise overlap the sort dropdown.
        72px covers the pill (40px) + safe gap + iOS home indicator. */
     @media (max-width: 600px) {
-      .chat-test-root .results-toolbar { padding-bottom: 72px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results-toolbar { padding-bottom: 72px; }
     }
-    .chat-test-root .sort-select-label {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-select-label {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -933,7 +933,7 @@
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }
-    .chat-test-root .sort-select {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-select {
       appearance: none;
       -webkit-appearance: none;
       font-family: var(--font-sans);
@@ -952,23 +952,23 @@
       background-position: right 9px center;
       transition: background-color 0.15s, color 0.15s, border-color 0.15s;
     }
-    .chat-test-root .sort-select:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-select:hover {
       background-color: var(--c-bark, #1f3a1f);
       color: #fff;
       background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
     }
-    .chat-test-root .sort-select:focus {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-select:focus {
       outline: 2px solid var(--c-bark, #1f3a1f);
       outline-offset: 2px;
     }
     @media (max-width: 720px) {
-      .chat-test-root .toolbar-divider { display: none; }
-      .chat-test-root .results-toolbar { gap: 8px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .toolbar-divider { display: none; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results-toolbar { gap: 8px; }
     }
-    .chat-test-root .results-toolbar-label {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results-toolbar-label {
       font-weight: 700;
     }
-    .chat-test-root .sort-tabs {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tabs {
       display: inline-flex;
       background: #fafaf7;
       border: 1px solid #e8e2cf;
@@ -980,14 +980,14 @@
       /* Hide scrollbar visually but keep scroll functionality on mobile. */
       scrollbar-width: none;
     }
-    .chat-test-root .sort-tabs > .sort-tab {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tabs > .sort-tab {
       /* Comfortable tap target so a thumb lands cleanly. */
       min-height: 32px;
       padding: 6px 14px;
     }
-    .chat-test-root .sort-tabs::-webkit-scrollbar { display: none; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tabs::-webkit-scrollbar { display: none; }
     @media (max-width: 600px) {
-      .chat-test-root .sort-tabs {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tabs {
         flex-wrap: nowrap;
         overflow-x: auto;
         border-radius: 999px;
@@ -1003,7 +1003,7 @@
            element and pointer-events:none so taps still reach the tabs. */
         position: relative;
       }
-      .chat-test-root .sort-tabs::-webkit-scrollbar { display: none; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tabs::-webkit-scrollbar { display: none; }
       /* Fade indicator + scroll chevron — only visible when the tabs
          overflow. Uses mask-image so the fade tracks the actual scroll
          position (works whether scroll is at start, middle, or end).
@@ -1012,7 +1012,7 @@
          iPhone arms-reach distance. The chevron is a small › arrow
          pinned to the right edge; JS toggles .at-end on the wrap so
          we hide it when scrolled to the end. */
-      .chat-test-root .sort-tabs {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tabs {
         /* Fade the trailing chips out over the last 64px so the scroll
            chevron has clean space to sit in — at 48px the last chip still
            rendered under the arrow and the two collided. */
@@ -1020,7 +1020,7 @@
         mask-image: linear-gradient(to right, black 0, black calc(100% - 64px), transparent calc(100% - 10px));
         padding-right: 32px;
       }
-      .chat-test-root .results-toolbar {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results-toolbar {
         position: relative;
       }
       /* The chevron sits on the toolbar (the scroll container's parent)
@@ -1035,7 +1035,7 @@
          arrow on the whole stack — it rendered level with the SORT BY row,
          pointing at nothing. translateY(-50%) is the correct centring;
          the previous translateY(20%) pushed it further down. */
-      .chat-test-root .results-toolbar::after {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results-toolbar::after {
         content: "›";
         position: absolute;
         right: 6px;
@@ -1061,15 +1061,15 @@
         transition: opacity 180ms;
         z-index: 2;
       }
-      .chat-test-root .results-toolbar.tab-chips-overflow::after {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results-toolbar.tab-chips-overflow::after {
         /* Full opacity now that the arrow has its own chip-style backing;
            0.65 was tuned for a bare glyph over the page background. */
         opacity: 1;
       }
-      .chat-test-root .results-toolbar.tab-chips-at-end::after {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results-toolbar.tab-chips-at-end::after {
         opacity: 0;
       }
-      .chat-test-root .sort-tab {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tab {
         white-space: nowrap;
         scroll-snap-align: start;
         /* 44px touch target — tablist sits in the sticky shell so
@@ -1079,7 +1079,7 @@
         align-items: center;
       }
     }
-    .chat-test-root .sort-tab {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tab {
       padding: 5px 14px;
       border: 1px solid transparent;
       background: transparent;
@@ -1092,12 +1092,12 @@
       cursor: pointer;
       transition: background 0.15s, color 0.15s, border-color 0.15s;
     }
-    .chat-test-root .sort-tab:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tab:hover {
       color: var(--c-bark, #1f3a1f);
       background: rgba(45, 74, 43, 0.06);
       border-color: rgba(45, 74, 43, 0.18);
     }
-    .chat-test-root .sort-tab.active {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tab.active {
       background: var(--c-bark, #1f3a1f);
       color: #fff;
       font-weight: 600;
@@ -1106,7 +1106,7 @@
     /* Count badge inside each type tab — shows how many plants the
        filter would return. Pinned to type:* tabs only ("All" stays a
        plain word). Muted when inactive, white-ish when active. */
-    .chat-test-root .sort-tab-count {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tab-count {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -1121,11 +1121,11 @@
       color: var(--c-muted, #6b6256);
       background: rgba(45, 74, 43, 0.08);
     }
-    .chat-test-root .sort-tab.active .sort-tab-count {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tab.active .sort-tab-count {
       background: rgba(255, 255, 255, 0.18);
       color: #fff;
     }
-    .chat-test-root .result {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result {
       background: #fff;
       border: 1px solid var(--c-line, #e3dccb);
       border-radius: 12px;
@@ -1142,22 +1142,22 @@
       grid-template-rows: auto auto auto auto 1fr auto auto;
       height: 100%;
     }
-    .chat-test-root .result:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result:hover {
       transform: translateY(-3px);
       border-color: #d4c89c;
       box-shadow: 0 2px 6px rgba(45, 74, 43, 0.10), 0 16px 32px rgba(45, 74, 43, 0.14);
     }
-    .chat-test-root .result.selected {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result.selected {
       box-shadow: 0 2px 6px rgba(45, 107, 31, 0.18), 0 12px 24px rgba(45, 107, 31, 0.14);
       background: linear-gradient(180deg, #f6f8f1 0%, #ffffff 60%);
     }
     /* Plant is in the user's cart — show a subtle badge + accent border. */
-    .chat-test-root .result.in-cart {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result.in-cart {
       border-color: #6b8e4e;
       box-shadow: 0 0 0 1px #6b8e4e, 0 2px 6px rgba(107, 142, 78, 0.16);
       position: relative;
     }
-    .chat-test-root .result.in-cart::before {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result.in-cart::before {
       content: "✓ In your order";
       position: absolute;
       top: 10px;
@@ -1175,7 +1175,7 @@
       pointer-events: none;
       box-shadow: 0 2px 6px rgba(45, 107, 31, 0.32);
     }
-    .chat-test-root .result.in-cart .add-to-order-link {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result.in-cart .add-to-order-link {
       /* Link text — the card already shows a '✓ In your order' badge
          in the corner when in-cart, so the link itself stays the same
          plain text-link treatment. The stepper replaces the link
@@ -1183,7 +1183,7 @@
          the brief window before the stepper appears. */
       color: var(--c-sage-deep, #1f3a1f);
     }
-    .chat-test-root .result-botanical {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-botanical {
       /* Botanical names (Latin) rendered upright serif — bold weight
          + serif roman gives the presence of a lead without the
          industrial feel of sans bold and without the academic feel
@@ -1207,9 +1207,9 @@
     }
     /* Cultivar names ('Kaleidoscope', 'Confetti®') inside the botanical
        stay upright roman — they're proper nouns, not Latin. */
-    .chat-test-root .result-botanical em,
-    .chat-test-root .result-botanical i { font-style: normal; }
-    .chat-test-root .result-common {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-botanical em,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-botanical i { font-style: normal; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-common {
       /* Common name ('Variegated glossy abelia') gets the typographic
          inverse: sans, normal weight, slightly larger so it reads as
          the everyday name a trade customer uses at the counter.
@@ -1223,7 +1223,7 @@
       line-height: 1.3;
       margin-bottom: 10px;
     }
-    .chat-test-root .result-type {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-type {
       font-family: var(--font-sans);
       font-size: 14px;
       font-weight: 600;
@@ -1232,12 +1232,12 @@
       display: inline;
       vertical-align: baseline;
     }
-    .chat-test-root .result-type.match {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-type.match {
       background: var(--c-sage-soft);
       padding: 1px 6px;
       border-radius: 3px;
     }
-    .chat-test-root .result-origin {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-origin {
       font-family: var(--font-sans);
       font-size: 13px;
       font-weight: 500;
@@ -1246,11 +1246,11 @@
       display: inline;
       vertical-align: baseline;
     }
-    .chat-test-root .result-origin.native {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-origin.native {
       color: var(--c-sage-deep, #1f3a1f);
       font-weight: 600;
     }
-    .chat-test-root .result-origin .ca-badge {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-origin .ca-badge {
       display: inline-block;
       font-family: var(--font-sans);
       font-size: 11px;
@@ -1266,7 +1266,7 @@
       text-transform: uppercase;
       box-shadow: 0 1px 2px rgba(45, 74, 43, 0.18);
     }
-    .chat-test-root .result-type-origin {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-type-origin {
       font-family: var(--font-sans);
       font-size: 13.5px;
       line-height: 1.4;
@@ -1276,21 +1276,21 @@
     /* Price alignment is handled by .result-price-row's own
        margin-top: auto, so .result-meta doesn't need to grow and
        create gaps when chips only fill 1-2 rows. */
-    .chat-test-root .result-type-origin .sep {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-type-origin .sep {
       color: #d4ccb9;
       font-size: 14px;
       font-weight: 400;
       margin: 0 7px;
       vertical-align: baseline;
     }
-    .chat-test-root .result-meta {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-meta {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
       margin-bottom: 8px;
       align-items: flex-start; /* chips stay pill-height even when sibling cards expand */
     }
-    .chat-test-root .meta-pill {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .meta-pill {
       font-family: var(--font-sans);
       font-size: 11px;
       font-weight: 600;
@@ -1302,22 +1302,22 @@
       color: var(--c-bark, #1f3a1f);
       line-height: 1.35;
     }
-    .chat-test-root .meta-pill.cat-flower {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .meta-pill.cat-flower {
       background: #fdf2e6;
       border-color: #f0d5a8;
       color: #8a5a1f;
     }
-    .chat-test-root .meta-pill.cat-exposure {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .meta-pill.cat-exposure {
       background: #fdf8e3;
       border-color: #e8d870;
       color: #7a6418;
     }
-    .chat-test-root .meta-pill.cat-water {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .meta-pill.cat-water {
       background: #e6f0fa;
       border-color: #b0cce4;
       color: #2a5a8a;
     }
-    .chat-test-root .meta-pill.cat-size {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .meta-pill.cat-size {
       background: #f0eaf5;
       border-color: #d2c0e0;
       color: #4a1f6a;
@@ -1346,7 +1346,7 @@
     }
     /* Bloom icon (16x16 marker) inside any meta pill — sits inline-flex
        with the text. */
-    .chat-test-root .meta-pill .bloom-icon {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .meta-pill .bloom-icon {
       display: inline-block;
       width: 16px;
       height: 16px;
@@ -1355,7 +1355,7 @@
       flex-shrink: 0; /* keep from being squished if pill is ever in flex mode */
       vertical-align: -2px;
     }
-    .chat-test-root .meta-pill.match {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .meta-pill.match {
       background: var(--c-sage-soft);
       border-color: var(--c-sage);
       color: var(--c-sage-deep);
@@ -1623,7 +1623,7 @@
     }
     .pricing-status-header[hidden] { display: none; }
     /* .result-share-btn removed 2026-08-01: button removed from card layout to declutter */
-    .chat-test-root .no-results {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .no-results {
       text-align: center;
       padding: 56px 28px 48px;
       color: var(--c-clay, #6b6256);
@@ -1635,7 +1635,7 @@
       margin-top: 24px;
       box-shadow: 0 1px 2px rgba(45, 74, 43, 0.04);
     }
-    .chat-test-root .no-results::before {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .no-results::before {
       content: "🌱";
       display: block;
       font-size: 40px;
@@ -1643,7 +1643,7 @@
       margin-bottom: 12px;
       filter: grayscale(0.2);
     }
-    .chat-test-root .no-results h3 {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .no-results h3 {
       margin: 0 0 8px;
       color: var(--c-bark, #1f3a1f);
       font-family: var(--font-serif);
@@ -1651,33 +1651,33 @@
       font-size: 22px;
       line-height: 1.25;
     }
-    .chat-test-root .no-results h3 em {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .no-results h3 em {
       font-style: italic;
       color: var(--c-bark, #1f3a1f);
       background: rgba(212, 226, 193, 0.5);
       padding: 0 6px;
       border-radius: 4px;
     }
-    .chat-test-root .no-results p {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .no-results p {
       margin: 0 0 4px;
       color: var(--c-clay, #6b6256);
       font-size: 14px;
       font-family: var(--font-sans);
     }
-    .chat-test-root .no-results .suggestions {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .no-results .suggestions {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       justify-content: center;
       margin-top: 18px;
     }
-    .chat-test-root .no-results .suggestions .suggestion {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .no-results .suggestions .suggestion {
       font-size: 13px;
       padding: 6px 14px;
     }
 
     /* === Saved filters (shared with compact-list) === */
-    .chat-test-root .saved-filters {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters {
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -1689,7 +1689,7 @@
       font-family: var(--font-sans);
       font-size: 13px;
     }
-    .chat-test-root .saved-filters .sf-row {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-row {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -1699,13 +1699,13 @@
        distinct items, not one mashed-up string. Also bump the chip
        padding so thumb taps feel right. */
     @media (max-width: 600px) {
-      .chat-test-root .saved-filters .sf-row { gap: 12px; }
-      .chat-test-root .saved-filters .sf-chip {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-row { gap: 12px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-chip {
         padding: 6px 8px 6px 12px;
         font-size: 13px;
       }
     }
-    .chat-test-root .saved-filters .sf-label {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-label {
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.08em;
@@ -1713,7 +1713,7 @@
       color: var(--c-muted, #6b6256);
       margin-right: 2px;
     }
-    .chat-test-root .saved-filters .sf-chip {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-chip {
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -1725,13 +1725,13 @@
       font-size: 13px;
       line-height: 1;
     }
-    .chat-test-root .saved-filters .sf-chip.sf-slot { border-color: #c4d5b6; }
-    .chat-test-root .saved-filters .sf-chip.sf-empty {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-chip.sf-slot { border-color: #c4d5b6; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-chip.sf-empty {
       border-style: dashed;
       color: var(--c-muted, #6b6256);
       padding-left: 6px;
     }
-    .chat-test-root .saved-filters .sf-chip button {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-chip button {
       border: 0;
       background: transparent;
       padding: 0;
@@ -1739,17 +1739,17 @@
       color: inherit;
       cursor: pointer;
     }
-    .chat-test-root .saved-filters .sf-chip .sf-apply:hover { color: var(--c-cta, #1f6b3a); }
-    .chat-test-root .saved-filters .sf-chip .sf-del,
-    .chat-test-root .saved-filters .sf-chip .sf-slot-btn {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-chip .sf-apply:hover { color: var(--c-cta, #1f6b3a); }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-chip .sf-del,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-chip .sf-slot-btn {
       color: var(--c-muted, #6b6256);
       padding: 0 4px;
       border-radius: 999px;
     }
-    .chat-test-root .saved-filters .sf-chip .sf-del:hover { color: #a04030; }
-    .chat-test-root .saved-filters .sf-chip .sf-slot-btn:hover { color: var(--c-cta, #1f6b3a); }
-    .chat-test-root .saved-filters .sf-empty-note { font-size: 12px; color: var(--c-muted, #6b6256); }
-    .chat-test-root .saved-filters .sf-recent-label {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-chip .sf-del:hover { color: #a04030; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-chip .sf-slot-btn:hover { color: var(--c-cta, #1f6b3a); }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-empty-note { font-size: 12px; color: var(--c-muted, #6b6256); }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-recent-label {
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.08em;
@@ -1757,7 +1757,7 @@
       color: var(--c-muted, #6b6256);
       margin: 0 4px 0 10px;
     }
-    .chat-test-root .saved-filters .sf-divider {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-divider {
       display: inline-block;
       width: 1px;
       height: 16px;
@@ -1768,15 +1768,15 @@
     /* Inline-row layout: chips + tools all share the same flex-wrap line
        so a long chip list wraps naturally. Push the tools right via
        margin-left:auto so they sit at the far end of the card. */
-    .chat-test-root .saved-filters .sf-row-main {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-row-main {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 6px;
     }
-    .chat-test-root .saved-filters .sf-row-main .sf-tool { margin-left: 0; }
-    .chat-test-root .saved-filters .sf-row-main .sf-divider + .sf-tool { margin-left: 4px; }
-    .chat-test-root .saved-filters .sf-tool {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-row-main .sf-tool { margin-left: 0; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-row-main .sf-divider + .sf-tool { margin-left: 4px; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-tool {
       padding: 5px 10px;
       font-size: 12px;
       font-weight: 600;
@@ -1786,8 +1786,8 @@
       color: var(--c-cta, #1f6b3a);
       cursor: pointer;
     }
-    .chat-test-root .saved-filters .sf-tool:hover { background: #f4f0df; }
-    .chat-test-root .saved-filters .sf-tool:disabled { opacity: 0.4; cursor: not-allowed; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-tool:hover { background: #f4f0df; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .saved-filters .sf-tool:disabled { opacity: 0.4; cursor: not-allowed; }
 
     /* PWA install banner — top-right pill with enough offset to sit
        below the site-header band (which is ~76px tall). Mirrored on
@@ -1796,17 +1796,17 @@
        and the search shell. */
     /* PWA install banner styles are in pwa-install.css (shared with compact-list.html). */
 
-    .chat-test-root .match-hl {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .match-hl {
       background: var(--c-sage-soft);
       border-radius: 3px;
       padding: 0 2px;
       font-weight: 600;
       color: var(--c-bark, #1f3a1f);
     }
-    .chat-test-root .result.match-reason {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result.match-reason {
       border-color: var(--c-bark, #1f3a1f);
     }
-    .chat-test-root .result-match-line {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-match-line {
       position: absolute;
       top: -8px;
       left: -8px;
@@ -1829,12 +1829,12 @@
       transform: scale(0.7);
       transition: opacity 0.2s ease, transform 0.2s ease;
     }
-    .chat-test-root .result:hover .result-match-line,
-    .chat-test-root .result:focus-within .result-match-line {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result:hover .result-match-line,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result:focus-within .result-match-line {
       opacity: 1;
       transform: scale(1);
     }
-    .chat-test-root .result-match-line::after {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-match-line::after {
       content: attr(data-tooltip);
       position: absolute;
       top: 50%;
@@ -1858,7 +1858,7 @@
       transition: opacity 0.15s ease 0.05s;
       z-index: 10;
     }
-    .chat-test-root .result-match-line::before {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-match-line::before {
       content: "";
       position: absolute;
       top: 50%;
@@ -1870,16 +1870,16 @@
       transition: opacity 0.15s ease 0.05s;
       z-index: 10;
     }
-    .chat-test-root .result:hover .result-match-line::after,
-    .chat-test-root .result:hover .result-match-line::before,
-    .chat-test-root .result:focus-within .result-match-line::after,
-    .chat-test-root .result:focus-within .result-match-line::before {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result:hover .result-match-line::after,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result:hover .result-match-line::before,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result:focus-within .result-match-line::after,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result:focus-within .result-match-line::before {
       opacity: 1;
     }
-    .chat-test-root .result {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result {
       position: relative;
     }
-    .chat-test-root .result-link {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-link {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       z-index: 1;
@@ -1898,18 +1898,18 @@
        link should cover (the photo, the name, the common name, the price
        row) — anything else (the stepper, Add to order, Details) is left
        pointer-events: none so those buttons always work. */
-    .chat-test-root .result-photo,
-    .chat-test-root .result-botanical,
-    .chat-test-root .result-common,
-    .chat-test-root .result-type-origin,
-    .chat-test-root .result-meta,
-    .chat-test-root .result-price,
-    .chat-test-root .result-image {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-photo,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-botanical,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-common,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-type-origin,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-meta,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-price,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-image {
       pointer-events: auto;
     }
     /* The link itself needs pointer-events: auto too, so the click
        on the navigated area actually hits the <a>. */
-    .chat-test-root .result-link {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-link {
       pointer-events: auto;
     }
     /* But make the link transparent to clicks in the navigable areas so
@@ -1921,25 +1921,25 @@
        hit-testing, the simpler approach: keep the link click-handling
        but use the JS click handler on the navigable children to do
        window.open(), and make the link pointer-events: none. */
-    .chat-test-root .result-link {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-link {
       pointer-events: none;
     }
-    .chat-test-root .result-photo,
-    .chat-test-root .result-botanical,
-    .chat-test-root .result-common,
-    .chat-test-root .result-type-origin,
-    .chat-test-root .result-meta,
-    .chat-test-root .result-price,
-    .chat-test-root .result-image {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-photo,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-botanical,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-common,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-type-origin,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-meta,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-price,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-image {
       pointer-events: auto;
       cursor: pointer;
     }
-    .chat-test-root .result-link:focus {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-link:focus {
       outline: 2px solid var(--c-bark, #1f3a1f);
       outline-offset: -2;
       border-radius: 10px;
     }
-    .chat-test-root .result-footer {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-footer {
       margin-top: 10px;
       padding-top: 8px;
       border-top: 1px dashed #e8e2cf;
@@ -1958,10 +1958,10 @@
     }
     /* Children of footer that are part of the result-link target should not capture clicks;
        only the checkbox + select-label should. */
-    .chat-test-root .result-footer .result-link-text {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-footer .result-link-text {
       pointer-events: none;
     }
-    .chat-test-root .result-link-text {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-link-text {
       font-weight: 500;
       letter-spacing: 0.01em;
       text-decoration: underline;
@@ -1969,11 +1969,11 @@
       text-underline-offset: 3px;
       text-decoration-thickness: 1px;
     }
-    .chat-test-root .result:hover .result-link-text,
-    .chat-test-root .result:focus-within .result-link-text {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result:hover .result-link-text,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result:focus-within .result-link-text {
       text-decoration-color: rgba(90, 66, 32, 0.7);
     }
-    .chat-test-root .result-checkbox {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-checkbox {
       flex-shrink: 0;
       width: 18px;
       height: 18px;
@@ -1994,7 +1994,7 @@
       z-index: 3;
     }
     /* Label sits next to the checkbox in the footer */
-    .chat-test-root .result-select-label {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-select-label {
       flex: 1 1 auto;
       min-width: 0;
       font-family: var(--font-sans);
@@ -2006,8 +2006,8 @@
       position: relative;
       z-index: 3;
     }
-    .chat-test-root .result-select-label:hover { color: var(--c-bark, #1f3a1f); }
-    .chat-test-root .result-image {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-select-label:hover { color: var(--c-bark, #1f3a1f); }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-image {
       position: absolute;
       top: calc(-1 * var(--ns-badge-overhang, 8px));
       right: calc(-1 * var(--ns-badge-overhang, 8px));
@@ -2026,7 +2026,7 @@
       pointer-events: none;
     }
     /* For plant images, show the full image; for the logo placeholder, scale to fit */
-    .chat-test-root .result-image[src$="logo.jpg"] {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-image[src$="logo.jpg"] {
       object-fit: contain;
       padding: 10px;
       background: #fafaf7;
@@ -2035,11 +2035,11 @@
        is baked into the SVG's viewBox, because percentage padding on an
        absolutely-positioned box resolves against the *card* width and would
        blow the badge up. */
-    .chat-test-root .result-image[data-glyph] {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-image[data-glyph] {
       object-fit: contain;
       background: #fafaf7;
     }
-    .chat-test-root .result:hover .result-image {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result:hover .result-image {
       opacity: 1;
       transform: scale(1) translateY(0);
     }
@@ -2049,12 +2049,12 @@
        (hover: none) matches primary touch devices; (hover: hover)
        matches the touch-laptop edge case which keeps hover behavior. */
     @media (hover: none) {
-      .chat-test-root .result-image {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-image {
         opacity: 1;
         transform: scale(1) translateY(0);
       }
     }
-    .chat-test-root .result-image-placeholder {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-image-placeholder {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       display: flex;
@@ -2064,7 +2064,7 @@
       font-size: 32px;
       font-family: var(--font-sans);
     }
-    .chat-test-root .result-expand {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-expand {
       /* Small text link rather than a full-width button. Sits in the
          card-actions row, left-aligned, with a small +/– indicator
          that flips when the details panel is open. */
@@ -2087,7 +2087,7 @@
       transition: color 0.15s;
       border-bottom: 1px dotted transparent;
     }
-    .chat-test-root .result-expand::before {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-expand::before {
       /* Small + glyph that flips to − when expanded. Reads as a
          toggle affordance rather than a "more" link. */
       content: "+";
@@ -2098,17 +2098,17 @@
       text-align: center;
       transition: transform 0.2s ease, content 0s;
     }
-    .chat-test-root .result-expand:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-expand:hover {
       color: var(--c-bark, #1f3a1f);
       border-bottom-color: var(--c-bark, #1f3a1f);
     }
-    .chat-test-root .result-expand[aria-expanded="true"] {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-expand[aria-expanded="true"] {
       color: var(--c-sage-deep, #1f3a1f);
     }
-    .chat-test-root .result-expand[aria-expanded="true"]::before {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-expand[aria-expanded="true"]::before {
       content: "−";
     }
-    .chat-test-root .result-details {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-details {
       padding-top: 10px;
       padding-bottom: 8px;
       font-family: var(--font-sans);
@@ -2122,7 +2122,7 @@
       /* Top border lives on card-actions below, so this dashed top border
          would double up. Removed — keep only the bottom breathing room. */
     }
-    .chat-test-root .result-details[hidden] { display: none; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-details[hidden] { display: none; }
     @keyframes details-expand {
       from { opacity: 0; max-height: 0; }
       to { opacity: 1; max-height: 600px; }
@@ -2134,11 +2134,11 @@
        unbalanced rows. The stacked layout reads as a clean vertical
        reference list — label as a small caps tag, value as readable
        body text below. Each pair is visually distinct. */
-    .chat-test-root .result-details .detail-row {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-details .detail-row {
       margin-bottom: 10px;
       line-height: 1.4;
     }
-    .chat-test-root .result-details .detail-label {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-details .detail-label {
       display: block;
       font-family: var(--font-sans);
       font-size: 10px;
@@ -2148,12 +2148,12 @@
       color: var(--c-muted, #6b6256);
       margin-bottom: 2px;
     }
-    .chat-test-root .result-details .detail-value {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-details .detail-value {
       font-size: 12.5px;
       line-height: 1.35;
       color: var(--c-bark, #1f3a1f);
     }
-    .chat-test-root .result-details .detail-info {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-details .detail-info {
       margin-top: 10px;
       padding-top: 10px;
       border-top: 1px dashed #f7f6f2;
@@ -2168,25 +2168,25 @@
        so the consistent row structure reads as "data not available"
        instead of "blank row". Label is dimmed too, but still readable
        so the customer knows which field would be there. */
-    .chat-test-root .result-details .detail-row.missing .detail-label { opacity: 0.55; }
-    .chat-test-root .result-details .detail-row.missing .detail-value.placeholder {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-details .detail-row.missing .detail-label { opacity: 0.55; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-details .detail-row.missing .detail-value.placeholder {
       color: #b8b09a;
       font-style: italic;
       opacity: 0.7;
     }
-    .chat-test-root .result-checkbox:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-checkbox:hover {
       border-color: var(--c-bark, #1f3a1f);
     }
-    .chat-test-root .result-checkbox.checked {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-checkbox.checked {
       background: var(--c-bark, #1f3a1f);
       border-color: var(--c-bark, #1f3a1f);
       color: #fff;
     }
-    .chat-test-root .result.selected {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result.selected {
       border-color: var(--c-bark, #1f3a1f);
       background: #f6f8f1;
     }
-    .chat-test-root .selection-bar {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selection-bar {
       position: sticky;
       bottom: 16px;
       background: linear-gradient(135deg, #ffffff 0%, #f8faf3 100%);
@@ -2204,9 +2204,9 @@
     /* Hide export-list UI from the public portal — that's a staff workflow
        (build a custom customer order list, export CSV, email, print). For
        public customers, the only action is "Add to Order" on the card. */
-    .chat-test-root .result-footer,
-    .chat-test-root .selection-bar { display: none !important; }
-    .chat-test-root .selection-summary {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-footer,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selection-bar { display: none !important; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selection-summary {
       flex: 1;
       font-family: var(--font-sans);
       font-size: 14px;
@@ -2214,19 +2214,19 @@
       color: var(--c-bark, #1f3a1f);
       line-height: var(--lh-snug);
     }
-    .chat-test-root .selection-summary strong {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selection-summary strong {
       font-family: var(--font-serif);
       font-size: 18px;
       font-weight: 400;
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "kern" 1;
     }
-    .chat-test-root .selection-actions {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selection-actions {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
     }
-    .chat-test-root .action-btn {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .action-btn {
       font-family: var(--font-sans);
       font-size: 13px;
       font-weight: 500;
@@ -2239,26 +2239,26 @@
       cursor: pointer;
       transition: all 0.15s;
     }
-    .chat-test-root .action-btn:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .action-btn:hover {
       background: var(--c-bark, #1f3a1f);
       color: #fff;
     }
-    .chat-test-root .action-btn.primary {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .action-btn.primary {
       background: var(--c-bark, #1f3a1f);
       color: #fff;
     }
-    .chat-test-root .action-btn.primary:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .action-btn.primary:hover {
       background: #1d3a0e;
     }
-    .chat-test-root .action-btn.danger {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .action-btn.danger {
       border-color: #a04040;
       color: #a04040;
     }
-    .chat-test-root .action-btn.danger:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .action-btn.danger:hover {
       background: #a04040;
       color: #fff;
     }
-    .chat-test-root .back-to-top {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .back-to-top {
       position: fixed;
       bottom: 16px;
       right: 16px;
@@ -2278,12 +2278,12 @@
       transform: translateY(10px);
       pointer-events: none;
     }
-    .chat-test-root .back-to-top.visible {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .back-to-top.visible {
       opacity: 1;
       transform: translateY(0);
       pointer-events: auto;
     }
-    .chat-test-root .back-to-top:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .back-to-top:hover {
       background: var(--c-bark, #1f3a1f);
       color: #fff;
       border-color: var(--c-bark, #1f3a1f);
@@ -2299,44 +2299,44 @@
       }
       /* Header meta column flex layout (preserved from the old tagline
          treatment — the brand-mark span now occupies the right slot). */
-      .chat-test-root .header-meta { flex: 1 1 auto; min-width: 0; }
-      .chat-test-root .results { grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
-      .chat-test-root .view-cards-wrap { grid-template-columns: 1fr; gap: 14px; }
-      .chat-test-root .hero-headline { font-size: 22px; }
-      .chat-test-root .hero-band { padding: 16px 18px; }
-      .chat-test-root .hero-stats { width: 100%; }
-      .chat-test-root .hero-stat { flex: 1; min-width: 0; padding: 8px 6px; }
-      .chat-test-root .hero-stat-num { font-size: 18px; }
-      .chat-test-root .hero-stat-label { font-size: 10px; letter-spacing: 0.3px; }
-      .chat-test-root .search-shell { padding: 14px 16px 14px 22px; }
-      .chat-test-root .search-input { font-size: 16px; padding: 11px 4px; }
-      .chat-test-root .search-table-link { font-size: 11px; }
-      .chat-test-root .suggested { gap: 3px 7px; }
-      .chat-test-root .suggested-label { font-size: 13px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .header-meta { flex: 1 1 auto; min-width: 0; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results { grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .view-cards-wrap { grid-template-columns: 1fr; gap: 14px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-headline { font-size: 22px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-band { padding: 16px 18px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stats { width: 100%; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat { flex: 1; min-width: 0; padding: 8px 6px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat-num { font-size: 18px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat-label { font-size: 10px; letter-spacing: 0.3px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-shell { padding: 14px 16px 14px 22px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-input { font-size: 16px; padding: 11px 4px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-table-link { font-size: 11px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested { gap: 3px 7px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested-label { font-size: 13px; }
       /* Suggestion chips: modest tap padding on mobile — they live in
          the sticky shell so 44px would double its height; 8px vertical
          padding keeps them tappable without pushing results down. */
-      .chat-test-root .suggestion { padding: 6px 6px; font-size: 13px; }
-      .chat-test-root .result { padding: 12px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggestion { padding: 6px 6px; font-size: 13px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result { padding: 12px; }
       /* Mobile: card body is tappable (expands details) — show a
          light press feedback so taps feel responsive. */
-      .chat-test-root .result:active {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result:active {
         transform: scale(0.985);
         transition: transform 0.08s ease-out;
       }
-      .chat-test-root .result-image {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-image {
         border-width: 2px;
       }
-      .chat-test-root .result-checkbox { width: 22px; height: 22px; font-size: 14px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-checkbox { width: 22px; height: 22px; font-size: 14px; }
       /* Match tooltip: anchor to bottom-right of card so it doesn't clip off-screen */
-      .chat-test-root .result-match-line::after {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-match-line::after {
         top: calc(100% + 8px);
         left: 50%;
         transform: translateX(-50%);
         max-width: 200px;
         white-space: normal;
       }
-      .chat-test-root .result-match-line::before {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-match-line::before {
         top: calc(100% + 2px);
         left: 50%;
         transform: translateX(-50%) rotate(-90deg);
@@ -2344,15 +2344,15 @@
         border-right-color: var(--c-bark, #1f3a1f);
       }
       /* Selection bar: stack buttons vertically on narrow screens */
-      .chat-test-root .selection-bar { padding: 12px; gap: 8px; }
-      .chat-test-root .selection-summary { width: 100%; margin-bottom: 4px; }
-      .chat-test-root .action-btn { padding: 8px 12px; font-size: 13px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selection-bar { padding: 12px; gap: 8px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selection-summary { width: 100%; margin-bottom: 4px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .action-btn { padding: 8px 12px; font-size: 13px; }
       /* Back-to-top: smaller, centered on mobile to avoid covering card content */
-      .chat-test-root .back-to-top { bottom: 12px; right: 12px; padding: 8px 14px; font-size: 12px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .back-to-top { bottom: 12px; right: 12px; padding: 8px 14px; font-size: 12px; }
       /* When the floating cart pill is visible (bottom-right), lift
          back-to-top above it so the two never overlap. :has() is
          supported in all modern browsers. */
-      body:has(.cart-bar:not([hidden])) .chat-test-root .back-to-top {
+      body:has(.cart-bar:not([hidden])) :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .back-to-top {
         /* Cart bar is full-width on mobile (75px tall = padding + content)
            and is anchored to viewport bottom. Lift back-to-top above it
            so the two never visually overlap. The 12px gap gives the
@@ -2360,7 +2360,7 @@
         bottom: calc(12px + 75px + 12px);
       }
       /* Filter summary chips wrap */
-      .chat-test-root #filterSummary .pill { font-size: 11px; padding: 3px 8px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) #filterSummary .pill { font-size: 11px; padding: 3px 8px; }
     }
 
     /* ============================================================ */
@@ -2429,7 +2429,7 @@
     /* Add-to-order link on each card — text-link treatment, sits in
        the card-actions row right-aligned. Reads as the primary action
        without dominating the card. */
-    .chat-test-root .add-to-order-link {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .add-to-order-link {
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -2450,7 +2450,7 @@
       border-bottom: 1px solid var(--c-sage-deep, #1f3a1f);
       padding-bottom: 1px;
     }
-    .chat-test-root .add-to-order-link .add-arrow {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .add-to-order-link .add-arrow {
       display: inline-block;
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
@@ -2461,7 +2461,7 @@
        price row and the action buttons (full card width). The
        top border here separates the (possibly expanded) details
        panel from the action buttons. */
-    .chat-test-root .card-actions {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .card-actions {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -2477,25 +2477,25 @@
          to nativeson.com instead of triggering the in-card actions. */
       z-index: 2;
     }
-    .chat-test-root .add-to-order-link:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .add-to-order-link:hover {
       color: var(--c-cta, #1f6b3a);
       border-bottom-color: var(--c-cta, #1f6b3a);
     }
-    .chat-test-root .add-to-order-link:hover .add-arrow {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .add-to-order-link:hover .add-arrow {
       transform: translateX(3px);
     }
-    .chat-test-root .add-to-order-link:active {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .add-to-order-link:active {
       transform: scale(0.96);
       transition: transform 0.08s ease-out;
     }
-    .chat-test-root .add-to-order-link:focus-visible {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .add-to-order-link:focus-visible {
       outline: none;
       color: var(--c-cta, #1f6b3a);
       border-bottom-color: var(--c-cta, #1f6b3a);
     }
     /* Stepper replaces the link when in-cart — keep its existing styles
        but reset border-bottom so the link rule doesn't bleed through. */
-    .chat-test-root .qty-card-stepper {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-card-stepper {
       border-bottom: none;
     }
 
@@ -2575,7 +2575,7 @@
        shown in the middle; - decrements the most-recent line, + opens
        the size picker so the user picks which size to add more of. */
     body .qty-card-stepper,
-    .chat-test-root .qty-card-stepper {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-card-stepper {
       display: inline-flex;
       align-items: stretch;
       width: 100%;
@@ -2586,7 +2586,7 @@
       font-family: var(--font-sans);
     }
     body .qty-card-stepper button,
-    .chat-test-root .qty-card-stepper button {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-card-stepper button {
       appearance: none;
       border: none;
       background: #fff;
@@ -2601,17 +2601,17 @@
       font-family: inherit;
     }
     body .qty-card-stepper button:hover,
-    .chat-test-root .qty-card-stepper button:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-card-stepper button:hover {
       background: var(--c-cta, #1f6b3a);
       color: #fff;
     }
     body .qty-card-stepper button:active,
-    .chat-test-root .qty-card-stepper button:active {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-card-stepper button:active {
       transform: scale(0.94);
       transition: transform 0.08s ease-out;
     }
     body .qty-card-stepper .qty-card-value,
-    .chat-test-root .qty-card-stepper .qty-card-value {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-card-stepper .qty-card-value {
       flex: 1;
       display: inline-flex;
       align-items: center;
@@ -2628,7 +2628,7 @@
       transition: background 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     body .qty-card-stepper .qty-card-value.is-pulse,
-    .chat-test-root .qty-card-stepper .qty-card-value.is-pulse {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-card-stepper .qty-card-value.is-pulse {
       animation: qty-card-pulse 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     @keyframes qty-card-pulse {
@@ -2648,7 +2648,7 @@
       100% { opacity: 0; transform: translateY(-2px); }
     }
     body .qty-card-flash,
-    .chat-test-root .qty-card-flash {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-card-flash {
       position: absolute;
       left: 50%;
       top: -28px;
@@ -2669,7 +2669,7 @@
       z-index: 5;
     }
     body .qty-card-flash.is-show,
-    .chat-test-root .qty-card-flash.is-show {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-card-flash.is-show {
       animation: qty-card-flash-in 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
     @media (max-width: 600px) {
@@ -2699,12 +2699,12 @@
         padding: 10px 18px;
       }
       body .qty-card-stepper button,
-      .chat-test-root .qty-card-stepper button {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-card-stepper button {
         width: 48px;
         font-size: 20px;
       }
       body .qty-card-stepper .qty-card-value,
-      .chat-test-root .qty-card-stepper .qty-card-value {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-card-stepper .qty-card-value {
         min-width: 48px;
         font-size: 16px;
       }
@@ -2789,7 +2789,7 @@
       outline: 2px solid var(--c-clay, #6b6256);
       outline-offset: 2px;
     }
-    .chat-test-root .icon-btn {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .icon-btn {
       background: none;
       border: none;
       font-size: 22px;
@@ -2799,7 +2799,7 @@
       border-radius: 6px;
       line-height: 1;
     }
-    .chat-test-root .icon-btn:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .icon-btn:hover {
       background: #fafaf7;
       color: var(--c-bark, #1f3a1f);
     }
@@ -2844,7 +2844,7 @@
       align-items: center;
       gap: 8px;
     }
-    .chat-test-root .qty-stepper {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-stepper {
       display: inline-flex;
       align-items: center;
       border: 1px solid #e5e3dd;
@@ -2852,7 +2852,7 @@
       overflow: hidden;
       background: #fff;
     }
-    .chat-test-root .qty-stepper button {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-stepper button {
       background: none;
       border: none;
       width: 28px;
@@ -2862,8 +2862,8 @@
       cursor: pointer;
       line-height: 1;
     }
-    .chat-test-root .qty-stepper button:hover { background: #fafaf7; }
-    .chat-test-root .qty-stepper input {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-stepper button:hover { background: #fafaf7; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-stepper input {
       width: 40px;
       border: none;
       text-align: center;
@@ -2875,8 +2875,8 @@
       font-variant-numeric: tabular-nums;
       -moz-appearance: textfield;
     }
-    .chat-test-root .qty-stepper input::-webkit-outer-spin-button,
-    .chat-test-root .qty-stepper input::-webkit-inner-spin-button {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-stepper input::-webkit-outer-spin-button,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .qty-stepper input::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
@@ -3141,7 +3141,7 @@
     }
 
     /* Buttons */
-    .chat-test-root .btn {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .btn {
       display: inline-block;
       font-family: var(--font-sans);
       font-size: 14px;
@@ -3153,32 +3153,32 @@
       cursor: pointer;
       transition: background 0.15s, color 0.15s, border-color 0.15s;
     }
-    .chat-test-root .btn-primary {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .btn-primary {
       background: var(--c-bark, #1f3a1f);
       color: #fff;
       border-color: var(--c-bark, #1f3a1f);
     }
-    .chat-test-root .btn-primary:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .btn-primary:hover {
       background: #1e3a1d;
       border-color: #1e3a1d;
     }
-    .chat-test-root .btn-block {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .btn-block {
       display: block;
       width: 100%;
       text-align: center;
     }
     /* Touch targets — at least 44px tall on mobile for thumb-friendly buttons */
     @media (max-width: 600px) {
-      .chat-test-root .modal-actions .btn {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .modal-actions .btn {
         min-height: 48px;
         font-size: 16px;
         padding: 12px 20px;
       }
-      .chat-test-root .modal-actions .btn-ghost {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .modal-actions .btn-ghost {
         flex: 0 0 auto;
         min-width: 90px;
       }
-      .chat-test-root .modal-actions .btn-primary {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .modal-actions .btn-primary {
         flex: 1 1 auto;
       }
     }
@@ -3282,7 +3282,7 @@
       margin: 0 0 14px;
       line-height: var(--lh-snug);
     }
-    .chat-test-root .size-options-list {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .size-options-list {
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -3296,7 +3296,7 @@
       color: var(--c-bark, #1f3a1f);
       margin: 0 0 8px;
     }
-    .chat-test-root .size-option {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .size-option {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -3307,15 +3307,15 @@
       transition: border-color 0.15s, background 0.15s;
       gap: 12px;
     }
-    .chat-test-root .size-option:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .size-option:hover {
       border-color: var(--c-bark, #1f3a1f);
       background: #f8faf3;
     }
-    .chat-test-root .size-option.is-selected {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .size-option.is-selected {
       border-color: var(--c-bark, #1f3a1f);
       background: #f8faf3;
     }
-    .chat-test-root .size-option input[type="radio"] {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .size-option input[type="radio"] {
       width: 16px;
       height: 16px;
       margin: 0;
@@ -3557,11 +3557,11 @@
       background: var(--c-bark, #1f3a1f);
       color: #fff;
     }
-    .chat-test-root .form-field {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .form-field {
       display: block;
       margin-bottom: 14px;
     }
-    .chat-test-root .form-field > span {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .form-field > span {
       display: block;
       font-family: var(--font-sans);
       font-size: var(--fs-eyebrow);
@@ -3571,13 +3571,13 @@
       color: var(--c-bark, #1f3a1f);
       margin-bottom: 5px;
     }
-    .chat-test-root .form-field > span em {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .form-field > span em {
       color: #c14e2e;
       font-style: normal;
       margin-left: 2px;
     }
-    .chat-test-root .form-field input,
-    .chat-test-root .form-field textarea {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .form-field input,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .form-field textarea {
       width: 100%;
       padding: 9px 12px;
       font-family: var(--font-sans);
@@ -3589,8 +3589,8 @@
       outline: none;
       box-sizing: border-box;
     }
-    .chat-test-root .form-field input:focus,
-    .chat-test-root .form-field textarea:focus {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .form-field input:focus,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .form-field textarea:focus {
       border-color: var(--c-bark, #1f3a1f);
       background: #fff;
       box-shadow: 0 0 0 3px rgba(74, 122, 42, 0.15);
@@ -3606,27 +3606,27 @@
       background: #ffffff;
     }
     @media (max-width: 600px) {
-      .chat-test-root .modal-actions { padding-bottom: calc(14px + env(safe-area-inset-bottom, 0)); }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .modal-actions { padding-bottom: calc(14px + env(safe-area-inset-bottom, 0)); }
     }
-    .chat-test-root .btn-ghost {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .btn-ghost {
       background: transparent;
       color: var(--c-clay, #6b6256);
       border-color: #e5e3dd;
     }
-    .chat-test-root .btn-ghost:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .btn-ghost:hover {
       background: #fafaf7;
       color: var(--c-bark, #1f3a1f);
     }
 
     /* Notify section in checkout modal */
-    .chat-test-root .notify-fieldset {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .notify-fieldset {
       border: 1px solid #e5e3dd;
       border-radius: 8px;
       padding: 10px 14px 12px;
       margin: 4px 0 18px;
       background: #ffffff;
     }
-    .chat-test-root .notify-fieldset legend {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .notify-fieldset legend {
       font-family: var(--font-sans);
       font-size: var(--fs-eyebrow);
       font-weight: 700;
@@ -3635,7 +3635,7 @@
       color: var(--c-bark, #1f3a1f);
       padding: 0 6px;
     }
-    .chat-test-root .notify-fieldset label {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .notify-fieldset label {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -3646,7 +3646,7 @@
       color: var(--c-bark, #1f3a1f);
       cursor: pointer;
     }
-    .chat-test-root .notify-fieldset input[type="checkbox"] {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .notify-fieldset input[type="checkbox"] {
       width: 16px;
       height: 16px;
       accent-color: var(--c-bark, #1f3a1f);
@@ -3747,7 +3747,7 @@
        the headline cap-height (60px ≈ 1.4× font-size 32px → 44px gives a
        tasteful accent). Vertical-align: middle so it sits on the text
        baseline. Inline-block so it flows naturally with the text. */
-    .chat-test-root .hero-accent {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-accent {
       display: inline-block;
       height: 44px;
       width: auto;
@@ -3756,7 +3756,7 @@
       object-fit: contain;
     }
     @media (max-width: 600px) {
-      .chat-test-root .hero-accent { height: 32px; margin-left: 4px; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-accent { height: 32px; margin-left: 4px; }
     }
 
     /* ============================================================ */
@@ -3883,7 +3883,7 @@
     /* === Staff-only customer picker (in checkout modal)        === */
     /* ============================================================ */
     .staff-sidebar .staff-section-title,
-    .chat-test-root .staff-section-title {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .staff-section-title {
       font-family: var(--font-sans);
       font-size: var(--fs-eyebrow);
       font-weight: 700;
@@ -3968,19 +3968,19 @@
       opacity: 0.5;
     }
     .staff-sidebar .cust-result,
-    .chat-test-root .cust-result {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .cust-result {
       padding: 10px 14px;
       border-bottom: 1px solid #f7f6f2;
       cursor: pointer;
     }
     .staff-sidebar .cust-result:last-child,
-    .chat-test-root .cust-result:last-child { border-bottom: 0; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .cust-result:last-child { border-bottom: 0; }
     .staff-sidebar .cust-result:hover,
-    .chat-test-root .cust-result:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .cust-result:hover {
       background: rgba(74, 122, 42, 0.10);
     }
     .staff-sidebar .cust-result-name,
-    .chat-test-root .cust-result-name {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .cust-result-name {
       font-family: var(--font-sans);
       font-size: 14px;
       font-weight: 600;
@@ -3988,17 +3988,17 @@
       margin-bottom: 2px;
     }
     .staff-sidebar .cust-result-meta,
-    .chat-test-root .cust-result-meta {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .cust-result-meta {
       font-family: var(--font-sans);
       font-size: 12px;
       color: var(--c-clay, #6b6256);
     }
     .staff-sidebar .cust-result-meta span,
-    .chat-test-root .cust-result-meta span {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .cust-result-meta span {
       margin-right: 8px;
     }
     .staff-sidebar .cust-result-empty,
-    .chat-test-root .cust-result-empty {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .cust-result-empty {
       padding: 12px;
       text-align: center;
       color: var(--c-clay, #6b6256);
@@ -4006,7 +4006,7 @@
       font-size: 13px;
     }
     .staff-sidebar .selected-cust,
-    .chat-test-root .selected-cust {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selected-cust {
       background: rgba(74, 122, 42, 0.08);
       border: 1px solid rgba(74, 122, 42, 0.20);
       border-radius: 8px;
@@ -4014,25 +4014,25 @@
       margin-bottom: 12px;
     }
     .staff-sidebar .selected-cust-name,
-    .chat-test-root .selected-cust-name {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selected-cust-name {
       font-family: var(--font-sans);
       font-size: 15px;
       font-weight: 600;
       color: var(--c-bark, #1f3a1f);
     }
     .staff-sidebar .selected-cust-meta,
-    .chat-test-root .selected-cust-meta {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selected-cust-meta {
       font-family: var(--font-sans);
       font-size: 12px;
       color: var(--c-clay, #6b6256);
       margin-top: 4px;
     }
     .staff-sidebar .selected-cust-meta span,
-    .chat-test-root .selected-cust-meta span {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selected-cust-meta span {
       margin-right: 8px;
     }
     .staff-sidebar .selected-cust-actions,
-    .chat-test-root .selected-cust-actions {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selected-cust-actions {
       margin-top: 8px;
       display: flex;
       gap: 6px;
@@ -4040,7 +4040,7 @@
       align-items: center;
     }
     .staff-sidebar .markup-pill,
-    .chat-test-root .markup-pill {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .markup-pill {
       display: inline-block;
       padding: 3px 10px;
       background: #c14e2e;
@@ -4052,7 +4052,7 @@
       letter-spacing: 0.02em;
     }
     .staff-sidebar .selected-cust-actions .btn,
-    .chat-test-root .selected-cust-actions .btn {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selected-cust-actions .btn {
       font-size: 12px;
       padding: 4px 10px;
     }
@@ -4138,9 +4138,9 @@
        sidebar's form fieldset is gone; checkout modal is the only
        form, and it auto-fills via pickCustomer(). */
     .staff-sidebar { /* alias kept so existing rules still apply */ }
-    .chat-test-root .staff-sidebar,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .staff-sidebar,
     .staff-sidebar,
-    .chat-test-root .staff-topbar,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .staff-topbar,
     .staff-topbar {
       position: sticky;       /* sit at top of scroll on desktop */
       top: 0;
@@ -4168,7 +4168,7 @@
       margin-right: 0;
       max-width: none;
     }
-    .chat-test-root .staff-sidebar h2,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .staff-sidebar h2,
     .staff-sidebar h2,
     .staff-topbar .staff-section-title {
       font-family: var(--font-sans);
@@ -4181,13 +4181,13 @@
       display: block;
     }
     /* Selected customer card now lives inline to the right of the picker */
-    .chat-test-root .staff-sidebar-inner > #selectedCust,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .staff-sidebar-inner > #selectedCust,
     .staff-sidebar-inner > #selectedCust,
     .staff-topbar-selected {
       margin: 0;
       min-width: 0;
     }
-    .chat-test-root .staff-sidebar .selected-cust-bottom,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .staff-sidebar .selected-cust-bottom,
     .staff-sidebar .selected-cust-bottom {
       margin-top: 0;
     }
@@ -4478,10 +4478,10 @@
     /* Always-visible CTA in the cart header — staff can add a customer
        request without first emptying the cart. Sits inline with the
        title, smaller than the primary "Place Order Request" button. */
-    .chat-test-root .cart-header {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .cart-header {
       gap: 8px;
     }
-    .chat-test-root .cart-header-cta {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .cart-header-cta {
       font-family: var(--font-sans);
       font-size: 11.5px;
       font-weight: 600;
@@ -4495,7 +4495,7 @@
       white-space: nowrap;
       margin-right: auto;
     }
-    .chat-test-root .cart-header-cta:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .cart-header-cta:hover {
       background: rgba(45, 74, 43, 0.06);
       border-color: var(--c-bark, #1f3a1f);
     }
@@ -4540,7 +4540,7 @@
         padding: 12px 20px;
         font-size: 15px;
       }
-      .chat-test-root .add-to-order-link {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .add-to-order-link {
         padding-top: 8px;
         padding-bottom: 9px;
         min-height: 44px;
@@ -4548,7 +4548,7 @@
         display: inline-flex;
       }
       /* Selection bar action buttons — give them breathing room */
-      .chat-test-root .selection-bar .action-btn {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .selection-bar .action-btn {
         min-height: 44px;
         display: inline-flex;
         align-items: center;
@@ -4560,7 +4560,7 @@
        screens of scrolling). Without a sticky toolbar the user has
        to scroll all the way back to the top to refine. Same rule
        applies at tablet/desktop, not just mobile. */
-    .chat-test-root .search-shell {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-shell {
       position: sticky;
       top: 0;
       z-index: 50;
@@ -4574,7 +4574,7 @@
        edge so the background spans the screen and the radius
        drips off the corners. */
     @media (max-width: 600px) {
-      .chat-test-root .search-shell {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .search-shell {
         border-radius: 0;
         padding-top: 12px;
         padding-bottom: 10px;
@@ -4770,7 +4770,7 @@
          with the brand sage fill so users immediately recognize it as
          the primary action. Keeps the same DOM (data-add-to-order) so
          existing JS just works. */
-      body .chat-test-root .add-to-order-link {
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .add-to-order-link {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -4786,12 +4786,12 @@
         letter-spacing: 0.01em;
         box-shadow: 0 1px 2px rgba(26, 46, 26, 0.18);
       }
-      body .chat-test-root .add-to-order-link:hover {
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .add-to-order-link:hover {
         background: var(--c-cta, #1f6b3a);
         color: #fff;
         border-bottom: 0;
       }
-      body .chat-test-root .add-to-order-link:focus-visible {
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .add-to-order-link:focus-visible {
         outline: 2px solid var(--c-cta, #1f6b3a);
         outline-offset: 2px;
       }
@@ -4820,7 +4820,7 @@
        body.view-table / body.view-card via the rules above.
        ============================================================ */
 
-    body .chat-test-root table.list {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list {
       width: 100%;
       border-collapse: collapse;
       font-size: 14px;
@@ -4831,7 +4831,7 @@
       overflow: hidden;
       table-layout: auto;
     }
-    body .chat-test-root table.list thead th {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list thead th {
       text-align: left;
       font-weight: 500;
       color: var(--c-muted, #6b6256);
@@ -4848,28 +4848,28 @@
       top: 0;
       z-index: 1;
     }
-    body .chat-test-root table.list thead th:hover { background: #e5e3dd; }
-    body .chat-test-root table.list thead th .arrow {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list thead th:hover { background: #e5e3dd; }
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list thead th .arrow {
       color: var(--c-muted, #6b6256);
       margin-left: 4px;
       font-size: 10px;
     }
-    body .chat-test-root table.list thead th[data-sort="status"] { text-align: center; }
-    body .chat-test-root table.list thead th[data-sort="price"] { text-align: right; }
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list thead th[data-sort="status"] { text-align: center; }
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list thead th[data-sort="price"] { text-align: right; }
 
-    body .chat-test-root table.list tbody td {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody td {
       padding: 10px 16px;
       border-bottom: 1px solid #e5e3dd;
       vertical-align: middle;
     }
-    body .chat-test-root table.list tbody tr:last-child td { border-bottom: 0; }
-    body .chat-test-root table.list tbody tr:nth-child(even) td { background: #fafaf7; }
-    body .chat-test-root table.list tbody tr:hover td { background: #f5f5f4; }
-    body .chat-test-root table.list tbody tr.in-cart td {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody tr:last-child td { border-bottom: 0; }
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody tr:nth-child(even) td { background: #fafaf7; }
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody tr:hover td { background: #f5f5f4; }
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody tr.in-cart td {
       background: linear-gradient(0deg, rgba(58,95,58,0.06), rgba(58,95,58,0.06)), #fafaf7;
     }
 
-    body .chat-test-root td.botanical {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.botanical {
       font-style: normal;
       color: var(--c-bark, #2b3a2a);
       font-weight: 400;
@@ -4884,58 +4884,58 @@
        visibly lower than the proper superscript position. Reset to a true
        superscript so 'Confetti®' reads as a tight mark, not a dangling
        descender stub. */
-    body .chat-test-root td.botanical sup,
-    body .chat-test-root td.botanical .botanical-tm,
-    body .chat-test-root td.botanical a sup {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.botanical sup,
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.botanical .botanical-tm,
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.botanical a sup {
       font-size: 0.55em;
       line-height: 0;
       vertical-align: super;
       margin-left: 1px;
     }
-    body .chat-test-root td.botanical a.plant-link {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.botanical a.plant-link {
       color: var(--c-bark, #2b3a2a);
       text-decoration: none;
       border-bottom: 1px dotted var(--c-line, #d9d2c4);
     }
-    body .chat-test-root td.botanical a.plant-link:hover {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.botanical a.plant-link:hover {
       color: var(--c-cta, #1f6b3a);
       border-bottom-color: var(--c-cta, #1f6b3a);
     }
 
-    body .chat-test-root td.size,
-    body .chat-test-root td.height,
-    body .chat-test-root td.width {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.size,
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.height,
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.width {
       font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
       font-size: 13px;
       color: var(--c-clay, #4a4438);
       white-space: nowrap;
     }
-    body .chat-test-root td.size .size-entry {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.size .size-entry {
       display: inline-flex;
       align-items: baseline;
       gap: 4px;
     }
-    body .chat-test-root td.size .size-unit {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.size .size-unit {
       font-size: 10.5px;
       font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--c-clay, #4a4438);
     }
-    body .chat-test-root td.size .size-amount {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.size .size-amount {
       font-weight: var(--price-weight, 700);
       color: var(--c-bark, #2b3a2a);
       font-variant-numeric: tabular-nums;
     }
-    body .chat-test-root td.size .size-sep {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.size .size-sep {
       display: inline-block;
       margin: 0 6px;
       color: var(--c-line, #d9d2c4);
       font-weight: 400;
     }
-    body .chat-test-root td.size .size-value { color: var(--c-muted, #6b6256); }
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.size .size-value { color: var(--c-muted, #6b6256); }
 
-    body .chat-test-root td.price {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.price {
       text-align: right;
       font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
       font-weight: 600;
@@ -4946,7 +4946,7 @@
          the digit so "$22.00" doesn't read as "$22.00". */
       letter-spacing: 0.01em;
     }
-    body .chat-test-root td.price .price-from {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.price .price-from {
       font-size: 10.5px;
       font-weight: 500;
       letter-spacing: 0.06em;
@@ -4955,13 +4955,13 @@
       margin-right: 6px;
     }
 
-    body .chat-test-root td.status {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.status {
       text-align: center;
       vertical-align: middle;
       white-space: nowrap;
       padding: 8px 12px;
     }
-    body .chat-test-root td.status img.bloom-icon {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.status img.bloom-icon {
       display: inline-block;
       width: 22px;
       height: 22px;
@@ -4973,8 +4973,8 @@
     /* Status pill — icon + text label so first-time visitors don't have
        to guess what the symbol means. Both bloom and new states get
        the same treatment. */
-    body .chat-test-root td.status .status-bloom,
-    body .chat-test-root td.status .status-new {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.status .status-bloom,
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.status .status-new {
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -4986,24 +4986,24 @@
       line-height: 1.3;
       white-space: nowrap;
     }
-    body .chat-test-root td.status .status-bloom {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.status .status-bloom {
       background: rgba(255, 196, 102, 0.18);
       color: #7a4d00;
     }
-    body .chat-test-root td.status .status-new {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.status .status-new {
       background: rgba(184, 27, 72, 0.10);
       color: #b81b48;
     }
-    body .chat-test-root td.status .status-bloom img.bloom-icon {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.status .status-bloom img.bloom-icon {
       width: 16px;
       height: 16px;
       margin: 0;
     }
     @media (max-width: 720px) {
-      body .chat-test-root td.status img.bloom-icon { width: 26px; height: 26px; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.status img.bloom-icon { width: 26px; height: 26px; }
     }
 
-    body .chat-test-root td.section {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.section {
       font-size: 11px;
       color: var(--c-muted, #6b6256);
       white-space: nowrap;
@@ -5012,11 +5012,11 @@
     /* Add-to-order button per row. Calls the existing addPlantToCart
        helper so the cart, the picker, and the in-card qty stepper
        stay in sync without re-implementing any of the plumbing. */
-    body .chat-test-root td.add-cell {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.add-cell {
       text-align: right;
       white-space: nowrap;
     }
-    body .chat-test-root .row-add-btn {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .row-add-btn {
       appearance: none;
       -webkit-appearance: none;
       border: 1px solid var(--c-cta, #1f6b3a);
@@ -5037,24 +5037,24 @@
        Without this, multi-size rows near the bottom of the viewport
        can feel unresponsive because the popover positioning math runs
        async and the button stays visually static for ~100ms. */
-    body .chat-test-root .row-add-btn:active {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .row-add-btn:active {
       transform: scale(0.94);
     }
-    body .chat-test-root .row-add-btn:hover {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .row-add-btn:hover {
       background: var(--c-cta, #1f6b3a);
       color: #fff;
       box-shadow: 0 2px 8px rgba(31, 107, 58, 0.18);  /* lift on hover for affordance */
       transform: translateY(-1px);
     }
-    body .chat-test-root .row-add-btn.added-flash {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .row-add-btn.added-flash {
       background: var(--c-cta, #1f6b3a);
       color: #fff;
     }
-    body .chat-test-root .row-add-btn:focus-visible {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .row-add-btn:focus-visible {
       outline: 2px solid var(--c-cta, #1f6b3a);
       outline-offset: 2px;
     }
-    body .chat-test-root tr.in-cart .row-add-btn {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) tr.in-cart .row-add-btn {
       border-color: var(--c-cta, #1f6b3a);
       background: var(--c-sage-soft, #e7f0e8);
       color: var(--c-cta, #1f6b3a);
@@ -5224,7 +5224,7 @@
 
     /* The td.add-cell needs to be `position: relative` so the absolute
        popover anchors under the row's button (not the page viewport). */
-    body .chat-test-root td.add-cell { position: relative; }
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.add-cell { position: relative; }
 
     /* Mobile — popover stays right-anchored (won't overflow viewport
        on phones). Width auto-fits. */
@@ -5444,33 +5444,33 @@
          container. Without these `display: block` rules on tr/td,
          Chrome will silently keep the table-row/table-cell layout
          even though it parsed our rules. */
-      body .chat-test-root table.list,
-      body .chat-test-root table.list thead,
-      body .chat-test-root table.list tbody,
-      body .chat-test-root table.list tr {
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list,
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list thead,
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody,
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tr {
         display: block;
       }
-      body .chat-test-root table.list { font-size: 12px; }
-      body .chat-test-root table.list thead th,
-      body .chat-test-root table.list tbody td { padding: 6px 8px; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list { font-size: 12px; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list thead th,
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody td { padding: 6px 8px; }
       /* Reset white-space on the size cell so multi-size rows
          (e.g. "1gal $8 / 5gal $22") wrap to multiple lines on narrow
          screens instead of stretching the table to 1000+px wide. The
          base rule sets white-space: nowrap for tabular alignment. */
-      body .chat-test-root td.size { white-space: normal; }
-      body .chat-test-root td.height,
-      body .chat-test-root td.width,
-      body .chat-test-root td.section,
-      body .chat-test-root td.status { display: none; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.size { white-space: normal; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.height,
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.width,
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.section,
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.status { display: none; }
       /* Mobile row-collapse layout — the column headers don't correspond
          to a table grid anymore (each row is a stacked block with the
          botanical name on top). Hide the entire thead so we don't leave
          ghost column labels with no cells under them. The wrap clips
          horizontal overflow so a multi-size cell that briefly exceeds
          the row width doesn't push the whole page wider. */
-      body .chat-test-root table.list thead { display: none; }
-      body .chat-test-root .view-table-wrap { overflow-x: hidden; max-width: 100%; }
-      body .chat-test-root table.list tbody tr {
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list thead { display: none; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .view-table-wrap { overflow-x: hidden; max-width: 100%; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody tr {
         display: block;
         background: transparent;
         border: none;
@@ -5480,33 +5480,33 @@
         margin-bottom: 0;
         box-shadow: none;
       }
-      body .chat-test-root table.list tbody tr:last-child { border-bottom: 0; }
-      body .chat-test-root table.list tbody tr:nth-child(even) td,
-      body .chat-test-root table.list tbody tr:hover td { background: transparent; }
-      body .chat-test-root table.list tbody td {
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody tr:last-child { border-bottom: 0; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody tr:nth-child(even) td,
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody tr:hover td { background: transparent; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody td {
         display: inline;
         border: none;
         padding: 0;
         font-size: 12.5px;
       }
-      body .chat-test-root table.list tbody td.botanical {
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody td.botanical {
         display: block;
         font-size: 14px;
         font-weight: 600;
         white-space: normal;
         margin-bottom: 2px;
       }
-      body .chat-test-root table.list tbody td.size .size-sep { margin: 0 4px; }
-      body .chat-test-root table.list tbody td.price { font-size: 12.5px; font-weight: 600; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody td.size .size-sep { margin: 0 4px; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody td.price { font-size: 12.5px; font-weight: 600; }
       /* On mobile the +Add button gets its own line so it's always
          tappable without horizontal scroll. The row already shows the
          botanical name on top and the size/price inline below it. */
-      body .chat-test-root table.list tbody td.add-cell {
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody td.add-cell {
         display: block;
         float: none;
         margin-top: 8px;
       }
-      body .chat-test-root table.list tbody td.add-cell .row-add-btn {
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody td.add-cell .row-add-btn {
         display: inline-flex;
         width: 100%;
         justify-content: center;
@@ -5522,10 +5522,10 @@
          behind the pill. Stays at zero on tablet/anything wider. Also
          nudge up by the FAB's actual height (~76px) so the very last
          row is comfortably above the FAB on iPhone X+. */
-      .chat-test-root .results-toolbar,
-      .chat-test-root .results,
-      .chat-test-root .no-results,
-      .chat-test-root .results-footer {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results-toolbar,
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results,
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .no-results,
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results-footer {
         scroll-margin-bottom: 84px;
       }
     }
@@ -5535,10 +5535,10 @@
        left cards at 1024px+ being clipped behind the cart pill. Apply
        the same 76px clearance globally so the last row is always fully
        scrollable above the FAB on any viewport. */
-    .chat-test-root .results {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results {
       padding-bottom: 76px;
     }
-    .chat-test-root .results-toolbar:last-child {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results-toolbar:last-child {
       margin-bottom: 12px;
     }
     @media (max-width: 900px) and (min-width: 0) {
@@ -5546,10 +5546,10 @@
          global .results { padding-bottom: 76px } rule above covers
          mobile too, but leave the explicit mobile block in case a future
          tweak wants different mobile clearance. */
-      .chat-test-root .results {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results {
         padding-bottom: 76px;
       }
-      .chat-test-root .results-toolbar:last-child {
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results-toolbar:last-child {
         margin-bottom: 12px;
       }
     }
@@ -5561,10 +5561,10 @@
        sits over the wrap with pointer-events:none so it doesn't block
        row clicks. */
     @media (max-width: 1100px) {
-      body .chat-test-root .view-table-wrap {
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .view-table-wrap {
         position: relative;
       }
-      body .chat-test-root .view-table-wrap::after {
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .view-table-wrap::after {
         content: '›';
         position: absolute;
         top: 50%;
@@ -5589,14 +5589,14 @@
          AND the user hasn't scrolled to the end yet. CSS alone can't
          detect scroll position, so we pair this with the scroll listener
          in chat-test-root.js. */
-      body .chat-test-root .view-table-wrap.has-overflow:not(.scrolled-end)::after {
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .view-table-wrap.has-overflow:not(.scrolled-end)::after {
         opacity: 0.9;
       }
     }
 
     /* Empty-state row matches the no-results card so a zero-row search
        in table mode doesn't feel jarring. */
-    body .chat-test-root .table-empty-row td {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .table-empty-row td {
       padding: 28px 16px;
       text-align: center;
       color: var(--c-muted, #6b6256);
@@ -5629,27 +5629,27 @@
        rules later in this stylesheet or with higher specificity
        (body .chat-test-root …, table.list tbody td.add-cell …), so a plain
        override silently loses the cascade. */
-    .chat-test-root .add-to-order-link,
-    body .chat-test-root .add-to-order-link {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .add-to-order-link,
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .add-to-order-link {
       min-height: 44px !important;
       align-items: center;
     }
-    .chat-test-root .result-expand {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .result-expand {
       min-height: 44px !important;
       align-items: center;
       padding: 12px 0 !important;
     }
-    .chat-test-root .sort-tabs > .sort-tab {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tabs > .sort-tab {
       min-height: 44px !important;
     }
-    .chat-test-root .sort-select {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-select {
       min-height: 44px !important;
       padding-top: 11px !important;
       padding-bottom: 11px !important;
     }
     /* The 'Get trade pricing' CTA in the header — the main conversion
        control for a locked visitor, and it measured 38px. */
-    .chat-test-root .pricing-link-header,
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .pricing-link-header,
     .pricing-link-header {
       min-height: 44px !important;
       display: inline-flex;
@@ -5658,12 +5658,12 @@
     /* Table view: let the plant-name link fill its cell so the whole cell is
        tappable (it measured 236x19 inside a 48px row), and give the row's
        Add button a comfortable height. */
-    body .chat-test-root td.botanical a.plant-link {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.botanical a.plant-link {
       display: inline-block;
       padding: 13px 0;
     }
-    body .chat-test-root .row-add-btn,
-    body .chat-test-root table.list tbody td.add-cell .row-add-btn {
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .row-add-btn,
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody td.add-cell .row-add-btn {
       min-height: 44px !important;
       padding: 10px 14px !important;
     }
@@ -5671,17 +5671,17 @@
        gives each a full-height hit area without changing the footer's look. */
     footer a,
     .site-footer a,
-    .chat-test-root footer a {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) footer a {
       display: inline-block;
       padding: 12px 0;
     }
     /* Search suggestion chips — deliberately NOT taken to 44px: they sit in
        the sticky search shell, and doubling their height pushes the first
        result further down the page. A modest bump is the trade-off. */
-    .chat-test-root .suggestion { padding: 8px 9px !important; }
-    .chat-test-root .view-toggle-btn { min-height: 36px !important; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggestion { padding: 8px 9px !important; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .view-toggle-btn { min-height: 36px !important; }
     /* Floating bottom chrome */
-    .chat-test-root .back-to-top {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .back-to-top {
       min-height: 44px !important;
       display: inline-flex;
       align-items: center;
@@ -5691,7 +5691,7 @@
       min-height: 44px !important;
     }
     @media (max-width: 600px) {
-      .chat-test-root .suggested-toggle { min-height: 36px !important; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested-toggle { min-height: 36px !important; }
     }
 
     /* === Type-scale pass (2026-10-01) ===
@@ -5701,22 +5701,22 @@
        labels. Each moves up ~1-1.5px: enough to read at laptop distance
        without re-flowing the layout. The var(--fs-eyebrow) token is left
        alone deliberately so this commit stays inside one file. */
-    .chat-test-root .meta-pill { font-size: 12px !important; }
-    .chat-test-root .hero-stat-label { font-size: 11.5px !important; }
-    .chat-test-root .sort-tab-count { font-size: 11.5px !important; }
-    body .chat-test-root td.size .size-unit { font-size: 11.5px !important; }
-    body .chat-test-root .status-label { font-size: 12px !important; }
-    .chat-test-root .results-toolbar-label { font-size: 12px !important; }
-    .chat-test-root .ca-badge { font-size: 11.5px !important; }
-    .chat-test-root .suggested-group-label { font-size: 11.5px !important; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .meta-pill { font-size: 12px !important; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat-label { font-size: 11.5px !important; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-tab-count { font-size: 11.5px !important; }
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) td.size .size-unit { font-size: 11.5px !important; }
+    body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .status-label { font-size: 12px !important; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .results-toolbar-label { font-size: 12px !important; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .ca-badge { font-size: 11.5px !important; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggested-group-label { font-size: 11.5px !important; }
     /* "Sort by" sits in its own <span> inside .sort-select-label. */
-    .chat-test-root .sort-select-label > span { font-size: 12px !important; }
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .sort-select-label > span { font-size: 12px !important; }
     /* The footer is outside .chat-test-root (it's a sibling of <main>), so
        these are deliberately unscoped. */
     .site-footer-heading { font-size: 12.5px !important; }
     @media (max-width: 600px) {
       /* The ≤600px block drops hero stat labels to 10px; lift that floor. */
-      .chat-test-root .hero-stat-label { font-size: 11px !important; }
+      :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .hero-stat-label { font-size: 11px !important; }
     }
 
     /* === Suggestion chip affordance (2026-10-01) ===
@@ -5730,10 +5730,10 @@
        that would undo a decision already made. Instead keep the light
        treatment and make the dotted underline visible at rest, using the
        --c-sage token that the design system already assigns to chips. */
-    .chat-test-root .suggestion {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggestion {
       border-bottom-color: var(--c-sage, #5d7a4a) !important;
     }
-    .chat-test-root .suggestion:hover {
+    :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) .suggestion:hover {
       border-bottom-color: var(--c-cta, #1f6b3a) !important;
     }
 
@@ -5755,20 +5755,20 @@
          variable-width content); the rest are pinned.
          Its cell is nowrap by default, so allow wrapping here as a guard:
          a name longer than the column wraps instead of spilling. */
-      body .chat-test-root table.list { table-layout: fixed; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list { table-layout: fixed; }
       /* Botanical is declared explicitly rather than left `auto`. In fixed
          layout the column widths come from the FIRST row — which is the
          thead, and the thead has 5 cells while the body rows have 6 (the
          add button has no header). A 6th column with no declared width
          simply absorbs whatever is left, so leaving Botanical auto handed
          the surplus to the add column instead (359px for a 64px button). */
-      body .chat-test-root table.list th[data-sort="botanical"] { width: 40%; }
-      body .chat-test-root table.list td.botanical { white-space: normal; }
-      body .chat-test-root table.list th.col-status          { width: 170px; }
-      body .chat-test-root table.list th[data-sort="size"]   { width: 260px; }
-      body .chat-test-root table.list th[data-sort="height"] { width: 130px; }
-      body .chat-test-root table.list th[data-sort="width"]  { width: 130px; }
-      body .chat-test-root table.list tbody td.add-cell      { width: 150px; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list th[data-sort="botanical"] { width: 40%; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list td.botanical { white-space: normal; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list th.col-status          { width: 170px; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list th[data-sort="size"]   { width: 260px; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list th[data-sort="height"] { width: 130px; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list th[data-sort="width"]  { width: 130px; }
+      body :is(.chat-test-root, .cart-panel, .modal, .staff-topbar, .signin-gate) table.list tbody td.add-cell      { width: 150px; }
     }
   </style>
 </head>

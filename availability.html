@@ -4223,6 +4223,34 @@
       body.staff-mode #pwa-install {
         top: calc(var(--staff-topbar-bottom, var(--staff-topbar-h, 0px)) + 12px);
       }
+      /* The hint is empty-state instruction. Once a customer is chosen it is
+         just a line of noise above the card. */
+      body.staff-mode .staff-topbar:has(#selectedCust:not([hidden])) #custPickerHint {
+        display: none;
+      }
+      /* Collapse the selected-customer card from four rows to two:
+         row 1 = name + actions, row 2 = truncated meta. The "Working for"
+         label is redundant once the card is visibly the customer block. */
+      body.staff-mode #selectedCust .selected-cust {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 0 10px;
+        padding: 6px 10px;
+      }
+      body.staff-mode #selectedCust .selected-cust > .staff-section-title { display: none; }
+      body.staff-mode #selectedCust .selected-cust-name {
+        grid-column: 1; grid-row: 1;
+        font-size: 15px; line-height: 1.2;
+      }
+      body.staff-mode #selectedCust .selected-cust-actions {
+        grid-column: 2; grid-row: 1 / span 2;
+        align-self: center;
+      }
+      body.staff-mode #selectedCust .selected-cust-meta {
+        grid-column: 1; grid-row: 2;
+        font-size: 11.5px; line-height: 1.25;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
     }
     /* Don't pin the dropdown below the picker — it should now anchor
        under the picker input inside the topbar. */

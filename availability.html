@@ -4255,6 +4255,60 @@
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       }
     }
+
+    /* === Mobile touch-target floor — take sub-standard controls up to the
+       tier this codebase already uses ===
+       Measured in WebKit at 390x844 across every staff-mobile surface
+       (2026-10-04). The project's existing policy is TIERED, and this block
+       follows it rather than flattening it:
+         * 44px — text / CTA buttons, matching the many existing
+                  `min-height: 44px` rules (e.g. .ns-root .back-to-top).
+         * 36px — icon-only controls inside compact rows, the same tier the
+                  view toggles use deliberately.
+       Deliberately NOT touched here: .view-toggle-btn and #suggestedToggle.
+       They already sit at 36px by an explicit documented decision near
+       `.ns-root .view-toggle-btn { min-height: 36px !important }` — "doubling
+       their height pushes the first result further down the page". Do not
+       re-litigate that without the same trade-off in mind.
+       What this fixes (before -> after, measured):
+         #selCustClear                123x25 -> 44 tall   (worst target found)
+         #headerCustRequestCtaMobile  362x34 -> 44 tall
+         .cart-item-remove             23x22 -> 36x36
+         .cart-item-retail-toggle      26x22 -> 36x36
+         cart + picker qty steppers    28x28 -> 36x36
+         #closeCart / #closeSizePicker 32x44 -> 36x36
+         .picker-qty-chip              53x30 -> 36 tall
+         #pickerQtyInput / cart qty    -> 36 tall */
+    @media (max-width: 767px) {
+      /* 44px tier — text / CTA buttons */
+      #selCustClear,
+      #headerCustRequestCtaMobile,
+      #cartClearBtn,
+      #cartHeaderCta,
+      #proceedToCheckout,
+      #pickerAddBtn {
+        min-height: 44px;
+      }
+      /* 36px tier — icon-only controls inside compact rows */
+      #closeCart,
+      #closeSizePicker,
+      .cart-item-remove,
+      .cart-item-retail-toggle,
+      .qty-stepper button,
+      .picker-qty-chip,
+      #pickerQtyInput,
+      #cartPanel input[type="number"],
+      #sizePickerModal input[type="number"] {
+        min-height: 36px;
+      }
+      #closeCart,
+      #closeSizePicker,
+      .cart-item-remove,
+      .cart-item-retail-toggle,
+      .qty-stepper button {
+        min-width: 36px;
+      }
+    }
     /* Don't pin the dropdown below the picker — it should now anchor
        under the picker input inside the topbar. */
     body .staff-sidebar .cust-picker-results,

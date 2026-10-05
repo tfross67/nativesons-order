@@ -20,23 +20,38 @@ window.Cart = (() => {
     let items = [];
     let listeners = [];
 
+      // Coerce to a real number. Without this a corrupt persisted field turns a
+      // count or total into NaN (bar reads "NaN items") or, for a string qty,
+      // string-concatenates ("0" + "2" -> "02"). Verified 2026-10-04 by seeding
+      // degenerate carts into localStorage.
+      function num(v) {
+        const n = (typeof v === 'string') ? parseFloat(v) : v;
+        return (typeof n === 'number' && isFinite(n)) ? n : 0;
+      }
+
       function load() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         const parsed = raw ? JSON.parse(raw) : [];
         if (!Array.isArray(parsed)) { items = []; return; }
-        // Backfill retail fields on legacy items.
-        items = parsed.map(i => Object.assign(
-          { retailMode: 'wholesale', retailPrice: null, specialOrder: false },
-          i
-        ));
+        // Backfill retail fields on legacy items, then normalise the numerics.
+        items = parsed
+          .filter(i => i && typeof i === 'object' && i.key)
+          .map(i => Object.assign(
+            { retailMode: 'wholesale', retailPrice: null, specialOrder: false }, i))
+          .map(i => Object.assign({}, i, { price: num(i.price), qty: num(i.qty) }));
         // If item is wholesale mode but retailPrice is missing/stale, normalize.
         // Legacy carts had retailPrice === price; new carts use null.
         items.forEach(i => {
           if (i.retailMode === 'wholesale') i.retailPrice = null;
         });
+        // A line with no quantity is not in the cart. getCount() would return 0,
+        // so renderCart() would hide BOTH the bar and the panel while the line
+        // sat in storage — items the user can neither see nor open. Drop it.
+        items = items.filter(i => i.qty > 0);
       } catch (e) {
         console.warn('Cart load failed, starting fresh', e);
+        items = [];
       }
     }
 
@@ -221,14 +236,14 @@ window.Cart = (() => {
   }
 
   function getItems() { return items.map(i => ({ ...i })); }
-  function getCount() { return items.reduce((sum, i) => sum + i.qty, 0); }
-  function getSubtotal() { return items.reduce((sum, i) => sum + (i.price * i.qty), 0); }
+  function getCount() { return items.reduce((sum, i) => sum + num(i.qty), 0); }
+  function getSubtotal() { return items.reduce((sum, i) => sum + (num(i.price) * num(i.qty)), 0); }
   // Retail subtotal falls back to wholesale when retailPrice is null
   // (wholesale mode = no markup applied).
   function getRetailSubtotal() {
     return items.reduce((sum, i) => {
-      const p = i.retailPrice != null ? i.retailPrice : i.price;
-      return sum + (p * i.qty);
+      const p = i.retailPrice != null ? num(i.retailPrice) : num(i.price);
+      return sum + (p * num(i.qty));
     }, 0);
   }
 

@@ -351,7 +351,8 @@ window.AVAILABILITY = {
     "soil": "Rich soils",
     "special_uses": "Bog Planting\nWoodland Planting\nSmall Gardens\nShade garden\nCoastal garden\nBorder planting",
     "plant_type": "Grass/grass-like perennial",
-    "description": "Golden variegated sweet flag. A low-growing perennial that forms fans of rich golden-yellow, grasslike tufts, ‘Ogon’ makes an excellent container subject or small-scale groundcover. In shady areas usually dominated by different shades of green, the golden foliage adds a delightful twist. Must have at least partial shade in inland gardens. Garden origin."
+    "description": "Golden variegated sweet flag. A low-growing perennial that forms fans of rich golden-yellow, grasslike tufts, ‘Ogon’ makes an excellent container subject or small-scale groundcover. In shady areas usually dominated by different shades of green, the golden foliage adds a delightful twist. Must have at least partial shade in inland gardens. Garden origin.",
+    "additional_info": "Golden variegated sweet flag. A low-growing perennial that forms fans of rich golden-yellow, grasslike tufts, ‘Ogon’ makes an excellent container subject or small-scale groundcover. In shady areas usually dominated by different shades of green, the golden foliage adds a delightful twist. Must have at least partial shade in inland gardens. Garden origin."
   },
   {
     "botanical": "Adenanthos 'Silver Haze'",
@@ -606,7 +607,8 @@ window.AVAILABILITY = {
     "soil": "Rich soils",
     "special_uses": "Woodland planting\nBorder Planting\nSmall area groundcover\nShade garden",
     "plant_type": "Perennial",
-    "description": "Reaches 2-3’ with drooping, cup-shaped rose-pink flowers. Deer resistant.\n\nCommon name synonym: Windflower."
+    "description": "Reaches 2-3’ with drooping, cup-shaped rose-pink flowers. Deer resistant.\n\nCommon name synonym: Windflower.",
+    "additional_info": "Reaches 2-3’ with drooping, cup-shaped rose-pink flowers. Deer resistant.\n\nCommon name synonym: Windflower."
   },
   {
     "botanical": "Anisodontea 'Elegant Lady'",
@@ -753,7 +755,8 @@ window.AVAILABILITY = {
     "soil": "Most soil types",
     "special_uses": "Coastal Garden\nErosion Control\nRevegetation and Restoration\nAttracts Birds\nSlope Planting\nLarge area groundcover\nDry Garden",
     "plant_type": "Evergreen shrub",
-    "description": "4’ high and 10’ across, a mounding shrub with green foliage and white flowers from February to April. A strong garden-tolerant selection for coastal gardens. Hardy to 10F."
+    "description": "4’ high and 10’ across, a mounding shrub with green foliage and white flowers from February to April. A strong garden-tolerant selection for coastal gardens. Hardy to 10F.",
+    "additional_info": "4’ high and 10’ across, a mounding shrub with green foliage and white flowers from February to April. A strong garden-tolerant selection for coastal gardens. Hardy to 10F."
   },
   {
     "botanical": "Arctostaphylos manzanita 'Hood Mountain'",
@@ -1767,7 +1770,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Coastal Garden\nDry Garden\nBackground Planting\nAccent\nScreen\nHedge Planting\nNative Sons Selection\nCalifornia Native",
     "plant_type": "Evergreen shrub",
-    "description": "Feltleaf ceanothus. Our selection from Santa Cruz Island featuring large felted leaves and a strong upright habit to 18’. Medium-blue flowers in early spring and again in fall. Fall-flowering in this cultivar is reliable in coastal California. Hardy to 10F."
+    "description": "Feltleaf ceanothus. Our selection from Santa Cruz Island featuring large felted leaves and a strong upright habit to 18’. Medium-blue flowers in early spring and again in fall. Fall-flowering in this cultivar is reliable in coastal California. Hardy to 10F.",
+    "additional_info": "Feltleaf ceanothus. Our selection from Santa Cruz Island featuring large felted leaves and a strong upright habit to 18’. Medium-blue flowers in early spring and again in fall. Fall-flowering in this cultivar is reliable in coastal California. Hardy to 10F."
   },
   {
     "botanical": "Ceanothus arboreus 'Powder Blue'",
@@ -1935,7 +1939,8 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "plant_type": "Evergreen shrub - Small tree",
-    "description": "This selection can be pruned into a small tree or kept down to 8-10' as a tall shrub. The bark on this variety is green, and makes a stunning garden specimen pruned into a standard tree form. Once established these beauties prefer no summer water, but make sure to water the first few years in the ground. Leaves are small, 1/3\", dark green and glossy. Selected by nurserymen Paul Bonine and Greg Shepherd of Xera Plants. Suggested underplanting: Pacific Coast Iris. Drought tolerant once established."
+    "description": "This selection can be pruned into a small tree or kept down to 8-10' as a tall shrub. The bark on this variety is green, and makes a stunning garden specimen pruned into a standard tree form. Once established these beauties prefer no summer water, but make sure to water the first few years in the ground. Leaves are small, 1/3\", dark green and glossy. Selected by nurserymen Paul Bonine and Greg Shepherd of Xera Plants. Suggested underplanting: Pacific Coast Iris. Drought tolerant once established.",
+    "additional_info": "This selection can be pruned into a small tree or kept down to 8-10' as a tall shrub. The bark on this variety is green, and makes a stunning garden specimen pruned into a standard tree form. Once established these beauties prefer no summer water, but make sure to water the first few years in the ground. Leaves are small, 1/3\", dark green and glossy. Selected by nurserymen Paul Bonine and Greg Shepherd of Xera Plants. Suggested underplanting: Pacific Coast Iris. Drought tolerant once established."
   },
   {
     "botanical": "Ceanothus thyrsiflorus var. griseus",
@@ -2725,7 +2730,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Rock Garden\nHerb Garden\nCoastal Garden\nDry Garden\nSmall area groundcover\nBorder Planting\nContainer Planting",
     "plant_type": "Perennial",
-    "description": "A dense, compact version of the well known Santa Barbara daisy, ‘Spindrift’ is extremely floriferous and is not as prone to reseeding as the more common form. Tidier, well behaved habit. Brand new selection exclusive to Native Sons."
+    "description": "A dense, compact version of the well known Santa Barbara daisy, ‘Spindrift’ is extremely floriferous and is not as prone to reseeding as the more common form. Tidier, well behaved habit. Brand new selection exclusive to Native Sons.",
+    "additional_info": "A dense, compact version of the well known Santa Barbara daisy, ‘Spindrift’ is extremely floriferous and is not as prone to reseeding as the more common form. Tidier, well behaved habit. Brand new selection exclusive to Native Sons."
   },
   {
     "botanical": "Erigeron x moerheimii",
@@ -2753,7 +2759,8 @@ window.AVAILABILITY = {
     "soil": "Well drained / tolerates heavier soils",
     "special_uses": "Border Planting\nSmall area groundcover\nSlope planting\nContainer planting\nRock garden\nCoastal garden\nShade garden\nWoodland planting\nErosion control",
     "plant_type": "Perennial",
-    "description": "More compact than E. karvinskianus, with slightly larger leaves and flowers opening lavender-pink with a bluish tint."
+    "description": "More compact than E. karvinskianus, with slightly larger leaves and flowers opening lavender-pink with a bluish tint.",
+    "additional_info": "More compact than E. karvinskianus, with slightly larger leaves and flowers opening lavender-pink with a bluish tint."
   },
   {
     "botanical": "Eriogonum crocatum",
@@ -2781,7 +2788,8 @@ window.AVAILABILITY = {
     "soil": "Most soil types",
     "special_uses": "Dry Garden\nCoastal Garden\nRevegetation and Restoration\nSlope planting\nContainer planting\nBorder planting",
     "plant_type": "Woody perennial/subshrub",
-    "description": "Conejo buckwheat. Evergreen subshrub growing to 18” with an equal spread. Distinctive inch long gray-white leaves are covered in dense, woolly hairs. Flowers are small, sulfur-yellow, in dense flat-topped clusters from April to July. Thrives in heavier soils with little or no summer water.  Hardy to 15F. Narrow endemic from the Santa Monica Mountains."
+    "description": "Conejo buckwheat. Evergreen subshrub growing to 18” with an equal spread. Distinctive inch long gray-white leaves are covered in dense, woolly hairs. Flowers are small, sulfur-yellow, in dense flat-topped clusters from April to July. Thrives in heavier soils with little or no summer water.  Hardy to 15F. Narrow endemic from the Santa Monica Mountains.",
+    "additional_info": "Conejo buckwheat. Evergreen subshrub growing to 18” with an equal spread. Distinctive inch long gray-white leaves are covered in dense, woolly hairs. Flowers are small, sulfur-yellow, in dense flat-topped clusters from April to July. Thrives in heavier soils with little or no summer water.  Hardy to 15F. Narrow endemic from the Santa Monica Mountains."
   },
   {
     "botanical": "Eriophyllum staechadifolium",
@@ -2938,7 +2946,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Border Planting\nDry Garden\nSlope Planting\nContainer Planting\nCut Flower",
     "plant_type": "Perennial",
-    "description": "Spurge. 'Blackbird' has a compact, bushy habit with exceptionally dark purple foliage that gets darker in full sun. It grows up to 2 feet tall with an equal spread and blooms yellow-green from Spring to Summer. It has proven it self to be very temperature-tolerant as it has survived 116 degrees heat waves in the Central Valley of California. 'Blackbird' provides interest year round with its handsome foliage, making it ideal for the perennial border or container plantings."
+    "description": "Spurge. 'Blackbird' has a compact, bushy habit with exceptionally dark purple foliage that gets darker in full sun. It grows up to 2 feet tall with an equal spread and blooms yellow-green from Spring to Summer. It has proven it self to be very temperature-tolerant as it has survived 116 degrees heat waves in the Central Valley of California. 'Blackbird' provides interest year round with its handsome foliage, making it ideal for the perennial border or container plantings.",
+    "additional_info": "Spurge. 'Blackbird' has a compact, bushy habit with exceptionally dark purple foliage that gets darker in full sun. It grows up to 2 feet tall with an equal spread and blooms yellow-green from Spring to Summer. It has proven it self to be very temperature-tolerant as it has survived 116 degrees heat waves in the Central Valley of California. 'Blackbird' provides interest year round with its handsome foliage, making it ideal for the perennial border or container plantings."
   },
   {
     "botanical": "Euphorbia 'Dean's Hybrid'",
@@ -3049,7 +3058,8 @@ window.AVAILABILITY = {
     "soil": "Most soil types",
     "special_uses": "Shade Garden\nContainer Planting\nBorder Planting",
     "plant_type": "Perennial",
-    "description": "Wood spurge. Wide-spreading perennial groundcover to 2’ tall with evergreen rosettes of dark green leaves. Open, round heads of lime-green flowers rise out of the foliage in later spring. Tolerates shade, tree root competition and requires regular water in most California gardens. Hardy to 0F. Asia Minor. Deer resistant."
+    "description": "Wood spurge. Wide-spreading perennial groundcover to 2’ tall with evergreen rosettes of dark green leaves. Open, round heads of lime-green flowers rise out of the foliage in later spring. Tolerates shade, tree root competition and requires regular water in most California gardens. Hardy to 0F. Asia Minor. Deer resistant.",
+    "additional_info": "Wood spurge. Wide-spreading perennial groundcover to 2’ tall with evergreen rosettes of dark green leaves. Open, round heads of lime-green flowers rise out of the foliage in later spring. Tolerates shade, tree root competition and requires regular water in most California gardens. Hardy to 0F. Asia Minor. Deer resistant."
   },
   {
     "botanical": "Euphorbia mauritanica",
@@ -3331,7 +3341,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Attracts butterflies\nAttracts birds\nTrellis/Wall planting",
     "plant_type": "Deciduous vine",
-    "description": "This uncommon variety is also one of the most cold hardy Fuchsia, tolerating winter temperatures down close to 0 degrees Fahrenheit. While very cold temperatures may cause the plant to die down to the ground, they reliably come back in spring year after year. Willow-leaf Fuchsia has an arching habit in full sun. If given a shady spot, this plant will take on a clambering habit and can often ‘climb’ nearby shrubs."
+    "description": "This uncommon variety is also one of the most cold hardy Fuchsia, tolerating winter temperatures down close to 0 degrees Fahrenheit. While very cold temperatures may cause the plant to die down to the ground, they reliably come back in spring year after year. Willow-leaf Fuchsia has an arching habit in full sun. If given a shady spot, this plant will take on a clambering habit and can often ‘climb’ nearby shrubs.",
+    "additional_info": "This uncommon variety is also one of the most cold hardy Fuchsia, tolerating winter temperatures down close to 0 degrees Fahrenheit. While very cold temperatures may cause the plant to die down to the ground, they reliably come back in spring year after year. Willow-leaf Fuchsia has an arching habit in full sun. If given a shady spot, this plant will take on a clambering habit and can often ‘climb’ nearby shrubs."
   },
   {
     "botanical": "Fuchsia magellanica 'Versicolor'",
@@ -4669,7 +4680,20 @@ window.AVAILABILITY = {
     ],
     "bloom": false,
     "bud": false,
-    "new": false
+    "new": false,
+    "common": "Musk Mallow",
+    "origin": "Europe",
+    "plant_type": "Perennial",
+    "exposure": "Full sun",
+    "flower_color": "Pale Pink",
+    "flower_time": "Summer - Fall",
+    "height": "2-3'",
+    "width": "18-24\"",
+    "foliage": "Green, fragrant",
+    "water": "Occasional",
+    "soil": "Well drained",
+    "special_uses": "Attracts butterflies\nBorder planting",
+    "hardiness": "0°F"
   },
   {
     "botanical": "Melaleuca nesophila",
@@ -4733,7 +4757,8 @@ window.AVAILABILITY = {
     "soil": "Well drained / moisture retentive",
     "special_uses": "Container Planting",
     "plant_type": "Evergreen shrub",
-    "description": "Honey flower. Striking evergreen shrub to 8’ tall and wide grown primarily for its bold and highly textural foliage. Plants bear large, blue-green leaves that are coarsely serrated and extremely pungent when brushed against; one common name, Touch-me-not, gives the gardener polite warning. Tall brownish-red flowering racemes appear in summer, but in truth it is the foliage that warrants the most attention. Almost primeval in its appearance, the honey flower is best utilized in containers as a specimen, or beside pools or streams where it can call to mind what plants must have looked like “way back when”. Plant in full sun or light shade in moisture-retentive, well-drained soils. Provide moderate water. Hardy to 20F. South Africa."
+    "description": "Honey flower. Striking evergreen shrub to 8’ tall and wide grown primarily for its bold and highly textural foliage. Plants bear large, blue-green leaves that are coarsely serrated and extremely pungent when brushed against; one common name, Touch-me-not, gives the gardener polite warning. Tall brownish-red flowering racemes appear in summer, but in truth it is the foliage that warrants the most attention. Almost primeval in its appearance, the honey flower is best utilized in containers as a specimen, or beside pools or streams where it can call to mind what plants must have looked like “way back when”. Plant in full sun or light shade in moisture-retentive, well-drained soils. Provide moderate water. Hardy to 20F. South Africa.",
+    "additional_info": "Honey flower. Striking evergreen shrub to 8’ tall and wide grown primarily for its bold and highly textural foliage. Plants bear large, blue-green leaves that are coarsely serrated and extremely pungent when brushed against; one common name, Touch-me-not, gives the gardener polite warning. Tall brownish-red flowering racemes appear in summer, but in truth it is the foliage that warrants the most attention. Almost primeval in its appearance, the honey flower is best utilized in containers as a specimen, or beside pools or streams where it can call to mind what plants must have looked like “way back when”. Plant in full sun or light shade in moisture-retentive, well-drained soils. Provide moderate water. Hardy to 20F. South Africa."
   },
   {
     "botanical": "Miscanthus sinensis 'Little Miss'",
@@ -4900,7 +4925,8 @@ window.AVAILABILITY = {
     "soil": "Moist / well drained",
     "special_uses": "Herb Garden\nSmall area groundcover\nContainer Planting",
     "plant_type": "Perennial",
-    "description": "Sterile garden hybrid (N. racemosa x N. nepetella) that forms a soft, gray-green mound to 2’ high. Abundant, lavender-blue flowers appear in loose spikes from late spring until summer above the aromatic foliage. Shear off dead spikes to achieve repeat blooming and to maintain a compact form. Plants spread up to 3’ to form a large, gray-green mat.  Hardy to below 0F."
+    "description": "Sterile garden hybrid (N. racemosa x N. nepetella) that forms a soft, gray-green mound to 2’ high. Abundant, lavender-blue flowers appear in loose spikes from late spring until summer above the aromatic foliage. Shear off dead spikes to achieve repeat blooming and to maintain a compact form. Plants spread up to 3’ to form a large, gray-green mat.  Hardy to below 0F.",
+    "additional_info": "Sterile garden hybrid (N. racemosa x N. nepetella) that forms a soft, gray-green mound to 2’ high. Abundant, lavender-blue flowers appear in loose spikes from late spring until summer above the aromatic foliage. Shear off dead spikes to achieve repeat blooming and to maintain a compact form. Plants spread up to 3’ to form a large, gray-green mat.  Hardy to below 0F."
   },
   {
     "botanical": "Nepeta x faassenii 'Six Hills Giant'",
@@ -4928,7 +4954,8 @@ window.AVAILABILITY = {
     "soil": "Moist / well drained",
     "special_uses": "Herb Garden\nBorder Planting\nSmall area groundcover",
     "plant_type": "Perennial",
-    "description": "To 2’ high with  gray felted leaves, scented foliage and blue flowers throughout the summer. Hardier and tougher than the species, with a bolder presence."
+    "description": "To 2’ high with  gray felted leaves, scented foliage and blue flowers throughout the summer. Hardier and tougher than the species, with a bolder presence.",
+    "additional_info": "To 2’ high with  gray felted leaves, scented foliage and blue flowers throughout the summer. Hardier and tougher than the species, with a bolder presence."
   },
   {
     "botanical": "Olea europaea 'Campo Dwarf'",
@@ -5071,7 +5098,8 @@ window.AVAILABILITY = {
     "soil": "Well drained / tolerates heavier soils",
     "special_uses": "Border Planting\nCoastal Garden\nDry Garden\nSmall area groundcover",
     "plant_type": "Perennial",
-    "description": "Same as Asteriscus maritimus."
+    "description": "Same as Asteriscus maritimus.",
+    "additional_info": "Same as Asteriscus maritimus."
   },
   {
     "botanical": "Parahebe linifolia",
@@ -5181,7 +5209,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Container Planting",
     "plant_type": "Perennial",
-    "description": "Stocky, branched, and spreading shrub to 4’, with a woody base.  The dull green, heart-shaped leaves are up to 3” long with grayish undersides and velvety hairs on both sides. Scattered magenta blooms in loose clusters to 2” long appear in late spring and early summer. Hardy to 25F. South Africa."
+    "description": "Stocky, branched, and spreading shrub to 4’, with a woody base.  The dull green, heart-shaped leaves are up to 3” long with grayish undersides and velvety hairs on both sides. Scattered magenta blooms in loose clusters to 2” long appear in late spring and early summer. Hardy to 25F. South Africa.",
+    "additional_info": "Stocky, branched, and spreading shrub to 4’, with a woody base.  The dull green, heart-shaped leaves are up to 3” long with grayish undersides and velvety hairs on both sides. Scattered magenta blooms in loose clusters to 2” long appear in late spring and early summer. Hardy to 25F. South Africa."
   },
   {
     "botanical": "Pelargonium ionidiflorum",
@@ -5637,7 +5666,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Dry Garden\nBorder Planting",
     "plant_type": "Perennial",
-    "description": "A spreading evergreen perennial that grows 1 to 2 feet tall with wide ranging rhizomes from which rise large 4 to 8 inch long heart-shaped soft woolly olive-green leaves on long petioles."
+    "description": "A spreading evergreen perennial that grows 1 to 2 feet tall with wide ranging rhizomes from which rise large 4 to 8 inch long heart-shaped soft woolly olive-green leaves on long petioles.",
+    "additional_info": "A spreading evergreen perennial that grows 1 to 2 feet tall with wide ranging rhizomes from which rise large 4 to 8 inch long heart-shaped soft woolly olive-green leaves on long petioles."
   },
   {
     "botanical": "Phlomis x margaritae",
@@ -5749,7 +5779,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Dry Garden\nLarge area groundcover\nSlope Planting",
     "plant_type": "Perennial",
-    "description": "Drought tolerant. Formerly Lippia nodifera."
+    "description": "Drought tolerant. Formerly Lippia nodifera.",
+    "additional_info": "Drought tolerant. Formerly Lippia nodifera."
   },
   {
     "botanical": "Pittosporum 'Elfin'",
@@ -5869,7 +5900,8 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "plant_type": "Evergreen shrub",
-    "description": "Low growing, thick growth habit."
+    "description": "Low growing, thick growth habit.",
+    "additional_info": "Low growing, thick growth habit."
   },
   {
     "botanical": "Pittosporum tenuifolium 'Diamond'",
@@ -6074,7 +6106,8 @@ window.AVAILABILITY = {
     "soil": "Moist / well drained",
     "special_uses": "Container Planting",
     "plant_type": "Evergreen shrub",
-    "description": "Erect, branched shrub to 5’ tall with large, purple flowers in short, terminal racemes that close at night. South Africa."
+    "description": "Erect, branched shrub to 5’ tall with large, purple flowers in short, terminal racemes that close at night. South Africa.",
+    "additional_info": "Erect, branched shrub to 5’ tall with large, purple flowers in short, terminal racemes that close at night. South Africa."
   },
   {
     "botanical": "Prostanthera ovalifolia 'Variegata'",
@@ -6305,7 +6338,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Screen\nHerb Garden",
     "plant_type": "Evergreen shrub",
-    "description": "Deer resistant."
+    "description": "Deer resistant.",
+    "additional_info": "Deer resistant."
   },
   {
     "botanical": "Rosmarinus officinalis 'Blue Boy'",
@@ -6811,7 +6845,8 @@ window.AVAILABILITY = {
     "water": "Occasional",
     "soil": "Well drained",
     "plant_type": "Perennial",
-    "description": "Heatwave™ series. A cross of microphylla forms with greggii varieties.  Heat and drought tolerant.  Deer resistant too."
+    "description": "Heatwave™ series. A cross of microphylla forms with greggii varieties.  Heat and drought tolerant.  Deer resistant too.",
+    "additional_info": "Heatwave™ series. A cross of microphylla forms with greggii varieties.  Heat and drought tolerant.  Deer resistant too."
   },
   {
     "botanical": "Salvia oxyphora",
@@ -6923,7 +6958,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Small area groundcover\nDry Garden\nHerb Garden\nTrellis/Wall Planting\nBorder Planting",
     "plant_type": "Woody perennial/subshrub",
-    "description": "Lavender cotton. Smaller version to 12” high and 2-3’ wide. Brittle, woody stems are densely clothed with rough, finely divided, whitish-gray leaves. Bright yellow, button-like flowers appear in summer. Western and Central Mediterranean. Deer resistant."
+    "description": "Lavender cotton. Smaller version to 12” high and 2-3’ wide. Brittle, woody stems are densely clothed with rough, finely divided, whitish-gray leaves. Bright yellow, button-like flowers appear in summer. Western and Central Mediterranean. Deer resistant.",
+    "additional_info": "Lavender cotton. Smaller version to 12” high and 2-3’ wide. Brittle, woody stems are densely clothed with rough, finely divided, whitish-gray leaves. Bright yellow, button-like flowers appear in summer. Western and Central Mediterranean. Deer resistant."
   },
   {
     "botanical": "Santolina magonica",
@@ -6993,7 +7029,20 @@ window.AVAILABILITY = {
     ],
     "bloom": false,
     "bud": false,
-    "new": false
+    "new": false,
+    "common": "Soapwort",
+    "origin": "Europe",
+    "plant_type": "Perennial",
+    "exposure": "Full sun - Partial shade",
+    "flower_color": "White",
+    "flower_time": "Spring - Summer",
+    "height": "6-8\"",
+    "width": "12-18\"",
+    "foliage": "Green",
+    "water": "Moderate",
+    "soil": "Well drained",
+    "special_uses": "Rock garden\nAttracts butterflies\nContainer planting",
+    "hardiness": "0°F"
   },
   {
     "botanical": "Scabiosa columbaria 'Flutter Deep Blue'",
@@ -7189,7 +7238,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Rock garden\nDry garden\nContainer planting\nFall color\nBorder planting",
     "plant_type": "Succulent",
-    "description": "Yellow-green in partial shade, coppery red-orange in full sun."
+    "description": "Yellow-green in partial shade, coppery red-orange in full sun.",
+    "additional_info": "Yellow-green in partial shade, coppery red-orange in full sun."
   },
   {
     "botanical": "Sedum rubrotinctum",
@@ -7244,7 +7294,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Rock Garden\nSmall area groundcover\nContainer Planting",
     "plant_type": "Succulent",
-    "description": "Dense, compact form to 2” tall and spreading in favorable sites. Flat rosettes of fleshy, silvery-green leaves with clusters of tiny, yellow flowers above the foliage in summer. Once rooted, it needs little water in cool summer climates and tolerates considerable shade. Excellent in containers or used in rock gardens. Hardy to 5F. Oregon."
+    "description": "Dense, compact form to 2” tall and spreading in favorable sites. Flat rosettes of fleshy, silvery-green leaves with clusters of tiny, yellow flowers above the foliage in summer. Once rooted, it needs little water in cool summer climates and tolerates considerable shade. Excellent in containers or used in rock gardens. Hardy to 5F. Oregon.",
+    "additional_info": "Dense, compact form to 2” tall and spreading in favorable sites. Flat rosettes of fleshy, silvery-green leaves with clusters of tiny, yellow flowers above the foliage in summer. Once rooted, it needs little water in cool summer climates and tolerates considerable shade. Excellent in containers or used in rock gardens. Hardy to 5F. Oregon."
   },
   {
     "botanical": "Senecio serpens",
@@ -7646,7 +7697,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Cut Flower\nContainer planting\nRock garden\nTrellis/Wall planting\nAccent",
     "plant_type": "Perennial",
-    "description": "'Newleaze Coral' is a small shrub with an upright habit and generous quantities of 1\", cupped, silky-textured flowers that will bloom until the first frost. They will not tolerate damp soil in winter. Wait until spring to prune, when new shoots are visible. Sun-loving, they will only tolerate light dappled shade. Suggested companion: Melianthus major."
+    "description": "'Newleaze Coral' is a small shrub with an upright habit and generous quantities of 1\", cupped, silky-textured flowers that will bloom until the first frost. They will not tolerate damp soil in winter. Wait until spring to prune, when new shoots are visible. Sun-loving, they will only tolerate light dappled shade. Suggested companion: Melianthus major.",
+    "additional_info": "'Newleaze Coral' is a small shrub with an upright habit and generous quantities of 1\", cupped, silky-textured flowers that will bloom until the first frost. They will not tolerate damp soil in winter. Wait until spring to prune, when new shoots are visible. Sun-loving, they will only tolerate light dappled shade. Suggested companion: Melianthus major."
   },
   {
     "botanical": "Stachys 'Summer Romance'",
@@ -7927,7 +7979,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Attracts butterflies\nRock garden\nBorder planting",
     "plant_type": "Perennial",
-    "description": "deer resistant and drought tolerant"
+    "description": "deer resistant and drought tolerant",
+    "additional_info": "deer resistant and drought tolerant"
   },
   {
     "botanical": "Teucrium fruticans 'Azureum'",
@@ -7984,7 +8037,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Border Planting",
     "plant_type": "Woody perennial/subshrub",
-    "description": "Similar to above, but to only 3’ tall with dense, stiff stems. Blooms most of the year with soft-blue flowers. Hardy to 10F.\n\nCommon name synonum: Tree germander\nSynonym: Teucrium fruticans 'Gwen'"
+    "description": "Similar to above, but to only 3’ tall with dense, stiff stems. Blooms most of the year with soft-blue flowers. Hardy to 10F.\n\nCommon name synonum: Tree germander\nSynonym: Teucrium fruticans 'Gwen'",
+    "additional_info": "Similar to above, but to only 3’ tall with dense, stiff stems. Blooms most of the year with soft-blue flowers. Hardy to 10F.\n\nCommon name synonum: Tree germander\nSynonym: Teucrium fruticans 'Gwen'"
   },
   {
     "botanical": "Thamnochortus insignis",

@@ -1115,7 +1115,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Coyote Brush",
+    "common": "Coyote Bush",
     "height": "1-2'",
     "width": "6-8'",
     "flower_color": "White",
@@ -1840,8 +1840,8 @@ window.AVAILABILITY = {
       }
     ],
     "common": "Carmel ceanothus",
-    "height": "8-12\"",
-    "width": "6-8'",
+    "height": "4-6'",
+    "width": "10-15'",
     "flower_color": "Violet blue",
     "flower_time": "Spring",
     "origin": "Coastal Central California",
@@ -2728,7 +2728,7 @@ window.AVAILABILITY = {
     "foliage": "Green",
     "water": "Infrequent",
     "soil": "Well drained",
-    "special_uses": "Rock Garden\nHerb Garden\nCoastal Garden\nDry Garden\nSmall area groundcover\nBorder Planting\nContainer Planting",
+    "special_uses": "Rock Garden\nCoastal Garden\nDry Garden\nSmall area groundcover\nBorder Planting\nContainer Planting",
     "plant_type": "Perennial",
     "description": "A dense, compact version of the well known Santa Barbara daisy, ‘Spindrift’ is extremely floriferous and is not as prone to reseeding as the more common form. Tidier, well behaved habit. Brand new selection exclusive to Native Sons.",
     "additional_info": "A dense, compact version of the well known Santa Barbara daisy, ‘Spindrift’ is extremely floriferous and is not as prone to reseeding as the more common form. Tidier, well behaved habit. Brand new selection exclusive to Native Sons."
@@ -3071,7 +3071,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Spurge",
+    "common": "Pencil Milkbush",
     "height": "4-6'",
     "width": "4-6'",
     "flower_color": "Bright yellow",
@@ -3745,7 +3745,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Roundleaf alumroot, oval-leaf alumroot",
+    "common": "Roundleaf alumroot",
     "origin": "California",
     "plant_type": "Perennial",
     "exposure": "Shade",
@@ -3831,7 +3831,7 @@ window.AVAILABILITY = {
     "flower_color": "N/A",
     "flower_time": "N/A",
     "origin": "California",
-    "plant_type": "Evergreen shrub",
+    "plant_type": "Groundcover, Evergreen shrub",
     "exposure": "Full sun - Partial shade",
     "foliage": "Silver green",
     "water": "Occasional",
@@ -4538,7 +4538,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "No common name",
+    "common": "Winter Red conebush",
     "height": "4-6'",
     "width": "6-8'",
     "flower_color": "Yellow",
@@ -5421,7 +5421,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Penstemon",
+    "common": "Beardtongue",
     "height": "2-3'",
     "width": "2-3'",
     "flower_color": "Red",
@@ -5622,10 +5622,10 @@ window.AVAILABILITY = {
       }
     ],
     "common": "Jerusalem sage",
-    "height": "18-24\"",
-    "width": "18-24\"",
+    "height": "4-6'",
+    "width": "4-6'",
     "flower_color": "Rose to mauve",
-    "flower_time": "Summer",
+    "flower_time": "Summer - Fall",
     "origin": "Spain, Portugal",
     "plant_type": "Woody perennial/subshrub",
     "exposure": "Full sun",
@@ -5858,8 +5858,8 @@ window.AVAILABILITY = {
       }
     ],
     "common": "Lemonwood",
-    "height": "40-50'",
-    "width": "10-15'",
+    "height": "7-12'",
+    "width": "5-10'",
     "flower_color": "Yellow green, honey scented",
     "flower_time": "Summer",
     "origin": "New Zealand",
@@ -6352,7 +6352,7 @@ window.AVAILABILITY = {
       }
     ],
     "common": "Dwarf rosemary",
-    "height": "3-6\"",
+    "height": "10-12\"",
     "width": "2-3'",
     "flower_color": "Pale blue",
     "flower_time": "Spring - Summer - Fall",
@@ -6557,7 +6557,7 @@ window.AVAILABILITY = {
     "flower_color": "Pink and white",
     "flower_time": "Spring - Summer - Fall",
     "origin": "South Africa",
-    "plant_type": "Perennial",
+    "plant_type": "Succulent",
     "exposure": "Full sun/ light shade",
     "foliage": "Green",
     "water": "Occasional",
@@ -6608,7 +6608,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Hybrid sage",
+    "common": "Dara's Choice sage",
     "height": "2-3'",
     "width": "4-6'",
     "flower_color": "Violet blue",
@@ -7737,7 +7737,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Buffalo grass",
+    "common": "Variegated St. Augustine",
     "height": "3-6\"",
     "width": "12-18\"",
     "flower_color": "Insignificant",
@@ -7822,7 +7822,7 @@ window.AVAILABILITY = {
         "order": ""
       }
     ],
-    "common": "Wood germander",
+    "common": "Madeira Germander",
     "height": "2-3'",
     "width": "3-4'",
     "flower_color": "Pink to lavender",

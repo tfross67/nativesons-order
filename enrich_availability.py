@@ -62,6 +62,7 @@ def load_master():
         row = [ws.cell(row_idx, c).value for c in range(1, ws.max_column + 1)]
         if not row[2]: continue
         record = {
+            'botanical':        str(row[2]).strip()  if row[2]  else None,
             'common':           str(row[3]).strip()  if row[3]  else None,
             'origin':           str(row[4]).strip()  if row[4]  else None,
             'plant_type':       str(row[5]).strip()  if row[5]  else None,
@@ -81,6 +82,18 @@ def load_master():
         }
         for v in variants(row[2]):
             lookup.setdefault(v, record)
+        # Synonyms declared inside Additional Information, e.g.
+        # "Synonyms: Isomeris arborea, Peritoma arborea. Large, showy …"
+        # Registered so a plant the master has RENAMED still matches its record
+        # (and can be renamed on the portal, see propagate()).
+        m = re.search(r'Synonyms?:\s*([^.]*)', record['additional_info'] or '', re.I)
+        if m:
+            for syn in re.split(r',|\band\b', m.group(1)):
+                syn = syn.strip()
+                if not syn: continue
+                record.setdefault('synonyms', []).append(syn)
+                for v in variants(syn):
+                    lookup.setdefault(v, record)
     print(f'Loaded {len(lookup)} unique master records')
     return lookup
 
@@ -109,10 +122,108 @@ def enrich(plants, master):
     return enriched
 
 
+def _cmp(s):
+    """Comparison form: case-, whitespace- and quote-insensitive.
+
+    The master is not typographically consistent ('Coyote Brush' vs 'Coyote
+    Bush' is real, "glossy abelia" vs "Glossy Abelia" is not), so a plain
+    string compare reports ~300 phantom changes.
+    """
+    if s is None: return ''
+    t = str(s).strip().lower()
+    for a, b in (('\u2018', "'"), ('\u2019', "'"), ('\u201c', '"'), ('\u201d', '"')):
+        t = t.replace(a, b)
+    return re.sub(r'\s+', ' ', t)
+
+
+def _documented_synonym(plant_botanical, record):
+    """True when the plant's current name is a synonym the master declares.
+
+    Only these may be renamed. A match found by stripping a qualifier or a
+    cultivar is NOT licence to rename: 'Phyla nodiflora (pink)' must not become
+    'Phyla nodiflora', and Teucrium 'Compactum' must not become 'Gwen'.
+    """
+    return _cmp(plant_botanical) in {_cmp(x) for x in (record.get('synonyms') or [])}
+
+
+def propagate(plants, master, rename=False, typography=False):
+    """Overwrite portal metadata that DIFFERS from the master (opt-in).
+
+    enrich() only fills EMPTY fields, so a corrected master value — a fixed
+    common name, a new exposure, or a botanical rename — never reaches the
+    portal. This pass is the other half.
+
+    It is deliberately conservative:
+      * case/quote/whitespace-only differences are skipped unless
+        typography=True (they are the master's formatting, not a correction);
+      * hardiness is compared numerically, so '0' -> '0°F' is not a change;
+      * a botanical is renamed ONLY when the master explicitly declares the
+        current name as a synonym (see _documented_synonym), stashing the old
+        name in `botanical_prev` so the change is reversible.
+
+    Returns (changes, renamed); each change is (botanical, field, old, new).
+    """
+    metadata_fields = [
+        'common', 'origin', 'plant_type', 'exposure', 'flower_color', 'flower_time',
+        'height', 'width', 'foliage', 'water', 'soil', 'special_uses', 'additional_info',
+    ]
+    changes, renamed = [], []
+    for p in plants:
+        matched = None
+        for v in variants(p['botanical']):
+            if v in master:
+                matched = master[v]
+                break
+        if not matched:
+            continue
+
+        if rename:
+            canonical = matched.get('botanical')
+            if canonical and canonical != p.get('botanical') \
+                    and _documented_synonym(p.get('botanical'), matched):
+                renamed.append((p.get('botanical'), canonical))
+                p['botanical_prev'] = p.get('botanical')
+                p['botanical'] = canonical
+                if matched.get('synonyms'):
+                    p['synonyms'] = matched['synonyms']
+
+        for k in metadata_fields:
+            val = matched.get(k)
+            if not val:
+                continue
+            cur = p.get(k)
+            if cur is None:
+                continue            # enrich() already fills empties
+            if _cmp(cur) == _cmp(val):
+                if cur == val or not typography:
+                    continue        # identical, or formatting-only
+            changes.append((p.get('botanical'), k, cur, val))
+            p[k] = val
+
+        h = matched.get('hardiness')
+        if h is not None:
+            new_h = f'{h}\u00b0F'
+            try:
+                same_number = int(re.sub(r'[^0-9-]', '', str(p.get('hardiness') or '')) or 'x') == int(h)
+            except ValueError:
+                same_number = False
+            if not same_number:
+                changes.append((p.get('botanical'), 'hardiness', p.get('hardiness'), new_h))
+                p['hardiness'] = new_h
+    return changes, renamed
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--input', help='Path to JSON availability dict (default: existing availability_data.js)')
+    ap.add_argument('--propagate', action='store_true',
+                    help='also overwrite metadata that DIFFERS from the master (default: fill empty fields only)')
+    ap.add_argument('--propagate-botanical', action='store_true',
+                    help='with --propagate, also align the botanical name with the master (implies --propagate)')
+    ap.add_argument('--dry-run', action='store_true', help='report changes without writing availability_data.js')
     args = ap.parse_args()
+    if args.propagate_botanical:
+        args.propagate = True
 
     master = load_master()
 
@@ -132,6 +243,18 @@ def main():
 
     n = enrich(data['plants'], master)
     print(f'Enriched {n}/{len(data["plants"])} plants')
+
+    if args.propagate:
+        changes, renamed = propagate(data['plants'], master, rename=args.propagate_botanical)
+        print(f'Propagated {len(changes)} field change(s); renamed {len(renamed)} plant(s)')
+        for b, f, old, new in changes:
+            print(f'  ~ {b} | {f}: {str(old)[:70]!r} -> {str(new)[:70]!r}')
+        for old, new in renamed:
+            print(f'  -> renamed: {old} -> {new}')
+
+    if args.dry_run:
+        print('DRY RUN: availability_data.js not written')
+        return
 
     # Re-emit
     plants_json = json.dumps(data['plants'], indent=2, ensure_ascii=False)

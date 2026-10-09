@@ -41,11 +41,21 @@ RENAMES = {
 # Aliases: weekly normalized key → master normalized key. Same key set as
 # scripts/../../skills/.../enrich_portal_from_master.py so behaviour stays in
 # sync with Tim's prior enrichment pass.
+#
+# The two ™-containing targets below used to read 'dreameriatm' / 'whispurrtm',
+# because norm() ran NFKC before stripping the trademark and NFKC turns ™ into
+# "TM". Now that norm() strips first, the master keys have no 'tm' in them, so
+# those targets had to be corrected in the same change or they would have
+# started missing (2026-10-09).
 ALIASES = {
-    "armeria p. 'dreameria dreamland'": "armeria pseud. 'dreameriatm dreamland'",
+    "armeria p. 'dreameria dreamland'": "armeria pseud. 'dreameria dreamland'",
     "phyla nodiflora (pink)": "phyla nodiflora",
     "phyla nodiflora (white)": "phyla nodiflora 'white'",
-    "nepeta faassenii 'whispurr pink'": "nepeta faassenii 'whispurrtm pink'",
+    "nepeta faassenii 'whispurr pink'": "nepeta faassenii 'whispurr pink'",
+    # The 4" sheet spells this with the species epithet; the master carries the
+    # genus+cultivar form only. Without this the row reported "Unmatched (no
+    # master record)" on every run (verified 2026-10-09).
+    "achillea millefolium 'terra cotta'": "achillea 'terra cotta'",
     "campanula portenschlagiana 'resholt's variety'":
         "campanula portenschlagiana 'resholdt's variety'",
 }
@@ -71,9 +81,17 @@ FIELD_MAP = [
 def norm(s):
     if s is None:
         return ''
-    text = unicodedata.normalize('NFKC', str(s)).strip().lower()
+    # Strip the trademark marks BEFORE the NFKC pass. NFKC maps ™ (U+2122) to
+    # the two letters "TM", so a replace('™','') after it is a no-op: a weekly
+    # "…'Whispurr™ Pink'" and a master "…'Whispurr Pink'" produced different
+    # keys ('whispurrtm pink' vs 'whispurr pink') and the row reported
+    # "Unmatched (no master record)" every week. ® has no compatibility
+    # decomposition, which is why only the ™ names ever failed.
+    text = str(s)
+    for ch in ('\u00ae', '\u2122', '\u00a9'):
+        text = text.replace(ch, '')
+    text = unicodedata.normalize('NFKC', text).strip().lower()
     for old, new in (
-        ('\u00ae', ''), ('\u2122', ''), ('\u00a9', ''),
         ('\u2018', "'"), ('\u2019', "'"),
         ('\u201c', '"'), ('\u201d', '"'), ('\u00d7', ' x '),
     ):

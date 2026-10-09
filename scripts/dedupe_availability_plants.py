@@ -49,9 +49,19 @@ META_FIELDS = ('common', 'origin', 'height', 'width', 'hardiness', 'exposure',
 
 
 def nk(s) -> str:
-    s = unicodedata.normalize('NFKC', str(s)).lower()
-    for a, b in (('\u00ae', ''), ('\u2122', ''), ('\u00a9', ''),
-                 ('\u2018', "'"), ('\u2019', "'"), ('\u201c', '"'), ('\u201d', '"'), ('\u00d7', ' x ')):
+    s = str(s)
+    # Strip the trademark marks BEFORE NFKC. unicodedata.normalize('NFKC', '™')
+    # returns the two characters "TM", so a replace('™','') after the
+    # normalisation is a no-op and the cultivar key becomes 'erysistibletm
+    # magenta' instead of 'erysistible magenta'. That single ordering mistake is
+    # why Erysimum linifolium 'Erysistible Magenta' (4" sheet, no ™) and
+    # 'Erysistible™ Magenta' (1g sheet) shipped as TWO rows for the same plant on
+    # 2026-10-09 — the dedupe never saw them as a pair. (® is unaffected: it has
+    # no compatibility decomposition, so this only ever bit the ™ names.)
+    for a, b in (('\u00ae', ''), ('\u2122', ''), ('\u00a9', '')):
+        s = s.replace(a, b)
+    s = unicodedata.normalize('NFKC', s).lower()
+    for a, b in (('\u2018', "'"), ('\u2019', "'"), ('\u201c', '"'), ('\u201d', '"'), ('\u00d7', ' x ')):
         s = s.replace(a, b)
     return re.sub(r'\s+', ' ', s).strip()
 

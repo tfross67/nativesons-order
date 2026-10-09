@@ -856,6 +856,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
+      {
         "container": "1gal",
         "price": 6.5,
         "order": ""
@@ -1254,6 +1259,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
+      {
         "container": "1gal",
         "price": 6.25,
         "order": ""
@@ -1366,6 +1376,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
+      {
         "container": "1gal",
         "price": 6.15,
         "order": ""
@@ -1394,6 +1409,11 @@ window.AVAILABILITY = {
     "botanical": "Carex praegracilis",
     "section": "General Nursery",
     "sizes": [
+      {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
       {
         "container": "1gal",
         "price": 6.15,
@@ -2339,6 +2359,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
+      {
         "container": "1gal",
         "price": 6.25,
         "order": ""
@@ -2569,6 +2594,11 @@ window.AVAILABILITY = {
     "botanical": "Dymondia margaretae",
     "section": "General Nursery",
     "sizes": [
+      {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
       {
         "container": "1gal",
         "price": 6.15,
@@ -2858,6 +2888,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
+      {
         "container": "1gal",
         "price": 6.5,
         "order": ""
@@ -3111,6 +3146,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
+      {
         "container": "1gal",
         "price": 6.15,
         "order": ""
@@ -3168,6 +3208,11 @@ window.AVAILABILITY = {
     "botanical": "Fragaria chiloensis 'Chaval'",
     "section": "General Nursery",
     "sizes": [
+      {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
       {
         "container": "1gal",
         "price": 6.25,
@@ -3562,6 +3607,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
+      {
         "container": "1gal",
         "price": 6.15,
         "order": ""
@@ -3670,6 +3720,11 @@ window.AVAILABILITY = {
     "botanical": "Heuchera 'Canyon Duet'",
     "section": "Perennials (4\")",
     "sizes": [
+      {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
       {
         "container": "1gal",
         "price": 7.0,
@@ -3952,6 +4007,11 @@ window.AVAILABILITY = {
     "botanical": "Lavandula angustifolia 'Annet'",
     "section": "General Nursery",
     "sizes": [
+      {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
       {
         "container": "1gal",
         "price": 6.5,
@@ -5148,6 +5208,11 @@ window.AVAILABILITY = {
     "botanical": "Pelargonium 'Veronica Contreras'",
     "section": "General Nursery",
     "sizes": [
+      {
+        "container": "4in",
+        "price": 3.5,
+        "order": ""
+      },
       {
         "container": "2gal",
         "price": 16.5,
@@ -6673,6 +6738,11 @@ window.AVAILABILITY = {
     "section": "perennials",
     "sizes": [
       {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
+      {
         "container": "1gal",
         "price": 6.25,
         "order": ""
@@ -7118,6 +7188,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
+      {
         "container": "1gal",
         "price": 6.75,
         "order": ""
@@ -7400,6 +7475,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
+      {
         "container": "1gal",
         "price": 6.15,
         "order": ""
@@ -7458,6 +7538,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
+      {
         "container": "1gal",
         "price": 6.15,
         "order": ""
@@ -7515,6 +7600,11 @@ window.AVAILABILITY = {
     "botanical": "Sisyrinchium 'Janet Denman'",
     "section": "General Nursery",
     "sizes": [
+      {
+        "container": "4in",
+        "price": 3.5,
+        "order": ""
+      },
       {
         "container": "1gal",
         "price": 7.25,
@@ -7601,6 +7691,11 @@ window.AVAILABILITY = {
     "botanical": "Sisyrinchium bellum 'Rocky Point'",
     "section": "General Nursery",
     "sizes": [
+      {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
       {
         "container": "1gal",
         "price": 6.25,
@@ -7716,6 +7811,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
+      {
         "container": "1gal",
         "price": 6.15,
         "order": ""
@@ -7744,6 +7844,11 @@ window.AVAILABILITY = {
     "botanical": "Tanacetum parthenium 'Aureum'",
     "section": "General Nursery",
     "sizes": [
+      {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
       {
         "container": "1gal",
         "price": 6.15,
@@ -7825,6 +7930,11 @@ window.AVAILABILITY = {
     "botanical": "Teucrium chamaedrys",
     "section": "General Nursery",
     "sizes": [
+      {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
       {
         "container": "1gal",
         "price": 6.15,
@@ -8056,6 +8166,11 @@ window.AVAILABILITY = {
     "section": "General Nursery",
     "sizes": [
       {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
+      {
         "container": "1gal",
         "price": 6.15,
         "order": ""
@@ -8140,6 +8255,11 @@ window.AVAILABILITY = {
     "botanical": "Verbena bonariensis 'Cloud 8'",
     "section": "General Nursery",
     "sizes": [
+      {
+        "container": "4in",
+        "price": 3.15,
+        "order": ""
+      },
       {
         "container": "1gal",
         "price": 6.15,

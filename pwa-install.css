@@ -34,7 +34,21 @@
   padding: 0 4px;
 }
 #pwa-install button.install-yes { font-weight: 700; }
-#pwa-install button.install-no { color: rgba(255,255,255,0.6); }
+#pwa-install button.install-no {
+  color: rgba(255,255,255,0.6);
+  /* 36x36 icon tier (see the mobile touch-target policy in
+     nativesons-portal-ui/references/mobile-touch-targets.md). The bare glyph
+     was a 16x20 target — the last control in the app under the 36px floor.
+     The negative margins keep the pill's rendered box unchanged: the flex
+     item's OUTER size stays 20x24 while the hit area grows to 36x36. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
+  margin: -8px -12px -8px 0;
+}
 #pwa-install .install-instructions {
   font-size: 12px;
   color: #fff;

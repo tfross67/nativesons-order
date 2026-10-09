@@ -65,6 +65,10 @@ def derive_week_header(xlsx: Path) -> str:
 WEEK_HEADER = derive_week_header(XLSX)
 GENERATED = date.today().isoformat()
 
+# Canonical size ladder for the sheet merge — smallest to largest, so a card
+# built from either sheet reads in the same order.
+SIZE_ORDER = {'4in': 0, '1gal': 1, '2gal': 2, '5gal': 3, '15gal': 4}
+
 
 def norm(s: str) -> str:
     """Normalize plant name for fuzzy matching — also normalize for output consistency."""
@@ -234,8 +238,35 @@ def main():
         for key in list(d.keys()):
             d[key]['botanical'] = normalize_quotes(d[key]['botanical'])
 
-    # Merge: 1g+ wins over 4" (1g+ plants have richer pricing)
-    new_data = {**new_4in, **new_1g}
+    # Merge the two sheets by key. A plant listed in BOTH sheets normalizes to
+    # the same key, and the plain `{**new_4in, **new_1g}` unpack let the 1g+
+    # record REPLACE the 4" record — silently dropping the 4in size and its
+    # price. On 2026-10-09 that hit all 24 plants listed in both sheets
+    # (Dymondia margaretae, Tagetes lemmonii 'Compacta', Scleranthus biflorus,
+    # Heuchera 'Canyon Duet', …): Tim caught Dymondia missing its 4".
+    #
+    # Union the sizes instead. The 1g+ record stays authoritative for name
+    # casing, section and its own prices; the 4" sheet contributes the 4in
+    # size. Flags are OR-ed so neither sheet's marker is lost, and the sizes are
+    # emitted in ladder order (4in -> 15gal) so a card always reads smallest to
+    # largest regardless of which sheet the plant came from.
+    new_data = {}
+    for k, v4 in new_4in.items():
+        new_data[k] = v4
+    for k, v1 in new_1g.items():
+        prev = new_data.get(k)
+        if prev is None:
+            new_data[k] = v1
+            continue
+        have = {s['container'] for s in v1['sizes']}
+        union = list(v1['sizes']) + [s for s in prev['sizes'] if s['container'] not in have]
+        new_data[k] = {
+            **v1,
+            'sizes': sorted(union, key=lambda s: SIZE_ORDER.get(s['container'], 99)),
+            'bloom': bool(v1['bloom'] or prev['bloom']),
+            'bud': bool(v1['bud'] or prev['bud']),
+            'new': bool(v1['new'] or prev['new']),
+        }
 
     # Build merged plants list
     merged_plants = []

@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261016-03">
+  <meta name="build" content="20261016-04">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -1706,6 +1706,30 @@
     .ns-root .no-results .suggestions .suggestion {
       font-size: 13px;
       padding: 6px 14px;
+    }
+    /* "Browse all N plants" tertiary escape in the no-results state.
+       Subordinate to the suggestion chip cluster but still easy to
+       tap — gives the user a path back to the full catalog without
+       having to clear the input by hand. */
+    .ns-root .no-results .no-results-browse-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 18px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--c-line, #e5e3dd);
+      background: #ffffff;
+      color: var(--c-bark, #1f3a1f);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .ns-root .no-results .no-results-browse-all:hover {
+      background: var(--c-sage-soft, #e7f0e8);
+      border-color: var(--c-sage, #5d7a4a);
     }
 
     /* === Saved filters (shared with compact-list) === */
@@ -5970,7 +5994,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261016-03</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261016-04</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -6386,7 +6410,7 @@
   <script src="masteritem_full.js?v=20261016-02"></script>
   <script src="saved-filters.js?v=20261016-02"></script>
   <script src="glimm-vanilla.js?v=20261016-02"></script>
-  <script src="availability_data.js?v=20261016-02"></script>
+  <script src="availability_data.js?v=20261016-04"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -7860,6 +7884,7 @@
           <h3>No plants match <em>"${escapeHTML(input.value)}"</em></h3>
           <p>${introLine}</p>
           <div class="suggestions">${altChips}</div>
+          <button type="button" class="no-results-browse-all" data-browse-all>Browse all ${getCatalog().length} plants →</button>
         `;
         // Wire up the suggestion chips (they emit a custom event the main listener handles)
         noResultsEl.querySelectorAll('[data-alt]').forEach(btn => {
@@ -7873,6 +7898,21 @@
             run(true);
           });
         });
+        // "Browse all plants" escape — a tertiary path for the user
+        // who doesn't want any of the suggestions, just wants to back
+        // out of a no-results hole entirely.
+        const browseAllBtn = noResultsEl.querySelector('[data-browse-all]');
+        if (browseAllBtn && !browseAllBtn._wired) {
+          browseAllBtn._wired = true;
+          browseAllBtn.addEventListener('click', () => {
+            input.value = '';
+            lastParsed = null;
+            run(true);
+            // Drop focus back on the search input so the user can keep
+            // typing the moment they realise they want a different query.
+            if (input && typeof input.focus === 'function') input.focus();
+          });
+        }
       }
 
       // === Highlight terms (color + free-text tokens) ===

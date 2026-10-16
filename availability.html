@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261016-01">
+  <meta name="build" content="20261016-02">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -60,9 +60,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="tokens.css?v=20261016-01">
-  <link rel="stylesheet" href="pwa-install.css?v=20261016-01">
-  <link rel="stylesheet" href="styles.css?v=20261016-01">
+  <link rel="stylesheet" href="tokens.css?v=20261016-02">
+  <link rel="stylesheet" href="pwa-install.css?v=20261016-02">
+  <link rel="stylesheet" href="styles.css?v=20261016-02">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography + color tokens now live in styles.css (:root) === */
@@ -5970,7 +5970,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261016-01</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261016-02</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -6379,14 +6379,14 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="pwa-install.js?v=20261016-01"></script>
-  <script src="supabase-config.js?v=20261016-01"></script>
-  <script src="typesafe-client.js?v=20261016-01"></script>
-  <script src="cart.js?v=20261016-01"></script>
-  <script src="masteritem_full.js?v=20261016-01"></script>
-  <script src="saved-filters.js?v=20261016-01"></script>
-  <script src="glimm-vanilla.js?v=20261016-01"></script>
-  <script src="availability_data.js?v=20261016-01"></script>
+  <script src="pwa-install.js?v=20261016-02"></script>
+  <script src="supabase-config.js?v=20261016-02"></script>
+  <script src="typesafe-client.js?v=20261016-02"></script>
+  <script src="cart.js?v=20261016-02"></script>
+  <script src="masteritem_full.js?v=20261016-02"></script>
+  <script src="saved-filters.js?v=20261016-02"></script>
+  <script src="glimm-vanilla.js?v=20261016-02"></script>
+  <script src="availability_data.js?v=20261016-02"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -7772,7 +7772,7 @@
       if (f.origin.length)    pushChip('Native/CA', 'origin');
       if (parsed.freeText.length) pushChip(`"${parsed.freeText.join(' ')}"`, 'freeText');
 
-      filterSummaryEl.hidden = chips.length === 0;
+      filterSummaryEl.hidden = chips.length === 0 && results.length === 0;
       if (chips.length) {
         const clearAll = chips.length > 1
           ? `<button type="button" class="clear-all-btn" data-clear-all>Clear all</button>`
@@ -7783,6 +7783,14 @@
             ? `<span class="pill-cluster">` + chips.join('') + `</span>`
             : '') +
           clearAll;
+      } else if (results.length > 0) {
+        // No filter chips — still show a plain count so the user gets
+        // feedback that the search/filter returned something. Without
+        // this, the summary only appears when an explicit chip is
+        // active and a typed query with no chip falls through silently.
+        const label = results.length === 1 ? 'plant' : 'plants';
+        filterSummaryEl.innerHTML =
+          `<span class="results-count"><strong>${results.length}</strong> ${label}</span>`;
       }
       // Show sort toolbar when there are results
       const sortToolbar = $('resultsToolbar');

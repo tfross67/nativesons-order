@@ -21,6 +21,13 @@
 
   const STORAGE_KEY_DEFAULT = 'ns_pwa_install_dismissed';
   const SHOW_DELAY_MS = 4000;
+  // Auto-dismiss window — long enough that a real user has time to read
+  // the prompt and decide, short enough that the banner stops competing
+  // for space with "Get trade pricing" / search row on every repeat
+  // visit. Persisted as a dismissal so the banner doesn't pop up the
+  // next time either; the user can still install anytime via Safari's
+  // Share menu or Chrome's address-bar install icon.
+  const AUTO_HIDE_MS = 12000;
   const INSTRUCTIONS_HTML =
     'Tap <strong>Share</strong> → <strong>Add to Home Screen</strong>';
 
@@ -54,6 +61,19 @@
     no.addEventListener('click', () => dismiss(banner, storageKey));
   }
 
+  /** Schedule a one-shot auto-hide. Any user action on the banner
+   * (× or Install) calls dismiss() first, which both hides the
+   * banner and flips body.pwa-hidden, so the timer becomes a
+   * no-op when it fires. We DON'T cancel the timer explicitly —
+   * the conditional check inside is cheaper than the bookkeeping. */
+  function armAutoHide(banner, storageKey) {
+    setTimeout(() => {
+      if (!document.body.classList.contains('pwa-hidden')) {
+        dismiss(banner, storageKey);
+      }
+    }, AUTO_HIDE_MS);
+  }
+
   /** iOS Safari path. Replace the Install button with text instructions
    * and reveal the banner after the same 4s delay as Android's fallback. */
   function initIosPath(banner, storageKey) {
@@ -66,7 +86,10 @@
     }
     armDismiss(banner, storageKey);
     setTimeout(() => {
-      if (!document.body.classList.contains('pwa-hidden')) banner.hidden = false;
+      if (!document.body.classList.contains('pwa-hidden')) {
+        banner.hidden = false;
+        armAutoHide(banner, storageKey);
+      }
     }, SHOW_DELAY_MS);
   }
 
@@ -74,7 +97,10 @@
    * Samsung Internet / etc.). Uses the `beforeinstallprompt` event. */
   function initChromiumPath(banner, storageKey) {
     let promptEvent = null;
-    const show = () => { banner.hidden = false; };
+    const show = () => {
+      banner.hidden = false;
+      armAutoHide(banner, storageKey);
+    };
     const hide = (reason) => dismiss(banner, storageKey);
 
     window.addEventListener('beforeinstallprompt', (e) => {

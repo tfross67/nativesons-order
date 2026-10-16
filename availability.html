@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261009-02">
+  <meta name="build" content="20261016-01">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -60,9 +60,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="tokens.css?v=20261001-01">
-  <link rel="stylesheet" href="pwa-install.css?v=20261008-03">
-  <link rel="stylesheet" href="styles.css?v=20261008-01">
+  <link rel="stylesheet" href="tokens.css?v=20261016-01">
+  <link rel="stylesheet" href="pwa-install.css?v=20261016-01">
+  <link rel="stylesheet" href="styles.css?v=20261016-01">
   <style>
     /* === Test-page-only styles. Scoped via .chat-test-root. === */
     /* === Typography + color tokens now live in styles.css (:root) === */
@@ -1124,6 +1124,33 @@
     .ns-root .sort-tab.active .sort-tab-count {
       background: rgba(255, 255, 255, 0.18);
       color: #fff;
+    }
+    /* "In bloom" tab — pull-forward accent so users browsing what looks
+       vivid this week can do it in one click. Sits at the end of the type
+       rail and uses the poppy token colour so it visually pairs with the
+       in-bloom badge used on the result rows. */
+    .ns-root .sort-tab--bloom {
+      color: var(--c-clay, #6b6256);
+    }
+    .ns-root .sort-tab--bloom::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #d97a3c;
+      box-shadow: 0 0 0 2px rgba(217, 122, 60, 0.18);
+      margin-right: 1px;
+      flex-shrink: 0;
+    }
+    .ns-root .sort-tab--bloom:hover {
+      border-color: #d97a3c;
+      color: #a4521e;
+    }
+    .ns-root .sort-tab--bloom.active {
+      background: rgba(217, 122, 60, 0.10);
+      border-color: #d97a3c;
+      color: #a4521e;
     }
     .ns-root .result {
       background: #fff;
@@ -5943,7 +5970,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261009-02</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261016-01</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -6103,6 +6130,7 @@
         <button type="button" class="sort-tab" data-sort="type:grass" role="tab" aria-selected="false">Grasses</button>
         <button type="button" class="sort-tab" data-sort="type:succulent" role="tab" aria-selected="false">Succulents</button>
         <button type="button" class="sort-tab" data-sort="type:tree" role="tab" aria-selected="false">Trees</button>
+        <button type="button" class="sort-tab sort-tab--bloom" data-sort="bloom:1" role="tab" aria-selected="false">In bloom</button>
       </div>
       <span class="toolbar-divider" aria-hidden="true"></span>
       <label class="sort-select-label">
@@ -6351,14 +6379,14 @@
 
   <!-- Order cart + Supabase config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="pwa-install.js?v=20261001-01"></script>
-  <script src="supabase-config.js?v=20261008-01"></script>
-  <script src="typesafe-client.js?v=20261001-01"></script>
-  <script src="cart.js?v=20261008-01"></script>
-  <script src="masteritem_full.js?v=20261008-01"></script>
-  <script src="saved-filters.js?v=20260920-01"></script>
-  <script src="glimm-vanilla.js?v=20260815-03"></script>
-  <script src="availability_data.js?v=20261009-02"></script>
+  <script src="pwa-install.js?v=20261016-01"></script>
+  <script src="supabase-config.js?v=20261016-01"></script>
+  <script src="typesafe-client.js?v=20261016-01"></script>
+  <script src="cart.js?v=20261016-01"></script>
+  <script src="masteritem_full.js?v=20261016-01"></script>
+  <script src="saved-filters.js?v=20261016-01"></script>
+  <script src="glimm-vanilla.js?v=20261016-01"></script>
+  <script src="availability_data.js?v=20261016-01"></script>
   <!-- Note: office_customers.json is fetched dynamically by loadStaffCustomerData()
        ONLY when staff mode is active. NEVER included as a static asset —
        that would expose customer PII to public visitors. The JSON parse
@@ -6697,6 +6725,20 @@
         }
         badge.textContent = String(n);
       });
+      // In-bloom tab count — separate from type:* counts because bloom is
+      // a boolean, not a categorical match.
+      const bloomTab = document.querySelector('.sort-tab[data-sort="bloom:1"]');
+      if (bloomTab) {
+        let badge = bloomTab.querySelector('.sort-tab-count');
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'sort-tab-count';
+          bloomTab.appendChild(badge);
+        }
+        badge.textContent = String(plants.filter(p =>
+          p.bloom === true || p.bloom === 'True' || p.bloom === 'true'
+        ).length);
+      }
     }
 
     // === Hero band renderer ===
@@ -8436,6 +8478,17 @@
           if (ab !== bb) return bb - ab;
           return b.match.score - a.match.score;
         });
+        return;
+      }
+      if (mode === 'bloom:1') {
+        // "In bloom" tab — narrows to bloom=true plants only, then sorts by
+        // relevance. Mirrors the type:X branch above so the tab behaves
+        // consistently with Perennials/Shrubs/etc. as a one-click filter.
+        const isBloom = (p) => p.bloom === true || p.bloom === 'True' || p.bloom === 'true';
+        for (let i = results.length - 1; i >= 0; i--) {
+          if (!isBloom(results[i].plant)) results.splice(i, 1);
+        }
+        results.sort((a, b) => b.match.score - a.match.score);
         return;
       }
       // default: relevance

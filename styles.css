@@ -389,7 +389,14 @@ body { padding-bottom: 80px; }
    on the base .btn rule above). scale(0.94) gives a clearly visible
    bounce without distorting nearby layout. */
 .btn:active { transform: scale(0.94); transition: transform 0.08s ease-out; }
-.btn:focus-visible { transform: scale(0.94); transition: transform 0.15s ease-out; }
+/* Keyboard focus must be distinguishable from the press state above. A bare
+   scale() reads as "activated", not "focused" (WCAG 2.4.7 needs a perceptible
+   indicator). Outline, not box-shadow, so it never reflows layout; scoped to
+   :focus-visible so mouse users see exactly what they saw before. */
+.btn:focus-visible {
+  outline: 2px solid var(--c-sage-deep, #2d4a2b);
+  outline-offset: 2px;
+}
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-primary {
   background: var(--c-sage-deep);

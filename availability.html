@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261018-01">
+  <meta name="build" content="20261018-02">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -1612,6 +1612,14 @@
     }
     .pricing-link-header:active {
       transform: translateY(0);
+    }
+    /* The header CTA is not a .btn, so it missed the shared focus treatment:
+       with no outline it had no keyboard focus state at all. Terracotta sits
+       on the cream page around the dark pill, so the ring reads clearly on
+       both. Outline only — no layout shift. */
+    .pricing-link-header:focus-visible {
+      outline: 2px solid var(--c-terracotta, #b85c38);
+      outline-offset: 2px;
     }
     .pricing-link-header[hidden] { display: none; }
     .pricing-status-header {
@@ -5943,7 +5951,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261018-01</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261018-02</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

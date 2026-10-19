@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261018-05">
+  <meta name="build" content="20261018-06">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -315,6 +315,17 @@
       text-transform: uppercase;
       color: var(--c-clay, #4a4438);
     }
+    /* Reserve the install pill's height above the hero. #pwa-install is
+       position:fixed at top:90px and 38px tall, but the header/hero gutter is
+       only 24px — so the pill clipped 7px into the hero card's top edge and
+       its gold hairline at EVERY width (measured 360-1200px). 22px of
+       margin clears it everywhere: 4px at 390-600, 11-15px above 640.
+       Constant, not `:has(#pwa-install:not([hidden]))` — the banner appears
+       ~4s after load, so a conditional margin would shift the page post-load
+       (CLS). Cost is 22px of whitespace on the rare visit where no banner
+       shows. */
+    .ns-root .hero-band { margin-top: 22px; }
+
     @media (max-width: 860px) {
       /* Two-column hero collapses to single column below 860px. The old 720px
          threshold left a dead zone: the stats track is content-sized (~330px),
@@ -5962,7 +5973,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261018-05</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261018-06</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

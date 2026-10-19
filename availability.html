@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261018-02">
+  <meta name="build" content="20261018-03">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -463,6 +463,13 @@
     .sticky-search-bar .view-toggle-btn {
       padding: 4px 12px;
       font-size: 12px;
+    }
+    /* The sticky-bar toggle sits outside .search-input-row, so it missed the
+       focus rule there and fell back to Chrome's default blue ring while every
+       other control draws sage. Same treatment as the in-row toggle. */
+    .sticky-search-bar .view-toggle-btn:focus-visible {
+      outline: 2px solid var(--c-cta, #1f6b3a);
+      outline-offset: 2px;
     }
     @media (max-width: 600px) {
       .sticky-search-inner { flex-wrap: wrap; gap: 8px; padding: 8px 14px; }
@@ -5951,7 +5958,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261018-02</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261018-03</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

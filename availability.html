@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261018-07">
+  <meta name="build" content="20261018-08">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -5973,7 +5973,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261018-07</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261018-08</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -8352,7 +8352,9 @@
         renderResults(parsed, tiered);
       } else {
         // Apply user-selected sort, default relevance when there's a query
-        sortResults(results, effectiveSort(parsed, currentSort));
+        const mode = effectiveSort(parsed, currentSort);
+        sortResults(results, mode);
+        syncSortControl(mode);
         renderResults(parsed, results);
       }
       // Set up lazy image loading for the new cards
@@ -8418,9 +8420,28 @@
       // the most-relevant plants bubble to the top. Empty queries and
       // the explicit 'name-asc' tab both still alphabetize.
       let currentSort = 'name-asc';
+      // True once the user picks a sort from the dropdown. Without this the
+      // default 'name-asc' was indistinguishable from a deliberate choice, so
+      // the override below swallowed it: the control read "Name (A-Z)" while
+      // the list was relevance-ordered. Reported 2026-10-19 with the
+      // "ca native" filter — the two in-bloom plants scored higher and
+      // floated above the A's.
+      let sortExplicit = false;
       function effectiveSort(parsed, userSort) {
-        if (parsed.active && userSort === 'name-asc') return 'relevance';
+        if (parsed.active && !sortExplicit && userSort === 'name-asc') return 'relevance';
         return userSort;
+      }
+      // Keep the control honest: if a query substituted relevance, show it,
+      // so the select never claims a sort the list isn't using. Clearing the
+      // query falls back through the same path and restores the saved sort.
+      // Only sync values the <select> actually has — type-chip modes like
+      // 'type:perennial' are not options and would blank the control.
+      function syncSortControl(mode) {
+        const sel = document.getElementById('sortBy');
+        if (!sel) return;
+        if ([...sel.options].some(o => o.value === mode) && sel.value !== mode) {
+          sel.value = mode;
+        }
       }
       function sortResults(results, mode) {
         // mode can be:
@@ -9361,6 +9382,11 @@
         tab.classList.add('active');
         tab.setAttribute('aria-selected', 'true');
         currentSort = tab.dataset.sort;
+        // A type chip is not a sort choice, but it forces relevance ordering.
+        // Reflect that so the select never reads "Name (A-Z)" over relevance
+        // results. Deliberately does not set sortExplicit — the user hasn't
+        // chosen a sort, only narrowed the type.
+        if (sortSelect) sortSelect.value = 'relevance';
         run(true);
       });
     });
@@ -9370,6 +9396,7 @@
     if (sortSelect) {
       sortSelect.addEventListener('change', () => {
         currentSort = sortSelect.value;
+        sortExplicit = true;
         // Reset type tab to "All" when sorting changes (since the user is
         // expressing a different intent — they want to see all plants,
         // sorted differently).

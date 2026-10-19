@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261018-04">
+  <meta name="build" content="20261018-05">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -315,21 +315,25 @@
       text-transform: uppercase;
       color: var(--c-clay, #4a4438);
     }
-    @media (max-width: 720px) {
-      /* Two-column hero collapses to single column below 720px — the
-         stats drop back below the headline, full-width, like the
-         original stacked layout. The border-top divider is reinstated
-         so the stats visually separate from the sub. */
+    @media (max-width: 860px) {
+      /* Two-column hero collapses to single column below 860px. The old 720px
+         threshold left a dead zone: the stats track is content-sized (~330px),
+         so at 721-860px the text column was only ~282px wide and broke the
+         32px headline into three short lines. Stacking here gives the headline
+         the full band (one line at 756px) and costs ~33px, not the ~70px the
+         two-column layout was introduced to save.
+         row-gap/padding trimmed: once stacked, the grid gap and the stats'
+         own padding-top compounded into ~60px of dead space. */
       .ns-root .hero-band {
         grid-template-columns: minmax(0, 1fr);
         column-gap: 0;
-        row-gap: 18px;
+        row-gap: 10px;
         align-items: stretch;
       }
       .ns-root .hero-stats {
         flex-wrap: wrap;
         justify-content: flex-start;
-        padding-top: 16px;
+        padding-top: 12px;
         border-top: 1px solid var(--c-line, #e5e3dd);
       }
     }
@@ -5958,7 +5962,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261018-04</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261018-05</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

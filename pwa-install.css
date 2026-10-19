@@ -16,26 +16,33 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 9px 14px;
-  background: var(--c-ink, #1a2e1a);
-  color: #fff;
+  padding: 8px 14px;
+  /* Light surface, not the ink pill. At top:90px this sits directly beneath
+     the dark "Get trade pricing" CTA, and a second ink pill there read as a
+     competing primary action. As secondary chrome it keeps the label and the
+     install affordance but drops the weight.
+     padding 9px -> 8px compensates for the 1px border so the pill's rendered
+     height stays 38px and the 22px hero reservation still clears it. */
+  background: #fff;
+  color: var(--c-ink, #1a2e1a);
+  border: 1px solid var(--c-line, #e5e3dd);
   border-radius: 999px;
   font-size: 13px;
   font-weight: 600;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  box-shadow: 0 2px 10px rgba(26,46,26,0.10);
   z-index: 50;
 }
 #pwa-install button {
   border: 0;
   background: transparent;
-  color: #fff;
+  color: var(--c-ink, #1a2e1a);
   font: inherit;
   cursor: pointer;
   padding: 0 4px;
 }
-#pwa-install button.install-yes { font-weight: 700; }
+#pwa-install button.install-yes { font-weight: 700; color: var(--c-cta, #1f6b3a); }
 #pwa-install button.install-no {
-  color: rgba(255,255,255,0.6);
+  color: rgba(26,46,26,0.60);
   /* 36x36 icon tier (see the mobile touch-target policy in
      nativesons-portal-ui/references/mobile-touch-targets.md). The bare glyph
      was a 16x20 target — the last control in the app under the 36px floor.
@@ -51,7 +58,7 @@
 }
 #pwa-install .install-instructions {
   font-size: 12px;
-  color: #fff;
+  color: var(--c-ink, #1a2e1a);
   line-height: 1.3;
 }
 #pwa-install .install-instructions strong { font-weight: 700; }

@@ -837,6 +837,7 @@
     <script src="pwa-install.js?v=20260905-01"></script>
   <script src="masteritem_full.js?v=20261008-01"></script>
   <script src="saved-filters.js?v=20260902-01"></script>
+  <script src="supabase-config.js?v=20261022-01"></script>
 
   <script>
     // ===== Staff gate =====
@@ -891,12 +892,24 @@
       }
 
       async function loadCustomerDB() {
-        // Same lazy-load pattern availability.html uses — only fetch the
-        // 1.8 MB JSON when needed, and reuse the promise so a rapid
-        // back-and-forth doesn't double-fetch.
+        // Customer data comes from the staff-customers Edge Function, which
+        // requires the token the staff sign-in mints. The static
+        // office_customers.json it used to read was public — the repo behind
+        // this site is public, so anyone could download it.
         if (window.__nsStaffCustomerDB) return window.__nsStaffCustomerDB;
-        window.__nsStaffCustomerDB = fetch('office_customers.json')
+        const cfg = window.SUPABASE_CONFIG || {};
+        let tok = null;
+        try { tok = sessionStorage.getItem('ns_staff_token'); } catch (e) { /* private mode */ }
+        if (!tok || !cfg.url) {
+          // Not signed in (or no config): fall through to the cached record.
+          window.__nsStaffCustomerDB = Promise.resolve([]);
+          return window.__nsStaffCustomerDB;
+        }
+        window.__nsStaffCustomerDB = fetch(`${cfg.url}/functions/v1/staff-customers`, {
+          headers: { 'apikey': cfg.anonKey, 'Authorization': `Bearer ${tok}` },
+        })
           .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+          .then(b => b.customers || [])
           .catch(err => { console.warn('Customer DB fetch failed:', err); return []; });
         return window.__nsStaffCustomerDB;
       }

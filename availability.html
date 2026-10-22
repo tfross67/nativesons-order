@@ -5968,8 +5968,11 @@
   <!-- Staff sign-in gate. Visible only when ?staff=1 (or sessionStorage
        has the admin flag set). Hides the main UI until unlocked. -->
   <div id="signInGate" class="signin-gate ns-root" hidden>
+    <!-- The password is verified server-side by the staff-login Edge Function;
+         no password literal lives in this file any more. Its token is what
+         unlocks the customer master (staff-customers). -->
     <form id="signInForm" class="signin-card"
-          onsubmit="var pw=document.getElementById('signInPassword').value; if(pw==='OFC-NativeSons-2026'){try{sessionStorage.setItem('nativesons_admin','1');}catch(e){} document.getElementById('signInGate').hidden=true; document.body.classList.add('staff-mode'); try{window.__onStaffSignIn && window.__onStaffSignIn();}catch(e){console.error(e);} return false;} document.getElementById('signInError').textContent='Wrong password. Type the new one sent to you.'; document.getElementById('signInError').style.color='#c14e2e'; document.getElementById('signInPassword').select(); return false;">
+          onsubmit="return window.__staffSignIn ? window.__staffSignIn() : false;">
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
@@ -9757,15 +9760,24 @@
       } catch (e) { /* non-fatal */ }
     }
 
+    // A staff session is the token minted by the staff-login Edge Function
+    // (12h expiry); the old flag is only a mirror of it. Treat an expired token
+    // as signed out so the gate comes back instead of a dead customer picker.
+    window.__nsStaffSessionValid = function () {
+      try {
+        if (sessionStorage.getItem('nativesons_admin') !== '1') return false;
+        const exp = Number(sessionStorage.getItem('ns_staff_exp') || 0);
+        return !exp || exp * 1000 > Date.now();
+      } catch (e) { return false; }
+    };
+
     // Staff mode: show sign-in gate when ?staff=1, or restore from sessionStorage.
     // Also drives the header "Sign in / Sign out" link.
     (function initStaffMode() {
       try {
         const params = new URLSearchParams(window.location.search);
         const wantsStaff = params.get('staff') === '1' || params.get('staff') === 'true';
-        const isSignedIn = (function () {
-          try { return sessionStorage.getItem('nativesons_admin') === '1'; } catch (e) { return false; }
-        })();
+        const isSignedIn = window.__nsStaffSessionValid();
         const signInLink = document.getElementById('staffLink');
         const signOutLink = document.getElementById('staffSignOut');
         const adminLink = document.getElementById('staffAdminLink');
@@ -9801,7 +9813,11 @@
         if (signOutLink) {
           signOutLink.addEventListener('click', (e) => {
             e.preventDefault();
-            try { sessionStorage.removeItem('nativesons_admin'); } catch (e2) { /* ignore */ }
+            try {
+              sessionStorage.removeItem('nativesons_admin');
+              sessionStorage.removeItem('ns_staff_token');
+              sessionStorage.removeItem('ns_staff_exp');
+            } catch (e2) { /* ignore */ }
             document.body.classList.remove('staff-mode');
             if (headerActions) headerActions.hidden = true;
             if (signOutLink) signOutLink.hidden = true;
@@ -9818,7 +9834,11 @@
         if (customerLink) {
           customerLink.addEventListener('click', (e) => {
             e.preventDefault();
-            try { sessionStorage.removeItem('nativesons_admin'); } catch (e2) { /* ignore */ }
+            try {
+              sessionStorage.removeItem('nativesons_admin');
+              sessionStorage.removeItem('ns_staff_token');
+              sessionStorage.removeItem('ns_staff_exp');
+            } catch (e2) { /* ignore */ }
             // Strip ?staff=1 (and any other query params) and reload as public.
             window.location.href = window.location.pathname;
           });
@@ -11313,16 +11333,113 @@
       // Lazy-load the customer database the first time the staff actually
       // opens the customer picker. Loading on sign-in (1.8 MB script) was
       // blocking the main thread and freezing the UI for 200+ ms after
-      // the password was accepted. Now signing in is instant; the JSON
+      // the password was accepted. Now signing in is instant; the list
       // parses only when the user types in the picker.
+      //
+      // The data comes from the staff-customers Edge Function, gated by the
+      // short-lived token staff-login mints. It used to be a static
+      // office_customers.json fetch() — which anyone could read straight off
+      // the public site, because the repo behind it is public.
+      const STAFF_TOKEN_KEY = 'ns_staff_token';
+      const STAFF_EXP_KEY = 'ns_staff_exp';
+      const STAFF_FLAG_KEY = 'nativesons_admin';
+
+      function staffToken() {
+        try {
+          const t = sessionStorage.getItem(STAFF_TOKEN_KEY);
+          const exp = Number(sessionStorage.getItem(STAFF_EXP_KEY) || 0);
+          if (!t) return null;
+          if (exp && exp * 1000 <= Date.now()) return null;
+          return t;
+        } catch (e) { return null; }
+      }
+
+      function clearStaffSession() {
+        try {
+          sessionStorage.removeItem(STAFF_TOKEN_KEY);
+          sessionStorage.removeItem(STAFF_EXP_KEY);
+          sessionStorage.removeItem(STAFF_FLAG_KEY);
+        } catch (e) { /* private mode */ }
+      }
+
+      // Called when the function says the token is no longer good: drop the
+      // session and put the sign-in card back up.
+      window.__staffSessionExpired = function () {
+        clearStaffSession();
+        staffCustomersPromise = null;
+        allCustomers = [];
+        const gate = document.getElementById('signInGate');
+        if (gate) gate.hidden = false;
+        const err = document.getElementById('signInError');
+        if (err) {
+          err.textContent = 'Session expired — sign in again to load customers.';
+          err.style.color = '#c14e2e';
+        }
+      };
+
+      // Password check happens in the staff-login Edge Function; this only
+      // stores the token it hands back.
+      window.__staffSignIn = function () {
+        const pwEl = document.getElementById('signInPassword');
+        const errEl = document.getElementById('signInError');
+        const cfg = window.SUPABASE_CONFIG || {};
+        if (errEl) errEl.textContent = '';
+        if (!cfg.url) {
+          if (errEl) { errEl.textContent = 'Sign-in service unavailable — try again.'; errEl.style.color = '#c14e2e'; }
+          return false;
+        }
+        fetch(`${cfg.url}/functions/v1/staff-login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': cfg.anonKey },
+          body: JSON.stringify({ password: pwEl ? pwEl.value : '' }),
+        })
+          .then(async (res) => {
+            let body = {};
+            try { body = await res.json(); } catch (e) { /* non-JSON error page */ }
+            if (!res.ok || !body.token) {
+              throw new Error(body.error || (res.status === 429 ? 'Too many attempts — wait a few minutes.' : 'Sign-in failed'));
+            }
+            try {
+              sessionStorage.setItem(STAFF_TOKEN_KEY, body.token);
+              sessionStorage.setItem(STAFF_EXP_KEY, String(body.exp || 0));
+              sessionStorage.setItem(STAFF_FLAG_KEY, '1');
+            } catch (e) { /* private mode: token lives only for this page */ }
+            if (pwEl) pwEl.value = '';
+            document.getElementById('signInGate').hidden = true;
+            document.body.classList.add('staff-mode');
+            try { window.__onStaffSignIn && window.__onStaffSignIn(); } catch (e) { console.error(e); }
+          })
+          .catch((err) => {
+            if (errEl) {
+              errEl.textContent = err.message || 'Sign-in failed';
+              errEl.style.color = '#c14e2e';
+            }
+            if (pwEl) pwEl.select();
+          });
+        return false;
+      };
+
       window.loadStaffCustomerData = function loadStaffCustomerData() {
         if (staffCustomersPromise) return staffCustomersPromise;
-        staffCustomersPromise = fetch('office_customers.json?v=' + Date.now())
+        const cfg = window.SUPABASE_CONFIG || {};
+        const tok = staffToken();
+        if (!tok) {
+          window.__staffSessionExpired();
+          return Promise.resolve([]);
+        }
+        staffCustomersPromise = fetch(`${cfg.url}/functions/v1/staff-customers`, {
+          headers: { 'apikey': cfg.anonKey, 'Authorization': `Bearer ${tok}` },
+        })
           .then(r => {
+            if (r.status === 401) {
+              window.__staffSessionExpired();
+              throw new Error('staff session expired');
+            }
             if (!r.ok) throw new Error('HTTP ' + r.status);
             return r.json();
           })
-          .then(arr => {
+          .then(body => {
+            const arr = body.customers || [];
             // Pre-compute a lowercase index once, instead of lowercasing
             // 2,938 customers' search_text on every keystroke.
             allCustomers = arr.map(c => {
@@ -11686,8 +11803,7 @@
         // Schedule the restore for staff who're already signed in. The call
         // is async (fetches customer DB on demand); user doesn't wait.
         try {
-          const isSignedIn = sessionStorage.getItem('nativesons_admin') === '1';
-          if (isSignedIn) _restoreActiveCustomer();
+          if (window.__nsStaffSessionValid && window.__nsStaffSessionValid()) _restoreActiveCustomer();
         } catch (e) { /* ignore */ }
       }
 
@@ -12029,7 +12145,7 @@
   (function () {
     function isStaff() {
       if (document.body.classList.contains('staff-mode')) return true;
-      try { return sessionStorage.getItem('nativesons_admin') === '1'; } catch (e) { return false; }
+      return window.__nsStaffSessionValid ? window.__nsStaffSessionValid() : false;
     }
     // Only short-circuit if the page is actually in staff mode (URL ?staff=1
     // AND password already entered). We DON'T bail on the IIFE entirely —

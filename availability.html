@@ -11241,6 +11241,11 @@
                 item_count: Cart.getCount(),
               },
               items: orderItems,
+              // Quotes go to the office at WHOLESALE. Without this the message
+              // renders retail markup per line and a retail total, which the
+              // office does not quote from (and mixed carts made the retail
+              // total read lower than wholesale).
+              wholesale_only: true,
             };
             // DEBUG: log the payload so we can see exactly what's sent to Slack.
             // Helps diagnose "no retail in Slack" reports. The orderId is the

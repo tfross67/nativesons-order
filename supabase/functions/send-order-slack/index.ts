@@ -48,6 +48,13 @@ interface OrderPayload {
   // staff don't need to see retail math for orders they entered on the
   // phone or in person.
   internal_order?: boolean;
+  // True when the caller wants the wholesale price only (the quote path in
+  // availability.html). Retail markup lines are then rendered at their
+  // wholesale price instead of struck-through markup pricing. This is the
+  // default for quotes: the office quotes at wholesale, so retail numbers in
+  // the Slack post are noise — and a mixed cart (some lines marked up, some
+  // not) used to produce a retail total that was LOWER than wholesale.
+  wholesale_only?: boolean;
 }
 
 const SLACK_WEBHOOK_URL = Deno.env.get("SLACK_WEBHOOK_URL") || "";
@@ -140,7 +147,7 @@ function originAllowed(req: Request): boolean {
     origin.startsWith(prefix) || referer.startsWith(prefix));
 }
 
-function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = false) {
+function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = false, wholesaleOnly = false) {
   // Only count retail toward totals when there's an actual markup on that line.
   // (Some lines have retail_unit_price set equal to wholesale — no markup — and
   // those should NOT inflate the retail total.)
@@ -150,13 +157,18 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
   };
   // Internal orders entered via office.html suppress ALL retail math —
   // staff don't need retail totals for orders they take on the phone.
-  const showRetail = !internalOrder;
+  // wholesale_only does the same for quote posts.
+  const showRetail = !internalOrder && !wholesaleOnly;
   const totalWholesale = items.reduce((s, i) => s + Number(i.line_total || 0), 0);
+  // Retail total must cover EVERY line, not just the marked-up ones: a line
+  // without markup still costs its wholesale price at retail. Summing only the
+  // marked-up lines produced totals lower than the wholesale subtotal (a mixed
+  // 7-line quote read "$737.30 → $669.74 retail"), which is nonsense on its face.
   const totalRetail = items.reduce(
-    (s, i) => s + (hasMarkup(i) ? Number(i.retail_line_total || 0) : 0),
+    (s, i) => s + (hasMarkup(i) ? Number(i.retail_line_total || 0) : Number(i.line_total || 0)),
     0
   );
-  const hasAnyMarkup = items.some(hasMarkup);
+  const hasAnyMarkup = showRetail && items.some(hasMarkup);
   const totalUnits = items.reduce((s, i) => s + (i.qty || 0), 0);
   const specialCount = items.filter(i => i.special_order).length;
 
@@ -441,7 +453,7 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    const msg = buildSlackBlocks(order, items, !!payload.internal_order);
+    const msg = buildSlackBlocks(order, items, !!payload.internal_order, !!payload.wholesale_only);
     await sendToSlack(SLACK_WEBHOOK_URL, msg);
     await logSend(order.id, order.order_number, true);
     return new Response(

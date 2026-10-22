@@ -48,13 +48,6 @@ interface OrderPayload {
   // staff don't need to see retail math for orders they entered on the
   // phone or in person.
   internal_order?: boolean;
-  // True when the caller wants the wholesale price only (the quote path in
-  // availability.html). Retail markup lines are then rendered at their
-  // wholesale price instead of struck-through markup pricing. This is the
-  // default for quotes: the office quotes at wholesale, so retail numbers in
-  // the Slack post are noise — and a mixed cart (some lines marked up, some
-  // not) used to produce a retail total that was LOWER than wholesale.
-  wholesale_only?: boolean;
 }
 
 const SLACK_WEBHOOK_URL = Deno.env.get("SLACK_WEBHOOK_URL") || "";
@@ -147,7 +140,7 @@ function originAllowed(req: Request): boolean {
     origin.startsWith(prefix) || referer.startsWith(prefix));
 }
 
-function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = false, wholesaleOnly = false) {
+function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = false) {
   // Only count retail toward totals when there's an actual markup on that line.
   // (Some lines have retail_unit_price set equal to wholesale — no markup — and
   // those should NOT inflate the retail total.)
@@ -157,8 +150,9 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
   };
   // Internal orders entered via office.html suppress ALL retail math —
   // staff don't need retail totals for orders they take on the phone.
-  // wholesale_only does the same for quote posts.
-  const showRetail = !internalOrder && !wholesaleOnly;
+  // External orders keep both: the wholesale price is what we bill, the retail
+  // price is what the customer and the labeling dept work from.
+  const showRetail = !internalOrder;
   const totalWholesale = items.reduce((s, i) => s + Number(i.line_total || 0), 0);
   // Retail total must cover EVERY line, not just the marked-up ones: a line
   // without markup still costs its wholesale price at retail. Summing only the
@@ -318,7 +312,7 @@ function buildSlackBlocks(o: OrderRecord, items: OrderItem[], internalOrder = fa
   // For external orders with markup: split wholesale (struck) and retail.
   // For internal orders or no markup: just wholesale.
   const footerText = (showRetail && hasAnyMarkup && !internalOrder)
-    ? `*${items.length} plants*  ·  ${totalUnits} units  ·  ~$${fmt(totalWholesale)}~  →  *$${fmt(totalRetail)} retail*${specialCount > 0 ? `  ·  ★ ${specialCount} special` : ""}`
+    ? `*${items.length} plants*  ·  ${totalUnits} units  ·  ~$${fmt(totalWholesale)} wholesale~  →  *$${fmt(totalRetail)} retail*${specialCount > 0 ? `  ·  ★ ${specialCount} special` : ""}`
     : `*${items.length} plants*  ·  ${totalUnits} units  ·  *$${fmt(totalWholesale)}*${specialCount > 0 ? `  ·  ★ ${specialCount} special` : ""}`;
   blocks.push({ type: "divider" });
   blocks.push({
@@ -453,7 +447,7 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    const msg = buildSlackBlocks(order, items, !!payload.internal_order, !!payload.wholesale_only);
+    const msg = buildSlackBlocks(order, items, !!payload.internal_order);
     await sendToSlack(SLACK_WEBHOOK_URL, msg);
     await logSend(order.id, order.order_number, true);
     return new Response(

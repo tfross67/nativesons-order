@@ -1344,7 +1344,7 @@
               'apikey': window.SUPABASE_CONFIG.anonKey,
               'authorization': `Bearer ${window.SUPABASE_CONFIG.anonKey}`,
             },
-            body: JSON.stringify({ record: o, items, wholesale_only: true }),
+            body: JSON.stringify({ record: o, items }),
           });
           const body = await res.json();
           if (!res.ok || !body.ok) {

@@ -35,7 +35,7 @@ import urllib.error
 
 SUPABASE_URL = os.environ.get('SUPABASE_URL', 'https://ruwyfesblmaurfuiaofw.supabase.co')
 
-DEFAULT_INPUT = Path('/Users/tfross/.hermes/nativesons-order/office_customers.json')
+DEFAULT_INPUT = Path('/Users/tfross/.hermes/nativesons-data/office_customers.json')  # outside the public repo
 
 
 def get_service_key() -> str:

@@ -49,3 +49,10 @@ tims_accounts_roster.json
 mobile-audit-*/
 # Retired bore tunnel binary (bore replaced by ZeroTier)
 bore-macos-x64
+
+# Office customer master (2,939 records: emails, phones, ship-to, terms).
+# PII — must never be servable from this public repo. The staff portal reads it
+# through the staff-customers Edge Function; local copies live in
+# ~/.hermes/nativesons-data/.
+office_customers.json
+office_customers.js

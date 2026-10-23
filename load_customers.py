@@ -154,7 +154,10 @@ def build(xlsx_path):
 
     print(f'Loaded {len(records)} raw, {len(deduped)} unique')
 
-    out = ROOT / 'office_customers.js'
+    # Keep the generated directory OUTSIDE this public repo: the office
+    # customer master must never be servable from nativesonsnursery.com.
+    out = Path(os.path.expanduser('~/.hermes/nativesons-data/office_customers.js'))
+    out.parent.mkdir(parents=True, exist_ok=True)
     js = (
         '/* Office-only customer directory. Generated from customers2026.xlsx via\n'
         '   load_customers.py. Loaded only in office.html (admin-gated). Never\n'

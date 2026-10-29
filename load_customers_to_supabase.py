@@ -58,7 +58,7 @@ def upsert_batch(url: str, headers: dict, rows: list, batch_num: int) -> tuple:
     """Upsert a batch of customer rows. Returns (success_count, error_count)."""
     body = json.dumps(rows).encode('utf-8')
     req = urllib.request.Request(
-        f'{url}/rest/v1/customers',
+        f'{url}/rest/v1/customers?on_conflict=customer_code',
         data=body,
         headers={**headers, 'Content-Type': 'application/json',
                  'Prefer': 'resolution=merge-duplicates,return=minimal'},

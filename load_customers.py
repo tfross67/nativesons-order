@@ -25,6 +25,24 @@ except ImportError:
 ROOT = Path(__file__).parent
 DEFAULT_XLSX_GLOB = list(Path.home().glob('.hermes/cache/documents/*customers*.xlsx'))
 
+def first_email(val):
+    """Return ONLY the first email address in a cell.
+
+    Many customer cells hold several addresses separated by comma, newline
+    or slash (e.g. "a@x.com; b@y.com"). The portal's trade-pricing gate
+    resolves a customer by email, so one address per customer is the
+    contract: take the first valid address and ignore the rest.
+    """
+    if val is None: return None
+    s = str(val).strip()
+    if not s: return None
+    for part in re.split(r"[;,\n\r/|]+|\s{2,}", s):
+        m = re.search(r"[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}", part)
+        if m:
+            return m.group(0).strip().lower()
+    m = re.search(r"[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}", s)
+    return m.group(0).strip().lower() if m else None
+
 def clean(val):
     if val is None: return None
     s = str(val).strip()
@@ -87,7 +105,7 @@ def build(xlsx_path):
         city  = clean(raw[3])
         contact = clean(raw[5])
         discount = clean(raw[6])
-        email = clean(raw[7])
+        email = first_email(raw[7])
         mobile = phone_digits(raw[12])
         routing = clean(raw[14])
         sales_person = clean(raw[15])
@@ -109,8 +127,6 @@ def build(xlsx_path):
         if not name:
             name = contact or code or '(unknown)'
 
-        if email:
-            email = email.lower().strip()
         primary_phone = mobile or telephone
 
         search_text = (name or '') + ' ' + (city or '') + ' ' + (code or '') + ' ' + (email or '') + ' ' + (contact or '')
@@ -168,6 +184,11 @@ def build(xlsx_path):
     )
     out.write_text(js)
     print(f'Wrote {os.path.getsize(out):,} bytes to {out}')
+
+    # JSON twin for load_customers_to_supabase.py (also outside the public repo).
+    jsout = out.parent / 'office_customers.json'
+    jsout.write_text(json.dumps(deduped, ensure_ascii=False), encoding='utf-8')
+    print(f'Wrote {os.path.getsize(jsout):,} bytes to {jsout}')
 
 
 def main():

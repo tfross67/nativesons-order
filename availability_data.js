@@ -8215,6 +8215,88 @@ window.AVAILABILITY = {
    "bud": false,
    "new": false,
    "additional_info": "Deer resistant."
+  },
+  {
+   "botanical": "Barleria repens",
+   "section": "General Nursery",
+   "sizes": [
+    {
+     "container": "1gal",
+     "price": 7,
+     "order": ""
+    }
+   ],
+   "bloom": false,
+   "bud": false,
+   "new": true,
+   "common": "Coral Creeper",
+   "origin": "South Africa",
+   "plant_type": "Evergreen shrub",
+   "exposure": "Full sun - Partial shade",
+   "flower_color": "Salmon",
+   "flower_time": "Summer - Fall",
+   "height": "1-2'",
+   "width": "3-4'",
+   "foliage": "Green",
+   "water": "Moderate",
+   "soil": "Well drained",
+   "special_uses": "Container planting",
+   "additional_info": "It typically grows as a small, rounded to spreading shrub to 2 feet tall by 3 feet wide or more but if given some support it can climb up to 6 feet tall.",
+   "hardiness": "30°F"
+  },
+  {
+   "botanical": "Bauhinia galpinii",
+   "section": "General Nursery",
+   "sizes": [
+    {
+     "container": "1gal",
+     "price": 7.5,
+     "order": ""
+    }
+   ],
+   "bloom": false,
+   "bud": false,
+   "new": true,
+   "common": "Pride of De Kaap",
+   "origin": "South Africa",
+   "plant_type": "Shrub - Small tree",
+   "exposure": "Full sun",
+   "flower_color": "Red to Orange",
+   "flower_time": "Fall - Winter",
+   "height": "8-12'",
+   "width": "8-12'",
+   "foliage": "Green",
+   "water": "Occasional",
+   "soil": "Well drained",
+   "additional_info": "Maintained shrub can be 8 to 12 feet wide to match its height with regular annual pruning after blooming cycle. Unmanaged will grow 15 - 25 feet wide.",
+   "hardiness": "20°F"
+  },
+  {
+   "botanical": "Lavandula angustifolia 'Peter Pan'",
+   "section": "General Nursery",
+   "sizes": [
+    {
+     "container": "1gal",
+     "price": 6.5,
+     "order": ""
+    }
+   ],
+   "bloom": false,
+   "bud": false,
+   "new": true,
+   "common": "English Lavender",
+   "origin": "Mediterranean",
+   "plant_type": "Perennial",
+   "exposure": "Full sun - Partial shade",
+   "flower_color": "Dark Purple",
+   "flower_time": "Summer",
+   "height": "12-18\"",
+   "width": "18-24\"",
+   "foliage": "Gray green",
+   "water": "Occasional",
+   "soil": "Well drained",
+   "special_uses": "Rock garden\nContainer planting",
+   "hardiness": "0°F"
   }
  ]
 };

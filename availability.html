@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261030-03">
+  <meta name="build" content="20261030-04">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -2422,11 +2422,36 @@
       .ns-root .selection-bar { padding: 12px; gap: 8px; }
       .ns-root .selection-summary { width: 100%; margin-bottom: 4px; }
       .ns-root .action-btn { padding: 8px 12px; font-size: 13px; }
-      /* Back-to-top: smaller, centered on mobile to avoid covering card content */
-      .ns-root .back-to-top { bottom: 12px; right: 12px; padding: 8px 14px; font-size: 12px; }
+      /* Back-to-top: smaller on mobile. Anchored bottom-RIGHT it sat on top
+         of each card's "+ Add to order" CTA (measured 2026-10-30: the button
+         covered the right end of that row at scroll positions past the first
+         screen, so a tap meant for Add hit Top). Centre it instead — the
+         action row has DETAILS on the left and Add on the right with empty
+         space between, so centring keeps it off both. Centring uses
+         margin-inline, not transform, because the base rule already owns
+         transform for the fade-in. */
+      .ns-root .back-to-top {
+        /* Lifted clear of the card action row (DETAILS / Add CTA), which sits
+           at the very bottom edge of every card, and of the cart-hint pill
+           (44px tall at bottom:12). 58px puts the button in the card's
+           non-interactive chip band. Centred so it never lands on either
+           end of the action row — at 320px a right-anchored button still
+           covered the Add CTA. */
+        bottom: 96px; right: 0; left: 0;
+        width: max-content; margin-inline: auto;
+        padding: 8px 14px; font-size: 12px;
+      }
       /* When the floating cart pill is visible (bottom-right), lift
          back-to-top above it so the two never overlap. :has() is
          supported in all modern browsers. */
+      /* Below 360px the card action row is tall enough that every possible
+         anchor for this floating button lands on some card's Add CTA (swept
+         scroll offsets 600-2000 at 320x568: 3/5 positions collided). There
+         is no non-overlapping position on a screen that narrow, so drop the
+         button there rather than keep a control that eats taps. */
+      @media (max-width: 359px) {
+        .ns-root .back-to-top { display: none !important; }
+      }
       body:has(.cart-bar:not([hidden])) .ns-root .back-to-top {
         /* Cart bar is full-width on mobile (75px tall = padding + content)
            and is anchored to viewport bottom. Lift back-to-top above it
@@ -6016,7 +6041,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261030-03</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261030-04</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

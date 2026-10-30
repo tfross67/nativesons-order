@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261030-02">
+  <meta name="build" content="20261030-03">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -512,9 +512,21 @@
       outline-offset: 2px;
     }
     @media (max-width: 600px) {
-      .sticky-search-inner { flex-wrap: wrap; gap: 8px; padding: 8px 14px; }
-      .sticky-search-bar .search-input { flex: 1 1 100%; }
-      .sticky-search-bar .view-toggle { flex: 1 1 auto; justify-content: center; }
+      /* C (2026-10-30): keep the on-scroll bar on ONE row. Wrapping the view
+         toggle under the input made it 113px tall — 13% of a 390x844 screen
+         held permanently while scrolling. One compact row instead; the input
+         keeps its tap target and the toggle stays whole. */
+      /* NOTE: the base rules are `.ns-root .sticky-search-inner` (0,2,0) and
+         `.ns-root .sticky-search-bar .search-input` (0,3,0). Unscoped
+         overrides here lose on specificity and silently do nothing — that
+         is why this block repeats the `.ns-root` prefix. */
+      .ns-root .sticky-search-inner { flex-wrap: nowrap; gap: 6px; padding: 5px 10px; }
+      .ns-root .sticky-search-bar .search-input { flex: 1 1 auto; min-width: 0;
+        padding: 5px 12px 5px 38px; font-size: 14px; }
+      .ns-root .sticky-search-bar .search-input-icon { left: 12px; }
+      .sticky-search-bar .search-input-clear { right: 122px; }
+      .ns-root .sticky-search-bar .view-toggle { flex: 0 0 auto; margin-left: 0; }
+      .ns-root .sticky-search-bar .view-toggle-btn { padding: 7px 9px; font-size: 12px; min-height: 36px; }
     }
 
 
@@ -6004,7 +6016,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261030-02</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261030-03</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

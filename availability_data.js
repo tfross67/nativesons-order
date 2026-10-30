@@ -4902,35 +4902,6 @@ window.AVAILABILITY = {
     "additional_info": "Same as Asteriscus maritimus."
   },
   {
-    "botanical": "Parahebe linifolia",
-    "section": "perennials",
-    "sizes": [
-      {
-        "container": "4in",
-        "price": 3.15,
-        "order": ""
-      }
-    ],
-    "bloom": true,
-    "bud": false,
-    "new": false,
-    "common": "White Parahebe",
-    "origin": "New Zealand",
-    "height": "3-6\"",
-    "width": "6-8\"",
-    "hardiness": "15",
-    "exposure": "Full sun - Partial shade",
-    "flower_color": "White to pink",
-    "flower_time": "Spring - Summer - Fall",
-    "foliage": "Green",
-    "water": "Regular",
-    "soil": "Well drained",
-    "special_uses": "Border Planting",
-    "plant_type": "Woody perennial/subshrub",
-    "description": "Parahebe linifolia is a miniature New Zealand native shrub growing to 6 inches high and 8 inches wide. Charming white flowers cover the evergreen foliage from Spring through Fall. An excellent choice for border plantings it can be combined with Geranium 'Biokovo' or Carex testacea. Hardy to 15F.",
-    "additional_info": "Parahebe linifolia is a miniature New Zealand native shrub growing to 6 inches high and 8 inches wide. Charming white flowers cover the evergreen foliage from Spring through Fall. An excellent choice for border plantings it can be combined with Geranium 'Biokovo' or Carex testacea. Hardy to 15F."
-  },
-  {
     "botanical": "Pelargonium cordifolium",
     "section": "General Nursery",
     "sizes": [

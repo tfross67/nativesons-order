@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261030-01">
+  <meta name="build" content="20261030-02">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -370,6 +370,20 @@
       .ns-root .hero-band { padding: 16px 18px 14px; }
       .ns-root .hero-headline { font-size: 22px; margin-bottom: 4px; }
       .ns-root .hero-sub { font-size: 13px; margin: 0; }
+      /* Second mobile pass (2026-10-30): the toolbar was breaking into three
+         rows on a phone — "Filter by type:" label / chip rail / "Sort by"
+         select. Drop the label row (the chips read fine without it) and let
+         the sort select take that first row, so the rail keeps its own full
+         width and the JS-measured chevron (--tab-rail-mid) still points at
+         the rail rather than at the whole stack. The "Show examples" toggle
+         goes too: the search placeholder already carries examples, and it
+         cost another ~44px above the results. */
+      .ns-root .results-toolbar-label { display: none; }
+      .ns-root .results-toolbar { flex-wrap: wrap; row-gap: 6px; }
+      .ns-root .sort-select-label { order: -1; flex: 1 1 100%; margin: 0; }
+      .ns-root .sort-select-label > span { font-size: 11px; }
+      .ns-root .sort-tabs { flex: 1 1 100%; order: 0; }
+      .ns-root .toolbar-divider { display: none; }
     }
     @media (max-width: 480px) {
       /* Below 480px the stats become truly secondary: even smaller,
@@ -732,7 +746,10 @@
       border-color: var(--c-sage, #c5d2bf);
     }
     @media (max-width: 600px) {
-      .ns-root .suggested-toggle { display: inline-flex; }
+      /* 2026-10-30: the toggle itself is hidden on phones. The search
+         placeholder already shows example queries ("red flowers in 1gal"),
+         and the pill cost ~44px above the results — Tim's call, option B. */
+      .ns-root .suggested-toggle { display: none; }
       .ns-root .suggested { display: none; }
       body.suggestions-open .ns-root .suggested {
         display: flex;
@@ -5987,7 +6004,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261030-01</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261030-02</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

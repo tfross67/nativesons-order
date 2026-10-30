@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261030-05">
+  <meta name="build" content="20261030-06">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -2336,7 +2336,14 @@
     .ns-root .back-to-top {
       position: fixed;
       bottom: 16px;
-      right: 16px;
+      /* Centred at EVERY width, not just mobile. Bottom-right sat on the
+         table's Add button on desktop (measured 51x36px overlap at 1440x900,
+         every scroll offset) and on the card CTA on mobile. Centring uses
+         margin-inline so it does not fight the transform-based fade-in. */
+      left: 0;
+      right: 0;
+      width: max-content;
+      margin-inline: auto;
       z-index: 60;
       background: linear-gradient(135deg, #ffffff 0%, #f8faf3 100%);
       color: var(--c-bark, #1f3a1f);
@@ -6041,7 +6048,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261030-05</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261030-06</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

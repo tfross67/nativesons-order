@@ -9626,5 +9626,5 @@ window.MASTER_ITEM_FULL = [
 {"c": "barrep1", "s": "1gal", "p": 7, "u": "652471346929", "d": "Barleria repens"},
 {"c": "lavpet1", "s": "1gal", "p": 6.5, "u": "652471346936", "d": "Lavandula angustifolia ‘Peter Pan’"},
 {"c": "pelfal4", "s": "4inch", "p": 3.5, "u": "652471346950", "d": "Pellaea falcata"},
-{"c": "lavsfr1", "s": "1gal", "p": 0, "u": "", "d": "Lavandula 'Silver Frost'"}
+{"c": "lavsfr1", "s": "1gal", "p": 7, "u": "", "d": "Lavandula 'Silver Frost'"}
 ];

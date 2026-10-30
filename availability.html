@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261018-08">
+  <meta name="build" content="20261030-01">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -359,6 +359,17 @@
       .ns-root .hero-stat + .hero-stat { padding-left: 10px; margin-left: 10px; border-left: 1px solid var(--c-line, #e5e3dd); }
       .ns-root .hero-stat-num { font-size: 22px; }
       .ns-root .hero-stat-label { font-size: 10px; }
+      /* Mobile: the three stat tiles are secondary and cost ~90px of the
+         first screen. Measured 2026-10-30 in WebKit: with them, the first
+         plant card starts at y=787 on a 390x844 iPhone (57px visible) and
+         y=885 at 320x568 — i.e. no product at all above the fold. Hide them
+         and tighten the band; the week pill and headline still carry the
+         context. Keep the 22px band margin-top: it exists to clear the PWA
+         install pill, and shrinking it clips the hero hairline. */
+      .ns-root .hero-stats { display: none; }
+      .ns-root .hero-band { padding: 16px 18px 14px; }
+      .ns-root .hero-headline { font-size: 22px; margin-bottom: 4px; }
+      .ns-root .hero-sub { font-size: 13px; margin: 0; }
     }
     @media (max-width: 480px) {
       /* Below 480px the stats become truly secondary: even smaller,
@@ -5976,7 +5987,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261018-08</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261030-01</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

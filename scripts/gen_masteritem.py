@@ -98,7 +98,20 @@ def build(src, vocab, prior):
         desc = (str(row[3]).strip() if len(row) > 3 and row[3] else "")
         upc  = (str(row[6]).strip() if len(row) > 6 and row[6] else "")
         price = num(row[2] if len(row) > 2 else None)
-        if not code or not size:
+        # Merchandise SKUs (a book, a display pot) have no size at all in the
+        # source and have always shipped as s:"". Keying off the code's own prior
+        # spelling keeps them in the catalog (the Oct-28 rebuild dropped both)
+        # while a genuinely new sizeless row still lands in `skipped`.
+        raw_size = str(row[1]).strip().lower() if len(row) > 1 and row[1] else ""
+        keep_unsized = bool(code) and raw_size in ("", "none") and "" in prior.get(code, ())
+        # Decimal-corrupted barcodes ("6524.0071329817"): a UPC12 containing a
+        # decimal point is the source's float defect (P65b), not a barcode.
+        # Blank it instead of publishing garbage to the portal.
+        if "." in upc:
+            upc = ""
+        if keep_unsized:
+            size = ""
+        if not code or (not size and not keep_unsized):
             if code or size: skipped.append((i, code, size, "missing code or size"))
             continue
         items.append({"c": code, "s": size, "p": price if price is not None else 0,
@@ -109,11 +122,22 @@ def build(src, vocab, prior):
 def main():
     src = sys.argv[1]
     outdir = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("/tmp/masteritem_new")
-    ref = Path(sys.argv[3]) if len(sys.argv) > 3 else Path(__file__).parent.parent / "masteritem_data.js"
+    refs = [Path(a) for a in sys.argv[3:]] or [Path(__file__).parent.parent / "masteritem_data.js"]
     outdir.mkdir(parents=True, exist_ok=True)
-    vocab = size_vocab(ref)
-    print(f"size vocabulary from {ref.name}: {len(vocab)} distinct spellings")
-    prior = code_sizes(ref)
+    # Several references are allowed and are UNIONED. The shipping file alone is
+    # not enough: a rebuild that drops a code removes its spelling from the next
+    # run's prior, so the code can never come back (dispot/chilwh, round 90).
+    # Passing an older build restores the identity without changing any spelling
+    # that already ships, because canon_size still prefers an exact match first.
+    vocab, prior = set(), {}
+    for ref in refs:
+        vocab |= size_vocab(ref)
+        for code, sizes in code_sizes(ref).items():
+            bucket = prior.setdefault(code, [])
+            for s in sizes:
+                if s not in bucket:
+                    bucket.append(s)
+    print(f"size vocabulary from {', '.join(r.name for r in refs)}: {len(vocab)} distinct spellings")
     items, skipped = build(src, vocab, prior)
 
     compact = [{k: it[k] for k in ("c", "s", "p", "u")} for it in items]

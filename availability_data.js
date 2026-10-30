@@ -825,7 +825,7 @@ window.AVAILABILITY = {
    "bloom": true,
    "bud": false,
    "new": false,
-   "common": "Thrift",
+   "common": "Thrift, Sea Pink",
    "origin": "Europe",
    "height": "8-12\"",
    "width": "8-12\"",

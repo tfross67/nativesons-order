@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261104-02">
+  <meta name="build" content="20261104-03">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -385,8 +385,14 @@
          cost another ~44px above the results. */
       .ns-root .results-toolbar-label { display: none; }
       .ns-root .results-toolbar { flex-wrap: wrap; row-gap: 6px; }
-      .ns-root .sort-select-label { order: -1; flex: 1 1 100%; margin: 0; }
-      .ns-root .sort-select-label > span { font-size: 11px; }
+      /* 2026-11-04: "SORT BY" was a caption on its own full-width row above a
+         select that already reads "Name (A-Z)". The caption goes; the select
+         keeps its own row at intrinsic width. Merging it onto the chip-rail row
+         saved a further 53px but clipped the select label ("Name (A–…") and
+         collided the rail's scroll chevron with the select border, so that was
+         backed out. The caption + the 72px padding are the whole win. */
+      .ns-root .sort-select-label { order: 2; flex: 0 0 auto; margin: 0; }
+      .ns-root .sort-select-label > span { display: none; }
       .ns-root .sort-tabs { flex: 1 1 100%; order: 0; }
       .ns-root .toolbar-divider { display: none; }
     }
@@ -1009,9 +1015,13 @@
     }
     /* Mobile clearance for the cart-hint pill — it's pinned
        bottom-left and would otherwise overlap the sort dropdown.
-       72px covers the pill (40px) + safe gap + iOS home indicator. */
+       2026-11-04: 72px was reserved on EVERY mobile view, which cost more of
+       the first screen than any other single block. The overlap can only
+       happen when the results list is empty (the toolbar is then the last
+       thing on the page), so the clearance is now scoped to that state. */
     @media (max-width: 600px) {
-      .ns-root .results-toolbar { padding-bottom: 72px; }
+      .ns-root .results-toolbar { padding-bottom: 16px; }
+      body:has(#noResults:not([hidden])) .ns-root .results-toolbar { padding-bottom: 72px; }
     }
     .ns-root .sort-select-label {
       display: inline-flex;
@@ -6077,7 +6087,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261104-02</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261104-03</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

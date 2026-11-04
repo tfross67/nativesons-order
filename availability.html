@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261104-03">
+  <meta name="build" content="20261104-04">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -1539,9 +1539,17 @@
       letter-spacing: 0;
     }
     body.pricing-locked .cart-item-line,
-    body.pricing-locked .cart-total-amount,
-    body.pricing-locked .cart-item-retail-input {
+    body.pricing-locked .cart-total-amount {
       visibility: hidden !important;
+    }
+    /* Per-line retail markup control = staff tooling. This used to be written
+       `body.pricing-locked .cart-item-retail-input`, a CLASS the input does not
+       have (it carries `data-cart-retail-input`), so the rule never matched and
+       a locked visitor saw the "Retail $" label, an empty number box and the
+       × price/markup toggle for every line. Hide the block, not just the input:
+       the label and the toggle are meaningless without it. */
+    body.pricing-locked .cart-item-retail {
+      display: none !important;
     }
     body.pricing-locked .picker-line-total {
       font-size: 0 !important;
@@ -6087,7 +6095,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261104-03</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261104-04</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

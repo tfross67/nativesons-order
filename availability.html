@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261104-01">
+  <meta name="build" content="20261104-02">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -367,9 +367,14 @@
          context. Keep the 22px band margin-top: it exists to clear the PWA
          install pill, and shrinking it clips the hero hairline. */
       .ns-root .hero-stats { display: none; }
-      .ns-root .hero-band { padding: 16px 18px 14px; }
+      .ns-root .hero-band { padding: 14px 18px 12px; }
       .ns-root .hero-headline { font-size: 22px; margin-bottom: 4px; }
-      .ns-root .hero-sub { font-size: 13px; margin: 0; }
+      /* 2026-11-04: the sub line ("Search by color, size, water needs…") was
+         the same instruction as the search placeholder sitting 40px below it.
+         Hiding it and tightening the band takes 42px off the first screen
+         (hero 127px -> 85px, first card 611 -> 569 measured alone). The week
+         pill and the headline still carry the context. */
+      .ns-root .hero-sub { display: none; }
       /* Second mobile pass (2026-10-30): the toolbar was breaking into three
          rows on a phone — "Filter by type:" label / chip rail / "Sort by"
          select. Drop the label row (the chips read fine without it) and let
@@ -6072,7 +6077,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261104-01</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261104-02</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>

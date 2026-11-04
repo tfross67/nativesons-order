@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="icon-192.png" type="image/png">
   <title>Native Sons — Smart Plant Search</title>
   <meta name="description" content="Search Native Sons Wholesale Nursery availability by color, size, water needs, or natural-language description. Browse perennials, shrubs, grasses, succulents, and trees.">
-  <meta name="build" content="20261030-08">
+  <meta name="build" content="20261104-01">
   <!-- === View-mode preset (table default) ===
        Runs synchronously before <body> renders to avoid flash-of-cards.
        The CSS in <style> reacts to body.view-table / body.view-card.
@@ -554,20 +554,44 @@
       gap: 10px;
       align-items: center;
     }
+    /* Icon-only variant of the view toggle, used inside the search row on
+       phones (see the <=720px block below). Buttons carry an aria-label so
+       the text can be hidden without losing the accessible name. */
+    .ns-root .search-input-row .view-toggle-btn .vt-icon { display: none; }
+    .ns-root .search-input-row .view-toggle-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
     @media (max-width: 720px) {
       .ns-root .search-input-row {
         flex-wrap: wrap;
       }
-      /* On narrow screens the segmented Table/Cards toggle is wide
-         enough to squeeze the chat input to ~165px (almost unusable).
-         Force it onto its own line so the chat input gets the full
-         remaining width. The .search-input-row .view-toggle base
-         rule has flex: 0 0 auto which would win on equal specificity;
-         use !important to ensure the mobile wrap actually applies. */
-      .search-input-row .view-toggle {
-        flex: 0 0 100% !important;
+      /* 2026-11-04: this control used to sit on its own full-width row. On a
+         390px phone that cost 57px of the first screen for something most
+         people touch once, and pushed the first plant card to y=611. Inline as
+         two icon buttons (~84px total) the chat input keeps 202px — wide
+         enough to read a query — and the first card moves to y=554. Measured
+         in WebKit at 390x844 and 320x568; do not "fix" the 38px width without
+         re-measuring the input, it is what keeps both usable. */
+      .ns-root .search-input-row .view-toggle {
+        flex: 0 0 auto !important;
+        padding: 4px !important;
+        min-height: 44px !important;
         justify-content: center;
       }
+      .ns-root .search-input-row .view-toggle-btn {
+        width: 38px !important;
+        padding: 0 !important;
+        min-height: 36px !important;
+        justify-content: center;
+      }
+      .ns-root .search-input-row .view-toggle-btn .vt-label { display: none; }
+      .ns-root .search-input-row .view-toggle-btn .vt-icon { display: block; }
+    }
+    /* Under 360px the icon pair still leaves the input too narrow to type in,
+       so the full-width row comes back — that width has no spare pixels. */
+    @media (max-width: 360px) {
+      .ns-root .search-input-row .view-toggle { flex: 0 0 100% !important; padding: 6px !important; }
+      .ns-root .search-input-row .view-toggle-btn { width: auto !important; padding: 8px 14px !important; }
+      .ns-root .search-input-row .view-toggle-btn .vt-label { display: inline; }
+      .ns-root .search-input-row .view-toggle-btn .vt-icon { display: none; }
     }
     .ns-root .search-input-icon {
       flex-shrink: 0;
@@ -6048,7 +6072,7 @@
       <img src="logo.jpg" alt="Native Sons Wholesale Nursery" class="signin-logo">
       <h1 class="signin-title">Office sign-in</h1>
       <p class="signin-subtitle">Sign in to enter orders on behalf of customers.</p>
-      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261030-08</p>
+      <p class="signin-version" style="font-size:10px;color:#999;margin:-8px 0 12px 0;">Build 20261104-01</p>
       <label class="form-field">
         <span>Password</span>
         <input type="password" id="signInPassword" required autocomplete="off" data-form-type="other" autofocus>
@@ -6154,8 +6178,14 @@
              The build-stamped <script> in <head> sets the initial body
              class from localStorage before first paint. -->
         <div class="view-toggle" role="group" aria-label="View mode">
-          <button type="button" class="view-toggle-btn" data-view="table" aria-pressed="true">Table</button>
-          <button type="button" class="view-toggle-btn" data-view="card" aria-pressed="false">Cards</button>
+          <button type="button" class="view-toggle-btn" data-view="table" aria-pressed="true" aria-label="Table view">
+            <svg class="vt-icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><rect x="2" y="3.2" width="12" height="2.2" rx="1.1" fill="currentColor"/><rect x="2" y="6.9" width="12" height="2.2" rx="1.1" fill="currentColor"/><rect x="2" y="10.6" width="12" height="2.2" rx="1.1" fill="currentColor"/></svg>
+            <span class="vt-label">Table</span>
+          </button>
+          <button type="button" class="view-toggle-btn" data-view="card" aria-pressed="false" aria-label="Cards view">
+            <svg class="vt-icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><rect x="2" y="2" width="5.2" height="5.2" rx="1.2" fill="currentColor"/><rect x="8.8" y="2" width="5.2" height="5.2" rx="1.2" fill="currentColor"/><rect x="2" y="8.8" width="5.2" height="5.2" rx="1.2" fill="currentColor"/><rect x="8.8" y="8.8" width="5.2" height="5.2" rx="1.2" fill="currentColor"/></svg>
+            <span class="vt-label">Cards</span>
+          </button>
         </div>
       </div>
 

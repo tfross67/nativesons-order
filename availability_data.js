@@ -119,7 +119,8 @@ window.AVAILABILITY = {
     "soil": "Well drained / tolerates heavier soils",
     "special_uses": "Border planting\nCoastal Garden\nDry Garden\nSmall area groundcover\nSmall Gardens\nSmall area groundcover\nErosion control\nRock garden\nCut Flower",
     "plant_type": "Perennial",
-    "description": "Dark green leaves with rich pink flowers blooming continually spring to fall. A vigorous native selection by Wayne Roderick from Santa Cruz Island that forms tight, spreading mats. An exceptional choice for use in meadows or mixed borders. May sometimes be sold as A. millefolium ‘Pink Island Form’. California."
+    "description": "Dark green leaves with rich pink flowers blooming continually spring to fall. A vigorous native selection by Wayne Roderick from Santa Cruz Island that forms tight, spreading mats. An exceptional choice for use in meadows or mixed borders. May sometimes be sold as A. millefolium ‘Pink Island Form’. California.",
+    "additional_info": "Dark green leaves with rich pink flowers blooming continually spring to fall. A vigorous native selection by Wayne Roderick from Santa Cruz Island that forms tight, spreading mats. An exceptional choice for use in meadows or mixed borders. May sometimes be sold as A. millefolium ‘Pink Island Form’. California."
   },
   {
     "botanical": "Achillea millefolium 'Rosa Maria'",
@@ -356,7 +357,8 @@ window.AVAILABILITY = {
     "water": "Infrequent",
     "soil": "Well drained",
     "plant_type": "Succulent",
-    "description": "Variegated.  Sport of Agave 'Blue Glow'"
+    "description": "Variegated.  Sport of Agave 'Blue Glow'",
+    "additional_info": "Variegated.  Sport of Agave 'Blue Glow'"
   },
   {
     "botanical": "Agave parryi var. truncata",
@@ -384,7 +386,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Border Planting\nDry Garden\nContainer Planting\nRock garden",
     "plant_type": "Succulent",
-    "description": "Heat and drought tolerant."
+    "description": "Heat and drought tolerant.",
+    "additional_info": "Heat and drought tolerant."
   },
   {
     "botanical": "Agave potatorum 'Cameron Blue'",
@@ -468,7 +471,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Small area groundcover\nBorder planting\nContainer Planting\nCoastal Garden\nSmall Gardens",
     "plant_type": "Perennial",
-    "description": "Synonym: Ajuga reptans 'Multicolor'."
+    "description": "Synonym: Ajuga reptans 'Multicolor'.",
+    "additional_info": "Synonym: Ajuga reptans 'Multicolor'."
   },
   {
     "botanical": "Aloysia triphylla",
@@ -612,7 +616,8 @@ window.AVAILABILITY = {
     "soil": "Most soil types",
     "special_uses": "Attracts Birds\nDry Garden\nBackground Planting\nHedge Planting\nScreen",
     "plant_type": "Evergreen shrub",
-    "description": "Sonoma manzanita. This mounding 6’ shrub is perhaps the most often used manzanita in California gardens. Dependable and garden tolerant it can be utilized with confidence from Redding to San Diego. Profuse white flowers in mid-winter that fall to form a thin snow-like layer under mature plants. Hummingbirds feed heavily on the winter flowers. Hardy to 10 F. A. densiflora  is a narrow endemic in its native Sonoma county habitat."
+    "description": "Sonoma manzanita. This mounding 6’ shrub is perhaps the most often used manzanita in California gardens. Dependable and garden tolerant it can be utilized with confidence from Redding to San Diego. Profuse white flowers in mid-winter that fall to form a thin snow-like layer under mature plants. Hummingbirds feed heavily on the winter flowers. Hardy to 10 F. A. densiflora  is a narrow endemic in its native Sonoma county habitat.",
+    "additional_info": "Sonoma manzanita. This mounding 6’ shrub is perhaps the most often used manzanita in California gardens. Dependable and garden tolerant it can be utilized with confidence from Redding to San Diego. Profuse white flowers in mid-winter that fall to form a thin snow-like layer under mature plants. Hummingbirds feed heavily on the winter flowers. Hardy to 10 F. A. densiflora  is a narrow endemic in its native Sonoma county habitat."
   },
   {
     "botanical": "Arctostaphylos edmundsii 'Rosy Dawn'",
@@ -873,7 +878,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Also known as Armeria juniperifolia ‘Alba’",
     "plant_type": "Perennial",
-    "description": "Also known as Armeria juniperifolia ‘Alba’."
+    "description": "Also known as Armeria juniperifolia ‘Alba’.",
+    "additional_info": "Also known as Armeria juniperifolia ‘Alba’."
   },
   {
     "botanical": "Armeria juniperifolia 'Rosa Stolz'",
@@ -1381,7 +1387,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Container Planting\nRock Garden\nDry Garden\nBorder Planting",
     "plant_type": "Perennial",
-    "description": "This evergreen, low-growing perennial reaches less than 1’ tall and can spread to almost 3’. Bright yellow spring and summer blooming flowers accent the dark green, finely textured foliage. Plant in full sun and well-drained soils and provide moderate water. Best in dry conditions. Hardy to 0F. East and West Coasts of North America, Baja."
+    "description": "This evergreen, low-growing perennial reaches less than 1’ tall and can spread to almost 3’. Bright yellow spring and summer blooming flowers accent the dark green, finely textured foliage. Plant in full sun and well-drained soils and provide moderate water. Best in dry conditions. Hardy to 0F. East and West Coasts of North America, Baja.",
+    "additional_info": "This evergreen, low-growing perennial reaches less than 1’ tall and can spread to almost 3’. Bright yellow spring and summer blooming flowers accent the dark green, finely textured foliage. Plant in full sun and well-drained soils and provide moderate water. Best in dry conditions. Hardy to 0F. East and West Coasts of North America, Baja."
   },
   {
     "botanical": "Campanula garganica 'Dickson's Gold'",
@@ -1556,7 +1563,8 @@ window.AVAILABILITY = {
     "soil": "Moist / well drained",
     "special_uses": "Shade Garden\nFall Color\nBorder Planting\nContainer Planting\nAccent",
     "plant_type": "Grass/grass-like perennial",
-    "description": "Orange New Zealand sedge. The distinctive coloring of this mounding sedge makes it a delight in any garden especially when combined with other grasses or broad-leafed perennials. The hair-like olive green foliage takes on a vivid tangerine-colored blush at the tips and glows brilliantly in the sunlight particularly in cold weather. Mature plants grow to 15” tall and grow best in moist, well-drained soils. This sedge tolerates sun or shade, but most gardeners agree that the foliage color is best with at least a half day of sun. In our garden this sedge has reseeded in a pleasing fashion in both sun and shade. Use as an accent, in containers, or along waterways or combine with other boldly colored plants like Phormium ‘Shirazz’ or Salvia ‘Burgundy Bliss’. Hardy to below 0F. New Zealand."
+    "description": "Orange New Zealand sedge. The distinctive coloring of this mounding sedge makes it a delight in any garden especially when combined with other grasses or broad-leafed perennials. The hair-like olive green foliage takes on a vivid tangerine-colored blush at the tips and glows brilliantly in the sunlight particularly in cold weather. Mature plants grow to 15” tall and grow best in moist, well-drained soils. This sedge tolerates sun or shade, but most gardeners agree that the foliage color is best with at least a half day of sun. In our garden this sedge has reseeded in a pleasing fashion in both sun and shade. Use as an accent, in containers, or along waterways or combine with other boldly colored plants like Phormium ‘Shirazz’ or Salvia ‘Burgundy Bliss’. Hardy to below 0F. New Zealand.",
+    "additional_info": "Orange New Zealand sedge. The distinctive coloring of this mounding sedge makes it a delight in any garden especially when combined with other grasses or broad-leafed perennials. The hair-like olive green foliage takes on a vivid tangerine-colored blush at the tips and glows brilliantly in the sunlight particularly in cold weather. Mature plants grow to 15” tall and grow best in moist, well-drained soils. This sedge tolerates sun or shade, but most gardeners agree that the foliage color is best with at least a half day of sun. In our garden this sedge has reseeded in a pleasing fashion in both sun and shade. Use as an accent, in containers, or along waterways or combine with other boldly colored plants like Phormium ‘Shirazz’ or Salvia ‘Burgundy Bliss’. Hardy to below 0F. New Zealand."
   },
   {
     "botanical": "Carex tumulicola",
@@ -1613,7 +1621,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Border planting\nContainer planting",
     "plant_type": "Deciduous shrub",
-    "description": "Deer and rabbit resistant."
+    "description": "Deer and rabbit resistant.",
+    "additional_info": "Deer and rabbit resistant."
   },
   {
     "botanical": "Casuarina glauca 'Cousin It'",
@@ -1796,7 +1805,8 @@ window.AVAILABILITY = {
     "soil": "Well drained / tolerates heavier soils",
     "special_uses": "Slope planting\nDry garden\nCoastal garden\nShade garden\nLarge area groundcover",
     "plant_type": "Evergreen shrub",
-    "description": "A mounding cultivar that is best used for covering large areas where its sprawling habit can be appreciated. However when used in small gardens it responds well to pruning. Flowers are medium-blue in 5” spike-like clusters that appear in mid-spring. It grows to 3’ tall and 12’ across with narrow, shiny, wrinkled green leaves. Tolerant of heavy soil and regular garden water. Plants actually prefer partial shade in warm inland locations with regular water. Hardy to 20F."
+    "description": "A mounding cultivar that is best used for covering large areas where its sprawling habit can be appreciated. However when used in small gardens it responds well to pruning. Flowers are medium-blue in 5” spike-like clusters that appear in mid-spring. It grows to 3’ tall and 12’ across with narrow, shiny, wrinkled green leaves. Tolerant of heavy soil and regular garden water. Plants actually prefer partial shade in warm inland locations with regular water. Hardy to 20F.",
+    "additional_info": "A mounding cultivar that is best used for covering large areas where its sprawling habit can be appreciated. However when used in small gardens it responds well to pruning. Flowers are medium-blue in 5” spike-like clusters that appear in mid-spring. It grows to 3’ tall and 12’ across with narrow, shiny, wrinkled green leaves. Tolerant of heavy soil and regular garden water. Plants actually prefer partial shade in warm inland locations with regular water. Hardy to 20F."
   },
   {
     "botanical": "Ceanothus arboreus 'Campo Grande'",
@@ -2558,7 +2568,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Container planting\nBorder planting\nCoastal garden",
     "plant_type": "Perennial",
-    "description": "Can be kept smaller with regular pruning."
+    "description": "Can be kept smaller with regular pruning.",
+    "additional_info": "Can be kept smaller with regular pruning."
   },
   {
     "botanical": "Cuphea hyssopifolia 'Pink'",
@@ -2845,7 +2856,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Rock Garden\nCoastal Garden\nDry Garden\nSmall area groundcover\nBorder Planting\nContainer planting",
     "plant_type": "Perennial",
-    "description": "Seaside daisy.  'Cape Sebastian' is a compact selection of the ever popular seaside forming a dense mound of foliage 6 to 8 inches tall.  The plants in our garden have spread slowly to 3 feet wide.  Lavender flowers with yellow centers cover the foliage from early spring to summer.  In our opinion 'Cape Sebastian' is the most durable and long-lived selection available and we consider it one of the best North American native plants we grow for coastal gardens.  It is useful in perennial borders, meadows, or as a small scale ground cover. Hardy to 15F.\n\nCommon name synonym: Beach aster"
+    "description": "Seaside daisy.  'Cape Sebastian' is a compact selection of the ever popular seaside forming a dense mound of foliage 6 to 8 inches tall.  The plants in our garden have spread slowly to 3 feet wide.  Lavender flowers with yellow centers cover the foliage from early spring to summer.  In our opinion 'Cape Sebastian' is the most durable and long-lived selection available and we consider it one of the best North American native plants we grow for coastal gardens.  It is useful in perennial borders, meadows, or as a small scale ground cover. Hardy to 15F.\n\nCommon name synonym: Beach aster",
+    "additional_info": "Seaside daisy.  'Cape Sebastian' is a compact selection of the ever popular seaside forming a dense mound of foliage 6 to 8 inches tall.  The plants in our garden have spread slowly to 3 feet wide.  Lavender flowers with yellow centers cover the foliage from early spring to summer.  In our opinion 'Cape Sebastian' is the most durable and long-lived selection available and we consider it one of the best North American native plants we grow for coastal gardens.  It is useful in perennial borders, meadows, or as a small scale ground cover. Hardy to 15F.\n\nCommon name synonym: Beach aster"
   },
   {
     "botanical": "Eriophyllum staechadifolium",
@@ -5388,7 +5400,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Dry Garden\nLarge area groundcover\nSlope Planting",
     "plant_type": "Perennial",
-    "description": "Drought tolerant. Formerly Lippia nodifera."
+    "description": "Drought tolerant. Formerly Lippia nodifera.",
+    "additional_info": "Drought tolerant. Formerly Lippia nodifera."
   },
   {
     "botanical": "Pittosporum eugenioides 'Variegatum'",
@@ -7369,7 +7382,21 @@ window.AVAILABILITY = {
     ],
     "bloom": false,
     "bud": false,
-    "new": false
+    "new": false,
+    "common": "Thyme",
+    "origin": "Garden hybrid",
+    "plant_type": "Perennial",
+    "exposure": "Full sun - Partial shade",
+    "flower_color": "Red purple",
+    "flower_time": "Summer",
+    "height": "3-6\"",
+    "width": "12-18\"",
+    "foliage": "Dark green, lemon scented",
+    "water": "Moderate",
+    "soil": "Well drained",
+    "special_uses": "Herb Garden\nContainer Planting\nSmall area groundcover\nBorder Planting",
+    "additional_info": "Forms mats of dark green foliage, marked sporadically with patches of gold. Lemon-scented foliage to 3” and red-purple flowers in summer. Hardy to 0F. Garden origin.",
+    "hardiness": "0°F"
   },
   {
     "botanical": "Thymus serpyllum 'Elfin'",

@@ -6958,6 +6958,17 @@
       }
     }
 
+    // The first data render (which calls renderFooter) runs while this inline
+    // script is still being parsed, so the footer element below it does not
+    // exist yet and the week / generated / build labels stayed blank until the
+    // user typed something and forced a second render. Fill them once more
+    // after the document is parsed. renderFooter is idempotent.
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', renderFooter);
+    } else {
+      renderFooter();
+    }
+
     // === Synonyms / canonicalisation maps ===
     // Maps user-friendly terms to canonical keys and values used in the catalog.
     // Common-name → genus lookup for the main search. When the user types

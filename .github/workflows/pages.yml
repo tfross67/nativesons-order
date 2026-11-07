@@ -1,0 +1,58 @@
+name: Deploy to GitHub Pages
+
+# Static deployment. Replaces the legacy "pages build and deployment" path,
+# which began hanging at syncing_files on 2026-11-06 and failed every retry
+# (build succeeded, the file sync never left syncing_files). Deploying the
+# checkout straight to Pages bypasses that sync path entirely.
+#
+# The site is published from a staged copy so .git (575 MB of history) and
+# local-only scratch never enter the artifact. Everything else ships exactly
+# as it does today, so paths and the custom domain are unchanged.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Stage site
+        run: |
+          mkdir -p _site
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='_site/' \
+            --exclude='node_modules/' \
+            ./ _site/
+          du -sh _site
+          find _site -type f | wc -l
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

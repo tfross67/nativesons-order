@@ -60,7 +60,8 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Well drained",
     "plant_type": "Evergreen shrub",
-    "description": "Sport of A. 'Kaleidoscope'."
+    "description": "Sport of A. 'Kaleidoscope'.",
+    "additional_info": "Sport of A. 'Kaleidoscope'."
   },
   {
     "botanical": "Acacia covenyi",
@@ -2203,7 +2204,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Rock Garden\nCoastal Garden\nSmall area groundcover\nContainer Planting\nBorder Planting",
     "plant_type": "Perennial",
-    "description": "Compact morning glory. Evergreen perennial growing up to 8\" tall with trailing branches spreading to 12\". Deep lavender purple flowers are shown from Spring-Fall. Grows well in light gravely soil with good drainage, but will tolerate clay soil if not over watered. Use for small ground cover areras, rock coastal gardens as well as for container planting. Hardy to 25F."
+    "description": "Compact morning glory. Evergreen perennial growing up to 8\" tall with trailing branches spreading to 12\". Deep lavender purple flowers are shown from Spring-Fall. Grows well in light gravely soil with good drainage, but will tolerate clay soil if not over watered. Use for small ground cover areras, rock coastal gardens as well as for container planting. Hardy to 25F.",
+    "additional_info": "Compact morning glory. Evergreen perennial growing up to 8\" tall with trailing branches spreading to 12\". Deep lavender purple flowers are shown from Spring-Fall. Grows well in light gravely soil with good drainage, but will tolerate clay soil if not over watered. Use for small ground cover areras, rock coastal gardens as well as for container planting. Hardy to 25F."
   },
   {
     "botanical": "Coprosma 'Eclipse'",
@@ -2612,7 +2614,8 @@ window.AVAILABILITY = {
     "water": "Occasional",
     "soil": "Well drained",
     "plant_type": "Woody perennial - Subshrub",
-    "description": "Syn: Encelia conspersa."
+    "description": "Syn: Encelia conspersa.",
+    "additional_info": "Syn: Encelia conspersa."
   },
   {
     "botanical": "Erigeron glaucus 'Compacta'",
@@ -3011,7 +3014,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Container Planting",
     "plant_type": "Grass/grass-like perennial",
-    "description": "Blue fescue. The intense silver-blue foliage of this cultivar recommends it for almost any garden, where it will combine handsomely with other silvers, darkest greens and even purples. Plants form tidy mounds to 10” tall and send up silver-blue flower stalks in spring that fade to warmest gold. Provide an annual shearing to maintain a fresh appearance, and replace individual plants every 3-4 years. Hardy to below 0F."
+    "description": "Blue fescue. The intense silver-blue foliage of this cultivar recommends it for almost any garden, where it will combine handsomely with other silvers, darkest greens and even purples. Plants form tidy mounds to 10” tall and send up silver-blue flower stalks in spring that fade to warmest gold. Provide an annual shearing to maintain a fresh appearance, and replace individual plants every 3-4 years. Hardy to below 0F.",
+    "additional_info": "Blue fescue. The intense silver-blue foliage of this cultivar recommends it for almost any garden, where it will combine handsomely with other silvers, darkest greens and even purples. Plants form tidy mounds to 10” tall and send up silver-blue flower stalks in spring that fade to warmest gold. Provide an annual shearing to maintain a fresh appearance, and replace individual plants every 3-4 years. Hardy to below 0F."
   },
   {
     "botanical": "Frankenia thymifolia",
@@ -3152,7 +3156,8 @@ window.AVAILABILITY = {
     "soil": "Most soil types",
     "special_uses": "Border Planting",
     "plant_type": "Evergreen shrub",
-    "description": "Selected for its compact form and bright red flowers."
+    "description": "Selected for its compact form and bright red flowers.",
+    "additional_info": "Selected for its compact form and bright red flowers."
   },
   {
     "botanical": "Geranium x cantabrigiense 'Biokovo'",
@@ -3179,7 +3184,8 @@ window.AVAILABILITY = {
     "water": "Moderate",
     "soil": "Most soil types",
     "plant_type": "Perennial",
-    "description": "Perennial Plant of the Year 2015"
+    "description": "Perennial Plant of the Year 2015",
+    "additional_info": "Perennial Plant of the Year 2015"
   },
   {
     "botanical": "Grevillea 'Moonlight'",
@@ -4245,7 +4251,8 @@ window.AVAILABILITY = {
     "soil": "Most soil types",
     "special_uses": "Revegetation and Restoration\nDry Garden\nCoastal Garden\nBorder Planting\nAccent",
     "plant_type": "Grass/grass-like perennial",
-    "description": "‘Canyon Prince’ wild rye. Similar to the species, but with intense blue-gray foliage, this popular selection was made on Prince Islet off of San Miguel Island by the Santa Barbara Botanic Garden. Growing to only 3’ it is perhaps better suited for smaller gardens, though it still possesses the aggressive spreading nature of the species. It is also less free-flowering than the species but just as tolerant of a wide range of conditions."
+    "description": "‘Canyon Prince’ wild rye. Similar to the species, but with intense blue-gray foliage, this popular selection was made on Prince Islet off of San Miguel Island by the Santa Barbara Botanic Garden. Growing to only 3’ it is perhaps better suited for smaller gardens, though it still possesses the aggressive spreading nature of the species. It is also less free-flowering than the species but just as tolerant of a wide range of conditions.",
+    "additional_info": "‘Canyon Prince’ wild rye. Similar to the species, but with intense blue-gray foliage, this popular selection was made on Prince Islet off of San Miguel Island by the Santa Barbara Botanic Garden. Growing to only 3’ it is perhaps better suited for smaller gardens, though it still possesses the aggressive spreading nature of the species. It is also less free-flowering than the species but just as tolerant of a wide range of conditions."
   },
   {
     "botanical": "Machaerina rubiginosa 'Variegata'",
@@ -4412,7 +4419,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Attracts birds\nAttracts butterflies\nContainer planting",
     "plant_type": "Perennial",
-    "description": "Deer resistant."
+    "description": "Deer resistant.",
+    "additional_info": "Deer resistant."
   },
   {
     "botanical": "Miscanthus sinensis 'Little Miss'",
@@ -4469,7 +4477,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Border planting\nAccent",
     "plant_type": "Grass/grass-like perennial",
-    "description": "Hairy awn muhly. A clumping, deciduous grass with masses of violet-pink, airy flowers that often obscure the blue-green foliage in a purple haze from summer to early fall. Useful as a border specimen, or massed in large groups, this species is especially suitable for coastal gardens in sandy soils. Plants will tolerate partial shade and dry conditions, though flower production is much stronger in full sun and plants often look best with moderate summer water. Eastern United States to Texas and into Mexico."
+    "description": "Hairy awn muhly. A clumping, deciduous grass with masses of violet-pink, airy flowers that often obscure the blue-green foliage in a purple haze from summer to early fall. Useful as a border specimen, or massed in large groups, this species is especially suitable for coastal gardens in sandy soils. Plants will tolerate partial shade and dry conditions, though flower production is much stronger in full sun and plants often look best with moderate summer water. Eastern United States to Texas and into Mexico.",
+    "additional_info": "Hairy awn muhly. A clumping, deciduous grass with masses of violet-pink, airy flowers that often obscure the blue-green foliage in a purple haze from summer to early fall. Useful as a border specimen, or massed in large groups, this species is especially suitable for coastal gardens in sandy soils. Plants will tolerate partial shade and dry conditions, though flower production is much stronger in full sun and plants often look best with moderate summer water. Eastern United States to Texas and into Mexico."
   },
   {
     "botanical": "Muhlenbergia pubescens",
@@ -4891,7 +4900,20 @@ window.AVAILABILITY = {
     ],
     "bloom": false,
     "bud": false,
-    "new": true
+    "new": true,
+    "common": "Penstemon",
+    "origin": "Garden hybrid",
+    "plant_type": "Perennial",
+    "exposure": "Full sun - Partial shade",
+    "flower_color": "Scarlet red with white throats",
+    "flower_time": "Summer - Fall",
+    "height": "2-3'",
+    "width": "1-2'",
+    "foliage": "Green",
+    "water": "Moderate",
+    "soil": "Well drained",
+    "special_uses": "Attracts butterflies\nAttracts birds\nContainer planting\nCut Flower",
+    "hardiness": "5°F"
   },
   {
     "botanical": "Penstemon 'Osprey'",
@@ -5706,7 +5728,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Small area groundcover",
     "plant_type": "Woody perennial - Subshrub",
-    "description": "Small foliage, wrinkled and wooly-silver white above, greenish on the underside."
+    "description": "Small foliage, wrinkled and wooly-silver white above, greenish on the underside.",
+    "additional_info": "Small foliage, wrinkled and wooly-silver white above, greenish on the underside."
   },
   {
     "botanical": "Salvia coahuilensis",
@@ -5788,7 +5811,8 @@ window.AVAILABILITY = {
     "soil": "Most soil types",
     "special_uses": "Dry Garden\nBorder Planting",
     "plant_type": "Woody perennial/subshrub",
-    "description": "Dwarf Mexican sage. Finally, a dwarf selection of the omnipresent Mexican sage! Brand new to the trade, this variety looks and acts like its parent except that it reaches the manageable size of 2’ by 3’ without pruning. Rich purple-blue fuzzy flowers crown its graceful branches virtually year round in mild climates. The flower color seems to be an intermediate shade between the species and ‘Midnight’. Plant in full sun and provide an annual hard shearing to retain a full appearance."
+    "description": "Dwarf Mexican sage. Finally, a dwarf selection of the omnipresent Mexican sage! Brand new to the trade, this variety looks and acts like its parent except that it reaches the manageable size of 2’ by 3’ without pruning. Rich purple-blue fuzzy flowers crown its graceful branches virtually year round in mild climates. The flower color seems to be an intermediate shade between the species and ‘Midnight’. Plant in full sun and provide an annual hard shearing to retain a full appearance.",
+    "additional_info": "Dwarf Mexican sage. Finally, a dwarf selection of the omnipresent Mexican sage! Brand new to the trade, this variety looks and acts like its parent except that it reaches the manageable size of 2’ by 3’ without pruning. Rich purple-blue fuzzy flowers crown its graceful branches virtually year round in mild climates. The flower color seems to be an intermediate shade between the species and ‘Midnight’. Plant in full sun and provide an annual hard shearing to retain a full appearance."
   },
   {
     "botanical": "Salvia microphylla 'Syracuse'",
@@ -5843,7 +5867,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Herb Garden\nBorder Planting\nContainer Planting",
     "plant_type": "Perennial",
-    "description": "Garden sage. References to medicinal virtues of Salvia officinalis can be found in many herbal books. Branched, evergreen perennial with a height and width of 2’. Handsome blue-gray leaves with a white lower surface and a tidy, formal appearance. Flowers appear sparsely in late spring or summer. Full sun and well-drained soils with moderate summer water. Longer-lived than the species or other cultivars and also less hardy than the type. A good choice for borders that can utilize the neat, gray foliage. Protect from frost and thawing. Hardy to 15F. Northern shores of the Mediterranean."
+    "description": "Garden sage. References to medicinal virtues of Salvia officinalis can be found in many herbal books. Branched, evergreen perennial with a height and width of 2’. Handsome blue-gray leaves with a white lower surface and a tidy, formal appearance. Flowers appear sparsely in late spring or summer. Full sun and well-drained soils with moderate summer water. Longer-lived than the species or other cultivars and also less hardy than the type. A good choice for borders that can utilize the neat, gray foliage. Protect from frost and thawing. Hardy to 15F. Northern shores of the Mediterranean.",
+    "additional_info": "Garden sage. References to medicinal virtues of Salvia officinalis can be found in many herbal books. Branched, evergreen perennial with a height and width of 2’. Handsome blue-gray leaves with a white lower surface and a tidy, formal appearance. Flowers appear sparsely in late spring or summer. Full sun and well-drained soils with moderate summer water. Longer-lived than the species or other cultivars and also less hardy than the type. A good choice for borders that can utilize the neat, gray foliage. Protect from frost and thawing. Hardy to 15F. Northern shores of the Mediterranean."
   },
   {
     "botanical": "Salvia officinalis 'Silver Scent'",
@@ -6263,7 +6288,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Rock Garden\nSmall area groundcover\nContainer Planting",
     "plant_type": "Succulent",
-    "description": "Dense, compact form to 2” tall and spreading in favorable sites. Flat rosettes of fleshy, silvery-green leaves with clusters of tiny, yellow flowers above the foliage in summer. Once rooted, it needs little water in cool summer climates and tolerates considerable shade. Excellent in containers or used in rock gardens. Hardy to 5F. Oregon."
+    "description": "Dense, compact form to 2” tall and spreading in favorable sites. Flat rosettes of fleshy, silvery-green leaves with clusters of tiny, yellow flowers above the foliage in summer. Once rooted, it needs little water in cool summer climates and tolerates considerable shade. Excellent in containers or used in rock gardens. Hardy to 5F. Oregon.",
+    "additional_info": "Dense, compact form to 2” tall and spreading in favorable sites. Flat rosettes of fleshy, silvery-green leaves with clusters of tiny, yellow flowers above the foliage in summer. Once rooted, it needs little water in cool summer climates and tolerates considerable shade. Excellent in containers or used in rock gardens. Hardy to 5F. Oregon."
   },
   {
     "botanical": "Senecio serpens",
@@ -6561,7 +6587,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Border Planting\nSmall area groundcover",
     "plant_type": "Perennial",
-    "description": "A compact selection to 5” high with a 3’ spread forming a tidy dense mound. Silver leaves are slightly smaller than the species. Full sun or part shade with moderate to occasional water. Hardy to 0F. Deer resistant."
+    "description": "A compact selection to 5” high with a 3’ spread forming a tidy dense mound. Silver leaves are slightly smaller than the species. Full sun or part shade with moderate to occasional water. Hardy to 0F. Deer resistant.",
+    "additional_info": "A compact selection to 5” high with a 3’ spread forming a tidy dense mound. Silver leaves are slightly smaller than the species. Full sun or part shade with moderate to occasional water. Hardy to 0F. Deer resistant."
   },
   {
     "botanical": "Tanacetum parthenium 'Aureum'",
@@ -6731,7 +6758,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Rock garden\nSmall area groundcover\nBorder planting\nHedge Planting\nAttracts butterflies\nCoastal garden",
     "plant_type": "Woody perennial - Subshrub",
-    "description": "Drought tolerant once established.  Deer Resistant."
+    "description": "Drought tolerant once established.  Deer Resistant.",
+    "additional_info": "Drought tolerant once established.  Deer Resistant."
   },
   {
     "botanical": "Teucrium chamaedrys 'Summer Sunshine'",
@@ -6959,7 +6987,8 @@ window.AVAILABILITY = {
     "soil": "Well drained",
     "special_uses": "Coastal garden\nDry garden\nContainer planting\nRevegetation and Restoration\nBackground planting",
     "plant_type": "Evergreen shrub",
-    "description": "Cross between T. lanatum and T. purpusii; the cross was made by Patrick Worley at Suncrest Nurseries."
+    "description": "Cross between T. lanatum and T. purpusii; the cross was made by Patrick Worley at Suncrest Nurseries.",
+    "additional_info": "Cross between T. lanatum and T. purpusii; the cross was made by Patrick Worley at Suncrest Nurseries."
   },
   {
     "botanical": "Tulbaghia x 'Ashanti'",
@@ -7043,7 +7072,8 @@ window.AVAILABILITY = {
     "soil": "Most soil types",
     "special_uses": "Slope Planting\nCoastal Garden\nBorder Planting\nAttracts Butterflies",
     "plant_type": "Woody perennial/subshrub",
-    "description": "California native. Recent introduction from the Santa Barbara Botanic Garden, selected on Cedros Island by Carol Bornstein. Plants form a tidy, handsome mound to 3’ high with an equal spread. Deeply cut leaves are mid-green and held densely on the stems. Dark purple flowers on 8” stems form above the foliage most of the year in coastal California. Useful for dry borders and especially effective mixed with native Salvias. Plants have demonstrated surprising tolerance of heavy soils in a four-year old test planting. Attractive to butterflies. Hardy to 20F. Baja California."
+    "description": "California native. Recent introduction from the Santa Barbara Botanic Garden, selected on Cedros Island by Carol Bornstein. Plants form a tidy, handsome mound to 3’ high with an equal spread. Deeply cut leaves are mid-green and held densely on the stems. Dark purple flowers on 8” stems form above the foliage most of the year in coastal California. Useful for dry borders and especially effective mixed with native Salvias. Plants have demonstrated surprising tolerance of heavy soils in a four-year old test planting. Attractive to butterflies. Hardy to 20F. Baja California.",
+    "additional_info": "California native. Recent introduction from the Santa Barbara Botanic Garden, selected on Cedros Island by Carol Bornstein. Plants form a tidy, handsome mound to 3’ high with an equal spread. Deeply cut leaves are mid-green and held densely on the stems. Dark purple flowers on 8” stems form above the foliage most of the year in coastal California. Useful for dry borders and especially effective mixed with native Salvias. Plants have demonstrated surprising tolerance of heavy soils in a four-year old test planting. Attractive to butterflies. Hardy to 20F. Baja California."
   },
   {
     "botanical": "Washingtonia filifera",

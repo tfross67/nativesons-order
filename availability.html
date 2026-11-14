@@ -6025,20 +6025,26 @@
          add button has no header). A 6th column with no declared width
          simply absorbs whatever is left, so leaving Botanical auto handed
          the surplus to the add column instead (359px for a 64px button). */
-      body .ns-root table.list th[data-sort="botanical"] { width: 40%; }
+      body .ns-root table.list th[data-sort="botanical"] { width: 34%; }
       body .ns-root table.list td.botanical { white-space: normal; }
-      body .ns-root table.list th.col-status          { width: 170px; }
-      body .ns-root table.list th[data-sort="size"]   { width: 260px; }
+      body .ns-root table.list th.col-status          { width: 13%; }
       /* A plant with four sizes ("4IN $3.15 / 1GAL $6.50 / 2GAL $16.50 /
-         5GAL $20.00") needs ~425px of nowrap content inside this 260px
-         column, so the overflow painted straight over the Height and Width
-         cells — Lavandula 'Annet' rendered as "2GAL $16508"" with the two
-         columns superimposed. Let the size cell wrap between entries, the
-         same guard the narrow-screen block already applies. */
+         5GAL $20.00") needs ~425px of nowrap content inside this column, so
+         the overflow painted straight over the Height and Width cells —
+         Lavandula 'Annet' rendered as "2GAL $16508"" with the two columns
+         superimposed. Let the size cell wrap between entries, the same guard
+         the narrow-screen block already applies. */
       body .ns-root table.list td.size { white-space: normal; }
-      body .ns-root table.list th[data-sort="height"] { width: 130px; }
-      body .ns-root table.list th[data-sort="width"]  { width: 130px; }
-      body .ns-root table.list tbody td.add-cell      { width: 150px; }
+      body .ns-root table.list th[data-sort="size"]   { width: 21%; }
+      body .ns-root table.list th[data-sort="height"] { width: 10%; }
+      body .ns-root table.list th[data-sort="width"]  { width: 10%; }
+      /* The whole column set is percentages, not pixels. The old fixed px set
+         (40% + 840px) needed 1259px inside a 1048px table between roughly
+         1101px and 1439px viewport: the leftover for this last, header-less
+         column went negative and the + Add button was pushed outside the row.
+         Percentages always sum to 100% (34 + 13 + 21 + 10 + 10 + 12), so every
+         column keeps its room at any width where the table renders. */
+      body .ns-root table.list tbody td.add-cell      { width: 12%; }
     }
   </style>
 </head>

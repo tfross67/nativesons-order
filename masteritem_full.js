@@ -9630,5 +9630,8 @@ window.MASTER_ITEM_FULL = [
 {"c": "pelcys1", "s": "1gal", "p": 7, "u": "652471346974", "d": "Pelargonium crispum 'Cy's Sunburst'"},
 {"c": "acacra15", "s": "15gal", "p": 90, "u": "652471347001", "d": "Acacia craspedocarpa"},
 {"c": "monvim1", "s": "1gal", "p": 7.5, "u": "652471346998", "d": "Monardella viminea"},
-{"c": "lavass1", "s": "1gal", "p": 6.25, "u": "652471346981", "d": "Lavatera assurgentiflora"}
+{"c": "lavass1", "s": "1gal", "p": 6.25, "u": "652471346981", "d": "Lavatera assurgentiflora"},
+{"c": "heswil15", "s": "15gal", "p": 90, "u": "652471347018", "d": "Hesperocyparis macrocarpa 'Wilma Goldcrest'"},
+{"c": "penkin1", "s": "1gal", "p": 6.5, "u": "652471347032", "d": "Penstemon 'King George V'"},
+{"c": "sphinc1", "s": "1gal", "p": 6.35, "u": "652471347025", "d": "Sphaeralcea incana"}
 ];

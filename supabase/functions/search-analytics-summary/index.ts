@@ -11,7 +11,8 @@
 //   supabase functions deploy search-analytics-summary --project-ref ruwyfesblmaurfuiaofw --no-verify-jwt
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "https://ruwyfesblmaurfuiaofw.supabase.co";
-const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("NS_SERVICE_KEY") ||
+  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",

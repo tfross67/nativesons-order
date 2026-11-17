@@ -18,7 +18,8 @@
 // injected into every Edge Function by the platform.
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "";
-const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
+const SERVICE_KEY = Deno.env.get("NS_SERVICE_KEY") ||
+  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
 
 const MAX_ROWS_PER_SUBMIT = 100;
 const TABS = new Set(["liners", "4inch", "1gallon", "5gallon"]);

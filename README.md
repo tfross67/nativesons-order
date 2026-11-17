@@ -23,9 +23,8 @@ nativesons-order/
 ├── cart.js                          # localStorage cart
 ├── availability_data.js             # Copied from nativesons-retail (with bloom/bud)
 ├── confirmation.html                # Post-submit success page
-├── admin.html                       # Admin dashboard (password-gated)
-├── admin-config.js                  # Admin password
-├── supabase-config.js               # Public anon key (paste here)
+├── admin.html                       # Admin dashboard (staff-login gated)
+├── supabase-config.js               # Public publishable key (safe to expose)
 ├── supabase/
 │   ├── schema.sql                   # Tables + RLS + RPC function
 │   └── functions/send-order-email/  # Email confirmation Edge Function
@@ -90,13 +89,18 @@ After `setup.sh` runs, edit these three files and commit:
 
 **`supabase-config.js`** — replace `YOUR_SUPABASE_ANON_KEY_HERE` with the anon key.
 
-**`admin.html`** — find the line:
-```js
-const SERVICE_KEY = 'YOUR_SUPABASE_SERVICE_ROLE_KEY_HERE';
-```
-Replace with the service role key.
+**No service-role key goes in the repo or the page.** The admin dashboard signs
+in through the `staff-login` Edge Function (password checked server-side against
+the `STAFF_PASSWORD` function secret) and every privileged read/write goes
+through `admin-ops`, which holds the service-role key in its own env.
 
-**`admin-config.js`** — change the password from `***REMOVED-CREDENTIAL***` to something you'll remember.
+To rotate the staff password:
+
+```bash
+supabase secrets set STAFF_PASSWORD='<new password>' --project-ref ruwyfesblmaurfuiaofw
+```
+
+Anyone signed in with an old 12h token keeps working until it expires.
 
 ```bash
 git add -A && git commit -m "Configure keys" && git push

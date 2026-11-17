@@ -447,21 +447,67 @@
   <script src="match_order_codes.js"></script>
   <script>
     // ============================================================
-    // Admin dashboard. Uses the service role key to bypass RLS.
-    // The service role key is embedded in admin.html only (not in
-    // the public-facing index.html). The anon key still gates the
-    // login form below as a basic first-line check.
-    const SERVICE_KEY = '***REMOVED-CREDENTIAL***';
-
-    // Password the user types — checked client-side. Set this in
-    // admin-config.js (kept separate from the service key for hygiene).
-    // The service role key is what actually controls DB access.
-    let ADMIN_PASSWORD = '***REMOVED-CREDENTIAL***';  // <-- set a real password in admin-config.js (overrides this default)
-
+    // Admin dashboard. No privileged key lives in this page.
+    //   * the password is checked server-side by the staff-login Edge
+    //     Function, which returns a 12h signed token;
+    //   * every privileged read/write goes through admin-ops, which
+    //     holds the service-role key in its own env.
+    // The anon/publishable key below is public by design and grants
+    // nothing on its own — RLS denies it every table.
     const cfg = window.SUPABASE_CONFIG || {};
-    const supabaseAdmin = (cfg.url && SERVICE_KEY !== 'YOUR_SUPABASE_SERVICE_ROLE_KEY_HERE')
-      ? window.supabase.createClient(cfg.url, SERVICE_KEY)
-      : null;
+    const STAFF_TOKEN_KEY = 'nativesons_staff_token';
+    const STAFF_EXP_KEY = 'nativesons_staff_exp';
+
+    function staffToken() {
+      try {
+        const token = sessionStorage.getItem(STAFF_TOKEN_KEY) || '';
+        const exp = Number(sessionStorage.getItem(STAFF_EXP_KEY) || 0);
+        if (!token) return '';
+        if (exp && exp * 1000 <= Date.now()) return '';
+        return token;
+      } catch (_) {
+        return '';
+      }
+    }
+
+    function clearStaffToken() {
+      try {
+        sessionStorage.removeItem(STAFF_TOKEN_KEY);
+        sessionStorage.removeItem(STAFF_EXP_KEY);
+      } catch (_) { /* private mode */ }
+    }
+
+    // Every privileged call. Throws on failure; a 401 drops the token and
+    // returns to the login view so the next attempt re-authenticates.
+    async function adminOp(action, params = {}) {
+      const token = staffToken();
+      if (!token) {
+        showLogin();
+        throw new Error('Signed out — sign in again.');
+      }
+      const res = await fetch(`${cfg.url}/functions/v1/admin-ops`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': cfg.anonKey,
+          'authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ action, ...params }),
+      });
+      let body = {};
+      try { body = await res.json(); } catch (_) { /* non-JSON error page */ }
+      if (res.status === 401) {
+        clearStaffToken();
+        showLogin();
+        throw new Error('Session expired — sign in again.');
+      }
+      if (!res.ok || !body.ok) {
+        const err = new Error(body.error || `HTTP ${res.status}`);
+        err.code = body.code;
+        throw err;
+      }
+      return body;
+    }
 
     const $ = (id) => document.getElementById(id);
     const loginView = $('loginView');
@@ -477,35 +523,50 @@
     const logoutBtn = $('logoutBtn');
     const orderDetail = $('orderDetail');
 
-    // Try to load admin-config.js for separate password file
-    const cfgScript = document.createElement('script');
-    cfgScript.src = 'admin-config.js';
-    cfgScript.onload = () => {
-      if (window.ADMIN_CONFIG && window.ADMIN_CONFIG.password) {
-        // Replace the const above
-        eval(`ADMIN_PASSWORD = ${JSON.stringify(window.ADMIN_CONFIG.password)}`);
-      }
-    };
-    cfgScript.onerror = () => { /* file is optional */ };
-    document.head.appendChild(cfgScript);
+    // Admin-config.js (a client-side password file) is gone: the password is
+    // verified server-side by staff-login. Nothing to load here.
 
     let allOrders = [];
 
     // ----- Auth -----
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (passwordInput.value === ADMIN_PASSWORD) {
-        sessionStorage.setItem('nativesons_admin', '1');
+      const password = passwordInput.value;
+      if (!password) return;
+      const submitBtn = loginForm.querySelector('button[type="submit"]');
+      const originalLabel = submitBtn ? submitBtn.textContent : '';
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Signing in…'; }
+      try {
+        // staff-login checks the password against its own env secret and
+        // returns a 12h HMAC token. The password never ships in the page.
+        const res = await fetch(`${cfg.url}/functions/v1/staff-login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': cfg.anonKey },
+          body: JSON.stringify({ password }),
+        });
+        let body = {};
+        try { body = await res.json(); } catch (_) { /* non-JSON error page */ }
+        if (!res.ok || !body.token) {
+          throw new Error(body.error ||
+            (res.status === 429 ? 'Too many attempts — wait a few minutes.' : 'Sign-in failed'));
+        }
+        try {
+          sessionStorage.setItem(STAFF_TOKEN_KEY, body.token);
+          sessionStorage.setItem(STAFF_EXP_KEY, String(body.exp || 0));
+        } catch (_) { /* private mode: token lives only for this page load */ }
+        passwordInput.value = '';
         showAdmin();
-      } else {
-        alert('Wrong password.');
+      } catch (err) {
+        alert(err && err.message ? err.message : 'Sign-in failed');
         passwordInput.value = '';
         passwordInput.focus();
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalLabel; }
       }
     });
 
     logoutBtn.addEventListener('click', () => {
-      sessionStorage.removeItem('nativesons_admin');
+      clearStaffToken();
       showLogin();
     });
 
@@ -520,8 +581,7 @@
       loadOrders();
     }
 
-    if (sessionStorage.getItem('nativesons_admin') === '1') showAdmin();
-    else showLogin();
+    if (staffToken()) showAdmin(); else showLogin();
 
     // ----- Tab switching -----
     document.querySelectorAll('.admin-tab').forEach(tab => {
@@ -553,23 +613,10 @@
     async function loadCustomers() {
       customerList.innerHTML = '<p class="empty-hint">Loading customers…</p>';
       try {
-        // Page through all customers (REST caps at 1000)
-        const pageSize = 1000;
-        let offset = 0;
-        const rows = [];
-        while (true) {
-          const url = `${cfg.url}/rest/v1/customers?select=*&active=eq.true&order=name.asc&limit=${pageSize}&offset=${offset}`;
-          const res = await fetch(url, {
-            headers: { apikey: SERVICE_KEY, authorization: `Bearer ${SERVICE_KEY}` },
-          });
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          const chunk = await res.json();
-          rows.push(...chunk);
-          if (chunk.length < pageSize) break;
-          offset += pageSize;
-        }
-        allCustomers = rows;
-        customersCount.textContent = `(${rows.length.toLocaleString()})`;
+        // admin-ops pages through the whole master server-side (REST caps at 1000).
+        const body = await adminOp('customers_list');
+        allCustomers = body.customers || [];
+        customersCount.textContent = `(${allCustomers.length.toLocaleString()})`;
         populateCustomerFilters();
         renderCustomerList();
       } catch (err) {
@@ -790,19 +837,9 @@
     }
 
     async function loadCustomerEmails(customerId) {
-      if (!supabaseAdmin) return;
       try {
-        const { data, error } = await supabaseAdmin
-          .from('customer_emails')
-          .select('id,email,is_primary')
-          .eq('customer_id', customerId)
-          .order('is_primary', { ascending: false });
-        if (error) {
-          console.warn('[customer_emails] load failed:', error);
-          currentCustomerEmails = [];
-          return;
-        }
-        currentCustomerEmails = data || [];
+        const body = await adminOp('emails_list', { customer_id: customerId });
+        currentCustomerEmails = body.emails || [];
       } catch (err) {
         console.warn('[customer_emails] load exception:', err);
         currentCustomerEmails = [];
@@ -852,14 +889,13 @@
             setStatus('Enter a valid email.', 'error');
             return;
           }
-          const { error } = await supabaseAdmin
-            .from('customer_emails')
-            .insert({
+          try {
+            await adminOp('email_add', {
               customer_id: customerId,
               email: email.toLowerCase(),
               is_primary: currentCustomerEmails.length === 0,  // first one is primary
             });
-          if (error) {
+          } catch (error) {
             if (error.code === '23505') setStatus('That email is already in use.', 'error');
             else setStatus(`Save failed: ${error.message}`, 'error');
             return;
@@ -871,22 +907,14 @@
 
         if (action === 'remove' && row) {
           const emailId = row.dataset.emailId;
-          const wasPrimary = row.dataset.isPrimary === 'true';
-          const { error } = await supabaseAdmin
-            .from('customer_emails')
-            .delete()
-            .eq('id', emailId);
-          if (error) { setStatus(`Delete failed: ${error.message}`, 'error'); return; }
-          // If we just removed the primary, promote another one
-          if (wasPrimary) {
-            await loadCustomerEmails(customerId);
-            const newPrimary = currentCustomerEmails[0];
-            if (newPrimary) {
-              await supabaseAdmin
-                .from('customer_emails')
-                .update({ is_primary: true })
-                .eq('id', newPrimary.id);
-            }
+          try {
+            // admin-ops deletes the row and, when it was the primary, promotes
+            // the oldest survivor — server-side, so two staff browsers can't
+            // interleave and leave the customer with no primary email.
+            await adminOp('email_delete', { email_id: emailId, customer_id: customerId });
+          } catch (error) {
+            setStatus(`Delete failed: ${error.message}`, 'error');
+            return;
           }
           setStatus('Removed.', 'ok');
           await loadCustomerEmails(customerId);
@@ -895,19 +923,13 @@
 
         if (action === 'primary' && row) {
           const emailId = row.dataset.emailId;
-          // Clear current primary, set this one
-          const currentPrimary = currentCustomerEmails.find(e => e.is_primary);
-          if (currentPrimary) {
-            await supabaseAdmin
-              .from('customer_emails')
-              .update({ is_primary: false })
-              .eq('id', currentPrimary.id);
+          // admin-ops clears the old primary and sets this one in two writes.
+          try {
+            await adminOp('email_set_primary', { email_id: emailId, customer_id: customerId });
+          } catch (error) {
+            setStatus(`Update failed: ${error.message}`, 'error');
+            return;
           }
-          const { error } = await supabaseAdmin
-            .from('customer_emails')
-            .update({ is_primary: true })
-            .eq('id', emailId);
-          if (error) { setStatus(`Update failed: ${error.message}`, 'error'); return; }
           setStatus('Primary updated.', 'ok');
           await loadCustomerEmails(customerId);
           rerender();
@@ -918,11 +940,9 @@
           const oldEmail = row.dataset.email;
           const newEmail = prompt(`Edit email for ${oldEmail}:`, oldEmail);
           if (!newEmail || !newEmail.includes('@') || newEmail === oldEmail) return;
-          const { error } = await supabaseAdmin
-            .from('customer_emails')
-            .update({ email: newEmail.toLowerCase() })
-            .eq('id', emailId);
-          if (error) {
+          try {
+            await adminOp('email_update', { email_id: emailId, email: newEmail.toLowerCase() });
+          } catch (error) {
             if (error.code === '23505') setStatus('That email is already in use.', 'error');
             else setStatus(`Update failed: ${error.message}`, 'error');
             return;
@@ -940,28 +960,21 @@
 
     // ----- Data load -----
     async function loadOrders() {
-      if (!supabaseAdmin) {
-        ordersBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:24px; color:var(--c-clay);">
-          Supabase service role key not configured. Edit admin.html and paste the service role key, then set a password in admin-config.js.
-        </td></tr>`;
-        return;
-      }
+      if (!staffToken()) { showLogin(); return; }
 
       ordersBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:24px; color:var(--c-muted);">Loading…</td></tr>`;
 
-      const { data, error } = await supabaseAdmin
-        .from('orders')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
+      let body;
+      try {
+        body = await adminOp('orders_list');
+      } catch (error) {
         ordersBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:24px; color:var(--c-clay);">
-          Error: ${error.message}
+          Error: ${esc(error.message)}
         </td></tr>`;
         return;
       }
 
-      allOrders = data || [];
+      allOrders = body.orders || [];
       renderOrders();
     }
 
@@ -1019,13 +1032,17 @@
       if (!o) return;
       orderDetail.hidden = false;
 
-      const { data: items, error } = await supabaseAdmin
-        .from('order_items')
-        .select('*')
-        .eq('order_id', id);
+      let items;
+      let itemsError = null;
+      try {
+        const body = await adminOp('order_items', { order_id: id });
+        items = body.items || [];
+      } catch (error) {
+        itemsError = error;
+      }
 
-      if (error) {
-        orderDetail.innerHTML = `<p style="color:var(--c-clay)">Error loading items: ${error.message}</p>`;
+      if (itemsError) {
+        orderDetail.innerHTML = `<p style="color:var(--c-clay)">Error loading items: ${esc(itemsError.message)}</p>`;
         return;
       }
 
@@ -1094,10 +1111,12 @@
       orderDetail.querySelectorAll('[data-set-status]').forEach(btn => {
         btn.addEventListener('click', async () => {
           const newStatus = btn.dataset.setStatus;
-          const { error } = await supabaseAdmin
-            .from('orders')
-            .update({ status: newStatus, updated_at: new Date().toISOString() })
-            .eq('id', id);
+          let error = null;
+          try {
+            await adminOp('order_status', { order_id: id, status: newStatus });
+          } catch (e) {
+            error = e;
+          }
           if (error) {
             alert('Update failed: ' + error.message);
           } else {

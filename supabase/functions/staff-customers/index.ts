@@ -22,7 +22,8 @@
 
 const TOKEN_SECRET = Deno.env.get("STAFF_TOKEN_SECRET") || "";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "https://ruwyfesblmaurfuiaofw.supabase.co";
-const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
+const SERVICE_ROLE = Deno.env.get("NS_SERVICE_KEY") ||
+  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
 
 const COLUMNS = [
   "customer_code", "name", "contact_name", "address", "city", "state", "zip",

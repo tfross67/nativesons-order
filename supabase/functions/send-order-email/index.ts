@@ -67,7 +67,8 @@ const AGENTMAIL_API_KEY = Deno.env.get("AGENTMAIL_API_KEY") || "";
 const AGENTMAIL_INBOX = Deno.env.get("AGENTMAIL_INBOX") || "afterimage@agentmail.to";
 const OFFICE_EMAIL = Deno.env.get("OFFICE_EMAIL") || "orders@nativeson.com";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "https://ruwyfesblmaurfuiaofw.supabase.co";
-const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("NS_SERVICE_KEY") ||
+  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
 
 const fmt = (n: number) => (typeof n === "number" ? n.toFixed(2) : "0.00");
 const esc = (s: string) => String(s == null ? "" : s)

@@ -438,7 +438,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js"></script>
+  <script src="supabase-config.js?v=20261117-01"></script>
   <script src="masteritem_data.js?v=20261114-01"></script>
   <script src="masteritem_full.js"></script>
   <script src="availability_data.js"></script>
@@ -548,7 +548,9 @@
         try { body = await res.json(); } catch (_) { /* non-JSON error page */ }
         if (!res.ok || !body.token) {
           throw new Error(body.error ||
-            (res.status === 429 ? 'Too many attempts — wait a few minutes.' : 'Sign-in failed'));
+            (res.status === 429
+              ? 'Too many attempts — wait a few minutes.'
+              : 'Sign-in failed — reload the page (⌘⇧R) and try again.'));
         }
         try {
           sessionStorage.setItem(STAFF_TOKEN_KEY, body.token);

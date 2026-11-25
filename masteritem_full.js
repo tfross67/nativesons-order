@@ -1,5 +1,3 @@
-// Auto-generated from plantmaterialsync.xlsx — full version with descriptions.
-// Each item has: c=item_code, s=normalized_size, p=wholesale_price, u=UPC-12, d=description.
 window.MASTER_ITEM_FULL = [
 {"c": "acapen5", "s": "5gal", "p": 20, "u": "652471500161", "d": "Acacia pendula"},
 {"c": "acapen15", "s": "15gal", "p": 90, "u": "652471150045", "d": "Acacia pendula"},
@@ -9633,5 +9631,8 @@ window.MASTER_ITEM_FULL = [
 {"c": "lavass1", "s": "1gal", "p": 6.25, "u": "652471346981", "d": "Lavatera assurgentiflora"},
 {"c": "heswil15", "s": "15gal", "p": 90, "u": "652471347018", "d": "Hesperocyparis macrocarpa 'Wilma Goldcrest'"},
 {"c": "penkin1", "s": "1gal", "p": 6.5, "u": "652471347032", "d": "Penstemon 'King George V'"},
-{"c": "sphinc1", "s": "1gal", "p": 6.35, "u": "652471347025", "d": "Sphaeralcea incana"}
+{"c": "sphinc1", "s": "1gal", "p": 6.5, "u": "652471347025", "d": "Sphaeralcea incana"},
+{"c": "pinpon1", "s": "1gal", "p": 6.5, "u": "6524711249850", "d": "Pinus ponderosa"},
+{"c": "aeoiri1", "s": "1gal", "p": 7.5, "u": "652471347049", "d": "Aeonium lindleyi var. viscatum 'Irish Bouquet'"},
+{"c": "lepree15", "s": "15gal", "p": 90, "u": "652471347056", "d": "Leptospermum laevigatum 'Reevesii'"}
 ];

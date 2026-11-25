@@ -1,8 +1,8 @@
 /* Native Sons Weekly Availability - generated */
 /*global window */
 window.AVAILABILITY = {
-  "week": "Week of November 16th, 2026",
-  "generated": "2026-11-13",
+  "week": "Week of November 23rd, 2026",
+  "generated": "2026-11-25",
   "source": "Native Sons Wholesale Nursery weekly availability list",
   "contact": {"email": "orders@nativeson.com", "phone": "805.481.5996"},
   "plants": [
@@ -920,13 +920,13 @@ window.AVAILABILITY = {
     "section": "perennials",
     "sizes": [
       {
-        "container": "4in",
-        "price": 3.15,
+        "container": "1gal",
+        "price": 6.15,
         "order": ""
       },
       {
-        "container": "1gal",
-        "price": 6.15,
+        "container": "4in",
+        "price": 3.15,
         "order": ""
       }
     ],
@@ -3045,34 +3045,6 @@ window.AVAILABILITY = {
     "plant_type": "Evergreen shrub"
   },
   {
-    "botanical": "Fremontodendron 'Pacific Sunset'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "5gal",
-        "price": 24.0,
-        "order": ""
-      }
-    ],
-    "bloom": false,
-    "bud": false,
-    "new": false,
-    "common": "Flannel bush",
-    "origin": "Garden hybrid",
-    "plant_type": "Evergreen shrub",
-    "exposure": "Full sun",
-    "flower_color": "Rich yellow",
-    "flower_time": "Spring",
-    "height": "10-15'",
-    "width": "8-10’",
-    "foliage": "Olive green",
-    "water": "Infrequent",
-    "soil": "Well drained",
-    "additional_info": "Upright and vigorous form growing to 12’ tall with long, arching branches. The leaves are 2-3” across and lobed, and the flowers are rich yellow above and below, opening rather flat. Peak bloom is late April and May, then later, sporadically blooming throughout the year.",
-    "hardiness": "15°F",
-    "description": "Upright and vigorous form growing to 12’ tall with long, arching branches. The leaves are 2-3” across and lobed, and the flowers are rich yellow above and below, opening rather flat. Peak bloom is late April and May, then later, sporadically blooming throughout the year."
-  },
-  {
     "botanical": "Fuchsia hatschbachii",
     "section": "General Nursery",
     "sizes": [
@@ -4340,33 +4312,6 @@ window.AVAILABILITY = {
     "additional_info": "Honey flower. Striking evergreen shrub to 8’ tall and wide grown primarily for its bold and highly textural foliage. Plants bear large, blue-green leaves that are coarsely serrated and extremely pungent when brushed against; one common name, Touch-me-not, gives the gardener polite warning. Tall brownish-red flowering racemes appear in summer, but in truth it is the foliage that warrants the most attention. Almost primeval in its appearance, the honey flower is best utilized in containers as a specimen, or beside pools or streams where it can call to mind what plants must have looked like “way back when”. Plant in full sun or light shade in moisture-retentive, well-drained soils. Provide moderate water. Hardy to 20F. South Africa."
   },
   {
-    "botanical": "Mimulus 'Alexandra'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.85,
-        "order": ""
-      }
-    ],
-    "bloom": false,
-    "bud": false,
-    "new": false,
-    "common": "Monkey flower",
-    "origin": "Garden hybrid",
-    "height": "2-3'",
-    "width": "2-3'",
-    "hardiness": "10",
-    "exposure": "Full sun",
-    "flower_color": "Burgundy",
-    "flower_time": "Spring - Summer - Fall",
-    "foliage": "Green, sticky texture",
-    "water": "Moderate",
-    "soil": "Well drained",
-    "special_uses": "Coastal Garden\nShade Garden\nWoodland Planting\nBorder Planting",
-    "plant_type": "Perennial"
-  },
-  {
     "botanical": "Mimulus 'Burst Orange'",
     "section": "General Nursery",
     "sizes": [
@@ -5438,35 +5383,6 @@ window.AVAILABILITY = {
     "bloom": false,
     "bud": false,
     "new": false
-  },
-  {
-    "botanical": "Rhamnus alaternus 'John Edwards'",
-    "section": "General Nursery",
-    "sizes": [
-      {
-        "container": "1gal",
-        "price": 6.35,
-        "order": ""
-      }
-    ],
-    "common": "Italian buckthorn",
-    "height": "15-20'",
-    "width": "10-15'",
-    "flower_color": "Yellow green",
-    "flower_time": "Spring",
-    "origin": "Mediterranean",
-    "plant_type": "Evergreen shrub",
-    "exposure": "Full sun - Partial shade",
-    "foliage": "dark green",
-    "water": "Moderate",
-    "soil": "Most soil types",
-    "special_uses": "Hedge Planting\nScreen\nBorder Planting",
-    "hardiness": "0",
-    "description": "Vigorous, large leaved selection.",
-    "bloom": false,
-    "bud": false,
-    "new": false,
-    "additional_info": "Vigorous, large leaved selection."
   },
   {
     "botanical": "Rhus integrifolia",
